@@ -25,8 +25,9 @@ import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useNetwork } from '@/src/context/Network'
 import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
-import { ProtectionChart } from '@/modules/insights/ProtectionChart'
+import { ProtectionChart } from '@/modules/insights/ProtectionChart/ProtectionChart'
 import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
+import { useCoverInsightsData } from '@/src/hooks/useCoverInsightsData'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -36,6 +37,9 @@ const AllDropdownOptions = {
   HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',
   MONTHLY_DISTRIBUTION: 'Protection by Month (Distribution)',
   MONTHLY_EARNING: 'Protection by Month (Earning)',
+  COVER_SOLD: 'Cover Sold by Pool',
+  COVER_PREMIUM: 'Cover Premium by Pool',
+  COVER_EXPIRING: 'Cover Expiring This Month',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
@@ -82,6 +86,13 @@ export const InsightsContent = () => {
   const { data: protectionData, fetchMonthlyProtectionData, labels: protectionLabels, loading: protectionDataLoading } = useProtectionChartData()
 
   const {
+    data: coverSoldOrPremiumData,
+    fetchCoverSoldOrPremiumData,
+    labels: soldOrPremiumLabels,
+    loading: coverDataLoading
+  } = useCoverInsightsData()
+
+  const {
     data: consensusData,
     loading: consensusLoading,
     fetchData: fetchConsensusData,
@@ -110,8 +121,23 @@ export const InsightsContent = () => {
       fetchHistoricalDataByCover()
     }
 
-    if ([AllDropdownOptions.MONTHLY_DISTRIBUTION, AllDropdownOptions.MONTHLY_EARNING].includes(selected.value)) {
+    if (
+      [AllDropdownOptions.MONTHLY_DISTRIBUTION, AllDropdownOptions.MONTHLY_EARNING]
+        .includes(selected.value)
+    ) {
       fetchMonthlyProtectionData()
+    }
+
+    if (selected.value === AllDropdownOptions.COVER_SOLD) {
+      fetchCoverSoldOrPremiumData('sold')
+    }
+
+    if (selected.value === AllDropdownOptions.COVER_PREMIUM) {
+      fetchCoverSoldOrPremiumData('premium')
+    }
+
+    if (selected.value === AllDropdownOptions.COVER_EXPIRING) {
+      fetchCoverSoldOrPremiumData('expiring')
     }
     // eslint-disable-next-line
   }, [selected.value])
@@ -220,6 +246,36 @@ export const InsightsContent = () => {
             data={protectionData}
             labels={protectionLabels}
             dataKey='incomePercent'
+          />
+        )
+
+      case AllDropdownOptions.COVER_SOLD:
+        return (
+          <ProtectionChart
+            loading={coverDataLoading}
+            data={coverSoldOrPremiumData?.sold}
+            labels={soldOrPremiumLabels?.sold ?? []}
+            dataKey='totalProtection'
+          />
+        )
+
+      case AllDropdownOptions.COVER_PREMIUM:
+        return (
+          <ProtectionChart
+            loading={coverDataLoading}
+            data={coverSoldOrPremiumData?.premium}
+            labels={soldOrPremiumLabels?.premium ?? []}
+            dataKey='totalPremium'
+          />
+        )
+
+      case AllDropdownOptions.COVER_EXPIRING:
+        return (
+          <ProtectionChart
+            loading={coverDataLoading}
+            data={coverSoldOrPremiumData?.expiring}
+            labels={soldOrPremiumLabels?.expiring ?? []}
+            dataKey='totalProtection'
           />
         )
 
