@@ -34,7 +34,7 @@ const GaugeChart = ({
     setTimeout(() => {
       setPercent(percentage)
     }, 0)
-  }, [])
+  }, [percentage])
 
   const breakpointLine = (
     <svg
