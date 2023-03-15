@@ -161,9 +161,11 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       shadow: false,
       shape: 'rect',
       formatter: function () {
+        const points = this.points.slice().sort((a, b) => b.y - a.y)
+
         const result = []
-        for (let i = 0; i < this.points.length; i += 4) {
-          result.push(this.points.slice(i, i + 4))
+        for (let i = 0; i < points.length; i += 4) {
+          result.push(points.slice(i, i + 4))
         }
 
         return `
