@@ -1,11 +1,18 @@
 import { getCoverPremiumByPoolURL, getCoverSoldByPoolURL, getExpiringCoversURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { sort } from '@/utils/bn'
 import { useState, useRef } from 'react'
 
 const getAggregatedDataFromResponses = async (responses, networks) => {
   const aggregatedData = []
   let labels = []
+
+  const networkNames = {
+    42161: 'Arbitrum One',
+    1: 'Main Ethereum Network',
+    43113: 'Avalanche Fuji Testnet'
+  }
 
   const promises = responses.map(async (response, i) => {
     const chain = networks[i]
@@ -26,7 +33,12 @@ const getAggregatedDataFromResponses = async (responses, networks) => {
       labels = Array.from(labelsSet)
     }
 
-    aggregatedData[chain] = res.data
+    const data = res.data.map(item => ({
+      ...item,
+      networkName: networkNames[chain],
+      chainId: chain
+    }))
+    aggregatedData[chain] = sort(data, x => x.totalProtection ?? x.totalPremium, true)
   })
 
   await Promise.all(promises)
