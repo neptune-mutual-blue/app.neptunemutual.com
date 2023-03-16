@@ -210,29 +210,34 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           </div>
           )
       }
-      <div className='flex items-center justify-center gap-4'>
-        {!isMainNet
-          ? (
-            <>
-              <div className='flex items-center gap-1'>
-                <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
-                <span className='text-sm font-semibold'>Fuji</span>
-              </div>
-            </>
-            )
-          : (
-            <>
-              <div className='flex items-center gap-1'>
-                <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
-                <span className='text-sm font-semibold'>Ethereum</span>
-              </div>
-              <div className='flex items-center gap-1'>
-                <div className='w-3.5 h-3.5 rounded-full bg-21AD8C' />
-                <span className='text-sm font-semibold'>Arbitrum</span>
-              </div>
-            </>
-            )}
-      </div>
+
+      {
+        !['totalProtection', 'totalPremium'].includes(dataKey) && (
+          <div className='flex items-center justify-center gap-4'>
+            {!isMainNet
+              ? (
+                <>
+                  <div className='flex items-center gap-1'>
+                    <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
+                    <span className='text-sm font-semibold'>Fuji</span>
+                  </div>
+                </>
+                )
+              : (
+                <>
+                  <div className='flex items-center gap-1'>
+                    <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
+                    <span className='text-sm font-semibold'>Ethereum</span>
+                  </div>
+                  <div className='flex items-center gap-1'>
+                    <div className='w-3.5 h-3.5 rounded-full bg-21AD8C' />
+                    <span className='text-sm font-semibold'>Arbitrum</span>
+                  </div>
+                </>
+                )}
+          </div>
+        )
+      }
     </div>
   )
 }
