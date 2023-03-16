@@ -27,7 +27,7 @@ const GasPriceSummary = ({ data, loading }) => {
               <div key={chainGasSummary.chainId} className='-mr-6'>
                 <GaugeChart min={0} max={maxValues[chainGasSummary.chainId].find((x) => x >= +avgGasPrice.gweiNumeric) ?? Math.ceil(maxGasPrice.gweiNumeric)} value={avgGasPrice.gweiNumeric} />
                 <div className='text-center -mt-14 px-8 first-of-type:pl-3 -ml-3'>
-                  <div className='text-md leading-7.5 font-bold relative z-1' title={avgGasPrice.gweiLong}>{avgGasPrice.gwei}</div>
+                  <div className='text-md leading-7.5 mb-1.5 font-bold relative z-1' title={avgGasPrice.gweiLong}>{avgGasPrice.gwei}</div>
                   <div className='text-sm leading-5 font-semibold'>{chainGasSummary.nickName !== 'Mainnet' ? chainGasSummary.nickName : 'Ethereum'}</div>
                   <div>
                     <div className='flex items-center gap-2 mb-6 mt-6.5'>
