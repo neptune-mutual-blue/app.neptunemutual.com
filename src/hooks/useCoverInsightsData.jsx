@@ -24,8 +24,15 @@ const getAggregatedDataFromResponses = async (responses, networks) => {
 
     if (!res.data) return
 
+    const data = res.data.map(item => ({
+      ...item,
+      networkName: networkNames[chain],
+      chainId: chain
+    }))
+    const sorted = sort(data, x => x.totalProtection ?? x.totalPremium, true)
+
     if (!labels.length) {
-      const labelsSet = res.data.reduce((acc, curr) => {
+      const labelsSet = sorted.reduce((acc, curr) => {
         const name = curr.productKeyString || curr.coverKeyString
         acc.add(name)
         return acc
@@ -33,12 +40,7 @@ const getAggregatedDataFromResponses = async (responses, networks) => {
       labels = Array.from(labelsSet)
     }
 
-    const data = res.data.map(item => ({
-      ...item,
-      networkName: networkNames[chain],
-      chainId: chain
-    }))
-    aggregatedData[chain] = sort(data, x => x.totalProtection ?? x.totalPremium, true)
+    aggregatedData[chain] = sorted
   })
 
   await Promise.all(promises)

@@ -30,17 +30,6 @@ import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
 import { useFetchInsightsTVLStats } from '@/src/services/aggregated-stats/insights'
 import { useEffect, useState } from 'react'
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
-import { useNetworkStats } from '@/src/hooks/useNetworkStats'
-import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
-import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
-import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
-import {
-  useFetchInsightsTVLStats
-} from '@/src/services/aggregated-stats/insights'
-
-import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
