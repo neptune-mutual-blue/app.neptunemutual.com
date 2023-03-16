@@ -12,11 +12,10 @@ import {
   Legend
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
-import { convertFromUnits, sort, sumOf } from '@/utils/bn'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { externalTooltipHandler } from '@/modules/insights/ChartTooltip'
+import { externalTooltipHandler } from '@/modules/insights/ProtectionChart/ChartTooltip'
+import { getMaxDataValue, getSuggestedMaxValue, getTooltipFooter, getTooltipLabel, getTooltipTitle, getXTickValue } from '@/modules/insights/ProtectionChart/utils'
 
 ChartJS.register(
   CategoryScale,
@@ -26,27 +25,6 @@ ChartJS.register(
   Tooltip,
   Legend
 )
-
-const getTooltipItem = (data, tooltipModel) => {
-  const datasetIndex = tooltipModel.dataPoints[0].datasetIndex
-  const dataIndex = tooltipModel.dataPoints[0].dataIndex
-  const _data = Object.values(data)
-  const item = _data[datasetIndex][dataIndex]
-
-  return item
-}
-
-const getMaxDataValue = (data, dataKey) => {
-  if (!data || !dataKey) return 0
-
-  const itemSet = Object.keys(data).reduce((acc, curr) => {
-    const arr = data[curr]
-    arr.forEach(item => acc.add(item[dataKey]))
-    return acc
-  }, new Set())
-
-  return sort(Array.from(itemSet), undefined, true)[0]
-}
 
 const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
   const { locale } = useRouter()
@@ -76,8 +54,8 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           barPercentage: 1,
           borderWidth: 0,
           maxBarThickness: 17,
-          categoryPercentage: 1
-          // barThickness: 17
+          categoryPercentage: 0.75
+          // barThickness: 50
         }
       })
     }
@@ -93,18 +71,16 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         grid: {
           display: true,
           borderDash: [2, 5],
-          borderWidth: 0,
-          drawTicks: false
+          borderWidth: 0
         },
         ticks: {
           callback: function (value) {
-            if (dataKey === 'incomePercent') {
-              return `${(Number(value) * 100).toFixed(0)}%`
-            }
-
-            const amount = convertFromUnits(value, liquidityTokenDecimals).toString()
-            const formatted = formatCurrency(amount, locale, undefined, false, true).short
-            return formatted === 'N/A' ? '$0' : formatted.replace(/\.\d+/, '')
+            return getXTickValue({
+              value,
+              dataKey,
+              liquidityTokenDecimals,
+              locale
+            })
           },
           color: '#01052D',
           font: {
@@ -114,13 +90,10 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         },
         beginAtZero: true,
         suggestedMax: (function () {
-          const max = getMaxDataValue(data, dataKey)
-
-          if (dataKey === 'incomePercent') {
-            return max < 1 ? Number(max) + 0.02 : Number(max) + 0.25
-          }
-
-          return parseInt(sumOf(max, '10000000000').toString())
+          return getSuggestedMaxValue({
+            data,
+            dataKey
+          })
         })()
       },
       y: {
@@ -155,6 +128,9 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         const max = parseInt(getMaxDataValue(data, dataKey))
         // @ts-ignore
         chart.options.scales.x.suggestedMax = max
+        chart.options.scales.y.ticks.font = {
+          size: 10
+        }
         chart.update()
       }
     },
@@ -172,62 +148,50 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         displayColors: false,
         callbacks: {
           title: function () {
-            const item = getTooltipItem(data, this)
-
-            return `${item.expired
-              ? '<p class="font-semibold text-xs leading-4.5 text-FA5C2F">Expired</p>'
-              : '<p class="font-semibold text-xs leading-4.5 text-21AD8C">Active</p>'
-            }`
+            return getTooltipTitle({
+              data,
+              dataKey,
+              tooltipModel: this
+            })
           },
           label: function () {
-            const item = getTooltipItem(data, this)
-
-            const dateString = item.label
-              .replace('-', ' ')
-              .toUpperCase()
-
-            let label = `<p class="mt-1 text-xs leading-4.5 text-01052D">
-            ${item.networkName} (${dateString})
-            </p>`
-
-            if (dataKey === 'incomePercent') {
-              const amount = convertFromUnits(item.income, liquidityTokenDecimals).toString()
-              const formatted = formatCurrency(amount, locale).long
-
-              label += `<p class="text-sm leading-5 font-semibold">
-              ${Math.round(item.incomePercent * 100)}% / ${formatted}
-              <p>`
-            }
-
-            return label
+            return getTooltipLabel({
+              data,
+              dataKey,
+              liquidityTokenDecimals,
+              locale,
+              tooltipModel: this
+            })
           },
           footer: function () {
-            const item = getTooltipItem(data, this)
-            const amount = convertFromUnits(item[dataKey], liquidityTokenDecimals).toString()
-            const formatted = formatCurrency(amount, locale).long
-
-            let footerHtml = ''
-
-            if (dataKey === 'incomePercent') {
-              const protection = convertFromUnits(item.protection, liquidityTokenDecimals).toString()
-              const formattedProtection = formatCurrency(protection, locale).long
-
-              footerHtml = `<div class="mt-2">
-              <p class="font-normal text-xs leading-4.5 text-404040">Protection</p>
-              <p class="text-xs leading-4.5 font-semibold text-01052D">
-              ${formattedProtection}
-              </p>
-              </div>`
-            } else {
-              footerHtml = `<p class="mt-0.5 leading-5 text-01052D font-semibold">${formatted}</p>`
-            }
-
-            return footerHtml
+            return getTooltipFooter({
+              data,
+              dataKey,
+              liquidityTokenDecimals,
+              locale,
+              tooltipModel: this
+            })
           }
         }
       }
     }
   }
+
+  const chartHeight = useMemo(() => {
+    const _labels = chartData.labels
+    const _datasets = chartData.datasets
+    if (_datasets.length > 1 && _labels.length > 5) {
+      const totalHeight = 32 + _labels.length * 60
+      return `${totalHeight}px`
+    }
+
+    if (_datasets.length === 1 && _labels.length > 7) {
+      const totalHeight = 32 + _labels.length * 50
+      return `${totalHeight}px`
+    }
+
+    return '100%'
+  }, [chartData])
 
   return (
     <div className='grid grid-rows-[1fr_auto] gap-8 h-full'>
@@ -239,8 +203,10 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           </div>
           )
         : (
-          <div className='h-full overflow-y-auto'>
-            <Bar className='max-h-full h-391' options={chartOptions} data={chartData} />
+          <div className='overflow-y-auto h-420 md:h-400 '>
+            <div style={{ height: chartHeight }}>
+              <Bar options={chartOptions} data={chartData} />
+            </div>
           </div>
           )
       }

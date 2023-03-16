@@ -115,7 +115,9 @@ module.exports = {
         dropdown: 'calc(100% + 8px)',
         /* For analytics segment, implementing the spacing */
         '25px': '25px',
-        '524px': '524px'
+        '524px': '524px',
+        400: '400px',
+        420: '420px'
       },
       lineHeight: {
         4.5: '18px',
