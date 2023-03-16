@@ -7,6 +7,12 @@ const getAggregatedDataFromResponses = async (responses, networks) => {
   const aggregatedData = []
   let labels = []
 
+  const networkNames = {
+    42161: 'Arbitrum One',
+    1: 'Main Ethereum Network',
+    43113: 'Avalanche Fuji'
+  }
+
   const promises = responses.map(async (response, i) => {
     const chain = networks[i]
     if (!response.ok) {
@@ -26,7 +32,8 @@ const getAggregatedDataFromResponses = async (responses, networks) => {
       labels = Array.from(labelsSet)
     }
 
-    aggregatedData[chain] = res.data
+    const data = res.data.map(item => ({ ...item, networkName: networkNames[chain] }))
+    aggregatedData[chain] = data
   })
 
   await Promise.all(promises)

@@ -54,8 +54,8 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           barPercentage: 1,
           borderWidth: 0,
           maxBarThickness: 17,
-          categoryPercentage: 1
-          // barThickness: 17
+          categoryPercentage: 0.75
+          // barThickness: 50
         }
       })
     }
@@ -128,6 +128,9 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         const max = parseInt(getMaxDataValue(data, dataKey))
         // @ts-ignore
         chart.options.scales.x.suggestedMax = max
+        chart.options.scales.y.ticks.font = {
+          size: 10
+        }
         chart.update()
       }
     },
@@ -174,6 +177,22 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
     }
   }
 
+  const chartHeight = useMemo(() => {
+    const _labels = chartData.labels
+    const _datasets = chartData.datasets
+    if (_datasets.length > 1 && _labels.length > 5) {
+      const totalHeight = 32 + _labels.length * 60
+      return `${totalHeight}px`
+    }
+
+    if (_datasets.length === 1 && _labels.length > 7) {
+      const totalHeight = 32 + _labels.length * 50
+      return `${totalHeight}px`
+    }
+
+    return '100%'
+  }, [chartData])
+
   return (
     <div className='grid grid-rows-[1fr_auto] gap-8 h-full'>
       {
@@ -184,8 +203,10 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           </div>
           )
         : (
-          <div className='h-full overflow-y-auto '>
-            <Bar className='h-420 md:h-400' options={chartOptions} data={chartData} />
+          <div className='overflow-y-auto h-420 md:h-400 '>
+            <div style={{ height: chartHeight }}>
+              <Bar options={chartOptions} data={chartData} />
+            </div>
           </div>
           )
       }

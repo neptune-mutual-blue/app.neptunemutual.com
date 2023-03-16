@@ -175,6 +175,7 @@ export const InsightsContent = () => {
             />
           </div>
         )
+
       case AllDropdownOptions.TOP_ACCOUNTS:
         return (
           <PreviousNext
@@ -184,8 +185,8 @@ export const InsightsContent = () => {
             hasPrevious={currentPage > 1}
           />
         )
-      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
 
+      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
         return (
           <OutlineButtonList
             options={chains} onChange={(value) => {
@@ -193,6 +194,14 @@ export const InsightsContent = () => {
             }} selected={selectedChain}
           />
         )
+
+      case AllDropdownOptions.MONTHLY_DISTRIBUTION:
+      case AllDropdownOptions.MONTHLY_EARNING:
+      case AllDropdownOptions.COVER_SOLD:
+      case AllDropdownOptions.COVER_PREMIUM:
+      case AllDropdownOptions.COVER_EXPIRING:
+        return null
+
       default:
         return ReportLabels
     }

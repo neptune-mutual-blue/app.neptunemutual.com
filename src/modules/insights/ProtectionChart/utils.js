@@ -46,7 +46,9 @@ const getSuggestedMaxValue = ({ data, dataKey }) => {
 const getTooltipTitle = ({ data, dataKey, tooltipModel }) => {
   const item = getTooltipItem(data, tooltipModel)
 
-  if (['totalProtection', 'totalPremium'].includes(dataKey)) return undefined
+  if (['totalProtection', 'totalPremium'].includes(dataKey)) {
+    return `<p class="font-semibold italic">${item.networkName}</p>`
+  }
 
   return `${item.expired
     ? '<p class="font-semibold text-xs leading-4.5 text-FA5C2F">Expired</p>'
@@ -58,12 +60,16 @@ const getTooltipLabel = ({ data, dataKey, liquidityTokenDecimals, locale, toolti
   const item = getTooltipItem(data, tooltipModel)
 
   if (['totalProtection', 'totalPremium'].includes(dataKey)) {
+    const name = item.productKeyString || item.coverKeyString
     const amount = convertFromUnits(item[dataKey], liquidityTokenDecimals).toString()
     const formatted = formatCurrency(amount, locale).long
 
-    return `<p class="text-sm leading-5 font-semibold">
-    ${formatted}
-    <p>`
+    return `<div>
+      <p class="text-sm mt-2 text-404040 uppercase">${name}</p>
+      <p class="text-sm leading-5 font-semibold">
+      ${formatted}
+      <p>
+    </div>`
   }
 
   const dateString = item.label
