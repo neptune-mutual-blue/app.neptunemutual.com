@@ -1,6 +1,7 @@
 import '@fontsource/poppins/latin.css'
 import '@fontsource/sora/latin.css'
 import '../styles/globals.css'
+import '../common/GaugeChart/GaugeChart.css'
 
 import { Web3ReactProvider } from '@web3-react/core'
 import { getLibrary } from '@/lib/connect-wallet/utils/web3'

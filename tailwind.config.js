@@ -97,6 +97,7 @@ module.exports = {
       spacing: {
         /* 72px */
         4.5: '18px',
+        6.5: '26px',
         '9px': '9px',
         8.5: '34px',
         9.5: '38px',
@@ -118,6 +119,7 @@ module.exports = {
       },
       lineHeight: {
         4.5: '18px',
+        5: '20px',
         7.5: '30px',
         '53px': '53px'
       },
