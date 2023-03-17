@@ -57,14 +57,16 @@ const externalTooltipHandler = (context, className = '') => {
   let top = position.top + window.pageYOffset + tooltip.caretY
 
   if (window.innerWidth < 768) {
-    if ((left + tooltipRect.width) > position.right) {
-      left = position.right - tooltipRect.width
+    if ((left + tooltipRect.width + 20) > position.right) {
+      left = position.right - tooltipRect.width - 50
     }
 
-    if ((top + tooltipRect.height) > position.bottom) {
-      top = position.bottom - tooltipRect.height
+    tooltipEl.style.transform = 'translateY(-90%)'
+
+    if ((top + tooltipRect.height + 20) > position.bottom) {
+      top = position.bottom - tooltipRect.height - 50
+      tooltipEl.style.transform = 'translateY(0%)'
     }
-    tooltipEl.style.transform = 'translateY(-50%)'
   } else {
     tooltipEl.style.transform = 'translateX(-50%) translateY(-25%)'
     if (left < 250) tooltipEl.style.transform = 'translateX(0%) translateY(-25%)'

@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { externalTooltipHandler } from '@/modules/insights/ProtectionChart/ChartTooltip'
 import { getMaxDataValue, getSuggestedMaxValue, getTooltipFooter, getTooltipLabel, getTooltipTitle, getXTickValue } from '@/modules/insights/ProtectionChart/utils'
+import { classNames } from '@/utils/classnames'
 
 ChartJS.register(
   CategoryScale,
@@ -194,7 +195,11 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
   }, [chartData])
 
   return (
-    <div className='grid grid-rows-[1fr_auto] gap-8 h-full'>
+    <div className={classNames(
+      'grid grid-rows-[1fr_auto] h-full',
+      ['totalProtection', 'totalPremium'].includes(dataKey) ? 'gap-0' : 'gap-8'
+    )}
+    >
       {
       loading
         ? (
@@ -203,7 +208,11 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           </div>
           )
         : (
-          <div className='overflow-y-auto h-420 md:h-400 '>
+          <div className={classNames(
+            'overflow-y-auto h-420',
+            ['totalProtection', 'totalPremium'].includes(dataKey) ? 'md:h-450' : 'md:h-400'
+          )}
+          >
             <div style={{ height: chartHeight }}>
               <Bar options={chartOptions} data={chartData} />
             </div>
