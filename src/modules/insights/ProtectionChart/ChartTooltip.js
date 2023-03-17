@@ -32,7 +32,14 @@ const externalTooltipHandler = (context, className = '') => {
     return
   }
 
+  const bodyFont = toFont(tooltip.options.bodyFont)
+  // Display, position, and set styles for font
   tooltipEl.style.opacity = 1
+  tooltipEl.style.position = 'absolute'
+  tooltipEl.style.minWidth = '175px'
+  tooltipEl.style.font = bodyFont.string
+  tooltipEl.style.padding = tooltip.padding + 'px ' + tooltip.padding + 'px'
+  tooltipEl.style.pointerEvents = 'none'
 
   let innerHTML = ''
 
@@ -56,28 +63,15 @@ const externalTooltipHandler = (context, className = '') => {
   const canvasRect = context.chart.canvas.getBoundingClientRect()
   const tooltipRect = tooltipEl.getBoundingClientRect()
 
-  let left = canvasRect.left + tooltip.caretX
+  let left = canvasRect.left - mainRect.left + tooltip.caretX
   const top = canvasRect.top - mainRect.top + tooltip.caretY
 
   if ((left + tooltipRect.width) > canvasRect.right) {
     left = canvasRect.right - tooltipRect.width
   }
 
-  if (window.innerWidth >= 768) {
-    tooltipEl.style.transform = (left < 250) ? 'translateX(0%)' : 'translateX(-50%)'
-  }
-
   tooltipEl.style.left = left + 'px'
   tooltipEl.style.top = top + 'px'
-
-  const bodyFont = toFont(tooltip.options.bodyFont)
-  // Display, position, and set styles for font
-  tooltipEl.style.opacity = 1
-  tooltipEl.style.position = 'absolute'
-  tooltipEl.style.minWidth = '175px'
-  tooltipEl.style.font = bodyFont.string
-  tooltipEl.style.padding = tooltip.padding + 'px ' + tooltip.padding + 'px'
-  tooltipEl.style.pointerEvents = 'none'
 }
 
 export { externalTooltipHandler }
