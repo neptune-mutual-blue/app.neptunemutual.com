@@ -133,7 +133,7 @@ const PurchasePolicyStep = ({
               isReferralCodeCheckPending ||
               editForm
             }
-              className='w-full p-6 font-semibold tracking-wider uppercase text-md'
+              className='w-full p-6 font-semibold uppercase'
               onClick={() => {
                 handleApprove()
                 handleLog(1)
@@ -162,7 +162,7 @@ const PurchasePolicyStep = ({
               !isValidReferralCode ||
               editForm
             }
-              className='w-full p-6 font-semibold tracking-wider uppercase text-md'
+              className='w-full p-6 font-semibold uppercase'
               onClick={() => {
                 handlePurchase(() => {
                   setValue('')

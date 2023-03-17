@@ -96,7 +96,7 @@ export const ClaimBondModal = ({
           </Label>
           <p
             id='modal-unlock-on'
-            className='font-medium text-7398C0 text-lg'
+            className='text-lg font-medium text-7398C0'
             title={DateLib.toLongDateFormat(unlockDate, router.locale)}
           >
             {fromNow(unlockDate)}
@@ -114,7 +114,7 @@ export const ClaimBondModal = ({
             handleLog(3)
             handleLog(9999)
           }}
-          className='w-full p-6 mt-8 font-semibold uppercase text-md tracking-wider'
+          className='w-full p-6 mt-8 font-semibold uppercase'
         >
           {claiming ? t`Claiming...` : t`Claim Now`}
         </RegularButton>

@@ -67,7 +67,7 @@ export const PoliciesEmptyState = () => {
         />
 
         <RegularButton
-          className={classNames('mt-8 py-2.5 px-4 text-sm leading-5 font-medium rounded-lg uppercase w-full', buttonAccent)}
+          className={classNames('mt-8 py-2.5 px-4 font-medium rounded-lg uppercase w-full', buttonAccent)}
           onClick={handleClick}
         >
           <Trans>Purchase Policy</Trans>

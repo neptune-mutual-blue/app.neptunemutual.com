@@ -339,7 +339,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                 handleLog(3)
                 handleApprove()
               }}
-              className='w-full p-6 font-semibold tracking-wider uppercase text-md'
+              className='w-full p-6 font-semibold uppercase'
               disabled={
               approving ||
               npmErrorMsg ||
@@ -363,7 +363,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                   setNpmValue('')
                 }, isExit)
               }}
-              className='w-full p-6 font-semibold tracking-wider uppercase text-md'
+              className='w-full p-6 font-semibold uppercase'
               disabled={
               withdrawing ||
               npmErrorMsg ||

@@ -72,7 +72,7 @@ export const HarvestForm = ({
 
       <RegularButton
         disabled={withdrawingRewards}
-        className='w-full p-6 mt-8 font-semibold uppercase text-md tracking-wider'
+        className='w-full p-6 mt-8 font-semibold uppercase'
         onClick={() => {
           handleWithdrawRewards(() => {
             onHarvestSuccess()

@@ -404,7 +404,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
               <ConnectWallet networkId={networkId} notifier={notifier}>
                 {({ onOpen }) => {
                   return (
-                    <RegularButton className='py-1.5 px-2.5 text-xs h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
+                    <RegularButton className='py-1.5 px-2.5 text-sm h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
                   )
                 }}
               </ConnectWallet>
@@ -450,7 +450,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
 
             {formSteps > 0 && (
               <BackButton
-                className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0')}
+                className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase ml-4 mt-2 md:mt-0')}
                 onClick={() => setFormSteps((prev) => prev - 1)}
               />)}
 

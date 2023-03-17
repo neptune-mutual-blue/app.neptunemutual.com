@@ -96,7 +96,7 @@ export const UnStakeForm = ({
         </Label>
         <p
           id='modal-unlock-on'
-          className='font-medium text-7398C0 text-lg'
+          className='text-lg font-medium text-7398C0'
         >
           {info.canWithdrawFromBlockHeight}
         </p>
@@ -104,7 +104,7 @@ export const UnStakeForm = ({
 
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}
-        className='w-full p-6 mt-8 font-semibold uppercase text-md tracking-wider'
+        className='w-full p-6 mt-8 font-semibold uppercase'
         onClick={() => {
           handleWithdraw(() => {
             onUnstakeSuccess()

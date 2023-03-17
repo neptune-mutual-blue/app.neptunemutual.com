@@ -359,7 +359,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
                 lqErrorMsg ||
                 loadingMessage
               }
-              className='w-full p-6 mb-4 font-semibold tracking-wider uppercase text-md sm:mb-0'
+              className='w-full p-6 mb-4 font-semibold uppercase sm:mb-0'
               onClick={() => {
                 handleApprovalLog(liquidityTokenSymbol, lqValue)
                 handleLqTokenApprove()
@@ -384,7 +384,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
                 npmErrorMsg ||
                 loadingMessage
               }
-                className='w-full p-6 font-semibold tracking-wider uppercase text-md'
+                className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleApprovalLog(NPMTokenSymbol, npmValue)
                   handleNPMTokenApprove()
@@ -415,7 +415,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
               lqErrorMsg ||
               loadingMessage
             }
-            className='w-full p-6 font-semibold tracking-wider uppercase text-md'
+            className='w-full p-6 font-semibold uppercase'
             onClick={() => {
               handleLog()
 

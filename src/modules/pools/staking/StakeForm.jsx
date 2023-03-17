@@ -117,7 +117,7 @@ export const StakeForm = ({
         <Label className='mb-3' htmlFor='modal-unlock-on'>
           <Trans>Lockup Period</Trans>
         </Label>
-        <p id='modal-unlock-on' className='font-medium text-7398C0 text-lg'>
+        <p id='modal-unlock-on' className='text-lg font-medium text-7398C0'>
           {explainInterval(lockupPeriod)}
         </p>
       </div>
@@ -128,7 +128,7 @@ export const StakeForm = ({
           ? (
             <RegularButton
               disabled={isError || approving || !inputValue || loadingMessage}
-              className='w-full p-6 font-semibold uppercase sm:min-w-auto sm:w-full text-md tracking-wider '
+              className='w-full p-6 font-semibold uppercase sm:min-w-auto sm:w-full'
               onClick={handleApprove}
             >
               {approving
@@ -145,7 +145,7 @@ export const StakeForm = ({
           : (
             <RegularButton
               disabled={isError || depositing || loadingMessage}
-              className='p-6 font-semibold uppercase min-w-75vw sm:min-w-auto sm:w-full text-md tracking-wider'
+              className='p-6 font-semibold uppercase min-w-75vw sm:min-w-auto sm:w-full'
               onClick={() => handleDeposit(onDepositSuccess)}
             >
               {depositing ? t`Staking...` : t`Stake`}

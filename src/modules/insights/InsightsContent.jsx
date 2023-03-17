@@ -331,7 +331,7 @@ export const InsightsContent = () => {
         onClick={() => {
           setConsensusIndex(-1)
         }}
-        className='py-2.5 px-3 text-sm mr-4'
+        className='py-2.5 px-3 mr-4'
       />
       )
     : null

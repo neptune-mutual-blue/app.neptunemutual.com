@@ -74,7 +74,7 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
           disabled={!checked}
           className={classNames(
             !checked && 'opacity-30 cursor-not-allowed',
-            'text-md tracking-wider font-bold py-6 px-12 mt-8 w-full md:w-auto'
+            'font-bold py-6 px-12 mt-8 w-full md:w-auto'
           )}
           type='submit'
         >

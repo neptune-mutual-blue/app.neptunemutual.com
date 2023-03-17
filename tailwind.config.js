@@ -49,6 +49,9 @@ module.exports = {
       arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
     },
     extend: {
+      letterSpacing: {
+        2: '0.02em'
+      },
       borderRadius: {
         1: '4px',
         2: '8px',

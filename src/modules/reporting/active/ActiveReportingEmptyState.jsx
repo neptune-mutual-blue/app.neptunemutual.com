@@ -58,7 +58,7 @@ export const ActiveReportingEmptyState = () => {
           setSelected={setSelected}
         />
         <RegularButton
-          className='w-full py-4 mt-6 text-sm font-medium uppercase'
+          className='w-full py-4 mt-6 font-medium uppercase'
           onClick={handleAddReport}
         >
           <Trans>Report an incident</Trans>

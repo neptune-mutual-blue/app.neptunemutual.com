@@ -1,18 +1,18 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
-import { isGreater } from '@/utils/bn'
 import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Trans } from '@lingui/macro'
-import { WithdrawLiquidityModal } from '@/modules/my-liquidity/content/WithdrawLiquidityModal'
-import { ModalTitle } from '@/common/Modal/ModalTitle'
-import { getCoverImgSrc } from '@/src/helpers/cover'
 import { DedicatedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources'
 import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
+import { ModalTitle } from '@/common/Modal/ModalTitle'
+import { WithdrawLiquidityModal } from '@/modules/my-liquidity/content/WithdrawLiquidityModal'
+import { getCoverImgSrc } from '@/src/helpers/cover'
 import { log } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
+import { isGreater } from '@/utils/bn'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { analyticsLogger } from '@/utils/logger'
+import { Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export const LiquidityResolutionSources = ({
   isDiversified,
@@ -118,7 +118,7 @@ const WithdrawLiquidityButton = ({ onOpen, myStake, podBalance }) => {
       {(isGreater(myStake, '0') || isGreater(podBalance, '0')) && (
         <div className='flex justify-center mt-8 px-7'>
           <OutlinedButton
-            className='text-sm font-medium leading-5 rounded-big'
+            className='!text-sm font-medium rounded-big'
             onClick={onOpen}
           >
             <Trans>Withdraw Liquidity</Trans>

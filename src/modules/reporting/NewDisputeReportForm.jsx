@@ -217,7 +217,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
           <RegularButton
             disabled={buttonDisabled}
-            className='w-full py-6 font-semibold uppercase px-14 xs:px-24 text-md tracking-wider md:w-auto'
+            className='w-full py-6 font-semibold uppercase px-14 xs:px-24 md:w-auto'
             type='submit'
           >
             {canDispute && (disputing ? t`Disputing...` : t`Dispute`)}

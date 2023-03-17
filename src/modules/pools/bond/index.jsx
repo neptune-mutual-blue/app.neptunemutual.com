@@ -242,7 +242,7 @@ const BondPage = () => {
           </Label>
           <p
             id='unlock-on'
-            className='font-medium text-7398C0 text-lg'
+            className='text-lg font-medium text-7398C0'
             title={DateLib.toLongDateFormat(unlockTimestamp, router.locale)}
           >
             {fromNow(unlockTimestamp)}
@@ -255,7 +255,7 @@ const BondPage = () => {
             ? (
               <RegularButton
                 disabled={error || approving || !value || loadingMessage}
-                className='w-full p-6 font-semibold uppercase text-md tracking-wider'
+                className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleApprove()
                   handleLog(1)
@@ -275,7 +275,7 @@ const BondPage = () => {
             : (
               <RegularButton
                 disabled={error || bonding || loadingMessage}
-                className='w-full p-6 font-semibold uppercase text-md tracking-wider'
+                className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleBond(() => {
                     setValue('')
@@ -306,13 +306,13 @@ const BondPage = () => {
             })}
             target='_blank'
             rel='noopener noreferrer nofollow'
-            className='inline-block mr-8 font-medium text-lg text-4e7dd9 hover:underline'
+            className='inline-block mr-8 text-lg font-medium text-4e7dd9 hover:underline'
           >
             <Trans>Get LP tokens</Trans>
           </a>
 
           <Link href={Routes.BondTransactions}>
-            <a className='inline-block font-medium text-lg text-4e7dd9 hover:underline'>
+            <a className='inline-block text-lg font-medium text-4e7dd9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>

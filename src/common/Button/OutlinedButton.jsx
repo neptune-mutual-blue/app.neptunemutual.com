@@ -18,7 +18,7 @@ export const OutlinedButton = ({ onClick, children, className, ...rest }) => {
       onClick={onClick}
       className={classNames(
         buttonColor,
-        'text-4e7dd9 py-3 px-4 border hover:text-white focus:outline-none focus-visible:ring-2 uppercase tracking-wide',
+        'text-4e7dd9 py-3 px-4 border hover:text-white focus:outline-none focus-visible:ring-2 uppercase text-md tracking-2',
         className
       )}
       {...rest}
