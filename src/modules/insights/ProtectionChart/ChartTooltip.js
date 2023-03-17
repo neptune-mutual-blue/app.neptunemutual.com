@@ -50,24 +50,21 @@ const externalTooltipHandler = (context, className = '') => {
 
   tooltipEl.innerHTML = innerHTML
 
-  const position = context.chart.canvas.getBoundingClientRect()
+  const mainRect = window.innerWidth < 600
+    ? document.querySelector('main').getBoundingClientRect()
+    : document.getElementById('__next').getBoundingClientRect()
+  const canvasRect = context.chart.canvas.getBoundingClientRect()
   const tooltipRect = tooltipEl.getBoundingClientRect()
 
-  let left = position.left + window.pageXOffset + tooltip.caretX
-  let top = position.top + window.pageYOffset + tooltip.caretY
+  let left = canvasRect.left + tooltip.caretX
+  const top = canvasRect.top - mainRect.top + tooltip.caretY
 
-  if (window.innerWidth < 768) {
-    if ((left + tooltipRect.width) > position.right) {
-      left = position.right - tooltipRect.width
-    }
+  if ((left + tooltipRect.width) > canvasRect.right) {
+    left = canvasRect.right - tooltipRect.width
+  }
 
-    if ((top + tooltipRect.height) > position.bottom) {
-      top = position.bottom - tooltipRect.height
-    }
-    tooltipEl.style.transform = 'translateY(-50%)'
-  } else {
-    tooltipEl.style.transform = 'translateX(-50%) translateY(-25%)'
-    if (left < 250) tooltipEl.style.transform = 'translateX(0%) translateY(-25%)'
+  if (window.innerWidth >= 768) {
+    tooltipEl.style.transform = (left < 250) ? 'translateX(0%)' : 'translateX(-50%)'
   }
 
   tooltipEl.style.left = left + 'px'
