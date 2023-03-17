@@ -1,27 +1,27 @@
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
+import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
+import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { fromNow } from '@/utils/formatter/relative-time'
-import DateLib from '@/lib/date/DateLib'
-import { formatPercent } from '@/utils/formatter/percent'
-import { MULTIPLIER } from '@/src/config/constants'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
-import { Trans } from '@lingui/macro'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import SheildIcon from '@/icons/SheildIcon'
+import DateLib from '@/lib/date/DateLib'
+import { MULTIPLIER } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import { convertFromUnits, toBN } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
 
@@ -93,7 +93,7 @@ export const ActiveReportingCard = ({
           }
         </div>
       </div>
-      <h4 className='mt-4 font-semibold uppercase text-h4'>
+      <h4 className='mt-4 font-semibold uppercase text-lg'>
         {isDiversified
           ? coverInfo.infoObj.productName
           : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
@@ -159,12 +159,12 @@ export const ActiveReportingCard = ({
       ))}
 
       {/* Stats */}
-      <div className={classNames('justify-between px-1 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
-        <span className='uppercase text-h7 lg:text-sm'>
+      <div className={classNames('justify-between px-1 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}>
+        <span className='uppercase text-xs lg:text-sm'>
           <Trans>Utilization ratio</Trans>
         </span>
         <span
-          className='font-semibold text-right text-h7 lg:text-sm '
+          className='font-semibold text-right text-xs lg:text-sm '
           data-testid='util-ratio'
         >
           {formatPercent(utilization, router.locale)}
@@ -200,7 +200,7 @@ export const ActiveReportingCard = ({
         </div>
       </InfoTooltip>
 
-      <div className={classNames('justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
+      <div className={classNames('justify-between px-1 text-01052D opacity-40 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}>
         <InfoTooltip
           arrow={false}
           infoComponent={

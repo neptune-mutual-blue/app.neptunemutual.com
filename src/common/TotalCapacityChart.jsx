@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
+import { useEffect, useRef, useState } from 'react'
 
-import HighchartsExporting from 'highcharts/modules/exporting'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits, sort } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import HighchartsExporting from 'highcharts/modules/exporting'
 import { useRouter } from 'next/router'
-import { useAppConstants } from '@/src/context/AppConstants'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -104,7 +104,7 @@ const TotalCapacityChart = ({ data }) => {
       useHTML: true,
       padding: 0,
       formatter: function () {
-        return `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold tracking-normal text-01052D text-h6'>${
+        return `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold tracking-normal text-01052D text-md'>${
           formatCurrency(this.y, router.locale).short
         }</p><p class='text-xs leading-4.5 tracking-normal font-semibold text-5C738F uppercase'>${Highcharts.dateFormat(
           '%b %e, %H:%S',

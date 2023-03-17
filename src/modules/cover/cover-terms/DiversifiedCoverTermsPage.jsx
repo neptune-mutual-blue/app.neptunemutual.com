@@ -45,7 +45,7 @@ export const DiversifiedCoverTermsPage = ({ coverInfo }) => {
         <Trans>As of: {effectiveDate}</Trans>
       </p>
 
-      <h1 className='mt-12 text-000000 text-h1'>{coverName}</h1>
+      <h1 className='mt-12 text-000000 text-display-md'>{coverName}</h1>
 
       {
         blockchains?.length && (

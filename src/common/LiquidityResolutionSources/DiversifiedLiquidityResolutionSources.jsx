@@ -1,11 +1,11 @@
-import { useRouter } from 'next/router'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { explainInterval } from '@/utils/formatter/interval'
+import { Trans } from '@lingui/macro'
+import { useRouter } from 'next/router'
 
 export const DiversifiedLiquidityResolutionSources = ({ info, children }) => {
   const router = useRouter()
@@ -21,7 +21,7 @@ export const DiversifiedLiquidityResolutionSources = ({ info, children }) => {
       <SecondaryCard>
         <div className='flex flex-wrap justify-between md:block'>
           <div>
-            <h3 className='font-semibold text-h4'>
+            <h3 className='font-semibold text-lg'>
               <Trans>Vault Info</Trans>
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>

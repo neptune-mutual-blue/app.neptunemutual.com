@@ -59,10 +59,10 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           </button>
           <img src={imgSrc} alt={product.infoObj.productName} className='w-8 h-8 mb-2 md:mb-0' />
 
-          <span className='flex-grow mb-1 overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 text-ellipsis md:mb-0'>
+          <span className='flex-grow mb-1 overflow-hidden text-lg font-bold md:pl-3 md:text-display-xs text-ellipsis md:mb-0'>
             {product.infoObj.productName} Cover Terms
           </span>
-          <span className='text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap'>
+          <span className='text-sm font-normal leading-5 md:pl-3 md:text-md lg:text-lg md:font-semibold text-9B9B9B whitespace-nowrap'>
             {formatPercent(
               toBN(product.infoObj?.capitalEfficiency)
                 .dividedBy(MULTIPLIER)
@@ -96,7 +96,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
         <div className='flex justify-end pt-6 border-t border-t-B0C4DB'>
           <button
             onClick={onClose}
-            className='hidden p-3 mr-6 text-sm font-medium leading-6 border rounded md:text-h7 lg:text-h6 md:inline-block md:font-semibold border-4e7dd9 text-4e7dd9'
+            className='hidden p-3 mr-6 text-sm font-medium leading-6 tracking-wider border rounded md:text-xs lg:text-md md:inline-block md:font-semibold border-4e7dd9 text-4e7dd9'
             data-testid='close-button'
           >
             CLOSE
@@ -140,7 +140,7 @@ function DownloadButton ({ onClick }) {
           fill='#FEFEFF'
         />
       </svg>
-      <span className='hidden font-semibold leading-6 md:text-h7 lg:text-h6 md:inline-block'>
+      <span className='hidden font-semibold leading-6 md:text-xs lg:text-md md:inline-block'>
         Download Product Cover Terms
       </span>
       <span className='text-sm font-medium md:hidden'>

@@ -1,10 +1,10 @@
-import React, { useRef } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
+import { useRef } from 'react'
 
-import HighchartsExporting from 'highcharts/modules/exporting'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import HighchartsExporting from 'highcharts/modules/exporting'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -108,7 +108,7 @@ const HistoricalRoi = ({ loading, data }) => {
       borderWidth: 0,
       shadow: false,
       shape: 'rect',
-      pointFormat: '<div class=\'px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip\'><p class=\'font-semibold tracking-normal text-01052D text-h6\'><div class=\'text-xs\'>{series.name}</div><div class=\'text-h6 text-sm text-black\'>{point.y}%</div></p></div>',
+      pointFormat: '<div class=\'px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip\'><p class=\'font-semibold tracking-normal text-01052D text-md tracking-wider\'><div class=\'text-xs\'>{series.name}</div><div class=\'text-md tracking-wider text-sm text-black\'>{point.y}%</div></p></div>',
       headerFormat: '',
       hideDelay: 100,
       outside: false

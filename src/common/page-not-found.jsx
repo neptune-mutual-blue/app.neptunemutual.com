@@ -31,14 +31,14 @@ export function PageNotFound () {
         <p className='py-3 my-12 font-bold leading-10 text-center text-xxxl'>
           404
         </p>
-        <p className='mb-11 text-h5'>
+        <p className='mb-11 text-md'>
           Oops! Looks like you&#x2019;re heading to a wrong planet.
         </p>
         {(router.pathname !== Routes.Home) && (
           <Link href={Routes.Home} replace>
             <a
               className={classNames(
-                'px-16 py-5 font-bold leading-8 tracking-wide uppercase border rounded-lg text-EEEEEE focus:outline-none focus-visible:ring-2',
+                'px-16 py-5 font-bold leading-8 uppercase border rounded-lg text-EEEEEE focus:outline-none focus-visible:ring-2',
                 linkColor
               )}
             >

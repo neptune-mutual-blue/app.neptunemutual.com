@@ -1,19 +1,19 @@
+import { Badge, E_CARD_STATUS } from '@/common/CardStatusBadge'
+import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
-import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
 import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { CoverAvatar } from '@/common/CoverAvatar'
-import { Badge, E_CARD_STATUS } from '@/common/CardStatusBadge'
-import { InfoTooltip } from '@/common/Cover/InfoTooltip'
-import { getCoverImgSrc } from '@/src/helpers/cover'
 
 export const MyLiquidityCoverCard = ({
   coverKey,
@@ -74,7 +74,7 @@ export const MyLiquidityCoverCard = ({
         </div>
       </div>
       <h4
-        className='mt-4 font-semibold uppercase text-h4'
+        className='mt-4 font-semibold uppercase text-lg'
         data-testid='title'
       >
         {coverInfo.infoObj?.coverName}

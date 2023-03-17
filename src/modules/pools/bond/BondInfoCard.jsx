@@ -1,21 +1,21 @@
 import * as Tooltip from '@radix-ui/react-tooltip'
 
+import { Badge } from '@/common/Badge/Badge'
+import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { BondStatsContainer } from '@/src/modules/pools/bond/BondStatsContainer'
-import { OutlinedButton } from '@/common/Button/OutlinedButton'
-import { classNames } from '@/utils/classnames'
-import { Badge } from '@/common/Badge/Badge'
+import { ClaimBondModal } from '@/src/modules/pools/bond/ClaimBondModal'
+import { log } from '@/src/services/logs'
 import { isGreater } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
 import { explainInterval } from '@/utils/formatter/interval'
 import { formatPercent } from '@/utils/formatter/percent'
-import { ClaimBondModal } from '@/src/modules/pools/bond/ClaimBondModal'
-import { useState } from 'react'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
+import { t, Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export const BondInfoCard = ({
   roi,
@@ -58,7 +58,7 @@ export const BondInfoCard = ({
             alt={t`NPM Logo`}
             className='w-10 h-10'
           />
-          <h3 className='flex items-center mt-1 font-semibold text-h4'>
+          <h3 className='flex items-center mt-1 font-semibold text-lg'>
             <div>
               <Trans>Bond Info</Trans>
             </div>

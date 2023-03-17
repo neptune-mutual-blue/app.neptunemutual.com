@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
 import { RegularButton } from '@/common/Button/RegularButton'
+import { Label } from '@/common/Label/Label'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { useBlockHeight } from '@/src/hooks/useBlockHeight'
 import { useStakingPoolWithdraw } from '@/src/hooks/useStakingPoolWithdraw'
 import {
@@ -10,8 +11,7 @@ import {
   isValidNumber
 } from '@/utils/bn'
 import { t, Trans } from '@lingui/macro'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import { Label } from '@/common/Label/Label'
+import { useEffect, useState } from 'react'
 
 export const UnStakeForm = ({
   info,
@@ -96,7 +96,7 @@ export const UnStakeForm = ({
         </Label>
         <p
           id='modal-unlock-on'
-          className='font-medium text-7398C0 text-h4'
+          className='font-medium text-7398C0 text-lg'
         >
           {info.canWithdrawFromBlockHeight}
         </p>
@@ -104,7 +104,7 @@ export const UnStakeForm = ({
 
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}
-        className='w-full p-6 mt-8 font-semibold uppercase text-h6'
+        className='w-full p-6 mt-8 font-semibold uppercase text-md tracking-wider'
         onClick={() => {
           handleWithdraw(() => {
             onUnstakeSuccess()

@@ -103,7 +103,7 @@ export function TransactionList ({
       noBlur
     >
       <div className='relative flex flex-col min-h-screen pb-4 pl-8 overflow-hidden md:pl-4 md:min-h-0 bg-3A4557 text-FEFEFF md:rounded-3xl shadow-tx-list md:min-w-416'>
-        <p className='mt-6 font-bold text-h5'>Transactions</p>
+        <p className='mt-6 font-bold text-md'>Transactions</p>
 
         <div className='flex gap-2 pr-4 mt-4'>
           <button

@@ -182,7 +182,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
 
             <div className='px-10 pb-10 md:px-27 mt-14'>
               <button
-                className='-ml-4 p-4 flex items-center gap-2.5 text-white text-h5 leading-5 uppercase'
+                className='-ml-4 p-4 flex items-center gap-2.5 text-white text-md leading-5 uppercase'
                 onClick={onClose}
               >
                 <LeftArrow />
@@ -190,7 +190,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
               </button>
 
               <ul className='mt-8 text-white'>
-                <p className='font-semibold leading-6 text-md md:text-h2'>
+                <p className='font-semibold leading-6 text-md md:text-display-sm'>
                   Switch Network
                 </p>
 
@@ -206,7 +206,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
                           <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
                             <Icon width='32' height='32' />
                           </div>
-                          <span className='leading-6 text-md md:text-h2'>{name}</span>
+                          <span className='leading-6 text-md md:text-display-sm'>{name}</span>
 
                           {
                             active && (

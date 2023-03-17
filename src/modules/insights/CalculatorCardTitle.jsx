@@ -1,5 +1,5 @@
 export const CalculatorCardTitle = ({ text }) => (
-  <h4 className='text-h3 font-normal text-000000'>
+  <h4 className='text-display-xs font-normal text-000000'>
     <span>{text}</span>
   </h4>
 )

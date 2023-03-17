@@ -1,35 +1,32 @@
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
-import { TokenAmountWithPrefix } from '@/common/TokenAmountWithPrefix'
 import { RegularButton } from '@/common/Button/RegularButton'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { ReceiveAmountInput } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { TokenAmountWithPrefix } from '@/common/TokenAmountWithPrefix'
 
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import {
-  convertFromUnits,
-  convertToUnits,
-  isGreater,
-  isGreaterOrEqual,
-  isValidNumber,
-  isEqualTo,
-  toBN
-} from '@/utils/bn'
+import { Checkbox } from '@/common/Checkbox/Checkbox'
+import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
 import DateLib from '@/lib/date/DateLib'
-import { formatAmount } from '@/utils/formatter'
-import { fromNow } from '@/utils/formatter/relative-time'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
 import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useRemoveLiquidity } from '@/src/hooks/useRemoveLiquidity'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { t, Trans } from '@lingui/macro'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Checkbox } from '@/common/Checkbox/Checkbox'
-import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { useNetwork } from '@/src/context/Network'
+import { log } from '@/src/services/logs'
+import {
+  convertFromUnits,
+  convertToUnits, isEqualTo, isGreater,
+  isGreaterOrEqual,
+  isValidNumber, toBN
+} from '@/utils/bn'
+import { formatAmount } from '@/utils/formatter'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { analyticsLogger } from '@/utils/logger'
+import { t, Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const router = useRouter()
@@ -282,7 +279,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
           />
         </div>
 
-        <h5 className='block mt-6 mb-1 font-semibold text-black uppercase text-h6'>
+        <h5 className='block mt-6 mb-1 font-semibold text-black uppercase text-md'>
           <Trans>NEXT UNLOCK CYCLE</Trans>
         </h5>
 
@@ -342,7 +339,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                 handleLog(3)
                 handleApprove()
               }}
-              className='w-full p-6 font-semibold uppercase text-h6'
+              className='w-full p-6 font-semibold tracking-wider uppercase text-md'
               disabled={
               approving ||
               npmErrorMsg ||
@@ -366,7 +363,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                   setNpmValue('')
                 }, isExit)
               }}
-              className='w-full p-6 font-semibold uppercase text-h6'
+              className='w-full p-6 font-semibold tracking-wider uppercase text-md'
               disabled={
               withdrawing ||
               npmErrorMsg ||

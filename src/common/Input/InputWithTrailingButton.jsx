@@ -1,8 +1,8 @@
+import CurrencyInput from '@/lib/react-currency-input-field'
 import { classNames } from '@/utils/classnames'
 import { getPlainNumber } from '@/utils/formatter/input'
 import { useRouter } from 'next/router'
-import { useState, useEffect, useRef } from 'react'
-import CurrencyInput from '@/lib/react-currency-input-field'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  *
@@ -69,7 +69,7 @@ export const InputWithTrailingButton = ({
   }
 
   return (
-    <div className='relative w-full text-black text-h4'>
+    <div className='relative w-full text-black text-lg'>
       <CurrencyInput
         {...inputFieldProps}
         className={classNames(

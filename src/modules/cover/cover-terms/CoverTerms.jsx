@@ -9,7 +9,7 @@ export const CoverTerms = ({ coverInfo }) => {
 
   return (
     <div>
-      <h1 className='mt-12 text-000000 text-h1'>
+      <h1 className='mt-12 text-000000 text-display-md'>
         <Trans>{coverName ?? productName} Cover Terms</Trans>
       </h1>
 

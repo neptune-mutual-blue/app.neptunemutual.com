@@ -37,7 +37,7 @@ export const DescriptionComponent = ({
   <div className={classNames(wrapperClass)}>
     {title &&
       (typeof title === 'string'
-        ? <h2 className='text-h2'>{title}</h2>
+        ? <h2 className='text-display-sm'>{title}</h2>
         : <>{title}</>
       )}
 

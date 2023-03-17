@@ -18,8 +18,7 @@ import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
 import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
-import ConnectWallet
-  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import useAuth from '@/lib/connect-wallet/hooks/useAuth'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
@@ -415,7 +414,7 @@ export const MenuModal = ({
                       >
                         <a
                           className={classNames(
-                            'text-h2 leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
+                            'text-display-sm leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
                             router.pathname === link.href
                               ? 'border-4e7dd9 text-4e7dd9 font-semibold'
                               : 'border-transparent text-white'

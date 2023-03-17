@@ -1,26 +1,24 @@
-import React, { useRef, useEffect, useState } from 'react'
 import { t, Trans } from '@lingui/macro'
+import { useEffect, useRef, useState } from 'react'
 
 import {
-  InputField,
-  InputDescription,
-  ProofOfIncident
+  InputDescription, InputField, ProofOfIncident
 } from '@/modules/reporting/form'
-import { convertFromUnits, isGreater, convertToUnits } from '@/utils/bn'
+import { convertFromUnits, convertToUnits, isGreater } from '@/utils/bn'
 
-import { Container } from '@/common/Container/Container'
 import { RegularButton } from '@/common/Button/RegularButton'
-import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { Container } from '@/common/Container/Container'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 
 import { useReportIncident } from '@/src/hooks/useReportIncident'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import DateLib from '@/lib/date/DateLib'
+import { log } from '@/src/services/logs'
 import { classNames } from '@/utils/classnames'
 import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 
 /**
@@ -188,7 +186,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
         onSubmit={onSubmit}
         className='px-2 mx-auto bg-white border rounded-lg max-w-7xl md:py-16 md:px-24 border-B0C4DB'
       >
-        <h2 className='mb-4 font-bold text-h2'>
+        <h2 className='mb-4 font-bold text-display-sm'>
           {/* @note: Intentional Capitalization of the word "Incident" below */}
           <Trans>Report an Incident</Trans>
         </h2>
@@ -297,7 +295,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
 
           <RegularButton
             disabled={buttonDisabled}
-            className='w-full py-6 font-semibold uppercase px-14 xs:px-24 text-h6 md:w-auto'
+            className='w-full py-6 font-semibold uppercase px-14 xs:px-24 text-md tracking-wider md:w-auto'
             type='submit'
           >
             {canReport && (reporting ? t`Reporting...` : t`Report`)}

@@ -1,21 +1,21 @@
-import * as Dialog from '@radix-ui/react-dialog'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
-import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
-import { formatAmount } from '@/utils/formatter'
-import { convertFromUnits } from '@/utils/bn'
-import { useClaimBond } from '@/src/hooks/useClaimBond'
-import { fromNow } from '@/utils/formatter/relative-time'
-import DateLib from '@/lib/date/DateLib'
+import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import DateLib from '@/lib/date/DateLib'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { analyticsLogger } from '@/utils/logger'
+import { useClaimBond } from '@/src/hooks/useClaimBond'
 import { log } from '@/src/services/logs'
+import { convertFromUnits } from '@/utils/bn'
+import { formatAmount } from '@/utils/formatter'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { analyticsLogger } from '@/utils/logger'
+import { t, Trans } from '@lingui/macro'
+import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect } from 'react'
 
 export const ClaimBondModal = ({
@@ -71,7 +71,7 @@ export const ClaimBondModal = ({
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
       <ModalWrapper className='max-w-md bg-f6f7f9'>
-        <Dialog.Title className='font-bold text-h2'>
+        <Dialog.Title className='font-bold text-display-sm'>
           {modalTitle}
         </Dialog.Title>
         <ModalCloseButton
@@ -96,7 +96,7 @@ export const ClaimBondModal = ({
           </Label>
           <p
             id='modal-unlock-on'
-            className='font-medium text-7398C0 text-h4'
+            className='font-medium text-7398C0 text-lg'
             title={DateLib.toLongDateFormat(unlockDate, router.locale)}
           >
             {fromNow(unlockDate)}
@@ -114,7 +114,7 @@ export const ClaimBondModal = ({
             handleLog(3)
             handleLog(9999)
           }}
-          className='w-full p-6 mt-8 font-semibold uppercase text-h6'
+          className='w-full p-6 mt-8 font-semibold uppercase text-md tracking-wider'
         >
           {claiming ? t`Claiming...` : t`Claim Now`}
         </RegularButton>

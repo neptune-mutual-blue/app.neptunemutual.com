@@ -1,19 +1,18 @@
+import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
+import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { PolicyCardFooter } from '@/src/modules/my-policies/PolicyCardFooter'
-import { useValidReport } from '@/src/hooks/useValidReport'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import DateLib from '@/lib/date/DateLib'
-import { isGreater } from '@/utils/bn'
-import { ReportStatus } from '@/src/config/constants'
-import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import React from 'react'
-import { CoverAvatar } from '@/common/CoverAvatar'
-import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import DateLib from '@/lib/date/DateLib'
+import { ReportStatus } from '@/src/config/constants'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import { useValidReport } from '@/src/hooks/useValidReport'
+import { PolicyCardFooter } from '@/src/modules/my-policies/PolicyCardFooter'
+import { isGreater } from '@/utils/bn'
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo
@@ -117,7 +116,7 @@ export const PolicyCard = ({ policyInfo }) => {
             </div>
           </div>
           <h4
-            className='mt-4 font-semibold uppercase text-h4'
+            className='mt-4 font-semibold uppercase text-lg'
             data-testid='policy-card-title'
           >
             {projectOrProductName}

@@ -48,7 +48,7 @@ export const TestnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
     >
       <ModalWrapper className='max-w-5xl bg-FEFEFF'>
         <Title
-          className='flex items-center font-semibold text-h4'
+          className='flex items-center font-semibold text-lg'
           data-testid='disclaimer-title'
         >
           <Trans>Disclaimer and Warranty</Trans>
@@ -135,7 +135,7 @@ export const TestnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
           <div className='flex flex-wrap justify-center w-full gap-4 mt-6 xs:justify-end sm:gap-6'>
             <button
               type='button'
-              className='box-border p-3 font-medium tracking-wide uppercase border rounded-md border-4e7dd9 text-h6 text-4e7dd9'
+              className='box-border p-3 font-medium tracking-wide uppercase border rounded-md border-4e7dd9 text-md tracking-wider text-4e7dd9'
               onClick={handleDecline}
               data-testid='disclaimer-decline'
             >
@@ -144,7 +144,7 @@ export const TestnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
             <button
               type='submit'
               className={classNames(
-                'box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 uppercase tracking-wide bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9',
+                'box-border text-md tracking-wider font-medium rounded-md p-3 text-white bg-4e7dd9 uppercase tracking-wide bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9',
                 'disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed'
               )}
               disabled={!isAgreed}
@@ -197,7 +197,7 @@ export const MainnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
     >
       <ModalWrapper className='max-w-5xl bg-FEFEFF'>
         <Title
-          className='flex items-center font-semibold text-h4'
+          className='flex items-center font-semibold text-lg'
           data-testid='disclaimer-title'
         >
           <Trans>Disclaimer and Warranty</Trans>
@@ -217,12 +217,12 @@ export const MainnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
           <p><Trans>You agree and understand that your use of Neptune&apos;s marketplace, protocol and its products involve various risks, including but not limited to any risks of using blockchain technology and protocol, risks of fluctuation of prices of blockchain based digital assets, risks of change of governmental policies and regulations, risks of any force majeure events, etc.</Trans></p>
           <p><Trans>Neptune and its directors, staffs, employees, advisors, developers and/or any service providers to Neptune involved in creating the marketplace, protocol and/or any products will not be liable for any claims or damages associated with your use of the marketplace, protocol and/or products, including any direct, indirect, incidental, special, exemplary, punitive or consequential damages, or loss of products, digital assets, or any items of value. </Trans></p>
 
-          <h3 className='font-semibold text-h5'><Trans>Neptune Mutual Association</Trans></h3>
+          <h3 className='font-semibold text-md'><Trans>Neptune Mutual Association</Trans></h3>
           <p><Trans>Cover Creator agrees that it bears the entire risk of the use of the Neptune Mutual marketplace. In no event shall Neptune Mutual Association, or any of their officers, Directors, employees, members or licensors be liable for any consequential, incidental, direct, indirect punitive or other damages whatsoever.</Trans></p>
           <p><Trans>When users buy a cover policy or invest liquidity in a cover pool from the Neptune Mutual marketplace, these transactions are directly between the buyer and liquidity providers collectively via a liquidity pool which takes place on-chain and independently from the Neptune Mutual Association.  The Cover Creator agrees that Neptune Mutual Association is not an agent, joint venture,  partnership or any similar arrangement for the Cover Creator, nor for the cover policy buyer, nor for the cover pool liquidity supplier, and has no authority to act on behalf of any of these parties.</Trans></p>
           <p><Trans>Neptune Mutual Association is not involved in the transactions between parties in the Neptune Mutual marketplace and has no control over the respective parties and no responsibility or liabilities on the transactions or any dealing between these parties, including but not limited to any settlement of the transactions or any background check, verification procedures, or due diligence  against any parties or  entities.  The Cover Creator understands and acknowledges that the respective parties have their own responsibilities to conduct any due diligence on their counterparties, if necessary, and to conduct all risk analysis or risk management against these counterparties.</Trans></p>
 
-          <h3 className='font-semibold text-h5'><Trans>Beta version</Trans></h3>
+          <h3 className='font-semibold text-md'><Trans>Beta version</Trans></h3>
           <p><Trans>This application is a beta version, as indicated by the label under the Neptune Mutual logo in the top left corner of the application.  The beta version of the application may be subject to changes, including but not limited to:</Trans></p>
           <ul className='pl-10 list-disc'>
             <li><Trans>cover policy conditions, cover parameters and exclusions may be subject to change during the cover policy period,</Trans></li>
@@ -230,7 +230,7 @@ export const MainnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
             <li><Trans>the marketplace standard terms and conditions may be subject to change.</Trans></li>
           </ul>
 
-          <h3 className='font-semibold text-h5'><Trans>Disclaimer Subject to change</Trans></h3>
+          <h3 className='font-semibold text-md'><Trans>Disclaimer Subject to change</Trans></h3>
           <p><Trans>Neptune may change this disclaimer at any time without notice to you and without liability to you or any other party.  It is your responsibility to periodically check this disclaimer for changes.  If you do not agree to any changes made to this disclaimer, you should cease use of this testnet.</Trans></p>
         </div>
 
@@ -260,7 +260,7 @@ export const MainnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
           <div className='flex flex-wrap justify-center w-full gap-4 mt-6 xs:justify-end sm:gap-6'>
             <button
               type='button'
-              className='box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9'
+              className='box-border p-3 font-medium border rounded-md border-4e7dd9 text-md tracking-wider text-4e7dd9'
               onClick={handleDecline}
               data-testid='disclaimer-decline'
             >
@@ -269,7 +269,7 @@ export const MainnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
             <button
               type='submit'
               className={classNames(
-                'box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9',
+                'box-border text-md tracking-wider font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9',
                 'disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed'
               )}
               disabled={!isAgreed}

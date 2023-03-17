@@ -1,19 +1,19 @@
 import { RegularButton } from '@/common/Button/RegularButton'
-import { Radio } from '@/common/Radio/Radio'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
-import { useResolveIncident } from '@/src/hooks/useResolveIncident'
-import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { t, Trans } from '@lingui/macro'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useRouter } from 'next/router'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { Radio } from '@/common/Radio/Radio'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useResolveIncident } from '@/src/hooks/useResolveIncident'
+import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { t, Trans } from '@lingui/macro'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export const ResolveIncident = ({
   refetchInfo,
@@ -159,7 +159,7 @@ const EmergencyResolveModal = ({
             alt={logoAlt}
             src={logoSource}
           />
-          <div className='font-bold capitalize text-h2'>
+          <div className='font-bold capitalize text-display-sm'>
             <Trans>Emergency resolution</Trans>
           </div>
         </Dialog.Title>

@@ -4,7 +4,7 @@ export const CoverProfileInfoShort = ({
   imgSrc,
   title,
   className,
-  fontSizeClass = 'text-h4'
+  fontSizeClass = 'text-lg'
 }) => {
   return (
     <div

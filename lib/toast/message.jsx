@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import InfoIcon from './components/icons/InfoIcon'
-import WarningIcon from './components/icons/WarningIcon'
-import CloseIcon from './components/icons/CloseIcon'
-import SuccessIcon from './components/icons/SuccessIcon'
-import { classNames } from './utils'
 import LoadingIcon from '@/lib/toast/components/icons/LoadingIcon'
 import MinimizeIcon from '@/lib/toast/components/icons/MinimizeIcon'
+import { useEffect } from 'react'
+import CloseIcon from './components/icons/CloseIcon'
+import InfoIcon from './components/icons/InfoIcon'
+import SuccessIcon from './components/icons/SuccessIcon'
+import WarningIcon from './components/icons/WarningIcon'
+import { classNames } from './utils'
 
 export const VARIANTS = {
   Info: {
@@ -69,7 +69,7 @@ const ToastMessage = ({
           <div className='flex-shrink-0'>{Var.icon}</div>
 
           <div className='flex-1 w-0 ml-3'>
-            <p className='font-light text-para'>
+            <p className='font-light text-md'>
               {title || Var.name}
             </p>
             <div className='mt-3 text-sm text-EEEEEE'>{message}</div>

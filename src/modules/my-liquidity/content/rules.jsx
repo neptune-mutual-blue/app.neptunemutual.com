@@ -87,7 +87,7 @@ function Notes ({ coverInfo }) {
         </Trans>
       </p>
 
-      <p className='py-6 font-bold text-h3'>
+      <p className='py-6 font-bold text-display-xs'>
         <Trans>Important Note</Trans>
       </p>
 
@@ -100,7 +100,7 @@ function Notes ({ coverInfo }) {
       </p>
 
       <div className='max-w-[800px]'>
-        <p className='py-6 font-bold text-h3'>
+        <p className='py-6 font-bold text-display-xs'>
           <Trans>Risk Disclosure / Disclaimer</Trans>
         </p>
         <p className='pb-4'>

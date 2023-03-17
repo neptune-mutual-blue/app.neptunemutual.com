@@ -19,8 +19,7 @@ import { Label } from '@/common/Label/Label'
 import { Loader } from '@/common/Loader/Loader'
 import StepsIndicator from '@/common/StepsIndicator'
 import LeftArrow from '@/icons/LeftArrow'
-import ConnectWallet
-  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import { getMonthNames } from '@/lib/dates'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
@@ -372,7 +371,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
 
             <div className='relative'>
               <RegularInput
-                className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 text-center'
+                className='leading-none disabled:cursor-not-allowed !text-md !pr-14 focus-visible:ring-0 text-center'
                 error={!!referralCodeErrorMessage}
                 id='referral_code'
                 placeholder={t`Enter Cashback Code`}
@@ -399,13 +398,13 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
           <Alert info>
             <div className='flex flex-wrap items-end justify-between ml-4'>
               <div className='max-w-[265px] mb-4 md:mb-0'>
-                <h5 className='font-semibold text-h5'>Wallet Not Connected.</h5>
+                <h5 className='font-semibold text-md'>Wallet Not Connected.</h5>
                 <p>Please connect your wallet to view the price quotation.</p>
               </div>
               <ConnectWallet networkId={networkId} notifier={notifier}>
                 {({ onOpen }) => {
                   return (
-                    <RegularButton className='px-2 text-xs h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
+                    <RegularButton className='py-1.5 px-2.5 text-xs h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
                   )
                 }}
               </ConnectWallet>

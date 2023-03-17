@@ -49,7 +49,7 @@ export const PoliciesEmptyState = () => {
           alt={t`No data found`}
           className='w-48 h-48'
         />
-        <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>
+        <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
           <Trans>
             A cover policy enables you to claim and receive payout when an
             incident occurs. To purchase a policy, select a cover from the home

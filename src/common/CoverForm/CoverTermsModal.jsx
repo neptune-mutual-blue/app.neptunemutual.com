@@ -56,7 +56,7 @@ export function CoverTermsModal ({ item, setShowModal }) {
           </button>
           <img src={imgSrc} alt={item.infoObj.productName || item.infoObj.coverName} className='w-8 h-8' />
 
-          <span className='flex-grow overflow-hidden font-bold text-h4 pl-3 md:text-h3 text-ellipsis'>
+          <span className='flex-grow overflow-hidden font-bold text-lg pl-3 md:text-display-xs text-ellipsis'>
             {item.infoObj.productName || item.infoObj.coverName} Cover Terms
           </span>
         </Dialog.Title>
@@ -102,7 +102,7 @@ function DownloadButton ({ onClick }) {
       onClick={onClick}
     >
       <PDFFileIcon />
-      <span className='font-semibold uppercase text-h6'>
+      <span className='font-semibold uppercase text-md tracking-wider'>
         Download PDF
       </span>
     </button>

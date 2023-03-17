@@ -7,6 +7,7 @@ import {
   identifyStatus
 } from '@/common/CardStatusBadge'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
@@ -23,7 +24,6 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
-import { CoverAvatar } from '@/common/CoverAvatar'
 
 const lineContentArray = new Array(3).fill(1)
 
@@ -82,14 +82,14 @@ export const ProductCard = ({
         </div>
       </div>
       <p
-        className='mt-4 font-semibold text-black uppercase text-h4'
+        className='mt-4 font-semibold text-black uppercase text-lg'
         data-testid='project-name'
       >
         {productData.productInfoDetails?.productName}
       </p>
       <div className='flex items-center justify-between'>
         <div
-          className='mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2'
+          className='mt-1 uppercase text-xs opacity-40 lg:text-sm text-01052D lg:mt-2'
           data-testid='cover-fee'
         >
           <Trans>Annual Cover fee:</Trans>{' '}
@@ -148,12 +148,12 @@ export const ProductCard = ({
         />
       ))}
 
-      <div className={classNames('justify-between px-1 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
-        <span className='uppercase text-h7 lg:text-sm'>
+      <div className={classNames('justify-between px-1 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}>
+        <span className='uppercase text-xs lg:text-sm'>
           <Trans>Utilization ratio</Trans>
         </span>
         <span
-          className='font-semibold text-right text-h7 lg:text-sm '
+          className='font-semibold text-right text-xs lg:text-sm '
           data-testid='util-ratio'
         >
           {formatPercent(utilization, router.locale)}
@@ -189,7 +189,7 @@ export const ProductCard = ({
       </InfoTooltip>
 
       <div
-        className={classNames('justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}
+        className={classNames('justify-between px-1 text-01052D opacity-40 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}
       >
         <InfoTooltip
           arrow={false}

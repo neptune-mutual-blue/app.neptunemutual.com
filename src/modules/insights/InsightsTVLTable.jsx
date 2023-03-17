@@ -7,10 +7,10 @@ import {
 
 import { t } from '@lingui/macro'
 
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits } from '@/utils/bn'
-import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
 
 import { renderHeader } from '@/src/common/Table/renderHeader'
 
@@ -149,7 +149,7 @@ export const InsightsTVLTable = ({ data, loading }) => {
 
       <div className='flex justify-between pt-6 pb-6 lg:pt-10 flex-start lg:pb-25px'>
         <div>
-          <h2 className='text-h3'>TVL Distribution </h2>
+          <h2 className='text-display-xs'>TVL Distribution </h2>
         </div>
       </div>
       <TableWrapper className='mt-0'>

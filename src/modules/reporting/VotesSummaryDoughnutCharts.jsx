@@ -69,7 +69,7 @@ const DoughnutChartInsight = ({ title, percent, amountStaked, variant }) => {
     <div className='absolute flex flex-col items-center justify-center w-16 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'>
       <h5
         className={classNames(
-          'text-h4 font-bold text-center',
+          'text-lg font-bold text-center',
           variant === 'success' ? 'text-0FB88F' : 'text-FA5C2F'
         )}
       >

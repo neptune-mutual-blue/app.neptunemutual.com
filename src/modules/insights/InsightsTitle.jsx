@@ -18,7 +18,7 @@ export const InsightsTitle = ({ title = 'Insights', options, selected, setSelect
       <div className='items-center justify-between hidden pb-10 lg:flex flex-start'>
         <div className='flex items-center'>
           {leading}
-          <div className='mr-6 font-bold leading-9 text-h2 text-000000'>
+          <div className='mr-6 font-bold leading-9 text-display-sm text-000000'>
             {title}
           </div>
           {!leading && (analyticsDropdown)}
@@ -33,7 +33,7 @@ export const InsightsTitle = ({ title = 'Insights', options, selected, setSelect
         <div className='flex items-center justify-between pb-4 flex-start '>
           <div className='w-full'>
             <div className='flex items-center justify-between'>
-              <div className='mr-6 font-bold leading-9 text-h3 lg:text-h2 text-000000'>
+              <div className='mr-6 font-bold leading-9 text-display-xs lg:text-display-sm text-000000'>
                 {title}
               </div>
               {!trailAfterDropdownInMobile && trailing}

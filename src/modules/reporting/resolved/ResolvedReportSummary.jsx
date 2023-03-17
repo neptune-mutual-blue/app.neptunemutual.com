@@ -1,23 +1,23 @@
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import DateLib from '@/lib/date/DateLib'
+import { ReportingPeriodStatus } from '@/modules/reporting/ReportingPeriodStatus'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useCapitalizePool } from '@/src/hooks/useCapitalizePool'
+import { useFinalizeIncident } from '@/src/hooks/useFinalizeIncident'
 import { IncidentReporter } from '@/src/modules/reporting/IncidentReporter'
 import { InsightsTable } from '@/src/modules/reporting/InsightsTable'
 import { UnstakeYourAmount } from '@/src/modules/reporting/resolved/UnstakeYourAmount'
-import { Divider } from '@/common/Divider/Divider'
-import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
-import { truncateAddressParam } from '@/utils/address'
-import { useFinalizeIncident } from '@/src/hooks/useFinalizeIncident'
-import { formatCurrency } from '@/utils/formatter/currency'
-import DateLib from '@/lib/date/DateLib'
 import { VotesSummaryHorizontalChart } from '@/src/modules/reporting/VotesSummaryHorizontalChart'
+import { truncateAddressParam } from '@/utils/address'
+import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import { useCapitalizePool } from '@/src/hooks/useCapitalizePool'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
-import { classNames } from '@/utils/classnames'
-import { ReportingPeriodStatus } from '@/modules/reporting/ReportingPeriodStatus'
 
 export const ResolvedReportSummary = ({
   incidentReport,
@@ -81,7 +81,7 @@ export const ResolvedReportSummary = ({
       <OutlinedCard className='bg-white md:flex'>
         {/* Left half */}
         <div className='flex-1 p-10 md:border-r border-B0C4DB'>
-          <h2 className='mb-6 font-bold text-center text-h3 lg:text-left'>
+          <h2 className='mb-6 font-bold text-center text-display-xs lg:text-left'>
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -103,7 +103,7 @@ export const ResolvedReportSummary = ({
 
         {/* Right half */}
         <div className='p-10'>
-          <h3 className='mb-4 font-bold text-h4'>
+          <h3 className='mb-4 font-bold text-lg'>
             <Trans>Insights</Trans>
           </h3>
           <InsightsTable
@@ -196,7 +196,7 @@ export const ResolvedReportSummary = ({
           />
 
           <hr className='mt-6 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4'>
+          <h3 className='mb-4 font-bold text-lg'>
             <Trans>Incident Reporters</Trans>
           </h3>
           <IncidentReporter
@@ -213,7 +213,7 @@ export const ResolvedReportSummary = ({
           )}
 
           <hr className='mt-8 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4'>
+          <h3 className='mb-4 font-bold text-lg'>
             <Trans>Reporting Period</Trans>
           </h3>
           <ReportingPeriodStatus
