@@ -29,7 +29,7 @@ const getXTickValue = ({ dataKey, value, liquidityTokenDecimals, locale }) => {
 
   const amount = convertFromUnits(value, liquidityTokenDecimals).toString()
   const formatted = formatCurrency(amount, locale, undefined, false, true).short
-  return formatted === 'N/A' ? '$0' : formatted.replace(/\.\d+/, '')
+  return formatted === 'N/A' ? '$0' : formatted.replace(/\.0+/, '')
 }
 
 const getSuggestedMaxValue = ({ data, dataKey }) => {
@@ -39,7 +39,8 @@ const getSuggestedMaxValue = ({ data, dataKey }) => {
     return max < 1 ? Number(max) + 0.02 : Number(max) + 0.25
   }
 
-  const offset = toBN(max).isGreaterThan('10000000000') ? '10000000000' : '1000000000'
+  const offset = toBN(max).dividedToIntegerBy(25)
+
   return parseInt(sumOf(max, offset).toString())
 }
 
