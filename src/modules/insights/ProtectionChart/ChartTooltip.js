@@ -21,7 +21,17 @@ const getOrCreateTooltip = (chart, className) => {
   return tooltipEl
 }
 
-const externalTooltipHandler = (context, className = '') => {
+const externalTooltipHandler = (context, className = '', dataKey) => {
+  let xOffset = '4rem'
+
+  switch (dataKey) {
+    case 'totalProtection':
+      xOffset = '7.25rem'
+      break
+    case 'totalPremium':
+      xOffset = '7.25rem'
+      break
+  }
   // Tooltip Element
   const { chart, tooltip } = context
   const tooltipEl = getOrCreateTooltip(chart, className)
@@ -37,7 +47,7 @@ const externalTooltipHandler = (context, className = '') => {
   let innerHTML = ''
 
   if (tooltip.title?.length) {
-    innerHTML += `${tooltip.title[0]}`
+    innerHTML += `${tooltip.title.join('')}`
   }
 
   if (tooltip.body) {
@@ -48,29 +58,29 @@ const externalTooltipHandler = (context, className = '') => {
     innerHTML += `${tooltip.footer.join('')}`
   }
 
-  tooltipEl.innerHTML = innerHTML
-
   const position = context.chart.canvas.getBoundingClientRect()
-  const bodyFont = toFont(tooltip.options.bodyFont)
+
+  tooltipEl.innerHTML = innerHTML
 
   const tooltipRect = tooltipEl.getBoundingClientRect()
 
-  let left = position.left + window.pageXOffset + tooltip.caretX
+  const left = position.x
+  const top = position.y + tooltip.caretY + 16
 
-  if (window.innerWidth < 768 && left + tooltipRect.width > position.right) {
-    left = position.right - tooltipRect.width
-    tooltipEl.style.transform = 'translateY(-50%)'
-  } else {
-    tooltipEl.style.transform = 'translateX(-50%) translateY(-25%)'
+  let translation = 'translateX(' + xOffset + ')'
+
+  if (left + tooltipRect.width > window.innerWidth) {
+    translation = `translateX(-${left + tooltipRect.width - window.innerWidth}px)`
   }
 
   tooltipEl.style.left = left + 'px'
+  tooltipEl.style.top = top + 'px'
+  tooltipEl.style.transform = translation
 
+  const bodyFont = toFont(tooltip.options.bodyFont)
   // Display, position, and set styles for font
   tooltipEl.style.opacity = 1
-  tooltipEl.style.position = 'absolute'
-  // tooltipEl.style.left = position.left + window.pageXOffset + tooltip.caretX + 'px'
-  tooltipEl.style.top = position.top + window.pageYOffset + tooltip.caretY + 'px'
+  tooltipEl.style.position = 'fixed'
   tooltipEl.style.minWidth = '175px'
   tooltipEl.style.font = bodyFont.string
   tooltipEl.style.padding = tooltip.padding + 'px ' + tooltip.padding + 'px'

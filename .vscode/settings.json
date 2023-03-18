@@ -1,5 +1,8 @@
 {
     "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+      },
     "standard.autoFixOnSave": true,
     "[javascriptreact]": {
         "editor.formatOnSave": true,
