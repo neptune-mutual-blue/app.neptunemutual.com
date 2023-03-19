@@ -39,7 +39,7 @@ function verifyShapeIntegrity (object) {
 
 class LSHistoryClass {
   /** @type THistory */
-  state = {};
+  state = {}
 
   init () {
     this.state = LocalStorage.get(

@@ -7,7 +7,11 @@ const nextConfig = (phase) => {
   return {
     reactStrictMode: true,
     output: 'standalone',
-    experimental: {},
+    experimental: {
+      swcPlugins: [
+        ['@lingui/swc-plugin', {}]
+      ]
+    },
     eslint: {
       dirs: ['http', 'lib', 'src']
     },

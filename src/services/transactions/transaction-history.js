@@ -1,5 +1,5 @@
-import { LSHistory } from '@/src/services/transactions/history'
 import { timeouts } from '@/src/config/environment'
+import { LSHistory } from '@/src/services/transactions/history'
 
 export const STATUS = {
   PENDING: 2,
@@ -11,7 +11,7 @@ const ERRORS = {
   TIMEOUT: 'TIMEOUT'
 }
 export class TransactionHistory {
-  static listener = [];
+  static listener = []
 
   /**
    * @typedef AddItem
