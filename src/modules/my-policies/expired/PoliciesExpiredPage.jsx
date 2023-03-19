@@ -2,12 +2,12 @@ import Link from 'next/link'
 
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
-import { useExpiredPolicies } from '@/src/hooks/useExpiredPolicies'
-import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { t, Trans } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
+import { useExpiredPolicies } from '@/src/hooks/useExpiredPolicies'
+import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
+import { t, Trans } from '@lingui/macro'
 
 export const PoliciesExpiredPage = () => {
   const {
@@ -18,10 +18,13 @@ export const PoliciesExpiredPage = () => {
   return (
     <Container className='py-16'>
       <div className='flex justify-end'>
-        <Link href={Routes.PolicyTransactions}>
-          <a className='font-medium text-h4 text-4e7dd9 hover:underline'>
-            <Trans>Transaction List</Trans>
-          </a>
+        <Link
+          href={Routes.PolicyTransactions}
+          className='font-medium text-h4 text-4e7dd9 hover:underline'
+        >
+
+          <Trans>Transaction List</Trans>
+
         </Link>
       </div>
       <ExpiredPolicies data={expiredPolicies} loading={loading} />

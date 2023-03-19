@@ -1,20 +1,19 @@
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { actions as coverActions } from '@/src/config/cover/actions'
-import { OptionActionCard } from '@/common/Option/OptionActionCard'
-import { Container } from '@/common/Container/Container'
-import { classNames } from '@/utils/classnames'
-import { Trans, t } from '@lingui/macro'
-import {
-  renderTitleTranslation,
-  renderDescriptionTranslation
-} from '@/utils/translations'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
+import { Container } from '@/common/Container/Container'
+import { OptionActionCard } from '@/common/Option/OptionActionCard'
+import { actions as coverActions } from '@/src/config/cover/actions'
 import { Routes } from '@/src/config/routes'
-import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
+import { classNames } from '@/utils/classnames'
+import { analyticsLogger } from '@/utils/logger'
+import {
+  renderDescriptionTranslation, renderTitleTranslation
+} from '@/utils/translations'
+import { t, Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const getBreadCrumbs = (
   isDiversified,
@@ -130,27 +129,26 @@ export const CoverOptionsPage = ({
                 <Link
                   key={actionKey}
                   href={coverActions[actionKey].getHref(coverKey, productKey)}
+                  data-testid='cover-option-actions'
+                  className={classNames(
+                    'rounded-2xl md:rounded-3xl group py-10 md:py-12 h-full w-full transition duration-300 ease-out',
+                    'hover:border-B0C4DB hover:ease-in hover:border-0.5 hover:border-solid  hover:shadow-option  hover:box-border hover:rounded-3xl  hover:bg-white',
+                    'focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9',
+                    'border-B0C4DB border-0.5 box-border bg-white lg:bg-transparent lg:border-none'
+                  )}
+                  onClick={() => handleLog(actionKey)}
                 >
-                  <a
-                    data-testid='cover-option-actions'
-                    className={classNames(
-                      'rounded-2xl md:rounded-3xl group py-10 md:py-12 h-full w-full transition duration-300 ease-out',
-                      'hover:border-B0C4DB hover:ease-in hover:border-0.5 hover:border-solid  hover:shadow-option  hover:box-border hover:rounded-3xl  hover:bg-white',
-                      'focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9',
-                      'border-B0C4DB border-0.5 box-border bg-white lg:bg-transparent lg:border-none'
+
+                  <OptionActionCard
+                    title={renderTitleTranslation(
+                      coverActions[actionKey].title
                     )}
-                    onClick={() => handleLog(actionKey)}
-                  >
-                    <OptionActionCard
-                      title={renderTitleTranslation(
-                        coverActions[actionKey].title
-                      )}
-                      description={renderDescriptionTranslation(
-                        coverActions[actionKey].description
-                      )}
-                      imgSrc={coverActions[actionKey].imgSrc}
-                    />
-                  </a>
+                    description={renderDescriptionTranslation(
+                      coverActions[actionKey].description
+                    )}
+                    imgSrc={coverActions[actionKey].imgSrc}
+                  />
+
                 </Link>
               )
             })}

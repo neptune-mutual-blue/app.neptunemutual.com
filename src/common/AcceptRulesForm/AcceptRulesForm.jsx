@@ -79,10 +79,13 @@ export const AcceptRulesForm = ({
 
   if (productStatus && productStatus !== 'Normal') {
     const statusLink = (
-      <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
-        <a className='font-medium underline hover:no-underline'>
-          {productStatus}
-        </a>
+      <Link
+        href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}
+        className='font-medium underline hover:no-underline'
+      >
+
+        {productStatus}
+
       </Link>
     )
     return (

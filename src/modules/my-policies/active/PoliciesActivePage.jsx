@@ -2,21 +2,24 @@ import Link from 'next/link'
 
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
-import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { Trans } from '@lingui/macro'
-import { Routes } from '@/src/config/routes'
 import { PoliciesEmptyState } from '@/modules/my-policies/active/PoliciesEmptyState'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
+import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
+import { Trans } from '@lingui/macro'
 
 export const PoliciesActivePage = ({ data, loading }) => {
   return (
     <Container className='py-16'>
       <div className='flex justify-end'>
-        <Link href={Routes.PolicyTransactions}>
-          <a className='font-medium text-h4 text-4e7dd9 hover:underline'>
-            <Trans>Transaction List</Trans>
-          </a>
+        <Link
+          href={Routes.PolicyTransactions}
+          className='font-medium text-h4 text-4e7dd9 hover:underline'
+        >
+
+          <Trans>Transaction List</Trans>
+
         </Link>
       </div>
       <ActivePolicies data={data} loading={loading} />

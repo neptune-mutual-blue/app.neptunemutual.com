@@ -1,28 +1,24 @@
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
-import { Label } from '@/common/Label/Label'
-import { useState, useEffect, useMemo } from 'react'
-import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
-import { useVote } from '@/src/hooks/useVote'
-import {
-  convertFromUnits,
-  isGreater,
-  isEqualTo,
-  convertToUnits,
-  toBN
-} from '@/utils/bn'
-import Link from 'next/link'
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
-import { t, Trans } from '@lingui/macro'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import { Label } from '@/common/Label/Label'
+import { RadioReport } from '@/common/RadioReport/RadioReport'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { RadioReport } from '@/common/RadioReport/RadioReport'
-import { analyticsLogger } from '@/utils/logger'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { useVote } from '@/src/hooks/useVote'
 import { log } from '@/src/services/logs'
+import {
+  convertFromUnits, convertToUnits, isEqualTo, isGreater, toBN
+} from '@/utils/bn'
+import { analyticsLogger } from '@/utils/logger'
+import { t, Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect, useMemo, useState } from 'react'
 
 export const CastYourVote = ({ incidentReport, idPrefix }) => {
   const options = useMemo(() => {
@@ -139,21 +135,21 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
       </h3>
       <div className='flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row'>
         {
-          options.map((option, idx) => {
-            return (
-              <RadioReport
-                key={idx}
-                label={option.label}
-                id={idPrefix + 'camp-' + idx}
-                name={idPrefix + 'camp'}
-                value={option.value}
-                checked={votingType === option.value}
-                onChange={handleRadioChange}
-                disabled={approving || voting}
-              />
-            )
-          })
-        }
+        options.map((option, idx) => {
+          return (
+            <RadioReport
+              key={idx}
+              label={option.label}
+              id={idPrefix + 'camp-' + idx}
+              name={idPrefix + 'camp'}
+              value={option.value}
+              checked={votingType === option.value}
+              onChange={handleRadioChange}
+              disabled={approving || voting}
+            />
+          )
+        })
+      }
       </div>
       {!isFirstDispute && (
         <>
@@ -198,13 +194,13 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
                     className='w-full py-6 font-semibold leading-6 tracking-wider uppercase lg:w-64 text-h5 whitespace-nowrap text-EEEEEE'
                     onClick={handleApprove}
                     disabled={
-                    isError ||
-                    approving ||
-                    !value ||
-                    error ||
-                    loadingBalance ||
-                    loadingAllowance
-                  }
+                  isError ||
+                  approving ||
+                  !value ||
+                  error ||
+                  loadingBalance ||
+                  loadingAllowance
+                }
                   >
                     {approving
                       ? (
@@ -222,12 +218,12 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
                     className='flex-auto w-full py-6 font-semibold leading-6 tracking-wider uppercase lg:w-64 text-h5 whitespace-nowrap text-EEEEEE'
                     onClick={() => handleReport(() => setValue(''))}
                     disabled={
-                    isError ||
-                    voting ||
-                    error ||
-                    loadingBalance ||
-                    loadingAllowance
-                  }
+                  isError ||
+                  voting ||
+                  error ||
+                  loadingBalance ||
+                  loadingAllowance
+                }
                   >
                     {voting ? t`Reporting...` : 'Report'}
                   </RegularButton>
@@ -259,6 +255,7 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
               incidentReport.incidentDate
             )}
             passHref
+            legacyBehavior
           >
             <RegularButton
               className='flex-auto w-full py-6 mt-4 font-semibold leading-6 tracking-wider uppercase lg:w-64 mb-11 sm:mb-0 text-h5 whitespace-nowrap text-EEEEEE'

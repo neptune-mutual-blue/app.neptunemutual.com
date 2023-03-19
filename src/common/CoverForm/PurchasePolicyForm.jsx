@@ -19,8 +19,7 @@ import { Label } from '@/common/Label/Label'
 import { Loader } from '@/common/Loader/Loader'
 import StepsIndicator from '@/common/StepsIndicator'
 import LeftArrow from '@/icons/LeftArrow'
-import ConnectWallet
-  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import { getMonthNames } from '@/lib/dates'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
@@ -240,13 +239,18 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
   }
 
   if (productStatus && productStatus !== 'Normal') {
-    const statusLink = (
-      <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
-        <a className='font-medium underline hover:no-underline'>
+    const statusLink =
+      (
+        <Link
+          href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}
+          className='font-medium underline hover:no-underline'
+        >
+
           {productStatus}
-        </a>
-      </Link>
-    )
+
+        </Link>
+      )
+
     return (
       <Alert>
         <Trans>

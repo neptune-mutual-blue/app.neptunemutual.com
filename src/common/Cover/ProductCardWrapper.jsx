@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import { ProductCard } from '@/common/Cover/ProductCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import Link from 'next/link'
 
 export const ProductCardWrapper = ({
   coverKey,
@@ -19,20 +19,22 @@ export const ProductCardWrapper = ({
   }
 
   return (
-    <Link href={Routes.ViewProduct(coverKey, productKey)} key={coverKey}>
-      <a
-        className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
-        data-testid='cover-link'
-      >
-        <ProductCard
-          coverKey={coverKey}
-          productKey={productKey}
-          productData={productData}
-          progressFgColor={progressFgColor}
-          progressBgColor={progressBgColor}
-          {...rest}
-        />
-      </a>
+    <Link
+      href={Routes.ViewProduct(coverKey, productKey)}
+      key={coverKey}
+      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      data-testid='cover-link'
+    >
+
+      <ProductCard
+        coverKey={coverKey}
+        productKey={productKey}
+        productData={productData}
+        progressFgColor={progressFgColor}
+        progressBgColor={progressBgColor}
+        {...rest}
+      />
+
     </Link>
   )
 }

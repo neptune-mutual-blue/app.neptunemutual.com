@@ -1,7 +1,7 @@
 
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -107,11 +107,11 @@ export const AvailableCovers = () => {
         className='flex flex-wrap items-center justify-between'
       >
         <Link href='#cover-products'>
-          <a>
-            <h1 className='mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora'>
-              <Trans>Cover Products</Trans>
-            </h1>
-          </a>
+
+          <h1 className='mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora'>
+            <Trans>Cover Products</Trans>
+          </h1>
+
         </Link>
         <div className='flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto'>
           <SearchAndSortBar

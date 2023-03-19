@@ -18,8 +18,7 @@ import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
 import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
-import ConnectWallet
-  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import useAuth from '@/lib/connect-wallet/hooks/useAuth'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
@@ -210,10 +209,11 @@ export const Header = () => {
               <Link
                 href={Routes.Home}
                 locale={router.locale || router.defaultLocale}
+                className='sm:w-48'
               >
-                <a className='sm:w-48'>
-                  <HeaderLogo />
-                </a>
+
+                <HeaderLogo />
+
               </Link>
               <div className='self-stretch hidden ml-16 space-x-8 xl:flex'>
                 {navigation.map((link) => {
@@ -222,17 +222,16 @@ export const Header = () => {
                       key={link.name}
                       href={link.href}
                       locale={router.locale}
+                      className={classNames(
+                        'text-sm border-b-4 border-t-transparent inline-flex items-center whitespace-nowrap',
+                        link.active
+                          ? 'border-4e7dd9 text-4e7dd9 font-semibold'
+                          : 'border-transparent text-999BAB'
+                      )}
                     >
-                      <a
-                        className={classNames(
-                          'text-sm border-b-4 border-t-transparent inline-flex items-center whitespace-nowrap',
-                          link.active
-                            ? 'border-4e7dd9 text-4e7dd9 font-semibold'
-                            : 'border-transparent text-999BAB'
-                        )}
-                      >
-                        {link.name}
-                      </a>
+
+                      {link.name}
+
                     </Link>
                   )
                 })}
@@ -412,17 +411,16 @@ export const MenuModal = ({
                         key={link.name}
                         href={link.href}
                         locale={router.locale}
+                        className={classNames(
+                          'text-h2 leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
+                          router.pathname === link.href
+                            ? 'border-4e7dd9 text-4e7dd9 font-semibold'
+                            : 'border-transparent text-white'
+                        )}
                       >
-                        <a
-                          className={classNames(
-                            'text-h2 leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
-                            router.pathname === link.href
-                              ? 'border-4e7dd9 text-4e7dd9 font-semibold'
-                              : 'border-transparent text-white'
-                          )}
-                        >
-                          {link.name}
-                        </a>
+
+                        {link.name}
+
                       </Link>
                     )
                   })}

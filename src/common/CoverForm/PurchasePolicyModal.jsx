@@ -71,22 +71,22 @@ function Complete ({ txHash, onClose }) {
       <SuccessIcon className='w-18 h-18 text-21AD8C' aria-hidden='true' />
       <h4 className='max-w-xs mt-8 font-bold leading-9 text-center text-h2'><Trans>Cover Purchased Successfully!</Trans></h4>
 
-      <Link href={Routes.ViewPolicyReceipt(txHash)}>
-        <a
-          target='_blank'
-          className={classNames(
-            linkColor,
-            'text-EEEEEE border rounded-lg focus:outline-none focus-visible:ring-2 ',
-            'flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm'
-          )}
-          onClick={() => {
-            onClose()
-          }}
-        >
+      <Link
+        href={Routes.ViewPolicyReceipt(txHash)}
+        target='_blank'
+        className={classNames(
+          linkColor,
+          'text-EEEEEE border rounded-lg focus:outline-none focus-visible:ring-2 ',
+          'flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm'
+        )}
+        onClick={() => {
+          onClose()
+        }} rel='noreferrer'
+      >
 
-          <Trans>View Policy Receipt</Trans>
-          <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
-        </a>
+        <Trans>View Policy Receipt</Trans>
+        <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
+
       </Link>
     </div>
   )

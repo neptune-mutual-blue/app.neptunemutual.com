@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverCard } from '@/common/Cover/CoverCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { Routes } from '@/src/config/routes'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import Link from 'next/link'
 
 export const CoverCardWrapper = ({
   coverKey,
@@ -18,19 +18,22 @@ export const CoverCardWrapper = ({
   }
 
   return (
-    <Link href={Routes.ViewCover(coverKey)} key={coverKey} scroll={!coverData.coverInfoDetails?.supportsProducts}>
-      <a
-        className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
-        data-testid='cover-link'
-      >
-        <CoverCard
-          coverKey={coverKey}
-          coverData={coverData}
-          progressFgColor={progressFgColor}
-          progressBgColor={progressBgColor}
-          {...rest}
-        />
-      </a>
+    <Link
+      href={Routes.ViewCover(coverKey)}
+      key={coverKey}
+      scroll={!coverData.coverInfoDetails?.supportsProducts}
+      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      data-testid='cover-link'
+    >
+
+      <CoverCard
+        coverKey={coverKey}
+        coverData={coverData}
+        progressFgColor={progressFgColor}
+        progressBgColor={progressBgColor}
+        {...rest}
+      />
+
     </Link>
   )
 }

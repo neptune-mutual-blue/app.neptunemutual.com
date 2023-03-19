@@ -1,8 +1,8 @@
-import { explainInterval } from '@/utils/formatter/interval'
-import Link from 'next/link'
-import { Trans } from '@lingui/macro'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
+import { explainInterval } from '@/utils/formatter/interval'
+import { Trans } from '@lingui/macro'
+import Link from 'next/link'
 
 export const CoverResolutionSources = ({ children, resolutionSources = [] }) => {
   const { reportingPeriod } = useCoverStatsContext()
@@ -22,14 +22,16 @@ export const CoverResolutionSources = ({ children, resolutionSources = [] }) => 
           <div className='flex flex-col md:block sm:items-end'>
             {resolutionSources.map(source => {
               return (
-                <Link key={source.uri} href={source.uri}>
-                  <a
-                    target='_blank'
-                    className='block mt-3 capitalize text-4e7dd9 hover:underline sm:mt-0 md:mt-3'
-                    rel='nofollow'
-                  >
-                    {source.text}
-                  </a>
+                <Link
+                  key={source.uri}
+                  href={source.uri}
+                  target='_blank'
+                  className='block mt-3 capitalize text-4e7dd9 hover:underline sm:mt-0 md:mt-3'
+                  rel='nofollow noreferrer'
+                >
+
+                  {source.text}
+
                 </Link>
               )
             })}

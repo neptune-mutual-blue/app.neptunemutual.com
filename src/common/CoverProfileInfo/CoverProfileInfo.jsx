@@ -29,8 +29,11 @@ export function Card ({ status, incidentDate = '0', coverKey, productKey }) {
 
   if (isGreater(incidentDate, '0')) {
     return (
-      <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
-        <a data-testid='badge-link'>{badge}</a>
+      <Link
+        href={Routes.ViewReport(coverKey, productKey, incidentDate)}
+        data-testid='badge-link'
+      >
+        {badge}
       </Link>
     )
   }

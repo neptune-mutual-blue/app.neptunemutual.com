@@ -2,9 +2,9 @@ import Link from 'next/link'
 
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
-import { CoverActionCard } from './CoverActionCard'
 import { actions as coverActions } from '@/src/config/cover/actions'
 import { Trans } from '@lingui/macro'
+import { CoverActionCard } from './CoverActionCard'
 
 export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
   return (
@@ -23,21 +23,22 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
               .filter((x) => x !== activeKey)
               .map((actionKey, i) => {
                 return (
-                  <Link
-                    key={i}
-                    href={coverActions[actionKey].getHref(coverKey, productKey)}
-                  >
-                    <a
+                  (
+                    <Link
+                      key={i}
+                      href={coverActions[actionKey].getHref(coverKey, productKey)}
                       className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
                       data-testid='cover-action-card'
                     >
+
                       <CoverActionCard
                         title={coverActions[actionKey].title}
                         description={coverActions[actionKey].description}
                         imgSrc={coverActions[actionKey].imgSrc}
                       />
-                    </a>
-                  </Link>
+
+                    </Link>
+                  )
                 )
               })}
           </Grid>

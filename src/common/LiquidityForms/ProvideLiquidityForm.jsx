@@ -1,38 +1,35 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import {
-  convertFromUnits,
-  isGreater,
-  convertToUnits,
-  isEqualTo,
-  toBN
-} from '@/utils/bn'
-import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
-import { RegularButton } from '@/common/Button/RegularButton'
-import { ReceiveAmountInput } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
-import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
-import { useCalculatePods } from '@/src/hooks/useCalculatePods'
-import { useAppConstants } from '@/src/context/AppConstants'
-import DateLib from '@/lib/date/DateLib'
-import { fromNow } from '@/utils/formatter/relative-time'
 import { Alert } from '@/common/Alert/Alert'
-import Link from 'next/link'
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
-import { TokenAmountWithPrefix } from '@/common/TokenAmountWithPrefix'
-import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { t, Trans } from '@lingui/macro'
 import { BackButton } from '@/common/BackButton/BackButton'
-import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
-import { Routes } from '@/src/config/routes'
-import { analyticsLogger } from '@/utils/logger'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { log } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { useNetwork } from '@/src/context/Network'
+import { RegularButton } from '@/common/Button/RegularButton'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
+import { ReceiveAmountInput } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { TokenAmountWithPrefix } from '@/common/TokenAmountWithPrefix'
+import DateLib from '@/lib/date/DateLib'
 import { MAX_LIQUIDITY, MIN_LIQUIDITY } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useCalculatePods } from '@/src/hooks/useCalculatePods'
+import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { log } from '@/src/services/logs'
+import {
+  convertFromUnits, convertToUnits,
+  isEqualTo, isGreater, toBN
+} from '@/utils/bn'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { analyticsLogger } from '@/utils/logger'
+import { t, Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
+import Link from 'next/link'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -180,8 +177,11 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     const productKey = activeReportings[0].productKey
 
     const statusLink = (
-      <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
-        <a className='font-medium underline hover:no-underline'>{status}</a>
+      <Link
+        href={Routes.ViewReport(coverKey, productKey, incidentDate)}
+        className='font-medium underline hover:no-underline'
+      >
+        {status}
       </Link>
     )
 

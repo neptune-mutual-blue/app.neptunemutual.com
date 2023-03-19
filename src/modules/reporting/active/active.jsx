@@ -1,20 +1,20 @@
-import { useMemo, useState } from 'react'
 import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
-import { ActiveReportingCard } from '@/src/modules/reporting/active/ActiveReportingCard'
-import { ActiveReportingEmptyState } from '@/src/modules/reporting/active/ActiveReportingEmptyState'
-import { useActiveReportings } from '@/src/hooks/useActiveReportings'
-import Link from 'next/link'
-import { useSearchResults } from '@/src/hooks/useSearchResults'
-import { sorter, SORT_DATA_TYPES, SORT_TYPES } from '@/utils/sorting'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { Trans, t } from '@lingui/macro'
-import { toStringSafe } from '@/utils/string'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { Routes } from '@/src/config/routes'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { useActiveReportings } from '@/src/hooks/useActiveReportings'
+import { useSearchResults } from '@/src/hooks/useSearchResults'
+import { ActiveReportingCard } from '@/src/modules/reporting/active/ActiveReportingCard'
+import { ActiveReportingEmptyState } from '@/src/modules/reporting/active/ActiveReportingEmptyState'
+import { sorter, SORT_DATA_TYPES, SORT_TYPES } from '@/utils/sorting'
+import { toStringSafe } from '@/utils/string'
+import { t, Trans } from '@lingui/macro'
+import Link from 'next/link'
+import { useMemo, useState } from 'react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -134,15 +134,16 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
                   report.incidentDate
                 )}
                 key={report.id}
+                className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
               >
-                <a className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
-                  <ActiveReportingCard
-                    id={report.id}
-                    coverKey={report.coverKey}
-                    productKey={report.productKey}
-                    incidentDate={report.incidentDate}
-                  />
-                </a>
+
+                <ActiveReportingCard
+                  id={report.id}
+                  coverKey={report.coverKey}
+                  productKey={report.productKey}
+                  incidentDate={report.incidentDate}
+                />
+
               </Link>
             )
           })}

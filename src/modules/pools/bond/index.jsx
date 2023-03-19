@@ -1,32 +1,32 @@
-import { useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import DateLib from '@/lib/date/DateLib'
-import { Label } from '@/common/Label/Label'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Container } from '@/common/Container/Container'
-import { BondInfoCard } from '@/src/modules/pools/bond/BondInfoCard'
-import { mergeAlternatively } from '@/utils/arrays'
-import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import { Label } from '@/common/Label/Label'
 import { ReceiveAmountInput } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
-import { convertFromUnits, convertToUnits, sumOf } from '@/utils/bn'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import DateLib from '@/lib/date/DateLib'
+import { POOL_URLS } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { getAnnualDiscountRate, getDiscountedPrice } from '@/src/helpers/bond'
 import { useBondInfo } from '@/src/hooks/useBondInfo'
 import { useCreateBond } from '@/src/hooks/useCreateBond'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
-import { getAnnualDiscountRate, getDiscountedPrice } from '@/src/helpers/bond'
+import { BondInfoCard } from '@/src/modules/pools/bond/BondInfoCard'
+import { log } from '@/src/services/logs'
+import { mergeAlternatively } from '@/utils/arrays'
+import { convertFromUnits, convertToUnits, sumOf } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import Link from 'next/link'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { getReplacedString } from '@/utils/string'
-import { POOL_URLS } from '@/src/config/constants'
-import { useNetwork } from '@/src/context/Network'
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { Routes } from '@/src/config/routes'
 import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
+import { getReplacedString } from '@/utils/string'
+import { t, Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 const BondPage = () => {
   const { networkId } = useNetwork()
@@ -311,10 +311,13 @@ const BondPage = () => {
             <Trans>Get LP tokens</Trans>
           </a>
 
-          <Link href={Routes.BondTransactions}>
-            <a className='inline-block font-medium text-h4 text-4e7dd9 hover:underline'>
-              <Trans>Transaction List</Trans>
-            </a>
+          <Link
+            href={Routes.BondTransactions}
+            className='inline-block font-medium text-h4 text-4e7dd9 hover:underline'
+          >
+
+            <Trans>Transaction List</Trans>
+
           </Link>
         </div>
         <BondInfoCard

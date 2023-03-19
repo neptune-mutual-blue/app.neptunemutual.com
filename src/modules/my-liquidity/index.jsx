@@ -6,17 +6,20 @@ import { Grid } from '@/common/Grid/Grid'
 import { MyLiquidityCoverCard } from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { t, Trans } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
+import { t, Trans } from '@lingui/macro'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
     <Container className='py-16' data-testid='page-container'>
       <div className='flex justify-end'>
-        <Link href={Routes.LiquidityTransactions}>
-          <a className='font-medium text-h4 text-4e7dd9 hover:underline'>
-            <Trans>Transaction List</Trans>
-          </a>
+        <Link
+          href={Routes.LiquidityTransactions}
+          className='font-medium text-h4 text-4e7dd9 hover:underline'
+        >
+
+          <Trans>Transaction List</Trans>
+
         </Link>
       </div>
 
@@ -63,18 +66,20 @@ function MyLiquidities ({ data, loading }) {
     <Grid className='mb-24 mt-14' data-testid='liquidities-grid'>
       {data.map((x) => {
         return (
-          <Link href={Routes.MyCoverLiquidity(x.cover.id)} key={x.id}>
-            <a
-              className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
-              data-testid='liquidity-cover-card'
-            >
-              <MyLiquidityCoverCard
-                coverKey={x.cover.id}
-                totalPODs={x.totalPodsRemaining}
-                tokenSymbol={x.cover.vaults[0].tokenSymbol}
-                tokenDecimal={x.cover.vaults[0].tokenDecimal}
-              />
-            </a>
+          <Link
+            href={Routes.MyCoverLiquidity(x.cover.id)}
+            key={x.id}
+            className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+            data-testid='liquidity-cover-card'
+          >
+
+            <MyLiquidityCoverCard
+              coverKey={x.cover.id}
+              totalPODs={x.totalPodsRemaining}
+              tokenSymbol={x.cover.vaults[0].tokenSymbol}
+              tokenDecimal={x.cover.vaults[0].tokenDecimal}
+            />
+
           </Link>
         )
       })}

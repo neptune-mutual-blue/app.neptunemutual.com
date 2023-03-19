@@ -146,18 +146,18 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
       <div className='px-4 sm:px-10 pt-4 m-auto md:px-10 lg:max-w-5xl pb-52'>
         <div className='flex flex-col sm:flex-row cursor-pointer mt-9 text-center'>
 
-          <Link href={Routes.Home} replace>
-            <a className='sm:w-auto'>
-              <picture>
-                <img
-                  loading='lazy'
-                  alt={t`Neptune Mutual`}
-                  srcSet='/logos/neptune-mutual-full-beta.svg'
-                  className='w-full text-black h-9'
-                  data-testid='header-logo'
-                />
-              </picture>
-            </a>
+          <Link href={Routes.Home} replace className='sm:w-auto'>
+
+            <picture>
+              <img
+                loading='lazy'
+                alt={t`Neptune Mutual`}
+                srcSet='/logos/neptune-mutual-full-beta.svg'
+                className='w-full text-black h-9'
+                data-testid='header-logo'
+              />
+            </picture>
+
           </Link>
           <div className='flex-grow'> </div>
           <a

@@ -157,17 +157,17 @@ export const PolicyCardFooter = ({
         <Stat
           title={t`Purchased Policy`}
           tooltip={
-            formatCurrency(
-              convertFromUnits(tokenBalance, cxTokenDecimals),
-              router.locale
-            ).long
-          }
+          formatCurrency(
+            convertFromUnits(tokenBalance, cxTokenDecimals),
+            router.locale
+          ).long
+        }
           value={
-            formatCurrency(
-              convertFromUnits(tokenBalance, cxTokenDecimals),
-              router.locale
-            ).short
-          }
+          formatCurrency(
+            convertFromUnits(tokenBalance, cxTokenDecimals),
+            router.locale
+          ).short
+        }
           right
         />
       </div>
@@ -176,17 +176,16 @@ export const PolicyCardFooter = ({
       {report && withinClaimPeriod && !isPolicyExpired && (
         <Link
           href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
+          className={classNames(
+            'flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4',
+            buttonBg
+          )}
+          data-testid='claim-link'
+          onClick={handleLog}
         >
-          <a
-            className={classNames(
-              'flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4',
-              buttonBg
-            )}
-            data-testid='claim-link'
-            onClick={handleLog}
-          >
-            <Trans>Claim</Trans>
-          </a>
+
+          <Trans>Claim</Trans>
+
         </Link>
       )}
     </>

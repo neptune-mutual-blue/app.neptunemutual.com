@@ -1,20 +1,20 @@
-import { useMemo, useState } from 'react'
 import { t, Trans } from '@lingui/macro'
+import { useMemo, useState } from 'react'
 
 import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useSearchResults } from '@/src/hooks/useSearchResults'
-import { sorter, SORT_TYPES, SORT_DATA_TYPES } from '@/utils/sorting'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { StakingCard } from '@/modules/pools/staking/StakingCard'
-import { useTokenStakingPools } from '@/src/hooks/useTokenStakingPools'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { toStringSafe } from '@/utils/string'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { useSearchResults } from '@/src/hooks/useSearchResults'
+import { useTokenStakingPools } from '@/src/hooks/useTokenStakingPools'
+import { sorter, SORT_DATA_TYPES, SORT_TYPES } from '@/utils/sorting'
+import { toStringSafe } from '@/utils/string'
 import Link from 'next/link'
 
 /**
@@ -76,10 +76,13 @@ export const StakingPage = () => {
     <Container className='pt-16 pb-36' data-testid='pod-staking-page-container'>
       <div className='flex justify-end'>
         <div className='items-center justify-between w-full sm:flex'>
-          <Link href={Routes.StakingPoolsTransactions}>
-            <a className='flex justify-center font-medium sm:inline-flex text-h4 text-4e7dd9 hover:underline'>
-              <Trans>Transaction List</Trans>
-            </a>
+          <Link
+            href={Routes.StakingPoolsTransactions}
+            className='flex justify-center font-medium sm:inline-flex text-h4 text-4e7dd9 hover:underline'
+          >
+
+            <Trans>Transaction List</Trans>
+
           </Link>
           <SearchAndSortBar
             searchValue={searchValue}
