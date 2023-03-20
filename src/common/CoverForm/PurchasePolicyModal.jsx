@@ -69,7 +69,7 @@ function Complete ({ txHash, onClose }) {
         onClick={onClose}
       />
       <SuccessIcon className='w-18 h-18 text-21AD8C' aria-hidden='true' />
-      <h4 className='max-w-xs mt-8 font-bold leading-9 text-center text-h2'><Trans>Cover Purchased Successfully!</Trans></h4>
+      <h4 className='max-w-xs mt-8 font-bold leading-9 text-center text-display-sm'><Trans>Cover Purchased Successfully!</Trans></h4>
 
       <Link href={Routes.ViewPolicyReceipt(txHash)}>
         <a
@@ -77,7 +77,7 @@ function Complete ({ txHash, onClose }) {
           className={classNames(
             linkColor,
             'text-EEEEEE border rounded-lg focus:outline-none focus-visible:ring-2 ',
-            'flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm'
+            'flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-md md:min-w-sm'
           )}
           onClick={() => {
             onClose()
@@ -96,10 +96,10 @@ function Loading () {
   return (
     <div className='flex flex-col items-center'>
       <Loader className='w-18 h-18 text-4e7dd9' />
-      <h4 className='font-bold leading-9 text-center mt-7 font-sora text-h2'>
+      <h4 className='font-bold leading-9 text-center mt-7 text-display-sm'>
         <Trans>Transaction in progress</Trans>
       </h4>
-      <p className='mt-4 leading-6 text-center font-poppins text-para md:w-72'>
+      <p className='mt-4 leading-6 text-center text-md md:w-72'>
         <Trans>Please do not exit this page while transaction is in progress</Trans>
       </p>
     </div>

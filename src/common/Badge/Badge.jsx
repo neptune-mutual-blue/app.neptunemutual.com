@@ -6,7 +6,7 @@ export const Badge = ({ children, className, ...rest }) => {
       <div
         className={classNames(
           'inline-block px-2 border rounded-xl',
-          'font-poppins text-xs whitespace-nowrap',
+          'text-xs whitespace-nowrap',
           className
         )}
       >

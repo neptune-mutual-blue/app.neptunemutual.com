@@ -13,7 +13,7 @@ const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityToken
     <div className='mb-6'>
       <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
       <p
-        className='mt-1 mb-8 font-bold text-center text-h1 text-4e7dd9'
+        className='mt-1 mb-8 font-bold text-center text-display-md text-4e7dd9'
         title={
                 formatCurrency(
                   coverFee,

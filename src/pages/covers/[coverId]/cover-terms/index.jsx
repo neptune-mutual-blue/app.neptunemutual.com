@@ -20,7 +20,7 @@ export default function CoverPage () {
     <main>
       <Seo />
 
-      <div className='px-8 pt-8 bg-white md:pt-14 sm:px-12 md:px-20 lg:px-36 xl:px-56 font-sora pb-14 text-000000'>
+      <div className='px-8 pt-8 bg-white md:pt-14 sm:px-12 md:px-20 lg:px-36 xl:px-56 pb-14 text-000000'>
         {
           isDiversified
             ? <DiversifiedCoverTermsPage coverInfo={coverInfo} />

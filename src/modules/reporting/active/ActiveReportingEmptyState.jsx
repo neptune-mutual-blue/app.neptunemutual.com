@@ -1,11 +1,11 @@
 import { RegularButton } from '@/common/Button/RegularButton'
-import { Label } from '@/common/Label/Label'
-import { useRouter } from 'next/router'
-import { actions } from '@/src/config/cover/actions'
-import { t, Trans } from '@lingui/macro'
 import { CoverDropdown } from '@/common/CoverDropdown'
+import { Label } from '@/common/Label/Label'
+import { actions } from '@/src/config/cover/actions'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
+import { t, Trans } from '@lingui/macro'
+import { useRouter } from 'next/router'
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter()
@@ -41,7 +41,7 @@ export const ActiveReportingEmptyState = () => {
         alt={t`No data found`}
         className='w-48 h-48'
       />
-      <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>
+      <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
         <Trans>
           No known incident found for any cover product. If you believe a cover
           incident has occurred, earn rewards by reporting the incident.
@@ -58,7 +58,7 @@ export const ActiveReportingEmptyState = () => {
           setSelected={setSelected}
         />
         <RegularButton
-          className='w-full py-4 mt-6 text-sm font-medium uppercase'
+          className='w-full py-4 mt-6 font-medium uppercase'
           onClick={handleAddReport}
         >
           <Trans>Report an incident</Trans>

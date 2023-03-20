@@ -17,9 +17,9 @@ export const CountDownTimer = ({ title, target }) => {
     seconds
   )}`
   return (
-    <div className='text-9B9B9B mt-4 mb-16 flex justify-center items-center flex-col'>
+    <div className='flex flex-col items-center justify-center mt-4 mb-16 text-9B9B9B'>
       <span className='text-xs font-semibold uppercase'>{title}</span>
-      <span className='text-h3'>{time}</span>
+      <span className='text-display-xs'>{time}</span>
     </div>
   )
 }

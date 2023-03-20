@@ -1,11 +1,11 @@
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
-import { classNames } from '@/utils/classnames'
-import { useState } from 'react'
-import { Trans } from '@lingui/macro'
-import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
+import { classNames } from '@/utils/classnames'
+import { analyticsLogger } from '@/utils/logger'
+import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { useState } from 'react'
 
 export const AcceptReportRulesForm = ({ onAccept, children }) => {
   const [checked, setChecked] = useState(false)
@@ -74,7 +74,7 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
           disabled={!checked}
           className={classNames(
             !checked && 'opacity-30 cursor-not-allowed',
-            'text-h6 font-bold py-6 px-12 mt-8 w-full md:w-auto'
+            'font-bold py-6 px-12 mt-8 w-full md:w-auto'
           )}
           type='submit'
         >

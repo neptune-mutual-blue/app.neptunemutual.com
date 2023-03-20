@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
 import { RegularButton } from '@/common/Button/RegularButton'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useStakingPoolWithdrawRewards } from '@/src/hooks/useStakingPoolWithdraw'
-import { Trans, t } from '@lingui/macro'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { convertFromUnits } from '@/utils/bn'
+import { t, Trans } from '@lingui/macro'
+import { useEffect } from 'react'
 
 export const HarvestForm = ({
   info,
@@ -72,7 +72,7 @@ export const HarvestForm = ({
 
       <RegularButton
         disabled={withdrawingRewards}
-        className='w-full p-6 mt-8 font-semibold uppercase text-h6'
+        className='w-full p-6 mt-8 font-semibold uppercase'
         onClick={() => {
           handleWithdrawRewards(() => {
             onHarvestSuccess()

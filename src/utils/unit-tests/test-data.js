@@ -1546,13 +1546,13 @@ export const testData = {
         title: 'Bond Price',
         value: '$1.99',
         tooltip: '1.985000000000',
-        valueClasses: 'text-h3 text-4e7dd9 mt-1'
+        valueClasses: 'text-display-xs text-4e7dd9 mt-1'
       },
       {
         title: 'Market Price',
         value: '$2.00',
         tooltip: '2',
-        valueClasses: 'text-h3 text-9B9B9B mt-1'
+        valueClasses: 'text-display-xs text-9B9B9B mt-1'
       },
       {
         title: 'Maximum Bond',

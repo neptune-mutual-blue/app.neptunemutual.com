@@ -4,7 +4,7 @@ export const CoverProfileInfoShort = ({
   imgSrc,
   title,
   className,
-  fontSizeClass = 'text-h4'
+  fontSizeClass = 'text-lg'
 }) => {
   return (
     <div
@@ -22,7 +22,7 @@ export const CoverProfileInfoShort = ({
         />
       </div>
       <div>
-        <h4 className={classNames('font-sora font-bold', fontSizeClass)}>
+        <h4 className={classNames('font-bold', fontSizeClass)}>
           {title}
         </h4>
       </div>

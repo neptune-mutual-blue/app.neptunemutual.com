@@ -1,26 +1,26 @@
-import { useState, useEffect, useCallback } from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
+import { RegularButton } from '@/common/Button/RegularButton'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
-import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
-import { RegularButton } from '@/common/Button/RegularButton'
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { DEBOUNCE_TIMEOUT, MULTIPLIER } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { useClaimPolicyInfo } from '@/src/hooks/useClaimPolicyInfo'
-import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useCxTokenRowContext } from '@/src/modules/my-policies/CxTokenRowContext'
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
-import { formatPercent } from '@/utils/formatter/percent'
-import { DEBOUNCE_TIMEOUT, MULTIPLIER } from '@/src/config/constants'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { useWeb3React } from '@web3-react/core'
-import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
+import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
+import { formatPercent } from '@/utils/formatter/percent'
+import { analyticsLogger } from '@/utils/logger'
+import { t, Trans } from '@lingui/macro'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { useCallback, useEffect, useState } from 'react'
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -138,7 +138,7 @@ export const ClaimCoverModal = ({
     >
       <ModalWrapper className='max-w-md bg-f6f7f9'>
         <Dialog.Title
-          className='flex items-center w-full font-bold font-sora text-h2'
+          className='flex items-center w-full font-bold text-display-sm'
           data-testid='dialog-title'
         >
           <img src={imgSrc} alt={t`policy`} height={48} width={48} />
@@ -201,7 +201,7 @@ export const ClaimCoverModal = ({
           {!canClaim
             ? (
               <RegularButton
-                className='w-full p-6 font-semibold uppercase text-h6'
+                className='w-full p-6 font-semibold uppercase'
                 disabled={!value || approving || error || loadingMessage}
                 onClick={() => {
                   handleApprove()
@@ -215,7 +215,7 @@ export const ClaimCoverModal = ({
             : (
               <RegularButton
                 disabled={!canClaim || claiming || error || loadingMessage}
-                className='w-full p-6 font-semibold uppercase text-h6'
+                className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleClaim(() => {
                     setValue('')

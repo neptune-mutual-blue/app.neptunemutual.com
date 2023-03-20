@@ -19,8 +19,7 @@ import { Label } from '@/common/Label/Label'
 import { Loader } from '@/common/Loader/Loader'
 import StepsIndicator from '@/common/StepsIndicator'
 import LeftArrow from '@/icons/LeftArrow'
-import ConnectWallet
-  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import { getMonthNames } from '@/lib/dates'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
@@ -274,7 +273,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
       <div className='w-full p-4 rounded-xl bg-FEFEFF md:p-9 border-B0C4DB border-1.5' data-testid='purchase-policy-form'>
-        <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize font-sora'>
+        <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize'>
           <div className='w-8 h-8 p-1 mr-2.5 rounded-full bg-DEEAF6'>
             <img
               src={coverImgSrc} alt=''
@@ -372,7 +371,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
 
             <div className='relative'>
               <RegularInput
-                className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 text-center'
+                className='leading-none disabled:cursor-not-allowed !text-md !pr-14 focus-visible:ring-0 text-center'
                 error={!!referralCodeErrorMessage}
                 id='referral_code'
                 placeholder={t`Enter Cashback Code`}
@@ -399,13 +398,13 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
           <Alert info>
             <div className='flex flex-wrap items-end justify-between ml-4'>
               <div className='max-w-[265px] mb-4 md:mb-0'>
-                <h5 className='font-semibold text-h5'>Wallet Not Connected.</h5>
+                <h5 className='font-semibold text-md'>Wallet Not Connected.</h5>
                 <p>Please connect your wallet to view the price quotation.</p>
               </div>
               <ConnectWallet networkId={networkId} notifier={notifier}>
                 {({ onOpen }) => {
                   return (
-                    <RegularButton className='px-2 text-xs h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
+                    <RegularButton className='py-1.5 px-2.5 text-sm h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
                   )
                 }}
               </ConnectWallet>
@@ -451,7 +450,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
 
             {formSteps > 0 && (
               <BackButton
-                className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0')}
+                className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase ml-4 mt-2 md:mt-0')}
                 onClick={() => setFormSteps((prev) => prev - 1)}
               />)}
 

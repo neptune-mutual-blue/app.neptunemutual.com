@@ -4,7 +4,7 @@ export const Label = ({ children, className, htmlFor }) => {
   return (
     <label
       className={classNames(
-        'block uppercase text-black text-h6 font-semibold',
+        'block uppercase text-black text-md font-semibold',
         className
       )}
       htmlFor={htmlFor}

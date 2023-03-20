@@ -100,7 +100,7 @@ export const LanguageDropdown = (props) => {
               <SearchLanguageIcon width={16} height={16} className='mx-2.5' />
               <input
                 autoComplete='off'
-                className='w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px] font-sora'
+                className='w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px]'
                 placeholder={t`Search Language`}
                 onChange={handleSearchLanguage}
               />
@@ -111,7 +111,7 @@ export const LanguageDropdown = (props) => {
                   {({ selected, active }) => (
                     <span
                       className={classNames(
-                        'truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal font-sora leading-4',
+                        'truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal leading-4',
                         selected && 'bg-[#b0c4db]   bg-opacity-20 rounded',
                         active
                           ? 'text-4e7dd9 bg-[#b0c4db]  bg-opacity-20 rounded'

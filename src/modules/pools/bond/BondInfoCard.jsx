@@ -1,21 +1,21 @@
 import * as Tooltip from '@radix-ui/react-tooltip'
 
+import { Badge } from '@/common/Badge/Badge'
+import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { BondStatsContainer } from '@/src/modules/pools/bond/BondStatsContainer'
-import { OutlinedButton } from '@/common/Button/OutlinedButton'
-import { classNames } from '@/utils/classnames'
-import { Badge } from '@/common/Badge/Badge'
+import { ClaimBondModal } from '@/src/modules/pools/bond/ClaimBondModal'
+import { log } from '@/src/services/logs'
 import { isGreater } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
 import { explainInterval } from '@/utils/formatter/interval'
 import { formatPercent } from '@/utils/formatter/percent'
-import { ClaimBondModal } from '@/src/modules/pools/bond/ClaimBondModal'
-import { useState } from 'react'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
+import { t, Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export const BondInfoCard = ({
   roi,
@@ -58,7 +58,7 @@ export const BondInfoCard = ({
             alt={t`NPM Logo`}
             className='w-10 h-10'
           />
-          <h3 className='flex items-center mt-1 font-semibold text-h4 font-sora'>
+          <h3 className='flex items-center mt-1 font-semibold text-lg'>
             <div>
               <Trans>Bond Info</Trans>
             </div>
@@ -120,8 +120,8 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
   return (
     <>
       <Tooltip.Content side='top'>
-        <div className='flex flex-col p-6 text-xs leading-6 text-white bg-black gap-y-1 font-poppins max-w-60 md:max-w-sm bg-opacity-90 z-60 rounded-1 shadow-tx-overview rounded-xl'>
-          <h3 className='font-bold font-sora text-EEEEEE'>What is Bond?</h3>
+        <div className='flex flex-col p-6 text-xs leading-6 text-white bg-black gap-y-1 max-w-60 md:max-w-sm bg-opacity-90 z-60 rounded-1 shadow-tx-overview rounded-xl'>
+          <h3 className='font-bold text-EEEEEE'>What is Bond?</h3>
           <p className='mt-2 text-AABDCB'>
             <Trans>
               {`The bond feature provides you NPM tokens at a discounted value for

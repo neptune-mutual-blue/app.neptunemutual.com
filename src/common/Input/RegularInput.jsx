@@ -9,7 +9,7 @@ export const RegularInput = forwardRef(
         ref={ref}
         autoComplete='off'
         className={classNames(
-          'bg-white text-h4 block w-full rounded-lg p-6 border placeholder-9B9B9B',
+          'bg-white text-lg block w-full rounded-lg p-6 border placeholder-9B9B9B',
           className,
           inputProps.disabled && 'cursor-not-allowed',
           error

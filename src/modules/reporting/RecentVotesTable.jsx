@@ -1,3 +1,4 @@
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableShowMore,
@@ -7,19 +8,18 @@ import {
 } from '@/common/Table/Table'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { classNames } from '@/utils/classnames'
-import { convertFromUnits } from '@/utils/bn'
-import { useNetwork } from '@/src/context/Network'
-import { useRecentVotes } from '@/src/hooks/useRecentVotes'
-import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { usePagination } from '@/src/hooks/usePagination'
+import { useRecentVotes } from '@/src/hooks/useRecentVotes'
+import { useSortData } from '@/src/hooks/useSortData'
+import { convertFromUnits } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import { usePagination } from '@/src/hooks/usePagination'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { renderHeader } from '@/common/Table/renderHeader'
-import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -78,7 +78,7 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   const Title = () => (
     <p
-      className='font-semibold w-max text-h5 text-1D2939'
+      className='font-semibold w-max text-md text-1D2939'
     >
       <Trans>Recent Votes</Trans>
     </p>
@@ -86,7 +86,7 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   return (
     <>
-      <h3 className='mb-6 font-bold text-center text-h4 font-sora mt-14 md:text-left'>
+      <h3 className='mb-6 font-bold text-center text-lg mt-14 md:text-left'>
         <Trans>Recent Votes</Trans>
       </h3>
 

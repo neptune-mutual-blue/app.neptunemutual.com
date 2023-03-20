@@ -1,8 +1,8 @@
+import CurrencyInput from '@/lib/react-currency-input-field'
 import { classNames } from '@/utils/classnames'
 import { getPlainNumber } from '@/utils/formatter/input'
 import { useRouter } from 'next/router'
-import { useState, useEffect, useRef } from 'react'
-import CurrencyInput from '@/lib/react-currency-input-field'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  *
@@ -70,7 +70,7 @@ export const CalculatorAmountHandler = ({
   }
 
   return (
-    <div className='relative w-full text-black text-h4'>
+    <div className='relative w-full text-black text-lg'>
       <div className='relative w-full'>
         <CurrencyInput
           {...inputFieldProps}
@@ -96,7 +96,7 @@ export const CalculatorAmountHandler = ({
           <button
             type='button'
             className={classNames(
-              'font-poppins border-B0C4DB border-0.5 px-6 m-px font-normal uppercase tracking-wide rounded-r-mdlg hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
+              'border-B0C4DB border-0.5 px-6 m-px font-normal uppercase tracking-wide rounded-r-mdlg hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
               buttonClassName,
               buttonProps.disabled ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
             )}

@@ -108,7 +108,7 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
     xAxis: {
       labels: {
         format:
-          "<span class='font-poppins text-black uppercase'>{value:%b %y}</span>",
+          "<span class='text-black uppercase'>{value:%b %y}</span>",
         useHTML: true
       },
       ordinal: false,
@@ -120,7 +120,7 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       opposite: false,
       labels: {
         formatter: function () {
-          return `<span class='font-poppins text-black'>${this.value}%</span>`
+          return `<span class='text-black'>${this.value}%</span>`
         },
         useHTML: true
       },
@@ -175,7 +175,7 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
                 `<div>
                   ${group.map((point, index) => (
                     `
-                    <p class='font-semibold font-poppins tracking-normal text-01052D${index !== group.length ? ' mb-2.5' : ''}${index === 0 ? ' -mt-2.5' : ''}'>
+                    <p class='font-semibold tracking-normal text-01052D${index !== group.length ? ' mb-2.5' : ''}${index === 0 ? ' -mt-2.5' : ''}'>
                       <div class='text-xs font-semibold' style="color: ${point.series.color};font-size: 12px;line-height: 24px;">${point.series.name}</div>
                       <div class='text-sm font-semibold text-black'>${point.y}%</div>
                     </p>
@@ -207,7 +207,7 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
         // tickInterval: 5 * 24 * 3600 * 1000,
         labels: {
           format:
-            "<span class='font-poppins text-black uppercase'>{value:%b %y}</span>",
+            "<span class='text-black uppercase'>{value:%b %y}</span>",
           useHTML: true,
           style: {
             color: '#01052D'

@@ -5,20 +5,20 @@ import {
   THead
 } from '@/common/Table/Table'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { formatPercent } from '@/utils/formatter/percent'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
 
 import { t } from '@lingui/macro'
 
-import { renderHeader } from '@/src/common/Table/renderHeader'
 import PreviousNext from '@/src/common/PreviousNext'
+import { renderHeader } from '@/src/common/Table/renderHeader'
 
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { useMemo, useState } from 'react'
-import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useRouter } from 'next/router'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { convertFromUnits, toBN } from '@/utils/bn'
+import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
+import { useRouter } from 'next/router'
+import { useMemo, useState } from 'react'
 
 const RenderProductName = ({ coverKey, productKey, data }) => {
   const isDiversified = isValidProduct(productKey)
@@ -143,7 +143,7 @@ export const InsightsQuickInfoTable = () => {
 
       <div className='flex justify-between pt-6 pb-6 lg:pt-10 flex-start lg:pb-25px'>
         <div>
-          <h2 className='text-h3'>Top Covers </h2>
+          <h2 className='text-display-xs'>Top Covers </h2>
         </div>
         <div className='flex gap-x-5'>
           <PreviousNext

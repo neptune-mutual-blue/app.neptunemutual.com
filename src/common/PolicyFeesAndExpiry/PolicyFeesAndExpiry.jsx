@@ -31,7 +31,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
 
   return (
     <>
-      <table className='w-full font-semibold text-black capitalize text-h6'>
+      <table className='w-full font-semibold text-black capitalize text-md'>
         <tbody>
           <tr className='flex justify-between'>
             <th className='font-semibold text-left uppercase'>
@@ -83,7 +83,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           <table>
             <tbody>
               <tr className='flex justify-between mt-3'>
-                <th className='font-semibold tracking-wider text-left uppercase'>
+                <th className='font-semibold text-left uppercase'>
                   <Trans>Cashback Code</Trans>
                 </th>
                 <td className='text-right text-4e7dd9'>
