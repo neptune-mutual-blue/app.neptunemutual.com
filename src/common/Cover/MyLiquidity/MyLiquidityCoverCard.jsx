@@ -4,8 +4,6 @@ import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
 import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
@@ -18,17 +16,12 @@ export const MyLiquidityCoverCard = ({
   coverKey,
   totalPODs,
   tokenSymbol = 'POD',
-  tokenDecimal
+  tokenDecimal,
+  subProducts,
+  coverData
 }) => {
-  const { info } = useMyLiquidityInfo({ coverKey })
   const router = useRouter()
-
-  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
-  const coverData = getCoverByCoverKey(coverKey)
-
-  if (loading) {
-    return <CardSkeleton numberOfCards={1} />
-  }
+  const { info } = useMyLiquidityInfo({ coverKey })
 
   const isDiversified = coverData?.coverInfoDetails?.supportsProducts
   const projectName = coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
@@ -42,9 +35,9 @@ export const MyLiquidityCoverCard = ({
       <div className='flex justify-between'>
         <CoverAvatar
           imgs={isDiversified
-            ? getProductsByCoverKey(coverKey).map(x => ({
-              src: getCoverImgSrc({ key: x.productKey }),
-              alt: x.productInfoDetails?.productName
+            ? subProducts.map((productData) => ({
+              src: getCoverImgSrc({ key: productData.productKey }),
+              alt: productData.productInfoDetails?.productName
             }))
             : [{
                 src: getCoverImgSrc({ key: coverKey }),

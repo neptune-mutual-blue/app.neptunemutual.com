@@ -210,7 +210,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
 
   let canProceed = true
   if (formSteps === 0) {
-    const invalidAmount = !value || isGreater(value, availableLiquidity) ||
+    const invalidAmount = !value ||
+    isGreater(value, availableLiquidity) ||
     isGreater(value, MAX_PROPOSAL_AMOUNT) ||
     isGreater(MIN_PROPOSAL_AMOUNT, value)
 

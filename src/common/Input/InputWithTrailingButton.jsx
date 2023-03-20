@@ -7,9 +7,10 @@ import { useEffect, useRef, useState } from 'react'
 /**
  *
  * @param {object} param
- * @param {HTMLInputElement} param.inputProps
+ * @param {React.ComponentProps<'input'> & { allowNegativeValue: boolean }} param.inputProps
  * @param {React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement> & { buttonClassName?: string }} param.buttonProps
  * @param {string} param.unit
+ * @param {string} param.unitClass
  * @param {boolean} [param.error]
  * @param {number} param.decimalLimit
  * @returns
@@ -44,7 +45,9 @@ export const InputWithTrailingButton = ({
   }, [])
 
   useEffect(() => {
-    if (!inputProps.value || inputProps.value.match(/^\d+(\.\d+)?$/)) { setInputValue(inputProps.value) }
+    if (typeof inputProps.value === 'string' && inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/)) {
+      setInputValue(inputProps.value)
+    }
   }, [inputProps.value])
 
   const inputFieldProps = {

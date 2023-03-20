@@ -7,6 +7,7 @@ import { MyLiquidityCoverCard } from '@/common/Cover/MyLiquidity/MyLiquidityCove
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { t, Trans } from '@lingui/macro'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
@@ -14,7 +15,7 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
     <Container className='py-16' data-testid='page-container'>
       <div className='flex justify-end'>
         <Link href={Routes.LiquidityTransactions}>
-          <a className='font-medium text-lg text-4e7dd9 hover:underline'>
+          <a className='text-lg font-medium text-4e7dd9 hover:underline'>
             <Trans>Transaction List</Trans>
           </a>
         </Link>
@@ -26,7 +27,9 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
 }
 
 function MyLiquidities ({ data, loading }) {
-  if (loading) {
+  const { loading: isSummaryLoading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+
+  if (loading || isSummaryLoading) {
     return (
       <Grid className='mb-24 mt-14' data-testid='loading-grid'>
         <CardSkeleton
@@ -62,17 +65,23 @@ function MyLiquidities ({ data, loading }) {
   return (
     <Grid className='mb-24 mt-14' data-testid='liquidities-grid'>
       {data.map((x) => {
+        const coverKey = x.cover.id
+        const coverData = getCoverByCoverKey(coverKey)
+        const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+
         return (
-          <Link href={Routes.MyCoverLiquidity(x.cover.id)} key={x.id}>
+          <Link href={Routes.MyCoverLiquidity(coverKey)} key={x.id}>
             <a
               className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
               data-testid='liquidity-cover-card'
             >
               <MyLiquidityCoverCard
-                coverKey={x.cover.id}
+                coverKey={coverKey}
+                coverData={coverData}
                 totalPODs={x.totalPodsRemaining}
                 tokenSymbol={x.cover.vaults[0].tokenSymbol}
                 tokenDecimal={x.cover.vaults[0].tokenDecimal}
+                subProducts={isDiversified ? getProductsByCoverKey(coverKey) : null}
               />
             </a>
           </Link>
