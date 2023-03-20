@@ -19,7 +19,7 @@
     "@fontsource/sora": "4.5.0",
     "@gnosis.pm/safe-apps-provider": "0.13.2",
     "@gnosis.pm/safe-apps-sdk": "7.8.0",
-    "@headlessui/react": "1.4.1",
+    "@headlessui/react": "1.7.13",
     "@lingui/core": "^3.15.0",
     "@lingui/react": "^3.15.0",
     "@metamask/post-message-stream": "4.0.0",
