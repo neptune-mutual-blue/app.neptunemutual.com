@@ -6,14 +6,12 @@ import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import SheildIcon from '@/icons/SheildIcon'
 import DateLib from '@/lib/date/DateLib'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import { convertFromUnits, toBN } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
@@ -24,46 +22,45 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
+const loading = false
 
 export const ActiveReportingCard = ({
   id,
   coverKey,
   productKey = safeFormatBytes32String(''),
-  incidentDate
+  incidentDate,
+  coverOrProductData
 }) => {
+  const router = useRouter()
   const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
-  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
-  const { info: coverStats, isLoading } = useFetchCoverStats({
-    coverKey,
-    productKey
-  })
-  const router = useRouter()
-
-  const { activeCommitment, productStatus, availableLiquidity } = coverStats
 
   const isDiversified = isValidProduct(productKey)
-  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
-  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString()
-  const protection = activeCommitment
-  const utilization = toBN(liquidity).isEqualTo(0)
-    ? '0'
-    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+  const capacity = coverOrProductData.capacity
+  const utilization = coverOrProductData.utilizationRatio
+  const commitment = coverOrProductData.commitment
+
+  const { info: { productStatus }, isLoading } = useFetchCoverStats({ coverKey, productKey })
+
+  const formattedProtection = formatCurrency(
+    convertFromUnits(commitment, liquidityTokenDecimals).toString(),
+    router.locale
+  )
+  const formattedUtilizationRatio = formatPercent(utilization, router.locale)
+
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   // Used for sorting purpose only
   useEffect(() => {
     setStatsByKey(id, {
-      liquidity,
+      liquidity: capacity,
       utilization,
-      infoObj: coverInfo?.infoObj,
+      text: projectOrProductName,
       isDiversified
     })
-  }, [coverInfo, id, isDiversified, liquidity, setStatsByKey, utilization])
-
-  if (!coverInfo) {
-    return <CardSkeleton numberOfCards={1} data-testid='skeleton-card' />
-  }
+  }, [capacity, id, isDiversified, projectOrProductName, setStatsByKey, utilization])
 
   const status = identifyStatus(productStatus)
 
@@ -76,7 +73,7 @@ export const ActiveReportingCard = ({
         >
           <img
             src={imgSrc}
-            alt={coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
+            alt={projectOrProductName}
             className='inline-block max-w-full'
           />
         </div>
@@ -93,10 +90,8 @@ export const ActiveReportingCard = ({
           }
         </div>
       </div>
-      <h4 className='mt-4 font-semibold uppercase text-lg'>
-        {isDiversified
-          ? coverInfo.infoObj.productName
-          : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
+      <h4 className='mt-4 text-lg font-semibold uppercase'>
+        {projectOrProductName}
       </h4>
       <div className='flex items-center justify-between'>
         <div
@@ -105,12 +100,12 @@ export const ActiveReportingCard = ({
         >
           <Trans>Annual Cover fee:</Trans>{' '}
           {formatPercent(
-            toBN(coverStats.policyRateFloor).dividedBy(MULTIPLIER),
+            toBN(coverOrProductData.floor).dividedBy(MULTIPLIER),
             router.locale
           )}
           -
           {formatPercent(
-            toBN(coverStats.policyRateCeiling).dividedBy(MULTIPLIER),
+            toBN(coverOrProductData.ceiling).dividedBy(MULTIPLIER),
             router.locale
           )}
         </div>
@@ -119,10 +114,10 @@ export const ActiveReportingCard = ({
             infoComponent={
               <p>
                 <Trans>
-                  Diversified pool with {coverInfo.cover.infoObj.leverage}x
+                  Diversified pool with {coverOrProductData.leverage}x
                   leverage factor and{' '}
                   {formatPercent(
-                    toBN(coverInfo.infoObj.capitalEfficiency)
+                    toBN(coverOrProductData.capitalEfficiency)
                       .dividedBy(MULTIPLIER)
                       .toString()
                   )}{' '}
@@ -133,9 +128,9 @@ export const ActiveReportingCard = ({
           >
             <div className='rounded bg-EEEEEE text-black text-xs px-1 border-9B9B9B border-0.5'>
               <p className='opacity-60'>
-                D{coverInfo.cover.infoObj.leverage}x
+                D{coverOrProductData.leverage}x
                 {formatPercent(
-                  toBN(coverInfo.infoObj.capitalEfficiency)
+                  toBN(coverOrProductData.capitalEfficiency)
                     .dividedBy(MULTIPLIER)
                     .toString(),
                   router.locale,
@@ -150,7 +145,7 @@ export const ActiveReportingCard = ({
       {/* Divider */}
       <Divider />
 
-      {isLoading && lineContentArray.map((_, i) => (
+      {loading && lineContentArray.map((_, i) => (
         <div
           key={i}
           className='h-3 mt-3 rounded-full bg-skeleton'
@@ -159,12 +154,12 @@ export const ActiveReportingCard = ({
       ))}
 
       {/* Stats */}
-      <div className={classNames('justify-between px-1 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}>
-        <span className='uppercase text-xs lg:text-sm'>
+      <div className={classNames('justify-between px-1 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}>
+        <span className='text-xs uppercase lg:text-sm'>
           <Trans>Utilization ratio</Trans>
         </span>
         <span
-          className='font-semibold text-right text-xs lg:text-sm '
+          className='text-xs font-semibold text-right lg:text-sm '
           data-testid='util-ratio'
         >
           {formatPercent(utilization, router.locale)}
@@ -176,74 +171,39 @@ export const ActiveReportingCard = ({
           <div>
             <p>
               <b>
-                <Trans>Utilization ratio:</Trans>{' '}
-                {formatPercent(utilization, router.locale)}
+                <Trans>Utilization ratio:</Trans> {formattedUtilizationRatio}
               </b>
             </p>
             <p>
-              <Trans>Protection</Trans>:{' '}
-              {
-                formatCurrency(
-                  convertFromUnits(
-                    activeCommitment,
-                    liquidityTokenDecimals
-                  ).toString(),
-                  router.locale
-                ).long
-              }
+              <Trans>Protection</Trans>:  {formattedProtection.long}
             </p>
           </div>
         }
       >
-        <div className={classNames('mt-2 mb-4', isLoading ? 'hidden' : 'block')}>
+        <div className={classNames('mt-2 mb-4', loading ? 'hidden' : 'block')}>
           <ProgressBar value={utilization} />
         </div>
       </InfoTooltip>
 
-      <div className={classNames('justify-between px-1 text-01052D opacity-40 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}>
+      <div className={classNames('justify-between px-1 text-01052D opacity-40 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}>
         <InfoTooltip
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Protection</Trans>:{' '}
-              {
-                formatCurrency(
-                  convertFromUnits(
-                    activeCommitment,
-                    liquidityTokenDecimals
-                  ).toString(),
-                  router.locale
-                ).long
-              }
+              <Trans>Protection</Trans>: {formattedProtection.long}
             </div>
           }
         >
           <div
             className='flex flex-1'
-            title={
-              formatCurrency(
-                convertFromUnits(
-                  activeCommitment,
-                  liquidityTokenDecimals
-                ).toString(),
-                router.locale
-              ).long
-            }
+            title={formattedProtection.long}
             data-testid='protection'
           >
             <span role='tooltip' aria-label='Protection'>
               <SheildIcon className='w-4 h-4 text-01052D' />
             </span>
             <p>
-              {
-                formatCurrency(
-                  convertFromUnits(
-                    activeCommitment,
-                    liquidityTokenDecimals
-                  ).toString(),
-                  router.locale
-                ).short
-              }
+              {formattedProtection.short}
             </p>
           </div>
         </InfoTooltip>

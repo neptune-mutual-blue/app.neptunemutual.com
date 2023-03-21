@@ -26,6 +26,7 @@ import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
+const loading = false
 
 export const ProductCard = ({
   coverKey,
@@ -38,12 +39,7 @@ export const ProductCard = ({
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const { info: coverStats, isLoading } = useFetchCoverStats({
-    coverKey: coverKey,
-    productKey: productKey
-  })
-
-  const { productStatus } = coverStats
+  const { info: { productStatus }, isLoading } = useFetchCoverStats({ coverKey, productKey })
 
   const capacity = productData.capacity
   const utilization = productData.utilizationRatio
@@ -64,7 +60,7 @@ export const ProductCard = ({
     <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
       <div className='flex items-start justify-between min-h-72'>
         <CoverAvatar imgs={[{
-          src: getCoverImgSrc({ key: productData.productKey }),
+          src: getCoverImgSrc({ key: productKey }),
           alt: productData.productInfoDetails?.productName
         }]}
         />
@@ -82,33 +78,33 @@ export const ProductCard = ({
         </div>
       </div>
       <p
-        className='mt-4 font-semibold text-black uppercase text-lg'
+        className='mt-4 text-lg font-semibold text-black uppercase'
         data-testid='project-name'
       >
         {productData.productInfoDetails?.productName}
       </p>
       <div className='flex items-center justify-between'>
         <div
-          className='mt-1 uppercase text-xs opacity-40 lg:text-sm text-01052D lg:mt-2'
+          className='mt-1 text-xs uppercase opacity-40 lg:text-sm text-01052D lg:mt-2'
           data-testid='cover-fee'
         >
           <Trans>Annual Cover fee:</Trans>{' '}
           {formatPercent(
-            toBN(coverStats.policyRateFloor).dividedBy(MULTIPLIER),
+            toBN(productData.floor).dividedBy(MULTIPLIER),
             router.locale
           )}
           -
           {formatPercent(
-            toBN(coverStats.policyRateCeiling).dividedBy(MULTIPLIER),
+            toBN(productData.ceiling).dividedBy(MULTIPLIER),
             router.locale
           )}
         </div>
-        {productData.coverInfoDetails?.leverageFactor && (
+        {productData.leverage && (
           <InfoTooltip
             infoComponent={
               <p>
                 <Trans>
-                  Diversified pool with {productData.coverInfoDetails.leverageFactor}x
+                  Diversified pool with {productData.leverage}x
                   leverage factor and{' '}
                   {formatPercent(
                     toBN(productData.capitalEfficiency)
@@ -122,7 +118,7 @@ export const ProductCard = ({
           >
             <div className='rounded bg-EEEEEE text-black text-xs px-1 border-9B9B9B border-0.5'>
               <p className='opacity-60'>
-                D{productData.coverInfoDetails.leverageFactor}x
+                D{productData.leverage}x
                 {formatPercent(
                   toBN(productData.capitalEfficiency)
                     .dividedBy(MULTIPLIER)
@@ -140,7 +136,7 @@ export const ProductCard = ({
       <Divider className='mb-4 lg:mb-8' />
 
       {/* Stats */}
-      {isLoading && lineContentArray.map((_, i) => (
+      {loading && lineContentArray.map((_, i) => (
         <div
           key={i}
           className='h-3 mt-3 rounded-full bg-skeleton'
@@ -148,12 +144,12 @@ export const ProductCard = ({
         />
       ))}
 
-      <div className={classNames('justify-between px-1 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}>
-        <span className='uppercase text-xs lg:text-sm'>
+      <div className={classNames('justify-between px-1 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}>
+        <span className='text-xs uppercase lg:text-sm'>
           <Trans>Utilization ratio</Trans>
         </span>
         <span
-          className='font-semibold text-right text-xs lg:text-sm '
+          className='text-xs font-semibold text-right lg:text-sm '
           data-testid='util-ratio'
         >
           {formatPercent(utilization, router.locale)}
@@ -179,7 +175,7 @@ export const ProductCard = ({
           </div>
         }
       >
-        <div className={classNames('mt-2 mb-4', isLoading ? 'hidden' : 'block')}>
+        <div className={classNames('mt-2 mb-4', loading ? 'hidden' : 'block')}>
           <ProgressBar
             value={utilization}
             bgClass={progressBgColor}
@@ -189,7 +185,7 @@ export const ProductCard = ({
       </InfoTooltip>
 
       <div
-        className={classNames('justify-between px-1 text-01052D opacity-40 text-xs lg:text-sm', isLoading ? 'hidden' : 'flex')}
+        className={classNames('justify-between px-1 text-01052D opacity-40 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}
       >
         <InfoTooltip
           arrow={false}

@@ -15,27 +15,33 @@ import { Trans, t } from '@lingui/macro'
 import { toStringSafe } from '@/utils/string'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { Routes } from '@/src/config/routes'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { isValidProduct } from '@/src/helpers/cover'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (report) =>
-      report.isDiversified
-        ? report.infoObj?.productName
-        : report.infoObj?.coverName || report.infoObj?.projectName,
+    selector: (report) => report.stats.text,
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
-    selector: (report) => report.utilization,
+    selector: (report) => report.stats.utilization,
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.INCIDENT_DATE]: {
-    selector: (report) => report.incidentDate,
+    selector: (report) => report.stats.incidentDate,
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
+
+const sortOptions = [
+  { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
+  { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+  { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE }
+]
+const defaultSortOption = sortOptions[2]
 
 export const ReportingActivePage = () => {
   const {
@@ -45,27 +51,16 @@ export const ReportingActivePage = () => {
     handleShowMore
   } = useActiveReportings()
 
-  const [sortType, setSortType] = useState({
-    name: t`Incident date`,
-    value: SORT_TYPES.INCIDENT_DATE
-  })
+  const [sortType, setSortType] = useState(defaultSortOption)
 
   const { getStatsByKey } = useSortableStats()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: (incidentReports || []).map((report) => ({
       ...report,
-      ...getStatsByKey(report.id)
+      stats: getStatsByKey(report.id)
     })),
-    filter: (cover, term) => {
-      return (
-        toStringSafe(
-          cover.isDiversified
-            ? cover.infoObj.productName
-            : cover.infoObj.coverName || cover.infoObj.projectName
-        ).indexOf(toStringSafe(term)) > -1
-      )
-    }
+    filter: (report, term) => toStringSafe(report.stats.text).includes(toStringSafe(term))
   })
 
   const activeCardInfoArray = useMemo(
@@ -78,21 +73,13 @@ export const ReportingActivePage = () => {
     [filtered, sortType.value]
   )
 
-  const options = [
-    { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-    { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE }
-  ]
-
   return (
     <Container className='pt-16 pb-36'>
       <div className='flex sm:justify-end'>
         <SearchAndSortBar
           searchValue={searchValue}
-          onSearchChange={(event) => {
-            setSearchValue(event.target.value)
-          }}
-          searchAndSortOptions={options}
+          onSearchChange={(event) => setSearchValue(event.target.value)}
+          optionsProp={sortOptions}
           sortType={sortType}
           setSortType={setSortType}
           containerClass='flex-col sm:flex-row w-full sm:w-auto'
@@ -110,8 +97,10 @@ export const ReportingActivePage = () => {
   )
 }
 
-function Content ({ data, loading, hasMore, handleShowMore }) {
-  if (loading) {
+function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+
+  if (loadingProp) {
     return (
       <div data-testid='active-reportings-card-skeleton'>
         <Grid className='w-full gap-4 mt-14 lg:mb-24 mb-14'>
@@ -126,6 +115,9 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
       <>
         <Grid className='mb-24 mt-14' data-testid='active-page-grid'>
           {data.map((report) => {
+            const isDiversified = isValidProduct(report.productKey)
+            const coverOrProductData = isDiversified ? getProduct(report.coverKey, report.productKey) : getCoverByCoverKey(report.coverKey)
+
             return (
               <Link
                 href={Routes.ViewReport(
@@ -136,12 +128,15 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
                 key={report.id}
               >
                 <a className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
-                  <ActiveReportingCard
-                    id={report.id}
-                    coverKey={report.coverKey}
-                    productKey={report.productKey}
-                    incidentDate={report.incidentDate}
-                  />
+                  {loading
+                    ? <CardSkeleton numberOfCards={1} />
+                    : <ActiveReportingCard
+                        id={report.id}
+                        coverKey={report.coverKey}
+                        productKey={report.productKey}
+                        incidentDate={report.incidentDate}
+                        coverOrProductData={coverOrProductData}
+                      />}
                 </a>
               </Link>
             )

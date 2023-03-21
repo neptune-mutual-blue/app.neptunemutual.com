@@ -32,36 +32,27 @@ export const CoverCard = ({
 
   const productKey = utils.keyUtil.toBytes32('')
 
-  const { info: coverStats } = useFetchCoverStats({ coverKey, productKey })
-  const { productStatus } = coverStats
-
-  const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+  const { info: { productStatus } } = useFetchCoverStats({ coverKey, productKey })
 
   const capacity = coverData.capacity
   const utilization = coverData.utilizationRatio
 
-  const protectionLong = formatCurrency(
+  const protection = formatCurrency(
     convertFromUnits(coverData.commitment, liquidityTokenDecimals).toString(),
     router.locale
-  ).long
-  const protectionShort = formatCurrency(
-    convertFromUnits(coverData.commitment, liquidityTokenDecimals).toString(),
-    router.locale
-  ).short
+  )
+  const protectionLong = protection.long
+  const protectionShort = protection.short
 
-  const capacityLong = formatCurrency(
+  const formattedCapacity = formatCurrency(
     convertFromUnits(capacity, liquidityTokenDecimals).toString(),
     router.locale
-  ).long
+  )
+  const capacityLong = formattedCapacity.long
+  const capacityShort = formattedCapacity.short
 
-  const capacityShort = formatCurrency(
-    convertFromUnits(capacity, liquidityTokenDecimals).toString(),
-    router.locale
-  ).short
-
-  const status = isDiversified
-    ? E_CARD_STATUS.DIVERSIFIED
-    : identifyStatus(productStatus)
+  const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+  const status = isDiversified ? E_CARD_STATUS.DIVERSIFIED : identifyStatus(productStatus)
 
   return (
     <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
@@ -95,12 +86,12 @@ export const CoverCard = ({
       >
         <Trans>Annual Cover fee:</Trans>{' '}
         {formatPercent(
-          toBN(coverStats.policyRateFloor).dividedBy(MULTIPLIER),
+          toBN(coverData.floor).dividedBy(MULTIPLIER),
           router.locale
         )}
         -
         {formatPercent(
-          toBN(coverStats.policyRateCeiling).dividedBy(MULTIPLIER),
+          toBN(coverData.ceiling).dividedBy(MULTIPLIER),
           router.locale
         )}
       </div>

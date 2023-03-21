@@ -36,8 +36,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const isDiversified = coverInfo?.supportsProducts
 
-  const { info, isWithdrawalWindowOpen, accrueInterest } =
-    useLiquidityFormsContext()
+  const { info, isWithdrawalWindowOpen, accrueInterest } = useLiquidityFormsContext()
 
   if (loading) {
     return (
