@@ -8,7 +8,7 @@ export const LastSynced = ({ blockNumber, networkId }) => {
 
   return (
     <p
-      className='font-semibold w-max text-h5 text-1D2939'
+      className='font-semibold w-max text-md text-1D2939'
       data-testid='block-number'
     >
       <Trans>Last Synced:</Trans>{' '}

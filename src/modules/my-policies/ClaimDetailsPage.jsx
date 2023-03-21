@@ -1,24 +1,24 @@
+import { Alert } from '@/common/Alert/Alert'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
+import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
+import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { Hero } from '@/common/Hero'
-import { HeroTitle } from '@/common/HeroTitle'
 import { HeroStat } from '@/common/HeroStat'
+import { HeroTitle } from '@/common/HeroTitle'
+import { Seo } from '@/common/Seo'
+import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { isValidProduct } from '@/src/helpers/cover'
+import { useActivePoliciesByCover } from '@/src/hooks/useActivePoliciesByCover'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useFetchReportsByKeyAndDate } from '@/src/hooks/useFetchReportsByKeyAndDate'
+import { usePagination } from '@/src/hooks/usePagination'
 import { ClaimCxTokensTable } from '@/src/modules/my-policies/ClaimCxTokensTable'
 import { convertFromUnits } from '@/utils/bn'
-import { useActivePoliciesByCover } from '@/src/hooks/useActivePoliciesByCover'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { ComingSoon } from '@/common/ComingSoon'
-import { useFetchReportsByKeyAndDate } from '@/src/hooks/useFetchReportsByKeyAndDate'
-import { Alert } from '@/common/Alert/Alert'
 import { t, Trans } from '@lingui/macro'
-import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
-import { usePagination } from '@/src/hooks/usePagination'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { isValidProduct } from '@/src/helpers/cover'
-import { Routes } from '@/src/config/routes'
 import { useRouter } from 'next/router'
-import { Seo } from '@/common/Seo'
 
 export const ClaimDetailsPage = ({
   disabled,
@@ -123,7 +123,7 @@ export const ClaimDetailsPage = ({
         </Hero>
 
         <Container className='px-2 pt-12 pb-36'>
-          <h2 className='font-bold text-h2 font-sora'>
+          <h2 className='font-bold text-display-sm'>
             <Trans>Available cxTokens for {coverOrProductName} to Claim</Trans>
           </h2>
           <p className='w-full max-w-xl py-6 mb-8 ml-0 text-lg'>

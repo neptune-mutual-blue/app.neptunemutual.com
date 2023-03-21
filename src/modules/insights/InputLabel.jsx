@@ -1,6 +1,6 @@
 export const InputLabel = ({ label }) => {
   return (
-    <div className='block uppercase text-xs tracking-wider font-semibold pb-2 text-01052D'>
+    <div className='block pb-2 text-xs font-semibold uppercase text-01052D'>
       {label}
     </div>
   )

@@ -1,6 +1,6 @@
 export const DisabledInput = ({ value, unit, ...rest }) => {
   return (
-    <div className='flex text-h4 text-9B9B9B'>
+    <div className='flex text-lg text-9B9B9B'>
       <div className='flex items-stretch flex-grow'>
         <span
           data-testid={rest['data-testid']}

@@ -28,49 +28,30 @@ module.exports = {
       skeleton: 'rgb(226 232 240)'
     },
     fontSize: {
-      h1: ['33px', '48px'],
-      h2: ['28px', '40px'],
-      h3: ['23px', '32px'],
-      h4: ['19px', '24px'],
-      h5: ['16px', '24px'],
-      h6: [
-        '16px',
-        {
-          letterSpacing: '0.05em',
-          lineHeight: '24px'
-        }
-      ],
-      h7: ['13px', '16px'],
-      sm: ['14px', '16px'],
-      lg: '18px',
-      xl: ['23px', '33px'],
+      'display-2xl': ['4.5rem', { lineHeight: '5.625', letterSpacing: '-0.02em' }], // 72px | 405px
+      'display-xl': ['3.75rem', { lineHeight: '4.5', letterSpacing: '-0.02em' }], // 60px | 270px
+      'display-lg': ['3rem', { lineHeight: '3.75', letterSpacing: '-0.02em' }], // 48px | 180px
+      'display-md': ['2.25rem', { lineHeight: '1.22', letterSpacing: '-0.02em' }], // 36px | 44px
+      'display-sm': ['1.875rem', { lineHeight: '1.26' }], // 30px | 38px
+      'display-xs': ['1.5rem', { lineHeight: '1.3' }], // 24px | 32px
+      xl: ['1.25rem', { lineHeight: '1.5' }], // 20px | 30px
+      lg: ['1.125rem', { lineHeight: '1.55' }], // 18px | 28px
+      md: ['1rem', { lineHeight: '1.5' }], // 16px | 24px
+      sm: ['0.875rem', { lineHeight: '1.428' }], // 14px | 20px
+      xs: ['0.75rem', { lineHeight: '1.5' }], // 12px | 18px
       xxs: ['10px', '8px'],
-      xs: [
-        '12px',
-        {
-          lineHeight: '24px'
-        }
-      ],
-      para: ['16px', '28px'],
-      cta: [
-        '15px',
-        {
-          letterSpacing: '0.05em',
-          lineHeight: '16px'
-        }
-      ],
       xxxl: '136px',
-      xxl: '40px',
-      'receipt-info': ['24px', '36px'],
-      md: ['20px', '23px'],
+      xxl: ['88px', '106px'],
       badge: ['11px', '13px']
     },
     fontFamily: {
-      poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
-      sora: 'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      inter: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
       arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
     },
     extend: {
+      letterSpacing: {
+        2: '0.02em'
+      },
       borderRadius: {
         1: '4px',
         2: '8px',

@@ -1,14 +1,14 @@
-import { ReportingInfo } from './ReportingInfo'
+import { AcceptReportRulesForm } from '@/common/AcceptCoverRulesForm/AcceptReportRulesForm'
 import { Alert } from '@/common/Alert/Alert'
 import { Container } from '@/common/Container/Container'
-import { AcceptReportRulesForm } from '@/common/AcceptCoverRulesForm/AcceptReportRulesForm'
 import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
-import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
-import { Trans } from '@lingui/macro'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
-import { toBN } from '@/utils/bn'
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { MULTIPLIER } from '@/src/config/constants'
 import { isValidProduct } from '@/src/helpers/cover'
+import { toBN } from '@/utils/bn'
+import { Trans } from '@lingui/macro'
+import { ReportingInfo } from './ReportingInfo'
 
 export const CoverReportingRules = ({
   coverOrProductData,
@@ -35,12 +35,12 @@ export const CoverReportingRules = ({
             <div>
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className='mt-16'>
-                  <h2 className='mb-6 font-bold font-sora text-h2'>
+                  <h2 className='mb-6 font-bold text-display-sm'>
                     <Trans>Active Reporting</Trans>
                   </h2>
 
                   {!hasActiveReportings && (
-                    <p className='mb-10 text-h4 text-8F949C'>
+                    <p className='mb-10 text-lg text-8F949C'>
                       <Trans>
                         There are no known incidents of {projectOrProductName}.
                       </Trans>

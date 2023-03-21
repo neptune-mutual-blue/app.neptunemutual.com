@@ -1,8 +1,8 @@
+import CurrencyInput from '@/lib/react-currency-input-field'
 import { classNames } from '@/utils/classnames'
 import { getPlainNumber } from '@/utils/formatter/input'
 import { useRouter } from 'next/router'
-import { useState, useEffect, useRef } from 'react'
-import CurrencyInput from '@/lib/react-currency-input-field'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  *
@@ -69,7 +69,7 @@ export const InputWithTrailingButton = ({
   }
 
   return (
-    <div className='relative w-full text-black text-h4'>
+    <div className='relative w-full text-black text-lg'>
       <CurrencyInput
         {...inputFieldProps}
         className={classNames(
@@ -91,7 +91,7 @@ export const InputWithTrailingButton = ({
         <button
           type='button'
           className={classNames(
-            'font-sora px-6 m-px font-medium uppercase tracking-wide rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
+            'px-6 m-px font-medium uppercase tracking-wide rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
             buttonClassName,
             buttonProps.disabled ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
           )}

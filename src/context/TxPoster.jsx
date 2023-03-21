@@ -1,13 +1,13 @@
-import React, { useCallback, useState } from 'react'
-import * as Dialog from '@radix-ui/react-dialog'
+import { Divider } from '@/common/Divider/Divider'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { DEFAULT_GAS_LIMIT } from '@/src/config/constants'
 import { getErrorMessage } from '@/src/helpers/tx'
-import { calculateGasMargin } from '@/utils/bn'
-import { Divider } from '@/common/Divider/Divider'
-import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { useTransactionHistory } from '@/src/hooks/useTransactionHistory'
 import { contractRead } from '@/src/services/readContract'
+import { calculateGasMargin } from '@/utils/bn'
+import * as Dialog from '@radix-ui/react-dialog'
+import React, { useCallback, useState } from 'react'
 
 const initValue = {
   // prettier-ignore
@@ -170,14 +170,14 @@ const ForceTxModal = ({
     <ModalRegular isOpen={isOpen} onClose={onClose}>
       <ModalWrapper className='max-w-2xl bg-FEFEFF'>
         <Dialog.Title className='flex items-center'>
-          <div className='mb-4 font-semibold text-black font-sora text-h4'>
+          <div className='mb-4 font-semibold text-black text-lg'>
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
 
         <div className='overflow-y-auto text-sm max-h-54'>
           <div className='mb-5'>
-            <p className='leading-5 text-404040 font-poppins'>
+            <p className='leading-5 text-404040'>
               We attempted to submit your transaction but ran into an unexpected
               error. The smart contract sent the following error message:
             </p>
@@ -195,7 +195,7 @@ const ForceTxModal = ({
         <Divider className='mt-0 mb-4' />
 
         <div className='mb-5'>
-          <p className='text-sm leading-5 text-404040 font-poppins'>
+          <p className='text-sm leading-5 text-404040'>
             While we do not suggest it, you may force this transaction to be
             sent nonetheless.
           </p>

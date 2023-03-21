@@ -1,7 +1,7 @@
 
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -108,7 +108,7 @@ export const AvailableCovers = () => {
       >
         <Link href='#cover-products'>
           <a>
-            <h1 className='mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora'>
+            <h1 className='mb-3 font-bold xl:mb-0 text-display-xs lg:text-display-sm'>
               <Trans>Cover Products</Trans>
             </h1>
           </a>

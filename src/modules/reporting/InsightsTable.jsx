@@ -10,8 +10,8 @@ export const InsightsTable = ({ insights = [] }) => {
               <tr key={insight.title}>
                 <InsightsTh
                   className={classNames(
-                    insight.variant === 'success' && 'text-para text-0FB88F',
-                    insight.variant === 'error' && 'text-para text-FA5C2F',
+                    insight.variant === 'success' && 'text-md text-0FB88F',
+                    insight.variant === 'error' && 'text-md text-FA5C2F',
                     !insight.variant && 'opacity-50'
                   )}
                 >

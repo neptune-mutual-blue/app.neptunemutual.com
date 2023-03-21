@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
-import { Trans } from '@lingui/macro'
-import useAuth from '../../hooks/useAuth'
+import { useEffect, useState } from 'react'
 import { wallets } from '../../config/wallets'
-import { Modal } from '../Modal/Modal'
+import useAuth from '../../hooks/useAuth'
 import { Disclaimer } from '../ConnectWallet/Disclaimer'
 import { WalletList } from '../ConnectWallet/WalletList'
-import { Loader } from '../Loader/Loader'
 import CloseIcon from '../icons/CloseIcon'
-import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { Loader } from '../Loader/Loader'
+import { Modal } from '../Modal/Modal'
 
 export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
   const [isConnecting, setIsConnecting] = useState(false)
@@ -37,7 +37,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalWrapper className='max-w-md transition-all bg-f6f7f9'>
         <Dialog.Title
-          className='font-bold leading-9 text-black font-sora text-h2'
+          className='font-bold leading-9 text-black text-display-sm'
         >
           <Trans>Connect wallet</Trans>
         </Dialog.Title>

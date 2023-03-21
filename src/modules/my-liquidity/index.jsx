@@ -6,15 +6,15 @@ import { Grid } from '@/common/Grid/Grid'
 import { MyLiquidityCoverCard } from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { t, Trans } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
+import { t, Trans } from '@lingui/macro'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
     <Container className='py-16' data-testid='page-container'>
       <div className='flex justify-end'>
         <Link href={Routes.LiquidityTransactions}>
-          <a className='font-medium text-h4 text-4e7dd9 hover:underline'>
+          <a className='font-medium text-lg text-4e7dd9 hover:underline'>
             <Trans>Transaction List</Trans>
           </a>
         </Link>
@@ -49,7 +49,7 @@ function MyLiquidities ({ data, loading }) {
           alt={t`No data found`}
           className='w-48 h-48'
         />
-        <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>
+        <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
           <Trans>
             Liquidity providers collectively own a liquidity pool. To become a
             liquidity provider, select a cover from the home screen.

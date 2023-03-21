@@ -2,9 +2,9 @@ import Link from 'next/link'
 
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
-import { CoverActionCard } from './CoverActionCard'
 import { actions as coverActions } from '@/src/config/cover/actions'
 import { Trans } from '@lingui/macro'
+import { CoverActionCard } from './CoverActionCard'
 
 export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
   return (
@@ -15,7 +15,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
         data-testid='main-container'
       >
         <Container>
-          <h1 className='mb-10 font-bold text-center capitalize text-h4 md:text-h2 font-sora sm:mb-12'>
+          <h1 className='mb-10 font-bold text-center capitalize text-lg md:text-display-sm sm:mb-12'>
             <Trans>Didn&#x2019;t find what you were looking for?</Trans>
           </h1>
           <Grid>

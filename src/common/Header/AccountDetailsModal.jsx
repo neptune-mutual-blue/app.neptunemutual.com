@@ -1,21 +1,21 @@
-import * as Dialog from '@radix-ui/react-dialog'
+import Identicon from '@/common/Header/Identicon'
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { Toggle } from '@/common/Toggle'
+import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import CloseIcon from '@/icons/CloseIcon'
 import CopyIcon from '@/icons/CopyIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
+import { ConnectorNames } from '@/lib/connect-wallet/config/connectors'
+import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
 import { wallets } from '@/lib/connect-wallet/config/wallets'
 import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
-import Identicon from '@/common/Header/Identicon'
-import { useEffect, useRef, useState } from 'react'
-import CheckCircleIcon from '@/icons/CheckCircleIcon'
-import { ModalRegular } from '@/common/Modal/ModalRegular'
-import { Toggle } from '@/common/Toggle'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
-import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { Trans } from '@lingui/macro'
 import { logViewAccountOnExplorer } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
-import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
-import { ConnectorNames } from '@/lib/connect-wallet/config/connectors'
+import { Trans } from '@lingui/macro'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useEffect, useRef, useState } from 'react'
 
 const CopyAddressComponent = ({ account }) => {
   const [isCopied, setIsCopied] = useState(false)
@@ -89,7 +89,7 @@ export const AccountDetailsModal = ({
       <ModalWrapper className='max-w-lg transition-all bg-f6f7f9'>
         <Dialog.Title
           as='h3'
-          className='font-bold leading-9 text-black font-sora text-h2'
+          className='font-bold leading-9 text-black text-display-sm'
         >
           <Trans>Account</Trans>
         </Dialog.Title>
@@ -120,7 +120,7 @@ export const AccountDetailsModal = ({
             </button>
           </div>
 
-          <div className='flex items-center justify-center mt-1 font-bold sm:mt-3 font-sora text-404040 sm:justify-start'>
+          <div className='flex items-center justify-center mt-1 font-bold sm:mt-3 text-404040 sm:justify-start'>
             {account ? <Identicon account={account} /> : <div />}
             <div className='ml-3'>
               {account?.substring(0, 6) + '...' + account?.slice(-4)}
@@ -146,7 +146,7 @@ export const AccountDetailsModal = ({
 
         <div className='flex flex-col w-full p-5 mt-8 border border-B0C4DB rounded-big'>
           <div className='flex items-center justify-between w-full'>
-            <p className='text-h5 text-364253'>
+            <p className='text-md text-364253'>
               <Trans>Unlimited Approvals</Trans>
             </p>
             <Toggle

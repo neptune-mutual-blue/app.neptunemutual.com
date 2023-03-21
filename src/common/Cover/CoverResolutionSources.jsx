@@ -1,8 +1,8 @@
-import { explainInterval } from '@/utils/formatter/interval'
-import Link from 'next/link'
-import { Trans } from '@lingui/macro'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
+import { explainInterval } from '@/utils/formatter/interval'
+import { Trans } from '@lingui/macro'
+import Link from 'next/link'
 
 export const CoverResolutionSources = ({ children, resolutionSources = [] }) => {
   const { reportingPeriod } = useCoverStatsContext()
@@ -12,7 +12,7 @@ export const CoverResolutionSources = ({ children, resolutionSources = [] }) => 
       <SecondaryCard>
         <div className='flex flex-wrap justify-between md:block'>
           <div>
-            <h3 className='font-semibold text-h4 font-sora'>
+            <h3 className='font-semibold text-lg'>
               <Trans>Resolution Sources</Trans>
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>

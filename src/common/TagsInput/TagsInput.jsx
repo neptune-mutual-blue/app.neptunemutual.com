@@ -1,7 +1,7 @@
 import CloseIcon from '@/icons/CloseIcon'
 import { classNames } from '@/utils/classnames'
-import { useState } from 'react'
 import { Trans } from '@lingui/macro'
+import { useState } from 'react'
 
 export const TagsInput = ({ selectedTags, className }) => {
   const [tags, setTags] = useState([])
@@ -52,7 +52,7 @@ export const TagsInput = ({ selectedTags, className }) => {
         placeholder='Tags'
         onKeyUp={(e) => addTags(e)}
         className={classNames(
-          'text-h4 block w-full p-6 rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:none focus-visible:ring-4e7dd9'
+          'text-lg block w-full p-6 rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:none focus-visible:ring-4e7dd9'
         )}
         data-testid='input'
       />

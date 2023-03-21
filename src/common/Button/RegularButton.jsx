@@ -23,7 +23,7 @@ export const RegularButton = forwardRef(
         className={classNames(
           props.disabled && 'opacity-75 cursor-not-allowed',
           buttonColor,
-          'text-EEEEEE border rounded-lg  focus:outline-none focus-visible:ring-2 uppercase tracking-wide',
+          'text-EEEEEE border rounded-lg text-md tracking-2 focus:outline-none focus-visible:ring-2 uppercase',
           className
         )}
         {...props}

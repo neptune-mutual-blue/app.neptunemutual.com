@@ -1,22 +1,22 @@
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import DateLib from '@/lib/date/DateLib'
+import { HlCalendar } from '@/lib/hl-calendar'
+import { ReportingPeriodStatus } from '@/modules/reporting/ReportingPeriodStatus'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import { CastYourVote } from '@/src/modules/reporting/active/CastYourVote'
 import { IncidentReporter } from '@/src/modules/reporting/IncidentReporter'
 import { InsightsTable } from '@/src/modules/reporting/InsightsTable'
 import { ResolveIncident } from '@/src/modules/reporting/resolved/ResolveIncident'
 import { VotesSummaryDoughnutChart } from '@/src/modules/reporting/VotesSummaryDoughnutCharts'
-import { HlCalendar } from '@/lib/hl-calendar'
+import { VotesSummaryHorizontalChart } from '@/src/modules/reporting/VotesSummaryHorizontalChart'
 import { truncateAddressParam } from '@/utils/address'
 import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
-import DateLib from '@/lib/date/DateLib'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { VotesSummaryHorizontalChart } from '@/src/modules/reporting/VotesSummaryHorizontalChart'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
-import { ReportingPeriodStatus } from '@/modules/reporting/ReportingPeriodStatus'
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -73,7 +73,7 @@ export const ActiveReportSummary = ({
       <OutlinedCard className='bg-white md:flex'>
         {/* Left half */}
         <div className='flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB min-w-300'>
-          <h2 className='mb-6 font-bold text-center text-h3 font-sora lg:text-left'>
+          <h2 className='mb-6 font-bold text-center text-display-xs lg:text-left'>
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -116,7 +116,7 @@ export const ActiveReportSummary = ({
 
         {/* Right half */}
         <div className='p-6 pt-0 lg:p-10 sm:pt-6'>
-          <h3 className='mb-4 font-bold text-h4 font-sora'>Insights</h3>
+          <h3 className='mb-4 text-lg font-bold'>Insights</h3>
           <InsightsTable
             insights={[
               {
@@ -211,7 +211,7 @@ export const ActiveReportSummary = ({
           />
 
           <hr className='mt-6 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4 font-sora'>
+          <h3 className='mb-4 text-lg font-bold'>
             <Trans>Incident Reporters</Trans>
           </h3>
           <IncidentReporter
@@ -228,7 +228,7 @@ export const ActiveReportSummary = ({
           )}
 
           <hr className='mt-8 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4 font-sora'>
+          <h3 className='mb-4 text-lg font-bold'>
             <Trans>Reporting Period</Trans>
           </h3>
           <ReportingPeriodStatus

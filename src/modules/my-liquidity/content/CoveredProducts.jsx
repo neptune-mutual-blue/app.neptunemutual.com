@@ -55,7 +55,7 @@ export function CoveredProducts ({ coverInfo }) {
       data-testid='cover-products-container'
     >
       <div className='flex flex-col'>
-        <h4 className='mb-24 font-bold text-h3'>
+        <h4 className='mb-24 font-bold text-display-xs'>
           <Trans>Products Covered Under This Pool</Trans>
         </h4>
         <div className='grid grid-cols-1 xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2'>
@@ -95,7 +95,7 @@ function Product ({ productKey, infoObj, onClick }) {
         <img src={imgSrc} alt={infoObj.productName} className='w-12 h-12' />
       </div>
       <button
-        className='flex items-center pt-2 tracking-wide uppercase text-4e7dd9 font-sora'
+        className='flex items-center pt-2 tracking-wide uppercase text-4e7dd9'
         onClick={onClick}
       >
         {infoObj.productName}

@@ -11,7 +11,7 @@ import { Bar } from 'react-chartjs-2'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title)
 
-defaults.font.family = 'Poppins, sans-serif'
+defaults.font.family = 'Inter, sans-serif'
 
 export const PercentXStackedChart = ({ data }) => {
   return (
@@ -50,7 +50,7 @@ export const PercentXStackedChart = ({ data }) => {
                 const chartInstance = self.chart
                 const ctx = chartInstance.ctx
                 ctx.textAlign = 'center'
-                ctx.font = '14px Poppins'
+                ctx.font = '14px Inter'
                 ctx.fillStyle = '#fff'
                 let prevX = 0
 

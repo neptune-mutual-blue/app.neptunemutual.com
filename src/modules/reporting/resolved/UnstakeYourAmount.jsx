@@ -1,24 +1,24 @@
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DisabledInput } from '@/common/Input/DisabledInput'
+import { Label } from '@/common/Label/Label'
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
-import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
-import { classNames } from '@/lib/toast/utils'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useUnstakeReportingStake } from '@/src/hooks/useUnstakeReportingStake'
-import { convertFromUnits, isGreater } from '@/utils/bn'
-import * as Dialog from '@radix-ui/react-dialog'
-import DateLib from '@/lib/date/DateLib'
-import { useCallback, useState } from 'react'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { t, Trans } from '@lingui/macro'
+import DateLib from '@/lib/date/DateLib'
+import { classNames } from '@/lib/toast/utils'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
-import { Label } from '@/common/Label/Label'
-import { useWeb3React } from '@web3-react/core'
-import { analyticsLogger } from '@/utils/logger'
+import { useUnstakeReportingStake } from '@/src/hooks/useUnstakeReportingStake'
+import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
 import { log } from '@/src/services/logs'
+import { convertFromUnits, isGreater } from '@/utils/bn'
+import { analyticsLogger } from '@/utils/logger'
+import { t, Trans } from '@lingui/macro'
+import * as Dialog from '@radix-ui/react-dialog'
+import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
+import { useCallback, useState } from 'react'
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, projectOrProductName }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -180,7 +180,7 @@ const UnstakeModal = ({
             alt={logoAlt}
             src={logoSrc}
           />
-          <span className='font-bold font-sora text-h2'>
+          <span className='font-bold text-display-sm'>
             <Trans>Unstake</Trans>
           </span>
         </Dialog.Title>

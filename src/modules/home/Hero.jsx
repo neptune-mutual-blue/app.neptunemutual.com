@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
+import { Hero } from '@/common/Hero'
 import { HomeCard } from '@/common/HomeCard/HomeCard'
 import { HomeMainCard } from '@/common/HomeCard/HomeMainCard'
-import IncreaseIcon from '@/icons/IncreaseIcon'
-import { Hero } from '@/common/Hero'
 import { TotalCapacityChart } from '@/common/TotalCapacityChart'
-import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
-import { classNames } from '@/utils/classnames'
+import IncreaseIcon from '@/icons/IncreaseIcon'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
+import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
+import { convertFromUnits, toBN } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 
 export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const { data: heroData } = useFetchHeroStats()
@@ -58,7 +58,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
       )}
       {title && (
         <Container className='pt-0'>
-          <h2 className='font-bold text-black text-h2 font-sora mb-14'>
+          <h2 className='font-bold text-black text-display-sm mb-14'>
             {title}
           </h2>
         </Container>
@@ -142,12 +142,12 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
 
         <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-14 border-0.5 border-B0C4DB'>
           <div className='mb-8'>
-            <h3 className='mb-1 text-sm leading-5 font-poppins text-9B9B9B'>
+            <h3 className='mb-1 text-sm leading-5 text-9B9B9B'>
               <Trans>Total Capacity</Trans>
             </h3>
             <div className='flex items-center'>
               <h2
-                className='pr-3 font-bold text-black text-h4 xs:text-h3 font-sora'
+                className='pr-3 text-lg font-bold text-black xs:text-display-xs'
                 data-testid='changedata-currency'
               >
                 {
@@ -163,7 +163,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               {changeData && changeData.diff && (
                 <p
                   className={classNames(
-                    'text-h7 xs:text-h6 font-sora font-bold flex items-center',
+                    'text-xs xs:text-md font-bold flex items-center',
                     changeData.rise ? 'text-21AD8C' : 'text-DC2121'
                   )}
                   data-testid='changedata-percent'

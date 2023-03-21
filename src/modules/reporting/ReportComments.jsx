@@ -1,14 +1,14 @@
-import { useRouter } from 'next/router'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { Trans, t } from '@lingui/macro'
-import { safeParseString } from '@/src/services/transactions/utils'
-import { fromNow } from '@/utils/formatter/relative-time'
-import DateLib from '@/lib/date/DateLib'
-import { getReplacedString } from '@/utils/string'
-import { IPFS_HASH_URL } from '@/src/config/constants'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
+import DateLib from '@/lib/date/DateLib'
+import { IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
+import { safeParseString } from '@/src/services/transactions/utils'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { getReplacedString } from '@/utils/string'
+import { t, Trans } from '@lingui/macro'
+import { useRouter } from 'next/router'
 
 const INCIDENT = 0
 const DISPUTE = 1
@@ -108,10 +108,10 @@ function Report ({ header, content, report, children, ipfsHash }) {
       <ReportType type={report.type} />
 
       <div className='block pl-5 text-black border-l border-l-B0C4DB'>
-        <h3 role='title' className='font-semibold text-h5'>
+        <h3 role='title' className='font-semibold text-md'>
           {content.title}
         </h3>
-        <p role='desc' className='text-h6'>
+        <p role='desc' className='text-md'>
           {content.description}
         </p>
 

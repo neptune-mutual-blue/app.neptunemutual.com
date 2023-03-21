@@ -2,7 +2,7 @@ import { CustomRadio } from '@/common/Radio/Radio'
 import DateLib from '@/lib/date/DateLib'
 import { Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, handleRadioChange, coverMonth, tokenSymbol, feeData }) => {
   const router = useRouter()
@@ -27,7 +27,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
 
   return (
     <div className='mt-6'>
-      <p className='font-bold text-center capitalize text-receipt-info text-01052D'><Trans>Select your coverage period</Trans></p>
+      <p className='font-bold text-center capitalize text-display-xs text-01052D'><Trans>Select your coverage period</Trans></p>
       <p className='mt-1 mb-8 text-lg text-center text-999BAB'>Don&apos;t worry, you&apos;re not required to make a purchase just yet.</p>
       <div className='relative flex'>
         <div className='absolute h-2 bg-999BAB  bg-opacity-30 top-1.5' style={{ width: 'calc(100% - 20px)' }} />

@@ -69,21 +69,21 @@ export const InsightsDropdown = ({
                       }, 0)
                     }
                   }}
-                  placeholder='Search' className='px-4 py-2 border-1 w-full rounded-2 leading-5 border-D6D6D6' type='text'
+                  placeholder='Search' className='w-full px-4 py-2 leading-5 border-1 rounded-2 border-D6D6D6' type='text'
                 />
                 <div className='absolute top-2.5 right-4'>
-                  <SearchIcon className='h-4 w-4' />
+                  <SearchIcon className='w-4 h-4' />
                 </div>
               </div>
 
             </div>
 
-            <div className='h-435 overflow-auto'>
+            <div className='overflow-auto h-435'>
               {filteredOptions.length === 0 && <div className='py-2.5 px-6 italic'>No items found</div>}
               {filteredOptions.map((option, optionIdx) => (
                 <Fragment key={optionIdx}>
                   {option.type === 'label'
-                    ? <> <hr className='h-px border-0 bg-D6D6D6 ' /> <Listbox.Label className='block py-2.5 px-6 text-sm font-semibold leading-5 font-poppins text-000000'>{option.label}</Listbox.Label></>
+                    ? <> <hr className='h-px border-0 bg-D6D6D6 ' /> <Listbox.Label className='block py-2.5 px-6 text-sm font-semibold leading-5 text-000000'>{option.label}</Listbox.Label></>
                     : <ListChoice optionIdx={optionIdx} option={option} selected={selected} />}
                 </Fragment>
               ))}
@@ -111,7 +111,7 @@ const ListChoice = ({ optionIdx, option, selected }) => {
         return (
           <span
             className={classNames(
-              'flex truncate gap-2 py-2.5 px-6 capitalize rounded items-center justify-between leading-5 font-normal font-poppins text-sm text-000000',
+              'flex truncate gap-2 py-2.5 px-6 capitalize rounded items-center justify-between leading-5 font-normal text-sm text-000000',
               active ? 'bg-EEEEEE rounded-lg' : ''
             )}
           >
