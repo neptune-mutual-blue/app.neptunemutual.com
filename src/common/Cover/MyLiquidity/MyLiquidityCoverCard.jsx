@@ -23,7 +23,7 @@ export const MyLiquidityCoverCard = ({
   const router = useRouter()
   const { info } = useMyLiquidityInfo({ coverKey })
 
-  const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+  const isDiversified = coverData?.supportsProducts
   const projectName = coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
 
   const reassurancePercent = toBN(info.totalReassurance)

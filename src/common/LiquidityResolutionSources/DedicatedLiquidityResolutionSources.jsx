@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router'
+
 import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useAppConstants } from '@/src/context/AppConstants'
 
 export const DedicatedLiquidityResolutionSources = ({
   coverInfo,
@@ -11,6 +13,7 @@ export const DedicatedLiquidityResolutionSources = ({
   children
 }) => {
   const router = useRouter()
+  const { reportingPeriod } = useCoverStatsContext()
 
   const { liquidityTokenDecimals } = useAppConstants()
 
@@ -18,7 +21,10 @@ export const DedicatedLiquidityResolutionSources = ({
   const reassuranceAmount = info.totalReassurance
 
   return (
-    <CoverResolutionSources resolutionSources={coverInfo?.infoObj.resolutionSources || []}>
+    <CoverResolutionSources
+      resolutionSources={coverInfo?.infoObj.resolutionSources || []}
+      reportingPeriod={reportingPeriod}
+    >
       <hr className='mt-4 mb-6 border-t border-B0C4DB/60' />
       <div
         className='flex justify-between pb-2'

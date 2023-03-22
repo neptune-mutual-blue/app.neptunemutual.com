@@ -1,12 +1,10 @@
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import Link from 'next/link'
+
 import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
 import { explainInterval } from '@/utils/formatter/interval'
 import { Trans } from '@lingui/macro'
-import Link from 'next/link'
 
-export const CoverResolutionSources = ({ children, resolutionSources = [] }) => {
-  const { reportingPeriod } = useCoverStatsContext()
-
+export const CoverResolutionSources = ({ children, resolutionSources = [], reportingPeriod }) => {
   return (
     <div className='col-span-3 row-start-2 lg:col-auto lg:row-start-auto'>
       <SecondaryCard>

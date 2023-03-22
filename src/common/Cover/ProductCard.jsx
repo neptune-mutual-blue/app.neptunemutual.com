@@ -1,4 +1,3 @@
-
 import { useRouter } from 'next/router'
 
 import {
@@ -12,10 +11,12 @@ import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
 import SheildIcon from '@/icons/SheildIcon'
-import { MULTIPLIER } from '@/src/config/constants'
+import {
+  CoverStatus,
+  MULTIPLIER
+} from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import {
   convertFromUnits,
   toBN
@@ -27,9 +28,9 @@ import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
 const loading = false
+const isLoading = false
 
 export const ProductCard = ({
-  coverKey,
   productKey,
   productData,
   progressFgColor = undefined,
@@ -39,7 +40,7 @@ export const ProductCard = ({
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const { info: { productStatus }, isLoading } = useFetchCoverStats({ coverKey, productKey })
+  const productStatus = CoverStatus[productData.productStatus]
 
   const capacity = productData.capacity
   const utilization = productData.utilizationRatio

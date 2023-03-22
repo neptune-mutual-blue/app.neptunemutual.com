@@ -1,4 +1,6 @@
-import { AcceptReportRulesForm } from '@/common/AcceptCoverRulesForm/AcceptReportRulesForm'
+import {
+  AcceptReportRulesForm
+} from '@/common/AcceptCoverRulesForm/AcceptReportRulesForm'
 import { Alert } from '@/common/Alert/Alert'
 import { Container } from '@/common/Container/Container'
 import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
@@ -8,6 +10,7 @@ import { MULTIPLIER } from '@/src/config/constants'
 import { isValidProduct } from '@/src/helpers/cover'
 import { toBN } from '@/utils/bn'
 import { Trans } from '@lingui/macro'
+
 import { ReportingInfo } from './ReportingInfo'
 
 export const CoverReportingRules = ({
@@ -15,7 +18,7 @@ export const CoverReportingRules = ({
   handleAcceptRules,
   activeReportings
 }) => {
-  const { reporterCommission } = useCoverStatsContext()
+  const { reporterCommission, reportingPeriod } = useCoverStatsContext()
   const hasActiveReportings = activeReportings && activeReportings.length > 0
   const isDiversified = isValidProduct(coverOrProductData.productKey)
 
@@ -74,7 +77,10 @@ export const CoverReportingRules = ({
               </AcceptReportRulesForm>
             </div>
           </div>
-          <CoverResolutionSources resolutionSources={resolutionSources || []}>
+          <CoverResolutionSources
+            resolutionSources={resolutionSources || []}
+            reportingPeriod={reportingPeriod}
+          >
             {/* <Link href="#">
               <a className="block mt-3 text-4e7dd9 hover:underline">
                 <Trans>Neptune Mutual Reporters</Trans>

@@ -74,7 +74,14 @@ const getSelectedViewOption = (query) => {
 
 export const AvailableCovers = () => {
   const { query, replace } = useRouter()
-  const { loading: coversLoading, getDedicatedCovers, getDiversifiedCovers, getAllProducts } = useCoversAndProducts2()
+  const {
+    loading: coversLoading,
+    getDedicatedCovers,
+    getDiversifiedCovers,
+    getAllProducts,
+    getCoverByCoverKey,
+    getProduct
+  } = useCoversAndProducts2()
 
   const searchTerm = typeof query[SearchQueryParam] === 'string' ? query[SearchQueryParam] : ''
   const selectedSortOption = getSelectedSortOption(query)
@@ -196,38 +203,60 @@ export const AvailableCovers = () => {
         className='grid-rows-5 gap-4 mt-14 lg:mb-24 mb-14 lg:min-h-360 lg:grid-rows-4'
         data-testid='body'
       >
-        {coversLoading && (
-          <CardSkeleton numberOfCards={CARDS_PER_PAGE} className='min-h-301' />
-        )}
+        <Content
+          sortedCoversOrProducts={sortedCovers}
+          loading={coversLoading}
+          selectedViewOption={selectedViewOption}
+          getProduct={getProduct}
+          getCoverByCoverKey={getCoverByCoverKey}
+        />
 
-        {!coversLoading && sortedCovers.length === 0 && (
-          <p data-testid='no-data' className='min-h-301'>No data found</p>
-        )}
-
-        {!coversLoading &&
-          sortedCovers.map((c) => {
-            // if (idx > showCount - 1) return null
-
-            if (selectedViewOption.value === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
-              return (
-                <ProductCardWrapper
-                  className='min-h-301'
-                  key={c.coverKey + c.productKey}
-                  coverKey={c.coverKey}
-                  productKey={c.productKey}
-                />
-              )
-            }
-
-            return (
-              <CoverCardWrapper
-                key={c.coverKey}
-                coverKey={c.coverKey}
-                className='min-h-301'
-              />
-            )
-          })}
       </Grid>
     </Container>
+  )
+}
+
+function Content ({
+  loading,
+  sortedCoversOrProducts,
+  selectedViewOption,
+  getProduct,
+  getCoverByCoverKey
+}) {
+  if (loading) {
+    return (
+      <CardSkeleton numberOfCards={CARDS_PER_PAGE} className='min-h-301' />
+    )
+  }
+
+  if (sortedCoversOrProducts.length === 0) {
+    return <p data-testid='no-data' className='min-h-301'>No data found</p>
+  }
+
+  return (
+    sortedCoversOrProducts.map((c) => {
+      // if (idx > showCount - 1) return null
+
+      if (selectedViewOption.value === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
+        return (
+          <ProductCardWrapper
+            className='min-h-301'
+            key={c.coverKey + c.productKey}
+            coverKey={c.coverKey}
+            productKey={c.productKey}
+            productData={getProduct(c.coverKey, c.productKey)}
+          />
+        )
+      }
+
+      return (
+        <CoverCardWrapper
+          key={c.coverKey}
+          coverKey={c.coverKey}
+          className='min-h-301'
+          coverData={getCoverByCoverKey(c.coverKey)}
+        />
+      )
+    })
   )
 }

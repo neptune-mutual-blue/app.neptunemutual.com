@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
 import { HomeHero } from '@/modules/home/Hero'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { Trans } from '@lingui/macro'
 
 export default function CoverPage () {
@@ -16,7 +16,7 @@ export default function CoverPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { getCoverByCoverKey, loading } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey } = useCoversAndProducts2()
   const coverData = getCoverByCoverKey(coverKey)
 
   return (
@@ -49,7 +49,7 @@ function Content ({ loading, coverData, coverKey, productKey }) {
     )
   }
 
-  const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+  const isDiversified = coverData?.supportsProducts
 
   return (isDiversified
     ? (
