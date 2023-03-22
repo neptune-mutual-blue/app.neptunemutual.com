@@ -51,7 +51,7 @@ export const ProductsGrid = () => {
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
 
-  const { loading, getProductsByCoverKey, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProductsByCoverKey, getCoverByCoverKey, getProduct } = useCoversAndProducts2()
 
   const coverData = getCoverByCoverKey(coverKey)
 
@@ -124,39 +124,48 @@ export const ProductsGrid = () => {
         />
       </div>
 
-      <Content
-        loading={loading}
-        data={sortedCovers}
-      />
+      <Grid className='grid-rows-5 gap-4 mt-14 lg:mb-24 mb-14 lg:grid-rows-4'>
+
+        <Content
+          loading={loading}
+          data={sortedCovers}
+          getProduct={getProduct}
+        />
+      </Grid>
+
     </Container>
   )
 }
 
 function Content ({
   data = [],
-  loading = false
+  loading = false,
+  getProduct
 }) {
+  if (loading) {
+    return <CardSkeleton className='min-h-301' numberOfCards={6} />
+  }
+
+  if (data.length === 0) {
+    return (
+      <p data-testid='no-data' className='min-h-301'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
+  }
+
   return (
     <>
-      <Grid className='grid-rows-5 gap-4 mt-14 lg:mb-24 mb-14 lg:grid-rows-4'>
-
-        {data.map(({ id, coverKey, productKey }) => {
-          return (
-            <ProductCardWrapper
-              key={id}
-              coverKey={coverKey}
-              productKey={productKey}
-            />
-          )
-        })}
-        {loading && <CardSkeleton className='min-h-301' numberOfCards={6} />}
-        {data.length === 0 && (
-          <p data-testid='no-data' className='min-h-301'>
-            <Trans>No Data Found</Trans>
-          </p>
-        )}
-      </Grid>
-
+      {data.map(({ id, coverKey, productKey }) => {
+        return (
+          <ProductCardWrapper
+            key={id}
+            coverKey={coverKey}
+            productKey={productKey}
+            productData={getProduct(coverKey, productKey)}
+          />
+        )
+      })}
     </>
   )
 }

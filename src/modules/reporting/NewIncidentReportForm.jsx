@@ -16,10 +16,7 @@ import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import DateLib from '@/lib/date/DateLib'
-import { log } from '@/src/services/logs'
 import { classNames } from '@/utils/classnames'
-import { analyticsLogger } from '@/utils/logger'
-import { useWeb3React } from '@web3-react/core'
 
 /**
  *
@@ -54,8 +51,6 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
 
   const { minReportingStake } = useCoverStatsContext()
   const tokenDecimals = useTokenDecimals(tokenAddress)
-
-  const { account, chainId } = useWeb3React()
 
   useEffect(() => {
     setButtonDisabled(
@@ -106,38 +101,6 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
     setIsInActive(e.type === 'blur')
   }
 
-  const handleLog = (sequence) => {
-    const funnel = 'Report an Incident'
-    const journey = 'report-incident-page'
-
-    let step, event
-    switch (sequence) {
-      case 1:
-        step = 'approve-button'
-        event = 'click'
-        break
-
-      case 2:
-        step = 'report-button'
-        event = 'click'
-        break
-
-      case 9999:
-        step = 'end'
-        event = 'closed'
-        break
-
-      default:
-        step = 'step'
-        event = 'event'
-        break
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
-  }
-
   /**
    * @param {Object} e
    */
@@ -167,13 +130,9 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
       }
 
       handleReport(payload)
-
-      handleLog(2)
-      handleLog(9999)
     } else {
       // ask for approval
       handleApprove()
-      handleLog(1)
     }
   }
 

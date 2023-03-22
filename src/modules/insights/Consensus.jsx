@@ -127,11 +127,8 @@ const CoverCell = ({ row, setData, index }) => {
 const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, setData }) => {
   const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
 
-  const protectionLong = isLoading
-    ? {
-        short: '',
-        long: ''
-      }
+  const protection = isLoading
+    ? { short: '', long: '' }
     : formatCurrency(
       convertFromUnits(info.activeCommitment, liquidityTokenDecimals).toString(),
       locale
@@ -149,8 +146,8 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, setData })
   }, [info, row, isLoading, setData, index])
 
   return (
-    <div title={protectionLong.long}>
-      {protectionLong.short}
+    <div title={protection.long}>
+      {protection.short}
     </div>
   )
 }

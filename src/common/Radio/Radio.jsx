@@ -21,7 +21,7 @@ const Radio = ({ label, id, disabled, className = '', labelClass = '', ...rest }
       />
       <label
         className={classNames(
-          'text-sm uppercase flex-1', labelClass,
+          'text-sm uppercase flex-1 ml-2', labelClass,
           disabled && 'cursor-not-allowed'
         )}
         htmlFor={id}
@@ -56,7 +56,7 @@ const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...
 
       <label
         className={classNames(
-          'cursor-pointer text-sm uppercase flex-1', labelClass,
+          'cursor-pointer text-sm uppercase flex-1 ml-2', labelClass,
           disabled && 'cursor-not-allowed'
         )}
         htmlFor={id}
@@ -67,4 +67,4 @@ const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...
   )
 }
 
-export { Radio, CustomRadio }
+export { CustomRadio, Radio }

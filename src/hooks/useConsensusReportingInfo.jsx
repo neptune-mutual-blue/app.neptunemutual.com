@@ -1,10 +1,10 @@
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { ADDRESS_ONE, UNSTAKE_INFO_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
+import { getUnstakeInfoFor } from '@/src/services/protocol/consensus/info'
+import { getReplacedString } from '@/utils/string'
 import { useWeb3React } from '@web3-react/core'
 import { useCallback, useEffect, useState } from 'react'
-import { getReplacedString } from '@/utils/string'
-import { ADDRESS_ONE, UNSTAKE_INFO_URL } from '@/src/config/constants'
-import { getUnstakeInfoFor } from '@/src/services/protocol/consensus/info'
 
 const defaultInfo = {
   yes: '0',
@@ -74,10 +74,28 @@ export const useConsensusReportingInfo = ({
         return
       }
 
-      data = (await response.json()).data
+      const result = (await response.json())
+      data = result.data
     }
 
-    return data
+    return {
+      yes: data.yes || defaultInfo.yes,
+      no: data.no || defaultInfo.no,
+      myYes: data.myYes || defaultInfo.myYes,
+      myNo: data.myNo || defaultInfo.myNo,
+      totalStakeInWinningCamp: data.totalStakeInWinningCamp || defaultInfo.totalStakeInWinningCamp,
+      totalStakeInLosingCamp: data.totalStakeInLosingCamp || defaultInfo.totalStakeInLosingCamp,
+      myStakeInWinningCamp: data.myStakeInWinningCamp || defaultInfo.myStakeInWinningCamp,
+      unstaken: data.unstaken || defaultInfo.unstaken,
+      latestIncidentDate: data.latestIncidentDate || defaultInfo.latestIncidentDate,
+      burnRate: data.burnRate || defaultInfo.burnRate,
+      reporterCommission: data.reporterCommission || defaultInfo.reporterCommission,
+      allocatedReward: data.allocatedReward || defaultInfo.allocatedReward,
+      toBurn: data.toBurn || defaultInfo.toBurn,
+      toReporter: data.toReporter || defaultInfo.toReporter,
+      myReward: data.myReward || defaultInfo.myReward,
+      willReceive: data.willReceive || defaultInfo.willReceive
+    }
   }, [networkId, coverKey, account, library, productKey, incidentDate])
 
   useEffect(() => {

@@ -1,5 +1,6 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
-import { useLiquidityTxs } from '@/src/hooks/useLiquidityTxs'
+import { CoverAvatar } from '@/common/CoverAvatar'
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableShowMore,
@@ -7,29 +8,27 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { convertFromUnits } from '@/utils/bn'
-import { useWeb3React } from '@web3-react/core'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { useNetwork } from '@/src/context/Network'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { CoverAvatar } from '@/common/CoverAvatar'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import { LastSynced } from '@/common/LastSynced'
-import { renderHeader } from '@/common/Table/renderHeader'
-import { useSortData } from '@/src/hooks/useSortData'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
+import { useLiquidityTxs } from '@/src/hooks/useLiquidityTxs'
+import { usePagination } from '@/src/hooks/usePagination'
+import { useRegisterToken } from '@/src/hooks/useRegisterToken'
+import { useSortData } from '@/src/hooks/useSortData'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { t, Trans } from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -131,14 +130,13 @@ const WhenRenderer = ({ row }) => {
 }
 
 const DetailsRenderer = ({ row }) => {
-  const productKey = safeFormatBytes32String('')
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: row.cover.id,
-    productKey: productKey
-  })
+  const coverKey = row.cover.id
   const { liquidityTokenDecimals } = useAppConstants()
 
-  if (!coverInfo) {
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const coverData = getCoverByCoverKey(coverKey)
+
+  if (loading) {
     return null
   }
 
@@ -149,23 +147,21 @@ const DetailsRenderer = ({ row }) => {
     />
   )
 
-  const coverKey = row.cover.id
-  const { products } = coverInfo
-  const isDiversified = coverInfo?.supportsProducts
-  const coverOrProjectName = coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
+  const isDiversified = coverData?.supportsProducts
+  const projectName = coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
 
   return (
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center gap-1 w-max'>
         <CoverAvatar
           imgs={isDiversified
-            ? products.map(x => ({
+            ? getProductsByCoverKey(coverKey).map(x => ({
               src: getCoverImgSrc({ key: x.productKey }),
-              alt: x.infoObj.productName
+              alt: x.productInfoDetails?.productName
             }))
             : [{
                 src: getCoverImgSrc({ key: coverKey }),
-                alt: coverOrProjectName
+                alt: projectName
               }]}
           containerClass='grow-0'
           size='xs'
@@ -174,12 +170,12 @@ const DetailsRenderer = ({ row }) => {
           {row.type === 'PodsIssued'
             ? (
               <Trans>
-                Added {tokenAmountWithSymbol} to {coverOrProjectName} Cover
+                Added {tokenAmountWithSymbol} to {projectName} Cover
               </Trans>
               )
             : (
               <Trans>
-                Removed {tokenAmountWithSymbol} from {coverOrProjectName} Cover
+                Removed {tokenAmountWithSymbol} from {projectName} Cover
               </Trans>
               )}
         </span>
