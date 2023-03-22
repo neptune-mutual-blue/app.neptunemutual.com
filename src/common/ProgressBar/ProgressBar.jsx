@@ -13,8 +13,8 @@ export const ProgressBar = ({
       )}
     >
       <div
-        className={classNames('max-w-full py-1 rounded-full min-w-5', fgClass)}
-        style={{ width: `${value * 100}%` }}
+        className={classNames('max-w-full py-1 rounded-full min-w-5 transition-all', fgClass)}
+        style={{ width: value ? `${value * 100}%` : '0%' }}
       />
     </div>
   )

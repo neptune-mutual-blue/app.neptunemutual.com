@@ -1,19 +1,32 @@
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
+import { useRouter } from 'next/router'
+
+import {
+  Badge,
+  E_CARD_STATUS,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
 import SheildIcon from '@/icons/SheildIcon'
 import DateLib from '@/lib/date/DateLib'
-import { MULTIPLIER } from '@/src/config/constants'
+import {
+  CoverStatus,
+  MULTIPLIER
+} from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -23,6 +36,7 @@ import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
 const loading = false
+const isLoading = false
 
 export const ActiveReportingCard = ({
   id,
@@ -42,7 +56,7 @@ export const ActiveReportingCard = ({
   const utilization = coverOrProductData.utilizationRatio
   const commitment = coverOrProductData.commitment
 
-  const { info: { productStatus }, isLoading } = useFetchCoverStats({ coverKey, productKey })
+  const productStatus = CoverStatus[coverOrProductData.productStatus]
 
   const formattedProtection = formatCurrency(
     convertFromUnits(commitment, liquidityTokenDecimals).toString(),

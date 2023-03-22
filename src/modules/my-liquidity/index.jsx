@@ -67,7 +67,7 @@ function MyLiquidities ({ data, loading }) {
       {data.map((x) => {
         const coverKey = x.cover.id
         const coverData = getCoverByCoverKey(coverKey)
-        const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+        const isDiversified = coverData?.supportsProducts
 
         return (
           <Link href={Routes.MyCoverLiquidity(coverKey)} key={x.id}>

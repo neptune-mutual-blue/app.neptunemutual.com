@@ -1,28 +1,32 @@
-import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
+import {
+  Badge,
+  E_CARD_STATUS,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import DateLib from '@/lib/date/DateLib'
-import { ReportStatus } from '@/src/config/constants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import {
+  CoverStatus,
+  ReportStatus
+} from '@/src/config/constants'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import { useValidReport } from '@/src/hooks/useValidReport'
 import { PolicyCardFooter } from '@/src/modules/my-policies/PolicyCardFooter'
 import { isGreater } from '@/utils/bn'
 
-export const PolicyCard = ({ policyInfo }) => {
+export const PolicyCard = ({ policyInfo, coverOrProductData }) => {
   const { cxToken } = policyInfo
   const coverKey = policyInfo.coverKey
   const productKey = policyInfo.productKey
   const isDiversified = isValidProduct(productKey)
 
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
-
-  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
 
   const validityStartsAt = cxToken.creationDate || '0'
@@ -35,11 +39,7 @@ export const PolicyCard = ({ policyInfo }) => {
   })
 
   const { balance } = useERC20Balance(cxToken.id)
-  const { info: { productStatus } } = useFetchCoverStats({ coverKey, productKey })
-
-  if (loading) {
-    return <CardSkeleton numberOfCards={1} />
-  }
+  const productStatus = CoverStatus[coverOrProductData.productStatus]
 
   const now = DateLib.unix()
   const isPolicyExpired = isGreater(now, validityEndsAt)

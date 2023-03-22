@@ -94,17 +94,17 @@ export const CoversAndProductsProvider2 = ({ children }) => {
 
   // Get dedicated covers
   const getDedicatedCovers = () => {
-    return data.filter(x => !x.productKey && !x.coverInfoDetails.supportsProducts)
+    return data.filter(x => !x.productKey && !x.supportsProducts)
   }
 
   // Get diversified covers
   const getDiversifiedCovers = () => {
-    return data.filter(x => !x.productKey && x.coverInfoDetails.supportsProducts)
+    return data.filter(x => !x.productKey && x.supportsProducts)
   }
 
   // Get dedicated covers and products of diverisified covers
   const getAllProducts = () => {
-    return data.filter(x => x.productKey || !x.coverInfoDetails.supportsProducts)
+    return data.filter(x => x.productKey || !x.supportsProducts)
   }
 
   const getCoverByCoverKey = (coverKey) => {
@@ -112,7 +112,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   }
 
   const getProductsByCoverKey = (coverKey) => {
-    return data.filter(x => x.coverKey === coverKey && x.coverInfoDetails.supportsProducts && x.productKey)
+    return data.filter(x => x.coverKey === coverKey && x.productKey)
   }
 
   const getProduct = (coverKey, productKey) => {
