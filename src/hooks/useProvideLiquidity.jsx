@@ -19,7 +19,6 @@ import { useCalculatePods } from '@/src/hooks/useCalculatePods'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
-import { logAddLiquidity } from '@/src/services/logs'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -33,7 +32,6 @@ import {
 } from '@/utils/bn'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { analyticsLogger } from '@/utils/logger'
 import { t } from '@lingui/macro'
 import {
   registry,
@@ -383,7 +381,6 @@ export const useProvideLiquidity = ({
                   value: lqValue
                 }
               })
-              analyticsLogger(() => logAddLiquidity(logData))
 
               onTxSuccess()
             },

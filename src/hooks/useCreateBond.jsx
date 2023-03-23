@@ -1,42 +1,44 @@
-import { useEffect, useState } from 'react'
-
-import { useWeb3React } from '@web3-react/core'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { registry } from '@neptunemutual/sdk'
 import {
-  convertToUnits,
-  isGreater,
-  isGreaterOrEqual,
-  isEqualTo,
-  isValidNumber,
-  convertFromUnits,
-  sumOf
-} from '@/utils/bn'
-import { useNetwork } from '@/src/context/Network'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useBondPoolAddress } from '@/src/hooks/contracts/useBondPoolAddress'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useTxPoster } from '@/src/context/TxPoster'
-import { useDebounce } from '@/src/hooks/useDebounce'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import DateLib from '@/lib/date/DateLib'
+import { getMonthNames } from '@/lib/dates'
+import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { getActionMessage } from '@/src/helpers/notification'
+import { useBondPoolAddress } from '@/src/hooks/contracts/useBondPoolAddress'
+import { useDebounce } from '@/src/hooks/useDebounce'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
-import { logBondCreated, logBondLpTokenApproval } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
-import DateLib from '@/lib/date/DateLib'
+import {
+  convertFromUnits,
+  convertToUnits,
+  isEqualTo,
+  isGreater,
+  isGreaterOrEqual,
+  isValidNumber,
+  sumOf
+} from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { getMonthNames } from '@/lib/dates'
+import { t } from '@lingui/macro'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT)
@@ -234,7 +236,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
                 methodName: METHODS.BOND_APPROVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondLpTokenApproval(networkId, account, value, tx.hash))
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -340,7 +341,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
                 methodName: METHODS.BOND_CREATE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondCreated(logData))
+
               onTxSuccess()
             },
             onTxFailure: () => {

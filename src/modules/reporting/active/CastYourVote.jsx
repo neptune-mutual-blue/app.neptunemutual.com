@@ -5,7 +5,6 @@ import {
 } from 'react'
 
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
@@ -17,7 +16,6 @@ import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useVote } from '@/src/hooks/useVote'
-import { log } from '@/src/services/logs'
 import {
   convertFromUnits,
   convertToUnits,
@@ -25,12 +23,10 @@ import {
   isGreater,
   toBN
 } from '@/utils/bn'
-import { analyticsLogger } from '@/utils/logger'
 import {
   t,
   Trans
 } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
 
 export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, minReportingStake }) => {
   const options = useMemo(() => {
@@ -65,9 +61,6 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
   })
 
   const tokenDecimals = useTokenDecimals(tokenAddress)
-
-  const { account, chainId } = useWeb3React()
-  const { query } = useRouter()
 
   useEffect(() => {
     if (!value && error) {
@@ -125,18 +118,6 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
     loadingMessage = t`Fetching balance...`
   } else if (loadingAllowance) {
     loadingMessage = t`Fetching allowance...`
-  }
-
-  const handleLog = () => {
-    const funnel = 'Submit Dispute'
-    const journey = `${query?.coverId}${query?.productId ? '-' + query.productId : ''}-${query?.timestamp}-incident-page`
-    const sequence = 1
-    const step = 'add-dispute-button'
-    const event = 'click'
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
   }
 
   return (
@@ -269,7 +250,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
           >
             <RegularButton
               className='flex-auto w-full py-6 mt-4 font-semibold uppercase lg:w-64 mb-11 sm:mb-0 whitespace-nowrap text-EEEEEE'
-              onClick={handleLog}
+
             >
               <Trans>Add Dispute</Trans>
             </RegularButton>

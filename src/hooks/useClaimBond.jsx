@@ -1,27 +1,26 @@
 import { useState } from 'react'
-import { t } from '@lingui/macro'
 
-import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { registry } from '@neptunemutual/sdk'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useTxPoster } from '@/src/context/TxPoster'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { getActionMessage } from '@/src/helpers/notification'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { getActionMessage } from '@/src/helpers/notification'
-import { logBondClaimed } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
 import { formatAmount } from '@/utils/formatter'
-import { useRouter } from 'next/router'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { t } from '@lingui/macro'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useClaimBond = ({ claimable }) => {
   const [claiming, setClaiming] = useState(false)
@@ -102,7 +101,7 @@ export const useClaimBond = ({ claimable }) => {
                 methodName: METHODS.BOND_CLAIM,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondClaimed(logData))
+
               onTxSuccess()
             },
             onTxFailure: () => {

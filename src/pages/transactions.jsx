@@ -1,26 +1,16 @@
-
-import { HeroTitle } from '@/common/HeroTitle'
-import { t, Trans } from '@lingui/macro'
+import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
-import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
-import { Routes } from '@/src/config/routes'
-import { MyTransactionsTable } from '@/modules/transactions/MyTransactionsTable'
-import { useRouter } from 'next/router'
-import { useWeb3React } from '@web3-react/core'
-import { logPageLoad } from '@/src/services/logs'
-import { useEffect } from 'react'
-import { analyticsLogger } from '@/utils/logger'
+import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
+import { MyTransactionsTable } from '@/modules/transactions/MyTransactionsTable'
+import { Routes } from '@/src/config/routes'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export default function Home () {
-  const router = useRouter()
-  const { account, chainId } = useWeb3React()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
-  }, [account, chainId, router.asPath])
-
   return (
     <main>
       <Seo />

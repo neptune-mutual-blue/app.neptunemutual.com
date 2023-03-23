@@ -1,4 +1,7 @@
-import { convertToUnits, toBN } from '@/utils/bn'
+import {
+  convertToUnits,
+  toBN
+} from '@/utils/bn'
 
 export const testData = {
   covers: [
@@ -1460,19 +1463,6 @@ export const testData = {
       policyId: toBN('100'),
       from: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9'
     }
-  },
-  getcoverStats: {
-    totalPoolAmount: '4306087000000',
-    activeCommitment: '0',
-    availableLiquidity: '4306087000000',
-    reporterCommission: '1000',
-    claimPlatformFee: '650',
-    reportingPeriod: '1800',
-    productStatus: '',
-    minReportingStake: '5000000000000000000000',
-    activeIncidentDate: '0',
-    requiresWhitelist: true,
-    isUserWhitelisted: false
   },
   myLiquidities: {
     data: { liquidityList: [], myLiquidities: {} },

@@ -1,26 +1,30 @@
 import { useState } from 'react'
-import { t } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
+
+import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { registry } from '@neptunemutual/sdk'
-import { convertFromUnits, convertToUnits } from '@/utils/bn'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTxPoster } from '@/src/context/TxPoster'
 import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { getActionMessage } from '@/src/helpers/notification'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { log } from '@/src/services/logs'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
-import { log, logStakingPoolWithdraw, logStakingPoolWithdrawRewards } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import {
+  convertFromUnits,
+  convertToUnits
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import { t } from '@lingui/macro'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -136,7 +140,7 @@ export const useStakingPoolWithdraw = ({
                   tokenSymbol
                 }
               })
-              analyticsLogger(() => logStakingPoolWithdraw(logData))
+
               log(networkId, 'Withdraw Reward', 'stake-page', 'end', 9999, account, 'closed')
               onTxSuccess()
             },
@@ -187,14 +191,11 @@ export const useStakingPoolWithdraw = ({
   }
 }
 
-export const useStakingPoolWithdrawRewards = ({ poolKey, poolInfo, refetchInfo, rewardTokenSymbol, rewardAmount }) => {
+export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardTokenSymbol, rewardAmount }) => {
   const [withdrawingRewards, setWithdrawingRewards] = useState(false)
 
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
-  const router = useRouter()
-  const stakingTokenDecimals = useTokenDecimals(poolInfo.stakingToken)
-  const stakingTokenSymbol = useTokenSymbol(poolInfo.stakingToken)
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
@@ -268,24 +269,6 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, poolInfo, refetchInfo, 
                   tokenSymbol: rewardTokenSymbol
                 }
               })
-              analyticsLogger(() => logStakingPoolWithdrawRewards({
-                network: NetworkNames[networkId],
-                networkId,
-                sales: 'N/A',
-                salesCurrency: 'N/A',
-                salesFormatted: 'N/A',
-                account,
-                tx: tx.hash,
-                poolKey,
-                poolName: poolInfo.name,
-                reward: rewardAmount,
-                rewardCurrency: rewardTokenSymbol,
-                rewardFormatted: formatCurrency(rewardAmount, router.locale, rewardTokenSymbol, true).short,
-                stake: convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(),
-                stakeCurrency: stakingTokenSymbol,
-                stakeFormatted: formatCurrency(convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
-              }))
-              log(networkId, 'Collect Staking Reward', 'stake-page', 'end', 9999, account, 'closed')
 
               onTxSuccess()
             },

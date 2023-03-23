@@ -1,23 +1,25 @@
+import { useRouter } from 'next/router'
 
+import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
-import { HeroTitle } from '@/common/HeroTitle'
 import { HeroStat } from '@/common/HeroStat'
+import { HeroTitle } from '@/common/HeroTitle'
+import { Seo } from '@/common/Seo'
 import { MyLiquidityPage } from '@/modules/my-liquidity'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { ComingSoon } from '@/common/ComingSoon'
-import { useWeb3React } from '@web3-react/core'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { useAppConstants } from '@/src/context/AppConstants'
+import {
+  useCalculateTotalLiquidity
+} from '@/src/hooks/useCalculateTotalLiquidity'
 import { useMyLiquidities } from '@/src/hooks/useMyLiquidities'
 import { convertFromUnits } from '@/utils/bn'
-import { isFeatureEnabled } from '@/src/config/environment'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useCalculateTotalLiquidity } from '@/src/hooks/useCalculateTotalLiquidity'
-import { logPageLoad } from '@/src/services/logs'
-import { useEffect } from 'react'
-import { analyticsLogger } from '@/utils/logger'
-import { Seo } from '@/common/Seo'
+import { formatCurrency } from '@/utils/formatter/currency'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -29,7 +31,7 @@ export function getStaticProps () {
 }
 
 export default function MyLiquidity ({ disabled }) {
-  const { account, chainId } = useWeb3React()
+  const { account } = useWeb3React()
   const { data, loading } = useMyLiquidities(account)
   const { liquidityList, myLiquidities } = data
   const totalLiquidityProvided = useCalculateTotalLiquidity({ liquidityList })
@@ -37,10 +39,6 @@ export default function MyLiquidity ({ disabled }) {
   const router = useRouter()
 
   const { liquidityTokenDecimals } = useAppConstants()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
-  }, [account, chainId, router.asPath])
 
   if (disabled) {
     return <ComingSoon />

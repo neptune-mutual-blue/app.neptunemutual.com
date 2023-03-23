@@ -1,7 +1,28 @@
-import { useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
+import {
+  useEffect,
+  useState
+} from 'react'
 
+import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { getActionMessage } from '@/src/helpers/notification'
+import {
+  useGovernanceAddress
+} from '@/src/hooks/contracts/useGovernanceAddress'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { METHODS } from '@/src/services/transactions/const'
+import {
+  STATUS,
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
 import {
   convertFromUnits,
   convertToUnits,
@@ -10,28 +31,11 @@ import {
   isValidNumber,
   toBN
 } from '@/utils/bn'
-import { useNetwork } from '@/src/context/Network'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useRouter } from 'next/router'
-import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { governance } from '@neptunemutual/sdk'
-import { t } from '@lingui/macro'
-import { METHODS } from '@/src/services/transactions/const'
-import {
-  STATUS,
-  TransactionHistory
-} from '@/src/services/transactions/transaction-history'
-import { getActionMessage } from '@/src/helpers/notification'
-import { Routes } from '@/src/config/routes'
-import { logIncidentDisputed, logIncidentDisputeStakeApproved } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { t } from '@lingui/macro'
+import { governance } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useDisputeIncident = ({
   coverKey,
@@ -121,7 +125,6 @@ export const useDisputeIncident = ({
                 methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logIncidentDisputeStakeApproved(networkId, account, coverKey, productKey, value, tx.hash))
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -234,8 +237,6 @@ export const useDisputeIncident = ({
               methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
               status: STATUS.SUCCESS
             })
-
-            analyticsLogger(() => logIncidentDisputed(logData))
 
             router.replace(
               Routes.ViewReport(coverKey, productKey, incidentDate)

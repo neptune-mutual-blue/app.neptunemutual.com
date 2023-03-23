@@ -1,32 +1,47 @@
-import { useState, useEffect } from 'react'
-import { CollectRewardModal } from '@/src/modules/pools/staking/CollectRewardModal'
-import AddIcon from '@/icons/AddIcon'
-import { DoubleImage } from '@/common/DoubleImage'
-import { StakingCardTitle } from '@/src/modules/pools/staking/StakingCardTitle'
-import { StakingCardSubTitle } from '@/src/modules/pools/staking/StakingCardSubTitle'
-import { StakingCardCTA } from '@/src/modules/pools/staking/StakingCardCTA'
-import { StakeModal } from '@/src/modules/pools/staking/StakeModal'
-import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { getTokenImgSrc } from '@/src/helpers/token'
-import { PoolCardStat } from '@/modules/pools/staking/PoolCardStat'
-import { usePoolInfo } from '@/src/hooks/usePoolInfo'
-import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
-import { config } from '@neptunemutual/sdk'
-import { useNetwork } from '@/src/context/Network'
-import { explainInterval } from '@/utils/formatter/interval'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { formatPercent } from '@/utils/formatter/percent'
-import { Badge } from '@/common/Badge/Badge'
-import { PoolTypes } from '@/src/config/constants'
-import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
-import { t, Trans } from '@lingui/macro'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
+
+import { Badge } from '@/common/Badge/Badge'
+import { DoubleImage } from '@/common/DoubleImage'
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
+import AddIcon from '@/icons/AddIcon'
+import { PoolCardStat } from '@/modules/pools/staking/PoolCardStat'
+import { PoolTypes } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { log, logStakingPoolCollectPopupToggled, logStakingPoolDepositPopupToggled } from '@/src/services/logs'
+import { useNetwork } from '@/src/context/Network'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { getTokenImgSrc } from '@/src/helpers/token'
+import { usePoolInfo } from '@/src/hooks/usePoolInfo'
+import {
+  CollectRewardModal
+} from '@/src/modules/pools/staking/CollectRewardModal'
+import { StakeModal } from '@/src/modules/pools/staking/StakeModal'
+import { StakingCardCTA } from '@/src/modules/pools/staking/StakingCardCTA'
+import {
+  StakingCardSubTitle
+} from '@/src/modules/pools/staking/StakingCardSubTitle'
+import { StakingCardTitle } from '@/src/modules/pools/staking/StakingCardTitle'
+import { log } from '@/src/services/logs'
+import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
+import {
+  convertFromUnits,
+  isGreater,
+  toBN
+} from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { explainInterval } from '@/utils/formatter/interval'
+import { formatPercent } from '@/utils/formatter/percent'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { config } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { analyticsLogger } from '@/utils/logger'
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -53,22 +68,16 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   function onStakeModalOpen () {
     setIsStakeModalOpen(true)
-    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, data.name, poolKey, true))
-    log(networkId, analyticsFunnelName, 'stake-page', 'staking-modal', 2, account, 'pop-up')
   }
   function onStakeModalClose () {
     setIsStakeModalOpen(false)
-    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, data.name, poolKey, false))
   }
 
   function onCollectModalClose () {
     setIsCollectModalOpen(false)
-    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, data.name, poolKey, false))
   }
   function onCollectModalOpen () {
     setIsCollectModalOpen(true)
-    log(networkId, 'Collect Staking Reward', 'stake-page', 'collect-modal', 2, account, 'pop-up')
-    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, data.name, poolKey, true))
   }
 
   const poolKey = data.key

@@ -19,15 +19,11 @@ import {
   NewIncidentReportForm
 } from '@/src/modules/reporting/NewIncidentReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
-import { logReportIncidentRulesAccepted } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
   const [accepted, setAccepted] = useState(false)
   const router = useRouter()
-  const { account, chainId } = useWeb3React()
 
   const isDiversified = isValidProduct(productKey)
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
@@ -71,7 +67,6 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
 
   const handleAcceptRules = () => {
     setAccepted(true)
-    analyticsLogger(() => logReportIncidentRulesAccepted(chainId ?? null, account ?? null, coverKey, productKey))
   }
 
   return (

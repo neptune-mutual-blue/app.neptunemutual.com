@@ -1,3 +1,10 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { DisabledInput } from '@/common/Input/DisabledInput'
@@ -6,21 +13,31 @@ import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
-import { DEBOUNCE_TIMEOUT, MULTIPLIER } from '@/src/config/constants'
+import {
+  DEBOUNCE_TIMEOUT,
+  MULTIPLIER
+} from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
 import { useClaimPolicyInfo } from '@/src/hooks/useClaimPolicyInfo'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { useCxTokenRowContext } from '@/src/modules/my-policies/CxTokenRowContext'
-import { log } from '@/src/services/logs'
-import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
+import {
+  useCxTokenRowContext
+} from '@/src/modules/my-policies/CxTokenRowContext'
+import {
+  convertFromUnits,
+  isGreater,
+  toBN
+} from '@/utils/bn'
 import { formatPercent } from '@/utils/formatter/percent'
-import { analyticsLogger } from '@/utils/logger'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -59,54 +76,14 @@ export const ClaimCoverModal = ({
   })
   const router = useRouter()
 
-  const { account, chainId } = useWeb3React()
-
-  const handleLog = useCallback((sequence) => {
-    const funnel = 'Claim Cover'
-    const journey = 'my-policies-list-claims-page'
-    let step, event
-
-    switch (sequence) {
-      case 2:
-        step = 'claim-cover-modal'
-        event = 'pop-up'
-        break
-
-      case 3:
-        step = 'approve-button'
-        event = 'click'
-        break
-
-      case 4:
-        step = 'claim-button'
-        event = 'click'
-        break
-
-      case 9999:
-        step = 'end'
-        event = 'closed'
-        break
-
-      default:
-        step = 'step'
-        event = 'event'
-        break
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
-  }, [account, chainId])
-
   // Clear on modal close
   useEffect(() => {
     if (isOpen) {
-      handleLog(2)
       return
     }
 
     setValue('')
-  }, [handleLog, isOpen])
+  }, [isOpen])
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance, tokenDecimals).toString())
@@ -205,7 +182,6 @@ export const ClaimCoverModal = ({
                 disabled={!value || approving || error || loadingMessage}
                 onClick={() => {
                   handleApprove()
-                  handleLog(3)
                 }}
                 data-testid='approve-button'
               >
@@ -220,8 +196,6 @@ export const ClaimCoverModal = ({
                   handleClaim(() => {
                     setValue('')
                   })
-                  handleLog(4)
-                  handleLog(9999)
                 }}
                 data-testid='claim-button'
               >
