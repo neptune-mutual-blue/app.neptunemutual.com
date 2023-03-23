@@ -2,7 +2,8 @@ import { useRouter } from 'next/router'
 
 import { Container } from '@/common/Container/Container'
 import { PurchasePolicyForm } from '@/common/CoverForm/PurchasePolicyForm'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { isValidProduct } from '@/src/helpers/cover'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
 
@@ -11,7 +12,12 @@ export const CoverPurchaseDetailsPage = () => {
   const { coverId, productId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
-  const { coverInfo, loading } = useCoverOrProductData({ coverKey, productKey })
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+
+  const isDiversified = isValidProduct(productKey)
+  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+  const parameters = isDiversified ? coverOrProductData?.productInfoDetails?.parameters : coverOrProductData?.coverInfoDetails?.parameters
 
   if (loading) {
     return (
@@ -20,7 +26,7 @@ export const CoverPurchaseDetailsPage = () => {
       </p>
     )
   }
-  if (!loading && !coverInfo) {
+  if (!coverOrProductData) {
     return (
       <p className='text-center'>
         <Trans>No Data Found</Trans>
@@ -37,7 +43,14 @@ export const CoverPurchaseDetailsPage = () => {
               <PurchasePolicyForm
                 coverKey={coverKey}
                 productKey={productKey}
-                coverInfo={coverInfo}
+                availableForUnderwriting={coverOrProductData?.availableForUnderwriting}
+                isUserWhitelisted={coverOrProductData?.isUserWhitelisted}
+                requiresWhitelist={coverOrProductData?.requiresWhitelist}
+                activeIncidentDate={coverOrProductData?.activeIncidentDate}
+                productStatus={coverOrProductData?.productStatus}
+                coverageLag={coverOrProductData?.coverageLag}
+                projectOrProductName={projectOrProductName}
+                parameters={parameters}
               />
             </div>
           </div>

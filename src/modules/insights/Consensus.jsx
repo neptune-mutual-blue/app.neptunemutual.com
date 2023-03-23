@@ -1,23 +1,30 @@
+import { useRouter } from 'next/router'
+
+import { Badge } from '@/common/Badge/Badge'
+import {
+  Badge as CardStatusBadge,
+  E_CARD_STATUS,
+  identifyStatus
+} from '@/common/CardStatusBadge'
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableWrapper,
   TBody,
   THead
 } from '@/common/Table/Table'
-import { t } from '@lingui/macro'
-import { renderHeader } from '@/common/Table/renderHeader'
-import * as CardStatusBadgeDefault from '@/common/CardStatusBadge'
-import { Badge } from '@/common/Badge/Badge'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits } from '@/utils/bn'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-
-const { Badge: CardStatusBadge, identifyStatus, E_CARD_STATUS } = CardStatusBadgeDefault
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
@@ -85,87 +92,40 @@ const StakeText = ({ amount, locale, NPMTokenSymbol }) => {
   )
 }
 
-const CoverCell = ({ row, setData, index }) => {
-  const { coverInfo } = useCoverOrProductData({ coverKey: row.coverKey, productKey: row.productKey })
-
-  const isDiversified = isValidProduct(coverInfo?.productKey)
-
-  const name = isDiversified ? coverInfo?.infoObj?.productName : coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || ''
+const renderCover = (row, _extraData) => {
+  const isDiversified = isValidProduct(row.productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? row.productKey : row.coverKey })
 
-  useEffect(() => {
-    setData((_data) => {
-      const newRow = row
-      newRow.coverInfo = coverInfo
-      newRow.name = name
-      newRow.imgSrc = imgSrc
-      _data.incidentReports[index] = newRow
-
-      return _data
-    })
-  }, [coverInfo, row, imgSrc, index, name, setData])
-
-  return (
-    <div
-      className='flex items-center text-sm leading-5 cursor-pointer w-[154px] text-01052D'
-    >
-      <img
-        src={imgSrc}
-        alt={name}
-        className='w-6 h-6 mr-2'
-        data-testid='cover-img'
-            // @ts-ignore
-        onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
-      />
-      <div className='overflow-hidden text-sm overflow-ellipsis' title={name}>
-        {name}
-      </div>
-    </div>
-  )
-}
-
-const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, setData }) => {
-  const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
-
-  const protection = isLoading
-    ? { short: '', long: '' }
-    : formatCurrency(
-      convertFromUnits(info.activeCommitment, liquidityTokenDecimals).toString(),
-      locale
-    )
-
-  useEffect(() => {
-    setData((_data) => {
-      const newRow = row
-      newRow.coverStats = info
-      newRow.coverStatsLoading = isLoading
-      _data.incidentReports[index] = newRow
-
-      return _data
-    })
-  }, [info, row, isLoading, setData, index])
-
-  return (
-    <div title={protection.long}>
-      {protection.short}
-    </div>
-  )
-}
-
-const renderCover = (row, { setData }, index) => {
   return (
     <td className='px-6 py-4 pr-9'>
-      <CoverCell row={row} setData={setData} index={index} />
+      <div className='flex items-center text-sm leading-5 cursor-pointer w-[154px] text-01052D'>
+        <img
+          src={imgSrc}
+          alt={row.projectOrProductName}
+          className='w-6 h-6 mr-2'
+          data-testid='cover-img'
+            // @ts-ignore
+          onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
+        />
+        <div className='overflow-hidden text-sm overflow-ellipsis' title={row.projectOrProductName}>
+          {row.projectOrProductName}
+        </div>
+      </div>
     </td>
   )
 }
 
-const renderProtection = (row, { liquidityTokenDecimals, locale, setData }, index) => {
+const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
+  const protection = formatCurrency(
+    convertFromUnits(row.coverOrProductData.commitment, liquidityTokenDecimals).toString(),
+    locale
+  )
+
   return (
-    <td
-      className='max-w-xs px-6 py-5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
-    >
-      <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} setData={setData} index={index} />
+    <td className='max-w-xs px-6 py-5 text-sm leading-5 text-right whitespace-nowrap text-01052D'>
+      <div title={protection.long}>
+        {protection.short}
+      </div>
     </td>
   )
 }
@@ -203,9 +163,34 @@ const columns = [
   }
 ]
 
-function Consensus ({ data, loading, setData, setConsensusIndex }) {
+function Consensus ({ data, loading, setConsensusIndex }) {
   const router = useRouter()
   const { liquidityTokenDecimals, NPMTokenSymbol } = useAppConstants()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+
+  const reports = loading ? [] : data.incidentReports || []
+  const rowsData = reports.map(report => {
+    const coverKey = report.coverKey
+    const productKey = report.productKey
+
+    const isDiversified = isValidProduct(productKey)
+    const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
+    const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+
+    return {
+      ...report,
+      coverOrProductData,
+      projectOrProductName
+    }
+  })
+
+  if (dataLoading) {
+    return (
+      <p>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
 
   return (
     <div>
@@ -221,7 +206,6 @@ function Consensus ({ data, loading, setData, setConsensusIndex }) {
             extraData={{
               locale: router.locale,
               liquidityTokenDecimals,
-              setData,
               setConsensusIndex,
               NPMTokenSymbol
             }}
@@ -229,7 +213,7 @@ function Consensus ({ data, loading, setData, setConsensusIndex }) {
               setConsensusIndex(idx)
             }}
             columns={columns}
-            data={loading ? [] : data.incidentReports}
+            data={rowsData}
           />
         </Table>
       </TableWrapper>

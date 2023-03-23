@@ -25,18 +25,12 @@ import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import {
-  logCloseConnectionPopup,
-  logOpenConnectionPopup,
-  logWalletDisconnected
-} from '@/src/services/logs'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { truncateAddress } from '@/utils/address'
 import { classNames } from '@/utils/classnames'
-import { analyticsLogger } from '@/utils/logger'
 import {
   t,
   Trans
@@ -152,17 +146,11 @@ export const Header = () => {
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => !prev)
-    if (!isAccountDetailsOpen) {
-      analyticsLogger(() => logOpenConnectionPopup(networkId, account))
-    } else {
-      analyticsLogger(() => logCloseConnectionPopup(networkId, account))
-    }
   }
 
   const handleDisconnect = () => {
     if (active) {
       logout()
-      analyticsLogger(() => logWalletDisconnected(networkId, account))
     }
     setIsAccountDetailsOpen(false)
   }
@@ -198,7 +186,7 @@ export const Header = () => {
     <>
       <div className='bg-black text-EEEEEE'>
         <Banner />
-        <div className='justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 hidden xl:flex'>
+        <div className='justify-end hidden max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 xl:flex'>
           <LanguageDropdown />
         </div>
       </div>

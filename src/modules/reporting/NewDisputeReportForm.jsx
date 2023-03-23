@@ -1,29 +1,38 @@
-import { t, Trans } from '@lingui/macro'
-import { useEffect, useRef, useState } from 'react'
-
 import {
-  InputDescription, InputField, ProofOfIncident
-} from '@/modules/reporting/form'
-import { convertFromUnits, convertToUnits, isGreater } from '@/utils/bn'
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Container } from '@/common/Container/Container'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
-
+import {
+  InputDescription,
+  InputField,
+  ProofOfIncident
+} from '@/modules/reporting/form'
 import { useDisputeIncident } from '@/src/hooks/useDisputeIncident'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { log } from '@/src/services/logs'
+import {
+  convertFromUnits,
+  convertToUnits,
+  isGreater
+} from '@/utils/bn'
 import { analyticsLogger } from '@/utils/logger'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
-export const NewDisputeReportForm = ({ incidentReport }) => {
+export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
   const form = useRef(null)
 
   const [value, setValue] = useState('')
   const [buttonDisabled, setButtonDisabled] = useState(false)
 
-  const { minReportingStake } = useCoverStatsContext()
   const {
     balance,
     tokenAddress,

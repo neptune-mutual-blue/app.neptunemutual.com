@@ -9,30 +9,18 @@ import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 import * as Dialog from '@radix-ui/react-dialog'
 
-/**
- * @typedef {{
- *  coverKey: string,
- *  productKey?: string,
- *  infoObj: {
- *    coverName?: string,
- *    productName?: string,
- *    parameters: any[]
- *  }
- * }} CoverOrProductItem
- *
- *
- * @param {{
- *   item: CoverOrProductItem
- *   setShowModal: (_bool: boolean) => void
- * }} param0
- * @returns
- */
-export function CoverTermsModal ({ item, setShowModal }) {
-  const imgSrc = getCoverImgSrc({ key: item.productKey || item.coverKey })
+export function CoverTermsModal ({
+  coverKey,
+  productKey,
+  setShowModal,
+  projectOrProductName,
+  parameters
+}) {
+  const imgSrc = getCoverImgSrc({ key: productKey || coverKey })
   const onClose = () => setShowModal(false)
 
   const onDownload = () => {
-    window.open(Routes.ViewCoverProductTerms(item.coverKey, item.productKey || ''), '_blank')
+    window.open(Routes.ViewCoverProductTerms(coverKey, productKey || ''), '_blank')
   }
 
   return (
@@ -42,7 +30,7 @@ export function CoverTermsModal ({ item, setShowModal }) {
       className='md:w-max'
       overlayProps={{ onClick: onClose }}
     >
-      <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-2 p-6 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
+      <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-4 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
         <Dialog.Title
           className='flex flex-row items-center w-full pb-5 font-bold border-b md:p-3 border-b-B0C4DB'
         >
@@ -54,10 +42,10 @@ export function CoverTermsModal ({ item, setShowModal }) {
           >
             <CloseIcon width={24} height={24} />
           </button>
-          <img src={imgSrc} alt={item.infoObj.productName || item.infoObj.coverName} className='w-8 h-8' />
+          <img src={imgSrc} alt={projectOrProductName} className='w-8 h-8' />
 
-          <span className='flex-grow overflow-hidden font-bold text-lg pl-3 md:text-display-xs text-ellipsis'>
-            {item.infoObj.productName || item.infoObj.coverName} Cover Terms
+          <span className='flex-grow pl-3 overflow-hidden text-lg font-bold md:text-display-xs text-ellipsis'>
+            {projectOrProductName} Cover Terms
           </span>
         </Dialog.Title>
         <div className='py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto min-h-[0] h-full'>
@@ -76,7 +64,7 @@ export function CoverTermsModal ({ item, setShowModal }) {
             <CoverParameters
               titleClassName='text-sm mt-10 mb-6 font-semibold'
               textClassName='text-404040 text-m text-sm'
-              parameters={item.infoObj.parameters}
+              parameters={parameters}
             />
           </ul>
         </div>
@@ -102,7 +90,7 @@ function DownloadButton ({ onClick }) {
       onClick={onClick}
     >
       <PDFFileIcon />
-      <span className='font-semibold uppercase text-md tracking-wider'>
+      <span className='font-semibold tracking-wider uppercase text-md'>
         Download PDF
       </span>
     </button>

@@ -1,3 +1,10 @@
+import {
+  useCallback,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
@@ -7,20 +14,27 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import DateLib from '@/lib/date/DateLib'
 import { classNames } from '@/lib/toast/utils'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import { useUnstakeReportingStake } from '@/src/hooks/useUnstakeReportingStake'
 import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
 import { log } from '@/src/services/logs'
-import { convertFromUnits, isGreater } from '@/utils/bn'
+import {
+  convertFromUnits,
+  isGreater
+} from '@/utils/bn'
 import { analyticsLogger } from '@/utils/logger'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
 
-export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, projectOrProductName }) => {
+export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, projectOrProductName }) => {
   const [isOpen, setIsOpen] = useState(false)
   const isDiversified = isValidProduct(incidentReport.productKey)
 
@@ -54,10 +68,10 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, pr
 
   const handleUnstakeSuccess = useCallback(
     () => {
-      refetchInfo()
+      refetchAll()
       onClose()
     },
-    [refetchInfo]
+    [refetchAll]
   )
 
   const { account, chainId } = useWeb3React()

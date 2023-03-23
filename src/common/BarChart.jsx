@@ -1,15 +1,17 @@
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
-  Tooltip,
-  Legend
+  Tooltip
 } from 'chart.js'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
 import { Bar } from 'react-chartjs-2'
+
+import { formatCurrency } from '@/utils/formatter/currency'
+import { Trans } from '@lingui/macro'
 
 ChartJS.register(
   CategoryScale,
@@ -74,7 +76,7 @@ export function BarChart ({ labels, yAxisData, loading, formatTooltipLabel = und
   }
 
   if (loading) {
-    return <div className='grid items-center justify-center h-391 lg:h-fill'>Loading...</div>
+    return <div className='grid items-center justify-center h-391 lg:h-fill'><Trans>loading...</Trans></div>
   }
 
   return <Bar className='h-391 lg:h-auto' options={options} data={barData} />

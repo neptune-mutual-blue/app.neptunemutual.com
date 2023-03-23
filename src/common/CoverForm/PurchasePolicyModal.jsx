@@ -10,11 +10,8 @@ import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { log } from '@/src/services/logs'
 import { classNames } from '@/utils/classnames'
-import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
 
 /**
  * @param {{ isOpen: boolean, txHash: string }} prop
@@ -25,12 +22,8 @@ export const PurchasePolicyModal = ({
   txHash
 }) => {
   const router = useRouter()
-  const { chainId, account } = useWeb3React()
 
   const hanldeClose = () => {
-    analyticsLogger(() => {
-      log(chainId, 'Purchase Policy', 'purchase-policy-page', 'view-policy-receipt-button', 3, account, 'click')
-    })
     router.push(Routes.MyActivePolicies)
   }
 

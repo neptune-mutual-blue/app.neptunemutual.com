@@ -1,9 +1,20 @@
-import { PRODUCT_SUMMARY_URL } from '@/src/config/constants'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
+import {
+  PRODUCT_SUMMARY_URL,
+  PRODUCT_SUMMARY_WITH_ACCOUNT_URL
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
-
 import { getReplacedString } from '@/utils/string'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
 
 const CoversAndProductsDataContext = createContext({
   loading: false,
@@ -23,7 +34,8 @@ const CoversAndProductsDataContext = createContext({
 
   getAllProducts: () => null,
   getDedicatedCovers: () => null,
-  getDiversifiedCovers: () => null
+  getDiversifiedCovers: () => null,
+  updateData: async () => {}
 })
 
 export function useCoversAndProducts2 () {
@@ -40,45 +52,56 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const { networkId } = useNetwork()
+  const { account } = useWeb3React()
 
-  useEffect(() => {
-    (async function () {
-      setLoading(true)
-      try {
-        const replacements = { networkId }
+  const url = useMemo(() => {
+    if (account) {
+      const replacements = { networkId, account }
+      return getReplacedString(PRODUCT_SUMMARY_WITH_ACCOUNT_URL, replacements)
+    }
 
-        const response = await fetch(
-          getReplacedString(PRODUCT_SUMMARY_URL, replacements),
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            }
+    const replacements = { networkId }
+    return getReplacedString(PRODUCT_SUMMARY_URL, replacements)
+  }, [account, networkId])
+
+  const updateData = useCallback(async function () {
+    setLoading(true)
+    try {
+      const response = await fetch(
+        url,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
           }
-        )
-
-        if (!response.ok) {
-          return
         }
+      )
 
-        const res = await response.json()
-
-        setData(res.data
-          .filter(x => x.chainId.toString() === networkId.toString())
-          .sort((a, b) => {
-            const text1 = a?.productInfoDetails?.productName || (a?.coverInfoDetails?.coverName || a?.coverInfoDetails?.projectName) || ''
-            const text2 = b?.productInfoDetails?.productName || (b?.coverInfoDetails?.coverName || b?.coverInfoDetails?.projectName) || ''
-            return text1.localeCompare(text2, 'en')
-          })
-        )
-      } catch (error) {
-        console.error(error)
+      if (!response.ok) {
+        return
       }
 
-      setLoading(false)
-    })()
-  }, [networkId])
+      const res = await response.json()
+
+      setData(res.data
+        .filter(x => x.chainId.toString() === networkId.toString())
+        .sort((a, b) => {
+          const text1 = a?.productInfoDetails?.productName || (a?.coverInfoDetails?.coverName || a?.coverInfoDetails?.projectName) || ''
+          const text2 = b?.productInfoDetails?.productName || (b?.coverInfoDetails?.coverName || b?.coverInfoDetails?.projectName) || ''
+          return text1.localeCompare(text2, 'en')
+        })
+      )
+    } catch (error) {
+      console.error(error)
+    }
+
+    setLoading(false)
+  }, [networkId, url])
+
+  useEffect(() => {
+    updateData()
+  }, [updateData])
 
   // Returned value can be
   // dedicated cover
@@ -129,7 +152,8 @@ export const CoversAndProductsProvider2 = ({ children }) => {
       getProduct,
       getAllProducts,
       getDedicatedCovers,
-      getDiversifiedCovers
+      getDiversifiedCovers,
+      updateData
     }}
     >
       {children}

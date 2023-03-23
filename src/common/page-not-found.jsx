@@ -5,18 +5,12 @@ import { Container } from '@/common/Container/Container'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { logPageLoad } from '@/src/services/logs'
 import { classNames } from '@/utils/classnames'
-import { analyticsLogger } from '@/utils/logger'
-import { useWeb3React } from '@web3-react/core'
 
 export function PageNotFound () {
   const router = useRouter()
-  const { account, chainId } = useWeb3React()
   const { networkId } = useNetwork()
   const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
-
-  analyticsLogger(() => logPageLoad(chainId, account ?? null, router.asPath))
 
   const linkColor = isArbitrum
     ? 'border-1D9AEE bg-1D9AEE focus-visible:ring-1D9AEE'

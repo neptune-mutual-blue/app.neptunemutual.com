@@ -1,6 +1,14 @@
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { Label } from '@/common/Label/Label'
 import { RadioReport } from '@/common/RadioReport/RadioReport'
@@ -11,16 +19,20 @@ import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useVote } from '@/src/hooks/useVote'
 import { log } from '@/src/services/logs'
 import {
-  convertFromUnits, convertToUnits, isEqualTo, isGreater, toBN
+  convertFromUnits,
+  convertToUnits,
+  isEqualTo,
+  isGreater,
+  toBN
 } from '@/utils/bn'
 import { analyticsLogger } from '@/utils/logger'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
 
-export const CastYourVote = ({ incidentReport, idPrefix }) => {
+export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, minReportingStake }) => {
   const options = useMemo(() => {
     return [
       { label: t`Incident Occurred`, value: 'incident-occurred' },
@@ -51,7 +63,6 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate
   })
-  const { reporterCommission, minReportingStake } = useCoverStatsContext()
 
   const tokenDecimals = useTokenDecimals(tokenAddress)
 

@@ -1,26 +1,46 @@
+import { useRouter } from 'next/router'
+
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import DateLib from '@/lib/date/DateLib'
 import { HlCalendar } from '@/lib/hl-calendar'
-import { ReportingPeriodStatus } from '@/modules/reporting/ReportingPeriodStatus'
+import {
+  ReportingPeriodStatus
+} from '@/modules/reporting/ReportingPeriodStatus'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import { CastYourVote } from '@/src/modules/reporting/active/CastYourVote'
 import { IncidentReporter } from '@/src/modules/reporting/IncidentReporter'
 import { InsightsTable } from '@/src/modules/reporting/InsightsTable'
-import { ResolveIncident } from '@/src/modules/reporting/resolved/ResolveIncident'
-import { VotesSummaryDoughnutChart } from '@/src/modules/reporting/VotesSummaryDoughnutCharts'
-import { VotesSummaryHorizontalChart } from '@/src/modules/reporting/VotesSummaryHorizontalChart'
+import {
+  ResolveIncident
+} from '@/src/modules/reporting/resolved/ResolveIncident'
+import {
+  VotesSummaryDoughnutChart
+} from '@/src/modules/reporting/VotesSummaryDoughnutCharts'
+import {
+  VotesSummaryHorizontalChart
+} from '@/src/modules/reporting/VotesSummaryHorizontalChart'
 import { truncateAddressParam } from '@/utils/address'
-import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
+import {
+  convertFromUnits,
+  isGreater,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const ActiveReportSummary = ({
-  refetchReport,
-  refetchInfo,
+  coverKey,
+  productKey,
+  projectOrProductName,
+  reporterCommission,
+  minReportingStake,
+  refetchAll,
   incidentReport,
   resolvableTill,
   yes,
@@ -100,15 +120,23 @@ export const ActiveReportSummary = ({
             {isAfterResolution
               ? (
                 <ResolveIncident
+                  refetchAll={refetchAll}
+                  projectOrProductName={projectOrProductName}
                   incidentReport={incidentReport}
                   resolvableTill={resolvableTill}
-                  refetchReport={refetchReport}
-                  refetchInfo={refetchInfo}
+                  coverKey={coverKey}
+                  productKey={productKey}
                 />
                 )
               : (
                 <div className='hidden md:block'> {/* hidden in mobile */}
-                  <CastYourVote incidentReport={incidentReport} idPrefix='desktop-' />
+                  <CastYourVote
+                    incidentReport={incidentReport}
+                    idPrefix='desktop-'
+                    reporterCommission={reporterCommission}
+                    minReportingStake={minReportingStake}
+                  />
+
                 </div>
                 )}
           </>

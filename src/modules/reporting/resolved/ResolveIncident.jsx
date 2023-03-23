@@ -1,57 +1,45 @@
+import { useState } from 'react'
+
 import { RegularButton } from '@/common/Button/RegularButton'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Radio } from '@/common/Radio/Radio'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
 import { useResolveIncident } from '@/src/hooks/useResolveIncident'
 import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 
 export const ResolveIncident = ({
-  refetchInfo,
-  refetchReport,
+  refetchAll,
   incidentReport,
-  resolvableTill
+  resolvableTill,
+  coverKey,
+  productKey,
+  projectOrProductName
 }) => {
-  const router = useRouter()
-  const { productId } = router.query
   const [isOpen, setIsOpen] = useState(false)
-  const productKey = safeFormatBytes32String(productId || '')
   const { resolve, emergencyResolve, resolving, emergencyResolving } =
     useResolveIncident({
-      coverKey: incidentReport.coverKey,
+      coverKey: coverKey,
       productKey: productKey,
       incidentDate: incidentReport.incidentDate
     })
   const { roles } = useAppConstants()
 
-  const isDiversified = isValidProduct(incidentReport.productKey)
-
-  const { refetch: refetchCoverStats } = useCoverStatsContext()
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: incidentReport.coverKey,
-    productKey: incidentReport.productKey
-  })
+  const isDiversified = isValidProduct(productKey)
 
   const logoSource = getCoverImgSrc({
-    key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey
+    key: !isDiversified ? coverKey : productKey
   })
-
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
-  }
-
-  const projectName = isDiversified
-    ? coverInfo?.infoObj.productName
-    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
 
   function onClose () {
     setIsOpen(false)
@@ -70,9 +58,7 @@ export const ResolveIncident = ({
             className='w-full px-10 py-4 font-semibold uppercase md:w-80'
             onClick={() => {
               resolve(() => {
-                refetchInfo()
-                refetchCoverStats()
-                setTimeout(refetchReport, 10000)
+                setTimeout(refetchAll, 10000)
               })
             }}
           >
@@ -91,12 +77,10 @@ export const ResolveIncident = ({
         <EmergencyResolveModal
           isOpen={isOpen}
           onClose={onClose}
-          refetchCoverStats={refetchCoverStats}
-          refetchInfo={refetchInfo}
-          refetchReport={refetchReport}
+          refetchAll={refetchAll}
           emergencyResolve={emergencyResolve}
           logoSource={logoSource}
-          logoAlt={projectName}
+          logoAlt={projectOrProductName}
           emergencyResolving={emergencyResolving}
         />
       </div>
@@ -121,9 +105,7 @@ const options = [
 const EmergencyResolveModal = ({
   isOpen,
   onClose,
-  refetchCoverStats,
-  refetchInfo,
-  refetchReport,
+  refetchAll,
   emergencyResolve,
   logoSource,
   logoAlt,
@@ -139,9 +121,7 @@ const EmergencyResolveModal = ({
     ev.preventDefault()
 
     emergencyResolve(decision === 'true', () => {
-      refetchInfo()
-      refetchCoverStats()
-      setTimeout(refetchReport, 10000)
+      setTimeout(refetchAll, 10000)
       onClose()
     })
   }

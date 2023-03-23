@@ -1,23 +1,26 @@
 import '@fontsource/inter/latin.css'
-import '../styles/globals.css'
 import '../common/GaugeChart/GaugeChart.css'
+import '../styles/globals.css'
 
-import { Web3ReactProvider } from '@web3-react/core'
-import { getLibrary } from '@/lib/connect-wallet/utils/web3'
-import { NetworkProvider } from '@/src/context/Network'
-import { ToastProvider } from '@/lib/toast/provider'
-import { AppConstantsProvider } from '@/src/context/AppConstants'
-import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
-import { TxPosterProvider } from '@/src/context/TxPoster'
-import { LanguageProvider } from '../i18n'
-import { DEFAULT_VARIANT } from '@/src/config/toast'
-import { CoversAndProductsProvider } from '@/src/context/CoversAndProductsData'
-import { CoversAndProductsProvider2 } from '@/src/context/CoversAndProductsData2'
 import { useEffect } from 'react'
-import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
+
 import ErrorBoundary from '@/common/ErrorBoundary'
-import { MainLayout } from '@/src/layouts/main/MainLayout'
+import { getLibrary } from '@/lib/connect-wallet/utils/web3'
+import { ToastProvider } from '@/lib/toast/provider'
+import { DEFAULT_VARIANT } from '@/src/config/toast'
+import { AppConstantsProvider } from '@/src/context/AppConstants'
 import { CookiesProvider } from '@/src/context/Cookie'
+import {
+  CoversAndProductsProvider2
+} from '@/src/context/CoversAndProductsData2'
+import { NetworkProvider } from '@/src/context/Network'
+import { TxPosterProvider } from '@/src/context/TxPoster'
+import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
+import { MainLayout } from '@/src/layouts/main/MainLayout'
+import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
+import { Web3ReactProvider } from '@web3-react/core'
+
+import { LanguageProvider } from '../i18n'
 
 const Wrappers = ({ children, noHeader }) => {
   return (
@@ -25,15 +28,13 @@ const Wrappers = ({ children, noHeader }) => {
       <NetworkProvider>
         <AppConstantsProvider>
           <CoversAndProductsProvider2>
-            <CoversAndProductsProvider>
-              <UnlimitedApprovalProvider>
-                <ToastProvider variant={DEFAULT_VARIANT}>
-                  <TxPosterProvider>
-                    <MainLayout noHeader={noHeader}>{children}</MainLayout>
-                  </TxPosterProvider>
-                </ToastProvider>
-              </UnlimitedApprovalProvider>
-            </CoversAndProductsProvider>
+            <UnlimitedApprovalProvider>
+              <ToastProvider variant={DEFAULT_VARIANT}>
+                <TxPosterProvider>
+                  <MainLayout noHeader={noHeader}>{children}</MainLayout>
+                </TxPosterProvider>
+              </ToastProvider>
+            </UnlimitedApprovalProvider>
           </CoversAndProductsProvider2>
         </AppConstantsProvider>
       </NetworkProvider>

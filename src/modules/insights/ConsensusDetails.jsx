@@ -1,79 +1,93 @@
+import { useRouter } from 'next/router'
+
 import { Badge } from '@/common/Badge/Badge'
-import * as CardStatusBadgeDefault from '@/common/CardStatusBadge'
+import {
+  Badge as CardStatusBadge,
+  E_CARD_STATUS,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import PreviousNext from '@/common/PreviousNext'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { isValidProduct } from '@/src/helpers/cover'
-import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import {
+  convertFromUnits,
+  sumOf,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { useRouter } from 'next/router'
+import { Trans } from '@lingui/macro'
+
 import { StatsCard } from './StatsCard'
-const { Badge: CardStatusBadge, identifyStatus, E_CARD_STATUS } = CardStatusBadgeDefault
 
 function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
-  const row = data.incidentReports[consensusIndex]
-  const status = identifyStatus(row.status)
+  const report = data.incidentReports[consensusIndex]
 
-  const { NPMTokenSymbol, liquidityTokenDecimals } = useAppConstants()
   const router = useRouter()
+  const { NPMTokenSymbol, liquidityTokenDecimals } = useAppConstants()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
-  const isDiversified = isValidProduct(row.coverInfo?.productKey)
-  const coverName = row.coverInfo.cover?.infoObj.coverName
+  if (dataLoading) {
+    return (
+      <p>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
 
-  const totalAttested = row.totalAttestedStake
-  const totalRefuted = row.totalRefutedStake
-  const isResolved = row.resolved
+  const coverKey = report.coverKey
+  const productKey = report.productKey
+
+  const isDiversified = isValidProduct(productKey)
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
+  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
+  const coverName = coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverName
+
+  const totalAttested = report.totalAttestedStake
+  const totalRefuted = report.totalRefutedStake
+  const isResolved = report.resolved
+  const status = identifyStatus(report.status)
 
   const totalStake = sumOf(totalAttested, totalRefuted)
 
   const attestedPercentage = toBN(totalAttested)
-    .dividedBy(
-      totalStake
-    ).multipliedBy(100)
+    .dividedBy(totalStake)
+    .multipliedBy(100)
     .decimalPlaces(2)
 
   const refutedPercentage = toBN(totalRefuted)
-    .dividedBy(
-      totalStake
-    ).multipliedBy(100)
+    .dividedBy(totalStake)
+    .multipliedBy(100)
     .decimalPlaces(2)
 
-  const coverStats = row.coverStats
-  const coverStatsLoading = row.coverStatsLoading
+  const utilization = coverOrProductData.utilizationRatio
+  const totalPoolAmount = coverOrProductData.tvl
+  const liquidity = coverOrProductData.capacity
+  const protection = coverOrProductData.commitment
+  const leverage = coverOrProductData.leverage
 
-  const { activeCommitment, availableLiquidity, totalPoolAmount } = coverStats
+  const formattedProtection = formatCurrency(
+    convertFromUnits(protection, liquidityTokenDecimals).toString(),
+    router.locale, 'USD', false, true
+  )
 
-  const liquidity = isDiversified ? totalPoolAmount : toBN(availableLiquidity).plus(activeCommitment).toString()
-
-  const protection = activeCommitment
-  const protectionLong = coverStatsLoading
-    ? { short: '-', long: '-' }
-    : formatCurrency(
-      convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),
-      router.locale, 'USD', false, true
-    )
-  const utilization = toBN(liquidity).isEqualTo(0)
-    ? '0'
-    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
-
-  const leverage = row.coverInfo.cover?.infoObj.leverage
-  const efficiency = isDiversified
-    ? formatPercent(
-      toBN(row.coverInfo?.infoObj.capitalEfficiency)
-        .dividedBy(MULTIPLIER)
-        .toString()
-    )
-    : formatPercent(1, router.locale)
-
-  const protectionBN = toBN(protection)
-
-  let spillover = toBN('0')
+  const efficiency = formatPercent(
+    toBN(coverOrProductData.capitalEfficiency)
+      .dividedBy(MULTIPLIER)
+      .toString()
+  )
 
   let spillOverText
+  let spillover = toBN('0')
 
   if (isDiversified) {
-    spillover = protectionBN.isGreaterThanOrEqualTo(totalPoolAmount) ? protectionBN.minus(totalPoolAmount) : toBN('0')
+    spillover = toBN(protection).isGreaterThanOrEqualTo(totalPoolAmount) ? toBN(protection).minus(totalPoolAmount) : toBN('0')
     spillOverText = formatCurrency(
       convertFromUnits(spillover.toString(), liquidityTokenDecimals).toString(),
       router.locale
@@ -119,17 +133,15 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
           <div className='flex items-center justify-between lg:justify-start'>
             <div className='flex items-center'>
               <img
-                src={row.imgSrc}
-                alt={row.name}
+                src={imgSrc}
+                alt={projectOrProductName}
                 className='w-5 h-5 mr-2'
                 data-testid='cover-img'
                 // @ts-ignore
-                onError={
-                  (ev) => (ev.target.src = '/images/covers/empty.svg')
-                }
+                onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
               />
               <div className='mr-6 text-sm'>
-                {row.name}
+                {projectOrProductName}
               </div>
             </div>
             <PreviousNext
@@ -167,8 +179,8 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
         />
         <StatsCard
           titleClass='text-999BAB'
-          title='Exposure' value={protectionLong.short}
-          tooltip={protectionLong.long}
+          title='Exposure' value={formattedProtection.short}
+          tooltip={formattedProtection.long}
         />
         <StatsCard
           titleClass='text-999BAB'

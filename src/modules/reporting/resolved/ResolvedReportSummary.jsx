@@ -1,28 +1,40 @@
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { useRouter } from 'next/router'
+
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import DateLib from '@/lib/date/DateLib'
-import { ReportingPeriodStatus } from '@/modules/reporting/ReportingPeriodStatus'
+import {
+  ReportingPeriodStatus
+} from '@/modules/reporting/ReportingPeriodStatus'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCapitalizePool } from '@/src/hooks/useCapitalizePool'
 import { useFinalizeIncident } from '@/src/hooks/useFinalizeIncident'
 import { IncidentReporter } from '@/src/modules/reporting/IncidentReporter'
 import { InsightsTable } from '@/src/modules/reporting/InsightsTable'
-import { UnstakeYourAmount } from '@/src/modules/reporting/resolved/UnstakeYourAmount'
-import { VotesSummaryHorizontalChart } from '@/src/modules/reporting/VotesSummaryHorizontalChart'
+import {
+  UnstakeYourAmount
+} from '@/src/modules/reporting/resolved/UnstakeYourAmount'
+import {
+  VotesSummaryHorizontalChart
+} from '@/src/modules/reporting/VotesSummaryHorizontalChart'
 import { truncateAddressParam } from '@/utils/address'
-import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
+import {
+  convertFromUnits,
+  isGreater,
+  toBN
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const ResolvedReportSummary = ({
   incidentReport,
-  refetchInfo,
-  refetchReport,
+  refetchAll,
   yes,
   no,
   myYes,
@@ -44,7 +56,6 @@ export const ResolvedReportSummary = ({
     incidentDate: incidentReport.incidentDate
   })
   const { NPMTokenSymbol, roles } = useAppConstants()
-  const { refetch: refetchCoverStats } = useCoverStatsContext()
 
   const votes = {
     yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
@@ -96,14 +107,14 @@ export const ResolvedReportSummary = ({
           <UnstakeYourAmount
             incidentReport={incidentReport}
             willReceive={willReceive}
-            refetchInfo={refetchInfo}
+            refetchAll={refetchAll}
             projectOrProductName={projectOrProductName}
           />
         </div>
 
         {/* Right half */}
         <div className='p-10'>
-          <h3 className='mb-4 font-bold text-lg'>
+          <h3 className='mb-4 text-lg font-bold'>
             <Trans>Insights</Trans>
           </h3>
           <InsightsTable
@@ -196,7 +207,7 @@ export const ResolvedReportSummary = ({
           />
 
           <hr className='mt-6 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-lg'>
+          <h3 className='mb-4 text-lg font-bold'>
             <Trans>Incident Reporters</Trans>
           </h3>
           <IncidentReporter
@@ -213,7 +224,7 @@ export const ResolvedReportSummary = ({
           )}
 
           <hr className='mt-8 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-lg'>
+          <h3 className='mb-4 text-lg font-bold'>
             <Trans>Reporting Period</Trans>
           </h3>
           <ReportingPeriodStatus
@@ -260,9 +271,7 @@ export const ResolvedReportSummary = ({
                 disabled={finalizing || !roles.isGovernanceAgent}
                 onClick={() => {
                   finalize(() => {
-                    refetchInfo()
-                    refetchCoverStats()
-                    setTimeout(refetchReport, 10000)
+                    setTimeout(refetchAll, 10000)
                   })
                 }}
               >
@@ -280,7 +289,7 @@ export const ResolvedReportSummary = ({
                 disabled={capitalizing || !roles.isLiquidityManager}
                 onClick={() => {
                   capitalize(() => {
-                    setTimeout(refetchReport, 10000)
+                    setTimeout(refetchAll, 10000)
                   })
                 }}
               >

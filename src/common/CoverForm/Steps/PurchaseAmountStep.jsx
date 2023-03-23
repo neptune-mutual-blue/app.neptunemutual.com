@@ -1,17 +1,40 @@
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
+
 import { CoverTermsModal } from '@/common/CoverForm/CoverTermsModal'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
 import StandardTermsConditionsIcon from '@/icons/StandardTermsConditionsIcon'
-import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
+import {
+  MAX_PROPOSAL_AMOUNT,
+  MIN_PROPOSAL_AMOUNT
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { isGreater, isGreaterOrEqual } from '@/utils/bn'
+import {
+  isGreater,
+  isGreaterOrEqual
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
-const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDecimals, value, approving, purchasing, availableLiquidity, coverInfo }) => {
+const PurchaseAmountStep = ({
+  setValue,
+  liquidityTokenSymbol,
+  liquidityTokenDecimals,
+  value,
+  approving,
+  purchasing,
+  availableLiquidity,
+  coverKey,
+  productKey,
+  projectOrProductName,
+  parameters
+}) => {
   const router = useRouter()
   const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -77,7 +100,15 @@ const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDeci
         <p className='text-sm'>View Cover Parameter</p>
       </button>
 
-      {showModal && <CoverTermsModal item={coverInfo} setShowModal={setShowModal} />}
+      {showModal && (
+        <CoverTermsModal
+          setShowModal={setShowModal}
+          coverKey={coverKey}
+          productKey={productKey}
+          projectOrProductName={projectOrProductName}
+          parameters={parameters}
+        />
+      )}
     </>
   )
 }

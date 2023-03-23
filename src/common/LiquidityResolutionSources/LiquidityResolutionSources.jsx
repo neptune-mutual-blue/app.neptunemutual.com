@@ -1,27 +1,32 @@
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
+
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
-import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { DedicatedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources'
-import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
+import {
+  useLiquidityFormsContext
+} from '@/common/LiquidityForms/LiquidityFormsContext'
+import {
+  DedicatedLiquidityResolutionSources
+} from '@/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources'
+import {
+  DiversifiedLiquidityResolutionSources
+} from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
 import { ModalTitle } from '@/common/Modal/ModalTitle'
-import { WithdrawLiquidityModal } from '@/modules/my-liquidity/content/WithdrawLiquidityModal'
+import {
+  WithdrawLiquidityModal
+} from '@/modules/my-liquidity/content/WithdrawLiquidityModal'
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { log } from '@/src/services/logs'
 import { isGreater } from '@/utils/bn'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 
 export const LiquidityResolutionSources = ({
   isDiversified,
-  coverInfo,
-  info,
+  coverData,
   isWithdrawalWindowOpen,
   accrueInterest
 }) => {
-  const { account, chainId } = useWeb3React()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { coverId } = router.query
@@ -37,31 +42,8 @@ export const LiquidityResolutionSources = ({
     setIsOpen(false)
   }
 
-  const handleLog = () => {
-    const funnel = 'Withdraw Liquidity'
-    const journey = `my-${router?.query?.coverId}-liquidity-page`
-
-    const sequence = 1
-    const step = 'withdraw-liquidity-button'
-    const event = 'click'
-    const props = {
-      coverKey,
-      coverName: coverInfo?.infoObj?.coverName
-    }
-
-    const sequence2 = 2
-    const step2 = 'withdraw-liquidity-modal'
-    const event2 = 'pop-up'
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, props)
-      log(chainId, funnel, journey, step2, sequence2, account, event2, {})
-    })
-  }
-
   const onOpen = () => {
     setIsOpen(true)
-    handleLog()
   }
 
   return (
@@ -71,7 +53,7 @@ export const LiquidityResolutionSources = ({
     >
       {isDiversified
         ? (
-          <DiversifiedLiquidityResolutionSources info={info}>
+          <DiversifiedLiquidityResolutionSources coverData={coverData}>
             <WithdrawLiquidityButton
               onOpen={onOpen}
               myStake={myStake}
@@ -80,7 +62,7 @@ export const LiquidityResolutionSources = ({
           </DiversifiedLiquidityResolutionSources>
           )
         : (
-          <DedicatedLiquidityResolutionSources coverInfo={coverInfo} info={info}>
+          <DedicatedLiquidityResolutionSources coverData={coverData}>
             <WithdrawLiquidityButton
               onOpen={onOpen}
               myStake={myStake}

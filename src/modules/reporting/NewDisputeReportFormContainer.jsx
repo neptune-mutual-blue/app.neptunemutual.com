@@ -1,14 +1,15 @@
-import { useFetchReport } from '@/src/hooks/useFetchReport'
-import { NewDisputeReportForm } from '@/src/modules/reporting/NewDisputeReportForm'
-import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
-import { Container } from '@/common/Container/Container'
 import { Alert } from '@/common/Alert/Alert'
+import { Container } from '@/common/Container/Container'
 import DateLib from '@/lib/date/DateLib'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { isValidProduct } from '@/src/helpers/cover'
+import { useFetchReport } from '@/src/hooks/useFetchReport'
+import {
+  NewDisputeReportForm
+} from '@/src/modules/reporting/NewDisputeReportForm'
+import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
 import { isGreater } from '@/utils/bn'
 import { Trans } from '@lingui/macro'
-import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
-import { isValidProduct } from '@/src/helpers/cover'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 
 export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp }) {
   const isDiversified = isValidProduct(productKey)
@@ -24,7 +25,7 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
   }
 
   return (
-    <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
+    <>
       {/* hero */}
       <ReportingHero
         coverKey={coverKey}
@@ -39,12 +40,13 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
         coverKey={coverKey}
         productKey={productKey}
         timestamp={timestamp}
+        minReportingStake={coverOrProductData.minReportingStake}
       />
-    </CoverStatsProvider>
+    </>
   )
 }
 
-function DisputeForm ({ coverKey, productKey, timestamp }) {
+function DisputeForm ({ coverKey, productKey, timestamp, minReportingStake }) {
   const { data: incidentReportData, loading } = useFetchReport({
     coverKey: coverKey,
     productKey: productKey,
@@ -77,7 +79,7 @@ function DisputeForm ({ coverKey, productKey, timestamp }) {
   return (
     canDispute
       ? (
-        <NewDisputeReportForm incidentReport={incidentReportData} />
+        <NewDisputeReportForm incidentReport={incidentReportData} minReportingStake={minReportingStake} />
         )
       : (
         <Container className='py-16'>

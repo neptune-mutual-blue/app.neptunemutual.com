@@ -5,65 +5,30 @@ import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import LeftArrow from '@/icons/LeftArrow'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { log } from '@/src/services/logs'
 import { classNames } from '@/utils/classnames'
-import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
 import { config } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
 
 export const AcceptRulesForm = ({
   onAccept,
   children,
   coverKey,
-  productKey = config.constants.ZERO_BYTES32
+  productKey = config.constants.ZERO_BYTES32,
+  productStatus,
+  activeIncidentDate
 }) => {
   const router = useRouter()
   const { networkId } = useNetwork()
   const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
   const coverPurchasePage = router.pathname.includes('purchase')
   const [checked, setChecked] = useState(false)
-  const { activeIncidentDate, productStatus } = useCoverStatsContext()
-  const { account, chainId } = useWeb3React()
-
-  const handleLog = (sequence, step, event) => {
-    const isLiquidityPage = router.pathname.includes('add-liquidity')
-    const isPurchasePage = router.pathname.includes('purchase')
-
-    let funnel, journey
-
-    if (isLiquidityPage) {
-      funnel = 'Provide Liquidity'
-      journey = 'provide-liquidity-page'
-    }
-
-    if (isPurchasePage) {
-      funnel = 'Purchase Policy'
-      journey = 'pre-purchase-policy-page'
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event)
-    })
-  }
 
   const handleChange = (ev) => {
     setChecked(ev.target.checked)
-    if (coverPurchasePage) {
-      analyticsLogger(() => log(chainId, 'Purchase Policy', 'pre-purchase-policy-page', 'acknowledgement-checkbox', 1, account, 'click'))
-    }
-
-    const isLiquidityPage = router.pathname.includes('add-liquidity')
-    const checked = ev.target.checked
-
-    if (isLiquidityPage && checked) {
-      handleLog(1, 'acknowledgement-checkbox', 'click')
-    }
   }
 
   const handleSubmit = (ev) => {
@@ -71,9 +36,6 @@ export const AcceptRulesForm = ({
 
     if (checked) {
       onAccept()
-
-      handleLog(2, 'next-button', 'click')
-      handleLog(9999, 'end', 'closed')
     }
   }
 

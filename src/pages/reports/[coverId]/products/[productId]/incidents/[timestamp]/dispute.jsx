@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router'
+
 import { ComingSoon } from '@/common/ComingSoon'
+import { Seo } from '@/common/Seo'
+import {
+  NewDisputeReportFormContainer
+} from '@/modules/reporting/NewDisputeReportFormContainer'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { NewDisputeReportFormContainer } from '@/modules/reporting/NewDisputeReportFormContainer'
-import { useWeb3React } from '@web3-react/core'
-import { logPageLoad } from '@/src/services/logs'
-import { useEffect } from 'react'
-import { analyticsLogger } from '@/utils/logger'
-import { Seo } from '@/common/Seo'
 
 const disabled = !isFeatureEnabled('reporting')
 
@@ -16,12 +15,6 @@ export default function DisputeFormPage () {
   const { coverId, productId, timestamp } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
-
-  const { account, chainId } = useWeb3React()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
-  }, [account, chainId, router.asPath])
 
   if (disabled) {
     return <ComingSoon />

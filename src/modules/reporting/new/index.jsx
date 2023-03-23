@@ -1,17 +1,28 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { Trans } from '@lingui/macro'
-import { CoverReportingRules } from '@/src/modules/reporting/CoverReportingRules'
-import { NewIncidentReportForm } from '@/src/modules/reporting/NewIncidentReportForm'
-import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
-import { useFetchCoverProductActiveReportings } from '@/src/hooks/useFetchCoverProductActiveReportings'
-import { Routes } from '@/src/config/routes'
-import { logReportIncidentRulesAccepted } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
-import { analyticsLogger } from '@/utils/logger'
+
 import { Seo } from '@/common/Seo'
+import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
+import {
+  useFetchCoverProductActiveReportings
+} from '@/src/hooks/useFetchCoverProductActiveReportings'
+import {
+  CoverReportingRules
+} from '@/src/modules/reporting/CoverReportingRules'
+import {
+  NewIncidentReportForm
+} from '@/src/modules/reporting/NewIncidentReportForm'
+import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
+import { logReportIncidentRulesAccepted } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
+import { Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
   const [accepted, setAccepted] = useState(false)
@@ -78,7 +89,11 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
 
       {accepted
         ? (
-          <NewIncidentReportForm coverKey={coverKey} productKey={productKey} />
+          <NewIncidentReportForm
+            coverKey={coverKey}
+            productKey={productKey}
+            minReportingStake={coverOrProductData?.minReportingStake}
+          />
           )
         : (
           <CoverReportingRules

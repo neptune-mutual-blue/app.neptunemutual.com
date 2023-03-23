@@ -1,31 +1,33 @@
-import { t, Trans } from '@lingui/macro'
-import { useEffect, useRef, useState } from 'react'
-
 import {
-  InputDescription, InputField, ProofOfIncident
-} from '@/modules/reporting/form'
-import { convertFromUnits, convertToUnits, isGreater } from '@/utils/bn'
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Container } from '@/common/Container/Container'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
-
+import DateLib from '@/lib/date/DateLib'
+import {
+  InputDescription,
+  InputField,
+  ProofOfIncident
+} from '@/modules/reporting/form'
 import { useReportIncident } from '@/src/hooks/useReportIncident'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
-import DateLib from '@/lib/date/DateLib'
+import {
+  convertFromUnits,
+  convertToUnits,
+  isGreater
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
-/**
- *
- * @param {Object} props
- * @param {string} props.coverKey
- * @param {string} props.productKey
- * @returns
- */
-export function NewIncidentReportForm ({ coverKey, productKey }) {
+export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake }) {
   const max = DateLib.toDateTimeLocal()
 
   const form = useRef()
@@ -49,7 +51,6 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
     isError
   } = useReportIncident({ coverKey, productKey, value })
 
-  const { minReportingStake } = useCoverStatsContext()
   const tokenDecimals = useTokenDecimals(tokenAddress)
 
   useEffect(() => {

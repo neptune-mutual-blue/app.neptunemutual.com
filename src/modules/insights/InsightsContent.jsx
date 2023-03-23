@@ -1,3 +1,8 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { BackButton } from '@/common/BackButton/BackButton'
 import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
 import PreviousNext from '@/common/PreviousNext'
@@ -10,7 +15,9 @@ import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
 import { InsightsStats } from '@/modules/insights/InsightsStats'
 import { InsightsTVLTable } from '@/modules/insights/InsightsTVLTable'
-import { ProtectionChart } from '@/modules/insights/ProtectionChart/ProtectionChart'
+import {
+  ProtectionChart
+} from '@/modules/insights/ProtectionChart/ProtectionChart'
 import { TopAccounts } from '@/modules/insights/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
@@ -19,7 +26,9 @@ import useCoverEarningInsights from '@/src/hooks/useCoverEarningInsights'
 import { useCoverInsightsData } from '@/src/hooks/useCoverInsightsData'
 import { useGasSummaryData } from '@/src/hooks/useGasSummaryData'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
-import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
+import {
+  useHistoricalRoiDataByCover
+} from '@/src/hooks/useHistoricalRoiByCover'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
@@ -27,8 +36,10 @@ import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
 import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
-import { useFetchInsightsTVLStats } from '@/src/services/aggregated-stats/insights'
-import { useEffect, useState } from 'react'
+import {
+  useFetchInsightsTVLStats
+} from '@/src/services/aggregated-stats/insights'
+
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
 
 const AllDropdownOptions = {
@@ -100,8 +111,7 @@ export const InsightsContent = () => {
   const {
     data: consensusData,
     loading: consensusLoading,
-    fetchData: fetchConsensusData,
-    setData: setConsensusData
+    fetchData: fetchConsensusData
   } = useConsensusInsights()
 
   useEffect(() => {
@@ -317,7 +327,7 @@ export const InsightsContent = () => {
 
       case AllDropdownOptions.IN_CONSENSUS:
         return (
-          <Consensus loading={consensusLoading} data={consensusData} setData={setConsensusData} setConsensusIndex={setConsensusIndex} />
+          <Consensus loading={consensusLoading} data={consensusData} setConsensusIndex={setConsensusIndex} />
         )
 
       default:

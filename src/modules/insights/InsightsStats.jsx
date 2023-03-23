@@ -1,8 +1,10 @@
-import { StatsCard } from '@/src/modules/insights/StatsCard'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits } from '@/utils/bn'
 import { useRouter } from 'next/router'
+
 import { useAppConstants } from '@/src/context/AppConstants'
+import { StatsCard } from '@/src/modules/insights/StatsCard'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { Trans } from '@lingui/macro'
 
 export const InsightsStats = ({ loading, statsData }) => {
   const router = useRouter()
@@ -10,7 +12,7 @@ export const InsightsStats = ({ loading, statsData }) => {
 
   return (
     <div>
-      {loading ? ' Loading...' : <StatDisplay liquidityTokenDecimals={liquidityTokenDecimals} router={router} statsData={statsData} />}
+      {loading ? <Trans>loading...</Trans> : <StatDisplay liquidityTokenDecimals={liquidityTokenDecimals} router={router} statsData={statsData} />}
     </div>
   )
 }

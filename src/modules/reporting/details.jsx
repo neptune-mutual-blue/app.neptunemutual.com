@@ -1,29 +1,46 @@
-import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
-import { RecentVotesTable } from '@/src/modules/reporting/RecentVotesTable'
+import { useCallback } from 'react'
+
 import { Container } from '@/common/Container/Container'
-import { ResolvedReportSummary } from '@/src/modules/reporting/resolved/ResolvedReportSummary'
 import DateLib from '@/lib/date/DateLib'
-import { isGreater } from '@/utils/bn'
-import { ActiveReportSummary } from '@/src/modules/reporting/active/ActiveReportSummary'
-import { CastYourVote } from '@/src/modules/reporting/active/CastYourVote'
-import { useConsensusReportingInfo } from '@/src/hooks/useConsensusReportingInfo'
-import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import ReportComments from '@/modules/reporting/ReportComments'
-import { isValidProduct } from '@/src/helpers/cover'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import {
+  useConsensusReportingInfo
+} from '@/src/hooks/useConsensusReportingInfo'
+import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
+import {
+  ActiveReportSummary
+} from '@/src/modules/reporting/active/ActiveReportSummary'
+import { CastYourVote } from '@/src/modules/reporting/active/CastYourVote'
+import { RecentVotesTable } from '@/src/modules/reporting/RecentVotesTable'
+import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
+import {
+  ResolvedReportSummary
+} from '@/src/modules/reporting/resolved/ResolvedReportSummary'
+import { isGreater } from '@/utils/bn'
 import { Trans } from '@lingui/macro'
 
-export const ReportingDetailsPage = ({ incidentReport, refetchReport, coverKey, productKey }) => {
-  const isDiversified = isValidProduct(productKey)
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
-  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
-  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
-
-  const { info, refetch: refetchInfo } = useConsensusReportingInfo({
+export const ReportingDetailsPage = ({
+  incidentReport,
+  refetchReport,
+  coverKey,
+  productKey,
+  refetchCoverData,
+  projectOrProductName,
+  reporterCommission,
+  minReportingStake,
+  coverOrProductData
+}) => {
+  const { loading: reportLoading, info, refetch: refetchReportInfo } = useConsensusReportingInfo({
     coverKey,
     productKey,
     incidentDate: incidentReport.incidentDate
   })
+
+  const refetchAll = useCallback(() => {
+    refetchReport()
+    refetchReportInfo()
+    refetchCoverData()
+  }, [refetchCoverData, refetchReport, refetchReportInfo])
 
   const isPassedResolutionDeadline = useRetryUntilPassed(() => {
     if (!incidentReport?.resolved) {
@@ -34,18 +51,10 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport, coverKey, 
     return isGreater(_now, incidentReport.resolutionDeadline)
   })
 
-  if (loading) {
+  if (reportLoading) {
     return (
       <p className='text-center'>
         <Trans>loading...</Trans>
-      </p>
-    )
-  }
-
-  if (!coverOrProductData) {
-    return (
-      <p className='text-center'>
-        <Trans>No Data Found 1 - {coverKey} {productKey}</Trans>
       </p>
     )
   }
@@ -57,10 +66,11 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport, coverKey, 
   return (
     <>
       <ReportingHero
-        coverKey={incidentReport.coverKey}
-        productKey={incidentReport.productKey}
+        coverKey={coverKey}
+        productKey={productKey}
         incidentDate={incidentReport.incidentDate}
         coverOrProductData={coverOrProductData}
+        projectOrProductName={projectOrProductName}
         type='details'
         isResolved={incidentReport.resolved}
       />
@@ -69,8 +79,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport, coverKey, 
         {showResolvedSummary
           ? (
             <ResolvedReportSummary
-              refetchInfo={refetchInfo}
-              refetchReport={refetchReport}
+              refetchAll={refetchAll}
               incidentReport={incidentReport}
               yes={info.yes}
               no={info.no}
@@ -82,8 +91,12 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport, coverKey, 
             )
           : (
             <ActiveReportSummary
-              refetchInfo={refetchInfo}
-              refetchReport={refetchReport}
+              coverKey={coverKey}
+              productKey={productKey}
+              projectOrProductName={projectOrProductName}
+              reporterCommission={reporterCommission}
+              minReportingStake={minReportingStake}
+              refetchAll={refetchAll}
               incidentReport={incidentReport}
               resolvableTill={incidentReport.resolutionDeadline}
               yes={info.yes}
@@ -96,7 +109,12 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport, coverKey, 
           // to be displayed in mobile only
           !reportingEnded && (
             <div className='block my-16 md:hidden'>
-              <CastYourVote incidentReport={incidentReport} idPrefix='mobile' />
+              <CastYourVote
+                incidentReport={incidentReport}
+                idPrefix='mobile'
+                reporterCommission={reporterCommission}
+                minReportingStake={minReportingStake}
+              />
             </div>
           )
         }
@@ -107,9 +125,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport, coverKey, 
           reportIpfsDataTimeStamp={incidentReport.reportTransaction.timestamp}
           disputeIpfsHash={incidentReport.disputeIpfsHash}
           disputeIpfsData={incidentReport.disputeIpfsData}
-          disputeIpfsDataTimeStamp={
-            incidentReport.disputeTransaction?.timestamp
-          }
+          disputeIpfsDataTimeStamp={incidentReport.disputeTransaction?.timestamp}
         />
 
         <RecentVotesTable
