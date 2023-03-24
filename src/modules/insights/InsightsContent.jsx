@@ -50,7 +50,6 @@ const AllDropdownOptions = {
   HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',
   MONTHLY_DISTRIBUTION: 'Protection by Month (Distribution)',
   MONTHLY_EARNING: 'Protection by Month (Earning)',
-  GAS_PRICE_SUMMARY: 'Gas Price Summary',
   COVER_SOLD: 'Cover Sold by Pool',
   COVER_PREMIUM: 'Cover Premium by Pool',
   COVER_EXPIRING: 'Cover Expiring This Month',
@@ -58,6 +57,7 @@ const AllDropdownOptions = {
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
   OTHER_INSIGHTS: 'Other Insights',
+  GAS_PRICE_SUMMARY: 'Gas Price Summary',
   TOP_ACCOUNTS: 'Top Accounts',
   COVER_EARNINGS: 'Cover Earnings',
   IN_CONSENSUS: 'In Consensus'

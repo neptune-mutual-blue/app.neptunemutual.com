@@ -1,5 +1,9 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { linspace } from '@/utils/linspace'
-import { useEffect, useState } from 'react'
 
 const formatBreakpoint = (breakpoint) => {
   if (breakpoint % 1 === 0) {
@@ -101,8 +105,8 @@ const GaugeChart = ({
           >
             <defs>
               <linearGradient id='GradientColor'>
-                <stop offset='0%' stop-color='#4E7DD9' />
-                <stop offset='100%' stop-color='#E96990' />
+                <stop offset='0%' stopColor='#4E7DD9' />
+                <stop offset='100%' stopColor='#E96990' />
               </linearGradient>
             </defs>
             <circle

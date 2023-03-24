@@ -44,9 +44,10 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
   if (dataLoading || eventLoading) {
     return (
-      <p>
+      <p className='text-center'>
         <Trans>loading...</Trans>
       </p>
+
     )
   }
 

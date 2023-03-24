@@ -1,5 +1,4 @@
 import {
-  useCallback,
   useEffect,
   useMemo,
   useState
@@ -18,7 +17,8 @@ import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
 import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import useAuth from '@/lib/connect-wallet/hooks/useAuth'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
@@ -359,17 +359,17 @@ export const MenuModal = ({
   const router = useRouter()
   const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
 
-  const handleRouteNavigate = useCallback(() => {
-    onClose()
-  }, [onClose])
-
   useEffect(() => {
+    const handleRouteNavigate = () => {
+      onClose()
+    }
+
     router.events.on('routeChangeComplete', handleRouteNavigate)
 
     return () => {
       router.events.off('routeChangeComplete', handleRouteNavigate)
     }
-  }, [handleRouteNavigate, router.events])
+  }, [onClose, router.events])
 
   const buttonBg = isArbitrum
     ? 'bg-1D9AEE'

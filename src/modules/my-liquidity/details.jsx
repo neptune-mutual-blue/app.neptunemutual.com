@@ -39,12 +39,8 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const { liquidityTokenDecimals } = useAppConstants()
 
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
-  const coverData = getCoverByCoverKey(coverKey)
-  const isDiversified = coverData?.supportsProducts
-  const productStatus = CoverStatus[coverData.productStatus]
-  const activeIncidentDate = coverData.activeIncidentDate
-
   const { accrueInterest, isWithdrawalWindowOpen, info } = useLiquidityFormsContext()
+  const coverData = getCoverByCoverKey(coverKey)
 
   if (loading) {
     return (
@@ -53,13 +49,17 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
       </p>
     )
   }
-  if (!loading && !coverData) {
+  if (!coverData) {
     return (
       <p className='text-center'>
         <Trans>No Data Found</Trans>
       </p>
     )
   }
+
+  const isDiversified = coverData?.supportsProducts
+  const productStatus = CoverStatus[coverData.productStatus]
+  const activeIncidentDate = coverData.activeIncidentDate
 
   const projectName = coverData?.coverInfoDetails.coverName || coverData?.coverInfoDetails.projectName
   const imgSrc = getCoverImgSrc({ key: coverKey })

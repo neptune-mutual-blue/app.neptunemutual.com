@@ -33,7 +33,8 @@ const PurchaseAmountStep = ({
   coverKey,
   productKey,
   projectOrProductName,
-  parameters
+  parameters,
+  imgSrc
 }) => {
   const router = useRouter()
   const [error, setError] = useState('')
@@ -97,7 +98,7 @@ const PurchaseAmountStep = ({
         onClick={handleShowCoverTerms}
       >
         <StandardTermsConditionsIcon />
-        <p className='text-sm'>View Cover Parameter</p>
+        <p className='text-sm'>View Cover Parameters</p>
       </button>
 
       {showModal && (
@@ -107,6 +108,7 @@ const PurchaseAmountStep = ({
           productKey={productKey}
           projectOrProductName={projectOrProductName}
           parameters={parameters}
+          imgSrc={imgSrc}
         />
       )}
     </>

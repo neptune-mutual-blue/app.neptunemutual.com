@@ -24,6 +24,16 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
     )
   }
 
+  if (!coverOrProductData) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
+  }
+
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+
   return (
     <>
       {/* hero */}
@@ -31,6 +41,7 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
         coverKey={coverKey}
         productKey={productKey}
         coverOrProductData={coverOrProductData}
+        projectOrProductName={projectOrProductName}
         incidentDate={timestamp}
         type='new-dispute'
       />

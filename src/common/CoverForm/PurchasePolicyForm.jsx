@@ -21,7 +21,8 @@ import { Label } from '@/common/Label/Label'
 import { Loader } from '@/common/Loader/Loader'
 import StepsIndicator from '@/common/StepsIndicator'
 import LeftArrow from '@/icons/LeftArrow'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import { getMonthNames } from '@/lib/dates'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
@@ -228,7 +229,7 @@ export const PurchasePolicyForm = ({
 
   const hasReferralCode = !!referralCode.trim().length
   const isDiversified = isValidProduct(productKey)
-  const coverImgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   const buttonBg = isArbitrum
     ? 'bg-1D9AEE'
@@ -244,7 +245,7 @@ export const PurchasePolicyForm = ({
         <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize'>
           <div className='w-8 h-8 p-1 mr-2.5 rounded-full bg-DEEAF6'>
             <img
-              src={coverImgSrc} alt=''
+              src={imgSrc} alt=''
             />
           </div>
           <span>{projectOrProductName} Price Quotation</span>
@@ -264,6 +265,7 @@ export const PurchasePolicyForm = ({
             productKey={productKey}
             projectOrProductName={projectOrProductName}
             parameters={parameters}
+            imgSrc={imgSrc}
           />)}
         {formSteps === 1 && (
           <CoveragePeriodStep

@@ -4,7 +4,6 @@ import CloseIcon from '@/icons/CloseIcon'
 import PDFFileIcon from '@/icons/PDFFileIcon'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
-import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -14,9 +13,9 @@ export function CoverTermsModal ({
   productKey,
   setShowModal,
   projectOrProductName,
-  parameters
+  parameters,
+  imgSrc
 }) {
-  const imgSrc = getCoverImgSrc({ key: productKey || coverKey })
   const onClose = () => setShowModal(false)
 
   const onDownload = () => {

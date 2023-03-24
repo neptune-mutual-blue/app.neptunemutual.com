@@ -65,6 +65,8 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
     )
   }
 
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+
   const handleAcceptRules = () => {
     setAccepted(true)
   }
@@ -78,6 +80,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
         coverKey={coverKey}
         productKey={productKey}
         coverOrProductData={coverOrProductData}
+        projectOrProductName={projectOrProductName}
         type='new-report'
       />
       <hr className='border-B0C4DB' />

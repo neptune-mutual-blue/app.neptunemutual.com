@@ -1,4 +1,9 @@
-import { Badge, E_CARD_STATUS } from '@/common/CardStatusBadge'
+import { useRouter } from 'next/router'
+
+import {
+  Badge,
+  E_CARD_STATUS
+} from '@/common/CardStatusBadge'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
@@ -6,11 +11,14 @@ import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
-import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
+import {
+  convertFromUnits,
+  sumOf,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 
 export const MyLiquidityCoverCard = ({
   coverKey,

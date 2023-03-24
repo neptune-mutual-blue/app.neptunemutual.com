@@ -218,7 +218,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       <div className='flex items-center mt-5'>
         {hasStaked
           ? (
-            <div className='flex items-center w-full'>
+            <div className='flex w-full'>
               <StakingCardCTA
                 className='px-2 mr-2 text-white w-fit'
                 onClick={() => {
