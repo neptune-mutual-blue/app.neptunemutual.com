@@ -47,9 +47,6 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
   const coverData = getCoverByCoverKey(coverKey)
-  const isDiversified = coverData?.supportsProducts
-  const productStatus = CoverStatus[coverData.productStatus]
-  const activeIncidentDate = coverData.activeIncidentDate
 
   const { info, isWithdrawalWindowOpen, accrueInterest } = useLiquidityFormsContext()
 
@@ -68,6 +65,10 @@ export const CoverAddLiquidityDetailsPage = () => {
       </p>
     )
   }
+
+  const isDiversified = coverData?.supportsProducts
+  const productStatus = CoverStatus[coverData.productStatus]
+  const activeIncidentDate = coverData.activeIncidentDate
 
   const projectName = coverData?.coverInfoDetails.coverName || coverData?.coverInfoDetails.projectName
   const imgSrc = getCoverImgSrc({ key: coverKey })

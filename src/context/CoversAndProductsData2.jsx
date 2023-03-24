@@ -65,7 +65,6 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   }, [account, networkId])
 
   const updateData = useCallback(async function () {
-    setLoading(true)
     try {
       const response = await fetch(
         url,
@@ -95,12 +94,12 @@ export const CoversAndProductsProvider2 = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
-
-    setLoading(false)
   }, [networkId, url])
 
   useEffect(() => {
+    setLoading(true)
     updateData()
+      .finally(() => setLoading(false))
   }, [updateData])
 
   // Returned value can be
