@@ -4,7 +4,6 @@ import {
 import { Alert } from '@/common/Alert/Alert'
 import { Container } from '@/common/Container/Container'
 import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { MULTIPLIER } from '@/src/config/constants'
 import { isValidProduct } from '@/src/helpers/cover'
@@ -18,7 +17,8 @@ export const CoverReportingRules = ({
   handleAcceptRules,
   activeReportings
 }) => {
-  const { reporterCommission, reportingPeriod } = useCoverStatsContext()
+  const reporterCommission = coverOrProductData?.reporterCommission
+  const reportingPeriod = coverOrProductData?.reportingPeriod
   const hasActiveReportings = activeReportings && activeReportings.length > 0
   const isDiversified = isValidProduct(coverOrProductData.productKey)
 

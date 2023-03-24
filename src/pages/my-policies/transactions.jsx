@@ -1,18 +1,18 @@
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
+import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
-import { MyPoliciesTxsTable } from '@/src/modules/my-policies/MyPoliciesTxsTable'
-import { ComingSoon } from '@/common/ComingSoon'
-import { isFeatureEnabled } from '@/src/config/environment'
-import { t, Trans } from '@lingui/macro'
-import { Routes } from '@/src/config/routes'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { logPageLoad } from '@/src/services/logs'
-import { useEffect } from 'react'
-import { analyticsLogger } from '@/utils/logger'
 import { Seo } from '@/common/Seo'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { Routes } from '@/src/config/routes'
+import {
+  MyPoliciesTxsTable
+} from '@/src/modules/my-policies/MyPoliciesTxsTable'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -24,13 +24,6 @@ export function getStaticProps () {
 }
 
 export default function MyPoliciesTxs ({ disabled }) {
-  const { account, chainId } = useWeb3React()
-  const router = useRouter()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
-  }, [account, chainId, router.pathname])
-
   if (disabled) {
     return <ComingSoon />
   }

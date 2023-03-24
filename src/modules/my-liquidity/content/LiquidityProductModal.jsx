@@ -6,33 +6,17 @@ import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { logCoverProductRulesDownload } from '@/src/services/logs'
 import { toBN } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatPercent } from '@/utils/formatter/percent'
-import { analyticsLogger } from '@/utils/logger'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useWeb3React } from '@web3-react/core'
 
-/**
- * @typedef {import('@/modules/my-liquidity/content/CoveredProducts').IProductBase} IProductBase
- *
- *
- * @param {{
- *   product: IProductBase
- *   setShowModal: (_bool: boolean) => void
- * }} param0
- * @returns
- */
-export function LiquidityProductModal ({ product, setShowModal }) {
-  const { account, chainId } = useWeb3React()
-
-  const imgSrc = getCoverImgSrc({ key: product.productKey })
+export function LiquidityProductModal ({ productData, setShowModal }) {
+  const imgSrc = getCoverImgSrc({ key: productData.productKey })
   const onClose = () => setShowModal(false)
 
   const onDownload = () => {
-    window.open(Routes.ViewCoverProductTerms(product.coverKey, product.productKey), '_blank')
-    analyticsLogger(() => logCoverProductRulesDownload(chainId ?? null, account ?? null, product.coverKey, product.productKey))
+    window.open(Routes.ViewCoverProductTerms(productData.coverKey, productData.productKey), '_blank')
     setShowModal(false)
   }
 
@@ -57,14 +41,14 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           >
             <CloseIcon width={24} height={24} />
           </button>
-          <img src={imgSrc} alt={product.infoObj.productName} className='w-8 h-8 mb-2 md:mb-0' />
+          <img src={imgSrc} alt={productData?.productInfoDetails?.productName} className='w-8 h-8 mb-2 md:mb-0' />
 
           <span className='flex-grow mb-1 overflow-hidden text-lg font-bold md:pl-3 md:text-display-xs text-ellipsis md:mb-0'>
-            {product.infoObj.productName} Cover Terms
+            {productData?.productInfoDetails?.productName} Cover Terms
           </span>
           <span className='text-sm font-normal leading-5 md:pl-3 md:text-md lg:text-lg md:font-semibold text-9B9B9B whitespace-nowrap'>
             {formatPercent(
-              toBN(product.infoObj?.capitalEfficiency)
+              toBN(productData?.capitalEfficiency)
                 .dividedBy(MULTIPLIER)
                 .toString()
             )}{' '}
@@ -88,7 +72,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
             <CoverParameters
               titleClassName='text-sm mt-10 mb-6 font-semibold'
               textClassName='text-404040 text-m text-sm'
-              parameters={product.infoObj.parameters}
+              parameters={productData?.productInfoDetails?.parameters}
             />
           </ul>
         </div>

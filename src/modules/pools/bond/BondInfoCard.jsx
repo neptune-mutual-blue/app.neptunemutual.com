@@ -1,4 +1,6 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
 
 import { Badge } from '@/common/Badge/Badge'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
@@ -6,16 +8,15 @@ import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { BondStatsContainer } from '@/src/modules/pools/bond/BondStatsContainer'
 import { ClaimBondModal } from '@/src/modules/pools/bond/ClaimBondModal'
-import { log } from '@/src/services/logs'
 import { isGreater } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { explainInterval } from '@/utils/formatter/interval'
 import { formatPercent } from '@/utils/formatter/percent'
-import { analyticsLogger } from '@/utils/logger'
-import { t, Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const BondInfoCard = ({
   roi,
@@ -27,26 +28,12 @@ export const BondInfoCard = ({
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
-  const { chainId } = useWeb3React()
-
   const onOpen = () => {
     setIsOpen(true)
   }
 
   const onClose = () => {
     setIsOpen(false)
-  }
-
-  const handleLog = () => {
-    const funnel = 'Claim Bond'
-    const journey = 'bond-page'
-    const step = 'claim-bond-button'
-    const event = 'click'
-    const sequence = 1
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
   }
 
   return (
@@ -93,7 +80,6 @@ export const BondInfoCard = ({
               type='button'
               onClick={() => {
                 onOpen()
-                handleLog()
               }}
               className={classNames('block px-4 py-2 rounded-lg mt-10 mx-auto')}
             >

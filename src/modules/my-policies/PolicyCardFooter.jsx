@@ -4,10 +4,8 @@ import { useRouter } from 'next/router'
 import DateLib from '@/lib/date/DateLib'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { log } from '@/src/services/logs'
 import {
   convertFromUnits,
   isGreater
@@ -15,12 +13,10 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { analyticsLogger } from '@/utils/logger'
 import {
   t,
   Trans
 } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -80,54 +76,6 @@ export const PolicyCardFooter = ({
     })
   }
 
-  const { account, chainId } = useWeb3React()
-
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: coverKey,
-    productKey: productKey
-  })
-
-  const handleLog = () => {
-    const funnel = 'Claim Cover'
-    const journey = 'my-policies-page'
-
-    const step = 'claim-button'
-    const sequence = 1
-    const event = 'click'
-    let props
-
-    const expiryDate = parseInt(report?.claimExpiresAt)
-    const d = new Date(expiryDate)
-    const expiryDateMonth = d.getMonth() + 1
-    const expiryDateMonthFormatted = d.toLocaleString('default', { month: 'long' })
-
-    if (coverInfo?.cover) {
-      props = {
-        coverKey,
-        coverName: coverInfo.cover.infoObj.coverName,
-        productKey,
-        productName: coverInfo.infoObj.productName,
-        expiryDate,
-        expiryDateMonth,
-        expiryDateMonthFormatted
-      }
-    }
-
-    if (!coverInfo?.cover) {
-      props = {
-        coverKey,
-        coverName: coverInfo.infoObj.coverName,
-        expiryDate,
-        expiryDateMonth,
-        expiryDateMonthFormatted
-      }
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, props)
-    })
-  }
-
   const buttonBg = isArbitrum
     ? 'bg-1D9AEE'
     : isMainNet
@@ -183,7 +131,6 @@ export const PolicyCardFooter = ({
               buttonBg
             )}
             data-testid='claim-link'
-            onClick={handleLog}
           >
             <Trans>Claim</Trans>
           </a>

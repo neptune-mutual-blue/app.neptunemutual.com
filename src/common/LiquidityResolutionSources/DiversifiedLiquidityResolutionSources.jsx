@@ -1,27 +1,26 @@
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { useRouter } from 'next/router'
+
 import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
 import { Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 
-export const DiversifiedLiquidityResolutionSources = ({ info, children }) => {
+export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) => {
   const router = useRouter()
-
   const { liquidityTokenDecimals } = useAppConstants()
-  const { reportingPeriod } = useCoverStatsContext()
 
-  const totalLiquidity = info.totalLiquidity
-  const reassuranceAmount = info.totalReassurance
+  const totalLiquidity = coverData.tvl
+  const reassuranceAmount = coverData.reassurance
+  const reportingPeriod = coverData.reportingPeriod
 
   return (
     <div className='col-span-3 row-start-2 md:col-auto md:row-start-auto'>
       <SecondaryCard>
         <div className='flex flex-wrap justify-between md:block'>
           <div>
-            <h3 className='font-semibold text-lg'>
+            <h3 className='text-lg font-semibold'>
               <Trans>Vault Info</Trans>
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>

@@ -1,10 +1,16 @@
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { ADDRESS_ONE, UNSTAKE_INFO_URL } from '@/src/config/constants'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
+
+import {
+  ADDRESS_ONE,
+  UNSTAKE_INFO_URL
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
-import { getUnstakeInfoFor } from '@/src/services/protocol/consensus/info'
 import { getReplacedString } from '@/utils/string'
 import { useWeb3React } from '@web3-react/core'
-import { useCallback, useEffect, useState } from 'react'
 
 const defaultInfo = {
   yes: '0',
@@ -30,8 +36,9 @@ export const useConsensusReportingInfo = ({
   productKey,
   incidentDate
 }) => {
+  const [loading, setLoading] = useState(false)
   const [info, setInfo] = useState(defaultInfo)
-  const { account, library } = useWeb3React()
+  const { account } = useWeb3React()
   const { networkId } = useNetwork()
 
   const fetchInfo = useCallback(async () => {
@@ -40,18 +47,7 @@ export const useConsensusReportingInfo = ({
     }
 
     let data
-    if (account) {
-      // Get data from provider if wallet's connected
-      const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      data = await getUnstakeInfoFor(
-        networkId,
-        coverKey,
-        productKey,
-        account,
-        incidentDate,
-        signerOrProvider.provider
-      )
-    } else {
+    {
       // Get data from API if wallet's not connected
       const response = await fetch(
         getReplacedString(UNSTAKE_INFO_URL, {
@@ -96,11 +92,12 @@ export const useConsensusReportingInfo = ({
       myReward: data.myReward || defaultInfo.myReward,
       willReceive: data.willReceive || defaultInfo.willReceive
     }
-  }, [networkId, coverKey, account, library, productKey, incidentDate])
+  }, [networkId, coverKey, account, productKey, incidentDate])
 
   useEffect(() => {
     let ignore = false
 
+    setLoading(true)
     fetchInfo()
       .then((data) => {
         if (ignore || !data) {
@@ -110,9 +107,11 @@ export const useConsensusReportingInfo = ({
         setInfo(data)
       })
       .catch(console.error)
+      .finally(() => setLoading(false))
 
     return () => {
       ignore = true
+      setLoading(false)
     }
   }, [fetchInfo])
 
@@ -127,6 +126,7 @@ export const useConsensusReportingInfo = ({
 
   return {
     info,
+    loading,
     refetch: updateFetchInfo
   }
 }

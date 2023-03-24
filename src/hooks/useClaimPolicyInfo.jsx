@@ -1,8 +1,32 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { MULTIPLIER } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { getActionMessage } from '@/src/helpers/notification'
+import {
+  useClaimsProcessorAddress
+} from '@/src/hooks/contracts/useClaimsProcessorAddress'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import {
+  useCxTokenRowContext
+} from '@/src/modules/my-policies/CxTokenRowContext'
+import { METHODS } from '@/src/services/transactions/const'
+import {
+  STATUS,
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
 import {
   convertFromUnits,
   convertToUnits,
@@ -11,30 +35,12 @@ import {
   isValidNumber,
   toBN
 } from '@/utils/bn'
-import { registry } from '@neptunemutual/sdk'
-
-import { useWeb3React } from '@web3-react/core'
-import { useEffect, useState } from 'react'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useClaimsProcessorAddress } from '@/src/hooks/contracts/useClaimsProcessorAddress'
-import { useTxPoster } from '@/src/context/TxPoster'
-import { useCxTokenRowContext } from '@/src/modules/my-policies/CxTokenRowContext'
-import { MULTIPLIER } from '@/src/config/constants'
-import { t } from '@lingui/macro'
-import { useAppConstants } from '@/src/context/AppConstants'
-import {
-  STATUS,
-  TransactionHistory
-} from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
-import { analyticsLogger } from '@/utils/logger'
-import { logClaimCover } from '@/src/services/logs'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
 import { formatPercent } from '@/utils/formatter/percent'
+import { t } from '@lingui/macro'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useClaimPolicyInfo = ({
   value,
@@ -273,8 +279,6 @@ export const useClaimPolicyInfo = ({
                 methodName: METHODS.CLAIM_COVER_COMPLETE,
                 status: STATUS.SUCCESS
               })
-
-              analyticsLogger(() => logClaimCover(logData))
 
               refetchBalance()
               onTxSuccess()

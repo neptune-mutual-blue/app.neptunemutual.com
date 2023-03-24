@@ -1,5 +1,4 @@
 import {
-  useCallback,
   useEffect,
   useMemo,
   useState
@@ -18,25 +17,20 @@ import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
 import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import useAuth from '@/lib/connect-wallet/hooks/useAuth'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import {
-  logCloseConnectionPopup,
-  logOpenConnectionPopup,
-  logWalletDisconnected
-} from '@/src/services/logs'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { truncateAddress } from '@/utils/address'
 import { classNames } from '@/utils/classnames'
-import { analyticsLogger } from '@/utils/logger'
 import {
   t,
   Trans
@@ -152,17 +146,11 @@ export const Header = () => {
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => !prev)
-    if (!isAccountDetailsOpen) {
-      analyticsLogger(() => logOpenConnectionPopup(networkId, account))
-    } else {
-      analyticsLogger(() => logCloseConnectionPopup(networkId, account))
-    }
   }
 
   const handleDisconnect = () => {
     if (active) {
       logout()
-      analyticsLogger(() => logWalletDisconnected(networkId, account))
     }
     setIsAccountDetailsOpen(false)
   }
@@ -198,7 +186,7 @@ export const Header = () => {
     <>
       <div className='bg-black text-EEEEEE'>
         <Banner />
-        <div className='justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 hidden xl:flex'>
+        <div className='justify-end hidden max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 xl:flex'>
           <LanguageDropdown />
         </div>
       </div>
@@ -371,17 +359,17 @@ export const MenuModal = ({
   const router = useRouter()
   const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
 
-  const handleRouteNavigate = useCallback(() => {
-    onClose()
-  }, [onClose])
-
   useEffect(() => {
+    const handleRouteNavigate = () => {
+      onClose()
+    }
+
     router.events.on('routeChangeComplete', handleRouteNavigate)
 
     return () => {
       router.events.off('routeChangeComplete', handleRouteNavigate)
     }
-  }, [handleRouteNavigate, router.events])
+  }, [onClose, router.events])
 
   const buttonBg = isArbitrum
     ? 'bg-1D9AEE'

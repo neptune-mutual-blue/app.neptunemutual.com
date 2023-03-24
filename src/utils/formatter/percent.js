@@ -5,6 +5,10 @@ export const formatPercent = (x, locale, symbol = true) => {
 
   const percent = parseFloat(x) * 100
 
+  if (isNaN(percent)) {
+    return ''
+  }
+
   const result = new Intl.NumberFormat(locale, {
     style: 'percent',
     maximumFractionDigits: percent < 1 ? 6 : 2

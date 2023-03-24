@@ -1,36 +1,43 @@
-import { useState, useEffect } from 'react'
-import { registry, utils } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
+import {
+  useEffect,
+  useState
+} from 'react'
 
+import { useRouter } from 'next/router'
+
+import {
+  useLiquidityFormsContext
+} from '@/common/LiquidityForms/LiquidityFormsContext'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import DateLib from '@/lib/date/DateLib'
+import { getMonthNames } from '@/lib/dates'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useCalculatePods } from '@/src/hooks/useCalculatePods'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { METHODS } from '@/src/services/transactions/const'
+import {
+  STATUS,
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
 import {
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
   isValidNumber
 } from '@/utils/bn'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useNetwork } from '@/src/context/Network'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useTxPoster } from '@/src/context/TxPoster'
-import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { t } from '@lingui/macro'
-import {
-  STATUS,
-  TransactionHistory
-} from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { logAddLiquidity } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
-import { useCalculatePods } from '@/src/hooks/useCalculatePods'
-import DateLib from '@/lib/date/DateLib'
-import { getMonthNames } from '@/lib/dates'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { t } from '@lingui/macro'
+import {
+  registry,
+  utils
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useProvideLiquidity = ({
   coverKey,
@@ -103,8 +110,6 @@ export const useProvideLiquidity = ({
   }, [updateStakeAllowance, vaultTokenAddress])
 
   const handleLqTokenApprove = async () => {
-    console.log('handleLqTokenApprove')
-
     setLqApproving(true)
 
     const cleanup = () => {
@@ -271,7 +276,6 @@ export const useProvideLiquidity = ({
   }
 
   const handleProvide = async (onTxSuccess) => {
-    console.log('handleProvide')
     setProviding(true)
 
     const cleanup = () => {
@@ -377,7 +381,6 @@ export const useProvideLiquidity = ({
                   value: lqValue
                 }
               })
-              analyticsLogger(() => logAddLiquidity(logData))
 
               onTxSuccess()
             },

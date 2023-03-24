@@ -1,17 +1,32 @@
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
-import { Hero } from '@/common/Hero'
 import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { t } from '@lingui/macro'
+import { Hero } from '@/common/Hero'
+import { CoverStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import { t } from '@lingui/macro'
 
-export const ReportingHero = ({ coverKey, productKey, coverOrProductData, incidentDate = null, type = '', isResolved = false }) => {
+export const ReportingHero = ({
+  coverKey,
+  productKey,
+  coverOrProductData,
+  incidentDate = null,
+  type = '',
+  isResolved = false,
+  projectOrProductName
+}) => {
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
   const coverName = coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
   const productName = coverOrProductData?.productInfoDetails?.productName
   const socialLinks = isDiversified ? coverOrProductData?.productInfoDetails.links : coverOrProductData?.coverInfoDetails.links
+
+  const productStatus = CoverStatus[coverOrProductData.productStatus]
+  const activeIncidentDate = coverOrProductData.activeIncidentDate
 
   let breadcrumbData = []
 
@@ -66,7 +81,9 @@ export const ReportingHero = ({ coverKey, productKey, coverOrProductData, incide
             productKey={productKey}
             imgSrc={imgSrc}
             links={socialLinks}
-            projectName={isDiversified ? productName : coverName}
+            projectName={projectOrProductName}
+            productStatus={productStatus}
+            activeIncidentDate={activeIncidentDate}
           />
         </div>
       </Container>

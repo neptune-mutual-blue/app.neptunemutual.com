@@ -1,40 +1,48 @@
-import { useState, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { registry, utils } from '@neptunemutual/sdk'
-
 import {
-  convertToUnits,
-  isValidNumber,
-  isGreaterOrEqual,
-  isGreater,
-  convertFromUnits
-} from '@/utils/bn'
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { getMonthNames } from '@/lib/dates'
+import {
+  MAX_PROPOSAL_AMOUNT,
+  MIN_PROPOSAL_AMOUNT
+} from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { getActionMessage } from '@/src/helpers/notification'
 import { usePolicyAddress } from '@/src/hooks/contracts/usePolicyAddress'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
-import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
-import { logPolicyPurchase } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { getMonthNames } from '@/lib/dates'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
-import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
+import {
+  convertFromUnits,
+  convertToUnits,
+  isGreater,
+  isGreaterOrEqual,
+  isValidNumber
+} from '@/utils/bn'
 import { delay } from '@/utils/delay'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { t } from '@lingui/macro'
+import {
+  registry,
+  utils
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -309,6 +317,7 @@ export const usePurchasePolicy = ({
               })
 
               tx.wait(1)
+              // Delay as subgraph takes time to index
                 .then((receipt) => delay(receipt))
                 .then(async (receipt) => {
                   if (receipt) {
@@ -321,8 +330,6 @@ export const usePurchasePolicy = ({
                     setTxHash(txHash)
                   }
                 })
-
-              analyticsLogger(() => logPolicyPurchase(logData))
 
               onTxSuccess()
             },

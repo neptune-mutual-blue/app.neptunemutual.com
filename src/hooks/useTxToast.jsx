@@ -1,9 +1,11 @@
 import { ViewTxLink } from '@/common/ViewTxLink'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { useToast } from '@/lib/toast/context'
-import { TOAST_DEFAULT_TIMEOUT, TOAST_NO_TIMEOUT } from '@/src/config/toast'
+import {
+  TOAST_DEFAULT_TIMEOUT,
+  TOAST_NO_TIMEOUT
+} from '@/src/config/toast'
 import { useNetwork } from '@/src/context/Network'
-import { delay } from '@/utils/delay'
 
 export const useTxToast = () => {
   const { networkId } = useNetwork()
@@ -30,7 +32,6 @@ export const useTxToast = () => {
     })
 
     const receipt = await tx.wait(1)
-    await delay()
     const type = receipt.status === 1 ? 'Success' : 'Error'
 
     toast.remove(loadingToastId)

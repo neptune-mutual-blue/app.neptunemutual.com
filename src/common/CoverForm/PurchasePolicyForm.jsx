@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -8,7 +11,6 @@ import { BackButton } from '@/common/BackButton/BackButton'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
 import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
 import PurchaseAmountStep from '@/common/CoverForm/Steps/PurchaseAmountStep'
@@ -19,7 +21,8 @@ import { Label } from '@/common/Label/Label'
 import { Loader } from '@/common/Loader/Loader'
 import StepsIndicator from '@/common/StepsIndicator'
 import LeftArrow from '@/icons/LeftArrow'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import { getMonthNames } from '@/lib/dates'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
@@ -39,14 +42,11 @@ import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
-import { log } from '@/src/services/logs'
 import {
   convertFromUnits,
   isGreater
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { analyticsLogger } from '@/utils/logger'
 import {
   t,
   Trans
@@ -83,7 +83,18 @@ const getCoveragePeriodLabels = (locale) => {
   ]
 }
 
-export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
+export const PurchasePolicyForm = ({
+  coverKey,
+  productKey,
+  availableForUnderwriting,
+  projectOrProductName,
+  coverageLag,
+  parameters,
+  isUserWhitelisted,
+  requiresWhitelist,
+  activeIncidentDate,
+  productStatus
+}) => {
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
@@ -101,9 +112,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
     liquidityTokenDecimals,
     liquidityTokenSymbol
   } = useAppConstants()
-  const { availableLiquidity: availableLiquidityInWei, coverageLag } = useCoverStatsContext()
   const availableLiquidity = convertFromUnits(
-    availableLiquidityInWei,
+    availableForUnderwriting,
     liquidityTokenDecimals
   ).toString()
 
@@ -149,14 +159,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
     referralCode: referralCode.trim()
   })
 
-  const {
-    isUserWhitelisted,
-    requiresWhitelist,
-    activeIncidentDate,
-    productStatus
-  } = useCoverStatsContext()
-
-  const { account, chainId } = useWeb3React()
+  const { account } = useWeb3React()
 
   const handleChange = (val) => {
     if (typeof val === 'string') {
@@ -175,38 +178,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
   }
 
   const coverPeriodLabels = getCoveragePeriodLabels(router.locale)
-
-  const handleLog = (sequence) => {
-    const funnel = 'Purchase Policy'
-    const journey = 'purchase-policy-page'
-
-    let step, event
-    switch (sequence) {
-      case 1:
-        step = 'approve-button'
-        event = 'click'
-        break
-
-      case 2:
-        step = 'purchase-policy-button'
-        event = 'click'
-        break
-
-      case 9999:
-        step = 'end'
-        event = 'closed'
-        break
-
-      default:
-        step = 'step'
-        event = 'event'
-        break
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
-  }
 
   let canProceed = true
   if (formSteps === 0) {
@@ -258,10 +229,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
 
   const hasReferralCode = !!referralCode.trim().length
   const isDiversified = isValidProduct(productKey)
-
-  const coverName = safeParseBytes32String(coverKey)
-  const productName = safeParseBytes32String(productKey)
-  const coverImgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   const buttonBg = isArbitrum
     ? 'bg-1D9AEE'
@@ -277,10 +245,10 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
         <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize'>
           <div className='w-8 h-8 p-1 mr-2.5 rounded-full bg-DEEAF6'>
             <img
-              src={coverImgSrc} alt=''
+              src={imgSrc} alt=''
             />
           </div>
-          <span>{productName || coverName} Price Quotation</span>
+          <span>{projectOrProductName} Price Quotation</span>
         </h4>
         <p className='h-px mb-6 bg-left-top bg-repeat-x bg-dashed-border bg-dashed-size' />
 
@@ -293,7 +261,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
             purchasing={purchasing}
             value={value}
             availableLiquidity={availableLiquidity}
-            coverInfo={coverInfo}
+            coverKey={coverKey}
+            productKey={productKey}
+            projectOrProductName={projectOrProductName}
+            parameters={parameters}
+            imgSrc={imgSrc}
           />)}
         {formSteps === 1 && (
           <CoveragePeriodStep
@@ -334,7 +306,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
 
         {formSteps === 3 && (
           <PurchasePolicyStep
-            coverName={productName || coverName}
+            projectOrProductName={projectOrProductName}
             feeData={feeData}
             value={value}
             approving={approving}
@@ -343,7 +315,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
             coverageLag={coverageLag}
             error={error}
             handleApprove={handleApprove}
-            handleLog={handleLog}
             handlePurchase={handlePurchase}
             isReferralCodeCheckPending={isReferralCodeCheckPending}
             referralCodeChange={referralCodeChange}

@@ -1,8 +1,28 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
 
-import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { config, registry } from '@neptunemutual/sdk'
+import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { getActionMessage } from '@/src/helpers/notification'
+import {
+  useStakingPoolsAddress
+} from '@/src/hooks/contracts/useStakingPoolsAddress'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { log } from '@/src/services/logs'
+import { METHODS } from '@/src/services/transactions/const'
+import {
+  STATUS,
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
 import {
   convertFromUnits,
   convertToUnits,
@@ -13,26 +33,14 @@ import {
   sort,
   toBN
 } from '@/utils/bn'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useStakingPoolsAddress } from '@/src/hooks/contracts/useStakingPoolsAddress'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useTxPoster } from '@/src/context/TxPoster'
-import { useNetwork } from '@/src/context/Network'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { METHODS } from '@/src/services/transactions/const'
-import {
-  STATUS,
-  TransactionHistory
-} from '@/src/services/transactions/transaction-history'
-import { getActionMessage } from '@/src/helpers/notification'
-import { log, logStakingPoolDeposit } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { explainInterval } from '@/utils/formatter/interval'
+import { t } from '@lingui/macro'
+import {
+  config,
+  registry
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useStakingPoolDeposit = ({
   value,
@@ -265,7 +273,7 @@ export const useStakingPoolDeposit = ({
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS
                 })
-                analyticsLogger(() => logStakingPoolDeposit(logData))
+
                 log(networkId, analyticsFunnelName, 'stake-page', 'end', 9999, account, 'closed')
               },
               onTxFailure: () => {

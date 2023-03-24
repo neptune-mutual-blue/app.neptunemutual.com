@@ -1,35 +1,47 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
 
 import { Alert } from '@/common/Alert/Alert'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
-import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { ReceiveAmountInput } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
+import {
+  useLiquidityFormsContext
+} from '@/common/LiquidityForms/LiquidityFormsContext'
+import {
+  ReceiveAmountInput
+} from '@/common/ReceiveAmountInput/ReceiveAmountInput'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import { TokenAmountWithPrefix } from '@/common/TokenAmountWithPrefix'
 import DateLib from '@/lib/date/DateLib'
-import { MAX_LIQUIDITY, MIN_LIQUIDITY } from '@/src/config/constants'
+import {
+  MAX_LIQUIDITY,
+  MIN_LIQUIDITY
+} from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useCalculatePods } from '@/src/hooks/useCalculatePods'
 import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { log } from '@/src/services/logs'
 import {
-  convertFromUnits, convertToUnits,
-  isEqualTo, isGreater, toBN
+  convertFromUnits,
+  convertToUnits,
+  isEqualTo,
+  isGreater,
+  toBN
 } from '@/utils/bn'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { analyticsLogger } from '@/utils/logger'
-import { t, Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import Link from 'next/link'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -138,12 +150,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     requiredStake
   ])
 
-  const approvalSequence = useRef(0)
-
-  const productKey = safeFormatBytes32String('')
-  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
-  const { chainId, account } = useWeb3React()
-
   const handleMaxNPM = () => {
     if (!npmBalance) {
       return
@@ -212,48 +218,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   }
 
   const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false
-
-  const handleApprovalLog = (symbol, amount) => {
-    const funnel = 'Adding Liquidity'
-    const journey = `my-${router?.query?.coverId}-liquidity-page`
-
-    const sequence = approvalSequence.current + 1
-
-    const step = `approve-${symbol}-button`
-    const event = 'click'
-    const props = {
-      token: symbol,
-      approveAmount: amount
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, props)
-    })
-
-    approvalSequence.current += 1
-  }
-
-  const handleLog = () => {
-    const funnel = 'Adding Liquidity'
-    const journey = `my-${router?.query?.coverId}-liquidity-page`
-
-    const sequence1 = 3
-    const step1 = 'provide-liquidity-button'
-    const event1 = 'click'
-    const props1 = {
-      coverKey,
-      coverName: coverInfo?.infoObj?.coverName
-    }
-
-    const sequence2 = 9999
-    const step2 = 'end'
-    const event2 = 'closed'
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step1, sequence1, account, event1, props1)
-      log(chainId, funnel, journey, step2, sequence2, account, event2, {})
-    })
-  }
 
   const isStakeDisabled = isEqualTo(minStakeToAddLiquidity, 0) && isMainNet
 
@@ -361,7 +325,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
               }
               className='w-full p-6 mb-4 font-semibold uppercase sm:mb-0'
               onClick={() => {
-                handleApprovalLog(liquidityTokenSymbol, lqValue)
                 handleLqTokenApprove()
               }}
             >
@@ -386,7 +349,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
               }
                 className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
-                  handleApprovalLog(NPMTokenSymbol, npmValue)
                   handleNPMTokenApprove()
                 }}
               >
@@ -417,8 +379,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             }
             className='w-full p-6 font-semibold uppercase'
             onClick={() => {
-              handleLog()
-
               handleProvide(() => {
                 setNPMValue('')
                 setLqValue('')

@@ -1,25 +1,38 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import { Alert } from '@/common/Alert/Alert'
-import { OutlinedButton, OutlinedButtonCancel } from '@/common/Button/OutlinedButton'
+import {
+  OutlinedButton,
+  OutlinedButtonCancel
+} from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { ReferralCodeStatus } from '@/common/CoverForm/PurchasePolicyForm'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
 import { RegularInput } from '@/common/Input/RegularInput'
 import { Label } from '@/common/Label/Label'
-import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
+import {
+  PolicyFeesAndExpiry
+} from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
 import { CustomRadio } from '@/common/Radio/Radio'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import * as Tooltip from '@radix-ui/react-tooltip'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 
 const PurchasePolicyStep = ({
-  coverName,
+  projectOrProductName,
   value,
   feeData,
   loadingMessage,
@@ -32,7 +45,6 @@ const PurchasePolicyStep = ({
   isReferralCodeCheckPending,
   coverageLag,
   handleApprove,
-  handleLog,
   purchasing,
   isValidReferralCode,
   referralCodeChange,
@@ -110,7 +122,7 @@ const PurchasePolicyStep = ({
         <p className='font-semibold uppercase'><Trans>You will Receive:</Trans></p>
         <p className='flex items-center'>
           {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long} (Claimable {liquidityTokenSymbol} Token)
-          <CxUsdToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
+          <CxUsdToolTip liquidityTokenSymbol={liquidityTokenSymbol} projectOrProductName={projectOrProductName} />
         </p>
       </div>
 
@@ -136,7 +148,6 @@ const PurchasePolicyStep = ({
               className='w-full p-6 font-semibold uppercase'
               onClick={() => {
                 handleApprove()
-                handleLog(1)
               }}
             >
               {approving
@@ -169,8 +180,6 @@ const PurchasePolicyStep = ({
                   setReferralCode('')
                   setCoverMonth('')
                 })
-                handleLog(2)
-                handleLog(9999)
               }}
             >
               {purchasing ? t`Purchasing...` : t`Purchase Policy`}
@@ -317,7 +326,7 @@ const PurchasePolicyStep = ({
 
 export default PurchasePolicyStep
 
-const CxUsdToolTip = ({ liquidityTokenSymbol, coverName }) => {
+const CxUsdToolTip = ({ liquidityTokenSymbol, projectOrProductName }) => {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger className='p-0.5'>
@@ -334,7 +343,7 @@ const CxUsdToolTip = ({ liquidityTokenSymbol, coverName }) => {
           </p>
           <p className='mt-6'>
             <Trans>
-              The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {coverName} cover resolves as “Incident Occured”
+              The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”
             </Trans>
           </p>
         </div>

@@ -1,25 +1,30 @@
-import { useState, useEffect, useCallback } from 'react'
-import { t } from '@lingui/macro'
-import { registry } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import DateLib from '@/lib/date/DateLib'
+import {
+  ADDRESS_ONE,
+  VAULT_INFO_URL
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
+import { getActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
-import DateLib from '@/lib/date/DateLib'
-import { isGreater } from '@/utils/bn'
-import { ADDRESS_ONE, VAULT_INFO_URL } from '@/src/config/constants'
-import { getReplacedString } from '@/utils/string'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { getActionMessage } from '@/src/helpers/notification'
-import { logAccrueLiquidity } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
+import { isGreater } from '@/utils/bn'
+import { getReplacedString } from '@/utils/string'
+import { t } from '@lingui/macro'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const defaultInfo = {
   withdrawalOpen: '0',
@@ -180,7 +185,6 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
                 methodName: METHODS.LIQUIDITY_INFO,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logAccrueLiquidity(account, coverKey, tx.hash))
             },
             onTxFailure: () => {
               TransactionHistory.push({
