@@ -1,18 +1,26 @@
-import { useState, useCallback, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { registry } from '@neptunemutual/sdk'
-import { t } from '@lingui/macro'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
-import { delay } from '@/utils/delay'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { t } from '@lingui/macro'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
+
+const DELAY_BETWEEN_CHECKS = 2000 // Milliseconds
+const TIMES_TO_CHECK = 10
 
 export const useERC20Allowance = (tokenAddress) => {
   const [allowance, setAllowance] = useState('0')
+  // Required data to start checking for updated allowance, and boolean value is used as a trigger to start and also stop
+  const [checkForChange, setCheckForChange] = useState({ check: false, spender: null })
   const [loading, setLoading] = useState(false)
   const { networkId } = useNetwork()
   const { library, account } = useWeb3React()
@@ -98,6 +106,7 @@ export const useERC20Allowance = (tokenAddress) => {
 
       const onTransactionResult = (_allowance) => {
         if (_allowance) {
+          console.log('refetch', _allowance.toString())
           setAllowance(_allowance.toString())
         }
         cleanup()
@@ -110,13 +119,45 @@ export const useERC20Allowance = (tokenAddress) => {
 
       fetchAllowance(spender, {
         onTransactionResult,
-
         onError,
         cleanup
       })
     },
     [fetchAllowance, notifyError]
   )
+
+  // Check until allowance is updated, in an infinite loop
+  useEffect(() => {
+    let interval = null
+    let timesRan = 0
+
+    if (checkForChange.check) {
+      interval = setInterval(() => {
+        // Stop after certain number of times
+        timesRan += 1
+        if (timesRan > TIMES_TO_CHECK) {
+          clearInterval(interval)
+        }
+
+        refetch(checkForChange.spender)
+      }, DELAY_BETWEEN_CHECKS)
+    }
+
+    return () => clearInterval(interval)
+  }, [checkForChange, refetch])
+
+  useEffect(() => {
+    if (!checkForChange.check) {
+      return
+    }
+
+    // When allowance changes stop checking
+    setCheckForChange({
+      check: false,
+      spender: null
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allowance])
 
   /**
    *
@@ -156,8 +197,13 @@ export const useERC20Allowance = (tokenAddress) => {
       onRetryCancel,
       onTransactionResult: (tx) => {
         tx?.wait(1)
-          .then(() => delay())
-          .then(() => refetch(spender))
+          .then(() => {
+            // Triggers checking allowance in a loop
+            setCheckForChange({
+              check: true,
+              spender
+            })
+          })
 
         onTransactionResult(tx)
       }

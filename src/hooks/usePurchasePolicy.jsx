@@ -317,6 +317,7 @@ export const usePurchasePolicy = ({
               })
 
               tx.wait(1)
+              // Delay as subgraph takes time to index
                 .then((receipt) => delay(receipt))
                 .then(async (receipt) => {
                   if (receipt) {
