@@ -1,3 +1,8 @@
+import {
+  useCallback,
+  useState
+} from 'react'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
@@ -7,20 +12,24 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import DateLib from '@/lib/date/DateLib'
 import { classNames } from '@/lib/toast/utils'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import { useUnstakeReportingStake } from '@/src/hooks/useUnstakeReportingStake'
 import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
-import { log } from '@/src/services/logs'
-import { convertFromUnits, isGreater } from '@/utils/bn'
-import { analyticsLogger } from '@/utils/logger'
-import { t, Trans } from '@lingui/macro'
+import {
+  convertFromUnits,
+  isGreater
+} from '@/utils/bn'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
 
-export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, projectOrProductName }) => {
+export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, projectOrProductName }) => {
   const [isOpen, setIsOpen] = useState(false)
   const isDiversified = isValidProduct(incidentReport.productKey)
 
@@ -54,14 +63,11 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, pr
 
   const handleUnstakeSuccess = useCallback(
     () => {
-      refetchInfo()
+      refetchAll()
       onClose()
     },
-    [refetchInfo]
+    [refetchAll]
   )
-
-  const { account, chainId } = useWeb3React()
-  const { query } = useRouter()
 
   const now = DateLib.unix()
 
@@ -84,34 +90,6 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, pr
   }
 
   const hasStake = !(convertFromUnits(willReceive).isZero())
-
-  const handleLog = () => {
-    const funnel = 'Submit Dispute'
-    const journey = `${query?.coverId}${query?.productId ? '-' + query.productId : ''}-${query?.timestamp}-incident-page`
-
-    const step = 'unstake-button'
-    const sequence = 1
-    const event = 'click'
-    const props = {
-      coverKey: incidentReport?.coverKey,
-      coverName: query?.coverId,
-      incidentDate: incidentReport?.incidentDate
-    }
-
-    if (query?.productId) {
-      props.productKey = incidentReport?.productKey
-      props.productName = query?.productId
-    }
-
-    const step2 = 'end'
-    const sequence2 = 9999
-    const event2 = 'closed'
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, props)
-      log(chainId, funnel, journey, step2, sequence2, account, event2, {})
-    })
-  }
 
   return (
     <div className='flex flex-col items-center pt-4'>
@@ -139,7 +117,6 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, pr
         className='w-full px-10 py-4 mb-16 font-semibold md:w-80'
         onClick={() => {
           setIsOpen(true)
-          handleLog()
         }}
       >
         <Trans>UNSTAKE</Trans>

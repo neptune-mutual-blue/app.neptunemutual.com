@@ -1,5 +1,3 @@
-
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useMemo } from 'react'
 
 import Link from 'next/link'
@@ -10,19 +8,17 @@ import { CoverCardWrapper } from '@/common/Cover/CoverCardWrapper'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import {
-  CARDS_PER_PAGE
-} from '@/src/config/constants'
-import { isValidProduct } from '@/src/helpers/cover'
-
 import { Select } from '@/common/Select'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import FilterIcon from '@/icons/FilterIcon'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { isValidProduct } from '@/src/helpers/cover'
 import {
   DEFAULT_SORT_OPTIONS,
-  sorter,
   SORT_DATA_TYPES,
-  SORT_TYPES
+  SORT_TYPES,
+  sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
 import {
@@ -60,7 +56,7 @@ const SortQueryParam = 'sort'
 const SearchQueryParam = 'search'
 
 const sortOptions = DEFAULT_SORT_OPTIONS
-const defaultSortOption = DEFAULT_SORT_OPTIONS[1]
+const defaultSortOption = DEFAULT_SORT_OPTIONS[2]
 
 const getSelectedSortOption = (query) => {
   const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value

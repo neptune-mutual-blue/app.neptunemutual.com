@@ -1,27 +1,24 @@
 import React, { useState } from 'react'
 
+import { useRouter } from 'next/router'
+
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
-  TBody,
+  TableShowMore,
   TableWrapper,
-  THead,
-  TableShowMore
+  TBody,
+  THead
 } from '@/common/Table/Table'
-import { ClaimCoverModal } from '@/src/modules/my-policies/ClaimCoverModal'
-import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits } from '@/utils/bn'
+import { ClaimCoverModal } from '@/src/modules/my-policies/ClaimCoverModal'
 import {
   CxTokenRowProvider,
   useCxTokenRowContext
 } from '@/src/modules/my-policies/CxTokenRowContext'
-import { useRouter } from 'next/router'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
-import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
-import { renderHeader } from '@/common/Table/renderHeader'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
 
 const renderAddress = (row) => (
   <td className='max-w-sm px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'>
@@ -82,7 +79,8 @@ export const ClaimCxTokensTable = ({
   report,
   setPage,
   hasMore = false,
-  loading = false
+  loading = false,
+  claimPlatformFee
 }) => {
   return (
     <>
@@ -93,7 +91,7 @@ export const ClaimCxTokensTable = ({
             <TBody
               columns={columns}
               data={activePolicies}
-              extraData={{ coverKey, incidentDate }}
+              extraData={{ coverKey, incidentDate, claimPlatformFee }}
               RowWrapper={CxTokenRowProvider}
               isLoading={loading}
             />
@@ -162,10 +160,7 @@ export const ClaimBeforeColumnRenderer = () => {
 }
 
 export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
-  const { claimPlatformFee } = useCoverStatsContext()
   const [isOpen, setIsOpen] = useState(false)
-
-  const { account, chainId } = useWeb3React()
 
   const onClose = () => {
     setIsOpen(false)
@@ -175,32 +170,19 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
     setIsOpen(true)
   }
 
-  const handleLog = () => {
-    const funnel = 'Claim Cover'
-    const journey = 'my-policies-list-claims-page'
-    const step = 'claim-link-button'
-    const event = 'click'
-    const sequence = 1
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
-  }
-
   return (
     <td className='px-6 py-6 text-right min-w-120'>
       <button
         className='text-sm leading-6 tracking-wide uppercase cursor-pointer text-4e7dd9 hover:underline'
         onClick={() => {
           onOpen()
-          handleLog()
         }}
       >
         Claim
       </button>
 
       <ClaimCoverModal
-        claimPlatformFee={claimPlatformFee}
+        claimPlatformFee={extraData.claimPlatformFee}
         coverKey={row.coverKey}
         productKey={row.productKey}
         cxTokenAddress={row.cxToken.id}

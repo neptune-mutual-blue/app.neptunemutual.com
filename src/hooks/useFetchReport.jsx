@@ -1,4 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
+
 import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
@@ -70,8 +75,6 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   const reportId = `${coverKey}-${productKey}-${incidentDate}`
 
   const getData = useCallback(() => {
-    setLoading(true)
-
     return fetchReport(getNetworkId(), getQuery(reportId))
       .then((data) => {
         if (!data || !data.incidentReport) {
@@ -81,11 +84,12 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
         setData(data.incidentReport)
       })
       .catch((e) => console.error(e))
-      .finally(() => setLoading(false))
   }, [fetchReport, reportId])
 
   useEffect(() => {
+    setLoading(true)
     getData()
+      .finally(() => setLoading(false))
   }, [getData])
 
   return {

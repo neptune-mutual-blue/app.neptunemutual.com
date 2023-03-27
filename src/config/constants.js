@@ -40,6 +40,7 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const IPFS_HASH_URL = 'https://ipfs.io/ipfs/{ipfsHash}'
 export const PRODUCT_SUMMARY_URL = `${API_BASE_URL}home/product-summary/{networkId}`
+export const PRODUCT_SUMMARY_WITH_ACCOUNT_URL = `${API_BASE_URL}home/product-summary/{networkId}/{account}`
 export const getHistoricalDataURL = (chainId) => `${API_BASE_URL}home/charts/historical-apr/${chainId}`
 export const getGasSummaryDataURL = (chainId) => `${API_BASE_URL}home/charts/gas-price-summary/${chainId}`
 export const getHistoricalDataByCoverURL = (chainId) => `${API_BASE_URL}home/charts/historical-apr-by-cover/${chainId}`

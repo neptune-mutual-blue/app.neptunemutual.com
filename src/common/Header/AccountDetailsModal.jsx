@@ -1,3 +1,9 @@
+import {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
+
 import Identicon from '@/common/Header/Identicon'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
@@ -11,11 +17,8 @@ import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
 import { wallets } from '@/lib/connect-wallet/config/wallets'
 import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
-import { logViewAccountOnExplorer } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useEffect, useRef, useState } from 'react'
 
 const CopyAddressComponent = ({ account }) => {
   const [isCopied, setIsCopied] = useState(false)
@@ -134,7 +137,6 @@ export const AccountDetailsModal = ({
               target='_blank'
               rel='noreferrer nofollow'
               className='flex items-center ml-3.5 cursor-pointer sm:ml-6'
-              onClick={analyticsLogger(() => logViewAccountOnExplorer(networkId, account))}
             >
               <OpenInNewIcon width={16} height={16} fill='#999BAB' />
               <span className='text-21AD8C text-xs tracking-normal ml-2.5'>

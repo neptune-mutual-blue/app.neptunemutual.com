@@ -1,11 +1,7 @@
+import Head from 'next/head'
+
 import { Container } from '@/common/Container/Container'
 import { HeaderLogo } from '@/common/HeaderLogo'
-import { logPageLoad } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
-import { useWeb3React } from '@web3-react/core'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 /* istanbul ignore next */
 export const getStaticProps = async () => {
@@ -17,13 +13,6 @@ export const getStaticProps = async () => {
 }
 
 export default function PageNotAvailable () {
-  const router = useRouter()
-  const { account, chainId } = useWeb3React()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
-  }, [account, chainId, router.asPath])
-
   return (
     <main className='bg-white'>
       <Head>

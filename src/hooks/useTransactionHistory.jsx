@@ -1,17 +1,19 @@
-import { useNetwork } from '@/src/context/Network'
-import { useWeb3React } from '@web3-react/core'
-import { useTxToast } from '@/src/hooks/useTxToast'
+import {
+  useEffect,
+  useRef
+} from 'react'
+
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { useEffect, useRef } from 'react'
+import { useNetwork } from '@/src/context/Network'
+import { getActionMessage } from '@/src/helpers/notification'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { LSHistory } from '@/src/services/transactions/history'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { getActionMessage } from '@/src/helpers/notification'
-import { LSHistory } from '@/src/services/transactions/history'
-import { METHODS } from '@/src/services/transactions/const'
-import { logAddLiquidity, logBondClaimed, logBondCreated, logClaimCover, logIncidentDisputed, logIncidentReported, logPolicyPurchase, logRemoveLiquidity, logStakingPoolDeposit, logStakingPoolWithdraw, logUnstakeReportingRewards } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
+import { useWeb3React } from '@web3-react/core'
+
 /**
  * @callback INotify
  * @param {string} title
@@ -22,63 +24,6 @@ import { analyticsLogger } from '@/utils/logger'
  * @prop {INotify} pushSuccess
  * @prop {INotify} pushError
  */
-
-const handleLog = (methodName, logData) => {
-  let logFunction = (a) => a
-
-  switch (methodName) {
-    case METHODS.POLICY_PURCHASE:
-      logFunction = logPolicyPurchase
-      break
-
-    case METHODS.LIQUIDITY_PROVIDE:
-      logFunction = logAddLiquidity
-      break
-
-    case METHODS.REPORT_DISPUTE_COMPLETE:
-      logFunction = logIncidentDisputed
-      break
-
-    case METHODS.LIQUIDITY_REMOVE:
-      logFunction = logRemoveLiquidity
-      break
-
-    case METHODS.REPORTING_UNSTAKE:
-      logFunction = logUnstakeReportingRewards
-      break
-
-    case METHODS.CLAIM_COVER_COMPLETE:
-      logFunction = logClaimCover
-      break
-
-    case METHODS.BOND_CREATE:
-      logFunction = logBondCreated
-      break
-
-    case METHODS.BOND_CLAIM:
-      logFunction = logBondClaimed
-      break
-
-    case METHODS.STAKING_DEPOSIT_COMPLETE:
-      logFunction = logStakingPoolDeposit
-      break
-
-    case METHODS.UNSTAKING_DEPOSIT:
-      logFunction = logStakingPoolWithdraw
-      break
-
-    case METHODS.REPORT_INCIDENT_COMPLETE:
-      logFunction = logIncidentReported
-      break
-
-    default:
-      break
-  }
-
-  analyticsLogger(() => {
-    logFunction(logData)
-  })
-}
 
 export function useTransactionHistory () {
   const { account, library } = useWeb3React()
@@ -117,7 +62,6 @@ export function useTransactionHistory () {
             TransactionHistory.callback(signerOrProvider.provider, {
               success: ({ hash, methodName, data }) => {
                 if (data?.logData) {
-                  handleLog(methodName, data.logData)
                   delete data.logData
                 }
 

@@ -1,53 +1,15 @@
-import { Container } from '@/common/Container/Container'
-import { LiquidityProductModal } from '@/modules/my-liquidity/content/LiquidityProductModal'
-import { getCoverImgSrc } from '@/src/helpers/cover'
-import { Trans } from '@lingui/macro'
 import { useState } from 'react'
 
-/**
- * @typedef IProductInfo
- * @prop {string} about
- * @prop {string} leverageName
- * @prop {Object.<string, string> | undefined} links
- * @prop {string} pricingCeiling
- * @prop {string} pricingFloor
- * @prop {string[] | undefined} resolutionSources
- * @prop {string} rules
- * @prop {Array} parameters
- * @prop {string} tags
- * @prop {string} exclusions
- * @prop {string} capitalEfficiency
- *
- * @typedef IProductBase
- * @prop {string} coverKey
- * @prop {string} productKey
- * @prop {string} ipsData
- * @prop {string} ipsHash
- * @prop {boolean} supportsProducts
- * @prop {IProductInfo & {
- *   productName: string
- * }} infoObj
- *
- * @typedef {IProductBase & {
- *   coverName: string
- *   products: IProductBase[]
- * }} ICoverProduct
- */
+import { Container } from '@/common/Container/Container'
+import {
+  LiquidityProductModal
+} from '@/modules/my-liquidity/content/LiquidityProductModal'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import { Trans } from '@lingui/macro'
 
-/**
- *
- * @param {{
- * coverInfo: ICoverProduct
- * }} param0
- * @returns
- */
-export function CoveredProducts ({ coverInfo }) {
+export function CoveredProducts ({ products }) {
   const [showModal, setShowModal] = useState(false)
-
-  /**
-   * @type {[IProductBase, (product: IProductBase) => void]}
-   */
-  const [productInfo, setProductInfo] = useState()
+  const [selectedProductData, setSelectedProductData] = useState()
 
   return (
     <Container
@@ -59,21 +21,22 @@ export function CoveredProducts ({ coverInfo }) {
           <Trans>Products Covered Under This Pool</Trans>
         </h4>
         <div className='grid grid-cols-1 xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2'>
-          {coverInfo.products.map((product) => (
+          {products.map((productData) => (
             <Product
-              {...product}
-              key={product.productKey}
+              productName={productData?.productInfoDetails?.productName}
+              key={productData.productKey}
+              productKey={productData.productKey}
               onClick={() => {
-                setProductInfo(product)
+                setSelectedProductData(productData)
                 setShowModal(true)
               }}
             />
           ))}
         </div>
       </div>
-      {showModal && (
+      {showModal && selectedProductData && (
         <LiquidityProductModal
-          product={productInfo}
+          productData={selectedProductData}
           setShowModal={setShowModal}
         />
       )}
@@ -81,10 +44,7 @@ export function CoveredProducts ({ coverInfo }) {
   )
 }
 
-/**
- * @param {IProductBase & { onClick: () => void}} param0
- */
-function Product ({ productKey, infoObj, onClick }) {
+function Product ({ productKey, productName, onClick }) {
   const imgSrc = getCoverImgSrc({ key: productKey })
   return (
     <div
@@ -92,13 +52,13 @@ function Product ({ productKey, infoObj, onClick }) {
       data-testid='cover-product'
     >
       <div className='flex items-center justify-center w-20 h-20 p-4 bg-white rounded-full'>
-        <img src={imgSrc} alt={infoObj.productName} className='w-12 h-12' />
+        <img src={imgSrc} alt={productName} className='w-12 h-12' />
       </div>
       <button
         className='flex items-center pt-2 tracking-wide uppercase text-4e7dd9'
         onClick={onClick}
       >
-        {infoObj.productName}
+        {productName}
         <div>
           <svg
             className='ml-2'

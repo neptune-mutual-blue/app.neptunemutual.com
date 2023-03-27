@@ -1,38 +1,50 @@
+import { useState } from 'react'
+
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Container } from '@/common/Container/Container'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { Label } from '@/common/Label/Label'
-import { ReceiveAmountInput } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
+import {
+  ReceiveAmountInput
+} from '@/common/ReceiveAmountInput/ReceiveAmountInput'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import DateLib from '@/lib/date/DateLib'
 import { POOL_URLS } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
-import { getAnnualDiscountRate, getDiscountedPrice } from '@/src/helpers/bond'
+import {
+  getAnnualDiscountRate,
+  getDiscountedPrice
+} from '@/src/helpers/bond'
 import { useBondInfo } from '@/src/hooks/useBondInfo'
 import { useCreateBond } from '@/src/hooks/useCreateBond'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
 import { BondInfoCard } from '@/src/modules/pools/bond/BondInfoCard'
-import { log } from '@/src/services/logs'
 import { mergeAlternatively } from '@/utils/arrays'
-import { convertFromUnits, convertToUnits, sumOf } from '@/utils/bn'
+import {
+  convertFromUnits,
+  convertToUnits,
+  sumOf
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { analyticsLogger } from '@/utils/logger'
 import { getReplacedString } from '@/utils/string'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 
 const BondPage = () => {
   const { networkId } = useNetwork()
   const { info, refetch: refetchBondInfo } = useBondInfo()
   const [value, setValue] = useState('')
-  const { account, chainId } = useWeb3React()
+  const { account } = useWeb3React()
   const lpTokenAddress = info.lpTokenAddress
   const lpTokenSymbol = useTokenSymbol(lpTokenAddress)
   const lpTokenDecimals = useTokenDecimals(lpTokenAddress)
@@ -176,38 +188,6 @@ const BondPage = () => {
     loadingMessage = t`Fetching allowance...`
   }
 
-  const handleLog = (sequence) => {
-    const funnel = 'Create Bond'
-    const journey = 'bond-page'
-    let step, event
-
-    switch (sequence) {
-      case 1:
-        step = 'approve-button'
-        event = 'click'
-        break
-
-      case 2:
-        step = 'bond-button'
-        event = 'click'
-        break
-
-      case 9999:
-        step = 'end'
-        event = 'closed'
-        break
-
-      default:
-        step = 'step'
-        event = 'event'
-        break
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
-  }
-
   return (
     <Container
       className='grid grid-cols-1 pt-16 sm:gap-16 lg:grid-cols-3 pb-36'
@@ -258,7 +238,6 @@ const BondPage = () => {
                 className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleApprove()
-                  handleLog(1)
                 }}
               >
                 {approving
@@ -280,8 +259,6 @@ const BondPage = () => {
                   handleBond(() => {
                     setValue('')
                   })
-                  handleLog(2)
-                  handleLog(9999)
                 }}
               >
                 {bonding

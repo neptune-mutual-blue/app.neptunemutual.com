@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
@@ -7,16 +9,14 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import DateLib from '@/lib/date/DateLib'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useClaimBond } from '@/src/hooks/useClaimBond'
-import { log } from '@/src/services/logs'
 import { convertFromUnits } from '@/utils/bn'
 import { formatAmount } from '@/utils/formatter'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { analyticsLogger } from '@/utils/logger'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { useCallback, useEffect } from 'react'
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -29,44 +29,6 @@ export const ClaimBondModal = ({
   const { handleClaim, claiming } = useClaimBond({ claimable })
   const router = useRouter()
   const { NPMTokenSymbol } = useAppConstants()
-
-  const { chainId, account } = useWeb3React()
-
-  const handleLog = useCallback((sequence) => {
-    const funnel = 'Claim Bond'
-    const journey = 'bond-page'
-    let step, event
-
-    switch (sequence) {
-      case 2:
-        step = 'claim-bond-modal'
-        event = 'pop-up'
-        break
-
-      case 3:
-        step = 'claim-my-bond-button'
-        event = 'click'
-        break
-
-      case 9999:
-        step = 'end'
-        event = 'closed'
-        break
-
-      default:
-        step = 'step'
-        event = 'event'
-        break
-    }
-
-    analyticsLogger(() => {
-      log(chainId, funnel, journey, step, sequence, account, event, {})
-    })
-  }, [account, chainId])
-
-  useEffect(() => {
-    if (isOpen) handleLog(2)
-  }, [handleLog, isOpen])
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
@@ -110,9 +72,6 @@ export const ClaimBondModal = ({
               onClose()
               refetchBondInfo()
             })
-
-            handleLog(3)
-            handleLog(9999)
           }}
           className='w-full p-6 mt-8 font-semibold uppercase'
         >

@@ -2,17 +2,11 @@ import { Alert } from '@/common/Alert/Alert'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { logCoverProductRulesDownload } from '@/src/services/logs'
 import { classNames } from '@/utils/classnames'
-import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
 
-export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
-  const { account, chainId } = useWeb3React()
-
+export function DiversifiedCoverRules ({ projectName, coverKey, productKey }) {
   const onDownload = () => {
-    analyticsLogger(() => logCoverProductRulesDownload(chainId ?? null, account ?? null, coverKey, productKey))
     window.open(Routes.ViewCoverProductTerms(coverKey, productKey), '_blank')
   }
   return (
@@ -27,7 +21,7 @@ export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
         </Trans>
       </Alert>
 
-      <Notes coverInfo={coverInfo} />
+      <Notes projectName={projectName} />
     </>
   )
 }
@@ -71,9 +65,7 @@ function DownloadButton ({ onClick }) {
   )
 }
 
-function Notes ({ coverInfo }) {
-  const coverName = coverInfo.infoObj.coverName
-
+function Notes ({ projectName }) {
   return (
     <div className='flex flex-col pt-6' data-testid='notes'>
       <p>
@@ -81,7 +73,7 @@ function Notes ({ coverInfo }) {
           Before providing liquidity to or purchasing a product policy from this
           pool, please evaluate all product parameters thoroughly. The
           underwriting capital is concentrated in the &quot;
-          {coverName}&quot; pool that covers individual products. Although
+          {projectName}&quot; pool that covers individual products. Although
           diversified cover pools give LPs much higher returns, they are riskier
           by nature than dedicated cover pools.
         </Trans>
@@ -93,7 +85,7 @@ function Notes ({ coverInfo }) {
 
       <p>
         <Trans>
-          All rules of individual &quot;{coverName}&quot; products are
+          All rules of individual &quot;{projectName}&quot; products are
           applicable to this pool. If a product&apos;s trigger event results
           resolution, liquidity from this pool will be used to pay out claims.
         </Trans>

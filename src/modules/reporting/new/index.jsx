@@ -1,22 +1,29 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { Trans } from '@lingui/macro'
-import { CoverReportingRules } from '@/src/modules/reporting/CoverReportingRules'
-import { NewIncidentReportForm } from '@/src/modules/reporting/NewIncidentReportForm'
-import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
-import { useFetchCoverProductActiveReportings } from '@/src/hooks/useFetchCoverProductActiveReportings'
-import { Routes } from '@/src/config/routes'
-import { logReportIncidentRulesAccepted } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
-import { analyticsLogger } from '@/utils/logger'
+
 import { Seo } from '@/common/Seo'
+import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
+import {
+  useFetchCoverProductActiveReportings
+} from '@/src/hooks/useFetchCoverProductActiveReportings'
+import {
+  CoverReportingRules
+} from '@/src/modules/reporting/CoverReportingRules'
+import {
+  NewIncidentReportForm
+} from '@/src/modules/reporting/NewIncidentReportForm'
+import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
+import { Trans } from '@lingui/macro'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
   const [accepted, setAccepted] = useState(false)
   const router = useRouter()
-  const { account, chainId } = useWeb3React()
 
   const isDiversified = isValidProduct(productKey)
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
@@ -58,9 +65,10 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
     )
   }
 
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+
   const handleAcceptRules = () => {
     setAccepted(true)
-    analyticsLogger(() => logReportIncidentRulesAccepted(chainId ?? null, account ?? null, coverKey, productKey))
   }
 
   return (
@@ -72,13 +80,18 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
         coverKey={coverKey}
         productKey={productKey}
         coverOrProductData={coverOrProductData}
+        projectOrProductName={projectOrProductName}
         type='new-report'
       />
       <hr className='border-B0C4DB' />
 
       {accepted
         ? (
-          <NewIncidentReportForm coverKey={coverKey} productKey={productKey} />
+          <NewIncidentReportForm
+            coverKey={coverKey}
+            productKey={productKey}
+            minReportingStake={coverOrProductData?.minReportingStake}
+          />
           )
         : (
           <CoverReportingRules

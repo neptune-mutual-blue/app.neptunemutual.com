@@ -1,30 +1,37 @@
-import { t } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import { registry } from '@neptunemutual/sdk'
+import {
+  useEffect,
+  useState
+} from 'react'
 
+import { useRouter } from 'next/router'
+
+import {
+  useLiquidityFormsContext
+} from '@/common/LiquidityForms/LiquidityFormsContext'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { convertFromUnits, convertToUnits } from '@/utils/bn'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { useEffect, useState } from 'react'
+import { getActionMessage } from '@/src/helpers/notification'
+import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
-import { logRemoveLiquidity } from '@/src/services/logs'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { analyticsLogger } from '@/utils/logger'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import {
+  convertFromUnits,
+  convertToUnits
+} from '@/utils/bn'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
-import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
+import { t } from '@lingui/macro'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [approving, setApproving] = useState(false)
@@ -226,7 +233,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
                 methodName: METHODS.LIQUIDITY_REMOVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logRemoveLiquidity(logData))
+
               onTxSuccess()
             },
             onTxFailure: () => {

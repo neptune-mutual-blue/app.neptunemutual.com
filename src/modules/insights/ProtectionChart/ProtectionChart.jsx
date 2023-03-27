@@ -1,17 +1,33 @@
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useMemo } from 'react'
 
-import { externalTooltipHandler } from '@/modules/insights/ProtectionChart/ChartTooltip'
-import { getMaxDataValue, getSuggestedMaxValue, getTooltipFooter, getTooltipLabel, getTooltipTitle, getXTickValue } from '@/modules/insights/ProtectionChart/utils'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { classNames } from '@/utils/classnames'
 import {
-  BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Title,
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  Title,
   Tooltip
 } from 'chart.js'
 import { useRouter } from 'next/router'
 import { Bar } from 'react-chartjs-2'
+
+import {
+  externalTooltipHandler
+} from '@/modules/insights/ProtectionChart/ChartTooltip'
+import {
+  getMaxDataValue,
+  getSuggestedMaxValue,
+  getTooltipFooter,
+  getTooltipLabel,
+  getTooltipTitle,
+  getXTickValue
+} from '@/modules/insights/ProtectionChart/utils'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { classNames } from '@/utils/classnames'
+import { Trans } from '@lingui/macro'
 
 ChartJS.register(
   CategoryScale,
@@ -199,7 +215,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
       loading
         ? (
           <div className='flex items-center justify-center h-full overflow-y-auto'>
-            Loading...
+            <Trans>loading...</Trans>
           </div>
           )
         : (

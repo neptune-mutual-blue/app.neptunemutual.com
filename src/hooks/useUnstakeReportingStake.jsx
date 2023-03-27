@@ -1,27 +1,30 @@
-import { t } from '@lingui/macro'
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
+
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { getActionMessage } from '@/src/helpers/notification'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
-import { registry, utils } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
-import { useState } from 'react'
-import { useTxPoster } from '@/src/context/TxPoster'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { getActionMessage } from '@/src/helpers/notification'
-import { analyticsLogger } from '@/utils/logger'
-import { logUnstakeReportingRewards } from '@/src/services/logs'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { convertFromUnits } from '@/utils/bn'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
+import { t } from '@lingui/macro'
+import {
+  registry,
+  utils
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useUnstakeReportingStake = ({
   coverKey,
@@ -130,7 +133,7 @@ export const useUnstakeReportingStake = ({
                   tokenSymbol: NPMTokenSymbol
                 }
               })
-              analyticsLogger(() => logUnstakeReportingRewards(logData))
+
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -240,26 +243,7 @@ export const useUnstakeReportingStake = ({
                   tokenSymbol: NPMTokenSymbol
                 }
               })
-              analyticsLogger(() => logUnstakeReportingRewards({
-                network: NetworkNames[networkId],
-                networkId,
-                coverKey,
-                coverName: safeParseBytes32String(coverKey),
-                productKey,
-                productName: safeParseBytes32String(productKey),
-                details: {
-                  sales: 'N/A',
-                  salesCurrency: 'N/A',
-                  salesFormatted: 'N/A',
-                  account,
-                  tx: tx.hash,
-                  stake: convertFromUnits(willReceive, NPMTokenDecimals).decimalPlaces(2).toString(),
-                  stakeCurrency: NPMTokenSymbol,
-                  stakeFormatted: formatCurrency(convertFromUnits(willReceive, NPMTokenDecimals).toString(), router.locale, NPMTokenSymbol, true).short,
-                  camp: incidentStatus === 'Claimable' ? 'yes' : 'no',
-                  withClaim: 'yes'
-                }
-              }))
+
               onTxSuccess()
             },
             onTxFailure: () => {

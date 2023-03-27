@@ -1,9 +1,13 @@
-import { Badge, identifyStatus } from '@/common/CardStatusBadge'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import Link from 'next/link'
+
+import {
+  Badge,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import { SocialIconLinks } from '@/common/CoverProfileInfo/SocialIconLinks'
 import { Routes } from '@/src/config/routes'
 import { isGreater } from '@/utils/bn'
-import Link from 'next/link'
+
 import { ProjectImage } from './ProjectImage'
 import { ProjectName } from './ProjectName'
 import { ProjectWebsiteLink } from './ProjectWebsiteLink'
@@ -43,10 +47,10 @@ export const CoverProfileInfo = ({
   projectName,
   links,
   coverKey,
-  productKey
+  productKey,
+  productStatus,
+  activeIncidentDate
 }) => {
-  const { productStatus, activeIncidentDate } = useCoverStatsContext()
-
   return (
     <div className='flex' data-testid='dedicated-coverprofileinfo-container'>
       <div>

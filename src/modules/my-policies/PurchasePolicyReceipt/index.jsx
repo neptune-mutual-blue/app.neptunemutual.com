@@ -10,11 +10,11 @@ import {
 } from '@/modules/my-policies/PurchasePolicyReceipt/DescriptionComponent'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { isValidProduct } from '@/src/helpers/cover'
 import {
   useFetchCoverPurchasedEvent
 } from '@/src/hooks/useFetchCoverPurchasedEvent'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import {
   convertFromUnits,
   sumOf,
@@ -23,29 +23,45 @@ import {
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { t } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
 
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
-  const { data: event } = useFetchCoverPurchasedEvent({ txHash })
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: event?.coverKey,
-    productKey: event?.productKey
-  })
-  const { info } = useFetchCoverStats({
-    coverKey: event?.coverKey,
-    productKey: event?.productKey
-  })
+  const { data: event, loading: eventLoading } = useFetchCoverPurchasedEvent({ txHash })
 
-  if (!txHash || !event) return null
+  const coverKey = event?.coverKey
+  const productKey = event?.productKey
+
+  const isDiversified = isValidProduct(productKey)
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+
+  if (dataLoading || eventLoading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+
+    )
+  }
+
+  if (!txHash || !event) {
+    return (
+      <p data-testid='no-data' className='min-h-301'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
+  }
 
   const purchaser = event.onBehalfOf
   const onBehalfOf = event.onBehalfOf
 
-  const policyName =
-    coverInfo?.infoObj?.productName || coverInfo?.infoObj?.coverName
   const date = new Date(
     parseInt(event.createdAtTimestamp) * 1000
   ).toUTCString()
@@ -69,7 +85,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     )
     .toString()
 
-  const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(event.createdAtTimestamp, info.coverageLag)))
+  const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(event.createdAtTimestamp, coverOrProductData.coverageLag)))
 
   const onBehalfOfData = [
     {
@@ -113,13 +129,17 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     true
   ).long
 
+  const about = isDiversified ? coverOrProductData?.productInfoDetails?.about : coverOrProductData?.coverInfoDetails?.about
+  const parameters = isDiversified ? coverOrProductData?.productInfoDetails?.parameters : coverOrProductData?.coverInfoDetails?.parameters
+  const exclusions = isDiversified ? coverOrProductData?.productInfoDetails?.exclusions : coverOrProductData?.coverInfoDetails?.exclusions
   const text = {
-    policyInfo: coverInfo?.infoObj?.about,
+    policyInfo: about,
     coverRules: [
       'Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.',
-      <CoverParameters key='cover_params' textClassName='text-md sm:text-lg' parameters={coverInfo?.infoObj?.parameters} titleClassName='text-md sm:text-lg font-bold mt-6 leading-5 mb-2 font-arial' />
+      <CoverParameters key='cover_params' textClassName='text-md sm:text-lg' parameters={parameters} titleClassName='text-md sm:text-lg font-bold mt-6 leading-5 mb-2 font-arial' />
     ],
-    exclusions: coverInfo?.infoObj?.exclusions
+    exclusions
+
   }
 
   const policyReceiptData = [
@@ -143,8 +163,8 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   return (
     <div className='bg-white font-arial'>
 
-      <div className='px-4 sm:px-10 pt-4 m-auto md:px-10 lg:max-w-5xl pb-52'>
-        <div className='flex flex-col sm:flex-row cursor-pointer mt-9 text-center'>
+      <div className='px-4 pt-4 m-auto sm:px-10 md:px-10 lg:max-w-5xl pb-52'>
+        <div className='flex flex-col text-center cursor-pointer sm:flex-row mt-9'>
 
           <Link href={Routes.Home} replace>
             <a className='sm:w-auto'>
@@ -170,13 +190,13 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
         <hr className='mt-4 mb-6 sm:mb-10' />
 
-        <h1 className='font-bold text-md mb-4 sm:mb-0 sm:text-display-md leading-9'>
-          {policyName} Policy Receipt
+        <h1 className='mb-4 font-bold leading-9 text-md sm:mb-0 sm:text-display-md'>
+          {projectOrProductName} Policy Receipt
         </h1>
 
         {
           policyReceiptData.map(({ label, value, valueClassName }, i) => (
-            <div className='flex flex-col sm:flex-row mt-2 sm:mt-4 text-md sm:text-lg leading-7' key={`${i}-${label}`}>
+            <div className='flex flex-col mt-2 leading-7 sm:flex-row sm:mt-4 text-md sm:text-lg' key={`${i}-${label}`}>
               <p className='mr-2 font-bold'>{label}</p>
               <p className={valueClassName}>{value}</p>
             </div>
@@ -189,35 +209,35 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
           <div className='text-lg leading-6 mt-3.5 mb-4 sm:mb-10'>
             <p className='mb-2 mr-2 font-bold leading-7 text-md sm:text-display-xs'>On Behalf Of</p>
-            <p className='text-md sm:text-md break-all'>{onBehalfOf}</p>
+            <p className='break-all text-md sm:text-md'>{onBehalfOf}</p>
           </div>
 
           {onBehalfOfData.map(({ label, value }, i) => (
             <div
               key={i}
-              className='flex flex-col sm:flex-row gap-2 sm:gap-0 pb-4 text-md sm:text-lg leading-6'
+              className='flex flex-col gap-2 pb-4 leading-6 sm:flex-row sm:gap-0 text-md sm:text-lg'
             >
-              <p className='sm:flex-shrink-0 sm:w-1/2 md:w-full font-bold leading-5 sm:max-w-60'>{label}</p>
+              <p className='font-bold leading-5 sm:flex-shrink-0 sm:w-1/2 md:w-full sm:max-w-60'>{label}</p>
               <div className='overflow-hidden'>{value}</div>
             </div>
           ))}
 
-          <div className='flex flex-col sm:flex-row gap-1 sm:gap-0 text-md sm:text-lg font-bold leading-6'>
+          <div className='flex flex-col gap-1 font-bold leading-6 sm:flex-row sm:gap-0 text-md sm:text-lg'>
             <p className='w-1/2 md:w-full max-w-60'>Premium Paid</p>
             <p className='uppercase'>{premuimPaid}</p>
           </div>
 
           <hr className='mt-6 sm:mt-12' />
 
-          <div className='flex flex-col sm:flex-row mt-6 sm:mt-10 text-md sm:text-lg leading-5'>
-            <p className='flex-shrink-0 sm:w-1/2 md:w-full font-bold max-w-60'>Your {'cx' + liquidityTokenSymbol} Address</p>
-            <div className='flex items-center break-all mt-2 sm:mt-0'>
+          <div className='flex flex-col mt-6 leading-5 sm:flex-row sm:mt-10 text-md sm:text-lg'>
+            <p className='flex-shrink-0 font-bold sm:w-1/2 md:w-full max-w-60'>Your {'cx' + liquidityTokenSymbol} Address</p>
+            <div className='flex items-center mt-2 break-all sm:mt-0'>
               {event.cxToken}
             </div>
           </div>
-          <div className='flex flex-col sm:flex-row mt-4 sm:mt-6 text-md sm:text-lg leading-5'>
-            <p className='flex-shrink-0 sm:w-1/2 md:w-full font-bold max-w-60'>Transaction Receipt</p>
-            <div className='flex items-center break-all mt-2 sm:mt-0'>
+          <div className='flex flex-col mt-4 leading-5 sm:flex-row sm:mt-6 text-md sm:text-lg'>
+            <p className='flex-shrink-0 font-bold sm:w-1/2 md:w-full max-w-60'>Transaction Receipt</p>
+            <div className='flex items-center mt-2 break-all sm:mt-0'>
               {txHash}
             </div>
           </div>
@@ -226,7 +246,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         <hr className='my-6 sm:my-10' />
 
         <Alert printable>
-          <p className='text-sm sm:text-lg font-bold text-E03636'>Beta Version Disclaimer</p>
+          <p className='text-sm font-bold sm:text-lg text-E03636'>Beta Version Disclaimer</p>
           <p className='mt-1 text-sm sm:text-lg text-E03636 sm:leading-6'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
         </Alert>
 

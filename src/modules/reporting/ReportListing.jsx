@@ -1,25 +1,35 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
-import { t, Trans } from '@lingui/macro'
 
-import { ReportingHero } from '@/modules/reporting/ReportingHero'
-
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
-import { useNetwork } from '@/src/context/Network'
-import { Routes } from '@/src/config/routes'
-
-import DateLib from '@/lib/date/DateLib'
-
-import { classNames } from '@/utils/classnames'
-import { convertFromUnits } from '@/utils/bn'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { truncateAddress } from '@/utils/address'
-
-import { Table, TableWrapper, THead } from '@/common/Table/Table'
+import {
+  Badge,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import { Container } from '@/common/Container/Container'
-import { Badge, identifyStatus } from '@/common/CardStatusBadge'
-import { isValidProduct } from '@/src/helpers/cover'
+import {
+  Table,
+  TableWrapper,
+  THead
+} from '@/common/Table/Table'
+import DateLib from '@/lib/date/DateLib'
+import { ReportingHero } from '@/modules/reporting/ReportingHero'
+import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
+import { isValidProduct } from '@/src/helpers/cover'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { truncateAddress } from '@/utils/address'
+import { convertFromUnits } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { fromNow } from '@/utils/formatter/relative-time'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 /**
  *
@@ -149,12 +159,23 @@ const ReportListing = (props) => {
     )
   }
 
+  if (!coverOrProductData) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
+  }
+
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+
   return (
     <>
       <ReportingHero
         coverKey={coverKey}
         productKey={productKey}
         coverOrProductData={coverOrProductData}
+        projectOrProductName={projectOrProductName}
       />
       <hr className='border-B0C4DB' />
       <Container className='pt-16 pb-36'>

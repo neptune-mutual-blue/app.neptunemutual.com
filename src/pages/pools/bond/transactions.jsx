@@ -1,17 +1,15 @@
-import { ComingSoon } from '@/common/ComingSoon'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
+import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
-import { MyBondTxsTable } from '@/src/modules/pools/bond/MyBondTxsTable'
-import { isFeatureEnabled } from '@/src/config/environment'
-import { t, Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { logPageLoad } from '@/src/services/logs'
-import { useEffect } from 'react'
-import { analyticsLogger } from '@/utils/logger'
 import { Seo } from '@/common/Seo'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { MyBondTxsTable } from '@/src/modules/pools/bond/MyBondTxsTable'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -23,13 +21,6 @@ export function getStaticProps () {
 }
 
 export default function MyBondTxs ({ disabled }) {
-  const { account, chainId } = useWeb3React()
-  const router = useRouter()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
-  }, [account, chainId, router.asPath])
-
   if (disabled) {
     return <ComingSoon />
   }

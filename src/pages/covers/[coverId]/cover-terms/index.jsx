@@ -1,36 +1,14 @@
 import { useRouter } from 'next/router'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { DedicatedCoverTermsPage } from '@/modules/cover/cover-terms/DedicatedCoverTermsPage'
-import { DiversifiedCoverTermsPage } from '@/modules/cover/cover-terms/DiversifiedCoverTermsPage'
+
 import { Seo } from '@/common/Seo'
-
-export default function CoverPage () {
-  const router = useRouter()
-  const { coverId } = router.query
-
-  const coverKey = safeFormatBytes32String(coverId)
-  const productKey = safeFormatBytes32String('')
-
-  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
-
-  const isDiversified = coverInfo?.supportsProducts
-
-  return (
-    <main>
-      <Seo />
-
-      <div className='px-8 pt-8 bg-white md:pt-14 sm:px-12 md:px-20 lg:px-36 xl:px-56 pb-14 text-000000'>
-        {
-          isDiversified
-            ? <DiversifiedCoverTermsPage coverInfo={coverInfo} />
-            : <DedicatedCoverTermsPage coverInfo={coverInfo} />
-        }
-      </div>
-
-    </main>
-  )
-}
+import {
+  DiversifiedCoverTermsPage
+} from '@/modules/cover/cover-terms/DiversifiedCoverTermsPage'
+import {
+  SingleCoverTermsPage
+} from '@/modules/cover/cover-terms/SingleCoverTermsPage'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 /* istanbul ignore next */
 export const getServerSideProps = async () => {
@@ -39,4 +17,36 @@ export const getServerSideProps = async () => {
       noHeader: true
     }
   }
+}
+
+export default function CoverTermsPage () {
+  const router = useRouter()
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+
+  const { coverId } = router.query
+  const coverKey = safeFormatBytes32String(coverId)
+
+  const coverData = getCoverByCoverKey(coverKey)
+  const isDiversified = coverData?.supportsProducts
+
+  return (
+    <main>
+      <Seo />
+
+      <div className='px-8 pt-8 bg-white md:pt-14 sm:px-12 md:px-20 lg:px-36 xl:px-56 pb-14 text-000000'>
+        {
+          isDiversified
+            ? <DiversifiedCoverTermsPage
+                loading={loading}
+                coverData={coverData}
+                subProducts={getProductsByCoverKey(coverKey)}
+              />
+            : <SingleCoverTermsPage
+                loading={loading}
+                coverOrProductData={coverData}
+              />
+        }
+      </div>
+    </main>
+  )
 }
