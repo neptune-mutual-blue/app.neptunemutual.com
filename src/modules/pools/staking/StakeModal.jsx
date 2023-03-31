@@ -14,8 +14,7 @@ export const StakeModal = ({
   isOpen,
   onClose,
   stakingTokenSymbol,
-  lockupPeriod,
-  analyticsFunnelName
+  lockupPeriod
 }) => {
   const [isDisabled, setIsDisabled] = useState(false)
   return (
@@ -43,7 +42,6 @@ export const StakeModal = ({
           stakingTokenSymbol={stakingTokenSymbol}
           lockupPeriod={lockupPeriod}
           setModalDisabled={setIsDisabled}
-          analyticsFunnelName={analyticsFunnelName}
         />
       </ModalWrapper>
     </ModalRegular>
