@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import {
+  ChainLogos,
+  NetworkNames
+} from '@/lib/connect-wallet/config/chains'
 import { getNetworkId } from '@/src/config/environment'
 import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
 import { getSubgraphData } from '@/src/services/subgraph'
-
-import EthLogo from 'lib/connect-wallet/components/logos/EthLogo.jsx'
-import ArbitrumLogo from 'lib/connect-wallet/components/logos/ArbitrumLogo.jsx'
-import AvaxLogo from '@/lib/connect-wallet/components/logos/AvaxLogo'
 import { toBN } from '@/utils/bn'
 
 const coverFeeQuery = `
@@ -25,12 +29,12 @@ const coverFeeQuery = `
 `
 
 const MAIN_NETS = [
-  { chainId: 1, name: 'Ethereum', LogoIcon: EthLogo },
-  { chainId: 42161, name: 'Arbitrum', LogoIcon: ArbitrumLogo }
+  { chainId: 1, name: NetworkNames[1], LogoIcon: ChainLogos[1] },
+  { chainId: 42161, name: NetworkNames[42161], LogoIcon: ChainLogos[42161] }
 ]
 
 const TEST_NET = [
-  { chainId: 43113, name: 'Avalance Fuji', LogoIcon: AvaxLogo }
+  { chainId: 84531, name: NetworkNames[84531], LogoIcon: ChainLogos[84531] }
 ]
 
 const calculateTvlCover = (data) => {

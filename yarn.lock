@@ -1717,10 +1717,10 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@neptunemutual/sdk@^0.5.2-beta":
-  version "0.5.2-beta"
-  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.5.2-beta.tgz#a52713a721d375ba527847d1b8880217273f5f8f"
-  integrity sha512-eU5pKeFQFCyvG38Tjby8fea/HP+19+0fjXlcXOqzpsfWT1zsSOUriFBqEQUYU9wCUDdNLERkTEy2RqSetm5gJA==
+"@neptunemutual/sdk@^0.5.4-beta":
+  version "0.5.4-beta"
+  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.5.4-beta.tgz#da1494a84e508dccaafe0c82edf42d4c7be65767"
+  integrity sha512-iVV9rKt7CN+zlW8fbCF2JoSN06knMm9SZQk6CuywVbsBNgXxkOAvzFNFR32EUBbpFHy0GsKykUMqMNk5ul47Pg==
   dependencies:
     "@ethersproject/abstract-signer" "5.4.1"
     "@ethersproject/constants" "5.4.0"

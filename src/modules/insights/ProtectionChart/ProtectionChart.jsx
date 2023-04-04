@@ -62,7 +62,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         return {
           label: data[chain].length ? data[chain][0].networkName : '',
           data: data[chain].map(item => parseFloat(item[dataKey])),
-          backgroundColor: ['1', '43113'].includes(chain) ? '#4E7DD9' : '#21AD8C',
+          backgroundColor: ['1', '84531'].includes(chain) ? '#4E7DD9' : '#21AD8C',
           barPercentage: 1,
           borderWidth: 0,
           maxBarThickness: 17,
@@ -239,7 +239,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
                 <>
                   <div className='flex items-center gap-1'>
                     <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
-                    <span className='text-sm font-semibold'>Fuji</span>
+                    <span className='text-sm font-semibold'>Base Goerli</span>
                   </div>
                 </>
                 )
