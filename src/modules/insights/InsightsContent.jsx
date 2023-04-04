@@ -173,10 +173,10 @@ export const InsightsContent = () => {
         { label: 'Ethereum', value: '1' }
       ]
     : [
-        { label: 'Fuji', value: '43113' }
+        { label: 'Base Goerli', value: '84531' }
       ]
 
-  const [selectedChain, setSelectedChain] = useState(isMainNet ? '42161' : '43113')
+  const [selectedChain, setSelectedChain] = useState(isMainNet ? '42161' : '84531')
 
   const getTrailingTitleComponent = () => {
     switch (selected.value) {

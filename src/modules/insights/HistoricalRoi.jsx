@@ -1,10 +1,11 @@
+import { useRef } from 'react'
+
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
-import { useRef } from 'react'
+import HighchartsExporting from 'highcharts/modules/exporting'
 
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import HighchartsExporting from 'highcharts/modules/exporting'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -55,9 +56,9 @@ const HistoricalRoi = ({ loading, data }) => {
       {
         type: 'areaspline',
         showInNavigator: true,
-        name: isMainNet ? 'Ethereum' : 'Fuji',
+        name: isMainNet ? 'Ethereum' : 'Base Goerli',
         data: (data ?? [])
-          .filter((item) => item.chainId === '1' || item.chainId === '43113')
+          .filter((item) => item.chainId === '1' || item.chainId === '84531')
           .map((item) => ({
             x: new Date(item.startDate).valueOf(),
             y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
@@ -195,13 +196,13 @@ const HistoricalRoi = ({ loading, data }) => {
         />
       )}
 
-      <div className='flex justify-center items-center gap-4 mt-3'>
+      <div className='flex items-center justify-center gap-4 mt-3'>
         {!isMainNet
           ? (
             <>
               <div className='flex items-center gap-1'>
-                <div className='rounded-full h-4 w-4 border-4 border-4e7dd9' />
-                <span className='text-sm font-semibold'>Fuji</span>
+                <div className='w-4 h-4 border-4 rounded-full border-4e7dd9' />
+                <span className='text-sm font-semibold'>Base Goerli</span>
               </div>
             </>
             )
