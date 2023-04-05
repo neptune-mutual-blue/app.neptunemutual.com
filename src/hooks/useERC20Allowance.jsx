@@ -106,7 +106,6 @@ export const useERC20Allowance = (tokenAddress) => {
 
       const onTransactionResult = (_allowance) => {
         if (_allowance) {
-          console.log('refetch', _allowance.toString())
           setAllowance(_allowance.toString())
         }
         cleanup()

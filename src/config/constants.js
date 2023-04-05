@@ -69,8 +69,8 @@ export const SUBGRAPH_API_URLS = {
   1: process.env.NEXT_PUBLIC_ETHEREUM_SUBGRAPH_URL,
   // 80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
   42161: process.env.NEXT_PUBLIC_ARBITRUM_SUBGRAPH_URL,
-  84531: process.env.NEXT_PUBLIC_BASE_GOERLI_SUBGRAPH_URL,
-  43113: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL
+  // 43113: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
+  84531: process.env.NEXT_PUBLIC_BASE_GOERLI_SUBGRAPH_URL
 }
 
 export const TEST_URL = process.env.NEXT_PUBLIC_TEST_URL || 'https://test.neptunemutual.net'

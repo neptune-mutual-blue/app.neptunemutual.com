@@ -17,7 +17,6 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
-import { log } from '@/src/services/logs'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -49,8 +48,7 @@ export const useStakingPoolDeposit = ({
   tokenSymbol,
   maximumStake,
   refetchInfo,
-  info,
-  analyticsFunnelName
+  info
 }) => {
   const [error, setError] = useState('')
   const [approving, setApproving] = useState(false)
@@ -148,7 +146,6 @@ export const useStakingPoolDeposit = ({
                 methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
                 status: STATUS.SUCCESS
               })
-              log(networkId, analyticsFunnelName, 'stake-page', 'approve-button', 3, account, 'click')
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -186,7 +183,6 @@ export const useStakingPoolDeposit = ({
     if (!account || !networkId) {
       return
     }
-    log(networkId, 'Enter Staking Pool', 'stake-page', 'stake-button', 4, account, 'click')
 
     setDepositing(true)
 
@@ -273,8 +269,6 @@ export const useStakingPoolDeposit = ({
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS
                 })
-
-                log(networkId, analyticsFunnelName, 'stake-page', 'end', 9999, account, 'closed')
               },
               onTxFailure: () => {
                 TransactionHistory.push({

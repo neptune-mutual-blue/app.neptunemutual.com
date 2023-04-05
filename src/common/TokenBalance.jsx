@@ -1,17 +1,21 @@
-import OpenInNewIcon from '@/icons/OpenInNewIcon'
+import { useRouter } from 'next/router'
+
 import AddCircleIcon from '@/icons/AddCircleIcon'
-import { convertFromUnits } from '@/utils/bn'
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { useNetwork } from '@/src/context/Network'
-import { getTokenLink } from '@/lib/connect-wallet/utils/explorer'
-import { useWeb3React } from '@web3-react/core'
 import CopyIcon from '@/icons/CopyIcon'
+import OpenInNewIcon from '@/icons/OpenInNewIcon'
+import { getTokenLink } from '@/lib/connect-wallet/utils/explorer'
 import { useToast } from '@/lib/toast/context'
 import { SHORT_TOAST_TIME } from '@/src/config/toast'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import { useNetwork } from '@/src/context/Network'
+import { useRegisterToken } from '@/src/hooks/useRegisterToken'
+import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export const TokenBalance = ({
   tokenAddress,
@@ -48,7 +52,7 @@ export const TokenBalance = ({
 
   return (
     <div
-      className='flex items-start flex-col-reverse xs:flex-row justify-between mt-2 text-9B9B9B'
+      className='flex flex-col-reverse items-start justify-between mt-2 xs:flex-row text-9B9B9B'
       data-testid='token-balance-container'
     >
       <div className='flex flex-col mt-3 xs:block xs:mt-0'>

@@ -1,13 +1,17 @@
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import React from 'react'
+
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
 
 const defaultValue = {
   stakingTokenBalance: '0',
   stakingTokenBalanceLoading: false,
-  isWithdrawalWindowOpen: true,
   updateStakingTokenBalance: async () => {},
+  stablecoinTokenBalance: '0',
+  stablecoinTokenBalanceLoading: false,
+  updateStablecoinTokenBalance: async () => {},
+  isWithdrawalWindowOpen: true,
   accrueInterest: async () => {},
   refetchInfo: () => {},
   info: {
@@ -23,7 +27,6 @@ const defaultValue = {
     myShare: '0',
     myUnrealizedShare: '0',
     totalLiquidity: '0',
-    myStablecoinBalance: '0',
     stablecoinTokenSymbol: '',
     vaultTokenDecimals: '0',
     vaultTokenSymbol: '',
@@ -38,17 +41,27 @@ const LiquidityFormsContext = React.createContext(defaultValue)
 export const LiquidityFormsProvider = ({ coverKey, children }) => {
   const {
     info,
-    refetch: refetchInfo,
+    refetch,
     accrueInterest,
     isWithdrawalWindowOpen
   } = useMyLiquidityInfo({ coverKey })
 
-  const { NPMTokenAddress } = useAppConstants()
+  const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants()
   const {
     balance: stakingTokenBalance,
     loading: stakingTokenBalanceLoading,
     refetch: updateStakingTokenBalance
   } = useERC20Balance(NPMTokenAddress)
+  const {
+    balance: stablecoinTokenBalance,
+    loading: stablecoinTokenBalanceLoading,
+    refetch: updateStablecoinTokenBalance
+  } = useERC20Balance(liquidityTokenAddress)
+
+  const refetchInfo = () => {
+    refetch()
+    updateStablecoinTokenBalance()
+  }
 
   return (
     <LiquidityFormsContext.Provider
@@ -56,6 +69,9 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
         stakingTokenBalance,
         stakingTokenBalanceLoading,
         updateStakingTokenBalance,
+        stablecoinTokenBalance,
+        stablecoinTokenBalanceLoading,
+        updateStablecoinTokenBalance,
         refetchInfo,
         accrueInterest,
         isWithdrawalWindowOpen,
