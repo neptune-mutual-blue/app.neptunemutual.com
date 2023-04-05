@@ -2,6 +2,7 @@ import { GaugeChart } from '@/common/GaugeChart/GaugeChart'
 import MaxIcon from '@/icons/MaxIcon'
 import MinIcon from '@/icons/MinIcon'
 import SumIcon from '@/icons/SumIcon'
+import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import { formatEther } from '@/utils/formatEther'
 import { Trans } from '@lingui/macro'
 
@@ -27,10 +28,10 @@ const GasPriceSummary = ({ data, loading }) => {
 
             return (
               <div key={chainGasSummary.chainId} className='-mr-6'>
-                <GaugeChart min={0} max={maxValues[chainGasSummary.chainId].find((x) => x >= +avgGasPrice.gweiNumeric) ?? Math.ceil(maxGasPrice.gweiNumeric)} value={avgGasPrice.gweiNumeric} />
+                <GaugeChart min={0} max={maxValues[chainGasSummary.chainId]?.find((x) => x >= +avgGasPrice.gweiNumeric) ?? Math.ceil(maxGasPrice.gweiNumeric)} value={avgGasPrice.gweiNumeric} />
                 <div className='px-8 -ml-3 text-center -mt-14 first-of-type:pl-3'>
                   <div className='text-md leading-7.5 mb-1.5 font-bold relative z-1' title={avgGasPrice.gweiLong}>{avgGasPrice.gwei}</div>
-                  <div className='text-sm font-semibold leading-5'>{chainGasSummary.nickName !== 'Mainnet' ? chainGasSummary.nickName : 'Ethereum'}</div>
+                  <div className='text-sm font-semibold leading-5'>{chainGasSummary.nickName !== 'Mainnet' ? chainGasSummary.nickName : ShortNetworkNames[chainGasSummary.chainId]}</div>
                   <div>
                     <div className='flex items-center gap-2 mb-6 mt-6.5'>
                       <SumIcon />

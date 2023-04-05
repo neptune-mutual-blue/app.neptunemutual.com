@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
 import HighchartsExporting from 'highcharts/modules/exporting'
 
-import { ChainAnalyticsColors, NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { ChainAnalyticsColors, ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 
 if (typeof Highcharts === 'object') {
@@ -17,7 +17,7 @@ const HistoricalRoi = ({ loading, data }) => {
   const ChainIds = data ? Array.from(new Set(data.map(entry => entry.chainId))) : []
 
   const chains = ChainIds.map(chainId => ({
-    label: NetworkNames[chainId],
+    label: ShortNetworkNames[chainId],
     value: chainId
 
   }))

@@ -26,7 +26,7 @@ import {
 import { useAppConstants } from '@/src/context/AppConstants'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
-import { ChainAnalyticsColors, NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { ChainAnalyticsColors, ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 
 ChartJS.register(
   CategoryScale,
@@ -46,7 +46,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
   const ChainIds = data ? Object.keys(data) : []
 
   const chains = ChainIds.map(chainId => ({
-    label: NetworkNames[chainId],
+    label: ShortNetworkNames[chainId],
     value: chainId
 
   }))

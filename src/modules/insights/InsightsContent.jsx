@@ -40,7 +40,7 @@ import {
 } from '@/src/services/aggregated-stats/insights'
 
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -169,7 +169,7 @@ export const InsightsContent = () => {
   const RoiByCoverChainIds = historicalDataByCover ? Array.from(new Set(historicalDataByCover.map(entry => entry.chainId))) : []
 
   const chains = RoiByCoverChainIds.map(chainId => ({
-    label: NetworkNames[chainId],
+    label: ShortNetworkNames[chainId],
     value: chainId
   }))
 
