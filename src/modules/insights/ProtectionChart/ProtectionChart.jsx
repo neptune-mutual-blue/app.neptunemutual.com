@@ -24,10 +24,9 @@ import {
   getXTickValue
 } from '@/modules/insights/ProtectionChart/utils'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
+import { ChainAnalyticsColors, ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 
 ChartJS.register(
   CategoryScale,
@@ -42,8 +41,15 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
   const { locale } = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  console.log(data)
+
+  const ChainIds = data ? Object.keys(data) : []
+
+  const chains = ChainIds.map(chainId => ({
+    label: ShortNetworkNames[chainId],
+    value: chainId
+
+  }))
 
   /**
    * @type {import("chart.js").ChartData<'bar'>}
@@ -234,27 +240,12 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
       {
         !['totalProtection', 'totalPremium'].includes(dataKey) && (
           <div className='flex items-center justify-center gap-4'>
-            {!isMainNet
-              ? (
-                <>
-                  <div className='flex items-center gap-1'>
-                    <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
-                    <span className='text-sm font-semibold'>Base Goerli</span>
-                  </div>
-                </>
-                )
-              : (
-                <>
-                  <div className='flex items-center gap-1'>
-                    <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
-                    <span className='text-sm font-semibold'>Ethereum</span>
-                  </div>
-                  <div className='flex items-center gap-1'>
-                    <div className='w-3.5 h-3.5 rounded-full bg-21AD8C' />
-                    <span className='text-sm font-semibold'>Arbitrum</span>
-                  </div>
-                </>
-                )}
+            {chains.map(chain => (
+              <div className='flex items-center gap-1' key={chain.value}>
+                <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
+                <span className='text-sm font-semibold'>{chain.label}</span>
+              </div>
+            ))}
           </div>
         )
       }
