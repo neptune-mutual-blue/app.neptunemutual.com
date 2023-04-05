@@ -13,6 +13,10 @@ import { useRouter } from 'next/router'
 import { Bar } from 'react-chartjs-2'
 
 import {
+  ChainAnalyticsColors,
+  ShortNetworkNames
+} from '@/lib/connect-wallet/config/chains'
+import {
   externalTooltipHandler
 } from '@/modules/insights/ProtectionChart/ChartTooltip'
 import {
@@ -26,7 +30,6 @@ import {
 import { useAppConstants } from '@/src/context/AppConstants'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
-import { ChainAnalyticsColors, ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 
 ChartJS.register(
   CategoryScale,
@@ -40,8 +43,6 @@ ChartJS.register(
 const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
   const { locale } = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
-
-  console.log(data)
 
   const ChainIds = data ? Object.keys(data) : []
 
