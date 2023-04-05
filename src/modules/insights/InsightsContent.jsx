@@ -34,13 +34,13 @@ import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
 import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
 import {
   useFetchInsightsTVLStats
 } from '@/src/services/aggregated-stats/insights'
 
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
+import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -165,18 +165,21 @@ export const InsightsContent = () => {
   )
 
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
 
-  const chains = isMainNet
-    ? [
-        { label: 'Arbitrum', value: '42161' },
-        { label: 'Ethereum', value: '1' }
-      ]
-    : [
-        { label: 'Base Goerli', value: '84531' }
-      ]
+  const RoiByCoverChainIds = historicalDataByCover ? Array.from(new Set(historicalDataByCover.map(entry => entry.chainId))) : []
 
-  const [selectedChain, setSelectedChain] = useState(isMainNet ? '42161' : '84531')
+  const chains = RoiByCoverChainIds.map(chainId => ({
+    label: ShortNetworkNames[chainId],
+    value: chainId
+  }))
+
+  const [selectedChain, setSelectedChain] = useState()
+
+  useEffect(() => {
+    if (networkId) {
+      setSelectedChain(networkId.toString())
+    }
+  }, [networkId])
 
   const getTrailingTitleComponent = () => {
     switch (selected.value) {
@@ -205,13 +208,17 @@ export const InsightsContent = () => {
         )
 
       case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
-        return (
-          <OutlineButtonList
-            options={chains} onChange={(value) => {
-              setSelectedChain(value)
-            }} selected={selectedChain}
-          />
-        )
+        if (chains) {
+          return (
+            <OutlineButtonList
+              options={chains} onChange={(value) => {
+                setSelectedChain(value)
+              }} selected={selectedChain}
+            />
+          )
+        } else {
+          return null
+        }
 
       case AllDropdownOptions.MONTHLY_DISTRIBUTION:
       case AllDropdownOptions.MONTHLY_EARNING:
