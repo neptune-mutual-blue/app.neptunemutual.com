@@ -1,13 +1,18 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { t } from '@lingui/macro'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
+import {
+  ADDRESS_ONE,
+  BOND_INFO_URL
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { ADDRESS_ONE, BOND_INFO_URL } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
-import { getInfo } from '@/src/services/protocol/bond/info'
+import { t } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 const defaultInfo = {
   lpTokenAddress: '',
@@ -24,7 +29,7 @@ const defaultInfo = {
 export const useBondInfo = () => {
   const [info, setInfo] = useState(defaultInfo)
 
-  const { account, library } = useWeb3React()
+  const { account } = useWeb3React()
   const { networkId } = useNetwork()
   const { notifyError } = useErrorNotifier()
 
@@ -41,19 +46,7 @@ export const useBondInfo = () => {
       try {
         let data
 
-        if (account) {
-          // Get data from provider if wallet's connected
-          const signerOrProvider = getProviderOrSigner(
-            library,
-            account,
-            networkId
-          )
-          data = await getInfo(
-            networkId,
-            account,
-            signerOrProvider.provider
-          )
-        } else {
+        {
           // Get data from API if wallet's not connected
           const response = await fetch(
             getReplacedString(BOND_INFO_URL, {
@@ -95,7 +88,7 @@ export const useBondInfo = () => {
         handleError(err)
       }
     },
-    [account, library, networkId, notifyError]
+    [account, networkId, notifyError]
   )
 
   useEffect(() => {
