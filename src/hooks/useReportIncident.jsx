@@ -36,6 +36,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { writeToIpfs } from '@/utils/ipfs.js'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter()
@@ -168,6 +169,19 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
     }
 
     try {
+      const ipfsHash = await writeToIpfs({
+        payload,
+        account,
+        networkId,
+        type: 'report',
+        data: {
+          coverKey,
+          productKey
+        }
+      })
+
+      if (!ipfsHash) throw new Error()
+
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const wrappedResult = await governance.report(
@@ -175,6 +189,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         coverKey,
         productKey,
         payload,
+        ipfsHash,
         signerOrProvider
       )
 
