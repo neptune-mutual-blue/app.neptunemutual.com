@@ -9,8 +9,8 @@ function formatEther (weiValue) {
       gweiLong: ''
     }
   }
-  const etherValue = ethers.utils.formatEther(weiValue)
-  const gweiValue = +ethers.utils.formatUnits(weiValue, 'gwei')
+  const etherValue = ethers.formatEther(weiValue)
+  const gweiValue = +ethers.formatUnits(weiValue, 'gwei')
   return {
     gwei: `${(gweiValue).toFixed(gweiValue < 1 ? 4 : 2)} gwei`,
     gweiNumeric: gweiValue,

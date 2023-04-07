@@ -28,6 +28,7 @@
     "@web3-react/core": "6.1.9",
     "bignumber.js": "9.0.2",
     "chart.js": "3.5.1",
+    "ethers": "^6.3.0",
     "highcharts": "9.1.2",
     "highcharts-react-official": "3.0.0",
     "make-plural": "7.1.0",

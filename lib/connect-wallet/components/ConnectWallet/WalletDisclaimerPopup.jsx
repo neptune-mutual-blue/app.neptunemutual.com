@@ -8,10 +8,11 @@ import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
 
 export const WalletDisclaimerPoup = () => {
-  const [walletApprovals, setWalletApprovals] = useLocalStorage('wallet-disclaimer-approvals', {})
+  const [walletApprovals, setWalletApprovals] = useLocalStorage('wallet-disclaimer-approvals', [])
   const { account, library } = useWeb3React()
 
   const [agreements, setAgreements] = useState({})
@@ -22,7 +23,7 @@ export const WalletDisclaimerPoup = () => {
   const approved = useMemo(() => {
     if (!walletApprovals || !account) return false
 
-    return Boolean(walletApprovals[account])
+    return Boolean(walletApprovals.includes(account))
   }, [walletApprovals, account])
 
   const { networkId } = useNetwork()
@@ -36,16 +37,30 @@ export const WalletDisclaimerPoup = () => {
 
   const handleAgree = async () => {
     try {
+      const message = `
+By accessing or using Neptune Mutual App, I agree to the Terms of Service and confirm that I have read and understood the Privacy Notice and Risk Factors.
+
+I hereby further represent and warrant that:
+
+- I'm not a resident of or located in the United States of America (including its territories: American Samoa, Guam, Puerto Rico, the Northern Mariana Islands and the U.S. Virgin Islands) or any other Restricted Jurisdiction (as defined in the Terms of Service).
+
+- I'm not a Prohibited Person (as defined in the Terms of Service) nor acting on behalf of a Prohibited Person.
+
+- I fully understand the technology and financial risks associated with Neptune Mutual Protocol.
+
+- I acknowledge that Neptune Mutual Protocol, App, and related software are experimental, and that the use of experimental software may result in complete loss of my funds.`
       const signedData = await library.provider?.request({
         method: 'personal_sign',
         params: [
-          JSON.stringify('Hello there!'),
+          message,
           account
         ]
       })
 
-      if (signedData) {
-        setWalletApprovals({ ...walletApprovals, [account]: true })
+      const verified = ethers.verifyMessage(message, signedData)
+
+      if (verified === account) {
+        setWalletApprovals([...walletApprovals, account])
       }
     } catch (err) {
       console.error(err)
@@ -93,7 +108,7 @@ export const WalletDisclaimerPoup = () => {
               onChange={(e) => handleChecks('not-prohibited-person', e)}
               id='not-prohibited-person'
             >
-              I'm not a Prohibited Person (as defined in the Terms of Service) nor acting on behalf of a Prohibited Person;
+              I'm not a Prohibited Person (as defined in the Terms of Service) nor acting on behalf of a Prohibited Person.
             </Checkbox>
           </div>
 
@@ -103,7 +118,7 @@ export const WalletDisclaimerPoup = () => {
               onChange={(e) => handleChecks('understand-the-technology', e)}
               id='understand-the-technology'
             >
-              I fully understand the technology and financial risks associated with Neptune Mutual Protocol;
+              I fully understand the technology and financial risks associated with Neptune Mutual Protocol.
             </Checkbox>
           </div>
 
