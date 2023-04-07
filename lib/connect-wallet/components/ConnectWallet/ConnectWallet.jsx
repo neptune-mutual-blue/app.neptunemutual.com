@@ -4,6 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 
 import useAuth from '../../hooks/useAuth'
 import { Popup } from './Popup'
+import { WalletDisclaimerPoup } from '@/lib/connect-wallet/components/ConnectWallet/WalletDisclaimerPopup'
 
 export default function ConnectWallet ({ networkId, notifier, children }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -32,6 +33,8 @@ export default function ConnectWallet ({ networkId, notifier, children }) {
         networkId={networkId}
         notifier={notifier}
       />
+
+      <WalletDisclaimerPoup />
     </>
   )
 }
