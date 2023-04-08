@@ -6,6 +6,7 @@ import HighchartsExporting from 'highcharts/modules/exporting'
 
 import { ChainAnalyticsColors, ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import { hexToRgba } from '@/utils/hex-to-rgba'
+import { Trans } from '@lingui/macro'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -96,7 +97,7 @@ const HistoricalRoi = ({ loading, data }) => {
     )),
     chart: {
       backgroundColor: 'transparent',
-      height: '424px'
+      height: '408px'
     },
     navigation: {
       buttonOptions: {
@@ -151,6 +152,11 @@ const HistoricalRoi = ({ loading, data }) => {
 
   return (
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>
+      {loading && (
+        <div className='flex items-center justify-center h-full overflow-y-auto'>
+          <Trans>loading...</Trans>
+        </div>
+      )}
       {!loading && (
         <HighchartsReact
           highcharts={Highcharts}

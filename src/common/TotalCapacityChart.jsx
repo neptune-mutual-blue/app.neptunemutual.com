@@ -89,7 +89,7 @@ const TotalCapacityChart = ({ data }) => {
     ],
     chart: {
       backgroundColor: 'transparent',
-      height: '450px'
+      height: '430px'
     },
     navigation: {
       buttonOptions: {

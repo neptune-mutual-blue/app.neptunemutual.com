@@ -99,6 +99,7 @@ module.exports = {
         '524px': '524px',
         400: '400px',
         420: '420px',
+        392: '392px',
         450: '450px'
       },
       lineHeight: {

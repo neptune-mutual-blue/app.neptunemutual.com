@@ -89,7 +89,7 @@ const columns = [
   }
 ]
 
-export const TopAccounts = ({ userData = [], page = 1 }) => {
+export const TopAccounts = ({ userData = [], page = 1, loading }) => {
   const { liquidityTokenDecimals } = useAppConstants()
   const { locale } = useRouter()
 
@@ -107,6 +107,7 @@ export const TopAccounts = ({ userData = [], page = 1 }) => {
             liquidityTokenDecimals,
             locale
           }}
+          isLoading={loading}
           columns={columns}
           data={paginatedData}
         />

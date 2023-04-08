@@ -77,7 +77,7 @@ export const InsightsContent = () => {
   const { data: statsData, loading } = useNetworkStats()
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
-  const { data: userData } = useProtocolUsersData()
+  const { data: userData, loading: protocolUserDataLoading } = useProtocolUsersData()
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
@@ -320,7 +320,7 @@ export const InsightsContent = () => {
         return <TotalCapacityChart data={totalCapacity} />
 
       case AllDropdownOptions.TOP_ACCOUNTS:
-        return <TopAccounts userData={userData} page={currentPage} />
+        return <TopAccounts userData={userData} loading={protocolUserDataLoading} page={currentPage} />
 
       case AllDropdownOptions.COVER_EARNINGS:
         return (
