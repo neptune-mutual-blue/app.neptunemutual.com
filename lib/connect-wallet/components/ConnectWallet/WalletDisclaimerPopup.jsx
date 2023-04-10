@@ -8,8 +8,9 @@ import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
-import { ethers } from 'ethers'
 import { useEffect, useMemo, useState } from 'react'
+import { verifyMessage } from '@ethersproject/wallet'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 
 export const WalletDisclaimerPoup = () => {
   const [walletApprovals, setWalletApprovals] = useLocalStorage('wallet-disclaimer-approvals', [])
@@ -49,15 +50,11 @@ I hereby further represent and warrant that:
 - I fully understand the technology and financial risks associated with Neptune Mutual Protocol.
 
 - I acknowledge that Neptune Mutual Protocol, App, and related software are experimental, and that the use of experimental software may result in complete loss of my funds.`
-      const signedData = await library.provider?.request({
-        method: 'personal_sign',
-        params: [
-          message,
-          account
-        ]
-      })
 
-      const verified = ethers.verifyMessage(message, signedData)
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
+      const signedData = await signerOrProvider?.signMessage(message)
+
+      const verified = verifyMessage(message, signedData)
 
       if (verified === account) {
         setWalletApprovals([...walletApprovals, account])
