@@ -55,11 +55,11 @@ export const useProvideLiquidity = ({
   const router = useRouter()
   const { library, account } = useWeb3React()
   const {
+    stablecoinTokenBalance: myStablecoinBalance,
     info: {
       vault: vaultTokenAddress,
       vaultTokenSymbol,
       vaultTokenDecimals,
-      myStablecoinBalance,
       withdrawalOpen,
       withdrawalClose
     },

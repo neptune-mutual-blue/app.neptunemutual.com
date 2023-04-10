@@ -1,12 +1,12 @@
 export const formatPercent = (x, locale, symbol = true) => {
   if (!x) {
-    return ''
+    x = 0
   }
 
   const percent = parseFloat(x) * 100
 
   if (isNaN(percent)) {
-    return ''
+    x = 0
   }
 
   const result = new Intl.NumberFormat(locale, {

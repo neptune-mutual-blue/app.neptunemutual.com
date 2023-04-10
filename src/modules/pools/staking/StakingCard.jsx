@@ -26,7 +26,6 @@ import {
   StakingCardSubTitle
 } from '@/src/modules/pools/staking/StakingCardSubTitle'
 import { StakingCardTitle } from '@/src/modules/pools/staking/StakingCardTitle'
-import { log } from '@/src/services/logs'
 import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
 import {
   convertFromUnits,
@@ -41,13 +40,11 @@ import {
   Trans
 } from '@lingui/macro'
 import { config } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
-  const { account } = useWeb3React()
   const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
   const { networkId } = useNetwork()
@@ -223,7 +220,6 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
                 className='px-2 mr-2 text-white w-fit'
                 onClick={() => {
                   setAnalyticsFunnelName('Add Stake')
-                  log(networkId, 'Add Stake', 'stake-page', 'plus-button', 1, account, 'click', { poolKey, poolName, lockupPeriod: data.lockupPeriodInBlocks, lockupPeriodFormatted: lockupPeriod })
                   onStakeModalOpen()
                 }}
                 aria-label='Add Stake'
@@ -234,7 +230,6 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
               <StakingCardCTA
                 className='flex-grow w-auto px-5 py-2 text-sm font-semibold uppercase'
                 onClick={() => {
-                  log(networkId, 'Collect Staking Reward', 'stake-page', 'collect-card-button', 1, account, 'click', { poolKey, poolName, lockupPeriod: data.lockupPeriodInBlocks, lockupPeriodFormatted: lockupPeriod })
                   onCollectModalOpen()
                 }}
               >
@@ -243,11 +238,12 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
             </div>
             )
           : (
-            <StakingCardCTA onClick={() => {
-              setAnalyticsFunnelName('Enter Staking Pool')
-              log(networkId, 'Enter Staking Pool', 'stake-page', 'stake-button', 1, account, 'click', { poolKey, poolName, lockupPeriod: data.lockupPeriodInBlocks, lockupPeriodFormatted: lockupPeriod })
-              onStakeModalOpen()
-            }}
+            <StakingCardCTA
+              className=''
+              onClick={() => {
+                setAnalyticsFunnelName('Enter Staking Pool')
+                onStakeModalOpen()
+              }}
             >
               <Trans>Stake</Trans>
             </StakingCardCTA>

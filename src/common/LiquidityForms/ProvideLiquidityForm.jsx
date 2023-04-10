@@ -86,10 +86,10 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   })
 
   const {
+    stablecoinTokenBalance: myStablecoinBalance,
     info: {
       minStakeToAddLiquidity,
       myStake,
-      myStablecoinBalance,
       vaultTokenSymbol,
       vault: vaultTokenAddress
     }

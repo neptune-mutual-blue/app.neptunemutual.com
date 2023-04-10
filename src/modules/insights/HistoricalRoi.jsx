@@ -1,10 +1,11 @@
-import HighchartsReact from 'highcharts-react-official'
-import Highcharts from 'highcharts/highstock.src'
 import { useRef } from 'react'
 
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import HighchartsReact from 'highcharts-react-official'
+import Highcharts from 'highcharts/highstock.src'
 import HighchartsExporting from 'highcharts/modules/exporting'
+
+import { ChainAnalyticsColors, ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
+import { hexToRgba } from '@/utils/hex-to-rgba'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -13,8 +14,13 @@ if (typeof Highcharts === 'object') {
 const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
 
-  const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const ChainIds = data ? Array.from(new Set(data.map(entry => entry.chainId))) : []
+
+  const chains = ChainIds.map(chainId => ({
+    label: ShortNetworkNames[chainId],
+    value: chainId
+
+  }))
 
   const chartOptions = {
     xAxis: {
@@ -51,20 +57,20 @@ const HistoricalRoi = ({ loading, data }) => {
         linecap: 'square'
       }
     },
-    series: [
+    series: chains.map(chain => (
       {
         type: 'areaspline',
         showInNavigator: true,
-        name: isMainNet ? 'Ethereum' : 'Fuji',
+        name: chain.label,
         data: (data ?? [])
-          .filter((item) => item.chainId === '1' || item.chainId === '43113')
+          .filter((item) => item.chainId === chain.value)
           .map((item) => ({
             x: new Date(item.startDate).valueOf(),
             y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
           }))
           .sort((a, b) => a.x - b.x),
         lineWidth: 3,
-        lineColor: '#4E7DD9',
+        lineColor: '#' + ChainAnalyticsColors[chain.value],
         fillColor: {
           linearGradient: {
             x1: 0,
@@ -73,21 +79,21 @@ const HistoricalRoi = ({ loading, data }) => {
             y2: 1
           },
           stops: [
-            [0, 'rgba(78, 125, 217, 0.2)'],
-            [1, 'rgba(78, 125, 217, 0)']
+            [0, hexToRgba(ChainAnalyticsColors[chain.value], 0.2)],
+            [1, hexToRgba(ChainAnalyticsColors[chain.value], 0)]
           ]
         },
         marker: {
           fillColor: 'white',
           lineWidth: 2,
           radius: 3,
-          lineColor: '#4E7DD9'
+          lineColor: '#' + ChainAnalyticsColors[chain.value]
         },
         animation: {
           duration: 500
         }
       }
-    ],
+    )),
     chart: {
       backgroundColor: 'transparent',
       height: '424px'
@@ -143,47 +149,6 @@ const HistoricalRoi = ({ loading, data }) => {
     }
   }
 
-  if (isMainNet) {
-    chartOptions.series = [
-      ...chartOptions.series,
-      {
-        type: 'areaspline',
-        name: 'Arbitrum',
-        showInNavigator: true,
-        data: (data ?? [])
-          .filter((item) => item.chainId === '42161')
-          .map((item) => ({
-            x: new Date(item.startDate).valueOf(),
-            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
-          }))
-          .sort((a, b) => a.x - b.x),
-        lineWidth: 3,
-        lineColor: '#21AD8C',
-        fillColor: {
-          linearGradient: {
-            x1: 0,
-            y1: 0,
-            x2: 0,
-            y2: 1
-          },
-          stops: [
-            [0, 'rgb(33, 173, 140, 0.2)'],
-            [1, 'rgb(33, 173, 140, 0)']
-          ]
-        },
-        marker: {
-          fillColor: 'white',
-          lineWidth: 2,
-          radius: 3,
-          lineColor: '#4E7DD9'
-        },
-        animation: {
-          duration: 500
-        }
-      }
-    ]
-  }
-
   return (
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>
       {!loading && (
@@ -195,28 +160,14 @@ const HistoricalRoi = ({ loading, data }) => {
         />
       )}
 
-      <div className='flex justify-center items-center gap-4 mt-3'>
-        {!isMainNet
-          ? (
-            <>
-              <div className='flex items-center gap-1'>
-                <div className='rounded-full h-4 w-4 border-4 border-4e7dd9' />
-                <span className='text-sm font-semibold'>Fuji</span>
-              </div>
-            </>
-            )
-          : (
-            <>
-              <div className='flex items-center gap-1'>
-                <div className='rounded-full h-3.5 w-3.5 bg-4e7dd9' />
-                <span className='text-sm font-semibold'>Ethereum</span>
-              </div>
-              <div className='flex items-center gap-1'>
-                <div className='rounded-full h-3.5 w-3.5 bg-21AD8C' />
-                <span className='text-sm font-semibold'>Arbitrum</span>
-              </div>
-            </>
-            )}
+      <div className='flex items-center justify-center gap-4 mt-3'>
+
+        {chains.map(chain => (
+          <div className='flex items-center gap-1' key={chain.value}>
+            <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
+            <span className='text-sm font-semibold'>{chain.label}</span>
+          </div>
+        ))}
       </div>
     </div>
   )

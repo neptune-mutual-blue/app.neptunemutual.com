@@ -15,7 +15,7 @@ export const InsightsTitle = ({ title = 'Insights', options, selected, setSelect
 
   return (
     <>
-      <div className='items-center justify-between hidden pb-10 lg:flex flex-start'>
+      <div className='items-center justify-between flex-wrap gap-y-3 hidden pb-10 lg:flex flex-start'>
         <div className='flex items-center'>
           {leading}
           <div className='mr-6 font-bold leading-9 text-display-sm text-000000'>

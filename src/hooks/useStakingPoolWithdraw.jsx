@@ -11,7 +11,6 @@ import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
 import { useTxToast } from '@/src/hooks/useTxToast'
-import { log } from '@/src/services/logs'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -50,8 +49,6 @@ export const useStakingPoolWithdraw = ({
     if (!account || !networkId) {
       return
     }
-
-    log(networkId, 'Withdraw Reward', 'stake-page', 'unstake-modal-button', 4, account, 'click')
 
     setWithdrawing(true)
 
@@ -141,7 +138,6 @@ export const useStakingPoolWithdraw = ({
                 }
               })
 
-              log(networkId, 'Withdraw Reward', 'stake-page', 'end', 9999, account, 'closed')
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -204,7 +200,6 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
     if (!account || !networkId) {
       return
     }
-    log(networkId, 'Collect Staking Reward', 'stake-page', 'collect-modal-button', 3, account, 'click')
 
     setWithdrawingRewards(true)
 

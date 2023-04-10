@@ -13,6 +13,10 @@ import { useRouter } from 'next/router'
 import { Bar } from 'react-chartjs-2'
 
 import {
+  ChainAnalyticsColors,
+  ShortNetworkNames
+} from '@/lib/connect-wallet/config/chains'
+import {
   externalTooltipHandler
 } from '@/modules/insights/ProtectionChart/ChartTooltip'
 import {
@@ -24,8 +28,6 @@ import {
   getXTickValue
 } from '@/modules/insights/ProtectionChart/utils'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
@@ -42,8 +44,13 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
   const { locale } = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const ChainIds = data ? Object.keys(data) : []
+
+  const chains = ChainIds.map(chainId => ({
+    label: ShortNetworkNames[chainId],
+    value: chainId
+
+  }))
 
   /**
    * @type {import("chart.js").ChartData<'bar'>}
@@ -62,7 +69,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         return {
           label: data[chain].length ? data[chain][0].networkName : '',
           data: data[chain].map(item => parseFloat(item[dataKey])),
-          backgroundColor: ['1', '43113'].includes(chain) ? '#4E7DD9' : '#21AD8C',
+          backgroundColor: ['1', '84531'].includes(chain) ? '#4E7DD9' : '#21AD8C',
           barPercentage: 1,
           borderWidth: 0,
           maxBarThickness: 17,
@@ -234,27 +241,12 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
       {
         !['totalProtection', 'totalPremium'].includes(dataKey) && (
           <div className='flex items-center justify-center gap-4'>
-            {!isMainNet
-              ? (
-                <>
-                  <div className='flex items-center gap-1'>
-                    <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
-                    <span className='text-sm font-semibold'>Fuji</span>
-                  </div>
-                </>
-                )
-              : (
-                <>
-                  <div className='flex items-center gap-1'>
-                    <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
-                    <span className='text-sm font-semibold'>Ethereum</span>
-                  </div>
-                  <div className='flex items-center gap-1'>
-                    <div className='w-3.5 h-3.5 rounded-full bg-21AD8C' />
-                    <span className='text-sm font-semibold'>Arbitrum</span>
-                  </div>
-                </>
-                )}
+            {chains.map(chain => (
+              <div className='flex items-center gap-1' key={chain.value}>
+                <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
+                <span className='text-sm font-semibold'>{chain.label}</span>
+              </div>
+            ))}
           </div>
         )
       }
