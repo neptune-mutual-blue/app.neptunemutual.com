@@ -196,7 +196,7 @@ export const AvailableCovers = () => {
         </div>
       </div>
       <Grid
-        className='grid-rows-5 gap-4 mt-14 lg:mb-24 mb-14 lg:min-h-360 lg:grid-rows-4'
+        className='gap-4 mt-14 lg:mb-24 mb-14 lg:min-h-360'
         data-testid='body'
       >
         <Content
