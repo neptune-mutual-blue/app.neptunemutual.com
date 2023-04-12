@@ -49,10 +49,10 @@ const RenderProductName = ({ coverKey, productKey, data }) => {
 const RenderUtilizationRatio = ({ ratio, locale }) => {
   return (
     <td
-      className='px-6 py-4 text-sm leading-5 text-01052D'
+      className='px-6 py-2.5 text-sm leading-5 text-01052D'
     >
       <div
-        className='inline-block px-2 py-2 text-sm text-21AD8C bg-EAF7F8 rounded-xl'
+        className='inline-block px-2 py-2 text-sm text-21AD8C bg-EAF7F8 rounded-lg'
         title={formatPercent(ratio, locale)}
       >
         {formatPercent(ratio, locale)}

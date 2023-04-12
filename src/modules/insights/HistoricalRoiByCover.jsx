@@ -5,6 +5,7 @@ import Highcharts from 'highcharts/highstock.src'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
 import { hexToRgba } from '@/utils/hex-to-rgba'
+import { Trans } from '@lingui/macro'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -127,7 +128,7 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
     series,
     chart: {
       backgroundColor: 'transparent',
-      height: '424px'
+      height: '408px'
     },
     navigation: {
       buttonOptions: {
@@ -215,6 +216,12 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
 
   return (
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>
+      {loading && (
+        <div className='flex items-center justify-center h-full overflow-y-auto'>
+          <Trans>loading...</Trans>
+        </div>
+      )}
+
       {!loading && (
         <HighchartsReact
           highcharts={Highcharts}

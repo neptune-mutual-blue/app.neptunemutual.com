@@ -226,10 +226,11 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           </div>
           )
         : (
-          <div className={classNames(
-            'overflow-y-auto h-420',
-            ['totalProtection', 'totalPremium'].includes(dataKey) ? 'md:h-450' : 'md:h-400'
-          )}
+          <div
+            className={classNames(
+              'overflow-y-auto lg:h-392',
+              ['totalProtection', 'totalPremium'].includes(dataKey) ? 'md:h-450' : 'md:h-400'
+            )}
           >
             <div style={{ height: chartHeight }}>
               <Bar options={chartOptions} data={chartData} />

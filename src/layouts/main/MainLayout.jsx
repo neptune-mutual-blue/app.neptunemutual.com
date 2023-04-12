@@ -9,15 +9,10 @@ import {
   CookiePolicy,
   getLSAcceptedCookie
 } from '@/common/CookiePolicy'
-import {
-  MainnetDisclaimerModal,
-  TestnetDisclaimerModal
-} from '@/common/Disclaimer/DisclaimerModal'
+
 import { Header } from '@/common/Header/Header'
 import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
 import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { Footer } from '@/common/Footer/Footer'
 
 export const PageLoader = () => {
@@ -51,10 +46,6 @@ export const PageLoader = () => {
 
 export const MainLayout = ({ noHeader = false, children }) => {
   const [isCookieOpen, setIsCookieOpen] = useState(() => getLSAcceptedCookie() === undefined)
-  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false)
-
-  const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
 
   return (
     <>
@@ -70,21 +61,7 @@ export const MainLayout = ({ noHeader = false, children }) => {
           onClose={() => setIsCookieOpen(false)}
         />
 
-        {(!isMainNet && !isCookieOpen) && (
-          <TestnetDisclaimerModal
-            isOpen={isDisclaimerOpen}
-            setIsOpen={setIsDisclaimerOpen}
-          />
-        )}
-
-        {(isMainNet && !isCookieOpen) && (
-          <MainnetDisclaimerModal
-            isOpen={isDisclaimerOpen}
-            setIsOpen={setIsDisclaimerOpen}
-          />
-        )}
-
-        {(!isCookieOpen && !isDisclaimerOpen) && <NetworkSwitchPopup />}
+        {(!isCookieOpen) && <NetworkSwitchPopup />}
         <ScrollToTopButton />
       </div>
 
