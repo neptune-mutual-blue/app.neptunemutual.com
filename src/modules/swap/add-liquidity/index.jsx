@@ -2,8 +2,8 @@ import { RegularButton } from '@/common/Button/RegularButton'
 import AddIcon from '@/icons/AddIcon'
 import SettingsIcon from '@/icons/SettingsIcon'
 import { useState } from 'react'
-import { TokenSelect } from '@/modules/add-liquidity/TokenSelect/TokenSelect'
-import { TokenInput } from '@/modules/add-liquidity/TokenInput'
+import { TokenSelect } from '@/modules/swap/add-liquidity/TokenSelect/TokenSelect'
+import { TokenInput } from '@/modules/swap/add-liquidity/TokenInput'
 
 export const SwapAddLiquidity = () => {
   const [isSelectTokenOpen, setIsSelectTokenOpen] = useState(false)

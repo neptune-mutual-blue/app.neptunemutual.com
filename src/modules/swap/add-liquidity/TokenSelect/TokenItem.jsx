@@ -1,5 +1,4 @@
-const { RegularButton } = require('@/common/Button/RegularButton')
-const { TokenAvatar } = require('@/modules/add-liquidity/TokenAvatar')
+import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
 
 const TokenItem = ({ token, handleSelect }) => {
   return (
@@ -16,20 +15,10 @@ const TokenItem = ({ token, handleSelect }) => {
           <p className='text-xs text-left text-404040'>{token.name}</p>
         </div>
 
-        {
-          token.shouldImport
-            ? (
-              <RegularButton className='px-2 py-1 text-xs leading-6'>
-                Import
-              </RegularButton>
-              )
-            : (
-              <div>
-                <p className='text-sm font-semibold text-right'>1.2345</p>
-                <p className='text-xs text-right text-404040'>$12345.67</p>
-              </div>
-              )
-        }
+        <div>
+          <p className='text-sm font-semibold text-right'>1.2345</p>
+          <p className='text-xs text-right text-404040'>$12345.67</p>
+        </div>
       </div>
     </button>
   )

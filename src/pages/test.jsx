@@ -1,6 +1,6 @@
 import { Container } from '@/common/Container/Container'
 import { Seo } from '@/common/Seo'
-import { SwapAddLiquidity } from '@/modules/add-liquidity'
+import { SwapAddLiquidity } from '@/modules/swap/add-liquidity'
 
 export default function Home () {
   return (

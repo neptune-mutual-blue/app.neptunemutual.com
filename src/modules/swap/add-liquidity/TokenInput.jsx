@@ -1,6 +1,6 @@
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import Wallet02Icon from '@/icons/Wallet02Icon'
-import { TokenAvatar } from '@/modules/add-liquidity/TokenAvatar'
+import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
 import { useState } from 'react'
 
 export const TokenInput = ({ openSelectToken, selectedToken = null, handleInputChange = (...x) => x }) => {

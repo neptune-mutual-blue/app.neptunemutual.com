@@ -1,8 +1,8 @@
-import { tokens } from '@/modules/add-liquidity/TokenSelect/tokens'
+import { tokens } from '@/modules/swap/add-liquidity/TokenSelect/tokens'
 import { classNames } from '@/utils/classnames'
 import { useMemo } from 'react'
 
-const { TokenAvatar } = require('@/modules/add-liquidity/TokenAvatar')
+import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
 
 const PopularTokens = ({ className = '', handleSelect }) => {
   const popularTokens = useMemo(() => {
