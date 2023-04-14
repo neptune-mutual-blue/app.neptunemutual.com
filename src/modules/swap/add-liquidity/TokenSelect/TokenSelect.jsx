@@ -5,19 +5,21 @@ import SearchIcon from '@/icons/SearchIcon'
 import { PopularTokens } from '@/modules/swap/add-liquidity/TokenSelect/PopularTokens'
 import { TokenItem } from '@/modules/swap/add-liquidity/TokenSelect/TokenItem'
 import { tokens } from '@/modules/swap/add-liquidity/TokenSelect/tokens'
+import { useNetwork } from '@/src/context/Network'
 import { SORT_DATA_TYPES, sorter } from '@/utils/sorting'
 import { useEffect, useMemo, useState } from 'react'
 
 export const TokenSelect = ({ show, toggleSelectToken, handleTokenSelect }) => {
   const [searchValue, setSearchValue] = useState('')
+  const { networkId } = useNetwork()
 
   const sortedTokens = useMemo(() => {
     return sorter({
-      list: tokens,
+      list: networkId ? tokens[networkId] : tokens[1],
       selector: x => x.name,
       datatype: SORT_DATA_TYPES.STRING
     })
-  }, [])
+  }, [networkId])
 
   const filteredTokens = useMemo(() => {
     return sortedTokens.filter(token => {

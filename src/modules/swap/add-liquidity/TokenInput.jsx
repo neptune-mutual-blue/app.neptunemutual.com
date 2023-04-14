@@ -1,11 +1,20 @@
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import Wallet02Icon from '@/icons/Wallet02Icon'
 import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
+import { useTokenBalance } from '@/src/hooks/useTokenBalance'
+import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
 
 export const TokenInput = ({ openSelectToken, selectedToken = null, handleInputChange = (...x) => x }) => {
   const [inputValue, setInputValue] = useState('0')
   const [dollarValue, setDollarValue] = useState('0.00')
+
+  const { account } = useWeb3React()
+
+  const balance = useTokenBalance({
+    tokenAddress: selectedToken?.address,
+    decimal: selectedToken?.decimals
+  })
 
   const handleChange = (e) => {
     const value = e.target.value || '0'
@@ -13,7 +22,7 @@ export const TokenInput = ({ openSelectToken, selectedToken = null, handleInputC
 
     setInputValue(value)
     setDollarValue(priceInDollars)
-    handleInputChange(value, priceInDollars)
+    handleInputChange(value, priceInDollars, balance)
   }
 
   return (
@@ -38,7 +47,9 @@ export const TokenInput = ({ openSelectToken, selectedToken = null, handleInputC
       <div className='flex justify-between gap-1 mt-2.5'>
         <span className='text-404040'>${dollarValue}</span>
         <Wallet02Icon className='ml-auto text-4e7dd9' />
-        <span className='text-4e7dd9'>-</span>
+        <span className='text-4e7dd9'>
+          {(account && selectedToken) ? balance : '-'}
+        </span>
       </div>
     </div>
   )

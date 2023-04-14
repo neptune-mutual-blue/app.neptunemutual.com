@@ -3,14 +3,19 @@ import { classNames } from '@/utils/classnames'
 import { useMemo } from 'react'
 
 import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
+import { useNetwork } from '@/src/context/Network'
 
 const PopularTokens = ({ className = '', handleSelect }) => {
+  const { networkId } = useNetwork()
+
   const popularTokens = useMemo(() => {
     const symbols = ['WETH', 'SUSHI', 'BTC', 'USDC', 'USDT']
-    return tokens.filter(token => symbols.includes(token.symbol))
-  }, [])
+    const tokenList = networkId ? tokens[networkId] : tokens[1]
+    return tokenList.filter(token => symbols.includes(token.symbol))
+  }, [networkId])
+
   return (
-    tokens.length
+    popularTokens.length
       ? (
         <div className={classNames('p-2.5 flex items-center gap-x-2 gap-y-2.5 flex-wrap', className)}>
           {

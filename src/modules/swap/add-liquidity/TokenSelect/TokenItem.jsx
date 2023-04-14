@@ -1,6 +1,12 @@
 import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
+import { useTokenBalance } from '@/src/hooks/useTokenBalance'
 
 const TokenItem = ({ token, handleSelect }) => {
+  const balance = useTokenBalance({
+    tokenAddress: token?.address,
+    decimal: token?.decimals
+  })
+
   return (
     <button
       className='w-full py-2.5 px-4 rounded-2 hover:bg-EEEEEE'
@@ -16,7 +22,7 @@ const TokenItem = ({ token, handleSelect }) => {
         </div>
 
         <div>
-          <p className='text-sm font-semibold text-right'>1.2345</p>
+          <p className='text-sm font-semibold text-right'>{balance}</p>
           <p className='text-xs text-right text-404040'>$12345.67</p>
         </div>
       </div>

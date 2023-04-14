@@ -65,7 +65,7 @@ export const SwapAddLiquidity = () => {
               </div>
             </div>
           )
-        }
+      }
       <TokenSelect
         show={isSelectTokenOpen}
         toggleSelectToken={toggleSelectToken}
