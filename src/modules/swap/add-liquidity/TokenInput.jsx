@@ -1,9 +1,10 @@
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import Wallet02Icon from '@/icons/Wallet02Icon'
 import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
-import { useTokenBalance } from '@/src/hooks/useTokenBalance'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { convertFromUnits } from '@/utils/bn'
 import { useWeb3React } from '@web3-react/core'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 export const TokenInput = ({ openSelectToken, selectedToken = null, handleInputChange = (...x) => x }) => {
   const [inputValue, setInputValue] = useState('0')
@@ -11,14 +12,15 @@ export const TokenInput = ({ openSelectToken, selectedToken = null, handleInputC
 
   const { account } = useWeb3React()
 
-  const balance = useTokenBalance({
-    tokenAddress: selectedToken?.address,
-    decimal: selectedToken?.decimals
-  })
+  const { balance: _balance } = useERC20Balance(selectedToken?.address)
+  const balance = useMemo(
+    () => convertFromUnits(_balance, selectedToken?.decimals || 0).toFixed(2).toString(),
+    [_balance, selectedToken]
+  )
 
   const handleChange = (e) => {
     const value = e.target.value || '0'
-    const priceInDollars = (Number(value) * 2.5).toFixed(2)
+    const priceInDollars = (Number(value) * 1).toFixed(2)
 
     setInputValue(value)
     setDollarValue(priceInDollars)

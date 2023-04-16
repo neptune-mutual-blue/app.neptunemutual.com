@@ -4,7 +4,7 @@ import LeftArrow from '@/icons/LeftArrow'
 import SearchIcon from '@/icons/SearchIcon'
 import { PopularTokens } from '@/modules/swap/add-liquidity/TokenSelect/PopularTokens'
 import { TokenItem } from '@/modules/swap/add-liquidity/TokenSelect/TokenItem'
-import { tokens } from '@/modules/swap/add-liquidity/TokenSelect/tokens'
+import { getTokens } from '@/modules/swap/add-liquidity/TokenSelect/getTokens'
 import { useNetwork } from '@/src/context/Network'
 import { SORT_DATA_TYPES, sorter } from '@/utils/sorting'
 import { useEffect, useMemo, useState } from 'react'
@@ -13,13 +13,24 @@ export const TokenSelect = ({ show, toggleSelectToken, handleTokenSelect }) => {
   const [searchValue, setSearchValue] = useState('')
   const { networkId } = useNetwork()
 
+  const [tokens, setTokens] = useState(null)
+
+  useEffect(() => {
+    (async function () {
+      const _tokens = await getTokens()
+      if (_tokens) setTokens(_tokens)
+    })()
+  }, [])
+
   const sortedTokens = useMemo(() => {
+    if (!networkId || !tokens) return []
+
     return sorter({
       list: networkId ? tokens[networkId] : tokens[1],
       selector: x => x.name,
       datatype: SORT_DATA_TYPES.STRING
     })
-  }, [networkId])
+  }, [networkId, tokens])
 
   const filteredTokens = useMemo(() => {
     return sortedTokens.filter(token => {
@@ -57,7 +68,7 @@ export const TokenSelect = ({ show, toggleSelectToken, handleTokenSelect }) => {
         handleChange={val => setSearchValue(val)}
       />
 
-      <PopularTokens className='mt-4' handleSelect={handleTokenSelect} />
+      <PopularTokens tokens={tokens} className='mt-4' handleSelect={handleTokenSelect} />
 
       <hr className='h-1 my-4 text-B0C4DB' />
 

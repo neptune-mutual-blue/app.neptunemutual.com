@@ -1,11 +1,14 @@
 import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
-import { useTokenBalance } from '@/src/hooks/useTokenBalance'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { convertFromUnits } from '@/utils/bn'
+import { useMemo } from 'react'
 
 const TokenItem = ({ token, handleSelect }) => {
-  const balance = useTokenBalance({
-    tokenAddress: token?.address,
-    decimal: token?.decimals
-  })
+  const { balance: _balance } = useERC20Balance(token?.address)
+  const balance = useMemo(
+    () => convertFromUnits(_balance, token?.decimals || 0).toFixed(2).toString(),
+    [_balance, token]
+  )
 
   return (
     <button

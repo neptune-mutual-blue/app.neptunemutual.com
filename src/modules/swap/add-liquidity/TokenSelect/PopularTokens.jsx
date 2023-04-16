@@ -1,18 +1,22 @@
-import { tokens } from '@/modules/swap/add-liquidity/TokenSelect/tokens'
 import { classNames } from '@/utils/classnames'
 import { useMemo } from 'react'
 
 import { TokenAvatar } from '@/modules/swap/add-liquidity/TokenAvatar'
 import { useNetwork } from '@/src/context/Network'
 
-const PopularTokens = ({ className = '', handleSelect }) => {
+const POPULAR_TOKENS = [
+  'WETH', 'SUSHI', 'BTC', 'USDC', 'USDT', 'NPM'
+]
+
+const PopularTokens = ({ tokens, className = '', handleSelect }) => {
   const { networkId } = useNetwork()
 
   const popularTokens = useMemo(() => {
-    const symbols = ['WETH', 'SUSHI', 'BTC', 'USDC', 'USDT']
+    if (!tokens) return []
+
     const tokenList = networkId ? tokens[networkId] : tokens[1]
-    return tokenList.filter(token => symbols.includes(token.symbol))
-  }, [networkId])
+    return tokenList.filter(token => POPULAR_TOKENS.includes(token.symbol))
+  }, [networkId, tokens])
 
   return (
     popularTokens.length
