@@ -1,13 +1,23 @@
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { InputWithIcon } from '@/common/InputWithIcon/InputWithIcon'
 import LeftArrow from '@/icons/LeftArrow'
 import SearchIcon from '@/icons/SearchIcon'
-import { PopularTokens } from '@/modules/swap/add-liquidity/TokenSelect/PopularTokens'
-import { TokenItem } from '@/modules/swap/add-liquidity/TokenSelect/TokenItem'
 import { getTokens } from '@/modules/swap/add-liquidity/TokenSelect/getTokens'
+import {
+  PopularTokens
+} from '@/modules/swap/add-liquidity/TokenSelect/PopularTokens'
+import { TokenItem } from '@/modules/swap/add-liquidity/TokenSelect/TokenItem'
 import { useNetwork } from '@/src/context/Network'
-import { SORT_DATA_TYPES, sorter } from '@/utils/sorting'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  SORT_DATA_TYPES,
+  sorter
+} from '@/utils/sorting'
 
 export const TokenSelect = ({ show, toggleSelectToken, handleTokenSelect }) => {
   const [searchValue, setSearchValue] = useState('')
@@ -51,13 +61,15 @@ export const TokenSelect = ({ show, toggleSelectToken, handleTokenSelect }) => {
     <div>
       <div className='flex justify-between'>
         <button
-          className='flex items-center gap-1 text-xs font-semibold leading-6 rounded-2 tracking-2'
+          className='flex items-center gap-2.5 text-xs font-semibold leading-6 rounded-2 tracking-2'
           onClick={toggleSelectToken}
         >
           <LeftArrow />
-          Back
+          <span className='text-xs leading-6 font-semibold'>
+            BACK
+          </span>
         </button>
-        <h3 className='text-display-xs'>Tokens</h3>
+        <h3 className='text-display-xs font-semibold'>Tokens</h3>
         <RegularButton className='px-2 py-1 text-xs leading-6'>Manage</RegularButton>
       </div>
 
