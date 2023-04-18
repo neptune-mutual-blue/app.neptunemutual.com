@@ -8,7 +8,8 @@ export const KEYS = {
   DISCLAIMER_APPROVAL: 'disclaimerApproval',
   UNLIMITED_APPROVAL: 'unlimitedApproval',
   TRANSACTION_HISTORY: 'npmTransactionHistory',
-  COOKIE_POLICY: 'acceptedCookiePolicy'
+  COOKIE_POLICY: 'acceptedCookiePolicy',
+  CUSTOM_TOKEN_LIST: 'custom_token_list'
 }
 
 export const LOCAL_STORAGE_ERRORS = {

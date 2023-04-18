@@ -6,7 +6,7 @@ const PoolPage = () => {
   return (
     <main>
       <Seo />
-      <div className='p-6'>
+      <div className='p-6 min-h-760'>
         <SwapTabSwitcher value='pool' />
         <SwapAddLiquidity />
       </div>
