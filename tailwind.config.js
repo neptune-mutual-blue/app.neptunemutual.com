@@ -57,6 +57,7 @@ module.exports = {
         2: '8px',
         big: '0.625rem',
         mdlg: '7px',
+        '3px': '3px',
         tooltip: '10px',
         20: '20px'
       },
@@ -179,6 +180,7 @@ module.exports = {
         DC2121: '#DC2121',
         940000: '#940000',
         E52E2E: '#E52E2E',
+        'E52E2E-0.03': 'rgba(229, 46, 46, 0.03)',
         '4289F2': '#4289F2',
         FEFEFF: '#FEFEFF',
         '01052D': '#01052D',
@@ -209,7 +211,9 @@ module.exports = {
       minHeight: {
         360: '360px',
         301: '301px',
-        72: '72px'
+        72: '72px',
+        647: '647px',
+        760: '760px'
       },
       maxHeight: {
         144: '36rem',
