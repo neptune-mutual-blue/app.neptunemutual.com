@@ -54,6 +54,7 @@ module.exports = {
       },
       borderRadius: {
         1: '4px',
+        1.5: '6px',
         2: '8px',
         big: '0.625rem',
         mdlg: '7px',
@@ -79,6 +80,7 @@ module.exports = {
       spacing: {
         /* 72px */
         4.5: '18px',
+        '5px': '5px',
         6.5: '26px',
         '9px': '9px',
         8.5: '34px',
