@@ -5,7 +5,6 @@ export const getNetworkId = () => {
   const host = window.location.host
   const chainId = detectChainId(host)
 
-  console.log(host, chainId)
   return parseInt(chainId, 10)
 }
 
