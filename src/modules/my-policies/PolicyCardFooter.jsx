@@ -3,9 +3,7 @@ import { useRouter } from 'next/router'
 
 import DateLib from '@/lib/date/DateLib'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import {
   convertFromUnits,
   isGreater
@@ -28,8 +26,6 @@ export const PolicyCardFooter = ({
 }) => {
   const now = DateLib.unix()
   const router = useRouter()
-  const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
   const cxTokenDecimals = useTokenDecimals(cxToken.id)
 
   const isClaimable = report ? report.status === 'Claimable' : false
@@ -76,12 +72,6 @@ export const PolicyCardFooter = ({
     })
   }
 
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
   return (
     <>
       {/* Stats */}
@@ -126,10 +116,7 @@ export const PolicyCardFooter = ({
           href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
         >
           <a
-            className={classNames(
-              'flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4',
-              buttonBg
-            )}
+            className='flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4 bg-custom-theme'
             data-testid='claim-link'
           >
             <Trans>Claim</Trans>

@@ -3,11 +3,8 @@ import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { toBN } from '@/utils/bn'
-import { classNames } from '@/utils/classnames'
 import { formatPercent } from '@/utils/formatter/percent'
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -93,21 +90,9 @@ export function LiquidityProductModal ({ productData, setShowModal }) {
 }
 
 function DownloadButton ({ onClick }) {
-  const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
-
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
   return (
     <button
-      className={classNames(
-        'inline-flex items-center justify-center tracking-wide flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75',
-        buttonBg
-      )}
+      className='inline-flex items-center justify-center tracking-wide flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75 bg-custom-theme'
       onClick={onClick}
       data-testid='download-button'
     >

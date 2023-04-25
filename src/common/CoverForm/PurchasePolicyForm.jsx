@@ -40,7 +40,6 @@ import {
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
 import {
   convertFromUnits,
@@ -98,7 +97,6 @@ export const PurchasePolicyForm = ({
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
 
   const [formSteps, setFormSteps] = useState(0)
   const [showReferral, setShowReferral] = useState(false)
@@ -230,12 +228,6 @@ export const PurchasePolicyForm = ({
   const hasReferralCode = !!referralCode.trim().length
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
-
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
 
   return (
     <div className='flex flex-col w-616'>
@@ -390,9 +382,8 @@ export const PurchasePolicyForm = ({
               disabled={!canProceed}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
-                buttonBg,
                 'disabled:cursor-not-allowed disabled:opacity-50',
-                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0'
+                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0 bg-custom-theme'
               )}
               onClick={() => {
                 if (formSteps === 1) {

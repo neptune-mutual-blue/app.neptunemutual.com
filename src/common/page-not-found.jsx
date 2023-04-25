@@ -3,20 +3,12 @@ import { useRouter } from 'next/router'
 
 import { Container } from '@/common/Container/Container'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 
 export function PageNotFound () {
   const router = useRouter()
-  const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
 
-  const linkColor = isArbitrum
-    ? 'border-1D9AEE bg-1D9AEE focus-visible:ring-1D9AEE'
-    : isMainNet
-      ? 'border-4e7dd9 bg-4e7dd9 focus-visible:ring-4e7dd9'
-      : 'border-5D52DC bg-5D52DC focus-visible:ring-5D52DC'
+  const linkColor = 'border-custom-theme bg-custom-theme focus-visible:ring-custom-theme'
 
   return (
     <div className='max-w-full bg-white'>

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
+import { ChainColorsRGB } from '@/lib/connect-wallet/config/chains'
 import { useEagerConnect } from '@/lib/connect-wallet/hooks/useEagerConnect'
-import { useInactiveListener } from '@/lib/connect-wallet/hooks/useInactiveListener'
+import {
+  useInactiveListener
+} from '@/lib/connect-wallet/hooks/useInactiveListener'
 import { getNetworkId } from '@/src/config/environment'
 
 const NetworkContext = React.createContext({ networkId: null })
@@ -16,6 +19,10 @@ export function useNetwork () {
 
 export const NetworkProvider = ({ children }) => {
   const networkId = getNetworkId()
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--custom-theme', ChainColorsRGB[networkId])
+  }, [networkId])
 
   return (
     <NetworkContext.Provider value={{ networkId }}>

@@ -8,8 +8,6 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
@@ -46,14 +44,7 @@ export const PurchasePolicyModal = ({
  * @param {{ txHash: string, onClose: Function }} prop
  */
 function Complete ({ txHash, onClose }) {
-  const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
-
-  const linkColor = isArbitrum
-    ? 'bg-1D9AEE border-1D9AEE focus-visible:ring-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9 border-4e7dd9 focus-visible:ring-4e7dd9'
-      : 'bg-5D52DC border-5D52DC focus-visible:ring-5D52DC'
+  const linkColor = 'bg-custom-theme border-custom-theme focus-visible:ring-custom-theme'
 
   return (
     <div className='flex flex-col items-center'>

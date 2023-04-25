@@ -1,8 +1,5 @@
 import { Alert } from '@/common/Alert/Alert'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
 export function DiversifiedCoverRules ({ projectName, coverKey, productKey }) {
@@ -27,22 +24,10 @@ export function DiversifiedCoverRules ({ projectName, coverKey, productKey }) {
 }
 
 function DownloadButton ({ onClick }) {
-  const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
-
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
   return (
     <div className='text-center mt-7 xl:mt-4 mb-14 xl:text-left'>
       <button
-        className={classNames(
-          'inline-flex items-center tracking-wide justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md hover:bg-opacity-75',
-          buttonBg
-        )}
+        className='inline-flex items-center tracking-wide justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-custom-theme'
         onClick={onClick}
         data-testid='download-button'
       >

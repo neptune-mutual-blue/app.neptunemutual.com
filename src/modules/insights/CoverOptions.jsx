@@ -1,7 +1,7 @@
 import { CoverDropdown } from '@/common/CoverDropdown'
 import CheckBlue from '@/icons/CheckBlue'
-import { classNames } from '@/utils/classnames'
 import UpArrowFilled from '@/icons/UpArrowFilled'
+import { classNames } from '@/utils/classnames'
 
 export const CoverOptions = ({
   loading,

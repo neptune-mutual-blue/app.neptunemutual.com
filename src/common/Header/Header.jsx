@@ -24,7 +24,6 @@ import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
@@ -108,8 +107,6 @@ export const Header = () => {
   const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false)
   const [container, setContainer] = useState(null)
 
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
-
   const [unread, setUnread] = useState(0)
 
   useEffect(() => {
@@ -176,12 +173,6 @@ export const Header = () => {
     </Tooltip.Root>
   )
 
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
   return (
     <>
       <div className='bg-black text-EEEEEE'>
@@ -231,10 +222,7 @@ export const Header = () => {
                 {({ onOpen }) => {
                   let button = (
                     <button
-                      className={classNames(
-                        'inline-block uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75',
-                        buttonBg
-                      )}
+                      className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-custom-theme'
                       onClick={onOpen}
                       title={t`Connect wallet`}
                     >
@@ -245,10 +233,7 @@ export const Header = () => {
                   if (active) {
                     button = (
                       <button
-                        className={classNames(
-                          'relative flex items-center uppercase px-4 py-0 text-sm font-semibold leading-loose text-white border border-transparent rounded-md hover:bg-opacity-75 tracking-wider',
-                          buttonBg
-                        )}
+                        className='relative flex items-center px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-custom-theme'
                         onClick={handleToggleAccountPopup}
                         title={t`account details`}
                       >
@@ -357,7 +342,6 @@ export const MenuModal = ({
   handleDisconnect
 }) => {
   const router = useRouter()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
 
   useEffect(() => {
     const handleRouteNavigate = () => {
@@ -370,12 +354,6 @@ export const MenuModal = ({
       router.events.off('routeChangeComplete', handleRouteNavigate)
     }
   }, [onClose, router.events])
-
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
 
   return (
     <div>
@@ -419,10 +397,7 @@ export const MenuModal = ({
                     {({ onOpen }) => {
                       let button = (
                         <button
-                          className={classNames(
-                            'justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 uppercase tracking-wider',
-                            buttonBg
-                          )}
+                          className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-custom-theme'
                           onClick={onOpen}
                           title={t`Connect wallet`}
                         >
@@ -434,9 +409,7 @@ export const MenuModal = ({
                         button = (
                           <button
                             aria-label='Account Details'
-                            className={classNames(
-                              'relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold uppercase tracking-wider leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75', buttonBg
-                            )}
+                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-custom-theme'
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}
                           >

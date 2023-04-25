@@ -9,13 +9,10 @@ import {
   MAX_PROPOSAL_AMOUNT,
   MIN_PROPOSAL_AMOUNT
 } from '@/src/config/constants'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import {
   isGreater,
   isGreaterOrEqual
 } from '@/utils/bn'
-import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import {
   t,
@@ -39,9 +36,6 @@ const PurchaseAmountStep = ({
   const router = useRouter()
   const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
-
-  const { networkId } = useNetwork()
-  const isMainNet = useValidateNetwork(networkId)
 
   function handleChange (val) {
     setError('')
@@ -92,9 +86,7 @@ const PurchaseAmountStep = ({
 
       <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available: {formatCurrency(availableLiquidity, router.locale).short}</div>
       <button
-        className={classNames('flex items-center gap-2 p-1 pr-0 mx-auto mt-8',
-          isMainNet ? 'text-4e7dd9' : 'text-5D52DC'
-        )}
+        className='flex items-center gap-2 p-1 pr-0 mx-auto mt-8 text-custom-theme'
         onClick={handleShowCoverTerms}
       >
         <StandardTermsConditionsIcon />

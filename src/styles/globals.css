@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  accent-color: #4e7dd9;
+@layer base {
+  :root {
+    accent-color: #4e7dd9;
+    --custom-theme: 93 82 220;
+  }
 }
 
 @layer base {

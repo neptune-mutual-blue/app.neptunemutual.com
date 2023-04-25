@@ -3,9 +3,6 @@ import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
 import PDFFileIcon from '@/icons/PDFFileIcon'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { classNames } from '@/utils/classnames'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export function CoverTermsModal ({
@@ -77,15 +74,9 @@ export function CoverTermsModal ({
 }
 
 function DownloadButton ({ onClick }) {
-  const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
-
   return (
     <button
-      className={classNames(
-        'inline-flex items-center justify-center tracking-wide flex-grow-0 w-full p-3 gap-1 uppercase border border-transparent rounded md:w-auto',
-        isMainNet ? 'text-4e7dd9' : 'text-5D52DC'
-      )}
+      className='inline-flex items-center justify-center flex-grow-0 w-full gap-1 p-3 tracking-wide uppercase border border-transparent rounded md:w-auto bg-custom-theme'
       onClick={onClick}
     >
       <PDFFileIcon />

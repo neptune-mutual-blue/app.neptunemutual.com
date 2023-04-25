@@ -204,7 +204,8 @@ module.exports = {
         F9FAFA: '#F9FAFA',
         '4B7EE1': '#4B7EE1',
         EAF7F8: '#EAF7F8',
-        D6D6D6: '#D6D6D6'
+        D6D6D6: '#D6D6D6',
+        'custom-theme': 'rgb(var(--custom-theme) / var(--tw-bg-opacity))'
       },
       minHeight: {
         360: '360px',
