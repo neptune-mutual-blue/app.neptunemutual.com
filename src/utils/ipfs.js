@@ -7,7 +7,7 @@ const urls = {
 }
 
 const getPermalink = (type, networkId, data) => {
-  const hostname = config.networks.getChainConfig(networkId)
+  const { hostname } = config.networks.getChainConfig(networkId)
 
   if (type === 'report') {
     return `https://${hostname}/reports/${data.coverKey}/products/${data.productKey}`
@@ -35,6 +35,7 @@ const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
       method: 'PUT',
       body: JSON.stringify(_payload),
       headers: {
+        'Content-Type': 'application/json',
         siteId: process.env.NEXT_PUBLIC_SITE_ID
       }
     })
