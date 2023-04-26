@@ -5,7 +5,7 @@
 @layer base {
   :root {
     accent-color: #4e7dd9;
-    --custom-theme: 93 82 220;
+    --color-primary: 78 125 217;
   }
 }
 
@@ -25,7 +25,7 @@ textarea:focus {
 }
 
 input:checked + div {
-  @apply border-4e7dd9;
+  @apply border-4E7DD9;
 }
 input:checked + div svg {
   @apply block;

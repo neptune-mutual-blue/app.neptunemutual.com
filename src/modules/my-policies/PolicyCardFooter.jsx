@@ -116,7 +116,7 @@ export const PolicyCardFooter = ({
           href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
         >
           <a
-            className='flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4 bg-custom-theme'
+            className='flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4 bg-primary'
             data-testid='claim-link'
           >
             <Trans>Claim</Trans>

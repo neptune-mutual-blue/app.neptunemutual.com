@@ -97,7 +97,7 @@ const PurchasePolicyStep = ({
     <div>
       <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
       <div
-        className='flex justify-center mt-1 mb-8 font-bold text-center text-display-md text-4e7dd9'
+        className='flex justify-center mt-1 mb-8 font-bold text-center text-display-md text-4E7DD9'
         title={formatCurrency(
           coverFee,
           router.locale,
@@ -244,7 +244,7 @@ const PurchasePolicyStep = ({
           {editForm && (
             <div className='relative flex mt-11'>
               <div className='absolute h-2 bg-999BAB bg-opacity-30 top-1.5' style={{ width: 'calc(100% - 20px)' }} />
-              <div className='absolute h-2 bg-4e7dd9 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
+              <div className='absolute h-2 bg-4E7DD9 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
               <CustomRadio
                 label={`${coverPeriodLabels[0].substr(0, 3)} 31`}
                 className='!items-start flex-col'

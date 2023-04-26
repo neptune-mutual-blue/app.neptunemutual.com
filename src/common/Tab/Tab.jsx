@@ -7,7 +7,7 @@ export const Tab = ({ children, active, className }) => {
       className={classNames(
         'cursor-pointer mr-3 -mb-px whitespace-nowrap overflow-x-hidden',
         active
-          ? 'text-4e7dd9 border border-b-0 font-semibold rounded-t-lg border-solid border-B0C4DB bg-f6f7f9'
+          ? 'text-4E7DD9 border border-b-0 font-semibold rounded-t-lg border-solid border-B0C4DB bg-F6F7F9'
           : 'text-black',
         className
       )}

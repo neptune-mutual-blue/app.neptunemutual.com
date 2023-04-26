@@ -1,5 +1,8 @@
 import { Container } from '@/common/Container/Container'
-import { data, socials } from '@/common/Footer/data'
+import {
+  data,
+  socials
+} from '@/common/Footer/data'
 import DiscordIcon from '@/icons/DiscordIcon'
 import { t } from '@lingui/macro'
 
@@ -20,7 +23,7 @@ export const Footer = () => {
             <div className='text-01052D'>
               <p className='font-bold leading-7 text-display-xs'>Need assistance?</p>
               <p className='mt-2 font-semibold text-md'>Contact us on Discord</p>
-              <a className='hover:fill-4e7dd9 hover:text-4e7dd9' href='https://discord.com/invite/2qMGTtJtnW' target='_blank' rel='noreferrer'>
+              <a className='hover:fill-4E7DD9 hover:text-4E7DD9' href='https://discord.com/invite/2qMGTtJtnW' target='_blank' rel='noreferrer'>
                 <DiscordIcon className='mt-4' width='48' height='48' />
               </a>
             </div>
@@ -35,7 +38,7 @@ export const Footer = () => {
                 <div className='mt-4 space-y-3 font-medium text-md text-364253'>
                   {
                     links.map(({ text, href, isExternal }, idx) => (
-                      <a className='block hover:text-4e7dd9' href={href} key={idx} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
+                      <a className='block hover:text-4E7DD9' href={href} key={idx} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
                         {text}
                       </a>
                     ))
@@ -60,7 +63,7 @@ export const Footer = () => {
             {
               socials.map(({ href, Icon, isExternal }, i) => (
                 <a href={href} key={i} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
-                  <Icon width='24' height='24' className='text-1D2939 hover:fill-4e7dd9 hover:text-4e7dd9' />
+                  <Icon width='24' height='24' className='text-1D2939 hover:fill-4E7DD9 hover:text-4E7DD9' />
                 </a>
               ))
             }

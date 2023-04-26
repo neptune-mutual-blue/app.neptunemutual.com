@@ -82,7 +82,7 @@ export const CoverReportingRules = ({
             reportingPeriod={reportingPeriod}
           >
             {/* <Link href="#">
-              <a className="block mt-3 text-4e7dd9 hover:underline">
+              <a className="block mt-3 text-4E7DD9 hover:underline">
                 <Trans>Neptune Mutual Reporters</Trans>
               </a>
             </Link> */}

@@ -1,5 +1,9 @@
-import { t, Trans } from '@lingui/macro'
-import { useMemo, useState } from 'react'
+import {
+  useMemo,
+  useState
+} from 'react'
+
+import Link from 'next/link'
 
 import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
@@ -13,9 +17,16 @@ import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { usePodStakingPools } from '@/src/hooks/usePodStakingPools'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import { PodStakingCard } from '@/src/modules/pools/pod-staking/PodStakingCard'
-import { sorter, SORT_DATA_TYPES, SORT_TYPES } from '@/utils/sorting'
+import {
+  SORT_DATA_TYPES,
+  SORT_TYPES,
+  sorter
+} from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
-import Link from 'next/link'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -77,7 +88,7 @@ export const PodStakingPage = () => {
       <div className='flex justify-end'>
         <div className='items-center justify-between w-full sm:flex'>
           <Link href={Routes.PodStakingPoolsTransactions}>
-            <a className='flex justify-center font-medium sm:inline-flex text-lg text-4e7dd9 hover:underline'>
+            <a className='flex justify-center font-medium sm:inline-flex text-lg text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>

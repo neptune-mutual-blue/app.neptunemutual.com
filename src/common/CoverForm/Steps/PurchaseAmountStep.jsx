@@ -86,7 +86,7 @@ const PurchaseAmountStep = ({
 
       <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available: {formatCurrency(availableLiquidity, router.locale).short}</div>
       <button
-        className='flex items-center gap-2 p-1 pr-0 mx-auto mt-8 text-custom-theme'
+        className='flex items-center gap-2 p-1 pr-0 mx-auto mt-8 text-primary'
         onClick={handleShowCoverTerms}
       >
         <StandardTermsConditionsIcon />

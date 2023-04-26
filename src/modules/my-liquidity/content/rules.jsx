@@ -27,7 +27,7 @@ function DownloadButton ({ onClick }) {
   return (
     <div className='text-center mt-7 xl:mt-4 mb-14 xl:text-left'>
       <button
-        className='inline-flex items-center tracking-wide justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-custom-theme'
+        className='inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose tracking-wide text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
         onClick={onClick}
         data-testid='download-button'
       >
@@ -85,7 +85,7 @@ function Notes ({ projectName }) {
         </p>
         <a
           href='https://docs.neptunemutual.com/usage/risk-factors'
-          className='break-all text-4e7dd9'
+          className='break-all text-4E7DD9'
         >
           https://docs.neptunemutual.com/usage/risk-factors
         </a>

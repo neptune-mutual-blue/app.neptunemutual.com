@@ -6,7 +6,7 @@ export function Toggle ({ enabled, setEnabled }) {
       <Switch
         checked={enabled}
         onChange={setEnabled}
-        className={`${enabled ? 'bg-custom-theme' : 'bg-B0C4DB'}
+        className={`${enabled ? 'bg-primary' : 'bg-B0C4DB'}
           relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
         data-testid='switch-component'
       >

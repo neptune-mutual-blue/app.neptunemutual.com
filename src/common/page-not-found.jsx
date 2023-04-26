@@ -8,7 +8,7 @@ import { classNames } from '@/utils/classnames'
 export function PageNotFound () {
   const router = useRouter()
 
-  const linkColor = 'border-custom-theme bg-custom-theme focus-visible:ring-custom-theme'
+  const linkColor = 'border-primary bg-primary focus-visible:ring-primary'
 
   return (
     <div className='max-w-full bg-white'>

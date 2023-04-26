@@ -1,7 +1,8 @@
 import React from 'react'
-import { i18n } from '@lingui/core'
+
 import Staking from '@/pages/pools/staking'
 import { render } from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('Staking page', () => {
   beforeEach(() => {
@@ -21,7 +22,7 @@ describe('Staking page', () => {
       const screen = render(<Staking />)
 
       const links = screen.container.getElementsByClassName(
-        'text-4e7dd9 border-B0C4DB'
+        'text-4E7DD9 border-B0C4DB'
       )
       expect(links).toHaveLength(1)
       expect(links[0].textContent).toBe('Staking')

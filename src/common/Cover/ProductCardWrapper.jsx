@@ -19,7 +19,7 @@ export const ProductCardWrapper = ({
   return (
     <Link href={Routes.ViewProduct(coverKey, productKey)} key={coverKey}>
       <a
-        className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+        className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
         data-testid='cover-link'
       >
         <ProductCard

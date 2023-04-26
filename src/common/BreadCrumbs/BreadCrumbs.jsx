@@ -1,5 +1,6 @@
-import { classNames } from '@/utils/classnames'
 import Link from 'next/link'
+
+import { classNames } from '@/utils/classnames'
 
 export const BreadCrumbs = ({ pages, ...rest }) => {
   return (
@@ -38,7 +39,7 @@ const Crumb = ({ page, isLast }) => {
       <a
         className={classNames(
           'ml-1 hover:underline capitalize',
-          !isLast && 'text-4e7dd9'
+          !isLast && 'text-4E7DD9'
         )}
         aria-current={page.current ? 'page' : undefined}
       >

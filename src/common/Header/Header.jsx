@@ -205,7 +205,7 @@ export const Header = () => {
                         className={classNames(
                           'text-sm border-b-4 border-t-transparent inline-flex items-center whitespace-nowrap',
                           link.active
-                            ? 'border-4e7dd9 text-4e7dd9 font-semibold'
+                            ? 'border-4E7DD9 text-4E7DD9 font-semibold'
                             : 'border-transparent text-999BAB'
                         )}
                       >
@@ -222,7 +222,7 @@ export const Header = () => {
                 {({ onOpen }) => {
                   let button = (
                     <button
-                      className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-custom-theme'
+                      className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-primary'
                       onClick={onOpen}
                       title={t`Connect wallet`}
                     >
@@ -233,7 +233,7 @@ export const Header = () => {
                   if (active) {
                     button = (
                       <button
-                        className='relative flex items-center px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-custom-theme'
+                        className='relative flex items-center px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
                         onClick={handleToggleAccountPopup}
                         title={t`account details`}
                       >
@@ -382,7 +382,7 @@ export const MenuModal = ({
                           className={classNames(
                             'text-display-sm leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
                             router.pathname === link.href
-                              ? 'border-4e7dd9 text-4e7dd9 font-semibold'
+                              ? 'border-4E7DD9 text-4E7DD9 font-semibold'
                               : 'border-transparent text-white'
                           )}
                         >
@@ -397,7 +397,7 @@ export const MenuModal = ({
                     {({ onOpen }) => {
                       let button = (
                         <button
-                          className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-custom-theme'
+                          className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
                           onClick={onOpen}
                           title={t`Connect wallet`}
                         >
@@ -409,7 +409,7 @@ export const MenuModal = ({
                         button = (
                           <button
                             aria-label='Account Details'
-                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-custom-theme'
+                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}
                           >

@@ -76,7 +76,7 @@ export function CoverTermsModal ({
 function DownloadButton ({ onClick }) {
   return (
     <button
-      className='inline-flex items-center justify-center flex-grow-0 w-full gap-1 p-3 tracking-wide uppercase border border-transparent rounded md:w-auto bg-custom-theme'
+      className='inline-flex items-center justify-center flex-grow-0 w-full gap-1 p-3 tracking-wide uppercase border border-transparent rounded md:w-auto bg-primary'
       onClick={onClick}
     >
       <PDFFileIcon />

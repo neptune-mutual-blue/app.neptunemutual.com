@@ -32,7 +32,7 @@ export const Banner = () => {
 
   return (
     <div
-      className='relative bg-custom-theme'
+      className='relative bg-primary'
       data-testid='banner-container'
     >
       <div className='flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7'>

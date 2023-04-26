@@ -6,7 +6,7 @@ import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
 export function ComingSoon () {
-  const linkColor = 'border-custom-theme bg-custom-theme focus-visible:ring-custom-theme'
+  const linkColor = 'border-primary bg-primary focus-visible:ring-primary'
 
   return (
     <div className='max-w-full bg-white' data-testid='main-container'>

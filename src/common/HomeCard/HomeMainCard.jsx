@@ -22,7 +22,7 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
             </div>
           }
         >
-          <h4 className='font-bold leading-5 text-md lg:text-display-xs text-4e7dd9'>
+          <h4 className='font-bold leading-5 text-md lg:text-display-xs text-4E7DD9'>
             {heroData.availableCovers}
           </h4>
         </InfoTooltip>
@@ -32,7 +32,7 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
         <h4 className='mb-2 lg:mb-0 text-xs lg:text-md text-9B9B9B'>
           <Trans>Reporting</Trans>
         </h4>
-        <h4 className='font-bold leading-5 text-md lg:text-display-xs text-4e7dd9'>
+        <h4 className='font-bold leading-5 text-md lg:text-display-xs text-4E7DD9'>
           {heroData.reportingCovers}
         </h4>
       </div>

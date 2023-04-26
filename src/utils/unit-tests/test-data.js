@@ -1536,7 +1536,7 @@ export const testData = {
         title: 'Bond Price',
         value: '$1.99',
         tooltip: '1.985000000000',
-        valueClasses: 'text-display-xs text-4e7dd9 mt-1'
+        valueClasses: 'text-display-xs text-4E7DD9 mt-1'
       },
       {
         title: 'Market Price',

@@ -5,7 +5,7 @@ import { classNames } from '@/utils/classnames'
 /** @type {React.ForwardRefExoticComponent<React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement>>} */
 export const RegularButton = forwardRef(
   ({ children, className, ...props }, ref) => {
-    const buttonColor = 'border-custom-theme bg-custom-theme focus-visible:ring-custom-theme'
+    const buttonColor = 'border-primary bg-primary focus-visible:ring-primary'
 
     return (
       <button

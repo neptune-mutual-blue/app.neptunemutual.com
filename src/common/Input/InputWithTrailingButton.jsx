@@ -1,8 +1,14 @@
+import {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import CurrencyInput from '@/lib/react-currency-input-field'
 import { classNames } from '@/utils/classnames'
 import { getPlainNumber } from '@/utils/formatter/input'
-import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
 
 /**
  *
@@ -79,7 +85,7 @@ export const InputWithTrailingButton = ({
           'bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border',
           error
             ? 'border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F'
-            : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9',
+            : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4E7DD9',
           inputFieldProps.className,
           inputFieldProps.disabled && 'cursor-not-allowed'
         )}
@@ -94,7 +100,7 @@ export const InputWithTrailingButton = ({
         <button
           type='button'
           className={classNames(
-            'px-6 m-px font-medium uppercase tracking-wide rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
+            'px-6 m-px font-medium uppercase tracking-wide rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4E7DD9',
             buttonClassName,
             buttonProps.disabled ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
           )}

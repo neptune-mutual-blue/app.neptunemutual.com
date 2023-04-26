@@ -1,6 +1,11 @@
 import React from 'react'
-import { render, screen, act } from '@/utils/unit-tests/test-utils'
+
 import { Tab } from '@/common/Tab/Tab'
+import {
+  act,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 
 describe('Tab test', () => {
@@ -21,9 +26,9 @@ describe('Tab test', () => {
     expect(wrapper).toBeInTheDocument()
   })
 
-  test('should have `text-4e7dd9` class when active is true', () => {
+  test('should have `text-4E7DD9` class when active is true', () => {
     const wrapper = screen.getByTestId('tab-container')
-    expect(wrapper).toHaveClass('text-4e7dd9')
+    expect(wrapper).toHaveClass('text-4E7DD9')
   })
 
   test('should have `text-black` class when active is false', () => {

@@ -1,12 +1,18 @@
+import { useRouter } from 'next/router'
+
 import { renderHeader } from '@/common/Table/renderHeader'
+import {
+  Table,
+  TableWrapper,
+  TBody,
+  THead
+} from '@/common/Table/Table'
+import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
-import { TableWrapper, TBody, THead, Table } from '@/common/Table/Table'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useRouter } from 'next/router'
-import { classNames } from '@/utils/classnames'
-import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 
 const renderAccount = (row, { page }, rowIndex) => {
   const trueRowIndex = (rowIndex + 1) + ((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE)
@@ -19,7 +25,7 @@ const renderAccount = (row, { page }, rowIndex) => {
         <span
           className={
           classNames('w-5 h-5 rounded-full shrink-0 flex text-sm items-center justify-center',
-            trueRowIndex < 4 ? 'bg-4e7dd9 text-white' : 'bg-DEEAF6 text-01052D'
+            trueRowIndex < 4 ? 'bg-4E7DD9 text-white' : 'bg-DEEAF6 text-01052D'
           )
         }
         >

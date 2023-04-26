@@ -1,7 +1,8 @@
+import { useState } from 'react'
+
 import CloseIcon from '@/icons/CloseIcon'
 import ExclamationCircleIcon from '@/icons/ExclamationCircleIcon'
 import { classNames } from '@/utils/classnames'
-import { useState } from 'react'
 
 export const Alert = ({ children, info = undefined, className = '', closable = false, printable = false }) => {
   const [show, setShow] = useState(true)
@@ -15,7 +16,7 @@ export const Alert = ({ children, info = undefined, className = '', closable = f
       className={classNames(
         className,
         'border border-l-4 rounded p-5 mt-8',
-        info ? 'border-4e7dd9 bg-F4F8FC text-4e7dd9' : 'border-E52E2E bg-E52E2E bg-opacity-5 text-E52E2E',
+        info ? 'border-4E7DD9 bg-F4F8FC text-4E7DD9' : 'border-E52E2E bg-E52E2E bg-opacity-5 text-E52E2E',
         printable && 'bg-transparent leading-6'
       )}
     >

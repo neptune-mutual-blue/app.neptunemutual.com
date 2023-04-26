@@ -189,7 +189,7 @@ export const ActiveReportSummary = ({
             ]}
           />
 
-          <hr className='mt-4 mb-6 border-t border-d4dfee' />
+          <hr className='mt-4 mb-6 border-t border-D4DFEE' />
           <InsightsTable
             insights={[
               {
@@ -238,7 +238,7 @@ export const ActiveReportSummary = ({
             ]}
           />
 
-          <hr className='mt-6 mb-6 border-t border-d4dfee' />
+          <hr className='mt-6 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
             <Trans>Incident Reporters</Trans>
           </h3>
@@ -255,7 +255,7 @@ export const ActiveReportSummary = ({
             />
           )}
 
-          <hr className='mt-8 mb-6 border-t border-d4dfee' />
+          <hr className='mt-8 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
             <Trans>Reporting Period</Trans>
           </h3>

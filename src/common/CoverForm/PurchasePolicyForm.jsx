@@ -383,7 +383,7 @@ export const PurchasePolicyForm = ({
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 'disabled:cursor-not-allowed disabled:opacity-50',
-                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0 bg-custom-theme'
+                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0 bg-primary'
               )}
               onClick={() => {
                 if (formSteps === 1) {
@@ -434,7 +434,7 @@ export const ReferralCodeStatus = ({
   if (isReferralCodeCheckPending) {
     return (
       <Loader
-        className={classNames('absolute w-6 h-6  text-4e7dd9', statusIndicatorClass)}
+        className={classNames('absolute w-6 h-6  text-4E7DD9', statusIndicatorClass)}
         aria-hidden='true'
         data-testid='loader'
       />

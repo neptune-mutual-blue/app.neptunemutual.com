@@ -77,7 +77,7 @@ export function LiquidityProductModal ({ productData, setShowModal }) {
         <div className='flex justify-end pt-6 border-t border-t-B0C4DB'>
           <button
             onClick={onClose}
-            className='hidden p-3 mr-6 text-sm font-medium leading-6 tracking-wider border rounded md:text-xs lg:text-md md:inline-block md:font-semibold border-4e7dd9 text-4e7dd9'
+            className='hidden p-3 mr-6 text-sm font-medium leading-6 tracking-wider border rounded md:text-xs lg:text-md md:inline-block md:font-semibold border-4E7DD9 text-4E7DD9'
             data-testid='close-button'
           >
             CLOSE
@@ -92,7 +92,7 @@ export function LiquidityProductModal ({ productData, setShowModal }) {
 function DownloadButton ({ onClick }) {
   return (
     <button
-      className='inline-flex items-center justify-center tracking-wide flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75 bg-custom-theme'
+      className='inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 tracking-wide text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75 bg-primary'
       onClick={onClick}
       data-testid='download-button'
     >

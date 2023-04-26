@@ -55,7 +55,7 @@ function Product ({ productKey, productName, onClick }) {
         <img src={imgSrc} alt={productName} className='w-12 h-12' />
       </div>
       <button
-        className='flex items-center pt-2 tracking-wide uppercase text-4e7dd9'
+        className='flex items-center pt-2 tracking-wide uppercase text-4E7DD9'
         onClick={onClick}
       >
         {productName}

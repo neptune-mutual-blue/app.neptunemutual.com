@@ -1,8 +1,15 @@
-import { Fragment, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
+import {
+  Fragment,
+  useState
+} from 'react'
+
 import CheckBlue from '@/icons/CheckBlue'
-import { classNames } from '@/utils/classnames'
 import SearchIcon from '@/icons/SearchIcon'
+import { classNames } from '@/utils/classnames'
+import {
+  Listbox,
+  Transition
+} from '@headlessui/react'
 
 export const InsightsDropdown = ({
   options,
@@ -27,7 +34,7 @@ export const InsightsDropdown = ({
       >
         <Listbox.Button
           className={classNames(
-            'flex items-center gap-2 w-full md:w-max py-2 px-4 bg-f6f7f9 rounded-lg cursor-pointer focus:outline-none  justify-between',
+            'flex items-center gap-2 w-full md:w-max py-2 px-4 bg-F6F7F9 rounded-lg cursor-pointer focus:outline-none  justify-between',
             loading && 'cursor-not-allowed'
           )}
           data-testid='select-button'
@@ -47,7 +54,7 @@ export const InsightsDropdown = ({
         >
           <Listbox.Options
             className={classNames(
-              'absolute z-30 w-full md:w-324 mt-2 overflow-auto text-base bg-white border shadow-lightCard border-D6D6D6 focus:outline-none focus-visible:border-4e7dd9 rounded-2xl left-0',
+              'absolute z-30 w-full md:w-324 mt-2 overflow-auto text-base bg-white border shadow-lightCard border-D6D6D6 focus:outline-none focus-visible:border-4E7DD9 rounded-2xl left-0',
               loading && 'hidden'
             )}
             data-testid='options-container'
@@ -103,7 +110,7 @@ const ListChoice = ({ optionIdx, option, selected }) => {
       className={({ active }) =>
         classNames(
           'cursor-default select-none relative w-full overflow-hidden',
-          active ? 'text-4e7dd9' : 'text-black'
+          active ? 'text-4E7DD9' : 'text-black'
         )}
       value={option}
     >
@@ -116,7 +123,7 @@ const ListChoice = ({ optionIdx, option, selected }) => {
             )}
           >
             <span className='truncate whitespace-normal max-h-10'>{option.label}</span>
-            {selected.value === option.value && <CheckBlue className='w-4 h-4 shrink-0 text-4e7dd9' />}
+            {selected.value === option.value && <CheckBlue className='w-4 h-4 shrink-0 text-4E7DD9' />}
           </span>
         )
       }}

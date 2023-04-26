@@ -4,6 +4,7 @@ import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { actions as coverActions } from '@/src/config/cover/actions'
 import { Trans } from '@lingui/macro'
+
 import { CoverActionCard } from './CoverActionCard'
 
 export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
@@ -11,7 +12,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
     <>
       {/* Cover Actions */}
       <div
-        className='pt-12 border-t sm:pt-20 pb-36 bg-f6f7f9 border-t-B0C4DB'
+        className='pt-12 border-t sm:pt-20 pb-36 bg-F6F7F9 border-t-B0C4DB'
         data-testid='main-container'
       >
         <Container>
@@ -28,7 +29,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
                     href={coverActions[actionKey].getHref(coverKey, productKey)}
                   >
                     <a
-                      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+                      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
                       data-testid='cover-action-card'
                     >
                       <CoverActionCard

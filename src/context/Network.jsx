@@ -21,7 +21,10 @@ export const NetworkProvider = ({ children }) => {
   const networkId = getNetworkId()
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--custom-theme', ChainColorsRGB[networkId])
+    document.documentElement.style.setProperty(
+      '--color-primary',
+      ChainColorsRGB[networkId] || ChainColorsRGB.DEFAULT
+    )
   }, [networkId])
 
   return (

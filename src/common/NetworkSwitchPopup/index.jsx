@@ -41,7 +41,7 @@ export const NetworkSwitchPopup = () => {
       overlayClass='z-50'
       className='z-60'
     >
-      <ModalWrapper className='relative p-6 pb-10 md:pt-12 bg-f6f7f9 md:px-14 md:pb-11 rounded-3xl w-max z-60'>
+      <ModalWrapper className='relative p-6 pb-10 md:pt-12 bg-F6F7F9 md:px-14 md:pb-11 rounded-3xl w-max z-60'>
         <ModalCloseButton
           onClick={handleClosePopup}
           className='relative ml-auto md:absolute mb-2.5 md:mb-0 !top-0 !right-0 md:!top-6 md:!right-6'
@@ -55,7 +55,7 @@ export const NetworkSwitchPopup = () => {
           <div className='mt-4'>
             <img src='/images/arbitrum.svg' className='mx-auto' width={80} height={80} alt='arbitrum logo image' />
             <a
-              className='flex items-center justify-center w-full p-4 pl-6 mx-auto mt-6 text-white rounded-big bg-4e7dd9 md:w-max'
+              className='flex items-center justify-center w-full p-4 pl-6 mx-auto mt-6 text-white rounded-big bg-4E7DD9 md:w-max'
               href={ARBITRUM_APP_URL}
               onClick={handleClosePopup}
             >
