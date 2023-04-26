@@ -89,7 +89,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
 
     const payload = {
       title: current.title?.value,
-      proofOfDispute: urlReports.join(','),
+      proofOfDispute: urlReports,
       description: current.description?.value,
       stake: convertToUnits(value).toString()
     }
