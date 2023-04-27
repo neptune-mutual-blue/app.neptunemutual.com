@@ -124,7 +124,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
 
       const payload = {
         title: current?.title?.value,
-        observed: new Date(current?.incident_date?.value),
+        observed: DateLib.toUnix(new Date(current?.incident_date?.value)),
         proofOfIncident: urlReports,
         description: current?.description?.value,
         stake: convertToUnits(value).toString()
