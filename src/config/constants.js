@@ -59,6 +59,14 @@ export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/refer
 export const IPFS_REPORT_INFO_URL = `${API_BASE_URL}ipfs/report-info`
 export const IPFS_DISPUTE_INFO_URL = `${API_BASE_URL}ipfs/dispute-info`
 
+export const api = {
+  USER_ACTIVE_POLICIES: `${API_BASE_URL}policy/active/{networkId}/{account}`,
+  USER_EXPIRED_POLICIES: `${API_BASE_URL}policy/expired/{networkId}/{account}`,
+  USER_POLICY_TXS: `${API_BASE_URL}policy/transactions/{networkId}/{account}`,
+  TOP_ACCOUNTS_BY_PROTECTION: `${API_BASE_URL}home/charts/top-accounts-by-protection/{networkId}`,
+  TOP_ACCOUNTS_BY_LIQUIDITY: `${API_BASE_URL}home/charts/top-accounts-by-liquidity/{networkId}`
+}
+
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   80001: 'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
