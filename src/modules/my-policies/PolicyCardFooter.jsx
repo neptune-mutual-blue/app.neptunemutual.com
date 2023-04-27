@@ -3,11 +3,8 @@ import { useRouter } from 'next/router'
 
 import DateLib from '@/lib/date/DateLib'
 import { Routes } from '@/src/config/routes'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import {
-  convertFromUnits,
-  isGreater
-} from '@/utils/bn'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
@@ -19,44 +16,43 @@ import {
 export const PolicyCardFooter = ({
   coverKey,
   productKey,
-  report,
+  isPolicyExpired,
+  beforeResolutionDeadline,
+  withinClaimPeriod,
+  isClaimable,
+  claimBeginsFrom,
+  claimExpiresAt,
+  incidentDate,
   validityEndsAt,
-  cxToken,
-  tokenBalance
+  amountToCover
 }) => {
-  const now = DateLib.unix()
   const router = useRouter()
-  const cxTokenDecimals = useTokenDecimals(cxToken.id)
+  const { liquidityTokenDecimals } = useAppConstants()
 
-  const isClaimable = report ? report.status === 'Claimable' : false
-  const isClaimStarted = report && isGreater(now, report.claimBeginsFrom)
-  const isClaimExpired = report && isGreater(now, report.claimExpiresAt)
-  const isPolicyExpired = isGreater(now, validityEndsAt)
-
-  const hasBalance = isGreater(tokenBalance, '0')
-  const withinClaimPeriod =
-    hasBalance && isClaimable && isClaimStarted && !isClaimExpired
-  const beforeResolutionDeadline = isClaimable && !isClaimStarted
+  const formattedAmountToCover = formatCurrency(
+    convertFromUnits(amountToCover, liquidityTokenDecimals),
+    router.locale
+  )
 
   const stats = []
   if (withinClaimPeriod) {
     stats.push({
       title: t`Claim Before`,
       tooltipText: DateLib.toLongDateFormat(
-        report.claimExpiresAt,
+        claimExpiresAt,
         router.locale
       ),
-      value: fromNow(report.claimExpiresAt),
+      value: fromNow(claimExpiresAt),
       variant: 'error'
     })
   } else if (beforeResolutionDeadline) {
     stats.push({
       title: t`Resolution By`,
       tooltipText: DateLib.toLongDateFormat(
-        report.claimBeginsFrom,
+        claimBeginsFrom,
         router.locale
       ),
-      value: fromNow(report.claimBeginsFrom)
+      value: fromNow(claimBeginsFrom)
     })
   } else if (isPolicyExpired) {
     stats.push({
@@ -94,26 +90,16 @@ export const PolicyCardFooter = ({
 
         <Stat
           title={t`Purchased Policy`}
-          tooltip={
-            formatCurrency(
-              convertFromUnits(tokenBalance, cxTokenDecimals),
-              router.locale
-            ).long
-          }
-          value={
-            formatCurrency(
-              convertFromUnits(tokenBalance, cxTokenDecimals),
-              router.locale
-            ).short
-          }
+          tooltip={formattedAmountToCover.long}
+          value={formattedAmountToCover.short}
           right
         />
       </div>
 
       {/* Link */}
-      {report && withinClaimPeriod && !isPolicyExpired && (
+      {isClaimable && withinClaimPeriod && !isPolicyExpired && (
         <Link
-          href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
+          href={Routes.ClaimPolicy(coverKey, productKey, incidentDate)}
         >
           <a
             className='flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4 bg-primary'

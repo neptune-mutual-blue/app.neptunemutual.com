@@ -1,30 +1,46 @@
-import { useState, useEffect } from 'react'
-import { CollectRewardModal } from '@/src/modules/pools/staking/CollectRewardModal'
-import AddIcon from '@/icons/AddIcon'
-import { SingleImage } from '@/common/SingleImage'
-import { StakingCardTitle } from '@/src/modules/pools/staking/StakingCardTitle'
-import { StakingCardSubTitle } from '@/src/modules/pools/staking/StakingCardSubTitle'
-import { StakingCardCTA } from '@/src/modules/pools/staking/StakingCardCTA'
-import { StakeModal } from '@/src/modules/pools/staking/StakeModal'
-import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { getTokenImgSrc } from '@/src/helpers/token'
-import { PoolCardStat } from '@/modules/pools/staking/PoolCardStat'
-import { usePoolInfo } from '@/src/hooks/usePoolInfo'
-import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
-import { config } from '@neptunemutual/sdk'
-import { useNetwork } from '@/src/context/Network'
-import { explainInterval } from '@/utils/formatter/interval'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { formatPercent } from '@/utils/formatter/percent'
-import { Badge } from '@/common/Badge/Badge'
-import { PoolTypes } from '@/src/config/constants'
-import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
-import { t, Trans } from '@lingui/macro'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { useAppConstants } from '@/src/context/AppConstants'
+
+import { Badge } from '@/common/Badge/Badge'
 import { ModalTitle } from '@/common/Modal/ModalTitle'
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { SingleImage } from '@/common/SingleImage'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import AddIcon from '@/icons/AddIcon'
+import { PoolCardStat } from '@/modules/pools/staking/PoolCardStat'
+import { PoolTypes } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { getTokenImgSrc } from '@/src/helpers/token'
+import { usePoolInfo } from '@/src/hooks/usePoolInfo'
+import {
+  CollectRewardModal
+} from '@/src/modules/pools/staking/CollectRewardModal'
+import { StakeModal } from '@/src/modules/pools/staking/StakeModal'
+import { StakingCardCTA } from '@/src/modules/pools/staking/StakingCardCTA'
+import {
+  StakingCardSubTitle
+} from '@/src/modules/pools/staking/StakingCardSubTitle'
+import { StakingCardTitle } from '@/src/modules/pools/staking/StakingCardTitle'
+import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
+import {
+  convertFromUnits,
+  isGreater,
+  toBN
+} from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { explainInterval } from '@/utils/formatter/interval'
+import { formatPercent } from '@/utils/formatter/percent'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { config } from '@neptunemutual/sdk'
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -208,7 +224,10 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
             </div>
             )
           : (
-            <StakingCardCTA onClick={onStakeModalOpen}>
+            <StakingCardCTA
+              className=''
+              onClick={onStakeModalOpen}
+            >
               <Trans>Stake</Trans>
             </StakingCardCTA>
             )}

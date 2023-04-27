@@ -24,7 +24,7 @@ export default function MyPoliciesExpired ({ disabled }) {
     <main>
       <Seo />
       <PoliciesTabs active='expired'>
-        {() => <PoliciesExpiredPage />}
+        <PoliciesExpiredPage />
       </PoliciesTabs>
     </main>
   )

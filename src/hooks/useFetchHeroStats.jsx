@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { getNetworkId } from '@/src/config/environment'
 import { getHeroStats } from '@/src/services/aggregated-stats/hero-stats'
 

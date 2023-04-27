@@ -7,6 +7,7 @@ import { BackButton } from '@/common/BackButton/BackButton'
 import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
 import PreviousNext from '@/common/PreviousNext'
 import { TotalCapacityChart } from '@/common/TotalCapacityChart'
+import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import Consensus from '@/modules/insights/Consensus'
 import ConsensusDetails from '@/modules/insights/ConsensusDetails'
 import CoverEarning from '@/modules/insights/CoverEarning'
@@ -18,7 +19,12 @@ import { InsightsTVLTable } from '@/modules/insights/InsightsTVLTable'
 import {
   ProtectionChart
 } from '@/modules/insights/ProtectionChart/ProtectionChart'
-import { TopAccounts } from '@/modules/insights/TopAccounts'
+import {
+  TopAccountsByLiquidity
+} from '@/modules/insights/TopAccountsByLiquidity'
+import {
+  TopAccountsByProtection
+} from '@/modules/insights/TopAccountsByProtection'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
@@ -33,14 +39,18 @@ import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
-import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
+import {
+  useTopAccountsByLiquidity
+} from '@/src/hooks/useTopAccountsByLiquidity'
+import {
+  useTopAccountsByProtection
+} from '@/src/hooks/useTopAccountsByProtection'
 import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
 import {
   useFetchInsightsTVLStats
 } from '@/src/services/aggregated-stats/insights'
 
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
-import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -58,7 +68,8 @@ const AllDropdownOptions = {
   TOTAL_CAPACITY: 'Total Capacity',
   OTHER_INSIGHTS: 'Other Insights',
   GAS_PRICE_SUMMARY: 'Gas Price Summary',
-  TOP_ACCOUNTS: 'Top Accounts',
+  TOP_ACCOUNTS_BY_PROTECTION: 'Top Accounts (Policy)',
+  TOP_ACCOUNTS_BY_LIQUIDITY: 'Top Accounts (Liquidity)',
   COVER_EARNINGS: 'Cover Earnings',
   IN_CONSENSUS: 'In Consensus'
 }
@@ -77,7 +88,8 @@ export const InsightsContent = () => {
   const { data: statsData, loading } = useNetworkStats()
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
-  const { data: userData, loading: protocolUserDataLoading } = useProtocolUsersData()
+  const { data: protectionTopAccounts, loading: protectionTopAccountsLoading } = useTopAccountsByProtection()
+  const { data: liquidityTopAccounts, loading: liquidityTopAccountsLoading } = useTopAccountsByLiquidity()
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
@@ -202,7 +214,7 @@ export const InsightsContent = () => {
           <PreviousNext
             onNext={() => setCurrentPage(currentPage + 1)}
             onPrevious={() => setCurrentPage(currentPage - 1)}
-            hasNext={currentPage < (Math.abs(userData.length / TOP_ACCOUNTS_ROWS_PER_PAGE))}
+            hasNext={currentPage < (Math.abs(protectionTopAccounts.length / TOP_ACCOUNTS_ROWS_PER_PAGE))}
             hasPrevious={currentPage > 1}
           />
         )
@@ -319,8 +331,11 @@ export const InsightsContent = () => {
       case AllDropdownOptions.TOTAL_CAPACITY:
         return <TotalCapacityChart data={totalCapacity} />
 
-      case AllDropdownOptions.TOP_ACCOUNTS:
-        return <TopAccounts userData={userData} loading={protocolUserDataLoading} page={currentPage} />
+      case AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION:
+        return <TopAccountsByProtection userData={protectionTopAccounts} loading={protectionTopAccountsLoading} page={currentPage} />
+
+      case AllDropdownOptions.TOP_ACCOUNTS_BY_LIQUIDITY:
+        return <TopAccountsByLiquidity userData={liquidityTopAccounts} loading={liquidityTopAccountsLoading} page={currentPage} />
 
       case AllDropdownOptions.COVER_EARNINGS:
         return (

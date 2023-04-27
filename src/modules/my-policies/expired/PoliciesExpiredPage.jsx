@@ -16,7 +16,7 @@ import {
 
 export const PoliciesExpiredPage = () => {
   const {
-    data: { expiredPolicies },
+    data: expiredPolicies,
     loading
   } = useExpiredPolicies()
 

@@ -1,3 +1,10 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { Label } from '@/common/Label/Label'
@@ -6,9 +13,10 @@ import { useStakingPoolDeposit } from '@/src/hooks/useStakingPoolDeposit'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const StakeForm = ({
   info,
@@ -17,8 +25,7 @@ export const StakeForm = ({
   onClose,
   stakingTokenSymbol,
   lockupPeriod,
-  setModalDisabled,
-  analyticsFunnelName
+  setModalDisabled
 }) => {
   const tokenAddress = info.stakingToken
   const [inputValue, setInputValue] = useState('')
@@ -42,8 +49,8 @@ export const StakeForm = ({
     tokenSymbol: stakingTokenSymbol,
     poolKey,
     info,
-    maximumStake: info.maximumStake,
-    analyticsFunnelName
+    maximumStake: info.maximumStake
+
   })
   const router = useRouter()
 
@@ -82,7 +89,7 @@ export const StakeForm = ({
           tokenAddress={tokenAddress}
           handleChooseMax={handleChooseMax}
           inputValue={inputValue}
-          id='staked-amount'
+          inputId='staked-amount'
           disabled={approving || depositing}
           onChange={handleChange}
         >
@@ -127,7 +134,7 @@ export const StakeForm = ({
         {!canDeposit
           ? (
             <RegularButton
-              disabled={isError || approving || !inputValue || loadingMessage}
+              disabled={!!isError || approving || !inputValue || !!loadingMessage}
               className='w-full p-6 font-semibold uppercase sm:min-w-auto sm:w-full'
               onClick={handleApprove}
             >
@@ -144,7 +151,7 @@ export const StakeForm = ({
             )
           : (
             <RegularButton
-              disabled={isError || depositing || loadingMessage}
+              disabled={!!isError || depositing || !!loadingMessage}
               className='p-6 font-semibold uppercase min-w-75vw sm:min-w-auto sm:w-full'
               onClick={() => handleDeposit(onDepositSuccess)}
             >
