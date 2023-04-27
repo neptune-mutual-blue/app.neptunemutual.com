@@ -1,8 +1,12 @@
+import React from 'react'
+
 import { useCookies } from '@/src/context/Cookie'
 import { LocalStorage } from '@/utils/localstorage'
-import { Dialog, Transition } from '@headlessui/react'
+import {
+  Dialog,
+  Transition
+} from '@headlessui/react'
 import { Trans } from '@lingui/macro'
-import React from 'react'
 
 /**
  * @returns {boolean}
@@ -62,7 +66,7 @@ function CookiePolicy ({ isOpen, onClose }) {
               </p>
               <div className='flex w-full text-sm whitespace-nowrap md:w-auto'>
                 <button
-                  className='flex-grow px-6 py-4 mr-4 tracking-wide uppercase border border-solid border-4e7dd9 text-003fbd md:py-2 rounded-1 min-w-60 md:mr-2'
+                  className='flex-grow px-6 py-4 mr-4 tracking-wide uppercase border border-solid border-4E7DD9 text-003fbd md:py-2 rounded-1 min-w-60 md:mr-2'
                   onClick={handleDecline}
                 >
                   <Trans>Decline</Trans>

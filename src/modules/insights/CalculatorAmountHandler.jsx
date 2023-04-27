@@ -1,8 +1,14 @@
+import {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import CurrencyInput from '@/lib/react-currency-input-field'
 import { classNames } from '@/utils/classnames'
 import { getPlainNumber } from '@/utils/formatter/input'
-import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
 
 /**
  *
@@ -78,7 +84,7 @@ export const CalculatorAmountHandler = ({
             'bg-white block w-full py-5 pl-4 rounded-lg overflow-hidden border text-9B9B9B font-normal text-sm',
             error
               ? 'border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F'
-              : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9 border-0.5',
+              : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4E7DD9 border-0.5',
             inputFieldProps.className,
             inputFieldProps.disabled && 'cursor-not-allowed',
             focus || inputValue ? 'text-01052D' : '9B9B9B'
@@ -96,7 +102,7 @@ export const CalculatorAmountHandler = ({
           <button
             type='button'
             className={classNames(
-              'border-B0C4DB border-0.5 px-6 m-px font-normal uppercase tracking-wide rounded-r-mdlg hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
+              'border-B0C4DB border-0.5 px-6 m-px font-normal uppercase tracking-wide rounded-r-mdlg hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4E7DD9',
               buttonClassName,
               buttonProps.disabled ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
             )}

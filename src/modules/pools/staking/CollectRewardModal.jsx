@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
@@ -5,7 +7,6 @@ import { TabHeader } from '@/common/Tab/TabHeader'
 import { HarvestForm } from '@/src/modules/pools/staking/HarvestForm'
 import { UnStakeForm } from '@/src/modules/pools/staking/UnStakeForm'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
 
 const headers = [
   {
@@ -41,7 +42,7 @@ export const CollectRewardModal = ({
       disabled={isDisabled.w || isDisabled.wr}
       data-testid='collect-reward-modal'
     >
-      <ModalWrapper className='max-w-md bg-f6f7f9 xs:overflow-y-auto'>
+      <ModalWrapper className='max-w-md bg-F6F7F9 xs:overflow-y-auto'>
         <div>
           <Dialog.Title className='flex font-bold text-display-sm'>
             {modalTitle}

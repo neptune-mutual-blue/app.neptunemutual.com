@@ -1,9 +1,11 @@
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
+
 import ChevronLeftLgIcon from '@/icons/ChevronLeftLgIcon'
 import ChevronRightLgIcon from '@/icons/ChevronRightLgIcon'
 import { getMonthNames } from '@/lib/dates'
 import { t } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
 
 // HlCalendar - Highlight Calendar
 export const HlCalendar = ({ startDate, endDate }) => {
@@ -112,7 +114,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
                       className={classNames(
                         'px-1.5 py-2 block',
                         isDifferentMonth && 'opacity-40',
-                        isToday && 'rounded-full bg-4e7dd9 text-white'
+                        isToday && 'rounded-full bg-4E7DD9 text-white'
                       )}
                     >
                       {y.getDate()}

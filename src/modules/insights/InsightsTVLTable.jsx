@@ -1,18 +1,16 @@
+import { useRouter } from 'next/router'
+
 import {
   Table,
   TableWrapper,
   TBody,
   THead
 } from '@/common/Table/Table'
-
-import { t } from '@lingui/macro'
-
+import { renderHeader } from '@/src/common/Table/renderHeader'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
-
-import { renderHeader } from '@/src/common/Table/renderHeader'
+import { t } from '@lingui/macro'
 
 const RenderNetwork = ({ LogoIcon, name }) => (
   <td
@@ -154,7 +152,7 @@ export const InsightsTVLTable = ({ data, loading }) => {
       </div>
       <TableWrapper className='mt-0'>
         <Table>
-          <THead theadClass='bg-f6f7f9' columns={columns} />
+          <THead theadClass='bg-F6F7F9' columns={columns} />
           <TBody
             isLoading={loading}
             columns={columns}

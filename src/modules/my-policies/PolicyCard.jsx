@@ -67,7 +67,7 @@ export const PolicyCard = ({ policyInfo, coverOrProductData }) => {
 
   return (
     <div
-      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
       data-testid='policy-card'
     >
       <OutlinedCard className='p-6 bg-white' type='normal'>

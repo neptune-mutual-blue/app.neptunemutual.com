@@ -1,5 +1,6 @@
-import { classNames } from '@/utils/classnames'
 import { forwardRef } from 'react'
+
+import { classNames } from '@/utils/classnames'
 
 /** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error?:boolean}>} */
 export const RegularInput = forwardRef(
@@ -14,7 +15,7 @@ export const RegularInput = forwardRef(
           inputProps.disabled && 'cursor-not-allowed',
           error
             ? 'border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F'
-            : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9'
+            : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4E7DD9'
         )}
         {...inputProps}
       />

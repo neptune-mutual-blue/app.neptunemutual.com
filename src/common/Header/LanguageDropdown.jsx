@@ -1,19 +1,29 @@
-import { useState, useEffect, Fragment } from 'react'
-import { useRouter } from 'next/router'
-import { Listbox, Transition } from '@headlessui/react'
 import {
-  DEBOUNCE_TIMEOUT
-} from '@/src/config/constants'
-import { classNames } from '@/utils/classnames'
-import SelectedCircleIcon from '@/icons/SelectedCircleIcon'
-import SearchLanguageIcon from '@/icons/SearchLanguageIcon'
-import { useDebounce } from '@/src/hooks/useDebounce'
-import { t } from '@lingui/macro'
+  Fragment,
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import ChevronDownArrowIcon from '@/icons/ChevronDownArrowIcon'
-import { getBrowserLocale } from '@/utils/locale'
-import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import SearchLanguageIcon from '@/icons/SearchLanguageIcon'
+import SelectedCircleIcon from '@/icons/SelectedCircleIcon'
 import GlobeLogo from '@/lib/connect-wallet/components/logos/Globe'
-import { languageKey, localesKey } from '@/src/config/locales'
+import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
+import {
+  languageKey,
+  localesKey
+} from '@/src/config/locales'
+import { useDebounce } from '@/src/hooks/useDebounce'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import { classNames } from '@/utils/classnames'
+import { getBrowserLocale } from '@/utils/locale'
+import {
+  Listbox,
+  Transition
+} from '@headlessui/react'
+import { t } from '@lingui/macro'
 
 const LANGUAGES = Object.values(languageKey)
 const LANGUAGE_KEYS = Object.keys(languageKey)
@@ -114,7 +124,7 @@ export const LanguageDropdown = (props) => {
                         'truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal leading-4',
                         selected && 'bg-[#b0c4db]   bg-opacity-20 rounded',
                         active
-                          ? 'text-4e7dd9 bg-[#b0c4db]  bg-opacity-20 rounded'
+                          ? 'text-4E7DD9 bg-[#b0c4db]  bg-opacity-20 rounded'
                           : 'text-black'
                       )}
                     >

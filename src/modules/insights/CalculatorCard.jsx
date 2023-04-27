@@ -1,34 +1,48 @@
-import { useMemo, useState } from 'react'
+import {
+  useMemo,
+  useState
+} from 'react'
 
-import { t, Trans } from '@lingui/macro'
-import { CalculatorCardTitle } from '@/src/modules/insights/CalculatorCardTitle'
-
-import { useAppConstants } from '@/src/context/AppConstants'
-import { PolicyCalculation } from '@/src/modules/insights/PolicyCalculation'
-import { DateRangePicker } from '@/src/modules/insights/DateRangePicker'
-import { CoverOptions } from '@/src/modules/insights/CoverOptions'
-import { CalculatorAmountHandler } from '@/src/modules/insights/CalculatorAmountHandler'
-import { InputLabel } from '@/src/modules/insights/InputLabel'
-import { isValidProduct } from '@/src/helpers/cover'
-import { calculateCoverPolicyFee } from '@/utils/calculateCoverPolicyFee'
-import { useWeb3React } from '@web3-react/core'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import { useNotifier } from '@/src/hooks/useNotifier'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { getErrorMessage } from '@/src/helpers/tx'
-import { convertFromUnits, isGreater, isGreaterOrEqual } from '@/utils/bn'
-import { MIN_PROPOSAL_AMOUNT, MAX_PROPOSAL_AMOUNT } from '@/src/config/constants'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
+
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import {
+  MAX_PROPOSAL_AMOUNT,
+  MIN_PROPOSAL_AMOUNT
+} from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { isValidProduct } from '@/src/helpers/cover'
+import { getErrorMessage } from '@/src/helpers/tx'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
+import { useNotifier } from '@/src/hooks/useNotifier'
+import {
+  CalculatorAmountHandler
+} from '@/src/modules/insights/CalculatorAmountHandler'
+import { CalculatorCardTitle } from '@/src/modules/insights/CalculatorCardTitle'
+import { CoverOptions } from '@/src/modules/insights/CoverOptions'
+import { DateRangePicker } from '@/src/modules/insights/DateRangePicker'
+import { InputLabel } from '@/src/modules/insights/InputLabel'
+import { PolicyCalculation } from '@/src/modules/insights/PolicyCalculation'
+import {
+  convertFromUnits,
+  isGreater,
+  isGreaterOrEqual
+} from '@/utils/bn'
+import { calculateCoverPolicyFee } from '@/utils/calculateCoverPolicyFee'
+import { formatCurrency } from '@/utils/formatter/currency'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export const CalculatorCard = () => {
   const { account, library } = useWeb3React()
 
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
 
   const {
     liquidityTokenDecimals,
@@ -99,13 +113,7 @@ export const CalculatorCard = () => {
     setResultLoading(false)
   }
 
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
-  const buttonClass = `block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-opacity-100 ${buttonBg}`
+  const buttonClass = 'block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-opacity-100 bg-primary'
 
   return (
     <>

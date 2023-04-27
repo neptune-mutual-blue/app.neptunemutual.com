@@ -1,17 +1,16 @@
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { CoverDropdown } from '@/common/CoverDropdown'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { classNames } from '@/utils/classnames'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const PoliciesEmptyState = () => {
-  const { networkId } = useNetwork()
-  const { isArbitrum, isMainNet } = useValidateNetwork(networkId)
   const router = useRouter()
 
   const {
@@ -20,12 +19,6 @@ export const PoliciesEmptyState = () => {
     selected,
     setSelected
   } = useCoverDropdown()
-
-  const buttonAccent = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
 
   const handleClick = () => {
     if (!selected) return
@@ -67,7 +60,7 @@ export const PoliciesEmptyState = () => {
         />
 
         <RegularButton
-          className={classNames('mt-8 py-2.5 px-4 font-medium rounded-lg uppercase w-full', buttonAccent)}
+          className='mt-8 py-2.5 px-4 font-medium rounded-lg uppercase w-full bg-primary'
           onClick={handleClick}
         >
           <Trans>Purchase Policy</Trans>

@@ -1,16 +1,21 @@
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Modal } from '@/lib/connect-wallet/components/Modal/Modal'
 import useAuth from '@/lib/connect-wallet/hooks/useAuth'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import { verifyMessage } from '@ethersproject/wallet'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
-import { useEffect, useMemo, useState } from 'react'
-import { verifyMessage } from '@ethersproject/wallet'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 
 export const WalletDisclaimerPoup = () => {
   const [walletApprovals, setWalletApprovals] = useLocalStorage('wallet-disclaimer-approvals', [])
@@ -81,7 +86,7 @@ I hereby further represent and warrant that:
         </Dialog.Title>
 
         <div className='mt-5 text-sm leading-5 text-404040'>
-          <p>By accessing or using Neptune Mutual App, I agree to the <a target='_blank' className='text-4e7dd9' href='https://neptunemutual.com/policies/terms-of-use' rel='noreferrer'>Terms of Service</a> and confirm that I have read and understood the <a target='_blank' className='text-4e7dd9' href='https://neptunemutual.com/policies/privacy-policy' rel='noreferrer'>Privacy Notice</a> and <a target='_blank' className='text-4e7dd9' href='https://neptunemutual.com/policies/risk-factors' rel='noreferrer'>Risk Factors</a>.</p>
+          <p>By accessing or using Neptune Mutual App, I agree to the <a target='_blank' className='text-4E7DD9' href='https://neptunemutual.com/policies/terms-of-use' rel='noreferrer'>Terms of Service</a> and confirm that I have read and understood the <a target='_blank' className='text-4E7DD9' href='https://neptunemutual.com/policies/privacy-policy' rel='noreferrer'>Privacy Notice</a> and <a target='_blank' className='text-4E7DD9' href='https://neptunemutual.com/policies/risk-factors' rel='noreferrer'>Risk Factors</a>.</p>
 
           <p className='mt-2'>
             I hereby further represent and warrant that:
@@ -130,7 +135,7 @@ I hereby further represent and warrant that:
           </div>
         </div>
 
-        <hr className='h-px my-6 text-f6f7f9' />
+        <hr className='h-px my-6 text-F6F7F9' />
 
         <div className='flex justify-end gap-4'>
           <OutlinedButton className='text-sm font-semibold leading-6 rounded-big' onClick={handleDisAgree}>Cancel</OutlinedButton>

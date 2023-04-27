@@ -1,24 +1,35 @@
 import {
+  useMemo,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
+import {
   Table,
   TableWrapper,
   TBody,
   THead
 } from '@/common/Table/Table'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { formatPercent } from '@/utils/formatter/percent'
-
-import { t } from '@lingui/macro'
-
 import PreviousNext from '@/src/common/PreviousNext'
 import { renderHeader } from '@/src/common/Table/renderHeader'
-
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
-import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import {
+  SORT_DATA_TYPES,
+  sorter
+} from '@/utils/sorting'
+import { t } from '@lingui/macro'
 
 const RenderProductName = ({ coverKey, productKey, data }) => {
   const isDiversified = isValidProduct(productKey)
@@ -156,7 +167,7 @@ export const InsightsQuickInfoTable = () => {
       </div>
       <TableWrapper className='mt-0'>
         <Table>
-          <THead theadClass='bg-f6f7f9' columns={columns} />
+          <THead theadClass='bg-F6F7F9' columns={columns} />
           <TBody
             isLoading={loading}
             columns={columns}

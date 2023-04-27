@@ -1,5 +1,11 @@
+import Document, {
+  Head,
+  Html,
+  Main,
+  NextScript
+} from 'next/document'
+
 import { NoScript } from '@/common/NoScript'
-import Document, { Head, Html, Main, NextScript } from 'next/document'
 
 const ogTitle = 'Neptune Mutual Decentralized Insurance'
 const ogDescription = 'Neptune Mutual protects the Ethereum community from hacks and exploits through its unique parametric DeFi insurance marketplace designed to cover, protect and secure onchain digital assets; power by Ethereum, driven by stablecoins.'
@@ -43,7 +49,7 @@ class MyDocument extends Document {
         </Head>
         <body
           translate='no'
-          className='text-black font-inter text-md bg-f6f7f9'
+          className='text-black font-inter text-md bg-F6F7F9'
         >
           <NoScript />
           <Main />

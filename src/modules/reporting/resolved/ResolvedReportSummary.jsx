@@ -161,7 +161,7 @@ export const ResolvedReportSummary = ({
             ]}
           />
 
-          <hr className='mt-4 mb-6 border-t border-d4dfee' />
+          <hr className='mt-4 mb-6 border-t border-D4DFEE' />
           <InsightsTable
             insights={[
               {
@@ -206,7 +206,7 @@ export const ResolvedReportSummary = ({
             ]}
           />
 
-          <hr className='mt-6 mb-6 border-t border-d4dfee' />
+          <hr className='mt-6 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
             <Trans>Incident Reporters</Trans>
           </h3>
@@ -223,7 +223,7 @@ export const ResolvedReportSummary = ({
             />
           )}
 
-          <hr className='mt-8 mb-6 border-t border-d4dfee' />
+          <hr className='mt-8 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
             <Trans>Reporting Period</Trans>
           </h3>
@@ -264,7 +264,7 @@ export const ResolvedReportSummary = ({
             <>
               <button
                 className={classNames(
-                  'mt-2 text-sm text-4e7dd9',
+                  'mt-2 text-sm text-4E7DD9',
                   (finalizing || !roles.isGovernanceAgent) &&
                     'cursor-not-allowed opacity-50'
                 )}
@@ -282,7 +282,7 @@ export const ResolvedReportSummary = ({
 
               <button
                 className={classNames(
-                  'mt-2 text-sm text-4e7dd9',
+                  'mt-2 text-sm text-4E7DD9',
                   (capitalizing || !roles.isLiquidityManager) &&
                     'cursor-not-allowed opacity-50'
                 )}
