@@ -28,6 +28,7 @@ describe('TokenBalance', () => {
   })
 
   test('should render the main container', () => {
+    screen.debug()
     const wrapper = screen.getByTestId('token-balance-container')
     expect(wrapper).toBeInTheDocument()
   })

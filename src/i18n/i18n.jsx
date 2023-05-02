@@ -1,9 +1,13 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { dynamicActivate } from '@/src/i18n/dynamic-activate'
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
-import { useEffect, useState } from 'react'
 
 import { useActiveLocale } from '../hooks/useActiveLocale'
-import { dynamicActivate } from '@/src/i18n/dynamic-activate'
 
 export function LanguageProvider ({ children }) {
   const locale = useActiveLocale()
