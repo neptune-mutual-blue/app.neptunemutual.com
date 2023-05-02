@@ -15,10 +15,11 @@ export const Checkbox = React.forwardRef(
           {...inputProps}
           className={classNames('hover:cursor-pointer w-5 h-5 bg-white border-2 rounded checkbox_custom focus:ring-4E7DD9 text-4E7DD9 border-9B9B9B focus:border-4E7DD9 focus:ring focus:ring-offset-0 focus:ring-opacity-30', inputProps.className ?? '')}
         />
-
-        <label htmlFor={id} className='hover:cursor-pointer ml-3 align-middle'>
-          {children}
-        </label>
+        {children && (
+          <label htmlFor={id} className={classNames('hover:cursor-pointer ml-3 align-middle', inputProps.labelClassName ?? '')}>
+            {children}
+          </label>
+        )}
       </>
     )
   }
