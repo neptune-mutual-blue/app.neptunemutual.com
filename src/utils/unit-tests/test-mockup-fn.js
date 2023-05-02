@@ -1,21 +1,22 @@
 import * as RouterHook from 'next/router'
 
-import * as CoverStatsContext from '@/common/Cover/CoverStatsContext'
+// import * as CoverStatsContext from '@/common/Cover/CoverStatsContext'
 import * as LiquidityFormsContextHook
   from '@/common/LiquidityForms/LiquidityFormsContext'
-import * as useAuth from '@/lib/connect-wallet/hooks/useAuth.jsx'
+import useAuth from '@/lib/connect-wallet/hooks/useAuth.jsx'
 import * as EagerConnect from '@/lib/connect-wallet/hooks/useEagerConnect'
 import * as WalletUtilsFile from '@/lib/connect-wallet/utils/wallet'
 import * as UtilsWeb3 from '@/lib/connect-wallet/utils/web3'
-import * as ToastHook from '@/lib/toast/context'
+import { useToast } from '@/lib/toast/context'
 import * as ClaimTableContextHook
   from '@/modules/my-policies/ClaimCxTokensTable'
 import * as CxTokenRowContextHook from '@/modules/my-policies/CxTokenRowContext'
 import * as ConfigEnvironmentFile from '@/src/config/environment'
 import * as AppConstants from '@/src/context/AppConstants'
-import * as CoversAndProductsHook from '@/src/context/CoversAndProductsData'
-import * as Network from '@/src/context/Network'
-import * as SortableStatsHook from '@/src/context/SortableStatsContext'
+import * as CoversAndProductsHook from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
+// import {* as Network} from '@/src/context/Network'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
 import * as TxPosterHook from '@/src/context/TxPoster'
 import * as UnlimitedApprovalHook from '@/src/context/UnlimitedApproval'
 import * as BondPoolAddressHook from '@/src/hooks/contracts/useBondPoolAddress'
@@ -39,8 +40,8 @@ import * as ConsensusReportingInfoHook
   from '@/src/hooks/useConsensusReportingInfo'
 import * as CoverActiveReportingsHook
   from '@/src/hooks/useCoverActiveReportings'
-import * as CoverOrProductData from '@/src/hooks/useCoverOrProductData'
-import * as Covers from '@/src/hooks/useCovers'
+// import * as CoverOrProductData from '@/src/hooks/useCoverOrProductData'
+// import * as Covers from '@/src/hooks/useCovers'
 import * as DebounceHook from '@/src/hooks/useDebounce'
 import * as DisputeIncident from '@/src/hooks/useDisputeIncident'
 import * as ERC20AllowanceHook from '@/src/hooks/useERC20Allowance'
@@ -48,12 +49,12 @@ import * as ERC20BalanceHook from '@/src/hooks/useERC20Balance'
 import * as ErrorNotifierHook from '@/src/hooks/useErrorNotifier'
 import * as ExpiredPoliciesHook from '@/src/hooks/useExpiredPolicies.jsx'
 import * as PurchasedEventHook from '@/src/hooks/useFetchCoverPurchasedEvent'
-import * as FetchCoverStatsHook from '@/src/hooks/useFetchCoverStats'
+// import * as FetchCoverStatsHook from '@/src/hooks/useFetchCoverStats'
 import * as FetchHeroStats from '@/src/hooks/useFetchHeroStats'
 import * as FetchReportHook from '@/src/hooks/useFetchReport'
 import * as FetchReportsByKeyAndDat
   from '@/src/hooks/useFetchReportsByKeyAndDate'
-import * as Diversified from '@/src/hooks/useFlattenedCoverProducts'
+// import * as Diversified from '@/src/hooks/useFlattenedCoverProducts'
 import * as LiquidityTxsHook from '@/src/hooks/useLiquidityTxs'
 import * as LocalStorageHook from '@/src/hooks/useLocalStorage'
 import * as MountedHook from '@/src/hooks/useMountedState'
@@ -63,12 +64,12 @@ import * as PaginationHook from '@/src/hooks/usePagination'
 import * as PodStakingPoolsHook from '@/src/hooks/usePodStakingPools'
 import * as PolicyFees from '@/src/hooks/usePolicyFees'
 import * as PolicyTxs from '@/src/hooks/usePolicyTxs'
-import * as PoolInfoHook from '@/src/hooks/usePoolInfo'
+import { usePoolInfo } from '@/src/hooks/usePoolInfo'
 import * as ProtocolDayDataHook from '@/src/hooks/useProtocolDayData'
 import * as ProvideLiquidityHook from '@/src/hooks/useProvideLiquidity'
 import * as PurchasePolicy from '@/src/hooks/usePurchasePolicy'
 import * as RecentVotesHook from '@/src/hooks/useRecentVotes'
-import * as UseRegisterTokenHook from '@/src/hooks/useRegisterToken'
+import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import * as RemoveLiquidityHook from '@/src/hooks/useRemoveLiquidity'
 import * as ReportIncident from '@/src/hooks/useReportIncident'
 import * as ResolvedReportingsHook from '@/src/hooks/useResolvedReportings'
@@ -83,10 +84,10 @@ import * as UnstakeReportingStakeHook
 import * as ValidateReferralCodeHook from '@/src/hooks/useValidateReferralCode'
 import * as ValidReportHook from '@/src/hooks/useValidReport'
 import * as UseVoteHook from '@/src/hooks/useVote'
-import * as CoverProductsFunction from '@/src/services/covers-products'
-import * as BondInfoFile from '@/src/services/protocol/bond/info'
+// import * as CoverProductsFunction from '@/src/services/covers-products'
+// import * as BondInfoFile from '@/src/services/protocol/bond/info'
 import * as UnstakeInfoFor from '@/src/services/protocol/consensus/info'
-import * as VaultInfoFile from '@/src/services/protocol/vault/info'
+// import * as VaultInfoFile from '@/src/services/protocol/vault/info'
 import * as SubgraphData from '@/src/services/subgraph'
 import * as TransactionHistoryFile
   from '@/src/services/transactions/transaction-history'
@@ -117,6 +118,7 @@ const returnFunction = (d) => {
 }
 
 export const mockFn = {
+
   useResolveIncident: (cb = () => testData.resolveIncidentHookValues) =>
     jest
       .spyOn(ResolveIncident, 'useResolveIncident')
@@ -155,20 +157,20 @@ export const mockFn = {
       .spyOn(ActiveReportings, 'useActiveReportings')
       .mockImplementation(returnFunction(cb)),
 
-  useCoverOrProductData: (cb = () => testData.coverInfo) =>
-    jest
-      .spyOn(CoverOrProductData, 'useCoverOrProductData')
-      .mockImplementation(returnFunction(cb)),
+  // useCoverOrProductData: (cb = () => testData.coverInfo) =>
+  //   jest
+  //     .spyOn(CoverOrProductData, 'useCoverOrProductData')
+  //     .mockImplementation(returnFunction(cb)),
 
-  useFetchCoverStats: (
-    cb = () => ({
-      ...testData.coverStats,
-      refetch: () => Promise.resolve(testData.coverStats)
-    })
-  ) =>
-    jest
-      .spyOn(FetchCoverStatsHook, 'useFetchCoverStats')
-      .mockImplementation(returnFunction(cb)),
+  // useFetchCoverStats: (
+  //   cb = () => ({
+  //     ...testData.coverStats,
+  //     refetch: () => Promise.resolve(testData.coverStats)
+  //   })
+  // ) =>
+  //   jest
+  //     .spyOn(FetchCoverStatsHook, 'useFetchCoverStats')
+  //     .mockImplementation(returnFunction(cb)),
 
   useValidReport: (cb = () => testData.reporting.validReport) =>
     jest
@@ -185,38 +187,38 @@ export const mockFn = {
       .spyOn(ERC20AllowanceHook, 'useERC20Allowance')
       .mockImplementation(returnFunction(cb)),
 
-  useCoverStatsContext: (
-    cb = () => ({
-      ...testData.coverStats.info,
-      refetch: () => Promise.resolve(1)
-    })
-  ) =>
-    jest
-      .spyOn(CoverStatsContext, 'useCoverStatsContext')
-      .mockImplementation(returnFunction(cb)),
+  // useCoverStatsContext: (
+  //   cb = () => ({
+  //     ...testData.coverStats.info,
+  //     refetch: () => Promise.resolve(1)
+  //   })
+  // ) =>
+  //   jest
+  //     .spyOn(CoverStatsContext, 'useCoverStatsContext')
+  //     .mockImplementation(returnFunction(cb)),
 
-  useCovers: (
-    cb = () => ({
-      data: {
-        ...testData.covers,
-        getInfoByKey: () => ({
-          projectName: 'animated-brands'
-        })
-      },
-      loading: false
-    })
-  ) => jest.spyOn(Covers, 'useCovers').mockImplementation(returnFunction(cb)),
+  // useCovers: (
+  //   cb = () => ({
+  //     data: {
+  //       ...testData.covers,
+  //       getInfoByKey: () => ({
+  //         projectName: 'animated-brands'
+  //       })
+  //     },
+  //     loading: false
+  //   })
+  // ) => jest.spyOn(Covers, 'useCovers').mockImplementation(returnFunction(cb)),
 
-  useFlattenedCoverProducts: (
-    cb = () => ({ data: testData.covers, loading: false })
-  ) =>
-    jest
-      .spyOn(Diversified, 'useFlattenedCoverProducts')
-      .mockImplementation(returnFunction(cb)),
+  // useFlattenedCoverProducts: (
+  //   cb = () => ({ data: testData.covers, loading: false })
+  // ) =>
+  //   jest
+  //     .spyOn(Diversified, 'useFlattenedCoverProducts')
+  //     .mockImplementation(returnFunction(cb)),
 
   useRegisterToken: (cb = () => testData.registerToken) =>
     jest
-      .spyOn(UseRegisterTokenHook, 'useRegisterToken')
+      .spyOn({ useRegisterToken }, 'useRegisterToken')
       .mockImplementation(returnFunction(cb)),
 
   usePolicyTxs: (cb = () => testData.policies) =>
@@ -225,7 +227,7 @@ export const mockFn = {
       .mockImplementation(returnFunction(cb)),
 
   useNetwork: (cb = () => testData.network) =>
-    jest.spyOn(Network, 'useNetwork').mockImplementation(returnFunction(cb)),
+    jest.spyOn({ useNetwork }, 'useNetwork').mockImplementation(returnFunction(cb)),
 
   useEagerConnect: (cb = () => {}) =>
     jest
@@ -312,12 +314,12 @@ export const mockFn = {
 
   usePoolInfo: (cb = () => testData.poolInfo) =>
     jest
-      .spyOn(PoolInfoHook, 'usePoolInfo')
+      .spyOn({ usePoolInfo }, 'usePoolInfo')
       .mockImplementation(returnFunction(cb)),
 
   useSortableStats: (cb = () => testData.sortableStats) =>
     jest
-      .spyOn(SortableStatsHook, 'useSortableStats')
+      .spyOn({ useSortableStats }, 'useSortableStats')
       .mockImplementation(returnFunction(cb)),
 
   useActivePolicies: (cb = () => testData.activePolicies) =>
@@ -348,7 +350,7 @@ export const mockFn = {
   },
 
   useToast: (cb = () => testData.toast) =>
-    jest.spyOn(ToastHook, 'useToast').mockImplementation(returnFunction(cb)),
+    jest.spyOn({ useToast }, 'useToast').mockImplementation(returnFunction(cb)),
 
   useResolvedReportings: (cb = () => testData.resolvedReportings) =>
     jest
@@ -398,7 +400,7 @@ export const mockFn = {
 
   useAuth: (
     cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
-  ) => jest.spyOn(useAuth, 'default').mockImplementation(returnFunction(cb)),
+  ) => jest.spyOn({ useAuth }, 'useAuth').mockImplementation(returnFunction(cb)),
 
   console: {
     error: () => {
@@ -477,18 +479,18 @@ export const mockFn = {
     jest
       .spyOn(RetryUntilPassedHook, 'useRetryUntilPassed')
       .mockImplementation(returnFunction(cb)),
-  getCoverProductData: (
-    cb = (networkId, coverKey, productKey) =>
-      `${networkId}:${coverKey}-${productKey}`
-  ) =>
-    jest
-      .spyOn(CoverProductsFunction, 'getCoverProductData')
-      .mockImplementation(returnFunction(cb)),
+  // getCoverProductData: (
+  //   cb = (networkId, coverKey, productKey) =>
+  //     `${networkId}:${coverKey}-${productKey}`
+  // ) =>
+  //   jest
+  //     .spyOn(CoverProductsFunction, 'getCoverProductData')
+  //     .mockImplementation(returnFunction(cb)),
 
-  getCoverData: (cb = (networkId, coverKey) => `${networkId}:${coverKey}`) =>
-    jest
-      .spyOn(CoverProductsFunction, 'getCoverData')
-      .mockImplementation(returnFunction(cb)),
+  // getCoverData: (cb = (networkId, coverKey) => `${networkId}:${coverKey}`) =>
+  //   jest
+  //     .spyOn(CoverProductsFunction, 'getCoverData')
+  //     .mockImplementation(returnFunction(cb)),
 
   fetch: (
     resolve = true,
@@ -805,11 +807,11 @@ export const mockFn = {
       .spyOn(BondTxsHook, 'useBondTxs')
       .mockImplementation(returnFunction(cb)),
 
-  getInfo: (cb = () => testData.myLiquidityInfo) =>
-    jest.spyOn(VaultInfoFile, 'getInfo').mockImplementation(returnFunction(cb)),
+  // getInfo: (cb = () => testData.myLiquidityInfo) =>
+  //   jest.spyOn(VaultInfoFile, 'getInfo').mockImplementation(returnFunction(cb)),
 
-  getBondInfo: (cb = () => testData.bondInfo.info) =>
-    jest.spyOn(BondInfoFile, 'getInfo').mockImplementation(returnFunction(cb)),
+  // getBondInfo: (cb = () => testData.bondInfo.info) =>
+  //   jest.spyOn(BondInfoFile, 'getInfo').mockImplementation(returnFunction(cb)),
 
   registerToken: (success = true) =>
     jest
