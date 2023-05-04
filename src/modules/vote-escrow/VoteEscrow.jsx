@@ -16,10 +16,8 @@ import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import UnlockEscrow from '@/modules/vote-escrow/UnlockEscrow'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
-import {
-  NpmTokenContractAddresses,
-  useAppConstants
-} from '@/src/context/AppConstants'
+import { NpmTokenContractAddresses } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
@@ -39,16 +37,21 @@ const VoteEscrow = () => {
 
   const [input, setInput] = useState('')
 
-  const { data, lock, actionLoading } = useVoteEscrowData()
+  const { data, lock, unlock: unlockNPMTokens, actionLoading } = useVoteEscrowData()
 
   const { register } = useRegisterToken()
 
   const { NPMTokenDecimals } = useAppConstants()
 
+  const canUnlock = data.veNPMBalance.short !== 'N/A'
+
   if (unlock) {
     return (
       <UnlockEscrow
-        veNPMBalance={data.veNPMBalance} unlockTimestamp={data.unlockTimestamp} onBack={() => {
+        loading={actionLoading}
+        data={data}
+        unlockNPMTokens={unlockNPMTokens}
+        onBack={() => {
           setUnlock(false)
         }}
       />
@@ -192,7 +195,8 @@ const VoteEscrow = () => {
 
           <div className='text-right'>
             <button
-              className='text-4E7DD9 text-sm font-semibold' onClick={() => {
+              disabled={!canUnlock}
+              className={classNames('text-4E7DD9 text-sm font-semibold', !canUnlock ? 'opacity-50 cursor-not-allowed' : '')} onClick={() => {
                 document.querySelector('#vote-escrow-page').scrollIntoView({ behavior: 'smooth' })
                 setUnlock(true)
               }}

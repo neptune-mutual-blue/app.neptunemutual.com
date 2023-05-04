@@ -43,6 +43,23 @@ const actionMessages = {
 
     return { title: t`Locking NPM`, description: displayValue(_data) }
   },
+  [METHODS.VOTE_ESCROW_EXTEND]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Extended lock period successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not extend lock period`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Extending lock period`, description: displayValue(_data) }
+  },
   [METHODS.VOTE_ESCROW_UNLOCK]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {

@@ -7,16 +7,16 @@ import { useRouter } from 'next/router'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import DateLib from '@/lib/date/DateLib'
-import { MULTIPLIER } from '@/src/config/constants'
+import {
+  MULTIPLIER,
+  NpmTokenContractAddresses,
+  VoteEscrowContractAddresses
+} from '@/src/config/constants'
 import {
   AvailableContracts,
   getContractInstance
 } from '@/src/config/contracts/getContractInstance'
-import {
-  NpmTokenContractAddresses,
-  useAppConstants,
-  VoteEscrowContractAddresses
-} from '@/src/context/AppConstants'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
@@ -39,6 +39,15 @@ import {
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
 
+const initialData = {
+  veNPMBalance: 0,
+  boost: 0,
+  lockedNPMBalance: 0,
+  votingPower: 0,
+  unlockTimestamp: 0,
+  penalty: '0'
+}
+
 const useVoteEscrowData = () => {
   const { library, account } = useWeb3React()
 
@@ -50,13 +59,7 @@ const useVoteEscrowData = () => {
   const [loading, setLoading] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
 
-  const [escrowData, setEscrowData] = useState({
-    veNPMBalance: 0,
-    boost: 0,
-    lockedNPMBalance: 0,
-    votingPower: 0,
-    unlockTimestamp: 0
-  })
+  const [escrowData, setEscrowData] = useState(initialData)
 
   const { notifyError } = useErrorNotifier()
 
@@ -163,6 +166,8 @@ const useVoteEscrowData = () => {
       setActionLoading(false)
     }
 
+    const method = amount > 0 ? METHODS.VOTE_ESCROW_LOCK : METHODS.VOTE_ESCROW_EXTEND
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
       const instance = getContractInstance(VoteEscrowContractAddresses[networkId], AvailableContracts.VoteEscrowToken, signerOrProvider)
@@ -170,34 +175,35 @@ const useVoteEscrowData = () => {
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
-          methodName: METHODS.VOTE_ESCROW_LOCK,
+          methodName: method,
           status: STATUS.PENDING
         })
 
         await txToast.push(
           tx,
           {
-            pending: getActionMessage(METHODS.VOTE_ESCROW_LOCK, STATUS.PENDING)
+            pending: getActionMessage(method, STATUS.PENDING)
               .title,
-            success: getActionMessage(METHODS.VOTE_ESCROW_LOCK, STATUS.SUCCESS)
+            success: getActionMessage(method, STATUS.SUCCESS)
               .title,
-            failure: getActionMessage(METHODS.VOTE_ESCROW_LOCK, STATUS.FAILED)
+            failure: getActionMessage(method, STATUS.FAILED)
               .title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
-                methodName: METHODS.VOTE_ESCROW_LOCK,
+                methodName: method,
                 status: STATUS.SUCCESS
               })
+              cb()
               getData()
               cleanup()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
-                methodName: METHODS.VOTE_ESCROW_LOCK,
+                methodName: method,
                 status: STATUS.FAILED
               })
               cleanup()
@@ -211,7 +217,7 @@ const useVoteEscrowData = () => {
       }
 
       const onError = (err) => {
-        notifyError(err, getActionMessage(METHODS.VOTE_ESCROW_LOCK, STATUS.FAILED)
+        notifyError(err, getActionMessage(method, STATUS.FAILED)
           .title)
         cleanup()
       }
@@ -221,6 +227,79 @@ const useVoteEscrowData = () => {
         instance,
         methodName: 'lock',
         args,
+        onTransactionResult,
+        onRetryCancel,
+        onError
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const unlock = async (premature, cb) => {
+    setActionLoading(true)
+
+    const cleanup = () => {
+      setActionLoading(false)
+    }
+
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
+      const instance = getContractInstance(VoteEscrowContractAddresses[networkId], AvailableContracts.VoteEscrowToken, signerOrProvider)
+
+      const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.VOTE_ESCROW_UNLOCK,
+          status: STATUS.PENDING
+        })
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(METHODS.VOTE_ESCROW_UNLOCK, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.VOTE_ESCROW_UNLOCK, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.VOTE_ESCROW_UNLOCK, STATUS.FAILED)
+              .title
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.VOTE_ESCROW_UNLOCK,
+                status: STATUS.SUCCESS
+              })
+              cb()
+              getData()
+              cleanup()
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.VOTE_ESCROW_UNLOCK,
+                status: STATUS.FAILED
+              })
+              cleanup()
+            }
+          }
+        )
+      }
+
+      const onRetryCancel = () => {
+        cleanup()
+      }
+
+      const onError = (err) => {
+        notifyError(err, getActionMessage(METHODS.VOTE_ESCROW_UNLOCK, STATUS.FAILED)
+          .title)
+        cleanup()
+      }
+
+      writeContract({
+        instance,
+        methodName: premature ? 'unlockPrematurely' : 'unlock',
         onTransactionResult,
         onRetryCancel,
         onError
@@ -257,9 +336,11 @@ const useVoteEscrowData = () => {
         veNPMBalance: veNPMBalance.toString(),
         lockedNPMBalance: lockedNPMBalance.toString(),
         votingPower: votingPower.toString(),
-        unlockTimestamp: unlockTimestamp.toString()
+        unlockTimestamp: unlockTimestamp.toString(),
+        penalty: toBN(veNPMBalance).multipliedBy(0.25).toString()
       })
     } catch (err) {
+      setEscrowData(initialData)
       console.error(err)
     }
     setLoading(false)
@@ -278,12 +359,15 @@ const useVoteEscrowData = () => {
     data: {
       npmBalance: formatCurrency(convertFromUnits(npmBalance, NPMTokenDecimals), router.locale, 'NPM', true),
       boost: toBN(escrowData.boost).dividedBy(MULTIPLIER),
-      veNPMBalance: formatCurrency(convertFromUnits(escrowData.veNPMBalance, NPMTokenDecimals), router.locale, 'NPM', true),
+      veNPMBalance: formatCurrency(convertFromUnits(escrowData.veNPMBalance, NPMTokenDecimals), router.locale, 'veNPM', true),
       lockedNPMBalance: formatCurrency(convertFromUnits(escrowData.lockedNPMBalance, NPMTokenDecimals), router.locale, 'NPM', true),
       votingPower: formatCurrency(convertFromUnits(escrowData.votingPower, NPMTokenDecimals), router.locale, 'NPM', true),
-      unlockTimestamp: DateLib.toLongDateFormat(escrowData.unlockTimestamp, router.locale)
+      unlockTimestamp: DateLib.toLongDateFormat(escrowData.unlockTimestamp, router.locale),
+      penalty: formatCurrency(convertFromUnits(escrowData.penalty, NPMTokenDecimals), router.locale, 'NPM', true),
+      receivedAfterPenalty: formatCurrency(convertFromUnits(toBN(escrowData.veNPMBalance).minus(escrowData.penalty).toString(), NPMTokenDecimals), router.locale, 'NPM', true)
     },
     lock,
+    unlock,
     actionLoading,
     loadingAllowance,
     canLock,

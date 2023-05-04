@@ -6,14 +6,17 @@ import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
+import { useWeb3React } from '@web3-react/core'
 
-const UnlockEscrow = ({ onBack, veNPMBalance, unlockTimestamp }) => {
-  const caution = true
+const UnlockEscrow = ({ onBack, data, loading, unlockNPMTokens }) => {
+  const { active } = useWeb3React()
+  const unlockDate = new Date(data.unlockTimestamp)
+  const caution = Date.now().valueOf() - unlockDate.valueOf() < 0
 
   return (
     <VoteEscrowCard>
       <VoteEscrowTitle title='Unlock veNPM' />
-      <EscrowSummary veNPMBalance={veNPMBalance} unlockTimestamp={unlockTimestamp} />
+      <EscrowSummary veNPMBalance={data.veNPMBalance} unlockTimestamp={data.unlockTimestamp} />
 
       <div className='p-8'>
         {!caution && (
@@ -26,7 +29,14 @@ const UnlockEscrow = ({ onBack, veNPMBalance, unlockTimestamp }) => {
         {caution && (
           <div className='mb-6'>
             <div className='mb-6 text-md font-semibold text-center text-E52E2E'>Proceed with Caution</div>
-            <RegularButton className='w-full rounded-tooltip p-4 bg-E52E2E border-E52E2E font-semibold text-md'>prematurely unlock your npm</RegularButton>
+            <RegularButton
+              disabled={loading || !active} className='w-full rounded-tooltip p-4 bg-E52E2E border-E52E2E font-semibold text-md' onClick={() => {
+                unlockNPMTokens(caution, () => {
+                  onBack()
+                })
+              }}
+            >prematurely unlock your npm
+            </RegularButton>
           </div>
         )}
 
@@ -38,14 +48,14 @@ const UnlockEscrow = ({ onBack, veNPMBalance, unlockTimestamp }) => {
             },
             caution && {
               key: 'Penalty',
-              value: '250,000 NPM',
+              value: data.penalty.long,
               caution: true
             },
             {
               key: 'You Will Receive',
-              value: '1,034,334.234 NPM'
+              value: caution ? data.receivedAfterPenalty.long : data.veNPMBalance.long
             }
-          ]}
+          ].filter(Boolean)}
         />
 
         <button
