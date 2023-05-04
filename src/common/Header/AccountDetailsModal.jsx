@@ -20,7 +20,9 @@ import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
 import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 
-const CopyAddressComponent = ({ account }) => {
+export const CopyAddressComponent = ({ account, ...rest }) => {
+  const { iconOnly, iconClassName } = rest
+
   const [isCopied, setIsCopied] = useState(false)
   const timeoutIdRef = useRef(null)
 
@@ -47,18 +49,22 @@ const CopyAddressComponent = ({ account }) => {
       {!isCopied
         ? (
           <>
-            <CopyIcon className='w-4 h-4 text-999BAB' />
-            <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-              <Trans>Copy Address</Trans>
-            </span>
+            <CopyIcon className={iconClassName || 'w-4 h-4 text-999BAB'} />
+            {!iconOnly && (
+              <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
+                <Trans>Copy Address</Trans>
+              </span>
+            )}
           </>
           )
         : (
           <>
-            <CheckCircleIcon className='w-4 h-4 text-999BAB' />
-            <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-              <Trans>Copied</Trans>
-            </span>
+            <CheckCircleIcon className={iconClassName || 'w-4 h-4 text-999BAB'} />
+            {!iconOnly && (
+              <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
+                <Trans>Copied</Trans>
+              </span>
+            )}
           </>
           )}
     </div>

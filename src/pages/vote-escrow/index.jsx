@@ -6,8 +6,7 @@ import VoteEscrow from '@/modules/vote-escrow/VoteEscrow'
 
 const VoteEscrowPage = () => {
   return (
-    <main className='pt-16 pb-36'>
-
+    <main className='pt-16 pb-36' id='vote-escrow-page'>
       <Seo />
       <Container>
         <VoteEscrow />

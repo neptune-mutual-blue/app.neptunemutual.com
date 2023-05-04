@@ -9,6 +9,57 @@ import { t } from '@lingui/macro'
  * @type {Object.<string, (status: number, data: any, locale: string) => ({ title: string, description: string })>}
  */
 const actionMessages = {
+  [METHODS.VOTE_ESCROW_APPROVE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`NPM approved successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve NPM`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Approving NPM`, description: displayValue(_data) }
+  },
+  [METHODS.VOTE_ESCROW_LOCK]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`NPM locked successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not lock NPM`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Locking NPM`, description: displayValue(_data) }
+  },
+  [METHODS.VOTE_ESCROW_UNLOCK]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Unlocked successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not unlock NPM`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Unlocking NPM`, description: displayValue(_data) }
+  },
   [METHODS.UNSTAKING_WITHDRAW]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {

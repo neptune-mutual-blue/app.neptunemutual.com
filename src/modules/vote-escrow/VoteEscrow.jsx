@@ -4,38 +4,68 @@ import Link from 'next/link'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
+import { CopyAddressComponent } from '@/common/Header/AccountDetailsModal'
 import Slider from '@/common/Slider/Slider'
 import AddCircleIcon from '@/icons/AddCircleIcon'
-import CopyIcon from '@/icons/CopyIcon'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import LaunchIcon from '@/icons/LaunchIcon'
+import { getTokenLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import UnlockEscrow from '@/modules/vote-escrow/UnlockEscrow'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
+import {
+  NpmTokenContractAddresses,
+  useAppConstants
+} from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
+import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { classNames } from '@/utils/classnames'
+import { useWeb3React } from '@web3-react/core'
 
 const VoteEscrow = () => {
   const [sliderValue, setSliderValue] = useState(4)
   const [extend, setExtend] = useState(false)
+  const [agreed, setAgreed] = useState(false)
+
+  const { active } = useWeb3React()
+
   const [unlock, setUnlock] = useState(false)
+
+  const { networkId } = useNetwork()
+
+  const [input, setInput] = useState('')
+
+  const { data, lock, actionLoading } = useVoteEscrowData()
+
+  const { register } = useRegisterToken()
+
+  const { NPMTokenDecimals } = useAppConstants()
 
   if (unlock) {
     return (
-      <UnlockEscrow onBack={() => {
-        setUnlock(false)
-      }}
+      <UnlockEscrow
+        veNPMBalance={data.veNPMBalance} unlockTimestamp={data.unlockTimestamp} onBack={() => {
+          setUnlock(false)
+        }}
       />
     )
+  }
+
+  const onLockSuccess = () => {
+    setExtend(false)
+    setAgreed(false)
+    setInput('')
   }
 
   return (
     <div>
       <VoteEscrowCard>
         <VoteEscrowTitle title='Get Vote Escrow NPM' />
-        <EscrowSummary />
+        <EscrowSummary veNPMBalance={data.veNPMBalance} unlockTimestamp={data.unlockTimestamp} />
         <div className='p-8'>
 
           <div className='text-center text-xl font-semibold'>
@@ -52,6 +82,9 @@ const VoteEscrow = () => {
               <Checkbox
                 checked={extend} onChange={(e) => {
                   setExtend(e.target.checked)
+                  if (e.target.checked) {
+                    setInput('')
+                  }
                 }} className='border-1 border-gray-300 rounded-1 h-4 w-4 m-0' id='extend-checkbox' labelClassName='ml-1'
               >
                 Extend Only
@@ -62,24 +95,38 @@ const VoteEscrow = () => {
           <div className={extend ? 'opacity-50 cursor-not-allowed' : ''}>
             <div className='rounded-2 mb-2 border-1 border-B0C4DB overflow-hidden grid grid-cols-[1fr_auto] focus-within:ring-4E7DD9 focus-within:ring focus-within:ring-offset-0 focus-within:ring-opacity-30'>
               <div className='relative'>
-                <input type='text' className={classNames('py-5 px-6 text-lg outline-none', extend ? 'cursor-not-allowed' : '')} placeholder='0.00' disabled={extend} />
+                <input
+                  value={input} onChange={(e) => {
+                    // eslint-disable-next-line
+                    if (/^[0-9\.]*$/.test(e.target.value)) {
+                      setInput(e.target.value)
+                    }
+                  }} type='text' className={classNames('py-5 px-6 text-lg outline-none', extend ? 'cursor-not-allowed' : '')} placeholder='0.00' disabled={extend}
+                />
                 <div className='absolute text-9B9B9B text-lg top-5 right-4'>NPM</div>
               </div>
-              <button className='bg-E6EAEF py-5 px-6 text-lg'>
+              <button
+                className='bg-E6EAEF py-5 px-6 text-lg' onClick={() => {
+                  setInput(data.npmBalance.short.split(' ')[0].replace(/,/g, ''))
+                }}
+                disabled={extend}
+              >
                 Max
               </button>
             </div>
 
             <div className='flex justify-between items-center mb-6'>
-              <div className='text-md text-9B9B9B'>Balance: 0.00 NPM</div>
+              <div className='text-md text-9B9B9B'>Balance: {data.npmBalance.short}</div>
               <div className='flex gap-4'>
-                <button className={extend ? 'cursor-not-allowed' : ''}>
-                  <CopyIcon className='text-AAAAAA h-6 w-6' />
-                </button>
-                <button className={extend ? 'cursor-not-allowed' : ''}>
+                <CopyAddressComponent account={NpmTokenContractAddresses[networkId]} iconOnly iconClassName='text-AAAAAA h-6 w-6' />
+                <a href={getTokenLink(networkId, NpmTokenContractAddresses[networkId])} target='_blank' className={extend ? 'cursor-not-allowed' : ''} rel='noreferrer'>
                   <LaunchIcon className='text-AAAAAA h-6 w-6' />
-                </button>
-                <button className={extend ? 'cursor-not-allowed' : ''}>
+                </a>
+                <button
+                  className={extend ? 'cursor-not-allowed' : ''} onClick={() => {
+                    register(NpmTokenContractAddresses[networkId], 'NPM', NPMTokenDecimals)
+                  }}
+                >
                   <AddCircleIcon className='text-AAAAAA h-6 w-6' />
                 </button>
               </div>
@@ -105,28 +152,40 @@ const VoteEscrow = () => {
           </div>
 
           <div className='grid grid-cols-[auto_1fr] gap-2 mb-6'>
-            <Checkbox className='border-1 border-gray-300 rounded-1 h-4 w-4 m-0' id='agree-terms-escrow' />
+            <Checkbox
+              checked={agreed} onChange={(e) => {
+                setAgreed(e.target.checked)
+              }} className='border-1 border-gray-300 rounded-1 h-4 w-4 m-0' id='agree-terms-escrow'
+            />
             <label htmlFor='agree-terms-escrow' className='-mt-0.5'>
               I hereby acknowledge my obligation to pay a penalty fee of 25% in the event that I prematurely unlock, as per the applicable <a href='https://neptunemutual.com/policies/standard-terms-and-conditions/' target='_blank' className='text-1170FF' rel='noreferrer'>terms and conditions</a>.
             </label>
           </div>
 
-          <RegularButton className='w-full rounded-tooltip p-4 font-semibold text-md normal-case'>{extend ? 'EXTEND MY DURATION' : 'GET veNPM TOKENS'}</RegularButton>
+          <RegularButton
+            disabled={!(active && agreed && !actionLoading && ((!extend && input) || extend))} onClick={() => {
+              lock(input || '0', sliderValue, onLockSuccess, extend)
+            }} className='w-full rounded-tooltip p-4 font-semibold text-md normal-case'
+          >
+            {active ? extend ? 'EXTEND MY DURATION' : 'GET veNPM TOKENS' : 'Connect Wallet'}
+          </RegularButton>
 
           <KeyValueList
             className='my-6'
             list={[
               {
                 key: 'Boost:',
-                value: '1.234234x'
+                value: data.boost + 'x'
               },
               {
                 key: 'Locked:',
-                value: '13.24K NPM'
+                value: data.lockedNPMBalance.short,
+                tooltip: data.lockedNPMBalance.long
               },
               {
                 key: 'Power:',
-                value: '45.62K NPM'
+                value: data.votingPower.short,
+                tooltip: data.votingPower.long
               }
             ]}
           />
@@ -134,6 +193,7 @@ const VoteEscrow = () => {
           <div className='text-right'>
             <button
               className='text-4E7DD9 text-sm font-semibold' onClick={() => {
+                document.querySelector('#vote-escrow-page').scrollIntoView({ behavior: 'smooth' })
                 setUnlock(true)
               }}
             >Unlock

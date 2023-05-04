@@ -34,5 +34,8 @@ export const METHODS = {
   LIQUIDITY_INFO: 'liquidity.info',
   VOTE_REFUTE: 'vote.refute',
   VOTE_ATTEST: 'vote.attest',
-  VOTE_APPROVE: 'vote.approve'
+  VOTE_APPROVE: 'vote.approve',
+  VOTE_ESCROW_APPROVE: 'vote.escrow.approve',
+  VOTE_ESCROW_LOCK: 'vote.escrow.lock',
+  VOTE_ESCROW_UNLOCK: 'vote.escrow.unlock'
 }

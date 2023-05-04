@@ -8,7 +8,7 @@ const KeyValueList = (props) => {
       {list.map(item => (
         <div key={item.key} className='flex justify-between'>
           <div className='text-sm'>{item.key}</div>
-          <div className={classNames('text-sm font-semibold', item.caution ? 'text-E52E2E' : '')}>{item.value}</div>
+          <div title={item.tooltip} className={classNames('text-sm font-semibold', item.caution ? 'text-E52E2E' : '')}>{item.value}</div>
         </div>
       ))}
     </div>

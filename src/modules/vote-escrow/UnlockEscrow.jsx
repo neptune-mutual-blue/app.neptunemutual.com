@@ -7,13 +7,13 @@ import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
 
-const UnlockEscrow = ({ onBack }) => {
+const UnlockEscrow = ({ onBack, veNPMBalance, unlockTimestamp }) => {
   const caution = true
 
   return (
     <VoteEscrowCard>
       <VoteEscrowTitle title='Unlock veNPM' />
-      <EscrowSummary />
+      <EscrowSummary veNPMBalance={veNPMBalance} unlockTimestamp={unlockTimestamp} />
 
       <div className='p-8'>
         {!caution && (

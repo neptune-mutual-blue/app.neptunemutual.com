@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EscrowSummary = () => {
+const EscrowSummary = ({ veNPMBalance, unlockTimestamp }) => {
   return (
     <div className='border-t-1 border-b-1 border-B0C4DB p-8'>
       <div className='flex justify-between mb-6'>
@@ -19,10 +19,10 @@ const EscrowSummary = () => {
       </div>
       <div className='flex flex-col gap-1'>
         <div className='text-sm'>
-          <span className='font-semibold'>Your veNPM Balance:</span> 0.00
+          <span className='font-semibold'>Your veNPM Balance:</span> <span title={veNPMBalance.long}>{veNPMBalance.short}</span>
         </div>
         <div className='text-sm'>
-          <span className='font-semibold'>Your Unlock Timestamp:</span> Wed, Apr 5, 2023, 12:23:00 PM UTC
+          <span className='font-semibold'>Your Unlock Timestamp:</span> {unlockTimestamp}
         </div>
         <div className='text-sm'>
           <span className='font-semibold'>Premature Unlock Penalty:</span> 25%
