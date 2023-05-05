@@ -17,7 +17,7 @@ const initialMocks = () => {
 }
 
 describe('MyLiquidityTxsTable test', () => {
-  const { initialRender, rerenderFn } = initiateTest(
+  const { initialRender } = initiateTest(
     ProvideLiquidityToCover,
     {},
     initialMocks
