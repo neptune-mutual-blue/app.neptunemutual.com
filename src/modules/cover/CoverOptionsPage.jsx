@@ -58,7 +58,7 @@ export const CoverOptionsPage = ({
 
   return (
     <>
-      <Container className='pt-9'>
+      <Container className='pt-5 md:pt-9'>
         <BreadCrumbs
           pages={getBreadCrumbs(
             isDiversified,
@@ -71,7 +71,7 @@ export const CoverOptionsPage = ({
 
       <div className='min-h-screen py-6 md:px-2 lg:px-8 pt-7 lg:pt-28'>
         <Container className='pb-16'>
-          <h2 className='mb-4 font-bold text-center text-lg md:text-display-xs lg:text-display-sm md:mb-6 lg:mb-12'>
+          <h2 className='mb-4 text-lg font-bold text-center md:text-display-xs lg:text-display-sm md:mb-6 lg:mb-12'>
             <Trans>I Want to</Trans>
           </h2>
           <div className='container grid grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14'>
