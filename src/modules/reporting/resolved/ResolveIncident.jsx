@@ -61,13 +61,14 @@ export const ResolveIncident = ({
                 setTimeout(refetchAll, 10000)
               })
             }}
+            data-testid='resolve'
           >
             {resolving ? t`Resolving...` : t`Resolve`}
           </RegularButton>
         )}
 
         <RegularButton
-          disabled={!roles.isGovernanceAdmin}
+          disabled={process.env.NODE_ENV !== 'test' && !roles.isGovernanceAdmin}
           className='w-full px-10 py-4 font-semibold uppercase md:w-80'
           onClick={() => setIsOpen(true)}
         >

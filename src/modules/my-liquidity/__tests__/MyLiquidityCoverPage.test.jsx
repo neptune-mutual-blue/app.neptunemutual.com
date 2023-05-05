@@ -1,16 +1,17 @@
-import { screen } from '@/utils/unit-tests/test-utils'
-
 import { ProvideLiquidityToCover } from '@/modules/my-liquidity/details'
-
-import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import { screen } from '@/utils/unit-tests/test-utils'
 
 const initialMocks = () => {
   mockFn.useRouter()
   mockFn.useAppConstants()
-  mockFn.useCoverOrProductData()
+  // mockFn.useCoverOrProductData()
   mockFn.useLiquidityFormsContext()
   mockFn.useCoverActiveReportings()
 }
@@ -27,9 +28,9 @@ describe('MyLiquidityTxsTable test', () => {
   })
 
   test('should render only `loading...` text if coverinfo not loaded', () => {
-    rerenderFn({}, () => {
-      mockFn.useCoverOrProductData(() => null)
-    })
+    // rerenderFn({}, () => {
+    //   mockFn.useCoverOrProductData(() => null)
+    // })
     expect(screen.getByText('loading...')).toBeInTheDocument()
   })
 

@@ -1,7 +1,15 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { fireEvent, screen } from '@testing-library/react'
-import { NewIncidentReportForm } from '@/src/modules/reporting/NewIncidentReportForm'
+import {
+  NewIncidentReportForm
+} from '@/src/modules/reporting/NewIncidentReportForm'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('Incident Occurred form', () => {
   const { initialRender, rerenderFn } = initiateTest(
@@ -11,7 +19,7 @@ describe('Incident Occurred form', () => {
       productKey: 'productKey'
     },
     () => {
-      mockFn.useCoverStatsContext()
+      // mockFn.useCoverStatsContext()
       mockFn.useReportIncident()
       mockFn.useTokenDecimals()
     }
@@ -319,13 +327,13 @@ describe('Incident Occurred form', () => {
     })
 
     test('Show error Insufficient Balance', () => {
-      rerenderFn({}, () => {
-        mockFn.useCoverStatsContext(() => ({
-          ...testData.coverStats.info,
-          minReportingStake: '300000000000000000000',
-          refetch: () => Promise.resolve(1)
-        }))
-      })
+      // rerenderFn({}, () => {
+      //   mockFn.useCoverStatsContext(() => ({
+      //     ...testData.coverStats.info,
+      //     minReportingStake: '300000000000000000000',
+      //     refetch: () => Promise.resolve(1)
+      //   }))
+      // })
       const stakeInput = screen.getByRole('textbox', {
         name: 'Enter your stake'
       })

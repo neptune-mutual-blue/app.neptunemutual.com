@@ -3,8 +3,10 @@ import {
   useMyLiquidityInfo
 } from '@/src/hooks/useMyLiquidityInfo'
 import { testData } from '@/utils/unit-tests/test-data'
-
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  mockFn,
+  renderHookWrapper
+} from '@/utils/unit-tests/test-mockup-fn'
 
 const assertInfo = (result, matchData, defaultInfo = false) => {
   expect(result.info.withdrawalOpen).toEqual(
@@ -81,7 +83,7 @@ describe('useMyLiquidityInfo', () => {
   mockFn.useTxPoster()
   mockFn.useErrorNotifier()
   mockFn.getGraphURL()
-  mockFn.getInfo()
+  // mockFn.getInfo()
   mockFn.sdk.registry.Vault.getInstance()
 
   const args = [

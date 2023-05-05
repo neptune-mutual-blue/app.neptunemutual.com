@@ -1,24 +1,25 @@
 import React from 'react'
-import {
-  render,
-  screen,
-  cleanup,
-  fireEvent
-} from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import { AvailableCovers } from '@/modules/home/AvailableCovers'
+
+import { AvailableCovers } from '@/modules/home/AvailableCovers2'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { testData } from '@/utils/unit-tests/test-data'
+// import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('AvailableCovers test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useCovers()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useCoverOrProductData()
+    // mockFn.useCovers()
+    // mockFn.useFlattenedCoverProducts()
+    // mockFn.useCoverOrProductData()
 
     render(<AvailableCovers />)
   })
@@ -69,14 +70,14 @@ describe('AvailableCovers test', () => {
   test('should render the `No data found` if not loading & no available covers', async () => {
     cleanup()
 
-    mockFn.useCovers(() => ({
-      data: [],
-      loading: false
-    }))
-    mockFn.useFlattenedCoverProducts(() => ({
-      data: [],
-      loading: false
-    }))
+    // mockFn.useCovers(() => ({
+    //   data: [],
+    //   loading: false
+    // }))
+    // mockFn.useFlattenedCoverProducts(() => ({
+    //   data: [],
+    //   loading: false
+    // }))
 
     render(<AvailableCovers />)
 
@@ -87,14 +88,14 @@ describe('AvailableCovers test', () => {
   test('testing by setting the `loading` state to true', () => {
     cleanup()
 
-    mockFn.useCovers(() => ({
-      data: [],
-      loading: true
-    }))
-    mockFn.useFlattenedCoverProducts(() => ({
-      data: [],
-      loading: true
-    }))
+    // mockFn.useCovers(() => ({
+    //   data: [],
+    //   loading: true
+    // }))
+    // mockFn.useFlattenedCoverProducts(() => ({
+    //   data: [],
+    //   loading: true
+    // }))
 
     render(<AvailableCovers />)
 

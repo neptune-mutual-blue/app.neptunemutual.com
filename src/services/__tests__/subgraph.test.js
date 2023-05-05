@@ -1,7 +1,6 @@
+import { getGraphURL } from '@/src/config/environment'
 /* eslint-disable no-global-assign */
 import { getSubgraphData } from '@/src/services/subgraph'
-
-import * as environment from '@/src/config/environment'
 
 describe('getSubgraphData test', () => {
   describe('Scenarios where getSubgraphData returned null', () => {
@@ -11,19 +10,19 @@ describe('getSubgraphData test', () => {
     })
 
     test('Should return null when no graphURL found', async () => {
-      const getGraphURL = jest.spyOn(environment, 'getGraphURL')
+      const graphURL = jest.spyOn({ getGraphURL }, 'getGraphURL')
       const data = await getSubgraphData('invalid')
-      expect(getGraphURL).toBeCalled()
+      expect(graphURL).toBeCalled()
       expect(data).toBe(null)
     })
   })
 
   describe('Fetching graphURL', () => {
     const globalOld = global
-    const getGraphURL = jest.spyOn(environment, 'getGraphURL')
+    const graphURL = jest.spyOn({ getGraphURL }, 'getGraphURL')
 
     beforeEach(() => {
-      getGraphURL.mockImplementation(() => {
+      graphURL.mockImplementation(() => {
         return 'https://www.foo.com'
       })
     })

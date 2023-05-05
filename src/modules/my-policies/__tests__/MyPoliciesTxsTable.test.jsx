@@ -1,20 +1,24 @@
 import React from 'react'
+
 import {
-  render,
-  screen,
+  getBlockLink,
+  getTxLink
+} from '@/lib/connect-wallet/utils/explorer'
+import DateLib from '@/lib/date/DateLib'
+import * as Component from '@/modules/my-policies/MyPoliciesTxsTable'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { testData } from '@/utils/unit-tests/test-data'
+import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
   cleanup,
-  fireEvent
+  fireEvent,
+  render,
+  screen
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
-import * as Component from '@/modules/my-policies/MyPoliciesTxsTable'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import DateLib from '@/lib/date/DateLib'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { getCoverImgSrc } from '@/src/helpers/cover'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits } from '@/utils/bn'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { testData } from '@/utils/unit-tests/test-data'
 
 describe('MyPoliciesTxsTable test', () => {
   mockFn.usePolicyTxs()
@@ -151,12 +155,12 @@ describe('MyPoliciesTxsTable test', () => {
       test('should render correct details in the row', () => {
         cleanup()
         i18n.activate('en')
-        mockFn.useCovers()
+        // mockFn.useCovers()
         mockFn.useNetwork()
         mockFn.useWeb3React()
         mockFn.usePolicyTxs()
         mockFn.useAppConstants()
-        mockFn.useCoverOrProductData()
+        // mockFn.useCoverOrProductData()
 
         render(<Component.MyPoliciesTxsTable />)
 
@@ -280,12 +284,12 @@ describe('MyPoliciesTxsTable test', () => {
       test('simulate click on add button', () => {
         cleanup()
         i18n.activate('en')
-        mockFn.useCovers()
+        // mockFn.useCovers()
         mockFn.useNetwork()
         mockFn.useWeb3React()
         mockFn.usePolicyTxs()
         mockFn.useAppConstants()
-        mockFn.useCoverOrProductData()
+        // mockFn.useCoverOrProductData()
         const clickFn = jest.fn()
         mockFn.useRegisterToken(() => ({ register: clickFn }))
 

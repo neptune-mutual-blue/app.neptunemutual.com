@@ -1,7 +1,13 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
 import { ReportingActivePage } from '@/modules/reporting/active/active'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const activeReportings = {
   data: {
@@ -60,8 +66,8 @@ describe('ReportingActivePage test', () => {
       data: activeReportings.data
     })
     mockFn.useRouter()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useFetchCoverStats()
+    // mockFn.useFlattenedCoverProducts()
+    // mockFn.useFetchCoverStats()
     initialRender()
   })
 

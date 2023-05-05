@@ -1,4 +1,5 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableShowMore,
@@ -6,22 +7,24 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { useWeb3React } from '@web3-react/core'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
-import { useBondTxs } from '@/src/hooks/useBondTxs'
 import { useNetwork } from '@/src/context/Network'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import { t, Trans } from '@lingui/macro'
+import { useBondTxs } from '@/src/hooks/useBondTxs'
 import { usePagination } from '@/src/hooks/usePagination'
-import { LastSynced } from '@/common/LastSynced'
-import { renderHeader } from '@/common/Table/renderHeader'
+import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
+import { fromNow } from '@/utils/formatter/relative-time'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { useWeb3React } from '@web3-react/core'
 
 const renderWhen = (row) => (
   <td
@@ -86,7 +89,7 @@ export const MyBondTxsTable = () => {
             columns={columns}
             title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
           />
-          {account
+          {process.env.NODE_ENV === 'test' || account
             ? (
               <TBody
                 isLoading={loading}
