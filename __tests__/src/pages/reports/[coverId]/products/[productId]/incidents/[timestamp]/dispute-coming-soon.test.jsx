@@ -1,4 +1,7 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -13,7 +16,7 @@ describe('DisputeFormPage test', () => {
       require('@/src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute').default
 
     const { initialRender } = initiateTest(DisputeFormPage, {}, () => {
-      mockFn.useCoverOrProductData()
+      // mockFn.useCoverOrProductData()
       mockFn.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: true

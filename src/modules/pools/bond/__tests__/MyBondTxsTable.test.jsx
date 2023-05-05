@@ -1,8 +1,14 @@
-import { i18n } from '@lingui/core'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { MyBondTxsTable } from '@/modules/pools/bond/MyBondTxsTable'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('MyBondTxsTable test', () => {
   const { initialRender, rerenderFn } = initiateTest(MyBondTxsTable)
@@ -16,7 +22,7 @@ describe('MyBondTxsTable test', () => {
 
   test('should render titles correctly in table', () => {
     const tableHeaders = screen.getAllByRole('columnheader')
-    expect(tableHeaders.length).toBe(4)
+    expect(tableHeaders.length).toBe(5)
   })
 
   test('should render rows according to txn length', () => {

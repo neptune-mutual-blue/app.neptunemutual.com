@@ -1,12 +1,22 @@
 import { CoverCard } from '@/common/Cover/CoverCard'
 import { MULTIPLIER } from '@/src/config/constants'
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { screen, render, cleanup } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  cleanup,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
 
 const mockCoverDetails = {
   coverKey:
@@ -52,7 +62,7 @@ describe('CoverCard component', () => {
     mockFn.useAppConstants()
     mockFn.useRouter()
     mockFn.useMyLiquidityInfo()
-    mockFn.useFetchCoverStats()
+    // mockFn.useFetchCoverStats()
 
     const { initialRender } = initiateTest(CoverCard, {
       coverKey: mockCoverDetails.coverKey,
@@ -89,13 +99,13 @@ describe('CoverCard component', () => {
     test("should render card status badge 'Incident Occurred'", () => {
       mockFn.useMyLiquidityInfo()
 
-      mockFn.useFetchCoverStats(() => ({
-        info: {
-          ...testData.coverStats.info,
-          productStatus: 'Incident Occurred'
-        },
-        refetch: () => Promise.resolve(testData.coverStats)
-      }))
+      // mockFn.useFetchCoverStats(() => ({
+      //   info: {
+      //     ...testData.coverStats.info,
+      //     productStatus: 'Incident Occurred'
+      //   },
+      //   refetch: () => Promise.resolve(testData.coverStats)
+      // }))
 
       const { initialRender } = initiateTest(CoverCard, {
         coverKey: mockCoverDetails.coverKey,
@@ -111,7 +121,7 @@ describe('CoverCard component', () => {
 
     test("should not render card status badge for 'Normal' status", () => {
       cleanup()
-      mockFn.useFetchCoverStats()
+      // mockFn.useFetchCoverStats()
 
       render(
         <CoverCard

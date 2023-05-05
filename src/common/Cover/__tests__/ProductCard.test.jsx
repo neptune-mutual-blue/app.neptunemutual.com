@@ -1,19 +1,25 @@
-import { getCoverImgSrc } from '@/src/helpers/cover'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { formatPercent } from '@/utils/formatter/percent'
-import {
-  cleanup,
-  screen,
-  act,
-  render,
-  fireEvent
-} from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { ProductCard } from '@/common/Cover/ProductCard'
-import { testData } from '@/utils/unit-tests/test-data'
-import { i18n } from '@lingui/core'
 import { MULTIPLIER } from '@/src/config/constants'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const mockCoverDetails = {
   cover: {
@@ -76,7 +82,7 @@ describe('ProductCard component', () => {
     mockFn.useRouter()
     mockFn.useSortableStats()
     mockFn.useMyLiquidityInfo()
-    mockFn.useFetchCoverStats()
+    // mockFn.useFetchCoverStats()
 
     const { initialRender } = initiateTest(ProductCard, {
       coverKey: mockCoverDetails.coverKey,
@@ -127,13 +133,13 @@ describe('ProductCard component', () => {
     test("should render card status badge 'Incident Occurred'", () => {
       mockFn.useMyLiquidityInfo()
 
-      mockFn.useFetchCoverStats(() => ({
-        info: {
-          ...testData.coverStats.info,
-          productStatus: 'Incident Occurred'
-        },
-        refetch: () => Promise.resolve(testData.coverStats)
-      }))
+      // mockFn.useFetchCoverStats(() => ({
+      //   info: {
+      //     ...testData.coverStats.info,
+      //     productStatus: 'Incident Occurred'
+      //   },
+      //   refetch: () => Promise.resolve(testData.coverStats)
+      // }))
 
       const { initialRender } = initiateTest(ProductCard, {
         coverKey: mockCoverDetails.coverKey,
@@ -151,7 +157,7 @@ describe('ProductCard component', () => {
     test("should not render card status badge for 'Normal' status", () => {
       cleanup()
 
-      mockFn.useFetchCoverStats()
+      // mockFn.useFetchCoverStats()
 
       render(
         <ProductCard

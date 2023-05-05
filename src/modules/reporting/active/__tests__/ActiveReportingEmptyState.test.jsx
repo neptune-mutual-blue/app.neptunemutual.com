@@ -1,13 +1,20 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { ActiveReportingEmptyState } from '@/modules/reporting/active/ActiveReportingEmptyState'
-import { fireEvent, screen } from '@testing-library/react'
-import { testData } from '@/utils/unit-tests/test-data'
+import {
+  ActiveReportingEmptyState
+} from '@/modules/reporting/active/ActiveReportingEmptyState'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('ActiveReportingEmptyState loading state', () => {
   beforeEach(() => {
     mockFn.useRouter()
-    mockFn.useFlattenedCoverProducts({ loading: true })
-    mockFn.useCoverOrProductData()
+    // mockFn.useFlattenedCoverProducts({ loading: true })
+    // mockFn.useCoverOrProductData()
 
     const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
 
@@ -25,8 +32,8 @@ describe('ActiveReportingEmptyState details', () => {
 
   beforeEach(() => {
     mockFn.useRouter()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useCoverOrProductData()
+    // mockFn.useFlattenedCoverProducts()
+    // mockFn.useCoverOrProductData()
 
     const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
 
@@ -52,8 +59,8 @@ describe('ActiveReportingEmptyState details with productKey', () => {
 
   beforeEach(() => {
     mockFn.useRouter()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useCoverOrProductData(() => testData.productInfo)
+    // mockFn.useFlattenedCoverProducts()
+    // mockFn.useCoverOrProductData(() => testData.productInfo)
 
     const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
 

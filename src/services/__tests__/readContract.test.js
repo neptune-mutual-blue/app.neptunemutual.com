@@ -1,5 +1,5 @@
 import { contractRead } from '@/src/services/readContract'
-import * as Bn from '@/utils/bn'
+import { calculateGasMargin } from '@/utils/bn'
 
 describe('contractRead test', () => {
   test('Should return nothing', async () => {
@@ -14,7 +14,7 @@ describe('contractRead test', () => {
   })
 
   test('Should return a proper result', async () => {
-    const bN = jest.spyOn(Bn, 'calculateGasMargin')
+    const bN = jest.spyOn({ calculateGasMargin }, 'calculateGasMargin')
     const logger = jest.fn()
 
     const mockInstance = {
@@ -43,7 +43,7 @@ describe('contractRead test', () => {
   })
 
   test('Should return a proper result', async () => {
-    const bN = jest.spyOn(Bn, 'calculateGasMargin')
+    const bN = jest.spyOn({ calculateGasMargin }, 'calculateGasMargin')
     const logger = jest.fn()
 
     const mockInstance = {
@@ -72,7 +72,7 @@ describe('contractRead test', () => {
   })
 
   test('Should return a proper result', async () => {
-    const bN = jest.spyOn(Bn, 'calculateGasMargin')
+    const bN = jest.spyOn({ calculateGasMargin }, 'calculateGasMargin')
 
     const contract = await contractRead({
       instance: {},

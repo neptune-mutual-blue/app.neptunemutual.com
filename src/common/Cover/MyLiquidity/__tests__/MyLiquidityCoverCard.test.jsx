@@ -1,12 +1,17 @@
-import { screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { MyLiquidityCoverCard } from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
+import {
+  MyLiquidityCoverCard
+} from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import { screen } from '@/utils/unit-tests/test-utils'
 
 describe('MyLiqudityCoverCard component', () => {
   beforeEach(() => {
     mockFn.useMyLiquidityInfo()
-    mockFn.useCoverOrProductData()
+    // mockFn.useCoverOrProductData()
 
     const { initialRender } = initiateTest(MyLiquidityCoverCard, {
       coverKey: testData.coverInfo.coverKey,
@@ -28,7 +33,7 @@ describe('MyLiqudityCoverCard component', () => {
 describe('MyLiqudityCoverCard component', () => {
   beforeEach(() => {
     mockFn.useMyLiquidityInfo()
-    mockFn.useCoverOrProductData(() => {})
+    // mockFn.useCoverOrProductData(() => {})
 
     const { initialRender } = initiateTest(MyLiquidityCoverCard, {
       coverKey: testData.coverInfo.coverKey,

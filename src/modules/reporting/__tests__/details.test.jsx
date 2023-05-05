@@ -1,8 +1,14 @@
-import { i18n } from '@lingui/core'
-import { render, screen } from '@/utils/unit-tests/test-utils'
-import { globalFn, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { testData } from '@/utils/unit-tests/test-data'
 import { ReportingDetailsPage } from '@/modules/reporting/details'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  globalFn,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 jest.mock('react-chartjs-2', () => ({
   Doughnut: (p) => mockFn.chartMockFn(p),
@@ -14,7 +20,7 @@ describe('ReportingDetailsPage test', () => {
     i18n.activate('en')
 
     mockFn.useAppConstants()
-    mockFn.useCoverOrProductData()
+    // mockFn.useCoverOrProductData()
     mockFn.useConsensusReportingInfo()
     mockFn.useRecentVotes()
 

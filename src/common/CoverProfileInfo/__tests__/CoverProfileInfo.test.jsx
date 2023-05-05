@@ -1,9 +1,14 @@
 import React from 'react'
-import { render, screen, act } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
 
-import * as coverStatsContext from '../../Cover/CoverStatsContext'
+import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
+import {
+  act,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+// import * as coverStatsContext from '../../Cover/CoverStatsContext'
 
 describe('CoverProfileInfo test', () => {
   const props = {
@@ -20,22 +25,22 @@ describe('CoverProfileInfo test', () => {
     productKey: '0'
   }
 
-  jest
-    .spyOn(coverStatsContext, 'useCoverStatsContext')
-    .mockImplementation(() => ({
-      productStatus: 'active',
-      activeIncidentDate: '12232323',
-      claimPlatformFee: '0',
-      commitment: '0',
-      isUserWhitelisted: false,
-      reporterCommission: '0',
-      reportingPeriod: '0',
-      requiresWhitelist: false,
-      activeCommitment: '0',
-      totalPoolAmount: '0',
-      availableLiquidity: '0',
-      refetch: () => Promise.resolve(1)
-    }))
+  // jest
+  //   .spyOn(coverStatsContext, 'useCoverStatsContext')
+  //   .mockImplementation(() => ({
+  //     productStatus: 'active',
+  //     activeIncidentDate: '12232323',
+  //     claimPlatformFee: '0',
+  //     commitment: '0',
+  //     isUserWhitelisted: false,
+  //     reporterCommission: '0',
+  //     reportingPeriod: '0',
+  //     requiresWhitelist: false,
+  //     activeCommitment: '0',
+  //     totalPoolAmount: '0',
+  //     availableLiquidity: '0',
+  //     refetch: () => Promise.resolve(1)
+  //   }))
 
   beforeEach(() => {
     act(() => {

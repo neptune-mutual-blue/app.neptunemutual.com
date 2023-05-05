@@ -1,9 +1,15 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { CastYourVote } from '@/modules/reporting/active/CastYourVote'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import { testData } from '@/utils/unit-tests/test-data'
 import { convertFromUnits } from '@/utils/bn'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const incidentReport = {
   data: {
@@ -57,7 +63,7 @@ describe('CastYourVote test', () => {
     i18n.activate('en')
     mockFn.useRouter()
     mockFn.useVote()
-    mockFn.useCoverStatsContext()
+    // mockFn.useCoverStatsContext()
     mockFn.useTokenDecimals()
 
     initialRender()
