@@ -1,8 +1,8 @@
 import { ResolveIncident } from '@/modules/reporting/resolved/ResolveIncident'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -148,9 +148,9 @@ describe('ResolveIncident loading', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useResolveIncident()
-    // mockFn.useCoverOrProductData(() => null)
-    mockFn.useWeb3React(() => ({
+    mockHooksOrMethods.useResolveIncident()
+    // mockHooksOrMethods.useCoverOrProductData(() => null)
+    mockHooksOrMethods.useWeb3React(() => ({
       account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
     }))
   }
@@ -158,7 +158,7 @@ describe('ResolveIncident loading', () => {
   const { initialRender, rerenderFn } = initiateTest(ResolveIncident, props, initialMocks)
 
   beforeEach(() => { // everything resets (all initial props and mocks), runs before every test()
-    mockFn.useAppConstants()
+    mockHooksOrMethods.useAppConstants()
     initialRender()
   })
 
@@ -192,8 +192,8 @@ describe('ResolveIncident test resolve', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    // mockFn.useCoverOrProductData()
-    mockFn.useWeb3React(() => ({
+    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useWeb3React(() => ({
       account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
     }))
   }
@@ -201,7 +201,7 @@ describe('ResolveIncident test resolve', () => {
   const { initialRender } = initiateTest(ResolveIncident, props, initialMocks)
 
   beforeEach(() => {
-    mockFn.useAppConstants()
+    mockHooksOrMethods.useAppConstants()
     initialRender()
   })
 
@@ -226,9 +226,9 @@ describe('ResolveIncident test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useResolveIncident()
-    // mockFn.useCoverOrProductData()
-    mockFn.useWeb3React(() => ({
+    mockHooksOrMethods.useResolveIncident()
+    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useWeb3React(() => ({
       account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
     }))
   }

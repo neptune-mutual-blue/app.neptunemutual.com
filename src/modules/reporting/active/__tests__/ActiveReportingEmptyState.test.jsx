@@ -1,10 +1,10 @@
 import {
   ActiveReportingEmptyState
 } from '@/modules/reporting/active/ActiveReportingEmptyState'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -12,9 +12,9 @@ import {
 
 describe('ActiveReportingEmptyState loading state', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    // mockFn.useFlattenedCoverProducts({ loading: true })
-    // mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useRouter()
+    // mockHooksOrMethods.useFlattenedCoverProducts({ loading: true })
+    // mockHooksOrMethods.useCoverOrProductData()
 
     const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
 
@@ -31,9 +31,9 @@ describe('ActiveReportingEmptyState details', () => {
   // const handleAddReport = jest.fn(() => {});
 
   beforeEach(() => {
-    mockFn.useRouter()
-    // mockFn.useFlattenedCoverProducts()
-    // mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useRouter()
+    // mockHooksOrMethods.useFlattenedCoverProducts()
+    // mockHooksOrMethods.useCoverOrProductData()
 
     const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
 
@@ -58,9 +58,9 @@ describe('ActiveReportingEmptyState details with productKey', () => {
   // const handleAddReport = jest.fn(() => {});
 
   beforeEach(() => {
-    mockFn.useRouter()
-    // mockFn.useFlattenedCoverProducts()
-    // mockFn.useCoverOrProductData(() => testData.productInfo)
+    mockHooksOrMethods.useRouter()
+    // mockHooksOrMethods.useFlattenedCoverProducts()
+    // mockHooksOrMethods.useCoverOrProductData(() => testData.productInfo)
 
     const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
 

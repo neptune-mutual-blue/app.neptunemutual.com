@@ -4,7 +4,7 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { getActionMessage } from '@/src/helpers/notification'
 import { screen, fireEvent } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'

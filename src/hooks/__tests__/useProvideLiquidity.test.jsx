@@ -1,7 +1,9 @@
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
 import { convertToUnits } from '@/utils/bn'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockArgs = {
   coverKey:
@@ -13,16 +15,16 @@ const mockArgs = {
 }
 
 describe('useProvideLiquidity', () => {
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useAppConstants()
-  mockFn.useERC20Allowance()
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.useLiquidityFormsContext()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.Vault.getInstance()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.useLiquidityFormsContext()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.Vault.getInstance()
 
   test('should return default value from hook', async () => {
     const { result } = await renderHookWrapper(useProvideLiquidity, [mockArgs])
@@ -33,7 +35,7 @@ describe('useProvideLiquidity', () => {
   })
 
   test('calling handleLqTokenApprove function', async () => {
-    mockFn.useERC20Allowance(() => ({
+    mockHooksOrMethods.useERC20Allowance(() => ({
       ...testData.erc20Allowance,
       allowance: convertToUnits(mockArgs.lqValue)
     }))
@@ -51,7 +53,7 @@ describe('useProvideLiquidity', () => {
   })
 
   test('calling handleLqTokenApprove function with error', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
@@ -66,7 +68,7 @@ describe('useProvideLiquidity', () => {
   })
 
   test('calling handleNPMTokenApprove function', async () => {
-    mockFn.useERC20Allowance(() => ({
+    mockHooksOrMethods.useERC20Allowance(() => ({
       ...testData.erc20Allowance,
       allowance: convertToUnits(mockArgs.npmValue)
     }))
@@ -84,7 +86,7 @@ describe('useProvideLiquidity', () => {
   })
 
   test('calling handleNPMTokenApprove function with error', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
@@ -99,7 +101,7 @@ describe('useProvideLiquidity', () => {
   })
 
   test('calling handleProvide function', async () => {
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
     const { result, act } = await renderHookWrapper(useProvideLiquidity, [
       mockArgs
     ])
@@ -110,7 +112,7 @@ describe('useProvideLiquidity', () => {
   })
 
   test('calling handleProvide function with error', async () => {
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: undefined
     }))

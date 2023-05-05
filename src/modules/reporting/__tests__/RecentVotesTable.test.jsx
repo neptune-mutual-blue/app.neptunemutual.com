@@ -2,17 +2,17 @@ import { i18n } from '@lingui/core'
 import { render } from '@/utils/unit-tests/test-utils'
 import { testData } from '@/utils/unit-tests/test-data'
 import { RecentVotesTable } from '@/modules/reporting/RecentVotesTable'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 jest.mock('react-chartjs-2', () => ({
-  Doughnut: (p) => mockFn.chartMockFn(p),
-  Bar: (p) => mockFn.chartMockFn(p)
+  Doughnut: (p) => mockHooksOrMethods.chartMockFn(p),
+  Bar: (p) => mockHooksOrMethods.chartMockFn(p)
 }))
 
 describe('RecentVotesTable test', () => {
   beforeEach(() => {
     i18n.activate('en')
-    mockFn.useRecentVotes()
+    mockHooksOrMethods.useRecentVotes()
   })
 
   const incidentReport = testData.incidentReports.data.incidentReport

@@ -2,7 +2,7 @@ import { screen } from '@/utils/unit-tests/test-utils'
 
 import { PolicyCardFooter } from '@/modules/my-policies/PolicyCardFooter'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 
 const props = {
   coverKey:

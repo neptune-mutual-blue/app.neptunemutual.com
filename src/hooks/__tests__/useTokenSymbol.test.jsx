@@ -1,14 +1,16 @@
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('useTokenSymbol', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.useTxPoster()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.useTxPoster()
 
   test('while fetching w/o networkId, tokenAddress and account ', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const mockProps = {
       tokenAddress: ''
@@ -22,9 +24,9 @@ describe('useTokenSymbol', () => {
   })
 
   test('while fetching w/o instance', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.sdk.registry.IERC20.getInstance(true)
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockSdk.registry.IERC20.getInstance(true)
 
     const mockProps = {
       tokenAddress: ''
@@ -34,9 +36,9 @@ describe('useTokenSymbol', () => {
   })
 
   test('while fetching w/ networkId, tokenAddress and account', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: (arg) => {
         arg?.onTransactionResult?.()
@@ -46,7 +48,7 @@ describe('useTokenSymbol', () => {
         return ''
       }
     }))
-    mockFn.sdk.registry.IERC20.getInstance()
+    mockSdk.registry.IERC20.getInstance()
 
     const mockProps = {
       tokenAddress: '0x98e7786ffF366AEff1A55131C92C4Aa7EDd68aD1'

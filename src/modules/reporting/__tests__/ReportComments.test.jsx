@@ -1,4 +1,4 @@
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import ReportComments from '@/modules/reporting/ReportComments'
 import { screen } from '@testing-library/react'
 const oneHourToMilliseconds = 3600000

@@ -1,11 +1,12 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 import { ReportingActivePage } from '@/modules/reporting/active/active'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('Active Reporting Page Data Loading', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings(() => ({
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings(() => ({
       data: { incidentReports: [] },
       loading: true,
       hasMore: false
@@ -25,8 +26,8 @@ describe('Active Reporting Page Data Loading', () => {
 
 describe('Active Reporting Page Data Display', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings()
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
 
@@ -48,13 +49,13 @@ describe('Active Reporting Page Data Display', () => {
 
 describe('Active Reporting Page No Data Display', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings(() => ({
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings(() => ({
       data: { incidentReports: [] },
       loading: false,
       hasMore: false
     }))
-    mockFn.useFlattenedCoverProducts()
+    mockHooksOrMethods.useFlattenedCoverProducts()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
 

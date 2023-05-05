@@ -4,8 +4,9 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const props = {
   activePolicies: [
@@ -61,8 +62,8 @@ const props = {
 }
 
 const initialMocks = () => {
-  mockFn.useCxTokenRowContext()
-  mockFn.useClaimTableContext()
+  mockHooksOrMethods.useCxTokenRowContext()
+  mockHooksOrMethods.useClaimTableContext()
 }
 
 describe('ClaimCxTokensTable test', () => {

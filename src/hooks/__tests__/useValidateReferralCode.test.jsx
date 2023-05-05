@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useValidateReferralCode } from '../useValidateReferralCode'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockProps = {
   referralCode: '1CODE'
@@ -11,7 +13,7 @@ const mockReturnData = {
 
 describe('useValidateReferralCode', () => {
   test('trimmed has empty value', async () => {
-    mockFn.useDebounce('')
+    mockHooksOrMethods.useDebounce('')
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
@@ -25,7 +27,7 @@ describe('useValidateReferralCode', () => {
   })
 
   test('trimmed has value w/ error', async () => {
-    mockFn.useDebounce('code')
+    mockHooksOrMethods.useDebounce('code')
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
@@ -39,8 +41,8 @@ describe('useValidateReferralCode', () => {
   })
 
   test('while fetching successfully', async () => {
-    mockFn.useDebounce('code')
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockHooksOrMethods.useDebounce('code')
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,

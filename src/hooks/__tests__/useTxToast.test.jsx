@@ -1,9 +1,10 @@
 import { useTxToast } from '@/src/hooks/useTxToast'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useTxToast', () => {
-  mockFn.useNetwork()
-  mockFn.useToast()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useToast()
 
   test('calling push function', async () => {
     const { result, act } = await renderHookWrapper(useTxToast, [])

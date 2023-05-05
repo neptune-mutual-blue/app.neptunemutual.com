@@ -1,11 +1,11 @@
 import {
   NewIncidentReportForm
 } from '@/src/modules/reporting/NewIncidentReportForm'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -19,9 +19,9 @@ describe('Incident Occurred form', () => {
       productKey: 'productKey'
     },
     () => {
-      // mockFn.useCoverStatsContext()
-      mockFn.useReportIncident()
-      mockFn.useTokenDecimals()
+      // mockHooksOrMethods.useCoverStatsContext()
+      mockHooksOrMethods.useReportIncident()
+      mockHooksOrMethods.useTokenDecimals()
     }
   )
 
@@ -81,7 +81,7 @@ describe('Incident Occurred form', () => {
 
   test('Form state based on canreport', () => {
     rerenderFn({}, () => {
-      mockFn.useReportIncident(() => ({
+      mockHooksOrMethods.useReportIncident(() => ({
         ...testData.reportIncident,
         canReport: true
       }))
@@ -157,7 +157,7 @@ describe('Incident Occurred form', () => {
 
     test('Submit report', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true
         }))
@@ -195,7 +195,7 @@ describe('Incident Occurred form', () => {
 
     test('Submit report with multiple url reports', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true
         }))
@@ -248,7 +248,7 @@ describe('Incident Occurred form', () => {
   describe('Loading test', () => {
     test('loadingAllowance test', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           loadingAllowance: true
         }))
@@ -261,7 +261,7 @@ describe('Incident Occurred form', () => {
 
     test('loadingBalance test', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           loadingBalance: true
         }))
@@ -276,7 +276,7 @@ describe('Incident Occurred form', () => {
   describe('Approve and Reporting Button', () => {
     test('Show Approving', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           approving: true
         }))
@@ -289,7 +289,7 @@ describe('Incident Occurred form', () => {
 
     test('Show Report Button', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true
         }))
@@ -301,7 +301,7 @@ describe('Incident Occurred form', () => {
 
     test('Show Reporting Button', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true,
           reporting: true
@@ -328,7 +328,7 @@ describe('Incident Occurred form', () => {
 
     test('Show error Insufficient Balance', () => {
       // rerenderFn({}, () => {
-      //   mockFn.useCoverStatsContext(() => ({
+      //   mockHooksOrMethods.useCoverStatsContext(() => ({
       //     ...testData.coverStats.info,
       //     minReportingStake: '300000000000000000000',
       //     refetch: () => Promise.resolve(1)

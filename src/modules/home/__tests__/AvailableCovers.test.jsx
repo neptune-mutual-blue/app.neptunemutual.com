@@ -4,7 +4,7 @@ import { AvailableCovers } from '@/modules/home/AvailableCovers2'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { testData } from '@/utils/unit-tests/test-data'
-// import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+// import { mockFn } from '@/utils/unit-tests/helpers'
 import {
   cleanup,
   fireEvent,
@@ -17,9 +17,9 @@ describe('AvailableCovers test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    // mockFn.useCovers()
-    // mockFn.useFlattenedCoverProducts()
-    // mockFn.useCoverOrProductData()
+    // mockHooksOrMethods.useCovers()
+    // mockHooksOrMethods.useFlattenedCoverProducts()
+    // mockHooksOrMethods.useCoverOrProductData()
 
     render(<AvailableCovers />)
   })
@@ -70,11 +70,11 @@ describe('AvailableCovers test', () => {
   test('should render the `No data found` if not loading & no available covers', async () => {
     cleanup()
 
-    // mockFn.useCovers(() => ({
+    // mockHooksOrMethods.useCovers(() => ({
     //   data: [],
     //   loading: false
     // }))
-    // mockFn.useFlattenedCoverProducts(() => ({
+    // mockHooksOrMethods.useFlattenedCoverProducts(() => ({
     //   data: [],
     //   loading: false
     // }))
@@ -88,11 +88,11 @@ describe('AvailableCovers test', () => {
   test('testing by setting the `loading` state to true', () => {
     cleanup()
 
-    // mockFn.useCovers(() => ({
+    // mockHooksOrMethods.useCovers(() => ({
     //   data: [],
     //   loading: true
     // }))
-    // mockFn.useFlattenedCoverProducts(() => ({
+    // mockHooksOrMethods.useFlattenedCoverProducts(() => ({
     //   data: [],
     //   loading: true
     // }))

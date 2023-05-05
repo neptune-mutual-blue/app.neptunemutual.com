@@ -1,18 +1,20 @@
 import { useReportIncident } from '@/src/hooks/useReportIncident'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useReportIncident', () => {
-  mockFn.useRouter()
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useGovernanceAddress()
-  mockFn.useAppConstants()
-  mockFn.useERC20Allowance()
-  mockFn.useERC20Balance()
-  mockFn.useTxToast()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.governance.report()
+  mockHooksOrMethods.useRouter()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useGovernanceAddress()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useERC20Balance()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.governance.report()
 
   const args = [
     {
@@ -59,7 +61,7 @@ describe('useReportIncident', () => {
   })
 
   test('should call notifyError in handleApprove function if error raised', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
@@ -71,11 +73,11 @@ describe('useReportIncident', () => {
     })
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
   })
 
   test('should call notifyError in handleReport function if error raised', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
@@ -93,6 +95,6 @@ describe('useReportIncident', () => {
     })
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
   })
 })

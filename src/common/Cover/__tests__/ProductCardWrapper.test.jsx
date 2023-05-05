@@ -1,5 +1,5 @@
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@/utils/unit-tests/test-utils'
 
 const mockCoverDetails = {
@@ -11,7 +11,7 @@ const mockCoverDetails = {
 
 describe('ProductCardWrapper component', () => {
   beforeEach(() => {
-    // mockFn.useCoverOrProductData(() => {})
+    // mockHooksOrMethods.useCoverOrProductData(() => {})
 
     const { initialRender } = initiateTest(ProductCardWrapper, {
       coverKey: mockCoverDetails.coverKey,
@@ -34,7 +34,7 @@ describe('ProductCardWrapper component', () => {
 
 describe('ProductCardWrapper component', () => {
   beforeEach(() => {
-    // mockFn.useCoverOrProductData()
+    // mockHooksOrMethods.useCoverOrProductData()
 
     const { initialRender } = initiateTest(ProductCardWrapper, {
       coverKey: mockCoverDetails.coverKey,

@@ -2,16 +2,18 @@ import {
   useStakingPoolWithdraw,
   useStakingPoolWithdrawRewards
 } from '@/src/hooks/useStakingPoolWithdraw'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useStakingPoolWithdraw', () => {
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.StakingPools.getInstance()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.StakingPools.getInstance()
 
   const args = [
     {
@@ -45,7 +47,7 @@ describe('useStakingPoolWithdraw', () => {
   })
 
   test('should handle error if error occurred in handleWithdraw function', async () => {
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: null
     }))
@@ -62,12 +64,12 @@ describe('useStakingPoolWithdraw', () => {
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useTxPoster()
   })
 
   test('should return if no networkId or account in handleWithdraw function', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolWithdraw,
@@ -81,18 +83,18 @@ describe('useStakingPoolWithdraw', () => {
       expect(onTxSuccess).not.toHaveBeenCalled()
     })
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 })
 
 describe('useStakingPoolWithdrawRewards', () => {
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.StakingPools.getInstance()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.StakingPools.getInstance()
 
   const args = [
     {
@@ -127,7 +129,7 @@ describe('useStakingPoolWithdrawRewards', () => {
   })
 
   test('should handle error if error occurred in handleWithdrawRewards function', async () => {
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: null
     }))
@@ -144,12 +146,12 @@ describe('useStakingPoolWithdrawRewards', () => {
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useTxPoster()
   })
 
   test('should return if no networkId or account in handleWithdrawRewards function', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolWithdrawRewards,
@@ -163,7 +165,7 @@ describe('useStakingPoolWithdrawRewards', () => {
       expect(onTxSuccess).not.toHaveBeenCalled()
     })
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 })

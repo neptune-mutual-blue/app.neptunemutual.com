@@ -1,5 +1,5 @@
 import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen } from '@testing-library/react'
 
 const props = {

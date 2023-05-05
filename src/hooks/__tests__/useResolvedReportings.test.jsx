@@ -1,13 +1,15 @@
 import { useResolvedReportings } from '@/src/hooks/useResolvedReportings'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useResolvedReportings', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   test('should return default hook result', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
 
     const { result } = await renderHookWrapper(useResolvedReportings)
 
@@ -19,7 +21,7 @@ describe('useResolvedReportings', () => {
 
   test('should return correct data as returned from api', async () => {
     const mockData = { data: { incidentReports: [{ id: 1 }, { id: 2 }] } }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useResolvedReportings, [], true)
 
@@ -27,7 +29,7 @@ describe('useResolvedReportings', () => {
   })
 
   test('should execute the handleShowMore function', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
 
     const { result, act } = await renderHookWrapper(useResolvedReportings)
     await act(async () => {
@@ -48,7 +50,7 @@ describe('useResolvedReportings', () => {
         ]
       }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useResolvedReportings, [], true)
 
@@ -57,7 +59,7 @@ describe('useResolvedReportings', () => {
 
   test('should log error if error is raised', async () => {
     mock()
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
 
     await renderHookWrapper(useResolvedReportings, [], true)
 

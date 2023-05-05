@@ -1,12 +1,13 @@
 import { PercentXStackedChart } from '@/common/PercentXStackedChart'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 const props = testData.percentXStackedChart
 
 jest.mock('react-chartjs-2', () => ({
-  Bar: (p) => mockFn.chartMockFn(p)
+  Bar: (p) => mockHooksOrMethods.chartMockFn(p)
 }))
 
 describe('Banner test', () => {

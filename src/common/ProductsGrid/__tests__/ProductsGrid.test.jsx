@@ -6,12 +6,12 @@ import {
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('ProductsGrid', () => {
   beforeEach(async () => {
     i18n.activate('en')
-    mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useCoverOrProductData()
 
     const Component = withProviders(ProductsGrid)
     render(<Component />)

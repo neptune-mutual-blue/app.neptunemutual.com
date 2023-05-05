@@ -2,7 +2,7 @@ import { cleanup, screen } from '@/utils/unit-tests/test-utils'
 
 import { MyLiquidityPage } from '@/modules/my-liquidity'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 
 const props = {
   myLiquidities: [

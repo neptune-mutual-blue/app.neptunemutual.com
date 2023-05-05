@@ -1,12 +1,12 @@
 import { render, act, cleanup } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { PoliciesExpiredPage } from '../PoliciesExpiredPage'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('PoliciesExpiredPage', () => {
   beforeEach(() => {
-    mockFn.useValidReport()
+    mockHooksOrMethods.useValidReport()
 
     act(() => {
       i18n.activate('en')
@@ -16,7 +16,7 @@ describe('PoliciesExpiredPage', () => {
   test('should render PoliciesExpiredPage loading page', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies(() => {
+    mockHooksOrMethods.useExpiredPolicies(() => {
       return {
         data: testData.useExpiredPolicies.data,
         loading: true
@@ -36,7 +36,7 @@ describe('PoliciesExpiredPage', () => {
   test('should render PoliciesExpiredPage placeholder text', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies(() => {
+    mockHooksOrMethods.useExpiredPolicies(() => {
       return {
         data: {
           expiredPolicies: []
@@ -55,7 +55,7 @@ describe('PoliciesExpiredPage', () => {
   test('it has Transaction List link', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies(() => {
+    mockHooksOrMethods.useExpiredPolicies(() => {
       return {
         data: {
           expiredPolicies: []
@@ -79,7 +79,7 @@ describe('PoliciesExpiredPage', () => {
   test('Should have 1 card', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies()
+    mockHooksOrMethods.useExpiredPolicies()
     const { getAllByTestId } = render(<PoliciesExpiredPage />)
 
     const ids = getAllByTestId('card-outline')

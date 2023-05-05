@@ -3,7 +3,6 @@ import React from 'react'
 import { PolicyCard } from '@/modules/my-policies/PolicyCard'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import {
   act,
   cleanup,
@@ -11,6 +10,7 @@ import {
   screen
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('PolicyCard test', () => {
   const props = {
@@ -37,10 +37,10 @@ describe('PolicyCard test', () => {
   beforeEach(() => {
     cleanup()
 
-    // mockFn.useCoverOrProductData()
-    // mockFn.useFetchCoverStats()
-    mockFn.useValidReport()
-    mockFn.useERC20Balance()
+    // mockHooksOrMethods.useCoverOrProductData()
+    // mockHooksOrMethods.useFetchCoverStats()
+    mockHooksOrMethods.useValidReport()
+    mockHooksOrMethods.useERC20Balance()
 
     act(() => {
       i18n.activate('en')
@@ -55,7 +55,7 @@ describe('PolicyCard test', () => {
 
   test('should not render the main container if coveInfo is not available', () => {
     cleanup()
-    // mockFn.useCoverOrProductData(() => null)
+    // mockHooksOrMethods.useCoverOrProductData(() => null)
 
     render(<PolicyCard {...props} />)
 
@@ -90,14 +90,14 @@ describe('PolicyCard test', () => {
 
     test("should display status badge if status is not 'Normal'", () => {
       cleanup()
-      // mockFn.useFetchCoverStats(() => ({
+      // mockHooksOrMethods.useFetchCoverStats(() => ({
       //   info: {
       //     ...testData.coverStats.info,
       //     productStatus: 'Normal'
       //   }
       // }))
 
-      mockFn.useValidReport(() => ({
+      mockHooksOrMethods.useValidReport(() => ({
         data: {
           report: {
             ...testData.reporting.validReport.data.report,

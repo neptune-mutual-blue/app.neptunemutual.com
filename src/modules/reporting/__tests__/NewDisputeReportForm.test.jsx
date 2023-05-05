@@ -1,11 +1,11 @@
 import {
   NewDisputeReportForm
 } from '@/src/modules/reporting/NewDisputeReportForm'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -18,9 +18,9 @@ describe('Incident Occurred form', () => {
       incidentReport: { coverKey: 'coverKey' }
     },
     () => {
-      // mockFn.useCoverStatsContext()
-      mockFn.useDisputeIncident()
-      mockFn.useTokenDecimals()
+      // mockHooksOrMethods.useCoverStatsContext()
+      mockHooksOrMethods.useDisputeIncident()
+      mockHooksOrMethods.useTokenDecimals()
     }
   )
 
@@ -99,7 +99,7 @@ describe('Incident Occurred form', () => {
 
     test('Submit dispute', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
+        mockHooksOrMethods.useDisputeIncident(() => ({
           ...testData.disputeIncident,
           canDispute: true
         }))
@@ -131,7 +131,7 @@ describe('Incident Occurred form', () => {
 
     test('Submit report with multiple url reports', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
+        mockHooksOrMethods.useDisputeIncident(() => ({
           ...testData.disputeIncident,
           canDispute: true
         }))
@@ -177,7 +177,7 @@ describe('Incident Occurred form', () => {
 
   describe('Form state based on candispute', () => {
     rerenderFn({}, () => {
-      mockFn.useDisputeIncident(() => ({
+      mockHooksOrMethods.useDisputeIncident(() => ({
         ...testData.disputeIncident,
         canDispute: true
       }))
@@ -205,7 +205,7 @@ describe('Incident Occurred form', () => {
   describe('Approve and Dispute Button', () => {
     test('Show Approving', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
+        mockHooksOrMethods.useDisputeIncident(() => ({
           ...testData.disputeIncident,
           approving: true
         }))
@@ -218,7 +218,7 @@ describe('Incident Occurred form', () => {
 
     test('Show Report Button', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
+        mockHooksOrMethods.useDisputeIncident(() => ({
           ...testData.disputeIncident,
           canDispute: true
         }))
@@ -230,7 +230,7 @@ describe('Incident Occurred form', () => {
 
     test('Show Disputing Button', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
+        mockHooksOrMethods.useDisputeIncident(() => ({
           ...testData.disputeIncident,
           canDispute: true,
           disputing: true
@@ -257,7 +257,7 @@ describe('Incident Occurred form', () => {
 
     test('Show error Insufficient Balance', () => {
       // rerenderFn({}, () => {
-      //   mockFn.useCoverStatsContext(() => ({
+      //   mockHooksOrMethods.useCoverStatsContext(() => ({
       //     ...testData.coverStats.info,
       //     minReportingStake: '300000000000000000000',
       //     refetch: () => Promise.resolve(1)

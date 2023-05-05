@@ -1,11 +1,12 @@
 import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen } from '@testing-library/react'
 
 describe('LanguageDropdown test', () => {
   const { initialRender } = initiateTest(LanguageDropdown, {}, () => {
-    mockFn.useRouter({ ...testData.router, push: jest.fn() })
+    mockHooksOrMethods.useRouter({ ...testData.router, push: jest.fn() })
   })
 
   beforeEach(() => {

@@ -1,17 +1,17 @@
 import {
   MyLiquidityCoverCard
 } from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import { screen } from '@/utils/unit-tests/test-utils'
 
 describe('MyLiqudityCoverCard component', () => {
   beforeEach(() => {
-    mockFn.useMyLiquidityInfo()
-    // mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useMyLiquidityInfo()
+    // mockHooksOrMethods.useCoverOrProductData()
 
     const { initialRender } = initiateTest(MyLiquidityCoverCard, {
       coverKey: testData.coverInfo.coverKey,
@@ -32,8 +32,8 @@ describe('MyLiqudityCoverCard component', () => {
 
 describe('MyLiqudityCoverCard component', () => {
   beforeEach(() => {
-    mockFn.useMyLiquidityInfo()
-    // mockFn.useCoverOrProductData(() => {})
+    mockHooksOrMethods.useMyLiquidityInfo()
+    // mockHooksOrMethods.useCoverOrProductData(() => {})
 
     const { initialRender } = initiateTest(MyLiquidityCoverCard, {
       coverKey: testData.coverInfo.coverKey,

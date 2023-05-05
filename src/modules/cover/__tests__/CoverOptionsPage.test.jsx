@@ -48,7 +48,7 @@ describe('CoverOptionsPage', () => {
 describe('CoverOptionsPage', () => {
   beforeEach(async () => {
     i18n.activate('en')
-    // mockFn.useCoverOrProductData(() => {})
+    // mockHooksOrMethods.useCoverOrProductData(() => {})
 
     const router = createMockRouter({
       query: { coverId: 'animated-brands' }

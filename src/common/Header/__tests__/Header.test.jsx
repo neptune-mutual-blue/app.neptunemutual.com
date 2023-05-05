@@ -1,11 +1,12 @@
 import { Header } from '@/common/Header/Header'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen } from '@testing-library/react'
 
 describe('Header test', () => {
   const { initialRender } = initiateTest(Header, {}, () => {
-    mockFn.useRouter({
+    mockHooksOrMethods.useRouter({
       ...testData.router,
       events: {
         on: jest.fn((...args) => args[1]()),
@@ -13,9 +14,9 @@ describe('Header test', () => {
         emit: jest.fn()
       }
     })
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
-    mockFn.useAuth()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useAuth()
   })
 
   beforeEach(() => {

@@ -1,9 +1,9 @@
 import { MyBondTxsTable } from '@/modules/pools/bond/MyBondTxsTable'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -16,8 +16,8 @@ describe('MyBondTxsTable test', () => {
   beforeEach(() => {
     i18n.activate('en')
     initialRender()
-    mockFn.useWeb3React()
-    mockFn.useBondTxs()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useBondTxs()
   })
 
   test('should render titles correctly in table', () => {
@@ -37,7 +37,7 @@ describe('MyBondTxsTable test', () => {
 
   test('should render Show More if the hook returned hasMore as true', () => {
     rerenderFn({}, () => {
-      mockFn.useBondTxs({
+      mockHooksOrMethods.useBondTxs({
         hasMore: true,
         data: testData.bondTxs.data,
         loading: false

@@ -1,4 +1,4 @@
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 import ReportingNewCoverPage from '@/src/pages/covers/[coverId]/new-report/index'
 

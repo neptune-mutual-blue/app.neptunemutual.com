@@ -1,5 +1,5 @@
 import { UnlockDate } from '@/common/UnlockDate'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 const props = {

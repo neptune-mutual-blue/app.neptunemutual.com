@@ -1,4 +1,4 @@
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 // import { testData } from '@/utils/unit-tests/test-data'
@@ -20,7 +20,7 @@ describe('Options test', () => {
   // const CoverPage = require('@/src/pages/covers/[coverId]').default
 
   // const { initialRender } = initiateTest(CoverPage, {}, () => {
-  //   mockFn.useCoverOrProductData(() => {
+  //   mockHooksOrMethods.useCoverOrProductData(() => {
   //     return { ...testData.coverInfo, supportsProducts: true }
   //   })
   // })

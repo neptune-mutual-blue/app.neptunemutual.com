@@ -1,11 +1,11 @@
 import {
   DiversifiedLiquidityResolutionSources
 } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 describe('DiversifiedLiquidityResolutionSources component', () => {
@@ -16,9 +16,9 @@ describe('DiversifiedLiquidityResolutionSources component', () => {
       children: <p>Here is the children</p>
     },
     () => {
-      mockFn.useRouter()
-      mockFn.useAppConstants()
-      // mockFn.useCoverStatsContext()
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useAppConstants()
+      // mockHooksOrMethods.useCoverStatsContext()
     }
   )
   beforeEach(() => {

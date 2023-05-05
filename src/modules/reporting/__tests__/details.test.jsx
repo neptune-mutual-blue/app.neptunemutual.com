@@ -1,9 +1,8 @@
 import { ReportingDetailsPage } from '@/modules/reporting/details'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import {
-  globalFn,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+
 import {
   render,
   screen
@@ -11,21 +10,21 @@ import {
 import { i18n } from '@lingui/core'
 
 jest.mock('react-chartjs-2', () => ({
-  Doughnut: (p) => mockFn.chartMockFn(p),
-  Bar: (p) => mockFn.chartMockFn(p)
+  Doughnut: (p) => mockHooksOrMethods.chartMockFn(p),
+  Bar: (p) => mockHooksOrMethods.chartMockFn(p)
 }))
 
 describe('ReportingDetailsPage test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useAppConstants()
-    // mockFn.useCoverOrProductData()
-    mockFn.useConsensusReportingInfo()
-    mockFn.useRecentVotes()
+    mockHooksOrMethods.useAppConstants()
+    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useConsensusReportingInfo()
+    mockHooksOrMethods.useRecentVotes()
 
-    globalFn.resizeObserver()
-    globalFn.DOMRect()
+    mockGlobals.resizeObserver()
+    mockGlobals.DOMRect()
   })
 
   const refetch = jest.fn()

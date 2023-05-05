@@ -1,7 +1,7 @@
 import { isFeatureEnabled } from '@/src/config/environment'
 import ClaimPolicyDedicatedCover
   from '@/src/pages/my-policies/[coverId]/incidents/[timestamp]/claim'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 const mock = jest.spyOn({ isFeatureEnabled }, 'isFeatureEnabled')

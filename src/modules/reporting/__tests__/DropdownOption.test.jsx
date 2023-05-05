@@ -1,6 +1,6 @@
 // import { DropdownOption } from '@/modules/reporting/DropdownOption'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { screen } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 
@@ -8,8 +8,8 @@ describe('DropdownOption test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useAppConstants()
-    // mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useAppConstants()
+    // mockHooksOrMethods.useCoverOrProductData()
   })
 
   test('should render the option name correctly', () => {

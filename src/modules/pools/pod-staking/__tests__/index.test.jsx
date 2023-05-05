@@ -1,13 +1,14 @@
 import { screen, fireEvent } from '@/utils/unit-tests/test-utils'
 
 import { PodStakingPage } from '@/modules/pools/pod-staking'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const initialMocks = () => {
-  mockFn.useNetwork()
-  mockFn.usePodStakingPools()
-  mockFn.usePoolInfo()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.usePodStakingPools()
+  mockHooksOrMethods.usePoolInfo()
 }
 
 describe('PodStaking Page test', () => {
@@ -44,7 +45,7 @@ describe('PodStaking Page test', () => {
 
     test('should render the show more button if not loading and has more', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
+        mockHooksOrMethods.usePodStakingPools(() => ({
           ...testData.podStakingPools,
           hasMore: true
         }))
@@ -56,7 +57,7 @@ describe('PodStaking Page test', () => {
 
     test('should show the loading grid when loading', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
+        mockHooksOrMethods.usePodStakingPools(() => ({
           ...testData.podStakingPools,
           data: { pools: [] },
           loading: true
@@ -69,7 +70,7 @@ describe('PodStaking Page test', () => {
 
     test('should render the no pools container if not loading & pool data is empty', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
+        mockHooksOrMethods.usePodStakingPools(() => ({
           ...testData.podStakingPools,
           data: { pools: [] }
         }))
@@ -84,7 +85,7 @@ describe('PodStaking Page test', () => {
 
     test('simulating clicking show more button', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
+        mockHooksOrMethods.usePodStakingPools(() => ({
           ...testData.podStakingPools,
           hasMore: true
         }))

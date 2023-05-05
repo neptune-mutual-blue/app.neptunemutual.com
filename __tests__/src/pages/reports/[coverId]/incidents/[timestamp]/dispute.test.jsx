@@ -1,10 +1,10 @@
 import DateLib from '@/lib/date/DateLib'
 import DisputeFormPage
   from '@/src/pages/reports/[coverId]/incidents/[timestamp]/dispute'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/src/modules/reporting/ReportingHero', () => {
@@ -28,8 +28,8 @@ describe('DisputeFormPage test', () => {
     DisputeFormPage,
     {},
     () => {
-      // mockFn.useCoverOrProductData()
-      mockFn.useFetchReport(() => ({
+      // mockHooksOrMethods.useCoverOrProductData()
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: true
       }))
@@ -47,7 +47,7 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with loading text coverInfo', () => {
     // rerenderFn({}, () => {
-    //   mockFn.useCoverOrProductData(() => null)
+    //   mockHooksOrMethods.useCoverOrProductData(() => null)
     // })
     const incident = screen.getByText('loading...')
     expect(incident).toBeInTheDocument()
@@ -55,7 +55,7 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with no data found', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: {
           incidentReport: false
         },
@@ -68,7 +68,7 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with NewDisputeReportForm with Not applicable for disputing', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: {
           incidentReport: {
             resolutionTimestamp: DateLib.unix()
@@ -83,7 +83,7 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with NewDisputeReportForm with NewDisputeReportForm component', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: {
           incidentReport: {
             resolutionTimestamp: DateLib.unix() + 36000,

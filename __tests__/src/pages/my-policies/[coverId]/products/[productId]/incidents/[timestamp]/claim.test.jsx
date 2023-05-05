@@ -1,4 +1,4 @@
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import ClaimPolicyDiversifiedProduct from '@/pages/my-policies/[coverId]/products/[productId]/incidents/[timestamp]/claim'
 import { screen } from '@testing-library/react'
 

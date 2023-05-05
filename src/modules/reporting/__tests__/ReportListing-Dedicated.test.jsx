@@ -1,7 +1,8 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import ReportListing from '@/modules/reporting/ReportListing'
 import { waitFor, screen, fireEvent } from '@testing-library/react'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('ReportListing test', () => {
   let initialRender
@@ -12,9 +13,9 @@ describe('ReportListing test', () => {
       ReportListing,
       { coverKey: 'animated-brands', productKey: '', locale: 'en' },
       () => {
-        mockFn.useRouter(() => ({ ...testData.router, push }))
-        mockFn.useCoverOrProductData()
-        mockFn.useSubgraphFetch(async () => ({
+        mockHooksOrMethods.useRouter(() => ({ ...testData.router, push }))
+        mockHooksOrMethods.useCoverOrProductData()
+        mockHooksOrMethods.useSubgraphFetch(async () => ({
           incidentReports: [
             {
               id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286',

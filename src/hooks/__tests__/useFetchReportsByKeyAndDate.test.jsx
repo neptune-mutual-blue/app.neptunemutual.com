@@ -1,11 +1,13 @@
 import { useFetchReportsByKeyAndDate } from '@/src/hooks/useFetchReportsByKeyAndDate'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useFetchReportsByKeyAndDate', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
 
-  mockFn.getGraphURL()
-  mockFn.getNetworkId()
+  mockHooksOrMethods.getGraphURL()
+  mockHooksOrMethods.getNetworkId()
 
   const args = [
     {
@@ -19,7 +21,7 @@ describe('useFetchReportsByKeyAndDate', () => {
     const mockData = {
       data: { incidentReports: [{ id: 1, reportedOn: new Date().getTime() }] }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(
       useFetchReportsByKeyAndDate,
@@ -30,14 +32,14 @@ describe('useFetchReportsByKeyAndDate', () => {
     expect(result.data).toEqual(mockData.data.incidentReports)
     expect(result.loading).toBe(false)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return if coverkey & incident dat not provided', async () => {
     const mockData = {
       data: { incidentReports: [{ id: 1, reportedOn: new Date().getTime() }] }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useFetchReportsByKeyAndDate, [
       {}
@@ -45,18 +47,18 @@ describe('useFetchReportsByKeyAndDate', () => {
 
     expect(result.data).toEqual([])
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should log the error if error occurred', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     await renderHookWrapper(useFetchReportsByKeyAndDate, args, true)
 
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

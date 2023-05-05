@@ -9,7 +9,7 @@ import {
 import { i18n } from '@lingui/core'
 import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
 import { NewIncidentReportPage } from '@/modules/reporting/new'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('NewIncidentReportPage.test', () => {
   beforeAll(async () => {
@@ -23,7 +23,7 @@ describe('NewIncidentReportPage.test', () => {
       query: { id: 'animated-brands' }
     })
 
-    mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useCoverOrProductData()
 
     const Component = withProviders(NewIncidentReportPage, router)
     const { getByTestId } = render(<Component />)
