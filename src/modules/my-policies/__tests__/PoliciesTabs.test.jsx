@@ -3,8 +3,9 @@ import { screen } from '@/utils/unit-tests/test-utils'
 import { PoliciesTabs } from '@/modules/my-policies/PoliciesTabs'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const props = {
   active: 'active',
@@ -12,8 +13,8 @@ const props = {
 }
 
 const initialMocks = () => {
-  mockFn.useActivePolicies()
-  mockFn.useValidReport()
+  mockHooksOrMethods.useActivePolicies()
+  mockHooksOrMethods.useValidReport()
 }
 
 describe('PoliciesTab test', () => {
@@ -24,7 +25,7 @@ describe('PoliciesTab test', () => {
   )
 
   beforeAll(() => {
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useWeb3React()
   })
 
   beforeEach(() => {
@@ -47,7 +48,7 @@ describe('PoliciesTab test', () => {
   })
 
   test('should not render the herostat value when wallet is not connected', () => {
-    mockFn.useWeb3React(() => ({ ...testData.account, account: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ ...testData.account, account: null }))
     rerenderFn()
 
     const value = formatCurrency(
@@ -60,7 +61,7 @@ describe('PoliciesTab test', () => {
     const heroStatVal = screen.queryByText(value)
     expect(heroStatVal).not.toBeInTheDocument()
 
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useWeb3React()
     rerenderFn()
   })
 

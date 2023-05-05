@@ -1,5 +1,5 @@
 import { useSearchResults } from '../useSearchResults'
-import { renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 const mockProps = {
   list: [],

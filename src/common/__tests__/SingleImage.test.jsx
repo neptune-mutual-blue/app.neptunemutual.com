@@ -1,5 +1,5 @@
 const { SingleImage } = require('@/common/SingleImage')
-const { initiateTest } = require('@/utils/unit-tests/test-mockup-fn')
+const { initiateTest } = require('@/utils/unit-tests/helpers')
 const { screen } = require('@testing-library/react')
 
 describe('SingleImage', () => {

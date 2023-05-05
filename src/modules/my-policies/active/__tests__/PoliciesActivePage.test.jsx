@@ -2,11 +2,11 @@ import { render, act } from '@/utils/unit-tests/test-utils'
 import { PoliciesActivePage } from '../PoliciesActivePage'
 import { i18n } from '@lingui/core'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('PoliciesActivePage', () => {
   beforeEach(() => {
-    mockFn.useValidReport()
+    mockHooksOrMethods.useValidReport()
 
     act(() => {
       i18n.activate('en')

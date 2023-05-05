@@ -1,12 +1,14 @@
 import { useCalculateTotalLiquidity } from '@/src/hooks/useCalculateTotalLiquidity'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useCalculateTotalLiquidity', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
 
   const mockMulticallResult = ['500002829', '2222001389']
-  mockFn.sdk.multicall({ all: () => Promise.resolve(mockMulticallResult) })
+  mockSdk.multicall({ all: () => Promise.resolve(mockMulticallResult) })
 
   const args = [
     {

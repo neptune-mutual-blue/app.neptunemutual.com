@@ -1,11 +1,12 @@
 import { screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { MainLayout } from '@/src/layouts/main/MainLayout'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('MainLayout component', () => {
   beforeEach(() => {
-    mockFn.useRouter({
+    mockHooksOrMethods.useRouter({
       ...testData.router,
       events: {
         on: jest.fn(),

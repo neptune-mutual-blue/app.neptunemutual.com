@@ -1,7 +1,8 @@
 import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { PurchasePolicyForm } from '@/common/CoverForm/PurchasePolicyForm'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('PurchasePolicyForm component', () => {
   const { initialRender, rerenderFn } = initiateTest(
@@ -11,12 +12,12 @@ describe('PurchasePolicyForm component', () => {
       productKey: ''
     },
     () => {
-      mockFn.useRouter()
-      mockFn.useAppConstants()
-      mockFn.useCoverStatsContext()
-      mockFn.usePolicyFees()
-      mockFn.usePurchasePolicy()
-      mockFn.useValidateReferralCode()
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useAppConstants()
+      mockHooksOrMethods.useCoverStatsContext()
+      mockHooksOrMethods.usePolicyFees()
+      mockHooksOrMethods.usePurchasePolicy()
+      mockHooksOrMethods.useValidateReferralCode()
     }
   )
   beforeEach(() => {
@@ -39,7 +40,7 @@ describe('PurchasePolicyForm component', () => {
 
   test("should show 'Fetching...' if fees is loading", () => {
     rerenderFn({}, () => {
-      mockFn.usePolicyFees({ ...testData.policyFees, loading: true })
+      mockHooksOrMethods.usePolicyFees({ ...testData.policyFees, loading: true })
     })
 
     const loadingMsg = screen.getByText(/Fetching.../i)
@@ -54,7 +55,7 @@ describe('PurchasePolicyForm component', () => {
 
   test("should show 'Fetching Balance...' if balance is updating", () => {
     rerenderFn({}, () => {
-      mockFn.usePurchasePolicy({
+      mockHooksOrMethods.usePurchasePolicy({
         ...testData.purchasePolicy,
         updatingAllowance: false,
         updatingBalance: true
@@ -67,7 +68,7 @@ describe('PurchasePolicyForm component', () => {
 
   test('should show alert if user is not whielisted and cover requires whitelist', () => {
     rerenderFn({}, () => {
-      mockFn.useCoverStatsContext({
+      mockHooksOrMethods.useCoverStatsContext({
         ...testData.coverStats.info,
         requiresWhitelist: true,
         isUserWhitelisted: false
@@ -80,7 +81,7 @@ describe('PurchasePolicyForm component', () => {
 
   test('should show alert with product status anything other than normal', () => {
     rerenderFn({}, () => {
-      mockFn.useCoverStatsContext({
+      mockHooksOrMethods.useCoverStatsContext({
         ...testData.coverStats.info,
         productStatus: 'Incident Occurred'
       })
@@ -108,7 +109,7 @@ describe('PurchasePolicyForm component', () => {
 
   test('should show error message if referral code returs not valid', () => {
     rerenderFn({}, () => {
-      mockFn.useValidateReferralCode({
+      mockHooksOrMethods.useValidateReferralCode({
         ...testData.referralCodeHook,
         isValid: false
       })
@@ -123,7 +124,7 @@ describe('PurchasePolicyForm component', () => {
 
   test('should show loader', () => {
     rerenderFn({}, () => {
-      mockFn.useValidateReferralCode({
+      mockHooksOrMethods.useValidateReferralCode({
         ...testData.referralCodeHook,
         isPending: true,
         isValid: false,
@@ -146,7 +147,7 @@ describe('PurchasePolicyForm component', () => {
 
   test('should fire handlePurchase', () => {
     rerenderFn({}, () => {
-      mockFn.usePurchasePolicy({
+      mockHooksOrMethods.usePurchasePolicy({
         ...testData.purchasePolicy,
         approving: false,
         canPurchase: true,

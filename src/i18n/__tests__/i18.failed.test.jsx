@@ -1,7 +1,8 @@
 import { screen, waitFor } from '@testing-library/react'
 import { LanguageProvider } from '../i18n'
 import { Trans } from '@lingui/macro'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 jest.mock('../dynamic-activate', () => ({
   dynamicActivate: jest.fn(() => Promise.reject(new Error('Error in dynamic-activate')))
@@ -21,7 +22,7 @@ describe('LanguageProvider', () => {
   const languagechange = jest.fn(() => {})
 
   test('Should render LanguageProvider', async () => {
-    mockFn.useRouter()
+    mockHooksOrMethods.useRouter()
 
     initialRender()
 

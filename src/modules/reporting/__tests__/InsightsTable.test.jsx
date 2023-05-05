@@ -1,16 +1,16 @@
 import { i18n } from '@lingui/core'
 import { render } from '@/utils/unit-tests/test-utils'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { testData } from '@/utils/unit-tests/test-data'
 import { InsightsTable } from '@/modules/reporting/InsightsTable'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const incidentReport = testData.incidentReports.data.incidentReport
 
 const router = createMockRouter()
-const { NPMTokenSymbol } = mockFn.useAppConstants()
+const { NPMTokenSymbol } = mockHooksOrMethods.useAppConstants()
 
 const successinsights = [
   {

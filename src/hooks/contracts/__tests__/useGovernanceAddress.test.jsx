@@ -1,14 +1,16 @@
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
-describe('useClaimsProcessorAddress', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Governance.getAddress()
+describe('useGovernanceAddress', () => {
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Governance.getAddress()
 
   test('while fetching w/o account and networkId', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result } = await renderHookWrapper(useGovernanceAddress)
 
@@ -16,10 +18,10 @@ describe('useClaimsProcessorAddress', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
 
-    const { result } = await renderHookWrapper(useGovernanceAddress, [], true)
+    const { result } = await renderHookWrapper(useGovernanceAddress, [])
 
     expect(result).toBe(testData.governanceAddress)
   })

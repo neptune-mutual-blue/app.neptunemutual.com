@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, screen, waitFor } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { i18n } from '@lingui/core'
 import ConnectWallet from '../ConnectWallet'
 import { Disclaimer } from '../Disclaimer'
@@ -9,6 +9,7 @@ import { Popup } from '../Popup'
 import { WalletList } from '../WalletList'
 import { testData } from '@/utils/unit-tests/test-data'
 import * as configWallets from '../../../config/wallets'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('ConnectWallet component', () => {
   const onLogin = jest.fn(() => {})
@@ -33,12 +34,12 @@ describe('ConnectWallet component', () => {
 
   beforeEach(() => {
     i18n.activate('en')
-    mockFn.useAuth(() => ({
+    mockHooksOrMethods.useAuth(() => ({
       login: onLogin,
       logout: onLogout
     }))
 
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useWeb3React()
 
     initialRender()
   })
@@ -66,7 +67,7 @@ describe('ConnectWallet component', () => {
   })
 
   test('Should show Modal', () => {
-    mockFn.useWeb3React(() => ({ ...testData.account, active: false }))
+    mockHooksOrMethods.useWeb3React(() => ({ ...testData.account, active: false }))
 
     rerenderFn()
 
@@ -88,7 +89,7 @@ describe('ConnectWallet component', () => {
   })
 
   test('Should logout', () => {
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useWeb3React()
 
     rerenderFn()
     const onOpenButton = screen.getByTestId('onOpen')
@@ -184,7 +185,7 @@ describe('Popup Component', () => {
   })
 
   beforeEach(() => {
-    mockFn.useAuth(() => ({
+    mockHooksOrMethods.useAuth(() => ({
       login: onLogin,
       logout: onLogout
     }))
@@ -246,7 +247,7 @@ describe('Popup Component', () => {
   })
 
   test('Hide Popup Modal and Close', () => {
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useWeb3React()
     rerenderFn({
       isOpen: false
     })

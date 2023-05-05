@@ -1,7 +1,7 @@
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -16,8 +16,8 @@ describe('DisputeFormPage test', () => {
       require('@/src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute').default
 
     const { initialRender } = initiateTest(DisputeFormPage, {}, () => {
-      // mockFn.useCoverOrProductData()
-      mockFn.useFetchReport(() => ({
+      // mockHooksOrMethods.useCoverOrProductData()
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: true
       }))

@@ -1,14 +1,15 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen, waitFor } from '@testing-library/react'
 import { i18n } from '@lingui/core'
 import { ReportingInfo } from '@/modules/reporting/ReportingInfo'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 
 describe('Reporting Info', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.sdk.utils.ipfs.readBytes32(
+    mockSdk.utils.ipfs.readBytes32(
       testData.reporting.activeReporting[0].reporterInfo
     )
 

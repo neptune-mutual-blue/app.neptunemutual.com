@@ -1,14 +1,15 @@
 import { useBlockHeight } from '../useBlockHeight'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('useBlockHeight', () => {
   test('should not receive block height', async () => {
-    mockFn.useWeb3React(() => ({
+    mockHooksOrMethods.useWeb3React(() => ({
       account: null
     }))
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.utilsWeb3.getProviderOrSigner(() => null)
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.utilsWeb3.getProviderOrSigner(() => null)
 
     const { result } = await renderHookWrapper(useBlockHeight)
 
@@ -16,9 +17,9 @@ describe('useBlockHeight', () => {
   })
 
   test('should receive block height', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.utilsWeb3.getProviderOrSigner(
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.utilsWeb3.getProviderOrSigner(
       () => testData.providerOrSignerGetBlockNumber
     )
 

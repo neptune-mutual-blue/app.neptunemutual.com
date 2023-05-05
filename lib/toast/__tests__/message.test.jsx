@@ -1,5 +1,5 @@
 import InfoIcon from '@/lib/toast/components/icons/InfoIcon'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import ToastMessage from '../message'
 

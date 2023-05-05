@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useActivePolicies } from '../useActivePolicies'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockReturnData = {
   data: {
@@ -12,13 +14,13 @@ const mockReturnData = {
 }
 
 describe('useActivePolicies', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   test('while fetching w/o account', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result } = await renderHookWrapper(useActivePolicies)
 
@@ -28,8 +30,8 @@ describe('useActivePolicies', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockHooksOrMethods.useWeb3React()
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result } = await renderHookWrapper(useActivePolicies, [], true)
 
@@ -42,7 +44,7 @@ describe('useActivePolicies', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(useActivePolicies, [], true)
@@ -51,7 +53,7 @@ describe('useActivePolicies', () => {
     expect(result.data.totalActiveProtection.toString()).toEqual('0')
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

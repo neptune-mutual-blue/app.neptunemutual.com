@@ -1,4 +1,6 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -8,10 +10,10 @@ jest.mock('@/common/ComingSoon', () => ({
 describe('ReportingNewCoverPage test', () => {
   const OLD_ENV = process.env
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useCoverOrProductData()
-    mockFn.getNetworkId()
-    mockFn.fetch(true, undefined, { data: { incidentReport: [] } })
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.getNetworkId()
+    mockGlobals.fetch(true, undefined, { data: { incidentReport: [] } })
     process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: 'none' }
     const DisputeFormPage =
       require('@/src/pages/reports/[coverId]/incidents/[timestamp]/dispute').default

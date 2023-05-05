@@ -1,16 +1,18 @@
 import { useRemoveLiquidity } from '@/src/hooks/useRemoveLiquidity'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useRemoveLiquidity', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useLiquidityFormsContext()
-  mockFn.useERC20Allowance()
-  mockFn.useTxToast()
-  mockFn.useErrorNotifier()
-  mockFn.useTxPoster()
-  mockFn.sdk.registry.Vault.getInstance()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useLiquidityFormsContext()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.useTxPoster()
+  mockSdk.registry.Vault.getInstance()
 
   const args = [
     {
@@ -57,7 +59,7 @@ describe('useRemoveLiquidity', () => {
   })
 
   test('should call notifyError when error arises in handleApprove', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
@@ -69,12 +71,12 @@ describe('useRemoveLiquidity', () => {
     })
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
   })
 
   test('should return when no networkId or account in handleWithdraw', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result, act } = await renderHookWrapper(useRemoveLiquidity, args)
 
@@ -83,12 +85,12 @@ describe('useRemoveLiquidity', () => {
       await result.handleWithdraw(successCb, true)
     })
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 
   test('should call notifyError when error in handleWithdraw', async () => {
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: null
     }))
@@ -101,6 +103,6 @@ describe('useRemoveLiquidity', () => {
     })
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useTxPoster()
   })
 })

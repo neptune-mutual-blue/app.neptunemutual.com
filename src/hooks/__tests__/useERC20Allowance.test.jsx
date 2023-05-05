@@ -1,14 +1,16 @@
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useERC20Allowance', () => {
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useErrorNotifier()
-  mockFn.useTxPoster()
-  mockFn.useUnlimitedApproval()
-  mockFn.useAuthValidation()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useUnlimitedApproval()
+  mockHooksOrMethods.useAuthValidation()
 
   const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
   const spender = '0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468'
@@ -70,18 +72,18 @@ describe('useERC20Allowance', () => {
     })
 
     test('should return when token instance is undefined in refetch function', async () => {
-      mockFn.sdk.registry.IERC20.getInstance(true)
+      mockSdk.registry.IERC20.getInstance(true)
       const { result, act } = await renderHookWrapper(useERC20Allowance, args)
 
       await act(async () => {
         await result.refetch(spender)
       })
 
-      mockFn.sdk.registry.IERC20.getInstance()
+      mockSdk.registry.IERC20.getInstance()
     })
 
     test('should return when error in fetchAllowance function', async () => {
-      mockFn.useTxPoster(() => ({
+      mockHooksOrMethods.useTxPoster(() => ({
         ...testData.txPoster,
         contractRead: () => Promise.reject(new Error('Error in contractRead'))
       }))
@@ -91,7 +93,7 @@ describe('useERC20Allowance', () => {
         await result.refetch(spender)
       })
 
-      mockFn.useTxPoster()
+      mockHooksOrMethods.useTxPoster()
     })
 
     test('should set allowance to 0 when no tokenaddress', async () => {
@@ -110,7 +112,7 @@ describe('useERC20Allowance', () => {
     })
 
     test('should return when no allowance returned from contractRead function', async () => {
-      mockFn.useTxPoster(() => ({
+      mockHooksOrMethods.useTxPoster(() => ({
         ...testData.txPoster,
         contractRead: () => Promise.resolve(null)
       }))
@@ -120,7 +122,7 @@ describe('useERC20Allowance', () => {
       await act(async () => {
         result.refetch(spender)
       })
-      mockFn.useTxPoster()
+      mockHooksOrMethods.useTxPoster()
     })
 
     test('testing conditions for no token addresss for approve function', async () => {
@@ -136,7 +138,7 @@ describe('useERC20Allowance', () => {
     })
 
     test('testing for no token instance for approve function', async () => {
-      mockFn.sdk.registry.IERC20.getInstance(true)
+      mockSdk.registry.IERC20.getInstance(true)
 
       const { result, act } = await renderHookWrapper(useERC20Allowance, args)
 
@@ -144,7 +146,7 @@ describe('useERC20Allowance', () => {
         await result.approve(...fnArgs)
       })
 
-      mockFn.sdk.registry.IERC20.getInstance()
+      mockSdk.registry.IERC20.getInstance()
     })
   })
 })

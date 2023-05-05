@@ -1,19 +1,20 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import HomePage from '@/modules/home/index'
 import { screen } from '@testing-library/react'
 import { i18n } from '@lingui/core'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('Home Page', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useFetchHeroStats()
-    mockFn.useAppConstants()
-    mockFn.useProtocolDayData()
+    mockHooksOrMethods.useFetchHeroStats()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useProtocolDayData()
 
-    mockFn.useCovers()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useSortableStats()
+    mockHooksOrMethods.useCovers()
+    mockHooksOrMethods.useFlattenedCoverProducts()
+    mockHooksOrMethods.useSortableStats()
 
     const { initialRender } = initiateTest(HomePage, {})
 

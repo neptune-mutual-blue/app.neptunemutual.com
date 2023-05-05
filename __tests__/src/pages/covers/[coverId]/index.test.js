@@ -1,4 +1,4 @@
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 // const mockisDiversifiedCoversEnabled = jest.spyOn(
@@ -29,7 +29,7 @@ describe('Options test', () => {
   const CoverPage = require('@/src/pages/covers/[coverId]').default
 
   const { initialRender, rerenderFn } = initiateTest(CoverPage, {}, () => {
-    // mockFn.useCoverOrProductData()
+    // mockHooksOrMethods.useCoverOrProductData()
   })
 
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('Options test', () => {
 
   test('Should display Home Hero And Products Grind Component Diversifed Product', () => {
     rerenderFn(CoverPage, () => {
-      // mockFn.useCoverOrProductData(() => {
+      // mockHooksOrMethods.useCoverOrProductData(() => {
       //   return { ...testData.coverInfo, supportsProducts: true }
       // })
     })

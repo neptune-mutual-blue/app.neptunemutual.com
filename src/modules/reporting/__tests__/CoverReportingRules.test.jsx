@@ -1,6 +1,6 @@
 import { CoverReportingRules } from '@/modules/reporting/CoverReportingRules'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import {
   render,
   screen
@@ -11,8 +11,8 @@ describe('CoverReportingRules test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useAppConstants()
-    // mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useAppConstants()
+    // mockHooksOrMethods.useCoverOrProductData()
   })
 
   test('should render the button with report an incident', () => {

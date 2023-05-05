@@ -1,17 +1,17 @@
 import { PurchasePolicyReceipt } from '@/modules/my-policies/PurchasePolicyReceipt'
 import { i18n } from '@lingui/core'
 import { fireEvent, render, screen } from '@/utils/unit-tests/test-utils'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('PurchasePolicyReceipt test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useCoverOrProductData()
-    mockFn.useAppConstants()
-    mockFn.useNetwork()
-    mockFn.useRegisterToken()
-    mockFn.useFetchCoverPurchasedEvent()
+    mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useRegisterToken()
+    mockHooksOrMethods.useFetchCoverPurchasedEvent()
   })
 
   test('should render the title correctly', () => {

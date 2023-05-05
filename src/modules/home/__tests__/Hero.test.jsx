@@ -6,8 +6,8 @@ import * as ProtocolHook from '@/src/hooks/useProtocolDayData'
 import { convertFromUnits, toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const liquidityTokenDecimals = 6
 
@@ -48,9 +48,9 @@ describe('Hero test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useProtocolDayData()
-    mockFn.useRouter()
-    mockFn.useFetchHeroStats()
+    mockHooksOrMethods.useProtocolDayData()
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useFetchHeroStats()
 
     render(<HomeHero />)
   })

@@ -1,8 +1,9 @@
 import DateLib from '@/lib/date/DateLib'
 import { WithdrawLiquidityForm } from '@/modules/my-liquidity/content/WithdrawLiquidityForm'
 import { convertToUnits } from '@/utils/bn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen } from '@testing-library/react'
 
 describe('WithdrawLiquidityForm', () => {
@@ -13,17 +14,17 @@ describe('WithdrawLiquidityForm', () => {
     WithdrawLiquidityForm,
     props,
     () => {
-      mockFn.useRouter(() => ({
+      mockHooksOrMethods.useRouter(() => ({
         ...testData.router,
         query: {
           coverId: '0x1234567890123456789012345678901234567890'
         },
         locale: 'en'
       }))
-      mockFn.useAppConstants()
-      mockFn.useCalculateLiquidity()
-      mockFn.useLiquidityFormsContext()
-      mockFn.useRemoveLiquidity()
+      mockHooksOrMethods.useAppConstants()
+      mockHooksOrMethods.useCalculateLiquidity()
+      mockHooksOrMethods.useLiquidityFormsContext()
+      mockHooksOrMethods.useRemoveLiquidity()
     }
   )
 
@@ -50,7 +51,7 @@ describe('WithdrawLiquidityForm', () => {
 
   test('should not render `Your Stake` prefix if myStake is 0', () => {
     rerenderFn({}, () => {
-      mockFn.useLiquidityFormsContext(() => ({
+      mockHooksOrMethods.useLiquidityFormsContext(() => ({
         ...testData.liquidityFormsContext,
         info: {
           ...testData.liquidityFormsContext.info,
@@ -136,7 +137,7 @@ describe('WithdrawLiquidityForm', () => {
 
   test('should show `Wait for accural` text if accural not complete', () => {
     rerenderFn({}, () => {
-      mockFn.useLiquidityFormsContext(() => ({
+      mockHooksOrMethods.useLiquidityFormsContext(() => ({
         ...testData.liquidityFormsContext,
         info: {
           ...testData.liquidityFormsContext.info,
@@ -150,7 +151,7 @@ describe('WithdrawLiquidityForm', () => {
 
   test('should show loadingMessage', () => {
     rerenderFn({}, () => {
-      mockFn.useCalculateLiquidity({
+      mockHooksOrMethods.useCalculateLiquidity({
         ...testData.calculateLiquidity,
         loading: true
       })
@@ -170,7 +171,7 @@ describe('WithdrawLiquidityForm', () => {
       expect(button.textContent).toBe('Approve')
 
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
+        mockHooksOrMethods.useRemoveLiquidity(() => ({
           ...testData.removeLiquidity,
           approving: true
         }))
@@ -181,7 +182,7 @@ describe('WithdrawLiquidityForm', () => {
 
     test('should disable the approve button when approving', () => {
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
+        mockHooksOrMethods.useRemoveLiquidity(() => ({
           ...testData.removeLiquidity,
           approving: true
         }))
@@ -201,7 +202,7 @@ describe('WithdrawLiquidityForm', () => {
   describe('Withdraw Button', () => {
     beforeEach(() => {
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
+        mockHooksOrMethods.useRemoveLiquidity(() => ({
           ...testData.removeLiquidity,
           allowance: convertToUnits('1000').toString()
         }))
@@ -220,7 +221,7 @@ describe('WithdrawLiquidityForm', () => {
       expect(button.textContent).toBe('Withdraw')
 
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
+        mockHooksOrMethods.useRemoveLiquidity(() => ({
           ...testData.removeLiquidity,
           allowance: convertToUnits('1000').toString(),
           withdrawing: true
@@ -235,7 +236,7 @@ describe('WithdrawLiquidityForm', () => {
 
     test('should disable the button when withdrawing', () => {
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
+        mockHooksOrMethods.useRemoveLiquidity(() => ({
           ...testData.removeLiquidity,
           allowance: convertToUnits('1000').toString(),
           withdrawing: true

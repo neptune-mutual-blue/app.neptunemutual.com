@@ -1,6 +1,7 @@
 import { AccountDetailsModal } from '@/common/Header/AccountDetailsModal'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { act, fireEvent, screen } from '@testing-library/react'
 
 describe('AccountDetailsModal test', () => {
@@ -22,7 +23,7 @@ describe('AccountDetailsModal test', () => {
       handleDisconnect: () => handleDisconnect()
     },
     () => {
-      mockFn.useUnlimitedApproval()
+      mockHooksOrMethods.useUnlimitedApproval()
     }
   )
 

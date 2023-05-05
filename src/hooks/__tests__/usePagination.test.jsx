@@ -1,6 +1,6 @@
 import { ROWS_PER_PAGE } from '@/src/config/constants'
 import { usePagination } from '@/src/hooks/usePagination'
-import { renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('usePagination', () => {
   const args = [

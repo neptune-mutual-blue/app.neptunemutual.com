@@ -17,7 +17,6 @@ import {
 } from '@/src/config/environment'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
-import { useNetwork } from '@/src/context/Network'
 // import {* as Network} from '@/src/context/Network'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -38,6 +37,7 @@ import { useBondInfo } from '@/src/hooks/useBondInfo'
 import { useBondTxs } from '@/src/hooks/useBondTxs'
 import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useCalculatePods } from '@/src/hooks/useCalculatePods'
+import { useNetwork } from '@/src/context/Network'
 import {
   useCalculateTotalLiquidity
 } from '@/src/hooks/useCalculateTotalLiquidity'
@@ -101,17 +101,6 @@ import * as TransactionHistoryFile
   from '@/src/services/transactions/transaction-history'
 import { getReplacedString } from '@/utils/string'
 import { testData } from '@/utils/unit-tests/test-data'
-import {
-  act,
-  cleanup,
-  render
-} from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import * as NeptuneMutualSDK from '@neptunemutual/sdk'
-import {
-  act as hooksAct,
-  renderHook
-} from '@testing-library/react-hooks'
 
 const Web3React = require('@web3-react/core')
 
@@ -122,11 +111,10 @@ const Web3React = require('@web3-react/core')
  */
 const returnFunction = (d) => {
   if (typeof d === 'function') return d
-  return () => d
+  return jest.fn(() => d)
 }
 
-export const mockFn = {
-
+const mockHooksOrMethods = {
   useResolveIncident: (cb = () => testData.resolveIncidentHookValues) =>
     jest
       .spyOn({ useResolveIncident }, 'useResolveIncident')
@@ -237,6 +225,11 @@ export const mockFn = {
   useNetwork: (cb = () => testData.network) =>
     jest.spyOn({ useNetwork }, 'useNetwork').mockImplementation(returnFunction(cb)),
 
+  useWeb3React: (cb = () => testData.account) =>
+    jest
+      .spyOn(Web3React, 'useWeb3React')
+      .mockImplementation(returnFunction(cb)),
+
   useEagerConnect: (cb = () => {}) =>
     jest
       .spyOn({ useEagerConnect }, 'useEagerConnect')
@@ -255,11 +248,6 @@ export const mockFn = {
           ? null
           : `https://api.thegraph.com/subgraphs/name/test-org/${networkId}`
       ),
-
-  useWeb3React: (cb = () => testData.account) =>
-    jest
-      .spyOn(Web3React, 'useWeb3React')
-      .mockImplementation(returnFunction(cb)),
 
   useRouter: (cb = () => testData.router) =>
     jest.spyOn(RouterHook, 'useRouter').mockImplementation(returnFunction(cb)),
@@ -295,6 +283,7 @@ export const mockFn = {
     jest
       .spyOn({ usePagination }, 'usePagination')
       .mockImplementation(returnFunction(cb)),
+
   useLiquidityTxs: (cb = () => testData.liquidityTxs) =>
     jest
       .spyOn({ useLiquidityTxs }, 'useLiquidityTxs')
@@ -334,6 +323,7 @@ export const mockFn = {
     jest
       .spyOn({ useActivePolicies }, 'useActivePolicies')
       .mockImplementation(returnFunction(cb)),
+
   useExpiredPolicies: (cb = () => testData.useExpiredPolicies) =>
     jest
       .spyOn({ useExpiredPolicies }, 'useExpiredPolicies')
@@ -369,6 +359,7 @@ export const mockFn = {
     jest
       .spyOn({ useSearchResults }, 'useSearchResults')
       .mockImplementation(returnFunction(cb)),
+
   useCalculateLiquidity: (cb = () => testData.calculateLiquidity) =>
     jest
       .spyOn({ useCalculateLiquidity }, 'useCalculateLiquidity')
@@ -383,6 +374,7 @@ export const mockFn = {
     jest
       .spyOn({ useMyLiquidityInfo }, 'useMyLiquidityInfo')
       .mockImplementation(returnFunction(cb)),
+
   // useValidateReferralCode: (cb = () => true) =>
   //   jest
   //     .spyOn(ValidateReferralCode, "useValidateReferralCode")
@@ -401,6 +393,7 @@ export const mockFn = {
     jest
       .spyOn({ useFetchCoverPurchasedEvent }, 'useFetchCoverPurchasedEvent')
       .mockImplementation(returnFunction(cb)),
+
   useLocalStorage: (cb) =>
     jest
       .spyOn({ useLocalStorage }, 'useLocalStorage')
@@ -409,45 +402,6 @@ export const mockFn = {
   useAuth: (
     cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
   ) => jest.spyOn({ useAuth }, 'useAuth').mockImplementation(returnFunction(cb)),
-
-  console: {
-    error: () => {
-      const originalError = console.error
-      const mockConsoleError = jest.fn()
-
-      return {
-        mock: () => {
-          Object.defineProperty(global.console, 'error', {
-            value: mockConsoleError
-          })
-        },
-        restore: () => {
-          Object.defineProperty(global.console, 'error', {
-            value: originalError
-          })
-        },
-        mockFunction: mockConsoleError
-      }
-    },
-    log: () => {
-      const originalLog = console.log
-      const mockConsoleLog = jest.fn()
-
-      return {
-        mock: () => {
-          Object.defineProperty(global.console, 'log', {
-            value: mockConsoleLog
-          })
-        },
-        restore: () => {
-          Object.defineProperty(global.console, 'log', {
-            value: originalLog
-          })
-        },
-        mockFunction: mockConsoleLog
-      }
-    }
-  },
 
   useReportIncident: (cb = () => testData.reportIncident) =>
     jest
@@ -479,10 +433,12 @@ export const mockFn = {
     jest
       .spyOn({ useRecentVotes }, 'useRecentVotes')
       .mockImplementation(returnFunction(cb)),
+
   useUnstakeReportingStake: (cb = () => testData.unstakeReporting) =>
     jest
       .spyOn({ useUnstakeReportingStake }, 'useUnstakeReportingStake')
       .mockImplementation(returnFunction(cb)),
+
   useRetryUntilPassed: (cb = () => testData.retryUntilPassed) =>
     jest
       .spyOn({ useRetryUntilPassed }, 'useRetryUntilPassed')
@@ -499,29 +455,6 @@ export const mockFn = {
   //   jest
   //     .spyOn(CoverProductsFunction, 'getCoverData')
   //     .mockImplementation(returnFunction(cb)),
-
-  fetch: (
-    resolve = true,
-    fetchResponse = testData.fetch,
-    fetchJsonData = {}
-  ) => {
-    global.fetch = jest.fn(() =>
-      resolve
-        ? Promise.resolve({
-          ...fetchResponse,
-          json: () => Promise.resolve(fetchJsonData)
-        })
-        : Promise.reject(fetchJsonData ?? 'Error occurred')
-    )
-    return {
-      unmock: () => {
-        if (global.fetch?.mockClear) {
-          global.fetch?.mockClear?.()
-          delete global.fetch
-        }
-      }
-    }
-  },
 
   useDebounce: (value = 123) =>
     jest
@@ -572,196 +505,6 @@ export const mockFn = {
         .spyOn({ getProviderOrSigner }, 'getProviderOrSigner')
         .mockImplementation(returnFunction(cb))
   },
-
-  sdk: {
-    registry: {
-      BondPool: {
-        getInstance: () => {
-          NeptuneMutualSDK.registry.BondPool.getInstance = jest.fn(() =>
-            Promise.resolve('geInstance() mock')
-          )
-        },
-        getAddress: () => {
-          NeptuneMutualSDK.registry.BondPool.getAddress = jest.fn(() =>
-            Promise.resolve(testData.bondPoolAddress)
-          )
-        }
-      },
-      Governance: {
-        getInstance: () => {
-          NeptuneMutualSDK.registry.Governance.getInstance = jest.fn(() =>
-            Promise.resolve('geInstance() mock')
-          )
-        },
-        getAddress: () => {
-          NeptuneMutualSDK.registry.Governance.getAddress = jest.fn(() =>
-            Promise.resolve(testData.governanceAddress)
-          )
-        }
-      },
-      IERC20: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.IERC20.getInstance = jest.fn(() =>
-            returnUndefined ? undefined : 'IERC20 geInstance() mock'
-          )
-        }
-      },
-      Reassurance: {
-        getInstance: () => {
-          NeptuneMutualSDK.registry.Reassurance.getInstance = jest.fn(() =>
-            Promise.resolve('geInstance() mock')
-          )
-        }
-      },
-      Resolution: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.Resolution.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : 'Resolution geInstance() mock'
-            )
-          )
-        }
-      },
-      Cover: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.Cover.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : 'Cover geInstance() mock'
-            )
-          )
-        }
-      },
-      Vault: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : 'Vault geInstance() mock'
-            )
-          )
-        },
-        getAddress: () => {
-          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
-            Promise.resolve(testData.vaultAddress)
-          )
-        }
-      },
-      PolicyContract: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.PolicyContract.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : 'PolicyContract getInstance() mock'
-            )
-          )
-        },
-        getAddress: (returnUndefined = false, functionUndefined = false) => {
-          const mockFunction = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : 'PolicyContract getAddress() mock'
-            )
-          )
-          NeptuneMutualSDK.registry.PolicyContract.getAddress =
-            functionUndefined ? undefined : mockFunction
-        }
-      },
-      ClaimsProcessor: {
-        getAddress: () => {
-          NeptuneMutualSDK.registry.ClaimsProcessor.getAddress = jest.fn(() =>
-            Promise.resolve(testData.claimsProcessorAddress)
-          )
-        }
-      },
-      StakingPools: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.StakingPools.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : 'StakingPools getInstance() mock'
-            )
-          )
-        },
-        getAddress: () => {
-          NeptuneMutualSDK.registry.StakingPools.getAddress = jest.fn(() =>
-            Promise.resolve(testData.poolInfo.info.stakingPoolsContractAddress)
-          )
-        }
-      },
-      Protocol: {
-        getAddress: (returnUndefined = false, functionUndefined = false) => {
-          const mockFunction = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : 'Protocol getAddress() mock'
-            )
-          )
-          NeptuneMutualSDK.registry.Protocol.getAddress = functionUndefined
-            ? undefined
-            : mockFunction
-        }
-      }
-    },
-    utils: {
-      ipfs: {
-        write: (returnUndefined = false) => {
-          NeptuneMutualSDK.utils.ipfs.write = jest.fn((payload) =>
-            Promise.resolve(returnUndefined ? undefined : [payload.toString()])
-          )
-        },
-        readBytes32: (ipfsBytes) => {
-          NeptuneMutualSDK.utils.ipfs.read = jest.fn(() =>
-            Promise.resolve(ipfsBytes)
-          )
-        }
-      }
-    },
-    governance: {
-      report: () => {
-        NeptuneMutualSDK.governance.report = jest.fn(() =>
-          Promise.resolve(testData.governanceReportResult)
-        )
-      }
-    },
-    multicall: (returnData) => {
-      const data = {
-        getCoverFeeInfo:
-          returnData?.getCoverFeeInfo ?? jest.fn(() => 'getCoverFeeInfo mock'),
-        getExpiryDate:
-          returnData?.getExpiryDate ?? jest.fn(() => 'getexpirydate mock'),
-        hasRole: returnData?.hasRole ?? jest.fn((...args) => args),
-        calculateLiquidity:
-          returnData?.calculateLiquidity ?? jest.fn((...args) => args),
-        init: returnData?.init ?? jest.fn(() => Promise.resolve('init')),
-        all:
-          returnData?.all ??
-          jest.fn(() => {
-            const { getCoverFeeInfoResult, getExpiryDateResult } =
-              testData.multicallProvider
-            return Promise.resolve([
-              getCoverFeeInfoResult,
-              getExpiryDateResult
-            ])
-          })
-      }
-
-      class MockContract {
-        getCoverFeeInfo = data.getCoverFeeInfo;
-        getExpiryDate = data.getExpiryDate;
-        hasRole = data.hasRole;
-        calculateLiquidity = data.calculateLiquidity;
-      }
-      class MockProvider {
-        init = data.init;
-        all = data.all;
-      }
-
-      NeptuneMutualSDK.multicall.Contract = MockContract
-      NeptuneMutualSDK.multicall.Provider = MockProvider
-    }
-  },
-
-  setTimeout: () => (global.setTimeout = jest.fn((cb) => cb())),
-  setInterval: () =>
-    (global.setInterval = jest.fn((cb) => {
-      cb()
-      return 1234
-    })),
 
   useCoversAndProducts: (resolve = true, returnData = {}) =>
     jest
@@ -862,181 +605,26 @@ export const mockFn = {
       TransactionHistoryFile.TransactionHistory.callback = originalFunction
     }
   },
+
   usePolicyAddress: (cb = () => testData.policyContractAddress) =>
     jest
       .spyOn({ usePolicyAddress }, 'usePolicyAddress')
       .mockImplementation(returnFunction(cb)),
+
   useValidateReferralCode: (cb = () => testData.referralCodeHook) =>
     jest
       .spyOn({ useValidateReferralCode }, 'useValidateReferralCode')
       .mockImplementation(returnFunction(cb)),
+
   useCalculatePods: (cb = () => testData.calculatePods) =>
     jest
       .spyOn({ useCalculatePods }, 'useCalculatePods')
       .mockImplementation(returnFunction(cb)),
+
   useProvideLiquidity: (cb = () => testData.provideLiquidity) =>
     jest
       .spyOn({ useProvideLiquidity }, 'useProvideLiquidity')
       .mockImplementation(returnFunction(cb))
 }
 
-export const globalFn = {
-  ethereum: () => {
-    const ETHEREUM_METHODS = {
-      eth_requestAccounts: () => [testData.account.account]
-    }
-
-    global.ethereum = {
-      enable: jest.fn(() => Promise.resolve(true)),
-      send: jest.fn((method) => {
-        if (method === 'eth_chainId') {
-          return Promise.resolve(1)
-        }
-
-        if (method === 'eth_requestAccounts') {
-          return Promise.resolve(testData.account.account)
-        }
-
-        return Promise.resolve(true)
-      }),
-      request: jest.fn(async ({ method }) => {
-        if (Object.prototype.hasOwnProperty.call(ETHEREUM_METHODS, method)) {
-          return ETHEREUM_METHODS[method]
-        }
-
-        return ''
-      }),
-      on: jest.fn(() => {})
-    }
-  },
-  crypto: () => {
-    // @ts-ignore
-    global.crypto = {
-      getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10))
-    }
-  },
-  scrollTo: () => {
-    global.scrollTo = jest.fn(() => {})
-  },
-  console: {
-    log: () => (console.log = jest.fn(() => {})),
-    dir: () => (console.dir = jest.fn(() => {})),
-    error: () => (console.error = jest.fn(() => {}))
-  },
-  resizeObserver: () => {
-    global.ResizeObserver = class ResizeObserver {
-      constructor (cb) {
-        this.cb = cb
-      }
-
-      observe () {
-        this.cb([{ borderBoxSize: { inlineSize: 0, blockSize: 0 } }])
-      }
-
-      unobserve () {}
-    }
-  },
-  DOMRect: () => {
-    global.DOMRect = {
-      fromRect: () => ({
-        x: 0,
-        y: 0,
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        width: 0,
-        height: 0,
-        toJSON: () => {}
-      })
-    }
-  }
-}
-
-export const initiateTest = (
-  Component,
-  props = {},
-  initialMocks = () => {},
-  options = {}
-) => {
-  const initialRender = (newProps = {}, newMocks = () => {}) => {
-    cleanup()
-    initialMocks()
-    newMocks()
-    act(() => {
-      i18n.activate('en')
-    })
-
-    return render(<Component {...props} {...newProps} />, options)
-  }
-
-  const rerenderFn = (newProps = {}, mocks = () => {}) => {
-    return initialRender(newProps, mocks)
-  }
-
-  return {
-    initialRender,
-    rerenderFn
-  }
-}
-
-/**
- * @typedef renderHookWrapperReturn
- * @property {Object} result
- * @property {Function} act
- * @property {Function} rerender
- * @property {Function} unmount
- * @property {Function} [waitForNextUpdate]
- * @property {Object} [renderHookResult]
- */
-
-/**
- *
- * @param {Function} hookFunction
- * @param {any[]} [hookArgs]
- * @param {boolean | number} [waitForNextUpdate]
- * @param {Object} [renderHookOptions]
- * @returns {Promise<renderHookWrapperReturn>}
- *
- */
-export const renderHookWrapper = async (
-  hookFunction,
-  hookArgs = [],
-  waitForNextUpdate = false,
-  renderHookOptions = {}
-) => {
-  let res = {}
-  let rr = () => {}
-  let u = () => {}
-  let wfnu = () => {}
-  let renderHookResult = {}
-
-  await hooksAct(async () => {
-    i18n.activate('en')
-    const {
-      result,
-      waitForNextUpdate: WFNU,
-      rerender,
-      unmount
-    } = renderHook((args) => hookFunction(...args), {
-      initialProps: hookArgs,
-      ...renderHookOptions
-    })
-
-    if (typeof waitForNextUpdate === 'boolean' && waitForNextUpdate) { await WFNU() } else if (typeof waitForNextUpdate === 'number') { await WFNU({ timeout: waitForNextUpdate }) }
-
-    res = result.current
-    rr = rerender
-    u = unmount
-    wfnu = WFNU
-    renderHookResult = result
-  })
-  return {
-    result: res,
-    act: hooksAct,
-    rerender: rr,
-    unmount: u,
-    waitForNextUpdate: wfnu,
-    renderHookResult
-  }
-}
+export { mockHooksOrMethods }

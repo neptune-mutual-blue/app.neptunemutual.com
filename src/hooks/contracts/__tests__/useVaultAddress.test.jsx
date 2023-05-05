@@ -1,14 +1,16 @@
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { useVaultAddress } from '@/src/hooks/contracts/useVaultAddress'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('useVaultAddress', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Vault.getAddress()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Vault.getAddress()
 
   test('while fetching w/o account and networkId', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result } = await renderHookWrapper(useVaultAddress, [
       {
@@ -21,8 +23,8 @@ describe('useVaultAddress', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
 
     const { result } = await renderHookWrapper(
       useVaultAddress,

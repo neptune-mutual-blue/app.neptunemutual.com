@@ -1,6 +1,6 @@
 import { LiquidityProductModal } from '@/modules/my-liquidity/content/LiquidityProductModal'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen } from '@testing-library/react'
 
 describe('LiquidityProductModal', () => {

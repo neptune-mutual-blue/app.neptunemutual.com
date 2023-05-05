@@ -1,5 +1,5 @@
 import { WithdrawLiquidityModal } from '@/modules/my-liquidity/content/WithdrawLiquidityModal'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen } from '@testing-library/react'
 
 describe('WithdrawLiquidityModal', () => {

@@ -1,11 +1,11 @@
 import {
   UnstakeYourAmount
 } from '@/modules/reporting/resolved/UnstakeYourAmount'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -22,7 +22,7 @@ describe('UnstakeYourAmount test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    // mockFn.useCoverOrProductData()
+    // mockHooksOrMethods.useCoverOrProductData()
   }
 
   const { initialRender } = initiateTest(
@@ -62,8 +62,8 @@ describe('UnstakeYourAmountModal test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    // mockFn.useCoverOrProductData()
-    mockFn.useWeb3React(() => ({
+    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useWeb3React(() => ({
       account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
     }))
   }

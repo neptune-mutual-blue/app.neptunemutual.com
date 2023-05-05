@@ -1,4 +1,4 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 import { testData } from '@/utils/unit-tests/test-data'
 import { ActiveReportingCard } from '@/modules/reporting/active/ActiveReportingCard'
@@ -8,6 +8,7 @@ import { formatPercent } from '@/utils/formatter/percent'
 import { convertFromUnits, toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const incidentReport = testData.reporting.activeReporting[0]
 const incidentReportDiversified = testData.reporting.activeReporting[1]
@@ -24,10 +25,10 @@ const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
 
 describe('Active Reporting Card Loading', () => {
   beforeEach(() => {
-    mockFn.useAppConstants()
-    mockFn.useCoverOrProductData(() => null)
-    mockFn.useMyLiquidityInfo()
-    mockFn.useFetchCoverStats()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useCoverOrProductData(() => null)
+    mockHooksOrMethods.useMyLiquidityInfo()
+    mockHooksOrMethods.useFetchCoverStats()
 
     const { initialRender } = initiateTest(ActiveReportingCard, {
       id: incidentReport.id,
@@ -47,10 +48,10 @@ describe('Active Reporting Card Loading', () => {
 
 describe('Active Cover Reporting Card Info', () => {
   beforeEach(() => {
-    mockFn.useAppConstants()
-    mockFn.useCoverOrProductData()
-    mockFn.useMyLiquidityInfo()
-    mockFn.useFetchCoverStats()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useMyLiquidityInfo()
+    mockHooksOrMethods.useFetchCoverStats()
 
     const { initialRender } = initiateTest(ActiveReportingCard, {
       id: incidentReport.id,
@@ -105,10 +106,10 @@ describe('Active Cover Reporting Card Info', () => {
 
 describe('Active Diversified Cover Reporting Card Info', () => {
   beforeEach(() => {
-    mockFn.useAppConstants()
-    mockFn.useCoverOrProductData(() => testData.productInfo)
-    mockFn.useMyLiquidityInfo()
-    mockFn.useFetchCoverStats()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useCoverOrProductData(() => testData.productInfo)
+    mockHooksOrMethods.useMyLiquidityInfo()
+    mockHooksOrMethods.useFetchCoverStats()
 
     const { initialRender } = initiateTest(ActiveReportingCard, {
       id: incidentReportDiversified.id,

@@ -1,7 +1,7 @@
 import {
   HorizontalChartLegend
 } from '@/modules/reporting/HorizontalChartLegend'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
   render,
   screen
@@ -12,8 +12,8 @@ describe('HorizontalChartLegend test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useAppConstants()
-    // mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useAppConstants()
+    // mockHooksOrMethods.useCoverOrProductData()
   })
 
   test('should render the Incident Occurred legend', () => {

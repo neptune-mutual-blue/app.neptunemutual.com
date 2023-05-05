@@ -7,11 +7,11 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   cleanup,
   render,
@@ -59,10 +59,10 @@ const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
 
 describe('CoverCard component', () => {
   beforeEach(() => {
-    mockFn.useAppConstants()
-    mockFn.useRouter()
-    mockFn.useMyLiquidityInfo()
-    // mockFn.useFetchCoverStats()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useMyLiquidityInfo()
+    // mockHooksOrMethods.useFetchCoverStats()
 
     const { initialRender } = initiateTest(CoverCard, {
       coverKey: mockCoverDetails.coverKey,
@@ -97,9 +97,9 @@ describe('CoverCard component', () => {
 
   describe('cover badge', () => {
     test("should render card status badge 'Incident Occurred'", () => {
-      mockFn.useMyLiquidityInfo()
+      mockHooksOrMethods.useMyLiquidityInfo()
 
-      // mockFn.useFetchCoverStats(() => ({
+      // mockHooksOrMethods.useFetchCoverStats(() => ({
       //   info: {
       //     ...testData.coverStats.info,
       //     productStatus: 'Incident Occurred'
@@ -121,7 +121,7 @@ describe('CoverCard component', () => {
 
     test("should not render card status badge for 'Normal' status", () => {
       cleanup()
-      // mockFn.useFetchCoverStats()
+      // mockHooksOrMethods.useFetchCoverStats()
 
       render(
         <CoverCard

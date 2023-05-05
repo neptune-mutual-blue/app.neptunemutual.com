@@ -1,6 +1,7 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 import IncidentResolvedCoverPage from '@/src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 jest.mock('@/src/modules/reporting/details', () => {
   return {
@@ -15,7 +16,7 @@ describe('IncidentResolvedCoverPage test', () => {
     IncidentResolvedCoverPage,
     {},
     () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: false,
         loading: true
       }))
@@ -33,7 +34,7 @@ describe('IncidentResolvedCoverPage test', () => {
 
   test('should display IncidentResolvedCoverPage with No data found text', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: false
       }))
@@ -44,7 +45,7 @@ describe('IncidentResolvedCoverPage test', () => {
 
   test('should display IncidentResolvedCoverPage with ReportingDetailsPage Component', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: true },
         loading: false
       }))

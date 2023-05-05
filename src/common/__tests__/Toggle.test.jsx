@@ -1,5 +1,5 @@
 const { Toggle } = require('@/common/Toggle')
-const { initiateTest } = require('@/utils/unit-tests/test-mockup-fn')
+const { initiateTest } = require('@/utils/unit-tests/helpers')
 const { screen, fireEvent } = require('@testing-library/react')
 
 const props = {

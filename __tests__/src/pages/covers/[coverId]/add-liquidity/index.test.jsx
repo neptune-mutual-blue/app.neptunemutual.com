@@ -1,4 +1,4 @@
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { screen, render } from '@testing-library/react'
 
 jest.mock('@/src/modules/cover/add-liquidity', () => ({
@@ -11,7 +11,7 @@ describe('CoverAddLiquidityDetails test', () => {
   const OLD_ENV = process.env
 
   beforeEach(() => {
-    mockFn.useRouter()
+    mockHooksOrMethods.useRouter()
     process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: 'liquidity' }
 
     const CoverPurchaseDetails =

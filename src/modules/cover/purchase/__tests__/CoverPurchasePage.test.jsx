@@ -3,7 +3,6 @@ import React from 'react'
 import { act } from 'react-dom/test-utils'
 
 import { CoverPurchaseDetailsPage } from '@/modules/cover/purchase/index.jsx'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import {
   fireEvent,
   render,
@@ -11,6 +10,7 @@ import {
   waitFor
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('CoverPurchasePage.test', () => {
   beforeEach(() => {
@@ -18,12 +18,12 @@ describe('CoverPurchasePage.test', () => {
       i18n.activate('en')
     })
 
-    mockFn.useAppConstants()
-    mockFn.useMyLiquidityInfo()
-    // mockFn.useCoverOrProductData()
-    // mockFn.useCoverStatsContext()
-    // mockFn.useValidateReferralCode();
-    mockFn.useRouter()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useMyLiquidityInfo()
+    // mockHooksOrMethods.useCoverOrProductData()
+    // mockHooksOrMethods.useCoverStatsContext()
+    // mockHooksOrMethods.useValidateReferralCode();
+    mockHooksOrMethods.useRouter()
 
     render(<CoverPurchaseDetailsPage />)
   })
@@ -51,12 +51,12 @@ describe('CoverPurchasePage.test', () => {
       i18n.activate('en')
     })
 
-    mockFn.useAppConstants()
-    mockFn.useMyLiquidityInfo()
-    // mockFn.useCoverOrProductData(() => {})
-    // mockFn.useCoverStatsContext()
-    // mockFn.useValidateReferralCode();
-    mockFn.useRouter()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useMyLiquidityInfo()
+    // mockHooksOrMethods.useCoverOrProductData(() => {})
+    // mockHooksOrMethods.useCoverStatsContext()
+    // mockHooksOrMethods.useValidateReferralCode();
+    mockHooksOrMethods.useRouter()
 
     render(<CoverPurchaseDetailsPage />)
   })

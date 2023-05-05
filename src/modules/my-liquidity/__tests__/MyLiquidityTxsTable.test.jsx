@@ -10,15 +10,16 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const initialMocks = () => {
-  mockFn.usePagination()
-  mockFn.useLiquidityTxs()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useAppConstants()
-  mockFn.useCoverOrProductData()
+  mockHooksOrMethods.usePagination()
+  mockHooksOrMethods.useLiquidityTxs()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useCoverOrProductData()
 }
 
 describe('MyLiquidityTxsTable test', () => {
@@ -57,7 +58,7 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should not render blocknumber element if blocknumber data not present', () => {
       rerenderFn({}, () => {
-        mockFn.useLiquidityTxs(() => ({
+        mockHooksOrMethods.useLiquidityTxs(() => ({
           ...testData.liquidityTxs,
           data: {
             ...testData.liquidityTxs.data,
@@ -97,7 +98,7 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should render show more if its true', () => {
       rerenderFn({}, () => {
-        mockFn.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true })
+        mockHooksOrMethods.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true })
       })
       const showMore = screen.getByTestId('table-show-more')
       expect(showMore).toBeInTheDocument()
@@ -185,7 +186,7 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should render no account message if no account connected', () => {
       rerenderFn({}, () => {
-        mockFn.useWeb3React(() => ({
+        mockHooksOrMethods.useWeb3React(() => ({
           account: null
         }))
       })

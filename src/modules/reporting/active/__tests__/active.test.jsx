@@ -1,8 +1,8 @@
 import { ReportingActivePage } from '@/modules/reporting/active/active'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  initiateTest,
-  mockFn
-} from '@/utils/unit-tests/test-mockup-fn'
+  initiateTest
+} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -60,14 +60,14 @@ describe('ReportingActivePage test', () => {
 
   beforeEach(() => {
     i18n.activate('en')
-    mockFn.useNetwork()
+    mockHooksOrMethods.useNetwork()
 
-    mockFn.useActiveReportings({
+    mockHooksOrMethods.useActiveReportings({
       data: activeReportings.data
     })
-    mockFn.useRouter()
-    // mockFn.useFlattenedCoverProducts()
-    // mockFn.useFetchCoverStats()
+    mockHooksOrMethods.useRouter()
+    // mockHooksOrMethods.useFlattenedCoverProducts()
+    // mockHooksOrMethods.useFetchCoverStats()
     initialRender()
   })
 
@@ -78,7 +78,7 @@ describe('ReportingActivePage test', () => {
 
   test('should render card skeletons if loading', () => {
     rerenderFn({}, () => {
-      mockFn.useActiveReportings({
+      mockHooksOrMethods.useActiveReportings({
         data: { incidentReports: [] },
         loading: true
       })

@@ -1,11 +1,13 @@
 import { useLiquidityTxs } from '@/src/hooks/useLiquidityTxs'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useLiquidityTxs', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   const args = [
     {
@@ -15,7 +17,7 @@ describe('useLiquidityTxs', () => {
   ]
 
   test('should return default data', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
 
     const { result } = await renderHookWrapper(useLiquidityTxs, args, true)
 
@@ -25,7 +27,7 @@ describe('useLiquidityTxs', () => {
     expect(result.data.totalCount).toEqual(0)
     expect(result.loading).toEqual(false)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return correct data as received from api', async () => {
@@ -35,7 +37,7 @@ describe('useLiquidityTxs', () => {
         _meta: { block: { number: 1234 } }
       }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useLiquidityTxs, args, true)
 
@@ -51,17 +53,17 @@ describe('useLiquidityTxs', () => {
       mockData.data.liquidityTransactions.length
     )
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   describe('Edge cases coverage', () => {
     test('should return if no account', async () => {
-      mockFn.useWeb3React(() => ({ account: null }))
+      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
       const { result } = await renderHookWrapper(useLiquidityTxs, args)
       expect(result.data.transactions).toEqual([])
 
-      mockFn.useWeb3React()
+      mockHooksOrMethods.useWeb3React()
     })
 
     test('should not set hasMore to false if transactions length is equal to limit', async () => {
@@ -71,25 +73,25 @@ describe('useLiquidityTxs', () => {
           _meta: { block: { number: 1234 } }
         }
       }
-      mockFn.fetch(true, undefined, mockData)
+      mockGlobals.fetch(true, undefined, mockData)
 
       const { result } = await renderHookWrapper(useLiquidityTxs, [
         { page: 1, limit: 2 }
       ])
 
       expect(result.hasMore).toEqual(true)
-      mockFn.fetch().unmock()
+      mockGlobals.fetch().unmock()
     })
 
     test('should log error in case of api error', async () => {
-      mockFn.fetch(false)
+      mockGlobals.fetch(false)
       mock()
 
       await renderHookWrapper(useLiquidityTxs, args)
 
       expect(mockFunction).toHaveBeenCalled()
 
-      mockFn.fetch().unmock()
+      mockGlobals.fetch().unmock()
       restore()
     })
   })

@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useBondTxs } from '../useBondTxs'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockProps = {
   page: 1,
@@ -26,11 +28,11 @@ const mockReturnData = {
 }
 
 describe('useBondTxs', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
   test('while fetching data w/o account', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork()
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork()
 
     const { result } = await renderHookWrapper(useBondTxs, [mockProps])
 
@@ -44,10 +46,10 @@ describe('useBondTxs', () => {
   })
 
   test('while fetching data with account and successfully', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.getGraphURL()
-    mockFn.fetch(true, undefined, mockResolvedData)
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.getGraphURL()
+    mockGlobals.fetch(true, undefined, mockResolvedData)
 
     const { result } = await renderHookWrapper(useBondTxs, [mockProps], true)
 
@@ -55,7 +57,7 @@ describe('useBondTxs', () => {
   })
 
   test('while fetching data with account and error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(useBondTxs, [mockProps], true)
@@ -67,7 +69,7 @@ describe('useBondTxs', () => {
     })
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

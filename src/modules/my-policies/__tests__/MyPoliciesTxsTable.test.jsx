@@ -11,7 +11,6 @@ import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import {
   cleanup,
   fireEvent,
@@ -19,11 +18,12 @@ import {
   screen
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('MyPoliciesTxsTable test', () => {
-  mockFn.usePolicyTxs()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
+  mockHooksOrMethods.usePolicyTxs()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
 
   beforeEach(() => {
     cleanup()
@@ -56,7 +56,7 @@ describe('MyPoliciesTxsTable test', () => {
 
     test('should not render block number element if blockNumber is not available', () => {
       cleanup()
-      mockFn.usePolicyTxs(() => ({
+      mockHooksOrMethods.usePolicyTxs(() => ({
         ...testData.policies,
         data: {
           ...testData.policies.data,
@@ -97,7 +97,7 @@ describe('MyPoliciesTxsTable test', () => {
 
   test('should render the connect wallet td if account is not available', () => {
     cleanup()
-    mockFn.useWeb3React(() => ({
+    mockHooksOrMethods.useWeb3React(() => ({
       account: null
     }))
 
@@ -117,9 +117,9 @@ describe('MyPoliciesTxsTable test', () => {
         cleanup()
         i18n.activate('en')
 
-        mockFn.useNetwork()
-        mockFn.useWeb3React()
-        mockFn.usePolicyTxs()
+        mockHooksOrMethods.useNetwork()
+        mockHooksOrMethods.useWeb3React()
+        mockHooksOrMethods.usePolicyTxs()
 
         render(<Component.MyPoliciesTxsTable />)
 
@@ -155,12 +155,12 @@ describe('MyPoliciesTxsTable test', () => {
       test('should render correct details in the row', () => {
         cleanup()
         i18n.activate('en')
-        // mockFn.useCovers()
-        mockFn.useNetwork()
-        mockFn.useWeb3React()
-        mockFn.usePolicyTxs()
-        mockFn.useAppConstants()
-        // mockFn.useCoverOrProductData()
+        // mockHooksOrMethods.useCovers()
+        mockHooksOrMethods.useNetwork()
+        mockHooksOrMethods.useWeb3React()
+        mockHooksOrMethods.usePolicyTxs()
+        mockHooksOrMethods.useAppConstants()
+        // mockHooksOrMethods.useCoverOrProductData()
 
         render(<Component.MyPoliciesTxsTable />)
 
@@ -225,7 +225,7 @@ describe('MyPoliciesTxsTable test', () => {
     })
 
     describe("Col 3: 'AMOUNT'", () => {
-      mockFn.useRegisterToken()
+      mockHooksOrMethods.useRegisterToken()
 
       test('span element should have class based on transaction type', () => {
         const spanPurchased = screen
@@ -284,14 +284,14 @@ describe('MyPoliciesTxsTable test', () => {
       test('simulate click on add button', () => {
         cleanup()
         i18n.activate('en')
-        // mockFn.useCovers()
-        mockFn.useNetwork()
-        mockFn.useWeb3React()
-        mockFn.usePolicyTxs()
-        mockFn.useAppConstants()
-        // mockFn.useCoverOrProductData()
+        // mockHooksOrMethods.useCovers()
+        mockHooksOrMethods.useNetwork()
+        mockHooksOrMethods.useWeb3React()
+        mockHooksOrMethods.usePolicyTxs()
+        mockHooksOrMethods.useAppConstants()
+        // mockHooksOrMethods.useCoverOrProductData()
         const clickFn = jest.fn()
-        mockFn.useRegisterToken(() => ({ register: clickFn }))
+        mockHooksOrMethods.useRegisterToken(() => ({ register: clickFn }))
 
         render(<Component.MyPoliciesTxsTable />)
 

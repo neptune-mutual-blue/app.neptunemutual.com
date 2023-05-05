@@ -1,7 +1,9 @@
 import { useCalculatePods } from '../useCalculatePods'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { convertToUnits } from '@/utils/bn'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockProps = {
   coverKey:
@@ -11,14 +13,14 @@ const mockProps = {
 }
 
 describe('useCalculatePods', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Vault.getInstance()
-  mockFn.useErrorNotifier()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Vault.getInstance()
+  mockHooksOrMethods.useErrorNotifier()
 
   test('while fetching w/o networkId, account, debouncedValue', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useDebounce(null)
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useDebounce(null)
 
     const { result } = await renderHookWrapper(useCalculatePods, [mockProps])
 
@@ -27,11 +29,11 @@ describe('useCalculatePods', () => {
   })
 
   test('while fetching successful ', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useDebounce()
-    mockFn.useTxPoster()
-    mockFn.useTokenDecimals()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useDebounce()
+    mockHooksOrMethods.useTxPoster()
+    mockHooksOrMethods.useTokenDecimals()
 
     const { result } = await renderHookWrapper(
       useCalculatePods,
@@ -45,10 +47,10 @@ describe('useCalculatePods', () => {
   })
 
   test('while fetching error ', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useDebounce()
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useDebounce()
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       contractRead: undefined
     }))

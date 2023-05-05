@@ -1,18 +1,20 @@
 import { useVote } from '@/src/hooks/useVote'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useVote', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useTxToast()
-  mockFn.useAppConstants()
-  mockFn.useGovernanceAddress()
-  mockFn.useTxPoster()
-  mockFn.useERC20Allowance()
-  mockFn.useERC20Balance()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.Governance.getInstance()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useGovernanceAddress()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useERC20Balance()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.Governance.getInstance()
 
   const args = [
     {
@@ -57,7 +59,7 @@ describe('useVote', () => {
 
     test('should handle error if error raised inside onTransactionResult', async () => {
       const mockedFn = jest.fn().mockRejectedValue('error')
-      mockFn.useTxToast(() => ({
+      mockHooksOrMethods.useTxToast(() => ({
         ...testData.txToast,
         push: mockedFn
       }))
@@ -68,7 +70,7 @@ describe('useVote', () => {
       })
       expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-      mockFn.useTxToast()
+      mockHooksOrMethods.useTxToast()
     })
   })
 
@@ -84,7 +86,7 @@ describe('useVote', () => {
     })
 
     test('should handle error if error raised', async () => {
-      mockFn.useTxPoster(() => ({
+      mockHooksOrMethods.useTxPoster(() => ({
         ...testData.txPoster,
         writeContract: null
       }))
@@ -99,7 +101,7 @@ describe('useVote', () => {
       })
       expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-      mockFn.useTxPoster()
+      mockHooksOrMethods.useTxPoster()
     })
   })
 
@@ -113,7 +115,7 @@ describe('useVote', () => {
     })
 
     test('should handle error if error raised', async () => {
-      mockFn.useTxPoster(() => ({
+      mockHooksOrMethods.useTxPoster(() => ({
         ...testData.txPoster,
         writeContract: null
       }))
@@ -127,7 +129,7 @@ describe('useVote', () => {
       })
       expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-      mockFn.useTxPoster()
+      mockHooksOrMethods.useTxPoster()
     })
   })
 })

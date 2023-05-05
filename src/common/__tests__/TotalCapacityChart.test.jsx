@@ -1,7 +1,9 @@
 import { TotalCapacityChart } from '@/common/TotalCapacityChart'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 // import { testData } from "@/utils/unit-tests/test-data";
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 describe('TotalCapacityChart', () => {
@@ -9,9 +11,9 @@ describe('TotalCapacityChart', () => {
     TotalCapacityChart,
     {},
     () => {
-      mockFn.useAppConstants()
-      mockFn.useProtocolDayData()
-      mockFn.useRouter()
+      mockHooksOrMethods.useAppConstants()
+      mockHooksOrMethods.useProtocolDayData()
+      mockHooksOrMethods.useRouter()
     }
   )
 
@@ -31,7 +33,7 @@ describe('TotalCapacityChart', () => {
   })
 
   test('simulating with 1 data points', () => {
-    mockFn.setTimeout()
+    mockGlobals.setTimeout()
     rerenderFn({ data: testData.protocolDayData.data.slice(0, 3) })
     const wrapper = screen.getByTestId('total-liquidity-chart')
     expect(wrapper).toBeInTheDocument()
