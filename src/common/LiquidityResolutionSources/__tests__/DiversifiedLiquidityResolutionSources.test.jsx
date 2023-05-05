@@ -1,6 +1,11 @@
-import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
+import {
+  DiversifiedLiquidityResolutionSources
+} from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
 import { screen } from '@testing-library/react'
 
 describe('DiversifiedLiquidityResolutionSources component', () => {
@@ -13,7 +18,7 @@ describe('DiversifiedLiquidityResolutionSources component', () => {
     () => {
       mockFn.useRouter()
       mockFn.useAppConstants()
-      mockFn.useCoverStatsContext()
+      // mockFn.useCoverStatsContext()
     }
   )
   beforeEach(() => {

@@ -1,4 +1,7 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/src/modules/cover/CoverOptionsPage', () => ({
@@ -16,7 +19,7 @@ describe('Options test', () => {
       require('@/src/pages/covers/[coverId]/products/[productId]').default
     const { initialRender } = initiateTest(Index, {}, () => {
       mockFn.useRouter()
-      mockFn.useCoverOrProductData()
+      // mockFn.useCoverOrProductData()
     })
     initialRender()
   })

@@ -1,8 +1,16 @@
-import { i18n } from '@lingui/core'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  UnstakeYourAmount
+} from '@/modules/reporting/resolved/UnstakeYourAmount'
 import { testData } from '@/utils/unit-tests/test-data'
-import { UnstakeYourAmount } from '@/modules/reporting/resolved/UnstakeYourAmount'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const incidentReport = testData.incidentReports.data.incidentReport
 
@@ -14,7 +22,7 @@ describe('UnstakeYourAmount test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useCoverOrProductData()
+    // mockFn.useCoverOrProductData()
   }
 
   const { initialRender } = initiateTest(
@@ -54,7 +62,7 @@ describe('UnstakeYourAmountModal test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useCoverOrProductData()
+    // mockFn.useCoverOrProductData()
     mockFn.useWeb3React(() => ({
       account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
     }))

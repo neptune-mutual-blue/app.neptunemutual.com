@@ -1,15 +1,16 @@
 import React from 'react'
-import {
-  render,
-  waitFor,
-  screen,
-  fireEvent
-} from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
+
+import { act } from 'react-dom/test-utils'
 
 import { CoverPurchaseDetailsPage } from '@/modules/cover/purchase/index.jsx'
 import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { act } from 'react-dom/test-utils'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('CoverPurchasePage.test', () => {
   beforeEach(() => {
@@ -19,8 +20,8 @@ describe('CoverPurchasePage.test', () => {
 
     mockFn.useAppConstants()
     mockFn.useMyLiquidityInfo()
-    mockFn.useCoverOrProductData()
-    mockFn.useCoverStatsContext()
+    // mockFn.useCoverOrProductData()
+    // mockFn.useCoverStatsContext()
     // mockFn.useValidateReferralCode();
     mockFn.useRouter()
 
@@ -52,8 +53,8 @@ describe('CoverPurchasePage.test', () => {
 
     mockFn.useAppConstants()
     mockFn.useMyLiquidityInfo()
-    mockFn.useCoverOrProductData(() => {})
-    mockFn.useCoverStatsContext()
+    // mockFn.useCoverOrProductData(() => {})
+    // mockFn.useCoverStatsContext()
     // mockFn.useValidateReferralCode();
     mockFn.useRouter()
 

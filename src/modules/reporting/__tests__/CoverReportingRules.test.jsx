@@ -1,15 +1,18 @@
-import { i18n } from '@lingui/core'
-import { render, screen } from '@/utils/unit-tests/test-utils'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { testData } from '@/utils/unit-tests/test-data'
 import { CoverReportingRules } from '@/modules/reporting/CoverReportingRules'
+import { testData } from '@/utils/unit-tests/test-data'
+import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('CoverReportingRules test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
     mockFn.useAppConstants()
-    mockFn.useCoverOrProductData()
+    // mockFn.useCoverOrProductData()
   })
 
   test('should render the button with report an incident', () => {

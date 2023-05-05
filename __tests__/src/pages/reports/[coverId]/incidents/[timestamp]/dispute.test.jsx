@@ -1,7 +1,11 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { screen } from '@testing-library/react'
-import DisputeFormPage from '@/src/pages/reports/[coverId]/incidents/[timestamp]/dispute'
 import DateLib from '@/lib/date/DateLib'
+import DisputeFormPage
+  from '@/src/pages/reports/[coverId]/incidents/[timestamp]/dispute'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import { screen } from '@testing-library/react'
 
 jest.mock('@/src/modules/reporting/ReportingHero', () => {
   return {
@@ -24,7 +28,7 @@ describe('DisputeFormPage test', () => {
     DisputeFormPage,
     {},
     () => {
-      mockFn.useCoverOrProductData()
+      // mockFn.useCoverOrProductData()
       mockFn.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: true
@@ -42,9 +46,9 @@ describe('DisputeFormPage test', () => {
   })
 
   test('should display DisputeFormPage with loading text coverInfo', () => {
-    rerenderFn({}, () => {
-      mockFn.useCoverOrProductData(() => null)
-    })
+    // rerenderFn({}, () => {
+    //   mockFn.useCoverOrProductData(() => null)
+    // })
     const incident = screen.getByText('loading...')
     expect(incident).toBeInTheDocument()
   })

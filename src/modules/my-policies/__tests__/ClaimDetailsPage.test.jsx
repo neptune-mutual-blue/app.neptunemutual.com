@@ -1,9 +1,12 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { ClaimDetailsPage } from '@/modules/my-policies/ClaimDetailsPage'
-import { screen } from '@testing-library/react'
-import { testData } from '@/utils/unit-tests/test-data'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  initiateTest,
+  mockFn
+} from '@/utils/unit-tests/test-mockup-fn'
+import { screen } from '@testing-library/react'
 
 describe('Claim Details Page loading', () => {
   beforeEach(() => {
@@ -15,7 +18,7 @@ describe('Claim Details Page loading', () => {
       },
       locale: 'en'
     }))
-    mockFn.useCoverOrProductData(() => null)
+    // mockFn.useCoverOrProductData(() => null)
     mockFn.useActivePoliciesByCover()
     mockFn.useFetchReportsByKeyAndDate()
     mockFn.useAppConstants()
@@ -41,7 +44,7 @@ describe('Claim Details Page disabled', () => {
       },
       locale: 'en'
     }))
-    mockFn.useCoverOrProductData()
+    // mockFn.useCoverOrProductData()
     mockFn.useActivePoliciesByCover()
     mockFn.useFetchReportsByKeyAndDate()
     mockFn.useAppConstants()
@@ -69,7 +72,7 @@ describe('Claim Details Page', () => {
       },
       locale: 'en'
     }))
-    mockFn.useCoverOrProductData()
+    // mockFn.useCoverOrProductData()
     mockFn.useActivePoliciesByCover()
     mockFn.useFetchReportsByKeyAndDate()
     mockFn.useAppConstants()

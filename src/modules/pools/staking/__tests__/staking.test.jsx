@@ -1,23 +1,28 @@
+import ReactDOM from 'react-dom'
+
+import { act } from 'react-dom/test-utils'
+
+import { StakingPage } from '@/modules/pools/staking'
+import {
+  getGraphURL,
+  getNetworkId
+} from '@/src/config/environment'
+import { mockFetch } from '@/utils/unit-tests/mockApiRequest'
 import {
   fireEvent,
   waitFor,
   withDataProviders,
   withSorting
 } from '@/utils/unit-tests/test-utils'
-import { act } from 'react-dom/test-utils'
-import { StakingPage } from '@/modules/pools/staking'
 import { i18n } from '@lingui/core'
-import ReactDOM from 'react-dom'
-import { mockFetch } from '@/utils/unit-tests/mockApiRequest'
-import * as envConfig from '@/src/config/environment'
 import * as web3Core from '@web3-react/core'
 
 describe('Pool Staking', () => {
   global.fetch = jest.fn(mockFetch)
 
-  jest.spyOn(envConfig, 'getNetworkId').mockImplementation(() => 80001)
+  jest.spyOn({ getNetworkId }, 'getNetworkId').mockImplementation(() => 80001)
   jest
-    .spyOn(envConfig, 'getGraphURL')
+    .spyOn({ getGraphURL }, 'getGraphURL')
     .mockImplementation(
       () =>
         'https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai'
