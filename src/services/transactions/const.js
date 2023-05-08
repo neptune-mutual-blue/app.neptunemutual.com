@@ -38,5 +38,6 @@ export const METHODS = {
   VOTE_ESCROW_APPROVE: 'vote.escrow.approve',
   VOTE_ESCROW_EXTEND: 'vote.escrow.extend',
   VOTE_ESCROW_LOCK: 'vote.escrow.lock',
-  VOTE_ESCROW_UNLOCK: 'vote.escrow.unlock'
+  VOTE_ESCROW_UNLOCK: 'vote.escrow.unlock',
+  VOTE_ESCROW_UNLOCK_APPROVE: 'vote.escrow.unlock.approve'
 }

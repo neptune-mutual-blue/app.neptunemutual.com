@@ -37,7 +37,7 @@ const VoteEscrow = () => {
 
   const [input, setInput] = useState('')
 
-  const { data, lock, unlock: unlockNPMTokens, actionLoading } = useVoteEscrowData()
+  const { data, lock, unlock: unlockNPMTokens, actionLoading, canLock, handleApprove, hasUnlockAllowance, handleApproveUnlock } = useVoteEscrowData()
 
   const { register } = useRegisterToken()
 
@@ -48,6 +48,8 @@ const VoteEscrow = () => {
   if (unlock) {
     return (
       <UnlockEscrow
+        hasUnlockAllowance={hasUnlockAllowance}
+        handleApproveUnlock={handleApproveUnlock}
         loading={actionLoading}
         data={data}
         unlockNPMTokens={unlockNPMTokens}
@@ -64,6 +66,8 @@ const VoteEscrow = () => {
     setInput('')
   }
 
+  const allowanceExists = canLock(input || '0')
+
   return (
     <div>
       <VoteEscrowCard>
@@ -76,11 +80,11 @@ const VoteEscrow = () => {
           </div>
 
           <div className='text-center text-md mb-8'>
-            and boosted POD Staking APR
+            boosted Liquidity Gauge Emissions
           </div>
 
           <div className='mb-4 flex justify-between items-center'>
-            <div className='text-md font-semibold'>NPM to lock</div>
+            <div className='text-md font-semibold'>NPM to Lock</div>
             <div className='flex items-center text-sm'>
               <Checkbox
                 checked={extend} onChange={(e) => {
@@ -167,10 +171,14 @@ const VoteEscrow = () => {
 
           <RegularButton
             disabled={!(active && agreed && !actionLoading && ((!extend && input) || extend))} onClick={() => {
-              lock(input || '0', sliderValue, onLockSuccess, extend)
+              if (allowanceExists) {
+                lock(input || '0', sliderValue, onLockSuccess)
+              } else {
+                handleApprove(input || '0', sliderValue)
+              }
             }} className='w-full rounded-tooltip p-4 font-semibold text-md normal-case'
           >
-            {active ? extend ? 'EXTEND MY DURATION' : 'GET veNPM TOKENS' : 'Connect Wallet'}
+            {active ? extend ? 'EXTEND MY DURATION' : allowanceExists ? 'GET veNPM TOKENS' : 'Approve' : 'Connect Wallet'}
           </RegularButton>
 
           <KeyValueList
@@ -207,7 +215,7 @@ const VoteEscrow = () => {
       </VoteEscrowCard>
       <div className='w-[489px] mx-auto mt-4'>
         <div className='flex justify-between'>
-          <Link href=''>
+          <Link href='/pools/liquidity-gauge-pools'>
             <div className='text-4E7DD9 text-sm font-semibold cursor-pointer'>
               View Liquidity Gauge
             </div>

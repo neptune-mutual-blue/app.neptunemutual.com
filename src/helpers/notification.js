@@ -9,6 +9,23 @@ import { t } from '@lingui/macro'
  * @type {Object.<string, (status: number, data: any, locale: string) => ({ title: string, description: string })>}
  */
 const actionMessages = {
+  [METHODS.VOTE_ESCROW_UNLOCK_APPROVE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`veNPM approved successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve veNPM`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Approving veNPM for unlock`, description: displayValue(_data) }
+  },
   [METHODS.VOTE_ESCROW_APPROVE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {

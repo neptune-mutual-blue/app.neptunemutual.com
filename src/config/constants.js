@@ -10,7 +10,7 @@ export const GAS_MARGIN_MULTIPLIER = 1.5
 export const DEBOUNCE_TIMEOUT = 400
 
 export const VoteEscrowContractAddresses = {
-  84531: '0x8bc190401E04df70Ff92D38Ce235f836d5558230'
+  84531: '0xb166cf8943fe71dc948bbddccec6ddf569c37401'
 }
 
 export const NpmTokenContractAddresses = {
