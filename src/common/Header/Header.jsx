@@ -47,7 +47,7 @@ const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
-  // const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
+  const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
 
   const poolLink = Routes.Pools()
 
@@ -81,7 +81,7 @@ const getNavigationLinks = (pathname = '') => {
       href: Routes.ActiveReports,
       activeWhenStartsWith: '/reports'
     },
-    {
+    voteEscrowEnabled && {
       name: t`Vote Escrow`,
       href: Routes.VoteEscrow,
       activeWhenStartsWith: Routes.VoteEscrow
