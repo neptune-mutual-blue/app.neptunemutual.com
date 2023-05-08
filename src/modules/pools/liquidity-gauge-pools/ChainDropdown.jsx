@@ -82,6 +82,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
             >
               <Checkbox
                 checked={selected.length === 0}
+                onChange={() => {}}
                 className='h-4 w-4 border-1 border-C2C7D0'
               /> All
             </div>

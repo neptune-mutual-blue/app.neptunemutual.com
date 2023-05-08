@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useRef,
   useState
 } from 'react'
@@ -104,10 +103,6 @@ const LatestGauge = () => {
       setChartColors(chartRef.current?.chart.series[0].points.reduce((acc, point) => ({ ...acc, [point.name]: point.color }), {}))
     }
   }
-
-  useEffect(() => {
-    console.log(hoveredName)
-  }, [hoveredName])
 
   const chartOptions = {
     chart: {

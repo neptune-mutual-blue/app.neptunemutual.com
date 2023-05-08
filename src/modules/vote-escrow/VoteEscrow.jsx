@@ -4,7 +4,9 @@ import Link from 'next/link'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
-import { CopyAddressComponent } from '@/common/Header/AccountDetailsModal'
+import {
+  CopyAddressComponent
+} from '@/common/CopyAddressComponent/CopyAddressComponent'
 import Slider from '@/common/Slider/Slider'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
