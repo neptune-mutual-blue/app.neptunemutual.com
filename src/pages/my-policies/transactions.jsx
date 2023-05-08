@@ -33,7 +33,7 @@ export default function MyPoliciesTxs ({ disabled }) {
       <Seo />
 
       <Hero>
-        <Container className='px-2 py-20'>
+        <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
               {

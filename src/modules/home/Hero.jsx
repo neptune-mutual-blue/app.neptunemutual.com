@@ -1,4 +1,9 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
 
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
@@ -10,12 +15,17 @@ import IncreaseIcon from '@/icons/IncreaseIcon'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const { data: heroData } = useFetchHeroStats()
@@ -52,7 +62,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   return (
     <Hero big>
       {Boolean(breadcrumbs.length) && (
-        <Container className='pt-9'>
+        <Container className='pt-5 md:pt-9'>
           <BreadCrumbs pages={breadcrumbs} />
         </Container>
       )}

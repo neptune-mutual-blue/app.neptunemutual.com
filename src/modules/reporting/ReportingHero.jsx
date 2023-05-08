@@ -73,7 +73,7 @@ export const ReportingHero = ({
 
   return (
     <Hero>
-      <Container className='px-2 py-20 min-h-[312px]'>
+      <Container className='px-2 pt-5 pb-20 md:py-20 min-h-[312px]'>
         <BreadCrumbs pages={breadcrumbData} />
         <div className='flex'>
           <CoverProfileInfo
