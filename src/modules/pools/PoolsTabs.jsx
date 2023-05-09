@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroStat } from '@/common/HeroStat'
@@ -8,7 +10,6 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 
 const headers = [
   isFeatureEnabled('bond') && {
@@ -25,6 +26,11 @@ const headers = [
     name: 'pod-staking',
     href: '/pools/pod-staking',
     displayAs: <Trans>POD Staking</Trans>
+  },
+  isFeatureEnabled('liquidity-gauge-pools') && {
+    name: 'liquidity-gauge-pools',
+    href: '/pools/liquidity-gauge-pools',
+    displayAs: <Trans>Liquidity Gauge Pools</Trans>
   }
 ].filter(Boolean)
 

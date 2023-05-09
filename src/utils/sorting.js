@@ -10,6 +10,7 @@ export const SORT_TYPES = {
   LIQUIDITY: 'Liquidity',
   TVL: 'TVL',
   APR: 'APR',
+  EMISSIONS: 'Emissions',
   INCIDENT_DATE: 'Incident date',
   RESOLVED_DATE: 'Resolved date',
   ALL: 'all',

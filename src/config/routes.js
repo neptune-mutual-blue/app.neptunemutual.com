@@ -17,6 +17,7 @@ const StakingPools = '/pools/staking'
 const PodStakingPools = '/pools/pod-staking'
 const StakingPoolsTransactions = '/pools/staking/transactions'
 const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
+const LiquidityGaugePoolsTransactions = '/pools/liquidity-gauge-pools/transactions'
 
 const Pools = () => {
   let url = null
@@ -156,6 +157,7 @@ export const Routes = {
   StakingPoolsTransactions,
   PodStakingPools,
   PodStakingPoolsTransactions,
+  LiquidityGaugePoolsTransactions,
   Pools,
   ViewCover,
   ViewProduct,
