@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import DateLib from '@/lib/date/DateLib'
 import {
-  MULTIPLIER,
   NpmTokenContractAddresses,
   VoteEscrowContractAddresses
 } from '@/src/config/constants'
@@ -41,10 +40,8 @@ import { useWeb3React } from '@web3-react/core'
 
 const initialData = {
   veNPMBalance: 0,
-  boost: 0,
   lockedNPMBalance: 0,
-  votingPower: 0,
-  unlockTimestamp: 0,
+  unlockTimestamp: '0',
   penalty: '0'
 }
 
@@ -405,18 +402,14 @@ const useVoteEscrowData = () => {
 
       const calls = [
         instance.balanceOf(account),
-        instance.calculateBoost(parseInt(unlockTimestamp.toString()) - DateLib.unix()),
-        instance.getLockedTokenBalance(account),
-        instance.getVotingPower(account)
+        instance.getLockedTokenBalance(account)
       ]
 
-      const [veNPMBalance, boost, lockedNPMBalance, votingPower] = await Promise.all(calls)
+      const [veNPMBalance, lockedNPMBalance] = await Promise.all(calls)
 
       setEscrowData({
-        boost: boost.toString(),
         veNPMBalance: veNPMBalance.toString(),
         lockedNPMBalance: lockedNPMBalance.toString(),
-        votingPower: votingPower.toString(),
         unlockTimestamp: unlockTimestamp.toString(),
         penalty: toBN(veNPMBalance).multipliedBy(0.25).toString()
       })
@@ -439,11 +432,9 @@ const useVoteEscrowData = () => {
     loading,
     data: {
       npmBalance: formatCurrency(convertFromUnits(npmBalance, NPMTokenDecimals), router.locale, 'NPM', true),
-      boost: toBN(escrowData.boost).dividedBy(MULTIPLIER),
       veNPMBalance: formatCurrency(convertFromUnits(escrowData.veNPMBalance, NPMTokenDecimals), router.locale, 'veNPM', true),
-      lockedNPMBalance: formatCurrency(convertFromUnits(escrowData.lockedNPMBalance, NPMTokenDecimals), router.locale, 'NPM', true),
-      votingPower: formatCurrency(convertFromUnits(escrowData.votingPower, NPMTokenDecimals), router.locale, 'NPM', true),
-      unlockTimestamp: escrowData.unlockTimestamp !== 0 ? DateLib.toLongDateFormat(escrowData.unlockTimestamp, router.locale) : escrowData.unlockTimestamp,
+      lockedNPMBalanceRaw: escrowData.lockedNPMBalance,
+      unlockTimestamp: escrowData.unlockTimestamp !== '0' ? DateLib.toLongDateFormat(escrowData.unlockTimestamp, router.locale) : escrowData.unlockTimestamp,
       penalty: formatCurrency(convertFromUnits(escrowData.penalty, NPMTokenDecimals), router.locale, 'NPM', true),
       receivedAfterPenalty: formatCurrency(convertFromUnits(toBN(escrowData.veNPMBalance).minus(escrowData.penalty).toString(), NPMTokenDecimals), router.locale, 'NPM', true)
     },

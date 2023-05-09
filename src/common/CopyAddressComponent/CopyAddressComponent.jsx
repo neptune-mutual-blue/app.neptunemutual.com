@@ -33,7 +33,7 @@ export const CopyAddressComponent = ({ account, ...rest }) => {
   }, [])
 
   return (
-    <div className='flex items-center cursor-pointer' onClick={handleCopy}>
+    <button className='flex items-center cursor-pointer' onClick={handleCopy}>
       {!isCopied
         ? (
           <>
@@ -55,6 +55,6 @@ export const CopyAddressComponent = ({ account, ...rest }) => {
             )}
           </>
           )}
-    </div>
+    </button>
   )
 }

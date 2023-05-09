@@ -1,6 +1,10 @@
-import { useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
 
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
@@ -18,16 +22,27 @@ import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import UnlockEscrow from '@/modules/vote-escrow/UnlockEscrow'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
-import { NpmTokenContractAddresses } from '@/src/config/constants'
+import {
+  MULTIPLIER,
+  NpmTokenContractAddresses
+} from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
+import {
+  convertFromUnits,
+  convertToUnits,
+  toBN
+} from '@/utils/bn'
+import { calculateBoost } from '@/utils/calculate-boost'
 import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
 
+const secondsInWeek = 604_800
+
 const VoteEscrow = () => {
-  const [sliderValue, setSliderValue] = useState(4)
   const [extend, setExtend] = useState(false)
   const [agreed, setAgreed] = useState(false)
 
@@ -46,6 +61,54 @@ const VoteEscrow = () => {
   const { NPMTokenDecimals } = useAppConstants()
 
   const canUnlock = data.veNPMBalance.short !== 'N/A'
+
+  const router = useRouter()
+
+  const allowanceExists = canLock(input || '0')
+
+  const now = Date.now()
+
+  const unlockDateTimestamp = (data.unlockTimestamp !== '0' ? new Date(data.unlockTimestamp).valueOf() : now)
+
+  const unlockDuration = (unlockDateTimestamp - now) / 1000
+
+  const weeks = Math.ceil(unlockDuration / secondsInWeek)
+
+  useEffect(() => {
+    if (weeks !== 0) {
+      const weekInFraction = (unlockDuration / secondsInWeek) % 1 !== 0
+
+      if (weekInFraction && weeks > 4) {
+        setUnlockDate(DateLib.toDateFormat(unlockDateTimestamp / 1000, 'en', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }))
+      }
+
+      setSliderValue(weeks < 4 ? 4 : weeks)
+    }
+    // eslint-disable-next-line
+  }, [weeks])
+
+  const [sliderValue, setSliderValue] = useState(4)
+
+  const newUnlockDate = DateLib.addDays(new Date(), sliderValue * 7)
+
+  const [unlockDate, setUnlockDate] = useState(DateLib.toDateFormat(newUnlockDate, 'en', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }))
+
+  const boostBN = toBN(calculateBoost((newUnlockDate.valueOf() - now) / 1000)).dividedBy(MULTIPLIER)
+  const boost = boostBN.toString()
+
+  const lockedNpmBalance = toBN(data.lockedNPMBalanceRaw).plus(convertToUnits(input || '0'))
+
+  const votingPower = formatCurrency(convertFromUnits(boostBN.multipliedBy(lockedNpmBalance).toString(), NPMTokenDecimals), router.locale, 'NPM', true)
+
+  const lockedNpm = formatCurrency(convertFromUnits(lockedNpmBalance.toString(), NPMTokenDecimals), router.locale, 'NPM', true)
 
   if (unlock) {
     return (
@@ -67,8 +130,6 @@ const VoteEscrow = () => {
     setAgreed(false)
     setInput('')
   }
-
-  const allowanceExists = canLock(input || '0')
 
   return (
     <div>
@@ -101,7 +162,7 @@ const VoteEscrow = () => {
             </div>
           </div>
 
-          <div className={extend ? 'opacity-50 cursor-not-allowed' : ''}>
+          <div className={extend ? 'opacity-50 cursor-not-allowed' : 'relative'}>
             <div className='rounded-2 mb-2 border-1 border-B0C4DB overflow-hidden grid grid-cols-[1fr_auto] focus-within:ring-4E7DD9 focus-within:ring focus-within:ring-offset-0 focus-within:ring-opacity-30'>
               <div className='relative'>
                 <input
@@ -114,15 +175,15 @@ const VoteEscrow = () => {
                 />
                 <div className='absolute text-9B9B9B text-lg top-5 right-4'>NPM</div>
               </div>
-              <button
-                className='bg-E6EAEF py-5 px-6 text-lg' onClick={() => {
-                  setInput(data.npmBalance.short.split(' ')[0].replace(/,/g, ''))
-                }}
-                disabled={extend}
-              >
-                Max
-              </button>
             </div>
+            <button
+              className='bg-E6EAEF py-5 px-6 text-lg absolute top-[1px] right-[1px] rounded-tr-2 rounded-br-2' onClick={() => {
+                setInput(data.npmBalance.long.split(' ')[0].replace(/,/g, ''))
+              }}
+              disabled={extend}
+            >
+              Max
+            </button>
 
             <div className='flex justify-between items-center mb-6'>
               <div className='text-md text-9B9B9B'>Balance: {data.npmBalance.short}</div>
@@ -146,17 +207,27 @@ const VoteEscrow = () => {
             label='Duration'
             id='escrow-duration'
             min={4} max={208} value={sliderValue} onChange={(value) => {
-              setSliderValue(parseInt(value))
+              if (value >= weeks) {
+                setSliderValue(parseInt(value))
+
+                setUnlockDate(DateLib.toDateFormat(DateLib.addDays(new Date(), value * 7), 'en', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                }))
+              }
             }}
           />
 
           <div className='flex justify-between text-sm mb-8'>
             <div>{sliderValue} weeks</div>
-            <div>Unlocks: {DateLib.toDateFormat(DateLib.addDays(new Date(), sliderValue * 7), 'en', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
+            <div>
+              <div className='text-right text-xs'>
+                Unlocks on:
+              </div>
+              <div>
+                {unlockDate}
+              </div>
             </div>
           </div>
 
@@ -176,7 +247,7 @@ const VoteEscrow = () => {
               if (allowanceExists) {
                 lock(input || '0', sliderValue, onLockSuccess)
               } else {
-                handleApprove(input || '0', sliderValue)
+                handleApprove(input || '0')
               }
             }} className='w-full rounded-tooltip p-4 font-semibold text-md normal-case'
           >
@@ -188,17 +259,18 @@ const VoteEscrow = () => {
             list={[
               {
                 key: 'Boost:',
-                value: data.boost + 'x'
+                value: parseFloat(boost).toFixed(2) + 'x',
+                tooltip: boost + 'x'
               },
               {
                 key: 'Locked:',
-                value: data.lockedNPMBalance.short,
-                tooltip: data.lockedNPMBalance.long
+                value: lockedNpm.short,
+                tooltip: lockedNpm.long
               },
               {
                 key: 'Power:',
-                value: data.votingPower.short,
-                tooltip: data.votingPower.long
+                value: votingPower.short,
+                tooltip: votingPower.long
               }
             ]}
           />
@@ -218,14 +290,14 @@ const VoteEscrow = () => {
       <div className='w-[489px] mx-auto mt-4'>
         <div className='flex justify-between'>
           <Link href='/pools/liquidity-gauge-pools'>
-            <div className='text-4E7DD9 text-sm font-semibold cursor-pointer'>
+            <a className='text-4E7DD9 text-sm font-semibold cursor-pointer'>
               View Liquidity Gauge
-            </div>
+            </a>
           </Link>
           <Link href='#'>
-            <div className='text-4E7DD9 text-sm cursor-pointer font-semibold flex items-center gap-1'>
+            <a className='text-4E7DD9 text-sm cursor-pointer font-semibold flex items-center gap-1'>
               Submit Your Vote <ExternalLinkIcon />
-            </div>
+            </a>
           </Link>
         </div>
       </div>

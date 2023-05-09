@@ -3,7 +3,7 @@ import React from 'react'
 import { fromNow } from '@/utils/formatter/relative-time'
 
 const EscrowSummary = ({ veNPMBalance, unlockTimestamp }) => {
-  const unlockDate = new Date(unlockTimestamp)
+  const unlockDate = (unlockTimestamp !== '0' ? new Date(unlockTimestamp) : new Date())
 
   return (
     <div className='border-t-1 border-b-1 border-B0C4DB p-8'>
@@ -26,7 +26,7 @@ const EscrowSummary = ({ veNPMBalance, unlockTimestamp }) => {
           <span className='font-semibold'>Your veNPM Balance:</span> <span title={veNPMBalance.long}>{veNPMBalance.short}</span>
         </div>
         <div className='text-sm'>
-          <span className='font-semibold'>Your Unlock Timestamp:</span> <span title={unlockTimestamp}>{unlockTimestamp !== 0 ? fromNow(unlockDate) : 'N/A'}</span>
+          <span className='font-semibold'>Your Unlock Timestamp:</span> <span title={unlockTimestamp}>{unlockTimestamp !== '0' ? fromNow(unlockDate) : 'N/A'}</span>
         </div>
         <div className='text-sm'>
           <span className='font-semibold'>Premature Unlock Penalty:</span> 25%
