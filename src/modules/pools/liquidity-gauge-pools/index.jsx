@@ -5,6 +5,7 @@ import {
 
 import Link from 'next/link'
 
+import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
@@ -194,7 +195,7 @@ export const LiquidityGaugePoolsPage = () => {
       </div>
 
       <Content
-        data={liquidityGaugePoolsData}
+        data={liquidityGaugePoolsData || sortedPools}
         loading={loading}
         hasMore={hasMore}
         handleShowMore={handleShowMore}
@@ -212,9 +213,19 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
 
   if (loading) {
     return (
-      <Grid className='mb-24 mt-14' data-testid='loading-grid'>
-        <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
-      </Grid>
+      <>
+        <Grid className='mb-24 mt-14' data-testid='loading-grid'>
+          <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
+        </Grid>
+        {!loading && hasMore && (
+          <NeutralButton
+            onClick={handleShowMore}
+            data-testid='show-more-button'
+          >
+            <Trans>Show More</Trans>
+          </NeutralButton>
+        )}
+      </>
     )
   }
 
