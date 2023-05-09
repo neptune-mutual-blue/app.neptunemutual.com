@@ -60,6 +60,20 @@ export const Option = (props) => {
     )
   }
 
+  if (connectorName === ConnectorNames.BitKeepWallet) {
+    return (
+      <a
+        href='https://bitkeep.com/en/download?type=2'
+        target='_blank'
+        rel='noreferrer noopener nofollow'
+        className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-D4DFEE focus:border-4E7DD9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
+      >
+        <Icon className='mr-6' width={24} />
+        <p>Install BitKeep Wallet</p>
+      </a>
+    )
+  }
+
   if (!isMobile() && connectorName === ConnectorNames.BSC) {
     return (
       <a
