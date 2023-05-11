@@ -6,6 +6,7 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { Routes } from '@/src/config/routes'
 import {
   t,
   Trans
@@ -33,14 +34,15 @@ export default function MyStakingTxs ({ disabled }) {
         <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: t`Pool`, href: '/pools/staking', current: false },
+              { name: t`Pool`, href: Routes.BondPool, current: false },
               {
                 name: t`Staking`,
+                href: Routes.StakingPools,
                 current: false
               },
               {
                 name: t`Transaction List`,
-                href: '/pools/staking/transactions',
+                href: Routes.StakingPoolsTransactions,
                 current: true
               }
             ]}

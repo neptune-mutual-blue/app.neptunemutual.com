@@ -5,7 +5,7 @@ import { classNames } from '@/utils/classnames'
 export const BreadCrumbs = ({ pages, ...rest }) => {
   return (
     <nav className='flex mb-11' aria-label='Breadcrumb' {...rest}>
-      <ol className='flex items-center space-x-1 text-xs leading-5 sm:text-sm text-5F5F5F'>
+      <ol className='flex flex-wrap items-center text-xs leading-5 gap-x-1 gap-y-2 sm:text-sm text-5F5F5F'>
         {pages.map((page, idx) => (
           <li key={page.name + idx}>
             <div className='flex items-center'>

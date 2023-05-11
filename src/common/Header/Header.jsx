@@ -42,6 +42,7 @@ import {
 } from '@radix-ui/react-dialog'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
+import { Container } from '@/common/Container/Container'
 
 const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
@@ -177,139 +178,144 @@ export const Header = () => {
     <>
       <div className='bg-black text-EEEEEE'>
         <Banner />
-        <div className='justify-end hidden max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 xl:flex'>
-          <LanguageDropdown />
-        </div>
+        <Container>
+          <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:flex'>
+            <LanguageDropdown />
+          </div>
+        </Container>
       </div>
+
       <header className='sticky z-40 bg-black -top-px text-EEEEEE'>
-        <nav className='flex max-w-full mx-auto' aria-label='Top'>
-          <div className='flex items-stretch justify-between flex-grow py-0 pl-4 h-14 lg:h-20 sm:px-6 xl:pl-8 xl:pr-22px xl:border-b border-B0C4DB xl:border-none'>
-            <div className='flex items-center'>
-              <Link
-                href={Routes.Home}
-                locale={router.locale || router.defaultLocale}
-              >
-                <a className='sm:w-48'>
-                  <HeaderLogo />
-                </a>
-              </Link>
-              <div className='self-stretch hidden ml-16 space-x-8 xl:flex'>
-                {navigation.map((link) => {
-                  return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      locale={router.locale}
-                    >
-                      <a
-                        className={classNames(
-                          'text-sm border-b-4 border-t-transparent inline-flex items-center whitespace-nowrap',
-                          link.active
-                            ? 'border-4E7DD9 text-4E7DD9 font-semibold'
-                            : 'border-transparent text-999BAB'
-                        )}
+        <Container>
+          <nav className='flex max-w-full mx-auto' aria-label='Top'>
+            <div className='flex items-stretch justify-between flex-grow py-0 h-14 lg:h-20 sm:pr-6 xl:pr-22px xl:border-b border-B0C4DB xl:border-none'>
+              <div className='flex items-center'>
+                <Link
+                  href={Routes.Home}
+                  locale={router.locale || router.defaultLocale}
+                >
+                  <a className='sm:w-48'>
+                    <HeaderLogo />
+                  </a>
+                </Link>
+                <div className='self-stretch hidden ml-16 gap-x-4 xl:flex'>
+                  {navigation.map((link) => {
+                    return (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        locale={router.locale}
                       >
-                        {link.name}
-                      </a>
-                    </Link>
-                  )
-                })}
+                        <a
+                          className={classNames(
+                            'text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap',
+                            link.active
+                              ? 'border-4E7DD9 text-4E7DD9 font-semibold'
+                              : 'border-transparent text-999BAB'
+                          )}
+                        >
+                          {link.name}
+                        </a>
+                      </Link>
+                    )
+                  })}
+                </div>
+              </div>
+
+              <div className='items-center hidden pt-3 pb-3 xl:flex'>
+                <ConnectWallet networkId={networkId} notifier={notifier}>
+                  {({ onOpen }) => {
+                    let button = (
+                      <button
+                        className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-primary'
+                        onClick={onOpen}
+                        title={t`Connect wallet`}
+                      >
+                        <span className='sr-only'>{t`Connect wallet`}</span>
+                        <Trans>Connect wallet</Trans>
+                      </button>
+                    )
+                    if (active) {
+                      button = (
+                        <button
+                          className='relative flex items-center px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
+                          onClick={handleToggleAccountPopup}
+                          title={t`account details`}
+                        >
+                          <span className='sr-only'>{t`account details`}</span>
+                          <AccountBalanceWalletIcon width='24' height='24' />
+                          <span className='pl-2'>{truncateAddress(account)}</span>
+                        </button>
+                      )
+                    }
+                    return (
+                      <div className='ml-10 sm:pl-6 xl:pl-8'>
+                        <div className='flex space-x-4'>
+                          <Network />
+                          {button}
+                          {isAccountDetailsOpen && (
+                            <AccountDetailsModal
+                              {...{
+                                networkId,
+                                account,
+                                isOpen: isAccountDetailsOpen,
+                                onClose: handleToggleAccountPopup,
+                                active,
+                                handleDisconnect
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    )
+                  }}
+                </ConnectWallet>
               </div>
             </div>
 
-            <div className='items-center hidden pt-3 pb-3 xl:flex'>
-              <ConnectWallet networkId={networkId} notifier={notifier}>
-                {({ onOpen }) => {
-                  let button = (
-                    <button
-                      className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-primary'
-                      onClick={onOpen}
-                      title={t`Connect wallet`}
-                    >
-                      <span className='sr-only'>{t`Connect wallet`}</span>
-                      <Trans>Connect wallet</Trans>
-                    </button>
-                  )
-                  if (active) {
-                    button = (
-                      <button
-                        className='relative flex items-center px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
-                        onClick={handleToggleAccountPopup}
-                        title={t`account details`}
-                      >
-                        <span className='sr-only'>{t`account details`}</span>
-                        <AccountBalanceWalletIcon width='24' height='24' />
-                        <span className='pl-2'>{truncateAddress(account)}</span>
-                      </button>
-                    )
-                  }
-                  return (
-                    <div className='ml-10 sm:pl-6 xl:pl-8'>
-                      <div className='flex space-x-4'>
-                        <Network />
-                        {button}
-                        {isAccountDetailsOpen && (
-                          <AccountDetailsModal
-                            {...{
-                              networkId,
-                              account,
-                              isOpen: isAccountDetailsOpen,
-                              onClose: handleToggleAccountPopup,
-                              active,
-                              handleDisconnect
-                            }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  )
-                }}
-              </ConnectWallet>
+            <div className='relative flex' ref={setContainer}>
+              <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
+                <button
+                  aria-label='Transactions'
+                  className={classNames(
+                    'items-center justify-center px-4  flex relative self-stretch flex-shrink-0',
+                    'before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB',
+                    isTxDetailsPopupOpen
+                      ? 'bg-404A5C before:w-0'
+                      : 'bg-transparent before:w-px'
+                  )}
+                  onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+                >
+                  <span className='sr-only'>{t`transaction overview button`}</span>
+                  <IconWithBadge number={unread}>
+                    <BellIcon
+                      className={classNames(
+                        isTxDetailsPopupOpen ? 'text-white' : 'text-999BAB'
+                      )}
+                    />
+                  </IconWithBadge>
+
+                </button>
+              </TransactionOverviewTooltip>
             </div>
-          </div>
 
-          <div className='relative flex' ref={setContainer}>
-            <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
-              <button
-                aria-label='Transactions'
-                className={classNames(
-                  'items-center justify-center px-4 flex relative self-stretch flex-shrink-0',
-                  'before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB',
-                  isTxDetailsPopupOpen
-                    ? 'bg-404A5C before:w-0'
-                    : 'bg-transparent before:w-px'
-                )}
-                onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
-              >
-                <span className='sr-only'>{t`transaction overview button`}</span>
-                <IconWithBadge number={unread}>
-                  <BellIcon
-                    className={classNames(
-                      isTxDetailsPopupOpen ? 'text-white' : 'text-999BAB'
-                    )}
-                  />
-                </IconWithBadge>
+            {!isOpen && (
+              <div className='flex items-center xl:hidden'>
+                <BurgerMenu
+                  isOpen={isOpen}
+                  onToggle={toggleMenu}
+                  className='h-full px-4'
+                />
+              </div>
+            )}
 
-              </button>
-            </TransactionOverviewTooltip>
-          </div>
-
-          {!isOpen && (
-            <div className='flex items-center xl:pr-6 xl:hidden'>
-              <BurgerMenu
-                isOpen={isOpen}
-                onToggle={toggleMenu}
-                className='h-full px-4'
-              />
-            </div>
-          )}
-
-          <TransactionList
-            isOpen={isTxDetailsPopupOpen}
-            onClose={setIsTxDetailsPopupOpen}
-            container={container}
-          />
-        </nav>
+            <TransactionList
+              isOpen={isTxDetailsPopupOpen}
+              onClose={setIsTxDetailsPopupOpen}
+              container={container}
+            />
+          </nav>
+        </Container>
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}

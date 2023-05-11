@@ -9,7 +9,7 @@ import { useFetchReport } from '@/src/hooks/useFetchReport'
 import { ReportingDetailsPage } from '@/src/modules/reporting/details'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
-import { ReportDetailsSkeleton } from '@/pages/reports/[coverId]/incidents/[timestamp]/skeleton'
+import { ReportDetailsSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
 const disabled = !isFeatureEnabled('reporting')
 

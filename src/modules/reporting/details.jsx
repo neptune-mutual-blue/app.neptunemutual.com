@@ -17,7 +17,7 @@ import {
   ResolvedReportSummary
 } from '@/src/modules/reporting/resolved/ResolvedReportSummary'
 import { isGreater } from '@/utils/bn'
-import { ReportDetailsSkeleton } from '@/pages/reports/[coverId]/incidents/[timestamp]/skeleton'
+import { ReportDetailsSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
 export const ReportingDetailsPage = ({
   incidentReport,
