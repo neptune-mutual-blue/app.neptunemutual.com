@@ -17,7 +17,7 @@ import {
   ResolvedReportSummary
 } from '@/src/modules/reporting/resolved/ResolvedReportSummary'
 import { isGreater } from '@/utils/bn'
-import { Trans } from '@lingui/macro'
+import { ReportDetailsSkeleton } from '@/pages/reports/[coverId]/incidents/[timestamp]/skeleton'
 
 export const ReportingDetailsPage = ({
   incidentReport,
@@ -52,11 +52,7 @@ export const ReportingDetailsPage = ({
   })
 
   if (reportLoading) {
-    return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
-    )
+    return <ReportDetailsSkeleton />
   }
 
   const now = DateLib.unix()
