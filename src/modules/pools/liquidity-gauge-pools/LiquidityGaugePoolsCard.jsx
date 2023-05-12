@@ -30,7 +30,7 @@ export const LiquidityGaugePoolsCard = ({ data }) => {
                 />
 
                 {liquidityGaugeData.lock || !active
-                  ? <p className='max-w-[584px] font-normal text-999BAB'>{liquidityGaugeData.description}</p>
+                  ? <p className='max-w-xl font-normal text-999BAB'>{liquidityGaugeData.description}</p>
                   : <LiquidityGaugeBalanceDetails
                       balance={liquidityGaugeData.balance}
                       token={liquidityGaugeData.subtitle}
