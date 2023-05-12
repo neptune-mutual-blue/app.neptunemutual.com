@@ -186,7 +186,7 @@ export const LiquidityGaugePoolsPage = () => {
       </div>
 
       <div className='flex items-center justify-end mb-[18px]'>
-        <Link href={Routes.LiquidityGaugePoolsTransactions}>
+        <Link href={Routes.LiquidityLatestGaugeChart}>
           <a className='flex items-center justify-center gap-.5 font-semibold text-md sm:inline-flex text-4e7dd9 hover:underline'>
             <Trans>View the Latest Gauge</Trans>
             <DownArrow className='w-5 h-5 -rotate-90' />
