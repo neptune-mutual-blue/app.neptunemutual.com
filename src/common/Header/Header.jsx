@@ -208,10 +208,11 @@ export const Header = () => {
                       >
                         <a
                           className={classNames(
-                            'text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap',
+                            'relative text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap outline-none',
                             link.active
                               ? 'border-4E7DD9 text-4E7DD9 font-semibold'
-                              : 'border-transparent text-999BAB'
+                              : 'border-transparent text-999BAB',
+                            !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-1D9AEE before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
                           )}
                         >
                           {link.name}
