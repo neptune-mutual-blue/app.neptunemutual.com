@@ -163,7 +163,7 @@ const VoteEscrow = () => {
             </div>
           </div>
 
-          <div className={extend ? 'opacity-50 cursor-not-allowed' : 'relative'}>
+          <div className={extend ? 'opacity-50 cursor-not-allowed relative' : 'relative'}>
             <div className='rounded-2 mb-2 border-1 border-B0C4DB overflow-hidden grid grid-cols-[1fr_auto] focus-within:ring-4E7DD9 focus-within:ring focus-within:ring-offset-0 focus-within:ring-opacity-30'>
               <div className='relative'>
                 <input
