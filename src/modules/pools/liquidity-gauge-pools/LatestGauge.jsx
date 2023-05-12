@@ -190,7 +190,7 @@ const LatestGauge = () => {
           <div>
             <ChainDropdown options={DROPDOWN_OPTIONS} selected={selectedChains} onSelectionChange={setSelectedChains} />
           </div>
-          <div className='relative'>
+          <div className='gauge-chart-liquidity relative'>
             <HighchartsReact
               highcharts={Highcharts}
               options={chartOptions}

@@ -103,3 +103,7 @@ input[type='checkbox']:checked.checkbox_custom {
   border-color: transparent;
 }
 /********** `checkbox_custom` style end **********/
+
+.gauge-chart-liquidity svg g.highcharts-label {
+  opacity: 1 !important;
+}

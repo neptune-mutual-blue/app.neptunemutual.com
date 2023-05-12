@@ -150,6 +150,7 @@ const VoteEscrow = () => {
             <div className='text-md font-semibold'>NPM to Lock</div>
             <div className='flex items-center text-sm'>
               <Checkbox
+                disabled={!canUnlock}
                 checked={extend} onChange={(e) => {
                   setExtend(e.target.checked)
                   if (e.target.checked) {

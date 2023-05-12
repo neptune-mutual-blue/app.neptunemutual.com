@@ -66,11 +66,11 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
           <div className='m-2.5 flex items-center'>
 
             <input
-              className='w-full px-4 py-2 leading-5 outline-none' value={search} onChange={(e) => {
+              className='w-full px-4 py-2 leading-5 outline-none text-sm' value={search} onChange={(e) => {
                 setSearch(e.target.value)
               }} placeholder='Search Chain'
             />
-            <SearchIcon className='h-4 w-4' />
+            <SearchIcon className='h-4 w-4 flex-shrink-0 p-2.5 box-content' />
           </div>
           <hr className='border-t-1 border-D0D5DD' />
 
