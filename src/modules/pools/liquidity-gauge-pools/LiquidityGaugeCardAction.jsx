@@ -14,7 +14,7 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenName, tokenIcon, i
         <div className='flex flex-row items-center gap-1'>
           <div className='text-sm text-999BAB'>Reward Tokens:</div>
           <InfoTooltip infoComponent={`${tokenName} Token`} className='text-[11px] px-2 py-0.75 bg-opacity-100'>
-            <img src={tokenIcon} alt='npm_icon' className='w-6' />
+            <button type='button' className='cursor-default'><img src={tokenIcon} alt='npm_icon' className='w-6' /></button>
           </InfoTooltip>
         </div>
       </div>
