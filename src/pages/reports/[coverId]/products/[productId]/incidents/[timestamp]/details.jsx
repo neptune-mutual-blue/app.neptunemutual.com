@@ -9,6 +9,7 @@ import { useFetchReport } from '@/src/hooks/useFetchReport'
 import { ReportingDetailsPage } from '@/src/modules/reporting/details'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
+import { ReportDetailsSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
 const disabled = !isFeatureEnabled('reporting')
 
@@ -57,11 +58,7 @@ function Content ({ loading, incidentReportData, refetch, coverKey, productKey }
   const minReportingStake = coverOrProductData?.minReportingStake
 
   if (loading || dataLoading) {
-    return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
-    )
+    return <ReportDetailsSkeleton />
   }
 
   if (!incidentReportData || !coverOrProductData) {

@@ -118,7 +118,8 @@ module.exports = {
         60: '240px',
         70: '282px',
         '90vw': '90vw',
-        632: '632px'
+        632: '632px',
+        466: '466px'
       },
       minWidth: {
         auto: 'auto',
