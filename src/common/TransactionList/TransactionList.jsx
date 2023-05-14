@@ -235,7 +235,7 @@ function Notification ({
       </a>
 
       {!read && (
-        <i className='absolute rounded-full w-9px h-9px bg-4e7dd9 top-2 right-2' />
+        <i className='absolute rounded-full w-9px h-9px bg-4E7DD9 top-2 right-2' />
       )}
     </div>
   )

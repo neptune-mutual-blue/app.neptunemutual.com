@@ -1,69 +1,43 @@
-import { useWeb3React } from '@web3-react/core'
-import DateLib from '@/lib/date/DateLib'
-import { useState, useEffect } from 'react'
-import { useNetwork } from '@/src/context/Network'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import {
+  useEffect,
+  useState
+} from 'react'
 
-const getQuery = (startOfMonth, account) => {
-  return `
-  {
-    userPolicies(
-      where: {
-        expiresOn_lt: "${startOfMonth}"
-        account: "${account}"
-      }
-    ) {
-      id
-      coverKey
-      productKey
-      cxToken {
-        id
-        creationDate
-        expiryDate
-      }
-      totalAmountToCover
-      expiresOn
-      cover {
-        id
-      }
-    }
-  }
-  `
-}
+import { useNetwork } from '@/src/context/Network'
+import { getExpiredPolicies } from '@/src/services/api/policy/expired'
+import { useWeb3React } from '@web3-react/core'
 
 export const useExpiredPolicies = () => {
-  const [data, setData] = useState({})
+  const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
 
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
-  const fetchExpiredPolicies = useSubgraphFetch('useExpiredPolicies')
 
   useEffect(() => {
     if (!account) {
       return
     }
 
-    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()))
+    setLoading(true);
 
-    setLoading(true)
-    fetchExpiredPolicies(networkId, getQuery(startOfMonth, account))
-      .then((_data) => {
-        if (!_data) return
-        setData(_data)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-      .finally(() => {
+    (async () => {
+      try {
+        const data = await getExpiredPolicies(networkId, account)
+
+        if (!data) return
+
+        setData(data)
+      } catch (error) {
+        console.error(error)
+      } finally {
         setLoading(false)
-      })
-  }, [account, fetchExpiredPolicies, networkId])
+      }
+    })()
+  }, [account, networkId])
 
   return {
-    data: {
-      expiredPolicies: data.userPolicies || []
-    },
+    data,
     loading
   }
 }

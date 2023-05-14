@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { PoliciesEmptyState } from '@/modules/my-policies/active/PoliciesEmptyState'
+import {
+  PoliciesEmptyState
+} from '@/modules/my-policies/active/PoliciesEmptyState'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
@@ -16,7 +18,7 @@ export const PoliciesActivePage = ({ data, loading }) => {
     <Container className='py-16'>
       <div className='flex justify-end'>
         <Link href={Routes.PolicyTransactions}>
-          <a className='text-lg font-medium text-4e7dd9 hover:underline'>
+          <a className='text-lg font-medium text-4E7DD9 hover:underline'>
             <Trans>Transaction List</Trans>
           </a>
         </Link>

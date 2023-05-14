@@ -9,11 +9,14 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useExpiredPolicies } from '@/src/hooks/useExpiredPolicies'
 import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const PoliciesExpiredPage = () => {
   const {
-    data: { expiredPolicies },
+    data: expiredPolicies,
     loading
   } = useExpiredPolicies()
 
@@ -21,7 +24,7 @@ export const PoliciesExpiredPage = () => {
     <Container className='py-16'>
       <div className='flex justify-end'>
         <Link href={Routes.PolicyTransactions}>
-          <a className='text-lg font-medium text-4e7dd9 hover:underline'>
+          <a className='text-lg font-medium text-4E7DD9 hover:underline'>
             <Trans>Transaction List</Trans>
           </a>
         </Link>

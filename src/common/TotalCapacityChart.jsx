@@ -1,12 +1,20 @@
+import {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
+
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
-import { useEffect, useRef, useState } from 'react'
-
-import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, sort } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import { useRouter } from 'next/router'
+
+import { useAppConstants } from '@/src/context/AppConstants'
+import {
+  convertFromUnits,
+  sort
+} from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)

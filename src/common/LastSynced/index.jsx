@@ -16,7 +16,7 @@ export const LastSynced = ({ blockNumber, networkId }) => {
         href={getBlockLink(networkId, blockNumber)}
         target='_blank'
         rel='noreferrer noopener nofollow'
-        className='pl-1 text-4e7dd9'
+        className='pl-1 text-4E7DD9'
       >
         #{blockNumber}
       </a>

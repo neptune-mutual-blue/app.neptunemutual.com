@@ -49,7 +49,7 @@ export default function PageNotAvailable () {
           />
           <button
             type='submit'
-            className='block w-full px-10 py-5 mt-6 font-bold uppercase rounded-lg bg-4e7dd9 text-EEEEEE text-md'
+            className='block w-full px-10 py-5 mt-6 font-bold uppercase rounded-lg bg-4E7DD9 text-EEEEEE text-md'
           >
             subscribe
           </button>

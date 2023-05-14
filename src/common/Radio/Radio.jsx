@@ -52,7 +52,7 @@ const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...
         {...rest}
       />
 
-      <div className={classNames('w-5 h-5 bg-EEEEEE rounded-full z-[19] absolute flex align-middle justify-center')}>  {rest.checked && <div className={classNames('w-3 h-3 bg-4e7dd9 rounded-full my-auto')} />} </div>
+      <div className={classNames('w-5 h-5 bg-EEEEEE rounded-full z-[19] absolute flex align-middle justify-center')}>  {rest.checked && <div className={classNames('w-3 h-3 bg-4E7DD9 rounded-full my-auto')} />} </div>
 
       <label
         className={classNames(

@@ -24,8 +24,9 @@ import {
   ActiveReportingEmptyState
 } from '@/src/modules/reporting/active/ActiveReportingEmptyState'
 import {
-  sorter, SORT_DATA_TYPES,
-  SORT_TYPES
+  SORT_DATA_TYPES,
+  SORT_TYPES,
+  sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
 import {
@@ -142,7 +143,7 @@ function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
                 )}
                 key={report.id}
               >
-                <a className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
+                <a className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'>
                   {loading
                     ? <CardSkeleton numberOfCards={1} />
                     : <ActiveReportingCard

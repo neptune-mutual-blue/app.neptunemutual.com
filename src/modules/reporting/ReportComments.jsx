@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
@@ -7,8 +9,10 @@ import { useNetwork } from '@/src/context/Network'
 import { safeParseString } from '@/src/services/transactions/utils'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getReplacedString } from '@/utils/string'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 const INCIDENT = 0
 const DISPUTE = 1
@@ -24,7 +28,7 @@ function HeaderReport (props) {
   return (
     <div className='flex flex-wrap gap-2 text-sm sm:flex-nowrap'>
       <span role='header-type'>{type}</span>
-      <span role='address' className='overflow-hidden text-4e7dd9'>
+      <span role='address' className='overflow-hidden text-4E7DD9'>
         {createdBy && (
           <a
             href={getAddressLink(networkId, createdBy)}

@@ -1,12 +1,15 @@
-import { ComingSoon } from '@/common/ComingSoon'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
+import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
-import { isFeatureEnabled } from '@/src/config/environment'
-import { t, Trans } from '@lingui/macro'
-import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 import { Seo } from '@/common/Seo'
+import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
+import { isFeatureEnabled } from '@/src/config/environment'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -27,7 +30,7 @@ export default function MyStakingTxs ({ disabled }) {
       <Seo />
 
       <Hero>
-        <Container className='px-2 py-20'>
+        <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
               { name: t`Pool`, href: '/pools/staking', current: false },

@@ -113,7 +113,7 @@ export const ClaimCoverModal = ({
       disabled={approving || claiming}
       data-testid='claim-cover-modal'
     >
-      <ModalWrapper className='max-w-md bg-f6f7f9'>
+      <ModalWrapper className='max-w-md bg-F6F7F9'>
         <Dialog.Title
           className='flex items-center w-full font-bold text-display-sm'
           data-testid='dialog-title'

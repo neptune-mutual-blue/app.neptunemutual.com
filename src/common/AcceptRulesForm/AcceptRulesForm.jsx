@@ -7,8 +7,6 @@ import { Alert } from '@/common/Alert/Alert'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
 import LeftArrow from '@/icons/LeftArrow'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 import { config } from '@neptunemutual/sdk'
@@ -22,8 +20,6 @@ export const AcceptRulesForm = ({
   activeIncidentDate
 }) => {
   const router = useRouter()
-  const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
   const coverPurchasePage = router.pathname.includes('purchase')
   const [checked, setChecked] = useState(false)
 
@@ -64,12 +60,6 @@ export const AcceptRulesForm = ({
     )
   }
 
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
   return (
     <>
       {/* Accept Rules Form */}
@@ -90,8 +80,7 @@ export const AcceptRulesForm = ({
           disabled={!checked}
           className={classNames(
             checked ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
-            buttonBg,
-            'flex items-center text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide'
+            'flex items-center text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide bg-primary'
           )}
         >
           <Trans>Next</Trans>

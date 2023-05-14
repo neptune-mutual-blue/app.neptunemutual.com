@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-import { Label } from '@/common/Label/Label'
 import { RegularInput } from '@/common/Input/RegularInput'
+import { Label } from '@/common/Label/Label'
+import DeleteIcon from '@/icons/delete-icon'
 import { classNames } from '@/utils/classnames'
 import { t } from '@lingui/macro'
-import DeleteIcon from '@/icons/delete-icon'
 
 /**
  *
@@ -142,7 +142,8 @@ export function ProofOfIncident ({ disabled, required }) {
           name: 'incident_url',
           placeholder: 'https://',
           required: required,
-          disabled: disabled
+          disabled: disabled,
+          type: 'url'
         }}
         desc={t`Provide a URL confirming the nature of the incident.`}
       />

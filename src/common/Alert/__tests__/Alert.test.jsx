@@ -1,5 +1,9 @@
-import { screen, act, render } from '@/utils/unit-tests/test-utils'
 import { Alert } from '@/common/Alert/Alert'
+import {
+  act,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 
 describe('alert component behaviour', () => {
@@ -19,7 +23,7 @@ describe('alert component behaviour', () => {
     const screen = render(
       <Alert info>This shows text with blue border.</Alert>
     )
-    const results = screen.container.getElementsByClassName('border-4e7dd9')
+    const results = screen.container.getElementsByClassName('border-4E7DD9')
     expect(results.length).toEqual(1)
   })
 })

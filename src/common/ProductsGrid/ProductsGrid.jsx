@@ -12,17 +12,17 @@ import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import LeftArrow from '@/icons/LeftArrow'
-import {
-  homeViewSelectionKey
-} from '@/src/config/constants'
+import { homeViewSelectionKey } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import {
-  DEFAULT_SORT, sorter, SORT_DATA_TYPES,
-  SORT_TYPES
+  DEFAULT_SORT,
+  SORT_DATA_TYPES,
+  SORT_TYPES,
+  sorter
 } from '@/utils/sorting'
 import { Trans } from '@lingui/macro'
 
@@ -103,7 +103,7 @@ export const ProductsGrid = () => {
             }}
             scroll={false}
           >
-            <a className='inline-flex items-center px-4 py-3 mr-6 tracking-wide text-black uppercase border-none rounded-lg bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
+            <a className='inline-flex items-center px-4 py-3 mr-6 tracking-wide text-black uppercase border-none rounded-lg bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'>
               <LeftArrow />
               <Trans>Back</Trans>
             </a>

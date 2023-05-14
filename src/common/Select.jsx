@@ -26,9 +26,9 @@ export const Select = ({
         >
           <Listbox.Button
             className={classNames(
-              'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-pointer pr-14 focus:outline-none focus-visible:border-4e7dd9',
+              'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-pointer pr-14 focus:outline-none focus-visible:border-4E7DD9',
               loading && 'cursor-not-allowed',
-              open ? 'border-4e7dd9' : 'border-B0C4DB'
+              open ? 'border-4E7DD9' : 'border-B0C4DB'
             )}
             data-testid='select-button'
           >
@@ -48,7 +48,7 @@ export const Select = ({
           >
             <Listbox.Options
               className={classNames(
-                'absolute z-10 w-full py-3 mt-1 overflow-auto text-base bg-white border rounded-md shadow-dropdown md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 max-h-60 px-3',
+                'absolute z-10 w-full py-3 mt-1 overflow-auto text-base bg-white border rounded-md shadow-dropdown md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4E7DD9 max-h-60 px-3',
                 direction === 'right' && 'right-0',
                 loading && 'hidden'
               )}
@@ -61,7 +61,7 @@ export const Select = ({
                   className={({ active }) =>
                     classNames(
                       'cursor-default select-none relative',
-                      active ? 'text-4e7dd9' : 'text-black'
+                      active ? 'text-4E7DD9' : 'text-black'
                     )}
                   value={option}
                 >

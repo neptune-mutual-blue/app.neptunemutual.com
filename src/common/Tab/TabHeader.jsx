@@ -10,8 +10,8 @@ export const TabHeader = ({ activeTab, headers, onClick }) => {
       <div className='flex justify-center mx-auto xs:max-w-7xl xs:justify-start '>
         {headers.map((header) => (
           <Tab
-            key={header.name}
             className=''
+            key={header.name}
             active={activeTab === header.name}
           >
             <button

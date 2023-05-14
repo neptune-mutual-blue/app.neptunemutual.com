@@ -1,21 +1,25 @@
 import Link from 'next/link'
 
 import { Container } from '@/common/Container/Container'
+import {
+  MyLiquidityCoverCard
+} from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
 import { Grid } from '@/common/Grid/Grid'
-
-import { MyLiquidityCoverCard } from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
-import { t, Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
     <Container className='py-16' data-testid='page-container'>
       <div className='flex justify-end'>
         <Link href={Routes.LiquidityTransactions}>
-          <a className='text-lg font-medium text-4e7dd9 hover:underline'>
+          <a className='text-lg font-medium text-4E7DD9 hover:underline'>
             <Trans>Transaction List</Trans>
           </a>
         </Link>
@@ -72,7 +76,7 @@ function MyLiquidities ({ data, loading }) {
         return (
           <Link href={Routes.MyCoverLiquidity(coverKey)} key={x.id}>
             <a
-              className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+              className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
               data-testid='liquidity-cover-card'
             >
               <MyLiquidityCoverCard

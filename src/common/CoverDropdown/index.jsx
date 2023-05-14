@@ -1,9 +1,16 @@
-import ChevronDownIcon from '@/icons/ChevronDownIcon'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { classNames } from '@/utils/classnames'
-import { Listbox, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
+import ChevronDownIcon from '@/icons/ChevronDownIcon'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import { classNames } from '@/utils/classnames'
+import {
+  Listbox,
+  Transition
+} from '@headlessui/react'
 import { Trans } from '@lingui/macro'
 
 /**
@@ -122,7 +129,7 @@ export const CoverDropdown = ({
       <div className={classNames('relative w-full', className)}>
         <Listbox.Button
           className={classNames(
-            'relative w-full py-3 pl-4 pr-12 bg-white border rounded-lg border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9 cursor-pointer disabled:cursor-not-allowed',
+            'relative w-full py-3 pl-4 pr-12 bg-white border rounded-lg border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9 cursor-pointer disabled:cursor-not-allowed',
             buttonClass
           )}
           disabled={!selected}
@@ -150,7 +157,7 @@ export const CoverDropdown = ({
                 className={({ active }) =>
                   classNames(
                     'select-none relative px-1 cursor-pointer disabled:cursor-not-allowed',
-                    active ? 'text-4e7dd9' : 'text-black',
+                    active ? 'text-4E7DD9' : 'text-black',
                     typeof optionClass === 'function' ? optionClass(active) : optionClass
                   )}
                 value={option}
