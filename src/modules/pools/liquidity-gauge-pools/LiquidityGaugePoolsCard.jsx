@@ -52,6 +52,10 @@ export const LiquidityGaugePoolsCard = ({ data }) => {
               tokenName={liquidityGaugeData.reward_token.name}
               tokenIcon={liquidityGaugeData.reward_token.icon}
               isLock={liquidityGaugeData.lock}
+              subTitle={liquidityGaugeData.subtitle}
+              balance={liquidityGaugeData.balance}
+              token={liquidityGaugeData.subtitle}
+              emissionReceived={liquidityGaugeData.emission_received}
             />
           </div>
         </div>
