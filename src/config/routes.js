@@ -11,6 +11,7 @@ const MyActivePolicies = '/my-policies/active'
 const MyExpiredPolicies = '/my-policies/expired'
 const MyLiquidity = '/my-liquidity'
 const ActiveReports = '/reports/active'
+const VoteEscrow = '/vote-escrow'
 const ResolvedReports = '/reports/resolved'
 const BondPool = '/pools/bond'
 const StakingPools = '/pools/staking'
@@ -171,5 +172,6 @@ export const Routes = {
   ClaimPolicy,
   ViewCoverReports,
   ViewCoverProductTerms,
-  ViewProductReports
+  ViewProductReports,
+  VoteEscrow
 }

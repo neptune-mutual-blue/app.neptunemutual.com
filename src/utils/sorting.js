@@ -8,6 +8,7 @@ export const SORT_TYPES = {
   ALPHABETIC: 'A-Z',
   UTILIZATION_RATIO: 'Utilization ratio',
   LIQUIDITY: 'Liquidity',
+  EMISSIONS: 'Emissions',
   TVL: 'TVL',
   APR: 'APR',
   INCIDENT_DATE: 'Incident date',
