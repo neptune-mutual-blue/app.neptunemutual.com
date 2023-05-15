@@ -18,6 +18,7 @@ import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useCelerBridge } from '@/src/hooks/useCelerBridge'
 import { useDebounce } from '@/src/hooks/useDebounce'
+import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
 import {
   convertFromUnits,
   convertToUnits,
@@ -25,7 +26,6 @@ import {
   toBNSafe
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
 import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
 
@@ -74,7 +74,7 @@ export const CelerBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbo
     setSelectedNetworks((prev) => ({ ...prev, network1: options.find(x => x.chainId === parseInt(networkId)) }))
   }, [networkId])
 
-  const debouncedAmount = useDebounce(convertToUnits(sendAmount, sourceTokenDecimals).toString(), 1000)
+  const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
   const srcChainId = selectedNetworks?.network1?.chainId
   const destChainId = selectedNetworks?.network2?.chainId
   const _receiverAddress = receiverAddress || account

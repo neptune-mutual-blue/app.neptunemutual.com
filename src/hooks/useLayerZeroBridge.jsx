@@ -16,10 +16,10 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
+import { convertFromUnits } from '@/utils/bn'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
-import { convertFromUnits } from '@/utils/bn'
 
 const ABI = [
   'function estimateSendFee(uint16 _dstChainId, bytes calldata _toAddress, uint _amount, bool _useZro, bytes calldata _adapterParams) external view returns (uint nativeFee, uint zroFee)',
@@ -136,7 +136,7 @@ const useLayerZeroBridge = ({
     receiverAddress,
     destChainId
   ) => {
-    if (!sendAmount || !destChainId) return null
+    if (!sendAmount || !destChainId || !receiverAddress) return null
 
     const handleError = (err) => {
       notifyError(err, 'Could not estimate fees')

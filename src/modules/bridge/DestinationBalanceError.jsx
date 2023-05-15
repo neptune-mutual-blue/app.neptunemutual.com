@@ -6,76 +6,45 @@ import {
 
 import { useRouter } from 'next/router'
 
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { useTxPoster } from '@/src/context/TxPoster'
-import { convertFromUnits, toBNSafe } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { AddressZero } from '@ethersproject/constants'
-import { registry } from '@neptunemutual/sdk'
+import { BRIDGE_BALANCE_URL } from '@/src/config/constants'
+import {
+  convertFromUnits,
+  toBNSafe
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { getReplacedString } from '@/utils/string'
 
-export const useBalance = (account, tokenAddress, destinationChainId) => {
+export const useBalance = (destinationChainId) => {
   const [balance, setBalance] = useState('0')
   const [loading, setLoading] = useState(false)
-  const { contractRead } = useTxPoster()
 
   const fetchBalance = useCallback(
-    async ({ onTransactionResult, onError }) => {
-      if (!account || !tokenAddress || !destinationChainId) {
+    async () => {
+      if (!destinationChainId) {
         return
       }
 
-      try {
-        const signerOrProvider = getProviderOrSigner(
-          null,
-          AddressZero,
-          destinationChainId
-        )
-
-        const tokenInstance = registry.IERC20.getInstance(
-          tokenAddress,
-          signerOrProvider
-        )
-
-        if (!tokenInstance) {
-          console.log('Could not get an instance of the ERC20 from the SDK')
-          return
-        }
-
-        const result = await contractRead({
-          args: [account],
-          instance: tokenInstance,
-          methodName: 'balanceOf',
-          onError
-        })
-        onTransactionResult(result)
-      } catch (e) {
-        console.error(e)
-      }
+      const res = await fetch(getReplacedString(BRIDGE_BALANCE_URL, {
+        networkId: destinationChainId
+      }))
+      const result = await res.json()
+      return result.data || '0'
     },
-    [account, tokenAddress, destinationChainId, contractRead]
+    [destinationChainId]
   )
 
   useEffect(() => {
     let ignore = false
     setLoading(true)
 
-    const cleanup = () => {
-      setLoading(false)
-    }
-
-    const onTransactionResult = (result) => {
+    fetchBalance().then(result => {
       const _balance = result
       if (ignore || !_balance) return
-      setBalance(_balance.toString())
-      cleanup()
-    }
-
-    const onError = () => {
-      cleanup()
-    }
-
-    fetchBalance({ onTransactionResult, onError })
+      setBalance(_balance)
+    }).finally(() => {
+      setLoading(false)
+    })
 
     return () => {
       ignore = true
