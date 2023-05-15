@@ -11,7 +11,7 @@ import { Container } from '@/common/Container/Container'
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
 import { AddressInput } from '@/modules/bridge/AddressInput'
-import { DestinationBalanceError, useBalance } from '@/modules/bridge/DestinationBalanceError'
+import { useBalance } from '@/modules/bridge/DestinationBalanceError'
 import { InfoPanel } from '@/modules/bridge/InfoPanel'
 import { NetworkSelect } from '@/modules/bridge/NetworkSelect'
 import { TransferAmountInput } from '@/modules/bridge/TransferAmountInput'
@@ -59,7 +59,7 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
 
   const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
   const destinationTokenAddress = destinationTokenData.address || ''
-  const destinationTokenDecimals = destinationTokenData?.decimal || 1
+  // const destinationTokenDecimals = destinationTokenData?.decimal || 1
   const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
 
   const { balance: destinationBalance } = useBalance(destinationBridgeAddress, destinationTokenAddress, destChainId)
@@ -213,13 +213,13 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
             ]}
           />
 
-          <DestinationBalanceError
+          {/* <DestinationBalanceError
             tokenSymbol={tokenSymbol}
             tokenDecimals={destinationTokenDecimals}
             balance={destinationBalance}
             transferAmount={sendAmount ? convertToUnits(sendAmount, sourceTokenDecimals).toString() : ''}
             className='mt-4'
-          />
+          /> */}
 
           {!active && (
             <div className='absolute inset-0 w-full h-full bg-white bg-opacity-50' />
