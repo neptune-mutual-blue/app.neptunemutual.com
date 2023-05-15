@@ -107,3 +107,9 @@ input[type='checkbox']:checked.checkbox_custom {
 .gauge-chart-liquidity svg g.highcharts-label {
   opacity: 1 !important;
 }
+
+/*********** `input-container-focus` style *****************/
+
+.input-container-focus:has(input:focus) {
+  @apply ring-4E7DD9 ring ring-offset-0 ring-opacity-30;
+}

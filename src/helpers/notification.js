@@ -648,6 +648,43 @@ const actionMessages = {
 
     return { title: t`Refuting`, description: displayValue(_data) }
   },
+  [METHODS.BRIDGE_APPROVE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: `Approved ${_data.tokenSymbol} successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: `Could not approve ${_data.tokenSymbol}`,
+        description: displayValue(_data)
+      }
+    }
+
+    return {
+      title: `Approving ${_data.tokenSymbol}`,
+      description: displayValue(_data)
+    }
+  },
+  [METHODS.BRIDGE_TOKEN]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: 'NPM Bridge successful',
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: 'Could not bridge NPM',
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: 'Processing NPM bridge', description: displayValue(_data) }
+  },
   generic: (_status, _data) => {
     return { title: t`Notification`, description: displayValue(_data) }
   }
