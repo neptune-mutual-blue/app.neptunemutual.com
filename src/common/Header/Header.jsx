@@ -42,13 +42,18 @@ import {
 } from '@radix-ui/react-dialog'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
-import { Container } from '@/common/Container/Container'
+import { NavContainer } from '@/common/Container/NavContainer'
 
 const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
   const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
+
+  const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
+  const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
+  const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
+  const bridgeUrl = isCelerBridgeEnabled ? Routes.BridgeCeler : Routes.BridgeLayerZero
 
   const poolLink = Routes.Pools()
 
@@ -86,6 +91,11 @@ const getNavigationLinks = (pathname = '') => {
       name: t`Vote Escrow`,
       href: Routes.VoteEscrow,
       activeWhenStartsWith: Routes.VoteEscrow
+    },
+    bridgeEnabled && {
+      name: t`Bridge`,
+      href: bridgeUrl,
+      activeWhenStartsWith: bridgeUrl
     }
   ]
 
@@ -96,7 +106,7 @@ const getNavigationLinks = (pathname = '') => {
     active: pathname.startsWith(link.activeWhenStartsWith)
   }))
 
-  links.unshift({ name: t`Home`, href: '/', active: pathname === '/' })
+  // links.unshift({ name: t`Home`, href: '/', active: pathname === '/' })
 
   return links
 }
@@ -184,15 +194,15 @@ export const Header = () => {
     <>
       <div className='bg-black text-EEEEEE'>
         <Banner />
-        <Container>
+        <NavContainer>
           <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:flex'>
             <LanguageDropdown />
           </div>
-        </Container>
+        </NavContainer>
       </div>
 
       <header className='sticky z-40 bg-black -top-px text-EEEEEE'>
-        <Container>
+        <NavContainer>
           <nav className='flex max-w-full mx-auto' aria-label='Top'>
             <div className='flex items-stretch justify-between flex-grow py-0 h-14 lg:h-20 sm:pr-6 xl:pr-22px xl:border-b border-B0C4DB xl:border-none'>
               <div className='flex items-center'>
@@ -322,7 +332,7 @@ export const Header = () => {
               container={container}
             />
           </nav>
-        </Container>
+        </NavContainer>
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}

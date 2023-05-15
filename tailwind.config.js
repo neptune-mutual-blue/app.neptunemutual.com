@@ -123,7 +123,8 @@ module.exports = {
         '90vw': '90vw',
         450: '450px',
         632: '632px',
-        466: '466px'
+        466: '466px',
+        '8xl': '1440px'
       },
       minWidth: {
         auto: 'auto',
