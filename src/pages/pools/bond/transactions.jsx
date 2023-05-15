@@ -5,6 +5,7 @@ import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { Routes } from '@/src/config/routes'
 import { MyBondTxsTable } from '@/src/modules/pools/bond/MyBondTxsTable'
 import {
   t,
@@ -30,17 +31,18 @@ export default function MyBondTxs ({ disabled }) {
       <Seo />
 
       <Hero>
-        <Container className='px-2 py-20'>
+        <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: t`Pool`, href: '/pools/bond', current: false },
+              { name: t`Pool`, href: Routes.BondPool, current: false },
               {
                 name: t`Bond`,
+                href: Routes.BondPool,
                 current: false
               },
               {
                 name: t`Transaction List`,
-                href: '/pools/bond/transactions',
+                href: Routes.BondPoolTransactions,
                 current: true
               }
             ]}

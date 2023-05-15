@@ -150,7 +150,7 @@ const UnstakeModal = ({
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={unstaking}>
-      <ModalWrapper className='max-w-md bg-f6f7f9'>
+      <ModalWrapper className='max-w-md bg-F6F7F9'>
         <Dialog.Title className='flex items-center'>
           <img
             className='w-10 h-10 mr-3 border rounded-full'

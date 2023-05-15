@@ -23,7 +23,7 @@ export const CoverResolutionSources = ({ children, resolutionSources = [], repor
                 <Link key={source.uri} href={source.uri}>
                   <a
                     target='_blank'
-                    className='block mt-3 capitalize text-4e7dd9 hover:underline sm:mt-0 md:mt-3'
+                    className='block mt-3 capitalize text-4E7DD9 hover:underline sm:mt-0 md:mt-3'
                     rel='nofollow'
                   >
                     {source.text}

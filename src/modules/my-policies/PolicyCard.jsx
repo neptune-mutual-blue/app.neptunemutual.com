@@ -8,66 +8,40 @@ import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import DateLib from '@/lib/date/DateLib'
-import {
-  CoverStatus,
-  ReportStatus
-} from '@/src/config/constants'
+import { CoverStatus } from '@/src/config/constants'
 import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useValidReport } from '@/src/hooks/useValidReport'
 import { PolicyCardFooter } from '@/src/modules/my-policies/PolicyCardFooter'
 import { isGreater } from '@/utils/bn'
 
 export const PolicyCard = ({ policyInfo, coverOrProductData }) => {
-  const { cxToken } = policyInfo
   const coverKey = policyInfo.coverKey
   const productKey = policyInfo.productKey
   const isDiversified = isValidProduct(productKey)
 
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+  const validityEndsAt = policyInfo.expiresOn || DateLib.unix().toString()
 
-  const validityStartsAt = cxToken.creationDate || '0'
-  const validityEndsAt = cxToken.expiryDate || '0'
-  const { data: { report } } = useValidReport({
-    start: validityStartsAt,
-    end: validityEndsAt,
-    coverKey,
-    productKey
-  })
-
-  const { balance } = useERC20Balance(cxToken.id)
-  const productStatus = CoverStatus[coverOrProductData.productStatus]
+  const status = CoverStatus[policyInfo.productStatus]
+  const _status = identifyStatus(status)
 
   const now = DateLib.unix()
+
   const isPolicyExpired = isGreater(now, validityEndsAt)
+  const isClaimable = policyInfo.productStatusEnum === 'Claimable'
+  const isClaimStarted = policyInfo.claimBeginsFrom && isGreater(now, policyInfo.claimBeginsFrom)
+  const isClaimExpired = policyInfo.claimExpiresAt && isGreater(now, policyInfo.claimExpiresAt)
 
-  let status = null
-  let showStatus = true
+  // If status is "Claimable" then show status only during claim period
+  const withinClaimPeriod = isClaimable && isClaimStarted && !isClaimExpired
 
-  // If policy expired, show the last reporting status between `validityStartsAt` and `validityEndsAt`
-  // else when policy is currently valid, show the current status of the cover
-  // (no need to display anything if the status is normal)
-  if (isPolicyExpired) {
-    status = ReportStatus[report?.status]
-  } else {
-    status = productStatus
-
-    const isClaimable = report ? report.status === 'Claimable' : false
-    const isClaimStarted = report && isGreater(now, report.claimBeginsFrom)
-    const isClaimExpired = report && isGreater(now, report.claimExpiresAt)
-
-    // If status is "Claimable" then show status only during claim period
-    showStatus = isClaimable ? isClaimStarted && !isClaimExpired : true
-  }
-
-  const _status = identifyStatus(status)
+  const beforeResolutionDeadline = isClaimable && !isClaimStarted
 
   return (
     <div
-      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
       data-testid='policy-card'
     >
       <OutlinedCard className='p-6 bg-white' type='normal'>
@@ -89,7 +63,7 @@ export const PolicyCard = ({ policyInfo, coverOrProductData }) => {
                 }
               >
                 <div data-testid='policy-card-status'>
-                  {showStatus && _status !== E_CARD_STATUS.NORMAL && (
+                  {withinClaimPeriod && _status !== E_CARD_STATUS.NORMAL && (
                     <Badge status={_status} className='rounded' />
                   )}
                 </div>
@@ -104,13 +78,19 @@ export const PolicyCard = ({ policyInfo, coverOrProductData }) => {
           </h4>
         </div>
         {/* Divider */}
+
         <Divider />
         <PolicyCardFooter
           coverKey={policyInfo.coverKey}
           productKey={policyInfo.productKey}
-          cxToken={policyInfo.cxToken}
-          report={report}
-          tokenBalance={balance}
+          isPolicyExpired={isPolicyExpired}
+          beforeResolutionDeadline={beforeResolutionDeadline}
+          withinClaimPeriod={withinClaimPeriod}
+          isClaimable={isClaimable}
+          claimBeginsFrom={policyInfo.claimBeginsFrom}
+          claimExpiresAt={policyInfo.claimExpiresAt}
+          incidentDate={policyInfo.incidentDate}
+          amountToCover={policyInfo.amount || '0'}
           validityEndsAt={validityEndsAt}
         />
       </OutlinedCard>

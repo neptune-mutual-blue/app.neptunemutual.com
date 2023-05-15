@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
+
 import LoadingIcon from '@/lib/toast/components/icons/LoadingIcon'
 import MinimizeIcon from '@/lib/toast/components/icons/MinimizeIcon'
-import { useEffect } from 'react'
+
 import CloseIcon from './components/icons/CloseIcon'
 import InfoIcon from './components/icons/InfoIcon'
 import SuccessIcon from './components/icons/SuccessIcon'

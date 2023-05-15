@@ -52,7 +52,6 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     key: data.key,
     type: PoolTypes.TOKEN
   })
-  const [analyticsFunnelName, setAnalyticsFunnelName] = useState('')
 
   const rewardTokenAddress = info.rewardToken
   const stakingTokenSymbol = data.stakingTokenSymbol
@@ -219,7 +218,6 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
               <StakingCardCTA
                 className='px-2 mr-2 text-white w-fit'
                 onClick={() => {
-                  setAnalyticsFunnelName('Add Stake')
                   onStakeModalOpen()
                 }}
                 aria-label='Add Stake'
@@ -241,7 +239,6 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
             <StakingCardCTA
               className=''
               onClick={() => {
-                setAnalyticsFunnelName('Enter Staking Pool')
                 onStakeModalOpen()
               }}
             >
@@ -258,7 +255,6 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         onClose={onStakeModalClose}
         stakingTokenSymbol={stakingTokenSymbol}
         modalTitle={stakeModalTitle}
-        analyticsFunnelName={analyticsFunnelName}
       />
       <CollectRewardModal
         poolKey={poolKey}

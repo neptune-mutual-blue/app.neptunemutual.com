@@ -1,16 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, {
+  useEffect,
+  useState
+} from 'react'
 
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import {
+  FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
+  FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
+  FALLBACK_NPM_TOKEN_DECIMALS,
+  FALLBACK_NPM_TOKEN_SYMBOL
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { usePoolsTVL } from '@/src/hooks/usePoolsTVL'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { useWeb3React } from '@web3-react/core'
-
+import { useRoles } from '@/src/hooks/useRoles'
 import {
   getAddressesFromApi,
   getAddressesFromProvider
 } from '@/src/services/contracts/getAddresses'
-import { useRoles } from '@/src/hooks/useRoles'
-import { FALLBACK_LIQUIDITY_TOKEN_DECIMALS, FALLBACK_LIQUIDITY_TOKEN_SYMBOL, FALLBACK_NPM_TOKEN_DECIMALS, FALLBACK_NPM_TOKEN_SYMBOL } from '@/src/config/constants'
+import { useWeb3React } from '@web3-react/core'
 
 const initValue = {
   NPMTokenAddress: '',

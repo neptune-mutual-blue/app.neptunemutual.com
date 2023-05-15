@@ -1,10 +1,11 @@
-import { classNames } from '@/utils/classnames'
 import Link from 'next/link'
+
+import { classNames } from '@/utils/classnames'
 
 export const BreadCrumbs = ({ pages, ...rest }) => {
   return (
     <nav className='flex mb-11' aria-label='Breadcrumb' {...rest}>
-      <ol className='flex items-center space-x-1 text-xs leading-5 sm:text-sm text-5F5F5F'>
+      <ol className='flex flex-wrap items-center text-xs leading-5 gap-x-1 gap-y-2 sm:text-sm text-5F5F5F'>
         {pages.map((page, idx) => (
           <li key={page.name + idx}>
             <div className='flex items-center'>
@@ -38,7 +39,7 @@ const Crumb = ({ page, isLast }) => {
       <a
         className={classNames(
           'ml-1 hover:underline capitalize',
-          !isLast && 'text-4e7dd9'
+          !isLast && 'text-4E7DD9'
         )}
         aria-current={page.current ? 'page' : undefined}
       >

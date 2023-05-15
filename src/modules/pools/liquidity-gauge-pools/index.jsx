@@ -10,7 +10,6 @@ import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import DownArrow from '@/icons/DownArrow'
 import {
   LiquidityGaugePoolsCard
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsCard'
@@ -51,8 +50,8 @@ const sorterData = {
 
 export const LiquidityGaugePoolsPage = () => {
   const [sortType, setSortType] = useState({
-    name: t`A-Z`,
-    value: SORT_TYPES.ALPHABETIC
+    name: t`TVL`,
+    value: SORT_TYPES.TVL
   })
 
   const { data, loading, hasMore, handleShowMore } = useLiquidityGaugePools()
@@ -166,7 +165,7 @@ export const LiquidityGaugePoolsPage = () => {
       <div className='flex justify-end mb-14'>
         <div className='items-center justify-between w-full sm:flex'>
           <Link href={Routes.LiquidityGaugePoolsTransactions}>
-            <a className='flex justify-center text-lg font-medium sm:inline-flex text-4e7dd9 hover:underline'>
+            <a className='flex justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>
@@ -175,23 +174,18 @@ export const LiquidityGaugePoolsPage = () => {
             onSearchChange={(event) => {
               setSearchValue(event.target.value)
             }}
-            sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
-            containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
+            sortClass='w-full md:w-48 lg:w-64 rounded-lg'
+            containerClass='flex-col md:flex-row min-w-fit md:min-w-sm'
             searchClass='w-full md:w-64 rounded-lg'
-            searchAndSortOptions={options}
+            optionsProp={options}
             sortType={sortType}
             setSortType={setSortType}
           />
         </div>
       </div>
 
-      <div className='flex items-center justify-end mb-[18px]'>
-        <Link href={Routes.LiquidityLatestGaugeChart}>
-          <a className='flex items-center justify-center gap-.5 font-semibold text-md sm:inline-flex text-4e7dd9 hover:underline'>
-            <Trans>View the Latest Gauge</Trans>
-            <DownArrow className='w-5 h-5 -rotate-90' />
-          </a>
-        </Link>
+      <div className='flex justify-end font-semibold text-4E7DD9 text-md mb-[18px]'>
+        <Link href='/pools/liquidity-gauge-pools/latest-gauge'>View the Latest Gauge --&gt;</Link>
       </div>
 
       <Content

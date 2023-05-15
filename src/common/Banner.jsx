@@ -1,3 +1,4 @@
+import { Container } from '@/common/Container/Container'
 import CloseIcon from '@/icons/CloseIcon'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import {
@@ -17,7 +18,7 @@ import {
 
 export const Banner = () => {
   const { networkId } = useNetwork()
-  const { isMainNet, isEthereum, isArbitrum } = useValidateNetwork(networkId)
+  const { isMainNet, isEthereum } = useValidateNetwork(networkId)
   const [show, setShow] = useLocalStorage('showAnnouncement', true)
 
   if (!networkId) {
@@ -30,21 +31,12 @@ export const Banner = () => {
 
   if (!show) return null
 
-  const bannerBackground = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
   return (
     <div
-      className={classNames(
-        'relative',
-        bannerBackground
-      )}
+      className='relative bg-primary'
       data-testid='banner-container'
     >
-      <div className='flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7'>
+      <Container className='flex items-center justify-center py-3 mx-auto my-0 text-sm text-white'>
         <div className='flex items-center justify-center flex-auto min-w-0'>
 
           {isMainNet
@@ -113,7 +105,7 @@ export const Banner = () => {
         >
           <CloseIcon className='w-5 h-5' />
         </button>
-      </div>
+      </Container>
     </div>
   )
 }

@@ -3,7 +3,6 @@ import {
   useState
 } from 'react'
 
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
@@ -27,10 +26,10 @@ import { getMonthNames } from '@/lib/dates'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import {
+  CoverStatus,
   MAX_PROPOSAL_AMOUNT,
   MIN_PROPOSAL_AMOUNT
 } from '@/src/config/constants'
-import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import {
@@ -40,7 +39,6 @@ import {
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
 import {
   convertFromUnits,
@@ -52,6 +50,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { AbnormalCoverStatus } from '@/common/CoverForm/AbnormalStatus'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
@@ -98,7 +97,6 @@ export const PurchasePolicyForm = ({
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
 
   const [formSteps, setFormSteps] = useState(0)
   const [showReferral, setShowReferral] = useState(false)
@@ -210,32 +208,28 @@ export const PurchasePolicyForm = ({
     )
   }
 
-  if (productStatus && productStatus !== 'Normal') {
-    const statusLink = (
-      <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
-        <a className='font-medium underline hover:no-underline'>
-          {productStatus}
-        </a>
-      </Link>
-    )
-    return (
-      <Alert>
-        <Trans>
-          Cannot purchase policy, since the cover status is {statusLink}
-        </Trans>
-      </Alert>
-    )
-  }
-
   const hasReferralCode = !!referralCode.trim().length
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
+  const status = CoverStatus[productStatus]
+  if (status && status !== 'Normal') {
+    return (
+      <div>
+        <AbnormalCoverStatus
+          status={status}
+          coverKey={coverKey}
+          productKey={productKey}
+          activeIncidentDate={activeIncidentDate}
+          imgSrc={imgSrc}
+          name={projectOrProductName}
+          className='mb-44'
+        />
+
+        <BackButton className='mx-auto' onClick={() => router.back()} />
+      </div>
+    )
+  }
 
   return (
     <div className='flex flex-col w-616'>
@@ -390,9 +384,8 @@ export const PurchasePolicyForm = ({
               disabled={!canProceed}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
-                buttonBg,
                 'disabled:cursor-not-allowed disabled:opacity-50',
-                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0'
+                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0 bg-primary'
               )}
               onClick={() => {
                 if (formSteps === 1) {
@@ -443,7 +436,7 @@ export const ReferralCodeStatus = ({
   if (isReferralCodeCheckPending) {
     return (
       <Loader
-        className={classNames('absolute w-6 h-6  text-4e7dd9', statusIndicatorClass)}
+        className={classNames('absolute w-6 h-6  text-4E7DD9', statusIndicatorClass)}
         aria-hidden='true'
         data-testid='loader'
       />

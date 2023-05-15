@@ -7,7 +7,7 @@ export const ProjectWebsiteLink = ({ website = '' }) => {
         href={website}
         target='_blank'
         rel='noreferrer noopener nofollow'
-        className='underline text-4e7dd9 hover:no-underline'
+        className='underline text-4E7DD9 hover:no-underline'
       >
         {text}
       </a>

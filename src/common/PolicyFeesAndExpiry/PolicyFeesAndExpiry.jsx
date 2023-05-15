@@ -37,7 +37,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             <th className='font-semibold text-left uppercase'>
               <Trans>Premium Rate</Trans>
             </th>
-            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
+            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')}>
               {updatingFee ? <DataLoadingIndicator className='mt-0' message='Fetching fees...' /> : formatPercent(rateConverted, router.locale)}
             </td>
           </tr>
@@ -45,7 +45,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             <th className='font-semibold text-left uppercase'>
               {quotationStep ? <Trans>Your Cover Amount</Trans> : <Trans>Cover Fee</Trans>}
             </th>
-            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')} title={!quotationStep ? formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long : ''}>
+            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')} title={!quotationStep ? formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long : ''}>
               {updatingFee && <DataLoadingIndicator className='mt-0' message='Fetching fees...' />}
               {!updatingFee && (quotationStep ? secondText : formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).short)}
             </td>
@@ -57,7 +57,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
                 : <Trans>Coverage Period</Trans>}
             </th>
             {!editForm && (
-              <td className={classNames('text-right flex justify-center', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
+              <td className={classNames('text-right flex justify-center', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')}>
                 {!quotationStep && DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
                   year: 'numeric',
                   month: 'short',
@@ -79,14 +79,14 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
       </table>
       {!editForm && (
         <>
-          <hr className='mt-4 border-t border-d4dfee' />
+          <hr className='mt-4 border-t border-D4DFEE' />
           <table>
             <tbody>
               <tr className='flex justify-between mt-3'>
                 <th className='font-semibold text-left uppercase'>
                   <Trans>Cashback Code</Trans>
                 </th>
-                <td className='text-right text-4e7dd9'>
+                <td className='text-right text-4E7DD9'>
                   {referralCode || <span className='font-semibold'>-</span>}
                 </td>
               </tr>

@@ -1,16 +1,16 @@
 import {
   useEffect,
-  useRef,
   useState
 } from 'react'
 
+import {
+  CopyAddressComponent
+} from '@/common/CopyAddressComponent/CopyAddressComponent'
 import Identicon from '@/common/Header/Identicon'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Toggle } from '@/common/Toggle'
-import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import CloseIcon from '@/icons/CloseIcon'
-import CopyIcon from '@/icons/CopyIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { ConnectorNames } from '@/lib/connect-wallet/config/connectors'
 import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
@@ -19,51 +19,6 @@ import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
 import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-
-const CopyAddressComponent = ({ account }) => {
-  const [isCopied, setIsCopied] = useState(false)
-  const timeoutIdRef = useRef(null)
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(account)
-
-    setIsCopied(true)
-    timeoutIdRef.current = setTimeout(() => {
-      setIsCopied(false)
-    }, 1500)
-  }
-
-  useEffect(() => {
-    return () => {
-      if (!timeoutIdRef.current) {
-        return
-      }
-      clearTimeout(timeoutIdRef.current)
-    }
-  }, [])
-
-  return (
-    <div className='flex items-center cursor-pointer' onClick={handleCopy}>
-      {!isCopied
-        ? (
-          <>
-            <CopyIcon className='w-4 h-4 text-999BAB' />
-            <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-              <Trans>Copy Address</Trans>
-            </span>
-          </>
-          )
-        : (
-          <>
-            <CheckCircleIcon className='w-4 h-4 text-999BAB' />
-            <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-              <Trans>Copied</Trans>
-            </span>
-          </>
-          )}
-    </div>
-  )
-}
 
 export const AccountDetailsModal = ({
   isOpen,
@@ -89,7 +44,7 @@ export const AccountDetailsModal = ({
       onClose={onClose}
       overlayClass='backdrop-blur-md'
     >
-      <ModalWrapper className='max-w-lg transition-all bg-f6f7f9'>
+      <ModalWrapper className='max-w-lg transition-all bg-F6F7F9'>
         <Dialog.Title
           as='h3'
           className='font-bold leading-9 text-black text-display-sm'
@@ -99,7 +54,7 @@ export const AccountDetailsModal = ({
 
         <button
           onClick={onClose}
-          className='absolute flex items-center justify-center text-black rounded-md top-5 right-6 sm:top-7 sm:right-12 hover:text-4e7dd9 focus:text-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-transparent'
+          className='absolute flex items-center justify-center text-black rounded-md top-5 right-6 sm:top-7 sm:right-12 hover:text-4E7DD9 focus:text-4E7DD9 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-transparent'
         >
           <span className='sr-only'>Close</span>
           <CloseIcon width={24} height={24} />
@@ -117,7 +72,7 @@ export const AccountDetailsModal = ({
             </span>
             <button
               onClick={handleDisconnect}
-              className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4e7dd9 sm:mb-0 sm:ml-28 md:ml-0 text-xxs text-4e7dd9'
+              className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4E7DD9 sm:mb-0 sm:ml-28 md:ml-0 text-xxs text-4E7DD9'
             >
               <Trans>Disconnect</Trans>
             </button>

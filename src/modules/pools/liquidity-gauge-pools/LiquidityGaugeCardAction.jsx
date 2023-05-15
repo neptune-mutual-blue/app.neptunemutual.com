@@ -54,16 +54,16 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenName, tokenIcon, i
 
         {isLock
           ? (
-            <button onClick={() => setModal(true)} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-4e7dd9 hover:bg-opacity-90 max-w-[216px] flex-auto'>
+            <button onClick={() => setModal(true)} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90 max-w-[216px] flex-auto'>
               Lock
             </button>
             )
           : (
             <div className='flex flex-row gap-2'>
-              <button onClick={handleReceiveModal} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-4e7dd9 hover:bg-opacity-90  w-[156px] flex-auto'>
+              <button onClick={handleReceiveModal} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90  w-[156px] flex-auto'>
                 Receive
               </button>
-              <button onClick={handleAddModal} className='px-4 py-3 font-semibold tracking-wide uppercase rounded-[10px] bg-4e7dd9 hover:bg-opacity-90'>
+              <button onClick={handleAddModal} className='px-4 py-3 font-semibold tracking-wide uppercase rounded-[10px] bg-primary hover:bg-opacity-90'>
                 <AddIcon
                   className='w-5 h-5 fill-white'
                 />

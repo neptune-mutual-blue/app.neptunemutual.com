@@ -93,7 +93,7 @@ const BondPage = () => {
         info.discountRate,
         convertFromUnits(marketPrice, liquidityTokenDecimals).toString()
       ),
-      valueClasses: 'text-display-xs text-4e7dd9 mt-1'
+      valueClasses: 'text-display-xs text-4E7DD9 mt-1'
     },
     {
       title: t`Maximum Bond`,
@@ -283,13 +283,13 @@ const BondPage = () => {
             })}
             target='_blank'
             rel='noopener noreferrer nofollow'
-            className='inline-block mr-8 text-lg font-medium text-4e7dd9 hover:underline'
+            className='inline-block mr-8 text-lg font-medium text-4E7DD9 hover:underline'
           >
             <Trans>Get LP tokens</Trans>
           </a>
 
           <Link href={Routes.BondTransactions}>
-            <a className='inline-block text-lg font-medium text-4e7dd9 hover:underline'>
+            <a className='inline-block text-lg font-medium text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>

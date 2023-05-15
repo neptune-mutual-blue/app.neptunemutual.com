@@ -5,7 +5,7 @@ export const HeroStat = ({ title, children, ...rest }) => {
       {...rest}
     >
       <h5 className='text-md'>{title}</h5>
-      <p className='font-semibold text-4e7dd9 text-display-sm'>{children}</p>
+      <p className='font-semibold text-4E7DD9 text-display-sm'>{children}</p>
     </div>
   )
 }

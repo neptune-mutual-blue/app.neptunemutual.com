@@ -67,10 +67,10 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const products = isDiversified ? getProductsByCoverKey(coverKey) : []
 
   return (
-    <div className='bg-f6f7f9' data-testid='main-container'>
+    <div className='bg-F6F7F9' data-testid='main-container'>
       {/* hero */}
       <Hero>
-        <Container className='px-2 py-20 min-h-[312px]'>
+        <Container className='px-2 pt-5 pb-20 md:py-20 min-h-[312px]'>
           <BreadCrumbs
             data-testid='breadcrumbs'
             pages={[

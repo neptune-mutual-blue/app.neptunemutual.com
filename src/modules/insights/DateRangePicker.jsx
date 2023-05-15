@@ -1,8 +1,12 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
-import { classNames } from '@/utils/classnames'
 
 import { getMonthNames } from '@/lib/dates'
+import { classNames } from '@/utils/classnames'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
@@ -56,7 +60,7 @@ export const DateRangePicker = ({ handleRadioChange, coverMonth, disabled }) => 
   return (
     <div className='relative flex'>
       <div className='absolute h-2 bg-999BAB  bg-opacity-30 top-1.5 z-5' style={{ width: 'calc(100% - 20px)' }} />
-      <div className='absolute h-2 bg-4e7dd9 border-l-white border-l-2 z-5 border-r-white border-r-2 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
+      <div className='absolute h-2 bg-4E7DD9 border-l-white border-l-2 z-5 border-r-white border-r-2 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
       <DateRangerPickerRadio
         label={`${coverPeriodLabels[0]}`}
         className='!items-start flex-col w-23 h-23'
@@ -117,7 +121,7 @@ const DateRangerPickerRadio = ({ label, id, disabled, className = '', labelClass
         {...rest}
       />
 
-      <div className={classNames('w-6 h-6 bg-EEEEEE rounded-full z-5 absolute flex align-middle justify-center')}>  {rest.checked && <div className={classNames('w-3 h-3 bg-4e7dd9 rounded-full my-auto')} />} </div>
+      <div className={classNames('w-6 h-6 bg-EEEEEE rounded-full z-5 absolute flex align-middle justify-center')}>  {rest.checked && <div className={classNames('w-3 h-3 bg-4E7DD9 rounded-full my-auto')} />} </div>
 
       <label
         className={classNames(

@@ -5,7 +5,6 @@ export const getNetworkId = () => {
   const host = window.location.host
   const chainId = detectChainId(host)
 
-  console.log(host, chainId)
   return parseInt(chainId, 10)
 }
 
@@ -14,7 +13,7 @@ export const getGraphURL = (networkId) => SUBGRAPH_API_URLS[networkId] || null
 export const isFeatureEnabled = (feature) => {
   const str =
     process.env.NEXT_PUBLIC_FEATURES ||
-    'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,liquidity-gauge-pools'
+    'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools'
   const features = str.split(',').map((x) => x.trim())
 
   return features.indexOf(feature) > -1

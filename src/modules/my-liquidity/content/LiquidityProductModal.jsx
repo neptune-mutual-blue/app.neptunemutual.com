@@ -3,11 +3,8 @@ import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { toBN } from '@/utils/bn'
-import { classNames } from '@/utils/classnames'
 import { formatPercent } from '@/utils/formatter/percent'
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -80,7 +77,7 @@ export function LiquidityProductModal ({ productData, setShowModal }) {
         <div className='flex justify-end pt-6 border-t border-t-B0C4DB'>
           <button
             onClick={onClose}
-            className='hidden p-3 mr-6 text-sm font-medium leading-6 tracking-wider border rounded md:text-xs lg:text-md md:inline-block md:font-semibold border-4e7dd9 text-4e7dd9'
+            className='hidden p-3 mr-6 text-sm font-medium leading-6 tracking-wider border rounded md:text-xs lg:text-md md:inline-block md:font-semibold border-4E7DD9 text-4E7DD9'
             data-testid='close-button'
           >
             CLOSE
@@ -93,21 +90,9 @@ export function LiquidityProductModal ({ productData, setShowModal }) {
 }
 
 function DownloadButton ({ onClick }) {
-  const { networkId } = useNetwork()
-  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
-
-  const buttonBg = isArbitrum
-    ? 'bg-1D9AEE'
-    : isMainNet
-      ? 'bg-4e7dd9'
-      : 'bg-5D52DC'
-
   return (
     <button
-      className={classNames(
-        'inline-flex items-center justify-center tracking-wide flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75',
-        buttonBg
-      )}
+      className='inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 tracking-wide text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75 bg-primary'
       onClick={onClick}
       data-testid='download-button'
     >

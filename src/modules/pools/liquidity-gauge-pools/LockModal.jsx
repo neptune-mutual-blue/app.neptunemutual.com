@@ -74,8 +74,8 @@ export const LockModal = ({
         <div className='px-8 py-6 pb-8'>
           {isReceive && (
             <div className={`${isReceive ? 'mb-6' : ''}`}>
-              <button type='button' onClick={() => handleSwitch('receive')} className={`px-4 py-2 text-sm font-semibold text-4e7dd9 rounded-big ${current === 'receive' ? 'bg-DEEAF6' : ''}`}>Receive</button>
-              <button type='button' onClick={() => handleSwitch('unlock')} className={`px-4 py-2 text-sm font-semibold text-4e7dd9 rounded-big ${current === 'unlock' ? 'bg-DEEAF6' : ''}`}>Unlock</button>
+              <button type='button' onClick={() => handleSwitch('receive')} className={`px-4 py-2 text-sm font-semibold text-primary rounded-big ${current === 'receive' ? 'bg-DEEAF6' : ''}`}>Receive</button>
+              <button type='button' onClick={() => handleSwitch('unlock')} className={`px-4 py-2 text-sm font-semibold text-primary rounded-big ${current === 'unlock' ? 'bg-DEEAF6' : ''}`}>Unlock</button>
             </div>
           )}
 

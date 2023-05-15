@@ -1,7 +1,7 @@
 import { CoverDropdown } from '@/common/CoverDropdown'
 import CheckBlue from '@/icons/CheckBlue'
-import { classNames } from '@/utils/classnames'
 import UpArrowFilled from '@/icons/UpArrowFilled'
+import { classNames } from '@/utils/classnames'
 
 export const CoverOptions = ({
   loading,
@@ -28,7 +28,7 @@ export const CoverOptions = ({
         )}
         optionClass={(active) => classNames(
           'cursor-pointer select-none relative !p-0',
-          active ? 'text-4e7dd9' : 'text-black'
+          active ? 'text-4E7DD9' : 'text-black'
         )}
       />
     </div>
@@ -70,7 +70,7 @@ const DropdownOption = ({ name, image, isSelected, active }) => {
           {name}
         </span>
 
-        {isSelected && <CheckBlue className='h-6 ml-auto text-4e7dd9 shrink-0' />}
+        {isSelected && <CheckBlue className='h-6 ml-auto text-4E7DD9 shrink-0' />}
       </span>
     </>
   )

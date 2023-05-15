@@ -32,7 +32,7 @@ export const ClaimBondModal = ({
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
-      <ModalWrapper className='max-w-md bg-f6f7f9'>
+      <ModalWrapper className='max-w-md bg-F6F7F9'>
         <Dialog.Title className='font-bold text-display-sm'>
           {modalTitle}
         </Dialog.Title>

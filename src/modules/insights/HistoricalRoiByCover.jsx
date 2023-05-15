@@ -1,10 +1,14 @@
-import React, { useRef, useState } from 'react'
+import React, {
+  useRef,
+  useState
+} from 'react'
+
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
-
 import HighchartsExporting from 'highcharts/modules/exporting'
-import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
+
 import { hexToRgba } from '@/utils/hex-to-rgba'
+import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
 import { Trans } from '@lingui/macro'
 
 if (typeof Highcharts === 'object') {

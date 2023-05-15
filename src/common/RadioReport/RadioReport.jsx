@@ -7,7 +7,7 @@ export const RadioReport = ({ label, id, disabled, checked, ...rest }) => {
       className={classNames(
         'w-full mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4  xl:mr-16',
         'flex items-center p-6 sm:p-0',
-        checked ? 'border-2 border-4e7dd9' : 'border-B0C4DB',
+        checked ? 'border-2 border-4E7DD9' : 'border-B0C4DB',
         disabled && 'cursor-not-allowed'
       )}
     >

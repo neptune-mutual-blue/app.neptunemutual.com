@@ -1,9 +1,10 @@
+import { useState } from 'react'
+
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { StakeForm } from '@/src/modules/pools/staking/StakeForm'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
 
 export const StakeModal = ({
   info,
@@ -13,8 +14,7 @@ export const StakeModal = ({
   isOpen,
   onClose,
   stakingTokenSymbol,
-  lockupPeriod,
-  analyticsFunnelName
+  lockupPeriod
 }) => {
   const [isDisabled, setIsDisabled] = useState(false)
   return (
@@ -24,7 +24,7 @@ export const StakeModal = ({
       disabled={isDisabled}
       data-testid='staking-modal'
     >
-      <ModalWrapper className='max-w-md bg-f6f7f9 xs:overflow-y-auto'>
+      <ModalWrapper className='max-w-md bg-F6F7F9 xs:overflow-y-auto'>
         <Dialog.Title className='flex items-center font-bold text-display-sm'>
           {modalTitle}
         </Dialog.Title>
@@ -42,7 +42,6 @@ export const StakeModal = ({
           stakingTokenSymbol={stakingTokenSymbol}
           lockupPeriod={lockupPeriod}
           setModalDisabled={setIsDisabled}
-          analyticsFunnelName={analyticsFunnelName}
         />
       </ModalWrapper>
     </ModalRegular>
