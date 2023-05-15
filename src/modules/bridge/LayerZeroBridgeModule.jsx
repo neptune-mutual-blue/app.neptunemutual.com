@@ -11,13 +11,11 @@ import { Container } from '@/common/Container/Container'
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
 import { AddressInput } from '@/modules/bridge/AddressInput'
-import { useBalance } from '@/modules/bridge/DestinationBalanceError'
 import { InfoPanel } from '@/modules/bridge/InfoPanel'
 import { NetworkSelect } from '@/modules/bridge/NetworkSelect'
 import { TransferAmountInput } from '@/modules/bridge/TransferAmountInput'
 import { WalletNotConnected } from '@/modules/bridge/WalletNotConnected'
 import {
-  BRIDGE_CONTRACTS,
   LayerZeroChainIds
 } from '@/src/config/bridge/layer-zero'
 import { networks } from '@/src/config/networks'
@@ -57,12 +55,12 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
   const destChainId = selectedNetworks?.network2?.chainId
   const _receiverAddress = receiverAddress || account
 
-  const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
-  const destinationTokenAddress = destinationTokenData.address || ''
+  // const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
+  // const destinationTokenAddress = destinationTokenData.address || ''
   // const destinationTokenDecimals = destinationTokenData?.decimal || 1
-  const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
+  // const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
 
-  const { balance: destinationBalance } = useBalance(destinationBridgeAddress, destinationTokenAddress, destChainId)
+  // const { balance: destinationBalance } = useBalance(destinationBridgeAddress, destinationTokenAddress, destChainId)
 
   const {
     balance,
@@ -145,8 +143,8 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     !(canApprove || canBridge) ||
     approving ||
     bridging ||
-    (canBridge && receiverAddress && !isValidAddress) ||
-    convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
+    (canBridge && receiverAddress && !isValidAddress)
+    // || convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
 
   return (
     <Container className='pb-16'>
