@@ -11,24 +11,26 @@ import { Container } from '@/common/Container/Container'
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
 import { AddressInput } from '@/modules/bridge/AddressInput'
+import {
+  DestinationBalanceError,
+  useBalance
+} from '@/modules/bridge/DestinationBalanceError'
 import { InfoPanel } from '@/modules/bridge/InfoPanel'
 import { NetworkSelect } from '@/modules/bridge/NetworkSelect'
 import { TransferAmountInput } from '@/modules/bridge/TransferAmountInput'
 import { WalletNotConnected } from '@/modules/bridge/WalletNotConnected'
-import {
-  LayerZeroChainIds
-} from '@/src/config/bridge/layer-zero'
+import { LayerZeroChainIds } from '@/src/config/bridge/layer-zero'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useLayerZeroBridge } from '@/src/hooks/useLayerZeroBridge'
+import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
 import {
   convertFromUnits,
   convertToUnits,
   toBNSafe
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
 import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
 
@@ -55,12 +57,12 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
   const destChainId = selectedNetworks?.network2?.chainId
   const _receiverAddress = receiverAddress || account
 
-  // const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
+  const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
   // const destinationTokenAddress = destinationTokenData.address || ''
-  // const destinationTokenDecimals = destinationTokenData?.decimal || 1
+  const destinationTokenDecimals = destinationTokenData?.decimal || 1
   // const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
 
-  // const { balance: destinationBalance } = useBalance(destinationBridgeAddress, destinationTokenAddress, destChainId)
+  const { balance: destinationBalance } = useBalance(destChainId)
 
   const {
     balance,
@@ -83,7 +85,7 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     setSelectedNetworks((prev) => ({ ...prev, network1: options.find(x => x.chainId === parseInt(networkId)) }))
   }, [networkId])
 
-  const debouncedAmount = useDebounce(convertToUnits(sendAmount, sourceTokenDecimals).toString(), 1000)
+  const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
 
   const updateEstimation = useCallback(async function () {
     const _estimation = await getEstimation(
@@ -143,8 +145,8 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     !(canApprove || canBridge) ||
     approving ||
     bridging ||
-    (canBridge && receiverAddress && !isValidAddress)
-    // || convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
+    (canBridge && receiverAddress && !isValidAddress) ||
+    convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
 
   return (
     <Container className='pb-16'>
@@ -211,13 +213,13 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
             ]}
           />
 
-          {/* <DestinationBalanceError
+          <DestinationBalanceError
             tokenSymbol={tokenSymbol}
             tokenDecimals={destinationTokenDecimals}
             balance={destinationBalance}
             transferAmount={sendAmount ? convertToUnits(sendAmount, sourceTokenDecimals).toString() : ''}
             className='mt-4'
-          /> */}
+          />
 
           {!active && (
             <div className='absolute inset-0 w-full h-full bg-white bg-opacity-50' />

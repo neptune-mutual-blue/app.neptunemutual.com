@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -72,9 +73,19 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   const [loading, setLoading] = useState(false)
   const fetchReport = useSubgraphFetch('useFetchReport')
 
-  const reportId = `${coverKey}-${productKey}-${incidentDate}`
+  const reportId = useMemo(() => {
+    if (!coverKey || !productKey || !incidentDate) {
+      return null
+    }
+
+    return `${coverKey}-${productKey}-${incidentDate}`
+  }, [coverKey, incidentDate, productKey])
 
   const getData = useCallback(() => {
+    if (!reportId) {
+      return
+    }
+
     return fetchReport(getNetworkId(), getQuery(reportId))
       .then((data) => {
         if (!data || !data.incidentReport) {
