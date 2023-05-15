@@ -15,12 +15,13 @@ import { ComingSoon } from '@/common/ComingSoon'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('bridge')
+      disabled: !isFeatureEnabled('bridge-celer'),
+      bothBridgesEnabled: isFeatureEnabled('bridge-celer') && isFeatureEnabled('bridge-layerzero')
     }
   }
 }
 
-export default function CelerBridgePage ({ disabled }) {
+export default function CelerBridgePage ({ disabled, bothBridgesEnabled }) {
   const { networkId } = useNetwork()
   const { isTestNet } = getNetworkInfo(networkId)
 
@@ -43,8 +44,7 @@ export default function CelerBridgePage ({ disabled }) {
     <main>
       <Seo />
 
-      <BridgeSwitch value='celer' />
-      <br />
+      {bothBridgesEnabled ? <BridgeSwitch value='celer' /> : <br />}
 
       <CelerBridgeModule
         filteredNetworks={filteredNetworks}

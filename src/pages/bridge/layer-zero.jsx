@@ -15,12 +15,13 @@ import { ComingSoon } from '@/common/ComingSoon'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('bridge')
+      disabled: !isFeatureEnabled('bridge-layerzero'),
+      bothBridgesEnabled: isFeatureEnabled('bridge-celer') && isFeatureEnabled('bridge-layerzero')
     }
   }
 }
 
-export default function LayerZeroBridgePage ({ disabled }) {
+export default function LayerZeroBridgePage ({ disabled, bothBridgesEnabled }) {
   const { networkId } = useNetwork()
   const { isTestNet } = getNetworkInfo(networkId)
 
@@ -43,8 +44,7 @@ export default function LayerZeroBridgePage ({ disabled }) {
     <main>
       <Seo />
 
-      <BridgeSwitch value='layer-zero' />
-      <br />
+      {bothBridgesEnabled ? <BridgeSwitch value='layer-zero' /> : <br />}
 
       <LayerZeroBridgeModule
         filteredNetworks={filteredNetworks}

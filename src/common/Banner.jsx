@@ -1,4 +1,4 @@
-import { Container } from '@/common/Container/Container'
+import { NavContainer } from '@/common/Container/NavContainer'
 import CloseIcon from '@/icons/CloseIcon'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import {
@@ -36,7 +36,7 @@ export const Banner = () => {
       className='relative bg-primary'
       data-testid='banner-container'
     >
-      <Container className='flex items-center justify-center py-3 mx-auto my-0 text-sm text-white'>
+      <NavContainer className='flex items-center justify-center py-3 mx-auto my-0 text-sm text-white'>
         <div className='flex items-center justify-center flex-auto min-w-0'>
 
           {isMainNet
@@ -105,7 +105,7 @@ export const Banner = () => {
         >
           <CloseIcon className='w-5 h-5' />
         </button>
-      </Container>
+      </NavContainer>
     </div>
   )
 }

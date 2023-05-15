@@ -147,7 +147,7 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     // || convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
 
   return (
-    <Container className='pb-16'>
+    <Container className='pb-16 mt-8'>
       <div className='p-8 mx-auto bg-white border border-B0C4DB rounded-2xl max-w-450'>
         <h1 className='font-semibold text-display-xs'>LayerZero Bridge</h1>
 
