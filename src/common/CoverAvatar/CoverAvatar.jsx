@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
@@ -10,7 +11,7 @@ export const CoverAvatar = ({
   const sizeClasses = useMemo(() => {
     const classes = {
       diversifiedWrapper: 'w-14 h-14 lg:w-18 lg:h-18',
-      diversifiedImg: 'p-4',
+      diversifiedImg: 'p-3.5',
       dedicatedWrapper: 'w-14 h-14 lg:w-18 lg:h-18 p-4',
       dedicatedImg: ''
     }
@@ -44,8 +45,8 @@ export const CoverAvatar = ({
               return (
                 <div
                   className={classNames(
-                    'inline-block max-w-full bg-FEFEFF rounded-full',
-                    idx !== 0 && '-ml-7 lg:-ml-9 p-0.5',
+                    'inline-block max-w-full bg-FEFEFF rounded-full p-0.5',
+                    idx !== 0 && '-ml-7 lg:-ml-9',
                     sizeClasses.diversifiedWrapper
                   )}
                   key={item.src}

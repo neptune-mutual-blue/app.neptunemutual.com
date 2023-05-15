@@ -19,6 +19,8 @@ const PodStakingPools = '/pools/pod-staking'
 const BondPoolTransactions = '/pools/bond/transactions'
 const StakingPoolsTransactions = '/pools/staking/transactions'
 const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
+const LiquidityGaugePoolsTransactions = '/pools/liquidity-gauge-pools/transactions'
+const LiquidityLatestGaugeChart = '/pools/liquidity-gauge-pools/latest-gauge'
 
 const Pools = () => {
   let url = null
@@ -159,6 +161,8 @@ export const Routes = {
   StakingPoolsTransactions,
   PodStakingPools,
   PodStakingPoolsTransactions,
+  LiquidityGaugePoolsTransactions,
+  LiquidityLatestGaugeChart,
   Pools,
   ViewCover,
   ViewProduct,
