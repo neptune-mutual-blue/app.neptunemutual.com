@@ -3,7 +3,6 @@ import {
   useState
 } from 'react'
 
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
@@ -27,10 +26,10 @@ import { getMonthNames } from '@/lib/dates'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import {
+  CoverStatus,
   MAX_PROPOSAL_AMOUNT,
   MIN_PROPOSAL_AMOUNT
 } from '@/src/config/constants'
-import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import {
@@ -51,6 +50,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { AbnormalCoverStatus } from '@/common/CoverForm/AbnormalStatus'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
@@ -208,26 +208,28 @@ export const PurchasePolicyForm = ({
     )
   }
 
-  if (productStatus && productStatus !== 'Normal') {
-    const statusLink = (
-      <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
-        <a className='font-medium underline hover:no-underline'>
-          {productStatus}
-        </a>
-      </Link>
-    )
-    return (
-      <Alert>
-        <Trans>
-          Cannot purchase policy, since the cover status is {statusLink}
-        </Trans>
-      </Alert>
-    )
-  }
-
   const hasReferralCode = !!referralCode.trim().length
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
+
+  const status = CoverStatus[productStatus]
+  if (status && status !== 'Normal') {
+    return (
+      <div>
+        <AbnormalCoverStatus
+          status={status}
+          coverKey={coverKey}
+          productKey={productKey}
+          activeIncidentDate={activeIncidentDate}
+          imgSrc={imgSrc}
+          name={projectOrProductName}
+          className='mb-44'
+        />
+
+        <BackButton className='mx-auto' onClick={() => router.back()} />
+      </div>
+    )
+  }
 
   return (
     <div className='flex flex-col w-616'>

@@ -13,7 +13,7 @@ export const getGraphURL = (networkId) => SUBGRAPH_API_URLS[networkId] || null
 export const isFeatureEnabled = (feature) => {
   const str =
     process.env.NEXT_PUBLIC_FEATURES ||
-    'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool'
+    'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools'
   const features = str.split(',').map((x) => x.trim())
 
   return features.indexOf(feature) > -1

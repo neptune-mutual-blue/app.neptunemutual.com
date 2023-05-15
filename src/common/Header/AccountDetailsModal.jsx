@@ -1,16 +1,16 @@
 import {
   useEffect,
-  useRef,
   useState
 } from 'react'
 
+import {
+  CopyAddressComponent
+} from '@/common/CopyAddressComponent/CopyAddressComponent'
 import Identicon from '@/common/Header/Identicon'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Toggle } from '@/common/Toggle'
-import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import CloseIcon from '@/icons/CloseIcon'
-import CopyIcon from '@/icons/CopyIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { ConnectorNames } from '@/lib/connect-wallet/config/connectors'
 import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
@@ -19,51 +19,6 @@ import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
 import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-
-const CopyAddressComponent = ({ account }) => {
-  const [isCopied, setIsCopied] = useState(false)
-  const timeoutIdRef = useRef(null)
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(account)
-
-    setIsCopied(true)
-    timeoutIdRef.current = setTimeout(() => {
-      setIsCopied(false)
-    }, 1500)
-  }
-
-  useEffect(() => {
-    return () => {
-      if (!timeoutIdRef.current) {
-        return
-      }
-      clearTimeout(timeoutIdRef.current)
-    }
-  }, [])
-
-  return (
-    <div className='flex items-center cursor-pointer' onClick={handleCopy}>
-      {!isCopied
-        ? (
-          <>
-            <CopyIcon className='w-4 h-4 text-999BAB' />
-            <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-              <Trans>Copy Address</Trans>
-            </span>
-          </>
-          )
-        : (
-          <>
-            <CheckCircleIcon className='w-4 h-4 text-999BAB' />
-            <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-              <Trans>Copied</Trans>
-            </span>
-          </>
-          )}
-    </div>
-  )
-}
 
 export const AccountDetailsModal = ({
   isOpen,

@@ -118,7 +118,8 @@ module.exports = {
         60: '240px',
         70: '282px',
         '90vw': '90vw',
-        632: '632px'
+        632: '632px',
+        466: '466px'
       },
       minWidth: {
         auto: 'auto',
@@ -146,11 +147,12 @@ module.exports = {
         'analytics-stat': '99.2px'
       },
       colors: {
+        '000000': '#000000',
+        344054: '#344054',
         364253: '#364253',
         404040: '#404040',
         667085: '#667085',
         940000: '#940000',
-        '000000': '#000000',
         '003FBD': '#003FBD',
         '01052D': '#01052D',
         '016D8E': '#016D8E',
@@ -162,6 +164,7 @@ module.exports = {
         '2151B0': '#2151B0',
         '3A4557': '#3A4557',
         '404A5C': '#404A5C',
+        '1170FF': '#1170FF',
         '4289F2': '#4289F2',
         '4B7EE1': '#4B7EE1',
         '4E7DD9': '#4E7DD9',
@@ -175,10 +178,13 @@ module.exports = {
         '8F949C': '#8F949C',
         '999BAB': '#999BAB',
         '9B9B9B': '#9B9B9B',
+        AAAAAA: '#AAAAAA',
         AABDCB: '#AABDCB',
         B0C4DB: '#B0C4DB',
+        C2C7D0: '#C2C7D0',
         CEEBED: '#CEEBED',
         CDD6E3: '#CDD6E3',
+        D0D5DD: '#D0D5DD',
         DEEAF6: '#DEEAF6',
         DAE2EB: '#DAE2EB',
         D9D9D9: '#D9D9D9',

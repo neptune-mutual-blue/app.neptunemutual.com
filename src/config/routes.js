@@ -11,10 +11,12 @@ const MyActivePolicies = '/my-policies/active'
 const MyExpiredPolicies = '/my-policies/expired'
 const MyLiquidity = '/my-liquidity'
 const ActiveReports = '/reports/active'
+const VoteEscrow = '/vote-escrow'
 const ResolvedReports = '/reports/resolved'
 const BondPool = '/pools/bond'
 const StakingPools = '/pools/staking'
 const PodStakingPools = '/pools/pod-staking'
+const BondPoolTransactions = '/pools/bond/transactions'
 const StakingPoolsTransactions = '/pools/staking/transactions'
 const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
 
@@ -152,6 +154,7 @@ export const Routes = {
   ActiveReports,
   ResolvedReports,
   BondPool,
+  BondPoolTransactions,
   StakingPools,
   StakingPoolsTransactions,
   PodStakingPools,
@@ -169,5 +172,6 @@ export const Routes = {
   ClaimPolicy,
   ViewCoverReports,
   ViewCoverProductTerms,
-  ViewProductReports
+  ViewProductReports,
+  VoteEscrow
 }
