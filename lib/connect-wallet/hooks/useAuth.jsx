@@ -132,4 +132,4 @@ const useAuth = (networkId, notify = console.log) => {
   return { logout, login }
 }
 
-export default useAuth
+export { useAuth }

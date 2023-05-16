@@ -9,7 +9,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
 
 import { wallets } from '../../config/wallets'
-import useAuth from '../../hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 import { Disclaimer } from '../ConnectWallet/Disclaimer'
 import { WalletList } from '../ConnectWallet/WalletList'
 import CloseIcon from '../icons/CloseIcon'

@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useWeb3React } from '@web3-react/core'
 
-import useAuth from '../../hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 import { Popup } from './Popup'
 import { WalletDisclaimerPoup } from '@/lib/connect-wallet/components/ConnectWallet/WalletDisclaimerPopup'
 

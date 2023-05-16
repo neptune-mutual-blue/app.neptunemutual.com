@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { ConnectorNames } from '../config/connectors'
 import { ACTIVE_CONNECTOR_KEY } from '../config/localstorage'
-import useAuth from './useAuth'
+import { useAuth } from './useAuth'
 
 const _binanceChainListener = async () =>
   new Promise((resolve) =>
