@@ -86,14 +86,14 @@ export const Network = ({ closeMenu = () => {} }) => {
       <figure
         className={classNames(
           'overflow-hidden flex-shrink-0',
-          width >= 1200 && width <= 1439 ? 'rounded-lg' : 'rounded-l-lg'
+          width >= 1200 ? 'hidden rounded-lg' : 'rounded-l-lg'
         )}
         title={NetworkNames[networkId] || 'Network'}
       >
-        <span className='block lg:hidden xl:block'>
+        <span className='block lg:hidden'>
           <ChainLogo width='44' height='44' />{' '}
         </span>
-        <span className='hidden lg:block xl:hidden'>
+        <span className='hidden lg:block'>
           <ChainLogo width='64' height='64' />{' '}
         </span>
       </figure>
@@ -103,7 +103,7 @@ export const Network = ({ closeMenu = () => {} }) => {
           onClick={() => setOpen(_val => !_val)}
           className={classNames(
             'w-full flex items-center justify-between gap-2 px-3 py-2 lg:py-4 xl:py-2',
-            width >= 1200 && width <= 1439 && 'hidden'
+            width >= 1200 && 'hidden'
           )}
         >
           <p className='inline-block w-full text-left truncate'>
@@ -116,8 +116,28 @@ export const Network = ({ closeMenu = () => {} }) => {
           />
         </button>
 
+        <button
+          onClick={() => setOpen(_val => !_val)}
+          className={classNames(
+            'h-10 p-2.5 rounded-2 flex gap-1 items-center',
+            width >= 1200 ? 'block' : 'hidden'
+          )}
+        >
+          <figure
+            className='flex-shrink-0 overflow-hidden rounded-full'
+            title={NetworkNames[networkId] || 'Network'}
+          >
+            <ChainLogo width='24' height='24' />
+          </figure>
+
+          <ChevronDownIcon
+            width='16' height='16'
+            className={classNames('flex-shrink-0 transform', open && 'rotate-180')}
+          />
+        </button>
+
         {
-          (open && width >= 1200) && (
+          open && (
             <ul
               className='absolute right-0 hidden p-6 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
               tabIndex={-1}

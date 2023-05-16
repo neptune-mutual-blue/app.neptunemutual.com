@@ -20,7 +20,6 @@ import { BellIcon } from '@/icons/BellIcon'
 import ConnectWallet
   from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import useAuth from '@/lib/connect-wallet/hooks/useAuth'
-import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
@@ -43,73 +42,9 @@ import {
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 import { NavContainer } from '@/common/Container/NavContainer'
-
-const getNavigationLinks = (pathname = '') => {
-  const policyEnabled = isFeatureEnabled('policy')
-  const liquidityEnabled = isFeatureEnabled('liquidity')
-  const reportingEnabled = isFeatureEnabled('reporting')
-  const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
-
-  const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
-  const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
-  const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
-  const bridgeUrl = isCelerBridgeEnabled ? Routes.BridgeCeler : Routes.BridgeLayerZero
-
-  const poolLink = Routes.Pools()
-
-  /**
-   * @typedef Link
-   * @prop {string} name
-   * @prop {string} href
-   * @prop {string} [activeWhenStartsWith]
-   * @prop {boolean} [active]
-   */
-
-  /** @type {Link[]} */
-  let links = [
-    poolLink && {
-      name: t`Pool`,
-      href: poolLink,
-      activeWhenStartsWith: '/pools'
-    },
-    policyEnabled && {
-      name: t`My Policies`,
-      href: Routes.MyActivePolicies,
-      activeWhenStartsWith: '/my-policies'
-    },
-    liquidityEnabled && {
-      name: t`My Liquidity`,
-      href: Routes.MyLiquidity,
-      activeWhenStartsWith: '/my-liquidity'
-    },
-    reportingEnabled && {
-      name: t`Reporting`,
-      href: Routes.ActiveReports,
-      activeWhenStartsWith: '/reports'
-    },
-    voteEscrowEnabled && {
-      name: t`Vote Escrow`,
-      href: Routes.VoteEscrow,
-      activeWhenStartsWith: Routes.VoteEscrow
-    },
-    bridgeEnabled && {
-      name: t`Bridge`,
-      href: bridgeUrl,
-      activeWhenStartsWith: bridgeUrl
-    }
-  ]
-
-  links = links.filter(Boolean)
-
-  links = links.map((link) => ({
-    ...link,
-    active: pathname.startsWith(link.activeWhenStartsWith)
-  }))
-
-  // links.unshift({ name: t`Home`, href: '/', active: pathname === '/' })
-
-  return links
-}
+import { getFlattenedNavLinks, getNavigationLinks } from '@/common/Header/getNavigationLinks'
+import { Menu } from '@headlessui/react'
+import ChevronDownIcon from '@/icons/ChevronDownIcon'
 
 export const Header = () => {
   const router = useRouter()
@@ -203,42 +138,49 @@ export const Header = () => {
 
       <header className='sticky z-40 bg-black -top-px text-EEEEEE'>
         <NavContainer>
-          <nav className='flex max-w-full mx-auto' aria-label='Top'>
-            <div className='flex items-stretch justify-between flex-grow py-0 h-14 lg:h-20 sm:pr-6 xl:pr-22px xl:border-b border-B0C4DB xl:border-none'>
-              <div className='flex items-center'>
-                <Link
-                  href={Routes.Home}
-                  locale={router.locale || router.defaultLocale}
-                >
-                  <a className='sm:w-48'>
-                    <HeaderLogo />
-                  </a>
-                </Link>
-                <div className='self-stretch hidden ml-16 gap-x-4 xl:flex'>
-                  {navigation.map((link) => {
-                    return (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        locale={router.locale}
-                      >
-                        <a
-                          className={classNames(
-                            'relative text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap outline-none',
-                            link.active
-                              ? 'border-4E7DD9 text-4E7DD9 font-semibold'
-                              : 'border-transparent text-999BAB',
-                            !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-1D9AEE before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
-                          )}
-                        >
-                          {link.name}
-                        </a>
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
+          <nav className='flex justify-between max-w-full mx-auto' aria-label='Top'>
+            <div className='flex items-center justify-between py-0 h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none'>
+              <Link
+                href={Routes.Home}
+                locale={router.locale || router.defaultLocale}
+              >
+                <a className='sm:w-48'>
+                  <HeaderLogo />
+                </a>
+              </Link>
+            </div>
 
+            <div className='self-stretch hidden gap-x-4 xl:flex'>
+              {navigation.map((link) => {
+                if (link.href) {
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      locale={router.locale}
+                    >
+                      <a
+                        className={classNames(
+                          'relative text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap outline-none',
+                          link.active
+                            ? 'border-4E7DD9 text-primary font-semibold'
+                            : 'border-transparent text-white',
+                          !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-1D9AEE before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
+                        )}
+                      >
+                        {link.name}
+                      </a>
+                    </Link>
+                  )
+                }
+
+                return (
+                  <DropdownLinks key={link.name} name={link.name} isActive={link.active} items={link.items} />
+                )
+              })}
+            </div>
+
+            <div className='flex'>
               <div className='items-center hidden pt-3 pb-3 xl:flex'>
                 <ConnectWallet networkId={networkId} notifier={notifier}>
                   {({ onOpen }) => {
@@ -266,8 +208,8 @@ export const Header = () => {
                       )
                     }
                     return (
-                      <div className='ml-10 sm:pl-6 xl:pl-8'>
-                        <div className='flex space-x-4'>
+                      <div className=''>
+                        <div className='flex items-stretch h-full space-x-4'>
                           <Network />
                           {button}
                           {isAccountDetailsOpen && (
@@ -288,43 +230,38 @@ export const Header = () => {
                   }}
                 </ConnectWallet>
               </div>
-            </div>
 
-            <div className='relative flex' ref={setContainer}>
-              <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
-                <button
-                  aria-label='Transactions'
-                  className={classNames(
-                    'items-center justify-center px-4  flex relative self-stretch flex-shrink-0',
-                    'before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB',
-                    isTxDetailsPopupOpen
-                      ? 'bg-404A5C before:w-0'
-                      : 'bg-transparent before:w-px'
-                  )}
-                  onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
-                >
-                  <span className='sr-only'>{t`transaction overview button`}</span>
-                  <IconWithBadge number={unread}>
-                    <BellIcon
-                      className={classNames(
-                        isTxDetailsPopupOpen ? 'text-white' : 'text-999BAB'
-                      )}
-                    />
-                  </IconWithBadge>
-
-                </button>
-              </TransactionOverviewTooltip>
-            </div>
-
-            {!isOpen && (
-              <div className='flex items-center xl:hidden'>
-                <BurgerMenu
-                  isOpen={isOpen}
-                  onToggle={toggleMenu}
-                  className='h-full px-4'
-                />
+              <div className='relative flex ml-3' ref={setContainer}>
+                <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
+                  <button
+                    aria-label='Transactions'
+                    className={classNames(
+                      'items-center justify-center px-4  flex relative self-stretch flex-shrink-0',
+                      'before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB',
+                      isTxDetailsPopupOpen
+                        ? 'bg-404A5C before:w-0'
+                        : 'bg-transparent before:w-px'
+                    )}
+                    onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+                  >
+                    <span className='sr-only'>{t`transaction overview button`}</span>
+                    <IconWithBadge number={unread}>
+                      <BellIcon className='text-white' />
+                    </IconWithBadge>
+                  </button>
+                </TransactionOverviewTooltip>
               </div>
-            )}
+
+              {!isOpen && (
+                <div className='flex items-center xl:hidden'>
+                  <BurgerMenu
+                    isOpen={isOpen}
+                    onToggle={toggleMenu}
+                    className='h-full px-4'
+                  />
+                </div>
+              )}
+            </div>
 
             <TransactionList
               isOpen={isTxDetailsPopupOpen}
@@ -336,7 +273,7 @@ export const Header = () => {
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}
-          navigation={navigation}
+          navigation={getFlattenedNavLinks()}
           network={<Network closeMenu={onClose} />}
           networkId={networkId}
           notifier={notifier}
@@ -409,7 +346,7 @@ export const MenuModal = ({
                               : 'border-transparent text-white'
                           )}
                         >
-                          {link.name}
+                          {link.mobileName || link.name}
                         </a>
                       </Link>
                     )
@@ -472,5 +409,66 @@ export const MenuModal = ({
         </Portal>
       </Root>
     </div>
+  )
+}
+
+const DropdownLinks = ({ name, isActive, items = [] }) => {
+  return (
+    <Menu as='div' className='relative'>
+      {
+        ({ open }) => (
+          <>
+            <Menu.Button
+              className={classNames(
+                'relative h-full text-sm border-b-4 px-2 border-t-transparent inline-flex gap-2 items-center whitespace-nowrap outline-none',
+                isActive
+                  ? 'border-4E7DD9 text-primary font-semibold'
+                  : 'border-transparent text-white',
+                (!isActive) && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-1D9AEE before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100',
+                !isActive && open && 'before:scale-x-100'
+              )}
+            >
+              {name}
+              <ChevronDownIcon
+                width='20' height='20'
+                className={classNames('flex-shrink-0 transform', open && 'rotate-180')}
+              />
+            </Menu.Button>
+
+            <Menu.Items
+              className='absolute z-10 w-auto py-4 space-y-6 overflow-y-auto text-white bg-black shadow-lg outline-none -left-1/3 min-w-205'
+            >
+              {
+                items.map((item, idx) => (
+                  <Menu.Item key={idx}>
+                    {
+                      ({ active }) => (
+                        <a
+                          href={item.href}
+                          className={classNames(
+                            'gap-2 text-sm inline-flex items-center whitespace-nowrap p-1 pl-5 w-full',
+                            item.active && 'text-primary font-semibold',
+                            active && 'bg-364253'
+                          )}
+                        >
+                          {
+                              item.imgSrc && (
+                                <div className='flex w-6 h-6 overflow-hidden bg-white rounded-full place-items-center'>
+                                  <img src={item.imgSrc} className='w-6 h-6' alt={`${item.name} logo`} />
+                                </div>
+                              )
+                            }
+                          {item.name}
+                        </a>
+                      )
+                    }
+                  </Menu.Item>
+                ))
+              }
+            </Menu.Items>
+          </>
+        )
+      }
+    </Menu>
   )
 }
