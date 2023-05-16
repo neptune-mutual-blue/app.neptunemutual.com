@@ -25,8 +25,8 @@ export default function CelerBridgePage ({ disabled, bothBridgesEnabled }) {
   const { networkId } = useNetwork()
   const { isTestNet } = getNetworkInfo(networkId)
 
-  const tokenData = isTestNet ? celerConfig.TESTNET_USDT_BRIDGE_TOKENS : celerConfig.MAINNET_USDT_BRIDGE_TOKENS
-  const tokenSymbol = 'USDT'
+  const tokenData = isTestNet ? celerConfig.TESTNET_USDT_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
+  const tokenSymbol = isTestNet ? 'USDT' : 'NPM'
 
   const filteredNetworks = useMemo(() => {
     const _networks = isTestNet ? networks.testnet : networks.mainnet

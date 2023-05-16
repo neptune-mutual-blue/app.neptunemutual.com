@@ -133,3 +133,20 @@ export const BRIDGE_CONTRACTS = {
   43114: '0xef3c714c9425a8F3697A9C969Dc1af30ba82e5d4',
   1313161554: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C'
 }
+
+export const MAINNET_NPM_BRIDGE_TOKENS = {
+  1: {
+    address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
+    decimal: 18
+  },
+  42161: {
+    address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
+    decimal: 18
+  }
+}
+
+export const getFeeEstimationUrl = ({ isTest = false, srcChainId, destChainId, tokenSymbol, sendAmount, receiverAddress, slippage }) => {
+  const base = isTest ? 'https://cbridge-v2-test.celer.network' : 'https://cbridge-prod2.celer.app'
+
+  return `${base}/v2/estimateAmt?src_chain_id=${srcChainId}&dst_chain_id=${destChainId}&token_symbol=${tokenSymbol}&amt=${sendAmount}&usr_addr=${receiverAddress}&slippage_tolerance=${slippage}`
+}
