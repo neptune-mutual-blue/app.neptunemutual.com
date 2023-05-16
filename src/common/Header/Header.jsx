@@ -19,7 +19,7 @@ import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
 import ConnectWallet
   from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import useAuth from '@/lib/connect-wallet/hooks/useAuth'
+import { useAuth } from '@/lib/connect-wallet/hooks/useAuth'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'

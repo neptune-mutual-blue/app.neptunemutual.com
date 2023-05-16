@@ -1,9 +1,9 @@
 import { testData } from '@/utils/unit-tests/test-data'
-import * as NeptuneMutualSDK from '@neptunemutual/sdk'
+import * as mockNeptuneMutualSDK from '@neptunemutual/sdk'
 
 const mockFn = (mockObject) => {
   jest.mock('@neptunemutual/sdk', () => ({
-    ...NeptuneMutualSDK,
+    ...mockNeptuneMutualSDK,
     ...mockObject
   }))
 }
