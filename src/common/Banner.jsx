@@ -9,7 +9,7 @@ import {
 } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { classNames } from '@/utils/classnames'
 import {
   t,
@@ -18,7 +18,7 @@ import {
 
 export const Banner = () => {
   const { networkId } = useNetwork()
-  const { isMainNet, isEthereum } = useValidateNetwork(networkId)
+  const { isMainNet, isEthereum } = getNetworkInfo(networkId)
   const [show, setShow] = useLocalStorage('showAnnouncement', true)
 
   if (!networkId) {

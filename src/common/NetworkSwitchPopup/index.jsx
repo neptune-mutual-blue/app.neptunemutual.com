@@ -12,14 +12,14 @@ import TrendUpIcon from '@/icons/TrendUpIcon'
 import { ARBITRUM_APP_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 
 export const NetworkSwitchPopup = () => {
   const [open, setOpen] = useState(false)
   const [count, setCount] = useLocalStorage('network-switch-popup-count', 0)
 
   const { networkId } = useNetwork()
-  const { isEthereum } = useValidateNetwork(networkId)
+  const { isEthereum } = getNetworkInfo(networkId)
 
   const { asPath } = useRouter()
 
@@ -49,7 +49,7 @@ export const NetworkSwitchPopup = () => {
         <div>
           <div className='text-center'>
             <p className='leading-4 text-md'>Ethereum gas fees too high?</p>
-            <p className='mt-2 font-semibold text-lg'>Use Neptune Mutual on Arbitrum</p>
+            <p className='mt-2 text-lg font-semibold'>Use Neptune Mutual on Arbitrum</p>
           </div>
 
           <div className='mt-4'>

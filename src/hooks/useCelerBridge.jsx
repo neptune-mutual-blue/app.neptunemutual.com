@@ -20,7 +20,7 @@ import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
 import { convertFromUnits, toBNSafe } from '@/utils/bn'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { getFeeEstimationUrl } from '@/src/config/bridge/celer'
 
 const ABI = [
@@ -45,7 +45,7 @@ const useCelerBridge = ({
   const { networkId } = useNetwork()
   const { library, account } = useWeb3React()
 
-  const { isTestNet } = useValidateNetwork(networkId)
+  const { isTestNet } = getNetworkInfo(networkId)
 
   useEffect(() => {
     refetch(bridgeContractAddress)

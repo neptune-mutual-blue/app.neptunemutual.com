@@ -2,7 +2,7 @@ import DateLib from '@/lib/date/DateLib'
 import { MULTIPLIER, SUBGRAPH_API_URLS } from '@/src/config/constants'
 import { getSubgraphData } from '@/src/services/subgraph'
 import { sumOf } from '@/utils/bn'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 
 const getQuery = () => {
   const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()))

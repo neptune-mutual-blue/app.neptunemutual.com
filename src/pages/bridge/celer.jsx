@@ -7,7 +7,7 @@ import { networks } from '@/src/config/networks'
 
 import * as celerConfig from '@/src/config/bridge/celer'
 import { useNetwork } from '@/src/context/Network'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { ComingSoon } from '@/common/ComingSoon'
 

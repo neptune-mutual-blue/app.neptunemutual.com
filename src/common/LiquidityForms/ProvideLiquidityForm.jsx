@@ -29,7 +29,7 @@ import { useNetwork } from '@/src/context/Network'
 import { useCalculatePods } from '@/src/hooks/useCalculatePods'
 import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
 import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
@@ -50,7 +50,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   const [npmErrorMsg, setNpmErrorMsg] = useState('')
   const [lqErrorMsg, setLqErrorMsg] = useState('')
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet } = getNetworkInfo(networkId)
 
   const {
     liquidityTokenAddress,

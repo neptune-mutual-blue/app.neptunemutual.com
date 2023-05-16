@@ -18,7 +18,7 @@ import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useCelerBridge } from '@/src/hooks/useCelerBridge'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
