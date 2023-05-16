@@ -19,7 +19,9 @@ import {
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, toBNSafe } from '@/utils/bn'
+import { getNetworkInfo } from '@/utils/network'
+import { getFeeEstimationUrl } from '@/src/config/bridge/celer'
 
 const ABI = [
   'function send(address receiver, address token, uint256 amount, uint64 dstChainId, uint64 nonce, uint32 maxSlippage) external'
@@ -42,6 +44,8 @@ const useCelerBridge = ({
 
   const { networkId } = useNetwork()
   const { library, account } = useWeb3React()
+
+  const { isTestNet } = getNetworkInfo(networkId)
 
   useEffect(() => {
     refetch(bridgeContractAddress)
@@ -139,7 +143,7 @@ const useCelerBridge = ({
     destChainId,
     slippage
   ) => {
-    if (!sendAmount || !destChainId || !srcChainId) return null
+    if (!sendAmount || toBNSafe(sendAmount).isZero() || !destChainId || !srcChainId) return null
 
     const handleError = (err) => {
       notifyError(err, 'Could not estimate fees')
@@ -147,7 +151,17 @@ const useCelerBridge = ({
 
     try {
       setCalculatingFee(true)
-      const res = await fetch(`https://cbridge-v2-test.celer.network/v2/estimateAmt?src_chain_id=${srcChainId}&dst_chain_id=${destChainId}&token_symbol=${tokenSymbol}&amt=${sendAmount}&usr_addr=${receiverAddress}&slippage_tolerance=${slippage}`)
+      const URL = getFeeEstimationUrl({
+        isTest: isTestNet,
+        srcChainId,
+        destChainId,
+        tokenSymbol,
+        sendAmount,
+        receiverAddress,
+        slippage
+      })
+
+      const res = await fetch(URL)
       const data = await res.json()
 
       return data

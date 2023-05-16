@@ -87,3 +87,25 @@ export const DestinationBalanceError = ({
     </div>
   )
 }
+
+export const BalanceError = ({ message, className = '' }) => {
+  if (!message) return null
+
+  const splitted = message.split(': ')
+  return (
+    <div
+      className={classNames(
+        'rounded-1 border border-E52E2E border-l-4 pt-3 pr-2 pb-4 pl-4 bg-E52E2E bg-opacity-5 text-E52E2E text-sm',
+        className
+      )}
+    >
+      {splitted.length > 1
+        ? (
+          <>
+            <span className='mt-2 font-bold'>{splitted[0]}: </span> <span>{splitted.slice(1).join(': ')}</span>
+          </>
+          )
+        : message}
+    </div>
+  )
+}

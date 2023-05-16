@@ -7,7 +7,7 @@ import { networks } from '@/src/config/networks'
 
 import * as celerConfig from '@/src/config/bridge/celer'
 import { useNetwork } from '@/src/context/Network'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { ComingSoon } from '@/common/ComingSoon'
 
@@ -25,8 +25,8 @@ export default function CelerBridgePage ({ disabled, bothBridgesEnabled }) {
   const { networkId } = useNetwork()
   const { isTestNet } = getNetworkInfo(networkId)
 
-  const tokenData = isTestNet ? celerConfig.TESTNET_USDT_BRIDGE_TOKENS : celerConfig.MAINNET_USDT_BRIDGE_TOKENS
-  const tokenSymbol = 'USDT'
+  const tokenData = isTestNet ? celerConfig.TESTNET_USDT_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
+  const tokenSymbol = isTestNet ? 'USDT' : 'NPM'
 
   const filteredNetworks = useMemo(() => {
     const _networks = isTestNet ? networks.testnet : networks.mainnet

@@ -1,5 +1,5 @@
 import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import Head from 'next/head'
 
 export const Seo = ({
@@ -7,7 +7,7 @@ export const Seo = ({
   description = 'Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
 }) => {
   const { networkId } = useNetwork()
-  const { isTestNet } = useValidateNetwork(networkId)
+  const { isTestNet } = getNetworkInfo(networkId)
 
   return (
     <Head>

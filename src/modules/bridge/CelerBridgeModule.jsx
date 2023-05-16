@@ -18,7 +18,7 @@ import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useCelerBridge } from '@/src/hooks/useCelerBridge'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
@@ -28,6 +28,7 @@ import {
 import { formatCurrency } from '@/utils/formatter/currency'
 import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
+import { BalanceError } from '@/modules/bridge/DestinationBalanceError'
 
 const SLIPPAGE_MULTIPLIER = 1_000_000
 const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
@@ -41,6 +42,7 @@ export const CelerBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbo
   })
   const [estimation, setEstimation] = useState(null)
   const [estimationLoading, setEstimationLoading] = useState(false)
+  const [balanceError, setBalanceError] = useState('')
 
   const { locale } = useRouter()
   const { networkId } = useNetwork()
@@ -80,6 +82,7 @@ export const CelerBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbo
   const _receiverAddress = receiverAddress || account
 
   const updateEstimation = useCallback(async function () {
+    setBalanceError('')
     setEstimationLoading(true)
     const _estimation = await getEstimation(
       debouncedAmount,
@@ -88,7 +91,8 @@ export const CelerBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbo
       destChainId,
       SLIPPAGE
     )
-    setEstimation(_estimation)
+    if (_estimation?.err) setBalanceError(_estimation.err.msg)
+    else setEstimation(_estimation)
     setEstimationLoading(false)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -205,6 +209,8 @@ export const CelerBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbo
               }
             ]}
           />
+
+          <BalanceError className='mt-4' message={balanceError} />
 
           {!active && (
             <div className='absolute inset-0 w-full h-full bg-white bg-opacity-50' />

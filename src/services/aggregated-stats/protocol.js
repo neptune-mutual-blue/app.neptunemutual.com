@@ -1,7 +1,7 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
 import { getFilledData } from '@/src/services/aggregated-stats/fill-data'
 import { getSubgraphData } from '@/src/services/subgraph'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { getCumulativeSortedData } from '@/src/services/aggregated-stats/sum-and-sort-data'
 import { sumOf } from '@/utils/bn'
 

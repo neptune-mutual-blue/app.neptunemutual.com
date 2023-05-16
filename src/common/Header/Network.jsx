@@ -22,7 +22,7 @@ import {
 } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
 import { classNames } from '@/utils/classnames'
 import {
@@ -34,7 +34,7 @@ import {
 
 export const Network = ({ closeMenu = () => {} }) => {
   const { networkId } = useNetwork()
-  const { isEthereum, isArbitrum } = useValidateNetwork(networkId)
+  const { isEthereum, isArbitrum } = getNetworkInfo(networkId)
   const { width } = useWindowSize()
 
   const [open, setOpen] = useState(false)
