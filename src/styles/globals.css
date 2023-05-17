@@ -104,8 +104,21 @@ input[type='checkbox']:checked.checkbox_custom {
 }
 /********** `checkbox_custom` style end **********/
 
-.gauge-chart-liquidity svg g.highcharts-label {
+.gauge-chart-liquidity svg g.highcharts-label,
+.gauge-chart-liquidity .highcharts-point {
   opacity: 1 !important;
+}
+
+.gauge-chart-liquidity .highcharts-point:hover {
+  fill-opacity: 0.75;
+  transition: fill-opacity 50ms;
+}
+
+.gauge-chart-liquidity .highcharts-halo {
+  stroke-width: 4px !important;
+  visibility: unset !important;
+  fill-opacity: 0.25 !important;
+  transition: fill-opacity 50ms !important;
 }
 
 /*********** `input-container-focus` style *****************/

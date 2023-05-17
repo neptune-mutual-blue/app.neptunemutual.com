@@ -108,11 +108,11 @@ const LatestGauge = () => {
     }
   }
 
-  const [mobile, setMobile] = useState(window.innerWidth < 720)
+  const [mobile, setMobile] = useState(window.innerWidth < 768)
 
   // choose the screen size
   const handleResize = useCallback(() => {
-    if (window.innerWidth < 720) {
+    if (window.innerWidth < 768) {
       setMobile(true)
     } else {
       setMobile(false)

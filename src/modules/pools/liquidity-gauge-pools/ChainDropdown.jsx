@@ -62,7 +62,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
       </div>
 
       {open && (
-        <div ref={ref} className='absolute z-60 top-[calc(100%+8px)] left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
+        <div ref={ref} className='absolute z-60 top-[calc(100%+8px)] bg-white left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
           <div className='m-2.5 flex items-center'>
 
             <input
