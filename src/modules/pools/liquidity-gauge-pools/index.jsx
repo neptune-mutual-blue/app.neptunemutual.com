@@ -161,11 +161,11 @@ export const LiquidityGaugePoolsPage = () => {
   ]
 
   return (
-    <Container className='pt-16 pb-36' data-testid='liquidity-gauge-pools-page-container'>
-      <div className='flex justify-end mb-14'>
-        <div className='items-center justify-between w-full sm:flex'>
+    <Container className='pt-7 md:pt-16 pb-36' data-testid='liquidity-gauge-pools-page-container'>
+      <div className='flex justify-end mb-7 md:mb-14'>
+        <div className='items-start md:items-center justify-between w-full sm:flex'>
           <Link href={Routes.LiquidityGaugePoolsTransactions}>
-            <a className='flex justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'>
+            <a className='flex justify-start mb-6 md:mb-0 md:justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>
