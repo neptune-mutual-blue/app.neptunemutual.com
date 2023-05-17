@@ -6,13 +6,14 @@ import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
-import { safeParseString } from '@/src/services/transactions/utils'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getReplacedString } from '@/utils/string'
 import {
   t,
   Trans
 } from '@lingui/macro'
+import { useEffect, useState } from 'react'
+import { readFromIpfs } from '@/utils/ipfs'
 
 const INCIDENT = 0
 const DISPUTE = 1
@@ -139,31 +140,45 @@ function Report ({ header, content, report, children, ipfsHash }) {
 
 /**
  * @param {Object} props
- * @param {string} props.reportIpfsData
  * @param {string} props.reportIpfsHash
  * @param {number} props.reportIpfsDataTimeStamp
  * @param {string} [props.disputeIpfsHash]
- * @param {string} [props.disputeIpfsData]
  * @param {number} [props.disputeIpfsDataTimeStamp]
  * @returns
  */
 export default function ReportComments ({
-  reportIpfsData,
   reportIpfsHash,
   reportIpfsDataTimeStamp,
-  disputeIpfsData,
   disputeIpfsHash,
   disputeIpfsDataTimeStamp
 }) {
   /**
-   * @type {ReportDesputeData}
+   * @type {[?ReportDesputeData, import('react').Dispatch<import('react').SetStateAction<ReportDesputeData>>]}
    */
-  const reportData = safeParseString(reportIpfsData, {})
+  const [reportData, setReportData] = useState()
 
   /**
-   * @type {ReportDesputeData}
+   * @type {[?ReportDesputeData, import('react').Dispatch<import('react').SetStateAction<ReportDesputeData>>]}
    */
-  const disputeData = safeParseString(disputeIpfsData, {})
+  const [disputeData, setDisputeData] = useState()
+
+  useEffect(() => {
+    if (!reportIpfsHash && !disputeIpfsHash) return
+
+    async function fetchIpfs () {
+      if (reportIpfsHash) {
+        const _reportData = await readFromIpfs(reportIpfsHash)
+        if (_reportData) setReportData(_reportData)
+      }
+
+      if (disputeIpfsHash) {
+        const _disputeData = await readFromIpfs(disputeIpfsHash)
+        if (_disputeData) setDisputeData(_disputeData)
+      }
+    }
+
+    fetchIpfs()
+  }, [reportIpfsHash, disputeIpfsHash])
 
   return (
     <OutlinedCard className='p-6 mt-8 bg-white'>
@@ -183,7 +198,7 @@ export default function ReportComments ({
           }}
           ipfsHash={reportIpfsHash}
         >
-          {disputeIpfsData && (
+          {disputeData && (
             <Report
               header={{
                 type: t`Disputed by`,
