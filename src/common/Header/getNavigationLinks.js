@@ -48,7 +48,7 @@ const getNavigationLinks = (pathname = '') => {
     bridgeEnabled && {
       name: t`Bridge`,
       href: bridgeUrl,
-      activeWhenStartsWith: bridgeUrl
+      activeWhenStartsWith: '/bridge'
     },
     {
       name: t`My Account`,

@@ -124,7 +124,7 @@ module.exports = {
         450: '450px',
         632: '632px',
         466: '466px',
-        '8xl': '1440px'
+        desktop: '1560px'
       },
       minWidth: {
         auto: 'auto',

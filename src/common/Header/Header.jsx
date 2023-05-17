@@ -163,9 +163,9 @@ export const Header = () => {
                         className={classNames(
                           'relative text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap outline-none',
                           link.active
-                            ? 'border-4E7DD9 text-primary font-semibold'
+                            ? 'border-primary text-primary font-semibold'
                             : 'border-transparent text-white',
-                          !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-1D9AEE before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
+                          !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-primary before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
                         )}
                       >
                         {link.name}
@@ -422,9 +422,9 @@ const DropdownLinks = ({ name, isActive, items = [] }) => {
               className={classNames(
                 'relative h-full text-sm border-b-4 px-2 border-t-transparent inline-flex gap-2 items-center whitespace-nowrap outline-none',
                 isActive
-                  ? 'border-4E7DD9 text-primary font-semibold'
+                  ? 'border-primary text-primary font-semibold'
                   : 'border-transparent text-white',
-                (!isActive) && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-1D9AEE before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100',
+                (!isActive) && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-primary before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100',
                 !isActive && open && 'before:scale-x-100'
               )}
             >
@@ -446,9 +446,9 @@ const DropdownLinks = ({ name, isActive, items = [] }) => {
                         <a
                           href={item.href}
                           className={classNames(
-                            'gap-2 text-sm inline-flex items-center whitespace-nowrap p-1 pl-5 w-full',
+                            'gap-2 text-sm inline-flex items-center whitespace-nowrap p-1 pl-10 w-full',
                             item.active && 'text-primary font-semibold',
-                            active && 'bg-364253'
+                            active && 'text-primary'
                           )}
                         >
                           {

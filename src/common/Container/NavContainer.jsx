@@ -11,7 +11,7 @@ export const NavContainer = ({ children, className, ...rest }) => {
   return (
     <div
       className={classNames(
-        'max-w-full mx-auto px-4 sm:px-6 md:px-8',
+        'max-w-desktop mx-auto px-4 sm:px-6 md:px-8',
         className
       )}
       {...rest}
