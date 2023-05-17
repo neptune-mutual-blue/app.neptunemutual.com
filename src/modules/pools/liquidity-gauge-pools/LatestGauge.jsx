@@ -126,7 +126,7 @@ const LatestGauge = () => {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [])
+  }, [handleResize])
 
   const chartOptions = {
     chart: {
