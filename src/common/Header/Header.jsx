@@ -130,7 +130,7 @@ export const Header = () => {
       <div className='bg-black text-EEEEEE'>
         <Banner />
         <NavContainer>
-          <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:flex'>
+          <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:pr-18 xl:flex'>
             <LanguageDropdown />
           </div>
         </NavContainer>
@@ -208,7 +208,7 @@ export const Header = () => {
                       )
                     }
                     return (
-                      <div className=''>
+                      <div>
                         <div className='flex items-stretch h-full space-x-4'>
                           <Network />
                           {button}
@@ -236,7 +236,7 @@ export const Header = () => {
                   <button
                     aria-label='Transactions'
                     className={classNames(
-                      'items-center justify-center px-4  flex relative self-stretch flex-shrink-0',
+                      'items-center justify-center px-4 flex relative self-stretch flex-shrink-0',
                       'before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB',
                       isTxDetailsPopupOpen
                         ? 'bg-404A5C before:w-0'

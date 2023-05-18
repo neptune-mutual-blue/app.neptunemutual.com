@@ -36,75 +36,76 @@ export const Banner = () => {
       className='relative bg-primary'
       data-testid='banner-container'
     >
-      <NavContainer className='flex items-center justify-center py-3 mx-auto my-0 text-sm text-white'>
-        <div className='flex items-center justify-center flex-auto min-w-0'>
-
-          {isMainNet
-            ? (
-                isEthereum
-                  ? (
-                    <p>
-                      <Trans>
-                        Ethereum gas fees too high? {' '}
-                        <a
-                          className='underline'
-                          href={ARBITRUM_APP_URL}
-                        >
-                          Use Neptune Mutual on Arbitrum
-                        </a>
-                      </Trans>
-                    </p>
-                    )
-                  : (
-                    <p>
-                      <Trans>
-                        Don't have Arbitrum ETH?{' '}
-                        <a
-                          className='underline'
-                          href={ETHEREUM_APP_URL}
-                        >
-                          Use Neptune Mutual on Ethereum
-                        </a>{' '}
-                        or{' '}
-                        <a
-                          className='underline'
-                          href={ARBITRUM_BRIDGE_URL}
-                          target='_blank'
-                          rel='noopener noreferrer'
-                        >
-                          Bridge ETH and USDC to Arbitrum
-                        </a>
-                      </Trans>
-                    </p>
-                    )
-              )
-            : (
-              <p>
-                <Trans>
-                  You&#x2019;re on {NetworkNames[networkId]} Network. Get{' '}
-                  <a
-                    className='underline'
-                    href={FAUCET_URL}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    data-testid='faucet-link'
-                  >
-                    Test Tokens
-                  </a>.
-                </Trans>
-              </p>
-              )}
+      <NavContainer className='py-3 mx-auto my-0 text-sm text-white'>
+        <div className='flex items-center justify-center xl:px-18'>
+          <div className='flex items-center justify-center flex-auto min-w-0'>
+            {isMainNet
+              ? (
+                  isEthereum
+                    ? (
+                      <p>
+                        <Trans>
+                          Ethereum gas fees too high? {' '}
+                          <a
+                            className='underline'
+                            href={ARBITRUM_APP_URL}
+                          >
+                            Use Neptune Mutual on Arbitrum
+                          </a>
+                        </Trans>
+                      </p>
+                      )
+                    : (
+                      <p>
+                        <Trans>
+                          Don't have Arbitrum ETH?{' '}
+                          <a
+                            className='underline'
+                            href={ETHEREUM_APP_URL}
+                          >
+                            Use Neptune Mutual on Ethereum
+                          </a>{' '}
+                          or{' '}
+                          <a
+                            className='underline'
+                            href={ARBITRUM_BRIDGE_URL}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                          >
+                            Bridge ETH and USDC to Arbitrum
+                          </a>
+                        </Trans>
+                      </p>
+                      )
+                )
+              : (
+                <p>
+                  <Trans>
+                    You&#x2019;re on {NetworkNames[networkId]} Network. Get{' '}
+                    <a
+                      className='underline'
+                      href={FAUCET_URL}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      data-testid='faucet-link'
+                    >
+                      Test Tokens
+                    </a>.
+                  </Trans>
+                </p>
+                )}
+          </div>
+          <button
+            type='button'
+            aria-label='Close'
+            onClick={handleClose}
+            className={classNames('block p-1 ml-auto')}
+            title={t`close`}
+            data-testid='close-banner'
+          >
+            <CloseIcon className='w-5 h-5' />
+          </button>
         </div>
-        <button
-          type='button'
-          aria-label='Close'
-          onClick={handleClose}
-          className={classNames('block p-1 ml-auto')}
-          title={t`close`}
-          data-testid='close-banner'
-        >
-          <CloseIcon className='w-5 h-5' />
-        </button>
       </NavContainer>
     </div>
   )
