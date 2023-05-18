@@ -67,6 +67,7 @@ export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/refer
 
 export const IPFS_REPORT_INFO_URL = `${API_BASE_URL}ipfs/report-info`
 export const IPFS_DISPUTE_INFO_URL = `${API_BASE_URL}ipfs/dispute-info`
+export const IPFS_GET = (hash) => `${API_BASE_URL}ipfs/${hash}`
 
 export const api = {
   USER_ACTIVE_POLICIES: `${API_BASE_URL}policy/active/{networkId}/{account}`,

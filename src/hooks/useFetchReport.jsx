@@ -81,26 +81,29 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
     return `${coverKey}-${productKey}-${incidentDate}`
   }, [coverKey, incidentDate, productKey])
 
-  const getData = useCallback(() => {
+  const getData = useCallback(async () => {
     if (!reportId) {
       return
     }
 
-    return fetchReport(getNetworkId(), getQuery(reportId))
-      .then((data) => {
-        if (!data || !data.incidentReport) {
-          return
-        }
-
+    try {
+      const data = await fetchReport(getNetworkId(), getQuery(reportId))
+      if (data && data.incidentReport) {
         setData(data.incidentReport)
-      })
-      .catch((e) => console.error(e))
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }, [fetchReport, reportId])
 
   useEffect(() => {
-    setLoading(true)
-    getData()
-      .finally(() => setLoading(false))
+    async function updateData () {
+      setLoading(true)
+      await getData()
+      setLoading(false)
+    }
+
+    updateData()
   }, [getData])
 
   return {
