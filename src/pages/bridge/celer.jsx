@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 
 import { Seo } from '@/common/Seo'
-import { CelerBridgeModule } from '@/modules/bridge/CelerBridgeModule'
-import { BridgeSwitch } from '@/modules/bridge/BridgeSwitch'
+import { CelerBridgeModule } from '@/modules/bridge/bridge-form/CelerBridgeModule'
+import { BridgeSwitch } from '@/modules/bridge/bridge-form/BridgeSwitch'
 import { networks } from '@/src/config/networks'
 
 import * as celerConfig from '@/src/config/bridge/celer'

@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 
 import { Seo } from '@/common/Seo'
-import { LayerZeroBridgeModule } from '@/modules/bridge/LayerZeroBridgeModule'
-import { BridgeSwitch } from '@/modules/bridge/BridgeSwitch'
+import { LayerZeroBridgeModule } from '@/modules/bridge/bridge-form/LayerZeroBridgeModule'
+import { BridgeSwitch } from '@/modules/bridge/bridge-form/BridgeSwitch'
 import { networks } from '@/src/config/networks'
 
 import * as lzConfig from '@/src/config/bridge/layer-zero'
