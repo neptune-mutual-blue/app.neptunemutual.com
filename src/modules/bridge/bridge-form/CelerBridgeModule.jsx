@@ -9,35 +9,31 @@ import { useRouter } from 'next/router'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Container } from '@/common/Container/Container'
 import DownArrow from '@/icons/DownArrow'
-import { chains } from '@/lib/connect-wallet/config/chains'
-import { AddressInput } from '@/modules/bridge/AddressInput'
-import {
-  DestinationBalanceError,
-  useBalance
-} from '@/modules/bridge/DestinationBalanceError'
-import { InfoPanel } from '@/modules/bridge/InfoPanel'
-import { NetworkSelect } from '@/modules/bridge/NetworkSelect'
-import { TransferAmountInput } from '@/modules/bridge/TransferAmountInput'
-import { WalletNotConnected } from '@/modules/bridge/WalletNotConnected'
-import { LayerZeroChainIds } from '@/src/config/bridge/layer-zero'
+import { AddressInput } from '@/modules/bridge/bridge-form/AddressInput'
+import { InfoPanel } from '@/modules/bridge/bridge-form/InfoPanel'
+import { NetworkSelect } from '@/modules/bridge/bridge-form/NetworkSelect'
+import { TransferAmountInput } from '@/modules/bridge/bridge-form/TransferAmountInput'
+import { WalletNotConnected } from '@/modules/bridge/bridge-form/WalletNotConnected'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
+import { useCelerBridge } from '@/src/hooks/useCelerBridge'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { useLayerZeroBridge } from '@/src/hooks/useLayerZeroBridge'
 import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
+  toBN,
   toBNSafe
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
+import { BalanceError } from '@/modules/bridge/bridge-form/DestinationBalanceError'
 
-// const SLIPPAGE_MULTIPLIER = 1_000_000
-// const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
+const SLIPPAGE_MULTIPLIER = 1_000_000
+const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
 
-export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbol, filteredNetworks }) => {
+export const CelerBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbol, filteredNetworks }) => {
   const [sendAmount, setSendAmount] = useState('')
   const [receiverAddress, setReceiverAddress] = useState('')
   const [selectedNetworks, setSelectedNetworks] = useState({
@@ -45,6 +41,8 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     network2: null
   })
   const [estimation, setEstimation] = useState(null)
+  const [estimationLoading, setEstimationLoading] = useState(false)
+  const [balanceError, setBalanceError] = useState('')
 
   const { locale } = useRouter()
   const { networkId } = useNetwork()
@@ -53,16 +51,9 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
   const sourceTokenAddress = tokenData[networkId].address
   const sourceTokenDecimals = tokenData[networkId].decimal
 
-  // const srcChainId = selectedNetworks?.network1?.chainId
-  const destChainId = selectedNetworks?.network2?.chainId
-  const _receiverAddress = receiverAddress || account
-
   const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
   // const destinationTokenAddress = destinationTokenData.address || ''
   const destinationTokenDecimals = destinationTokenData?.decimal || 1
-  // const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
-
-  const { balance: destinationBalance } = useBalance(destChainId)
 
   const {
     balance,
@@ -73,7 +64,7 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     bridging,
     getEstimation,
     estimating: calculatingFee
-  } = useLayerZeroBridge({
+  } = useCelerBridge({
     bridgeContractAddress,
     tokenAddress: sourceTokenAddress,
     tokenSymbol,
@@ -86,17 +77,26 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
   }, [networkId])
 
   const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
+  const srcChainId = selectedNetworks?.network1?.chainId
+  const destChainId = selectedNetworks?.network2?.chainId
+  const _receiverAddress = receiverAddress || account
 
   const updateEstimation = useCallback(async function () {
+    setBalanceError('')
+    setEstimationLoading(true)
     const _estimation = await getEstimation(
       debouncedAmount,
       _receiverAddress,
-      LayerZeroChainIds[destChainId]
+      srcChainId,
+      destChainId,
+      SLIPPAGE
     )
-    setEstimation(_estimation)
+    if (_estimation?.err) setBalanceError(_estimation.err.msg)
+    else setEstimation(_estimation)
+    setEstimationLoading(false)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [_receiverAddress, debouncedAmount, destChainId])
+  }, [_receiverAddress, debouncedAmount, destChainId, srcChainId])
 
   useEffect(() => {
     updateEstimation()
@@ -112,15 +112,10 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     convertToUnits(sendAmount, sourceTokenDecimals).isLessThanOrEqualTo(allowance)
 
   const isValidAddress = isAddress(receiverAddress || account)
-
-  const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
-
-  const formattedNativeFee = formatCurrency(
-    convertFromUnits(estimation?.nativeFee || '0', srcChainConfig.nativeCurrency.decimals),
-    locale,
-    srcChainConfig.nativeCurrency.symbol,
-    true
-  )
+  const formattedReceiveAmount = formatCurrency(
+    convertFromUnits(
+      estimation?.estimated_receive_amt || '0', destinationTokenDecimals)
+    , locale, tokenSymbol, true)
 
   const handleBridgeClick = async () => {
     await updateEstimation()
@@ -128,8 +123,9 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     if (canBridge) {
       await handleBridge(
         convertToUnits(sendAmount, sourceTokenDecimals).toString(),
-        LayerZeroChainIds[destChainId],
-        receiverAddress || account
+        selectedNetworks.network2,
+        receiverAddress || account,
+        estimation.max_slippage
       )
       return
     }
@@ -145,13 +141,12 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     !(canApprove || canBridge) ||
     approving ||
     bridging ||
-    (canBridge && receiverAddress && !isValidAddress) ||
-    convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
+    (canBridge && receiverAddress && !isValidAddress)
 
   return (
     <Container className='pb-16 mt-8'>
       <div className='p-8 mx-auto bg-white border border-B0C4DB rounded-2xl max-w-450'>
-        <h1 className='font-semibold text-display-xs'>LayerZero Bridge</h1>
+        <h1 className='font-semibold text-display-xs'>Celer Bridge</h1>
 
         <div className='relative mt-4'>
           <TransferAmountInput
@@ -196,30 +191,26 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
           <InfoPanel
             className='mt-4'
             infoArray={[
+              { key: 'Receive (estimated)', value: formattedReceiveAmount.long, bold: true, loading: estimationLoading },
               {
-                key: 'Estimated Fee',
-                value: formattedNativeFee.long,
-                loading: calculatingFee,
+                key: 'Minimum Receive',
+                value: estimation
+                  ? toBN(sendAmount).minus(
+                    toBN(sendAmount).multipliedBy(estimation.max_slippage).dividedBy(SLIPPAGE_MULTIPLIER)
+                  ).toString()
+                  : '0',
+                loading: estimationLoading,
                 bold: true
               },
               {
-                key: 'Minimum receive',
-                value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
-              },
-              {
-                key: 'Receive (estimated)',
-                value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
+                key: 'Estimated Fee',
+                value: 'N/A',
+                loading: calculatingFee
               }
             ]}
           />
 
-          <DestinationBalanceError
-            tokenSymbol={tokenSymbol}
-            tokenDecimals={destinationTokenDecimals}
-            balance={destinationBalance}
-            transferAmount={sendAmount ? convertToUnits(sendAmount, sourceTokenDecimals).toString() : ''}
-            className='mt-4'
-          />
+          <BalanceError className='mt-4' message={balanceError} />
 
           {!active && (
             <div className='absolute inset-0 w-full h-full bg-white bg-opacity-50' />
