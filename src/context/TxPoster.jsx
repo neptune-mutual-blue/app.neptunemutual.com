@@ -1,3 +1,5 @@
+import React, { useCallback, useState } from 'react'
+
 import { Divider } from '@/common/Divider/Divider'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
@@ -7,7 +9,6 @@ import { useTransactionHistory } from '@/src/hooks/useTransactionHistory'
 import { contractRead } from '@/src/services/readContract'
 import { calculateGasMargin } from '@/utils/bn'
 import * as Dialog from '@radix-ui/react-dialog'
-import React, { useCallback, useState } from 'react'
 
 const initValue = {
   // prettier-ignore
@@ -53,7 +54,9 @@ export const TxPosterProvider = ({ children }) => {
       let estimatedGas = null
 
       try {
-        estimatedGas = await instance.estimateGas[methodName](...args)
+        estimatedGas = await instance.estimateGas[methodName](...args, {
+          ...overrides
+        })
 
         try {
           const tx = await instance[methodName](...args, {
@@ -170,7 +173,7 @@ const ForceTxModal = ({
     <ModalRegular isOpen={isOpen} onClose={onClose}>
       <ModalWrapper className='max-w-2xl bg-FEFEFF'>
         <Dialog.Title className='flex items-center'>
-          <div className='mb-4 font-semibold text-black text-lg'>
+          <div className='mb-4 text-lg font-semibold text-black'>
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>

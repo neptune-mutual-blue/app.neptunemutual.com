@@ -100,7 +100,8 @@ module.exports = {
         400: '400px',
         420: '420px',
         392: '392px',
-        450: '450px'
+        450: '450px',
+        'full-plus-20': 'calc(100% + 20px)'
       },
       lineHeight: {
         4.5: '18px',
@@ -117,9 +118,13 @@ module.exports = {
         56: '224px',
         60: '240px',
         70: '282px',
+        420: '420px',
+        520: '520px',
         '90vw': '90vw',
+        450: '450px',
         632: '632px',
-        466: '466px'
+        466: '466px',
+        desktop: '1560px'
       },
       minWidth: {
         auto: 'auto',
@@ -211,7 +216,8 @@ module.exports = {
         F6F7F9: '#F6F7F9',
         F4F8FC: '#F4F8FC',
         FA5C2F: '#FA5C2F',
-        primary: 'rgb(var(--color-primary) / var(--tw-bg-opacity))'
+        primary: 'rgb(var(--color-primary) / var(--tw-bg-opacity))',
+        B2C4DC: '#B2C4DC'
       },
       minHeight: {
         360: '360px',

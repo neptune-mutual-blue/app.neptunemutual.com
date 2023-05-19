@@ -1,5 +1,5 @@
 import { config } from '@neptunemutual/sdk'
-import { IPFS_REPORT_INFO_URL, IPFS_DISPUTE_INFO_URL } from '@/src/config/constants'
+import { IPFS_REPORT_INFO_URL, IPFS_DISPUTE_INFO_URL, IPFS_GET } from '@/src/config/constants'
 
 const urls = {
   report: IPFS_REPORT_INFO_URL,
@@ -52,4 +52,25 @@ const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
   }
 }
 
-export { writeToIpfs }
+const readFromIpfs = async (hash) => {
+  const url = IPFS_GET(hash)
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        siteId: process.env.NEXT_PUBLIC_SITE_ID
+      }
+    })
+
+    if (!response.ok) return
+
+    const data = await response.json()
+
+    if (data.data && Object.keys(data.data).length) return data.data
+  } catch (error) {
+    console.error(`Error in reading from ${url}: ${error}`)
+  }
+}
+
+export { writeToIpfs, readFromIpfs }

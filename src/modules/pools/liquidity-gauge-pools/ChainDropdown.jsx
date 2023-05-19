@@ -40,7 +40,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
 
   return (
     <div className='relative'>
-      <div className='flex justify-between items-center mb-12'>
+      <div className='flex flex-wrap gap-4 justify-between items-center mb-12'>
         <button
           onClick={() => {
             setOpen(!open)
@@ -54,15 +54,15 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
           </div>
           <ChevronDownIcon className='h-4 w-4' />
         </button>
-        <Link href='#'>
-          <div className='text-4E7DD9 text-md cursor-pointer font-semibold flex items-center gap-1'>
+        <Link className='' href='#'>
+          <div className='hidden md:flex text-4E7DD9 text-md cursor-pointer font-semibold items-center gap-1'>
             Submit Your Vote <ExternalLinkIcon />
           </div>
         </Link>
       </div>
 
       {open && (
-        <div ref={ref} className='absolute z-60 top-[calc(100%+8px)] left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
+        <div ref={ref} className='absolute z-60 top-[calc(100%+8px)] bg-white left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
           <div className='m-2.5 flex items-center'>
 
             <input

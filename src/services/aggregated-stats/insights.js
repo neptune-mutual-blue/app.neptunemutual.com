@@ -8,7 +8,7 @@ import {
   NetworkNames
 } from '@/lib/connect-wallet/config/chains'
 import { getNetworkId } from '@/src/config/environment'
-import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { getSubgraphData } from '@/src/services/subgraph'
 import { toBN } from '@/utils/bn'
 

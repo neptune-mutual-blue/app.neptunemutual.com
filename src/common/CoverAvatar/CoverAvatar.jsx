@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
+
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const CoverAvatar = ({
   imgs = [],
@@ -10,7 +10,7 @@ export const CoverAvatar = ({
   const sizeClasses = useMemo(() => {
     const classes = {
       diversifiedWrapper: 'w-14 h-14 lg:w-18 lg:h-18',
-      diversifiedImg: 'p-4',
+      diversifiedImg: 'p-3.5',
       dedicatedWrapper: 'w-14 h-14 lg:w-18 lg:h-18 p-4',
       dedicatedImg: ''
     }
@@ -25,6 +25,13 @@ export const CoverAvatar = ({
       classes.diversifiedWrapper = 'w-6 h-6'
       classes.diversifiedImg = 'p-1'
       classes.dedicatedWrapper = 'w-6 h-6'
+      classes.dedicatedImg = 'w-4.5 h-4.5'
+    }
+
+    if (size === 'xxs') {
+      classes.diversifiedWrapper = 'w-5 h-5'
+      classes.diversifiedImg = 'p-1'
+      classes.dedicatedWrapper = 'w-5 h-5'
       classes.dedicatedImg = 'w-4.5 h-4.5'
     }
 
@@ -44,8 +51,8 @@ export const CoverAvatar = ({
               return (
                 <div
                   className={classNames(
-                    'inline-block max-w-full bg-FEFEFF rounded-full',
-                    idx !== 0 && '-ml-7 lg:-ml-9 p-0.5',
+                    'inline-block max-w-full bg-FEFEFF rounded-full p-0.5',
+                    idx !== 0 && '-ml-7 lg:-ml-9',
                     sizeClasses.diversifiedWrapper
                   )}
                   key={item.src}
@@ -66,7 +73,7 @@ export const CoverAvatar = ({
 
             {imgs.length > 3 && (
               <p className='ml-2 text-xs opacity-40 text-01052D'>
-                +{imgs.length - 3} <Trans>MORE</Trans>
+                +{imgs.length - 3} MORE
               </p>
             )}
           </>

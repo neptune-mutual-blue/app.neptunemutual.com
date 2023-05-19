@@ -1,15 +1,26 @@
-import { useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { t } from '@lingui/macro'
-import { config, registry, utils, multicall } from '@neptunemutual/sdk'
+import {
+  useEffect,
+  useState
+} from 'react'
 
-import { convertToUnits, isValidNumber } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { useNetwork } from '@/src/context/Network'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useDebounce } from '@/src/hooks/useDebounce'
 import DateLib from '@/lib/date/DateLib'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
+import { useNetwork } from '@/src/context/Network'
+import { useDebounce } from '@/src/hooks/useDebounce'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import {
+  convertToUnits,
+  isValidNumber
+} from '@/utils/bn'
+import { Contract } from '@ethersproject/contracts'
+import { t } from '@lingui/macro'
+import {
+  config,
+  registry,
+  utils
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const defaultInfo = {
   fee: '0',
@@ -69,15 +80,10 @@ export const usePolicyFees = ({
           signerOrProvider
         )
 
-        const { Contract, Provider } = multicall
-
-        const multiCallProvider = new Provider(signerOrProvider.provider)
-
-        await multiCallProvider.init() // Only required when `chainId` is not provided in the `Provider` constructor
-
         const instance = new Contract(
           policyContractAddress,
-          config.abis.IPolicy
+          config.abis.IPolicy,
+          signerOrProvider
         )
 
         const productKeyArg = productKey || utils.keyUtil.toBytes32('')
@@ -94,7 +100,7 @@ export const usePolicyFees = ({
         )
 
         const [getCoverFeeInfoResult, getExpiryDateResult] =
-          await multiCallProvider.all([getCoverFeeInfoCall, getExpiryDateCall])
+          await Promise.all([getCoverFeeInfoCall, getExpiryDateCall])
 
         if (ignore) return
         cleanup()

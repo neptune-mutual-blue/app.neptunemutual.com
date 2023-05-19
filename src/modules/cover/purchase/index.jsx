@@ -11,6 +11,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { PurchasePageSkeleton } from '@/modules/cover/purchase/PurchasePageSkeleton'
 
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter()
@@ -63,9 +64,7 @@ export const CoverPurchaseDetailsPage = () => {
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <PurchasePageSkeleton />
     )
   }
   if (!coverOrProductData) {

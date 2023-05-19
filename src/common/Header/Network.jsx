@@ -22,7 +22,7 @@ import {
 } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
 import { classNames } from '@/utils/classnames'
 import {
@@ -31,10 +31,11 @@ import {
   Portal,
   Root
 } from '@radix-ui/react-dialog'
+import { Menu } from '@headlessui/react'
 
 export const Network = ({ closeMenu = () => {} }) => {
   const { networkId } = useNetwork()
-  const { isEthereum, isArbitrum } = useValidateNetwork(networkId)
+  const { isEthereum, isArbitrum } = getNetworkInfo(networkId)
   const { width } = useWindowSize()
 
   const [open, setOpen] = useState(false)
@@ -86,14 +87,14 @@ export const Network = ({ closeMenu = () => {} }) => {
       <figure
         className={classNames(
           'overflow-hidden flex-shrink-0',
-          width >= 1200 && width <= 1439 ? 'rounded-lg' : 'rounded-l-lg'
+          width >= 1200 ? 'hidden rounded-lg' : 'rounded-l-lg'
         )}
         title={NetworkNames[networkId] || 'Network'}
       >
-        <span className='block lg:hidden xl:block'>
+        <span className='block lg:hidden'>
           <ChainLogo width='44' height='44' />{' '}
         </span>
-        <span className='hidden lg:block xl:hidden'>
+        <span className='hidden lg:block'>
           <ChainLogo width='64' height='64' />{' '}
         </span>
       </figure>
@@ -103,7 +104,7 @@ export const Network = ({ closeMenu = () => {} }) => {
           onClick={() => setOpen(_val => !_val)}
           className={classNames(
             'w-full flex items-center justify-between gap-2 px-3 py-2 lg:py-4 xl:py-2',
-            width >= 1200 && width <= 1439 && 'hidden'
+            width >= 1200 && 'hidden'
           )}
         >
           <p className='inline-block w-full text-left truncate'>
@@ -116,45 +117,76 @@ export const Network = ({ closeMenu = () => {} }) => {
           />
         </button>
 
-        {
-          (open && width >= 1200) && (
-            <ul
-              className='absolute right-0 hidden p-6 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
-              tabIndex={-1}
-            >
-              {/* <div className='pb-4 space-y-2 border-b text-000000 border-B0C4DB'> */}
-              <div className='space-y-2 text-000000'>
-                <p className='text-sm font-semibold leading-6'>
-                  Switch Network
-                </p>
-                {
-                    networks.map(({ name, href, Icon, active }, i) => (
-                      <li key={i} value={name}>
-                        <a
-                          className='flex items-center gap-1.5 justify-between'
-                          href={href}
-                          tabIndex={0}
-                        >
-                          <div className='flex items-center gap-1.5'>
-                            <div className='flex items-center justify-center w-4 h-4 overflow-hidden rounded-full'>
-                              <Icon width='32' height='32' />
-                            </div>
-                            <span className='text-sm leading-6'>{name}</span>
-                          </div>
+        <Menu>
+          {
+            ({ open: modalOpen }) => (
+              <div className='relative'>
+                <Menu.Button
+                  // onClick={() => setOpen(_val => !_val)}
+                  className={classNames(
+                    'h-10 p-2.5 rounded-2 flex gap-1 items-center',
+                    width >= 1200 ? 'block' : 'hidden'
+                  )}
+                >
+                  <figure
+                    className='flex-shrink-0 overflow-hidden rounded-full'
+                    title={NetworkNames[networkId] || 'Network'}
+                  >
+                    <ChainLogo width='24' height='24' />
+                  </figure>
 
+                  <ChevronDownIcon
+                    width='16' height='16'
+                    className={classNames('flex-shrink-0 transform', modalOpen && 'rotate-180')}
+                  />
+                </Menu.Button>
+
+                <Menu.Items
+                  className='absolute right-0 hidden py-6 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
+                  tabIndex={-1}
+                >
+
+                  <div className='space-y-2 text-000000'>
+                    <p className='px-6 text-sm font-semibold leading-6'>
+                      Switch Network
+                    </p>
+                    {
+                      networks.map(({ name, href, Icon, active }, i) => (
+                        <Menu.Item key={i}>
                           {
-                            active && (
-                              <CheckCircleFilledIcon className='w-4 h-4' />
+                            ({ active: activeState }) => (
+                              <a
+                                className={classNames(
+                                  'flex items-center gap-1.5 justify-between px-6',
+                                  activeState && 'bg-344054 bg-opacity-20'
+                                )}
+                                href={href}
+                                tabIndex={0}
+                              >
+                                <div className='flex items-center gap-1.5'>
+                                  <div className='flex items-center justify-center w-4 h-4 overflow-hidden rounded-full'>
+                                    <Icon width='32' height='32' />
+                                  </div>
+                                  <span className='text-sm leading-6'>{name}</span>
+                                </div>
+
+                                {
+                                  active && (
+                                    <CheckCircleFilledIcon className='w-4 h-4' />
+                                  )
+                                }
+                              </a>
                             )
                           }
-                        </a>
-                      </li>
-                    ))
-                  }
+                        </Menu.Item>
+                      ))
+                    }
+                  </div>
+                </Menu.Items>
               </div>
-            </ul>
-          )
-        }
+            )
+          }
+        </Menu>
 
         <NetworkModalMobile
           open={open && width < 1200}

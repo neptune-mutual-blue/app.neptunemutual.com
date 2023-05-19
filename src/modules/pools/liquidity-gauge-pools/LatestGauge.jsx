@@ -1,4 +1,6 @@
 import {
+  useCallback,
+  useEffect,
   useRef,
   useState
 } from 'react'
@@ -6,9 +8,11 @@ import {
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
 import HighchartsExporting from 'highcharts/modules/exporting'
+import Link from 'next/link'
 
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
+import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import ChainDropdown from '@/modules/pools/liquidity-gauge-pools/ChainDropdown'
 import { t } from '@lingui/macro'
 
@@ -104,11 +108,31 @@ const LatestGauge = () => {
     }
   }
 
+  const [mobile, setMobile] = useState(window.innerWidth < 768)
+
+  // choose the screen size
+  const handleResize = useCallback(() => {
+    if (window.innerWidth < 768) {
+      setMobile(true)
+    } else {
+      setMobile(false)
+    }
+  }, [])
+
+  // create an event listener
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [handleResize])
+
   const chartOptions = {
     chart: {
       type: 'pie',
       backgroundColor: 'transparent',
-      height: '600px',
+      height: mobile ? '311px' : '600px',
       events: {
         render: () => {
           setChartData()
@@ -131,7 +155,7 @@ const LatestGauge = () => {
       }
     },
     series: [{
-      name: '',
+      name: 'pie',
       colorByPoint: true,
       data: data.map(item => ({
         name: item.name,
@@ -139,9 +163,10 @@ const LatestGauge = () => {
         color: item.color
       })),
       dataLabels: {
-        enabled: true,
-        connectorWidth: 1,
-        distance: 30,
+        enabled: !mobile,
+        connectorWidth: mobile ? 0 : 1,
+        distance: mobile ? 0 : 30,
+
         style: {
           fontWeight: 'bold',
           textOutline: 'none'
@@ -180,17 +205,18 @@ const LatestGauge = () => {
   const [selectedChains, setSelectedChains] = useState([])
 
   return (
-    <Container className='pt-16 pb-36' data-testid='pod-staking-page-container'>
+    <Container className='pt-8 md:pt-16 pb-36' data-testid='pod-staking-page-container'>
       <div>
         <BreadCrumbs
+          className='mb-8 md:mb-11'
           pages={crumbs}
         />
 
-        <div className='bg-white border-1 border-B0C4DB rounded-2xl p-8'>
+        <div className='bg-white border-1 border-B0C4DB rounded-2xl p-4 md:p-8'>
           <div>
             <ChainDropdown options={DROPDOWN_OPTIONS} selected={selectedChains} onSelectionChange={setSelectedChains} />
           </div>
-          <div className='gauge-chart-liquidity relative'>
+          <div className='gauge-chart-liquidity -my-5 md:my-0 relative'>
             <HighchartsReact
               highcharts={Highcharts}
               options={chartOptions}
@@ -198,9 +224,9 @@ const LatestGauge = () => {
               ref={chartRef}
             />
 
-            <div className='absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-center'>
-              <div className='text-display-sm font-bold'>Liquidity Gauge</div>
-              <div className='text-md font-medium'>Block Emission: 300,000 NPM</div>
+            <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
+              <div className='text-md md:text-display-sm font-bold'>Liquidity Gauge</div>
+              <div className='text-sm md:text-md font-medium'>Block Emission: 300,000 NPM</div>
             </div>
           </div>
 
@@ -209,7 +235,7 @@ const LatestGauge = () => {
             <div className='text-md mb-4'>As of: Sep 23, 2025</div>
           </div>
 
-          <div className='w-[586px] mx-auto mb-10 flex'>
+          <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex'>
             {data.map((item, i) => (
               <div
                 onMouseLeave={() => {
@@ -222,6 +248,12 @@ const LatestGauge = () => {
               />
             ))}
           </div>
+
+          <Link className='' href='#'>
+            <div className='flex items-center justify-center mb-1 gap-1 md:hidden text-4E7DD9 text-sm cursor-pointer font-semibold'>
+              Submit Your Vote <ExternalLinkIcon />
+            </div>
+          </Link>
         </div>
       </div>
     </Container>

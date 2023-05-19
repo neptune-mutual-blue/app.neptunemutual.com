@@ -37,6 +37,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { LiquiditySectionSkeleton } from '@/modules/cover/add-liquidity/LiquiditySectionSkeleton'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -52,9 +53,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <LiquiditySectionSkeleton />
     )
   }
 

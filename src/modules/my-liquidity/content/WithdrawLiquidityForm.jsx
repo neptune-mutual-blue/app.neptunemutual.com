@@ -21,7 +21,7 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useRemoveLiquidity } from '@/src/hooks/useRemoveLiquidity'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
@@ -49,7 +49,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const [podErrorMsg, setPodErrorMsg] = useState('')
   const [isExit, setIsExit] = useState(false)
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet } = getNetworkInfo(networkId)
 
   const {
     NPMTokenAddress,
