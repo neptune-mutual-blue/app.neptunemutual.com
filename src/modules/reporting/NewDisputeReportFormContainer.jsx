@@ -1,6 +1,8 @@
 import { Alert } from '@/common/Alert/Alert'
 import { Container } from '@/common/Container/Container'
 import DateLib from '@/lib/date/DateLib'
+import { DisputeFormSkeleton } from '@/modules/reporting/DisputeFormSkeleton'
+import { HeroSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
@@ -18,9 +20,13 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
 
   if (dataLoading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <>
+        <HeroSkeleton />
+
+        <hr className='border-B0C4DB' />
+
+        <DisputeFormSkeleton />
+      </>
     )
   }
 
@@ -66,9 +72,7 @@ function DisputeForm ({ coverKey, productKey, timestamp, minReportingStake }) {
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <DisputeFormSkeleton />
     )
   }
 

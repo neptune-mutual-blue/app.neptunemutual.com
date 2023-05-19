@@ -38,9 +38,9 @@ import {
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
 import {
-  t,
-  Trans
+  t
 } from '@lingui/macro'
+import { ResolvedTableSkeleton } from '@/modules/reporting/resolved/ResolvedTableSkeleton'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -267,14 +267,6 @@ export const ReportingResolvedPage = () => {
     })
   }, [getCoverByCoverKey, getProduct, sortedResolvedReports])
 
-  if (loading || dataLoading) {
-    return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
-    )
-  }
-
   return (
     <Container className='pt-16 pb-36'>
       <div className='flex justify-end'>
@@ -292,53 +284,62 @@ export const ReportingResolvedPage = () => {
         />
       </div>
 
-      <div className='mt-6'>
-        <TableWrapper>
-          <Table>
-            <THead
-              rowClass='border-t-0'
-              columns={columns}
-            />
-            <tbody
-              className='divide-y divide-DAE2EB'
-              data-testid='app-table-body'
-            >
-              {resolvedReportsWithData.length === 0 && (
-                <tr className='text-center'>
-                  <td className='px-0 py-6' colSpan={columns.length}>
-                    {loading ? t`loading...` : t`No data found`}
-                  </td>
-                </tr>
-              )}
-              {resolvedReportsWithData.map(({ report, coverOrProductData }) => {
-                const resolvedOn = report.emergencyResolved
-                  ? report.emergencyResolveTransaction?.timestamp
-                  : report.resolveTransaction?.timestamp
+      {
+        (loading || dataLoading)
+          ? (
+            <ResolvedTableSkeleton />
+            )
+          : (
+            <div className='mt-6'>
+              <TableWrapper>
+                <Table>
+                  <THead
+                    rowClass='border-t-0'
+                    columns={columns}
+                  />
+                  <tbody
+                    className='divide-y divide-DAE2EB'
+                    data-testid='app-table-body'
+                  >
+                    {resolvedReportsWithData.length === 0 && (
+                      <tr className='text-center'>
+                        <td className='px-0 py-6' colSpan={columns.length}>
+                          {loading ? t`loading...` : t`No data found`}
+                        </td>
+                      </tr>
+                    )}
+                    {resolvedReportsWithData.map(({ report, coverOrProductData }) => {
+                      const resolvedOn = report.emergencyResolved
+                        ? report.emergencyResolveTransaction?.timestamp
+                        : report.resolveTransaction?.timestamp
 
-                return (
-                  <Fragment key={report.id}>
-                    <tr
-                      className='cursor-pointer hover:bg-F4F8FC'
-                      onClick={() => router.push(getUrl(report.id))}
-                    >
-                      <ResolvedTBodyRow
-                        columns={columns}
-                        report={report}
-                        coverOrProductData={coverOrProductData}
-                        resolvedOn={resolvedOn}
-                        status={ReportStatus[report.status]}
-                      />
-                    </tr>
-                  </Fragment>
-                )
-              })}
-            </tbody>
-          </Table>
-          {hasMore && (
-            <TableShowMore isLoading={loading} onShowMore={handleShowMore} />
-          )}
-        </TableWrapper>
-      </div>
+                      return (
+                        <Fragment key={report.id}>
+                          <tr
+                            className='cursor-pointer hover:bg-F4F8FC'
+                            onClick={() => router.push(getUrl(report.id))}
+                          >
+                            <ResolvedTBodyRow
+                              columns={columns}
+                              report={report}
+                              coverOrProductData={coverOrProductData}
+                              resolvedOn={resolvedOn}
+                              status={ReportStatus[report.status]}
+                            />
+                          </tr>
+                        </Fragment>
+                      )
+                    })}
+                  </tbody>
+                </Table>
+                {hasMore && (
+                  <TableShowMore isLoading={loading} onShowMore={handleShowMore} />
+                )}
+              </TableWrapper>
+            </div>
+            )
+      }
+
     </Container>
   )
 }

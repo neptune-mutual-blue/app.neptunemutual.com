@@ -216,7 +216,8 @@ module.exports = {
         F6F7F9: '#F6F7F9',
         F4F8FC: '#F4F8FC',
         FA5C2F: '#FA5C2F',
-        primary: 'rgb(var(--color-primary) / var(--tw-bg-opacity))'
+        primary: 'rgb(var(--color-primary) / var(--tw-bg-opacity))',
+        B2C4DC: '#B2C4DC'
       },
       minHeight: {
         360: '360px',

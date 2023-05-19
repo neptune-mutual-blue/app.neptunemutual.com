@@ -20,6 +20,7 @@ import {
 } from '@/src/modules/reporting/NewIncidentReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
 import { Trans } from '@lingui/macro'
+import { NewReportSkeleton } from '@/modules/reporting/new/NewReportSkeleton'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
   const [accepted, setAccepted] = useState(false)
@@ -51,9 +52,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <NewReportSkeleton />
     )
   }
 
@@ -65,7 +64,9 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
     )
   }
 
-  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+  const projectOrProductName = isDiversified
+    ? coverOrProductData?.productInfoDetails?.productName
+    : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
 
   const handleAcceptRules = () => {
     setAccepted(true)
