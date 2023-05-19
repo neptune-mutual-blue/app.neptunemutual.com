@@ -41,7 +41,7 @@ export const PoolsTabs = ({ active, children }) => {
   return (
     <>
       <Hero className='min-h-[312px] flex flex-col justify-between'>
-        <Container className='flex flex-wrap w-full px-2 pt-32 pb-10'>
+        <Container className='flex flex-wrap w-full px-2 pt-12 pb-13 justify-center md:justify-start md:pt-32 md:pb-10'>
           <HeroTitle>
             <Trans>Bond and Liquidity Gauge</Trans>
           </HeroTitle>

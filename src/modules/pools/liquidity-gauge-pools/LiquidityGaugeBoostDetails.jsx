@@ -46,19 +46,21 @@ export const LiquidityGaugeBoostDetails = ({ tokenValue, boost, apr }) => {
   }
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-2 mt-6 md:mt-0'>
       <div className='flex flex-row items-center gap-1'>
         <h2 className='text-lg font-semibold text-01052D'>{formatCurrency(tokenValue, router.locale, '', true, true).short} NPM/M</h2>
         <InfoTooltip infoComponent={`${formatCurrency(tokenValue, router.locale, '', true, true).long} NPM emission per block.`} className='text-[11px] px-2 py-0.75 bg-opacity-100 max-w-none' align='end'>
           <button type='button' className='cursor-default'><InfoCircleIcon className='w-4 h-4' /></button>
         </InfoTooltip>
       </div>
-      <div className='inline-flex justify-end'>
-        {checkBoost(boost)}
-      </div>
-      <div className='inline-flex justify-end'>
-        <div className='text-sm font-semibold rounded-full text-21AD8C border-[1px] border-21AD8C px-[11px] py-1'>
-          APR: {formatPercent(apr)}
+      <div className='flex flex-row md:flex-col gap-2'>
+        <div className='inline-flex justify-start md:justify-end'>
+          {checkBoost(boost)}
+        </div>
+        <div className='inline-flex justify-start md:justify-end'>
+          <div className='text-sm font-semibold rounded-full text-21AD8C border-[1px] border-21AD8C px-[11px] py-1'>
+            APR: {formatPercent(apr)}
+          </div>
         </div>
       </div>
     </div>

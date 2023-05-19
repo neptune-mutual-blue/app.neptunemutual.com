@@ -36,7 +36,7 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenName, tokenIcon, i
 
   return (
     <>
-      <div className='flex flex-row items-center justify-between'>
+      <div className='flex mt-6 md:mt-0 flex-col md:flex-row md:items-center justify-between'>
         <div className='flex flex-col gap-1'>
           <div className='text-sm text-999BAB'>
             Lockup Period:{' '}
@@ -52,24 +52,26 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenName, tokenIcon, i
           </div>
         </div>
 
-        {isLock
-          ? (
-            <button onClick={() => setModal(true)} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90 max-w-[216px] flex-auto'>
-              Lock
-            </button>
-            )
-          : (
-            <div className='flex flex-row gap-2'>
-              <button onClick={handleReceiveModal} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90  w-[156px] flex-auto'>
-                Receive
+        <div className='mt-4 md:mt-0'>
+          {isLock
+            ? (
+              <button onClick={() => setModal(true)} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90 w-full md:max-w-[216px] flex-auto'>
+                Lock
               </button>
-              <button onClick={handleAddModal} className='px-4 py-3 font-semibold tracking-wide uppercase rounded-[10px] bg-primary hover:bg-opacity-90'>
-                <AddIcon
-                  className='w-5 h-5 fill-white'
-                />
-              </button>
-            </div>
-            )}
+              )
+            : (
+              <div className='flex flex-row gap-2'>
+                <button onClick={handleReceiveModal} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90  w-[156px] flex-auto'>
+                  Receive
+                </button>
+                <button onClick={handleAddModal} className='px-4 py-3 font-semibold tracking-wide uppercase rounded-[10px] bg-primary hover:bg-opacity-90'>
+                  <AddIcon
+                    className='w-5 h-5 fill-white'
+                  />
+                </button>
+              </div>
+              )}
+        </div>
       </div>
 
       <LockModal
