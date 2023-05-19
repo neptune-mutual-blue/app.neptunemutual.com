@@ -26,15 +26,6 @@ const nextConfig = (phase) => {
       })
 
       return config
-    },
-    async redirects () {
-      return [
-        {
-          source: '/bridge',
-          destination: '/bridge/celer',
-          permanent: true
-        }
-      ]
     }
   }
 }
