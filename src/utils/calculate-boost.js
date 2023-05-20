@@ -17,7 +17,7 @@ export const calculateBoost = (expiryDuration) => {
   const _BOOST_FLOOR = 10_000
   const _BOOST_CEILING = 40_000
 
-  if (expiryDuration > 1460 * _ONE_DAY) {
+  if (expiryDuration >= 1456 * _ONE_DAY) {
     return _BOOST_CEILING
   }
 
@@ -32,4 +32,48 @@ export const calculateBoost = (expiryDuration) => {
   }
 
   return result
+}
+
+export const getBoostText = (boost) => {
+  if (boost >= 3.98) {
+    return 'Maximum'
+  }
+
+  if (boost <= 1.03) {
+    return 'Minimum'
+  }
+
+  if (boost > 3) {
+    return 'High'
+  }
+
+  if (boost >= 2 && boost <= 3) {
+    return 'Average'
+  }
+
+  if (boost < 2) {
+    return 'Low'
+  }
+}
+
+export const getBoostTextClass = (boost) => {
+  if (boost >= 3.98) {
+    return 'text-479E28'
+  }
+
+  if (boost <= 1.03) {
+    return 'text-EAAA08'
+  }
+
+  if (boost > 3) {
+    return 'text-1570EF'
+  }
+
+  if (boost >= 2 && boost <= 3) {
+    return 'text-BA24D5'
+  }
+
+  if (boost < 2) {
+    return 'text-E31B54'
+  }
 }
