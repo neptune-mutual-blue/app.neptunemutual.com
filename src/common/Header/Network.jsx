@@ -172,7 +172,7 @@ export const Network = ({ closeMenu = () => {} }) => {
 
                                 {
                                   active && (
-                                    <CheckCircleFilledIcon className='w-4 h-4' />
+                                    <CheckCircleFilledIcon className='w-4 h-4 text-4E7DD9' />
                                   )
                                 }
                               </a>
@@ -242,7 +242,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
 
                           {
                             active && (
-                              <CheckCircleFilledIcon className='w-5 h-5' />
+                              <CheckCircleFilledIcon className='w-5 h-5 text-4E7DD9' />
                             )
                           }
                         </a>
