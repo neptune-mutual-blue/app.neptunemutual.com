@@ -19,7 +19,6 @@ import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
-  toBN,
   toBNSafe
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -27,6 +26,7 @@ import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
 import { BalanceError } from '@/modules/bridge/bridge-form/DestinationBalanceError'
 import * as celerConfig from '@/src/config/bridge/celer'
+import { CELER_BRIDGE_PROTOCOL_FEE_RATE } from '@/src/config/constants'
 
 const SLIPPAGE_MULTIPLIER = 1_000_000
 const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
@@ -44,12 +44,6 @@ export const CelerBridgeModule = ({
   selectedNetworks,
   setSelectedNetworks
 }) => {
-  // const [sendAmount, setSendAmount] = useState('')
-  // const [receiverAddress, setReceiverAddress] = useState('')
-  // const [selectedNetworks, setSelectedNetworks] = useState({
-  //   network1: null,
-  //   network2: null
-  // })
   const { locale } = useRouter()
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
@@ -98,6 +92,8 @@ export const CelerBridgeModule = ({
   useEffect(() => {
     const options = networks[getNetworkInfo(networkId).isMainNet ? 'mainnet' : 'testnet']
     setSelectedNetworks((prev) => ({ ...prev, network1: options.find(x => x.chainId === parseInt(networkId)) }))
+
+    // eslint-disable-next-line
   }, [networkId])
 
   const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
@@ -140,6 +136,26 @@ export const CelerBridgeModule = ({
     convertFromUnits(
       estimation?.estimated_receive_amt || '0', destinationTokenDecimals)
     , locale, tokenSymbol, true)
+
+  const formattedProtocolFee = formatCurrency(
+    convertFromUnits(
+      toBNSafe(CELER_BRIDGE_PROTOCOL_FEE_RATE)
+        .dividedBy(100)
+        .multipliedBy(estimation?.estimated_receive_amt || '0')
+        .toString(),
+      destinationTokenDecimals
+    ),
+    locale, tokenSymbol, true
+  )
+
+  const formattedMinimumReceive = formatCurrency(
+    estimation
+      ? toBNSafe(sendAmount).minus(
+        toBNSafe(sendAmount).multipliedBy(estimation.max_slippage).dividedBy(SLIPPAGE_MULTIPLIER)
+      ).toString()
+      : '0',
+    locale, tokenSymbol, true
+  )
 
   const handleBridgeClick = async () => {
     await updateEstimation()
@@ -187,17 +203,15 @@ export const CelerBridgeModule = ({
       { key: 'Receive (estimated)', value: formattedReceiveAmount.long, bold: true, loading: estimationLoading },
       {
         key: 'Minimum Receive',
-        value: estimation
-          ? toBN(sendAmount).minus(
-            toBN(sendAmount).multipliedBy(estimation.max_slippage).dividedBy(SLIPPAGE_MULTIPLIER)
-          ).toString()
-          : '0',
-        loading: estimationLoading
+        value: formattedMinimumReceive.long,
+        loading: estimationLoading,
+        info: 'Minimum Receive amount'
       },
       {
-        key: 'Estimated Fee',
-        value: 'N/A',
-        loading: calculatingFee
+        key: 'Protocol Fee (0.05%)',
+        value: formattedProtocolFee.long,
+        loading: estimationLoading,
+        info: 'Protocol Fee amount'
       }
     ])
     // eslint-disable-next-line
