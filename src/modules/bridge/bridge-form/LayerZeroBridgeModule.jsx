@@ -32,6 +32,7 @@ import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
 
 import * as lzConfig from '@/src/config/bridge/layer-zero'
+import { LAYERZERO_BRIDGE_FEE_RATE } from '@/src/config/constants'
 
 // const SLIPPAGE_MULTIPLIER = 1_000_000
 // const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
@@ -49,12 +50,6 @@ export const LayerZeroBridgeModule = ({
   selectedNetworks,
   setSelectedNetworks
 }) => {
-  // const [sendAmount, setSendAmount] = useState('')
-  // const [receiverAddress, setReceiverAddress] = useState('')
-  // const [selectedNetworks, setSelectedNetworks] = useState({
-  //   network1: null,
-  //   network2: null
-  // })
   const { locale } = useRouter()
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
@@ -107,6 +102,7 @@ export const LayerZeroBridgeModule = ({
   useEffect(() => {
     const options = networks[getNetworkInfo(networkId).isMainNet ? 'mainnet' : 'testnet']
     setSelectedNetworks((prev) => ({ ...prev, network1: options.find(x => x.chainId === parseInt(networkId)) }))
+    // eslint-disable-next-line
   }, [networkId])
 
   const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
@@ -144,6 +140,17 @@ export const LayerZeroBridgeModule = ({
     locale,
     srcChainConfig.nativeCurrency.symbol,
     true
+  )
+
+  const formattedBridgeFee = formatCurrency(
+    convertFromUnits(
+      toBNSafe(LAYERZERO_BRIDGE_FEE_RATE)
+        .dividedBy(100)
+        .multipliedBy(estimation?.nativeFee || '0')
+        .toString(),
+      srcChainConfig.nativeCurrency.decimals
+    ),
+    locale, srcChainConfig.nativeCurrency.symbol, true
   )
 
   const handleBridgeClick = async () => {
@@ -197,11 +204,14 @@ export const LayerZeroBridgeModule = ({
       },
       {
         key: 'Minimum receive',
-        value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
+        value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short,
+        info: 'Minimum receive amount'
       },
       {
-        key: 'Receive (estimated)',
-        value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
+        key: 'Bridge Fee (0%)',
+        value: formattedBridgeFee.long,
+        loading: calculatingFee,
+        info: 'Bridge fee amount'
       }
     ])
     // eslint-disable-next-line

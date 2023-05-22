@@ -1,6 +1,6 @@
 import { CoverAvatar } from '@/common/CoverAvatar'
-import { Loader } from '@/common/Loader/Loader'
 import CheckCircleFilledIcon from '@/icons/CheckCircleFilledIcon'
+import { InfoKeyValue } from '@/modules/bridge/bridge-options/InfoKeyValue'
 import { classNames } from '@/utils/classnames'
 
 const BridgeOption = ({
@@ -44,19 +44,15 @@ const BridgeOption = ({
         <p className='mt-1 text-xs text-left text-21AD8C'>{time}</p>
         <div className='pb-2 mt-6 space-y-2 border-b border-B0C4DB'>
           {
-              infoArray.map((info, idx) => (
-                <div
-                  className={classNames(
-                    'flex justify-between',
-                    info.bold ? 'text-sm font-semibold' : 'text-xs'
-                  )}
+              infoArray.map((item, idx) => (
+                <InfoKeyValue
                   key={idx}
-                >
-                  <p>{info.key}</p>
-                  {
-                info.loading ? <Loader className='w-4.5 h-4.5' /> : <p>{info.value}</p>
-              }
-                </div>
+                  dataKey={item.key}
+                  dataValue={item.value}
+                  bold={item.bold}
+                  loading={item.loading}
+                  info={item.info}
+                />
               ))
             }
         </div>

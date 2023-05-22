@@ -9,6 +9,9 @@ export const GAS_MARGIN_MULTIPLIER = 1.5
 
 export const DEBOUNCE_TIMEOUT = 400
 
+export const CELER_BRIDGE_PROTOCOL_FEE_RATE = 0.05
+export const LAYERZERO_BRIDGE_FEE_RATE = 0
+
 export const VoteEscrowContractAddresses = {
   84531: '0x9Cfef27aC2Bed8689B89De0Ad7B30B02f5F45f9A'
 }
