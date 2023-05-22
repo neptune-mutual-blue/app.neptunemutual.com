@@ -1,13 +1,12 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { RegularButton } from '@/common/Button/RegularButton'
-import { Container } from '@/common/Container/Container'
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
 import { AddressInput } from '@/modules/bridge/bridge-form/AddressInput'
@@ -15,10 +14,8 @@ import {
   DestinationBalanceError,
   useBalance
 } from '@/modules/bridge/bridge-form/DestinationBalanceError'
-import { InfoPanel } from '@/modules/bridge/bridge-form/InfoPanel'
 import { NetworkSelect } from '@/modules/bridge/bridge-form/NetworkSelect'
 import { TransferAmountInput } from '@/modules/bridge/bridge-form/TransferAmountInput'
-import { WalletNotConnected } from '@/modules/bridge/bridge-form/WalletNotConnected'
 import { LayerZeroChainIds } from '@/src/config/bridge/layer-zero'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
@@ -34,21 +31,48 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
 
+import * as lzConfig from '@/src/config/bridge/layer-zero'
+
 // const SLIPPAGE_MULTIPLIER = 1_000_000
 // const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
 
-export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenSymbol, filteredNetworks }) => {
-  const [sendAmount, setSendAmount] = useState('')
-  const [receiverAddress, setReceiverAddress] = useState('')
-  const [selectedNetworks, setSelectedNetworks] = useState({
-    network1: null,
-    network2: null
-  })
-  const [estimation, setEstimation] = useState(null)
-
+export const LayerZeroBridgeModule = ({
+  setButtonText,
+  setButtonDisabled,
+  btnClickValue,
+  setInfoArray,
+  selectedBridge,
+  sendAmount,
+  setSendAmount,
+  receiverAddress,
+  setReceiverAddress,
+  selectedNetworks,
+  setSelectedNetworks
+}) => {
+  // const [sendAmount, setSendAmount] = useState('')
+  // const [receiverAddress, setReceiverAddress] = useState('')
+  // const [selectedNetworks, setSelectedNetworks] = useState({
+  //   network1: null,
+  //   network2: null
+  // })
   const { locale } = useRouter()
   const { networkId } = useNetwork()
-  const { active, account } = useWeb3React()
+  const { account } = useWeb3React()
+  const { isTestNet } = getNetworkInfo(networkId)
+
+  const tokenData = isTestNet ? lzConfig.TESTNET_TOKENS : lzConfig.MAINNET_TOKENS
+  const tokenSymbol = 'NPM'
+
+  const filteredNetworks = useMemo(() => {
+    const _networks = isTestNet ? networks.testnet : networks.mainnet
+    const filtered = _networks
+      .filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
+
+    return filtered
+  }, [isTestNet, tokenData])
+  const bridgeContractAddress = lzConfig.BRIDGE_CONTRACTS[networkId]
+
+  const [estimation, setEstimation] = useState(null)
 
   const sourceTokenAddress = tokenData[networkId].address
   const sourceTokenDecimals = tokenData[networkId].decimal
@@ -148,98 +172,99 @@ export const LayerZeroBridgeModule = ({ bridgeContractAddress, tokenData, tokenS
     (canBridge && receiverAddress && !isValidAddress) ||
     convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
 
+  useEffect(() => {
+    if (selectedBridge !== 'layer-zero') return
+
+    setButtonText(canBridge ? 'Bridge' : `Approve ${tokenSymbol}`)
+    setButtonDisabled(buttonDisabled)
+    // eslint-disable-next-line
+    }, [canBridge, tokenSymbol, buttonDisabled, selectedBridge])
+
+  useEffect(() => {
+    if (selectedBridge !== 'layer-zero') return
+
+    if (btnClickValue) handleBridgeClick()
+    // eslint-disable-next-line
+  }, [btnClickValue, selectedBridge])
+
+  useEffect(() => {
+    setInfoArray([
+      {
+        key: 'Estimated Fee',
+        value: formattedNativeFee.long,
+        loading: calculatingFee,
+        bold: true
+      },
+      {
+        key: 'Minimum receive',
+        value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
+      },
+      {
+        key: 'Receive (estimated)',
+        value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
+      }
+    ])
+    // eslint-disable-next-line
+  }, [calculatingFee, formattedNativeFee.long, sendAmount, tokenSymbol])
+
+  if (selectedBridge !== 'layer-zero') return <></>
+
   return (
-    <Container className='pb-16 mt-8'>
-      <div className='p-8 mx-auto bg-white border border-B0C4DB rounded-2xl max-w-450'>
-        <h1 className='font-semibold text-display-xs'>LayerZero Bridge</h1>
+    <div className='flex-grow p-8 max-w-450'>
+      <h1 className='font-semibold text-display-xs'>LayerZero Bridge</h1>
+
+      <div className='relative mt-4'>
+        <TransferAmountInput
+          balance={balance}
+          tokenDecimals={sourceTokenDecimals}
+          tokenSymbol={tokenSymbol}
+          value={sendAmount}
+          onChange={(val) => setSendAmount(val)}
+        />
+
+        <AddressInput
+          value={receiverAddress}
+          onChange={setReceiverAddress}
+          className='mt-2.5'
+          placeholder="Enter Receiver's Wallet Address"
+        />
 
         <div className='relative mt-4'>
-          <TransferAmountInput
-            balance={balance}
-            tokenDecimals={sourceTokenDecimals}
-            tokenSymbol={tokenSymbol}
-            value={sendAmount}
-            onChange={(val) => setSendAmount(val)}
+
+          <NetworkSelect
+            label='From'
+            selected={selectedNetworks.network1}
+            defaultChain={parseInt(networkId)}
+            onChange={() => {}}
+            disabled
           />
 
-          <AddressInput
-            value={receiverAddress}
-            onChange={setReceiverAddress}
+          <i className='absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full top-1/2 left-1/2'>
+            <DownArrow className='w-5 h-5 text-4E7DD9' />
+          </i>
+
+          <NetworkSelect
+            label='To'
             className='mt-2.5'
-            placeholder="Enter Receiver's Wallet Address"
+            selected={selectedNetworks.network2}
+            options={filteredNetworks.filter(n => n.chainId.toString() !== networkId.toString())}
+            onChange={(val) =>
+              setSelectedNetworks((prev) => ({ ...prev, network2: val }))}
           />
-
-          <div className='relative mt-4'>
-
-            <NetworkSelect
-              label='From'
-              selected={selectedNetworks.network1}
-              defaultChain={parseInt(networkId)}
-              onChange={() => {}}
-              disabled
-            />
-
-            <i className='absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full top-1/2 left-1/2'>
-              <DownArrow className='w-5 h-5 text-4E7DD9' />
-            </i>
-
-            <NetworkSelect
-              label='To'
-              className='mt-2.5'
-              selected={selectedNetworks.network2}
-              options={filteredNetworks.filter(n => n.chainId.toString() !== networkId.toString())}
-              onChange={(val) =>
-                setSelectedNetworks((prev) => ({ ...prev, network2: val }))}
-            />
-          </div>
-
-          <InfoPanel
-            className='mt-4'
-            infoArray={[
-              {
-                key: 'Estimated Fee',
-                value: formattedNativeFee.long,
-                loading: calculatingFee,
-                bold: true
-              },
-              {
-                key: 'Minimum receive',
-                value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
-              },
-              {
-                key: 'Receive (estimated)',
-                value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short
-              }
-            ]}
-          />
-
-          <DestinationBalanceError
-            tokenSymbol={tokenSymbol}
-            tokenDecimals={destinationTokenDecimals}
-            balance={destinationBalance}
-            transferAmount={sendAmount ? convertToUnits(sendAmount, sourceTokenDecimals).toString() : ''}
-            className='mt-4'
-          />
-
-          {!active && (
-            <div className='absolute inset-0 w-full h-full bg-white bg-opacity-50' />
-          )}
         </div>
 
-        {!active
-          ? (
-            <WalletNotConnected className='mt-4' />
-            )
-          : (
-            <RegularButton
-              className='w-full p-4 mt-4 font-semibold uppercase rounded-big text-md'
-              onClick={handleBridgeClick}
-              disabled={buttonDisabled}
-            >
-              {canBridge ? 'Bridge' : `Approve ${tokenSymbol}`}
-            </RegularButton>
-            )}
+        <DestinationBalanceError
+          tokenSymbol={tokenSymbol}
+          tokenDecimals={destinationTokenDecimals}
+          balance={destinationBalance}
+          transferAmount={sendAmount ? convertToUnits(sendAmount, sourceTokenDecimals).toString() : ''}
+          className='mt-4'
+        />
+
+        {/* {!active && (
+          <div className='absolute inset-0 w-full h-full bg-white bg-opacity-50' />
+        )} */}
       </div>
-    </Container>
+    </div>
   )
 }
