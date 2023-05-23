@@ -27,6 +27,8 @@ import { useWeb3React } from '@web3-react/core'
 import { BalanceError } from '@/modules/bridge/bridge-form/DestinationBalanceError'
 import * as celerConfig from '@/src/config/bridge/celer'
 import { CELER_BRIDGE_PROTOCOL_FEE_RATE } from '@/src/config/constants'
+import { chains } from '@/lib/connect-wallet/config/chains'
+import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 
 const SLIPPAGE_MULTIPLIER = 1_000_000
 const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
@@ -42,7 +44,10 @@ export const CelerBridgeModule = ({
   receiverAddress,
   setReceiverAddress,
   selectedNetworks,
-  setSelectedNetworks
+  setSelectedNetworks,
+  conversionRates,
+  setTotalPriceInUsd,
+  setDelayPeriod
 }) => {
   const { locale } = useRouter()
   const { networkId } = useNetwork()
@@ -63,7 +68,6 @@ export const CelerBridgeModule = ({
   const bridgeContractAddress = celerConfig.BRIDGE_CONTRACTS[networkId]
 
   const [estimation, setEstimation] = useState(null)
-  const [estimationLoading, setEstimationLoading] = useState(false)
   const [balanceError, setBalanceError] = useState('')
 
   const sourceTokenAddress = tokenData[networkId].address
@@ -80,8 +84,11 @@ export const CelerBridgeModule = ({
     handleBridge,
     approving,
     bridging,
-    getEstimation,
-    estimating: calculatingFee
+    getEstimatedReceiveAmount,
+    estimating: calculatingFee,
+    getEstimatedCurrentChainGas,
+    delayPeriod,
+    chainGasPrice
   } = useCelerBridge({
     bridgeContractAddress,
     tokenAddress: sourceTokenAddress,
@@ -101,10 +108,11 @@ export const CelerBridgeModule = ({
   const destChainId = selectedNetworks?.network2?.chainId
   const _receiverAddress = receiverAddress || account
 
+  const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
+
   const updateEstimation = useCallback(async function () {
     setBalanceError('')
-    setEstimationLoading(true)
-    const _estimation = await getEstimation(
+    const _estimation = await getEstimatedReceiveAmount(
       debouncedAmount,
       _receiverAddress,
       srcChainId,
@@ -113,7 +121,11 @@ export const CelerBridgeModule = ({
     )
     if (_estimation?.err) setBalanceError(_estimation.err.msg)
     else setEstimation(_estimation)
-    setEstimationLoading(false)
+
+    const fees = await getEstimatedCurrentChainGas(
+      convertToUnits(sendAmount, sourceTokenDecimals).toString()
+    )
+    if (fees) setEstimation(_prev => ({ ..._prev, currentChainGas: fees }))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_receiverAddress, debouncedAmount, destChainId, srcChainId])
@@ -132,35 +144,11 @@ export const CelerBridgeModule = ({
     convertToUnits(sendAmount, sourceTokenDecimals).isLessThanOrEqualTo(allowance)
 
   const isValidAddress = isAddress(receiverAddress || account)
-  const formattedReceiveAmount = formatCurrency(
-    convertFromUnits(
-      estimation?.estimated_receive_amt || '0', destinationTokenDecimals)
-    , locale, tokenSymbol, true)
-
-  const formattedProtocolFee = formatCurrency(
-    convertFromUnits(
-      toBNSafe(CELER_BRIDGE_PROTOCOL_FEE_RATE)
-        .dividedBy(100)
-        .multipliedBy(estimation?.estimated_receive_amt || '0')
-        .toString(),
-      destinationTokenDecimals
-    ),
-    locale, tokenSymbol, true
-  )
-
-  const formattedMinimumReceive = formatCurrency(
-    estimation
-      ? toBNSafe(sendAmount).minus(
-        toBNSafe(sendAmount).multipliedBy(estimation.max_slippage).dividedBy(SLIPPAGE_MULTIPLIER)
-      ).toString()
-      : '0',
-    locale, tokenSymbol, true
-  )
 
   const handleBridgeClick = async () => {
-    await updateEstimation()
-
     if (canBridge) {
+      await updateEstimation()
+
       await handleBridge(
         convertToUnits(sendAmount, sourceTokenDecimals).toString(),
         selectedNetworks.network2,
@@ -181,6 +169,7 @@ export const CelerBridgeModule = ({
     !(canApprove || canBridge) ||
     approving ||
     bridging ||
+    calculatingFee ||
     (canBridge && receiverAddress && !isValidAddress)
 
   useEffect(() => {
@@ -199,29 +188,95 @@ export const CelerBridgeModule = ({
   }, [btnClickValue, selectedBridge])
 
   useEffect(() => {
+    setDelayPeriod(delayPeriod)
+    // eslint-disable-next-line
+  }, [delayPeriod])
+
+  useEffect(() => {
+    const formattedReceiveAmount = formatCurrency(
+      convertFromUnits(
+        estimation?.estimated_receive_amt || '0', destinationTokenDecimals)
+      , locale, tokenSymbol, true)
+
+    const formattedProtocolFee = formatCurrency(
+      toBNSafe(CELER_BRIDGE_PROTOCOL_FEE_RATE)
+        .dividedBy(100)
+        .multipliedBy(sendAmount || '0')
+        .toString(),
+      locale, tokenSymbol, true
+    )
+    const formattedCurrentChainGas = formatCurrency(
+      convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals),
+      locale,
+      srcChainConfig.nativeCurrency.symbol,
+      true
+    )
+
+    const formattedBaseFee = formatCurrency(
+      convertFromUnits(
+        estimation?.base_fee || '0', destinationTokenDecimals)
+      , locale, tokenSymbol, true)
+
+    const totalPrice = getSumInDollars({
+      rates: conversionRates,
+      amounts: [
+        {
+          token: srcChainConfig.nativeCurrency.symbol,
+          value: convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals).toString(),
+          decimals: srcChainConfig.nativeCurrency.decimals
+        },
+        {
+          token: tokenSymbol,
+          value: convertFromUnits(estimation?.base_fee || '0', destinationTokenDecimals).toString(),
+          decimals: destinationTokenDecimals
+        },
+        {
+          token: tokenSymbol,
+          value: toBNSafe(CELER_BRIDGE_PROTOCOL_FEE_RATE)
+            .dividedBy(100)
+            .multipliedBy(sendAmount || '0')
+            .toString(),
+          decimals: destinationTokenDecimals
+        }
+      ]
+    })
+    setTotalPriceInUsd(totalPrice)
+
+    const formattedChainGasPriceInGwei = formatCurrency(
+      convertFromUnits(chainGasPrice, 9),
+      locale,
+      'Gwei',
+      true
+    )
+
     setInfoArray([
-      { key: 'Receive (estimated)', value: formattedReceiveAmount.long, bold: true, loading: estimationLoading },
+      { key: 'Receive (estimated)', value: formattedReceiveAmount.short, bold: true, loading: calculatingFee },
       {
-        key: 'Minimum Receive',
-        value: formattedMinimumReceive.long,
-        loading: estimationLoading,
-        info: 'Minimum Receive amount'
+        key: `Current Chain Gas Fee (${formattedChainGasPriceInGwei.short})`,
+        value: formattedCurrentChainGas.short,
+        loading: calculatingFee,
+        info: 'Estimated Gas fee for current chain'
+      },
+      {
+        key: 'Base Fee',
+        value: formattedBaseFee.short,
+        loading: calculatingFee,
+        info: 'Estimated base fee'
       },
       {
         key: 'Protocol Fee (0.05%)',
-        value: formattedProtocolFee.long,
-        loading: estimationLoading,
+        value: formattedProtocolFee.short,
         info: 'Protocol Fee amount'
       }
     ])
     // eslint-disable-next-line
-  }, [calculatingFee, estimation, estimationLoading, formattedReceiveAmount.long, sendAmount])
+  }, [calculatingFee, chainGasPrice, destinationTokenDecimals, estimation, locale, srcChainConfig, tokenSymbol, conversionRates, sendAmount])
 
   if (selectedBridge && selectedBridge !== 'celer') return <></>
 
   return (
-    <div className='flex-grow p-8 max-w-450'>
-      <h1 className='font-semibold text-display-xs'>Celer Bridge</h1>
+    <div className='flex-grow p-4 lg:p-8 lg:max-w-450'>
+      <h1 className='text-xl font-semibold lg:text-display-xs'>Celer Bridge</h1>
 
       <div className='relative mt-4'>
         <TransferAmountInput

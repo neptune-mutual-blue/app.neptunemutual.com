@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState
 } from 'react'
@@ -16,10 +17,11 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, toBNSafe } from '@/utils/bn'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
+import { GAS_LIMIT_WITHOUT_APPROVAL, GAS_LIMIT_WITH_APPROVAL } from '@/src/config/bridge/layer-zero'
 
 const ABI = [
   'function estimateSendFee(uint16 _dstChainId, bytes calldata _toAddress, uint _amount, bool _useZro, bytes calldata _adapterParams) external view returns (uint nativeFee, uint zroFee)',
@@ -41,6 +43,22 @@ const useLayerZeroBridge = ({
 
   const { networkId } = useNetwork()
   const { library, account } = useWeb3React()
+
+  const [chainGasPrice, setChainGasPrice] = useState('0')
+
+  const getAndUpdateChainGasPrice = useCallback(async () => {
+    if (!library) return '0'
+
+    try {
+      const _gasPrice = await library.getGasPrice()
+      setChainGasPrice(_gasPrice.toString())
+      return _gasPrice.toString()
+    } catch (e) {
+      console.error(`Error in getting current chain gas Price: ${e}`)
+    }
+
+    return '0'
+  }, [library])
 
   useEffect(() => {
     refetch(bridgeContractAddress)
@@ -131,7 +149,7 @@ const useLayerZeroBridge = ({
     }
   }
 
-  const getEstimation = async (
+  const getEstimatedDestGas = async (
     sendAmount,
     receiverAddress,
     destChainId
@@ -167,6 +185,23 @@ const useLayerZeroBridge = ({
     }
 
     return null
+  }
+
+  const getEstimatedCurrentChainGas = async (sendAmount) => {
+    let fees = '0'
+
+    try {
+      const _chainGasPrice = await getAndUpdateChainGasPrice()
+      const approved = toBNSafe(allowance).isGreaterThanOrEqualTo(sendAmount)
+      const limit = approved ? GAS_LIMIT_WITH_APPROVAL : GAS_LIMIT_WITHOUT_APPROVAL
+      if (limit) {
+        fees = toBNSafe(_chainGasPrice).multipliedBy(limit).toString()
+      }
+    } catch (error) {
+      console.error(`Error in getting gas limit for 'sendFrom' method: ${error}`)
+    }
+
+    return fees
   }
 
   const handleBridge = async (sendAmount, dstChainId, receiverAddress) => {
@@ -266,7 +301,7 @@ const useLayerZeroBridge = ({
           args.adapterParams // _adapterParam
         ],
         overrides: {
-          value: (await getEstimation(args.amount, args.toAddress, args.dstChainId)).nativeFee
+          value: (await getEstimatedDestGas(args.amount, args.toAddress, args.dstChainId)).nativeFee
         },
         onTransactionResult,
         onRetryCancel,
@@ -286,8 +321,10 @@ const useLayerZeroBridge = ({
     handleBridge,
     bridging,
     allowance,
-    getEstimation,
-    estimating
+    getEstimatedDestGas,
+    estimating,
+    getEstimatedCurrentChainGas,
+    chainGasPrice
   }
 }
 

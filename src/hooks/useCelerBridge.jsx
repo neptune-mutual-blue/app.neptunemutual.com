@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState
 } from 'react'
@@ -21,10 +22,12 @@ import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
 import { convertFromUnits, toBNSafe } from '@/utils/bn'
 import { getNetworkInfo } from '@/utils/network'
-import { getFeeEstimationUrl } from '@/src/config/bridge/celer'
+import { GAS_LIMIT_WITHOUT_APPROVAL, GAS_LIMIT_WITH_APPROVAL, getAmountEstimationUrl } from '@/src/config/bridge/celer'
+import { contractRead } from '@/src/services/readContract'
 
 const ABI = [
-  'function send(address receiver, address token, uint256 amount, uint64 dstChainId, uint64 nonce, uint32 maxSlippage) external'
+  { inputs: [], name: 'delayPeriod', outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }], stateMutability: 'view', type: 'function' },
+  { inputs: [{ internalType: 'address', name: '_receiver', type: 'address' }, { internalType: 'address', name: '_token', type: 'address' }, { internalType: 'uint256', name: '_amount', type: 'uint256' }, { internalType: 'uint64', name: '_dstChainId', type: 'uint64' }, { internalType: 'uint64', name: '_nonce', type: 'uint64' }, { internalType: 'uint32', name: '_maxSlippage', type: 'uint32' }], name: 'send', outputs: [], stateMutability: 'nonpayable', type: 'function' }
 ]
 
 const METHOD_NAME = 'send'
@@ -37,7 +40,9 @@ const useCelerBridge = ({
 }) => {
   const [approving, setApproving] = useState(false)
   const [bridging, setBridging] = useState(false)
-  const [estimating, setCalculatingFee] = useState(false)
+  const [estimating, setEstimating] = useState(false)
+
+  const [delayPeriod, setDelayPeriod] = useState('5 - 20 minutes')
 
   const { balance, refetch: refetchBalance } = useERC20Balance(tokenAddress)
   const { allowance, approve, refetch } = useERC20Allowance(tokenAddress)
@@ -47,9 +52,54 @@ const useCelerBridge = ({
 
   const { isTestNet } = getNetworkInfo(networkId)
 
+  const [chainGasPrice, setChainGasPrice] = useState('0')
+
+  const getAndUpdateChainGasPrice = useCallback(async () => {
+    if (!library) return '0'
+
+    try {
+      const _gasPrice = await library.getGasPrice()
+      setChainGasPrice(_gasPrice.toString())
+      return _gasPrice.toString()
+    } catch (e) {
+      console.error(`Error in getting current chain gas Price: ${e}`)
+    }
+
+    return '0'
+  }, [library])
+
+  useEffect(() => {
+    getAndUpdateChainGasPrice()
+  }, [getAndUpdateChainGasPrice])
+
   useEffect(() => {
     refetch(bridgeContractAddress)
   }, [refetch, bridgeContractAddress])
+
+  useEffect(() => {
+    if (!account || !networkId || !library) return
+
+    async function getDelay () {
+      try {
+        const provider = getProviderOrSigner(library, account, networkId)
+        const instance = new Contract(bridgeContractAddress, ABI, provider)
+
+        const delay = await contractRead({
+          instance,
+          methodName: 'delayPeriod'
+        })
+
+        if (!delay.isZero()) {
+          const time = `up to ${Number(delay.toString()) / (60)} minute(s)`
+          setDelayPeriod(time)
+        }
+      } catch (err) {
+        console.error('Error in getting delayPeriod')
+      }
+    }
+
+    getDelay()
+  }, [account, library, networkId, bridgeContractAddress])
 
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
@@ -136,7 +186,7 @@ const useCelerBridge = ({
     }
   }
 
-  const getEstimation = async (
+  const getEstimatedReceiveAmount = async (
     sendAmount,
     receiverAddress,
     srcChainId,
@@ -150,8 +200,8 @@ const useCelerBridge = ({
     }
 
     try {
-      setCalculatingFee(true)
-      const URL = getFeeEstimationUrl({
+      setEstimating(true)
+      const URL = getAmountEstimationUrl({
         isTest: isTestNet,
         srcChainId,
         destChainId,
@@ -168,10 +218,27 @@ const useCelerBridge = ({
     } catch (err) {
       handleError(err)
     } finally {
-      setCalculatingFee(false)
+      setEstimating(false)
     }
 
     return null
+  }
+
+  const getEstimatedCurrentChainGas = async (sendAmount) => {
+    let fees = '0'
+
+    try {
+      const _chainGasPrice = await getAndUpdateChainGasPrice()
+      const approved = toBNSafe(allowance).isGreaterThanOrEqualTo(sendAmount)
+      const limit = approved ? GAS_LIMIT_WITH_APPROVAL : GAS_LIMIT_WITHOUT_APPROVAL
+      if (limit) {
+        fees = toBNSafe(_chainGasPrice).multipliedBy(limit).toString()
+      }
+    } catch (error) {
+      console.error(error)
+    }
+
+    return fees
   }
 
   const handleBridge = async (sendAmount, dstNetwork, receiverAddress, maxSlippage) => {
@@ -287,8 +354,11 @@ const useCelerBridge = ({
     handleBridge,
     bridging,
     allowance,
-    getEstimation,
-    estimating
+    getEstimatedReceiveAmount,
+    estimating,
+    getEstimatedCurrentChainGas,
+    chainGasPrice,
+    delayPeriod
   }
 }
 
