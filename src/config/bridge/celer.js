@@ -145,8 +145,11 @@ export const MAINNET_NPM_BRIDGE_TOKENS = {
   }
 }
 
-export const getFeeEstimationUrl = ({ isTest = false, srcChainId, destChainId, tokenSymbol, sendAmount, receiverAddress, slippage }) => {
+export const getAmountEstimationUrl = ({ isTest = false, srcChainId, destChainId, tokenSymbol, sendAmount, receiverAddress, slippage }) => {
   const base = isTest ? 'https://cbridge-v2-test.celer.network' : 'https://cbridge-prod2.celer.app'
 
   return `${base}/v2/estimateAmt?src_chain_id=${srcChainId}&dst_chain_id=${destChainId}&token_symbol=${tokenSymbol}&amt=${sendAmount}&usr_addr=${receiverAddress}&slippage_tolerance=${slippage}`
 }
+
+export const GAS_LIMIT_WITHOUT_APPROVAL = 350_000
+export const GAS_LIMIT_WITH_APPROVAL = 300_000

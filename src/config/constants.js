@@ -102,6 +102,9 @@ export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
 export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 
+export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
+export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
+
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',

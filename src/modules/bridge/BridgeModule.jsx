@@ -1,4 +1,5 @@
 import { BridgeOptions } from '@/modules/bridge/bridge-options/BridgeOptions'
+import { BRIDGE_ETH_PRICING_URL, BRIDGE_NPM_PRICING_URL } from '@/src/config/constants'
 import { useEffect, useState } from 'react'
 
 const { Container } = require('@/common/Container/Container')
@@ -19,8 +20,32 @@ const BridgeModule = () => {
   })
   const [selectedBridge, setSelectedBridge] = useState('')
 
+  const [conversionRates, setConversionRates] = useState({ NPM: '1', ETH: '1' })
+  const [totalPriceInUsd, setTotalPriceInUsd] = useState({ celer: '0', 'layer-zero': '0' })
+  const [celerDelay, setCelerDelay] = useState('0')
+
+  useEffect(() => {
+    const makeCalls = async () => {
+      try {
+        const requests = [
+          fetch(BRIDGE_ETH_PRICING_URL),
+          fetch(BRIDGE_NPM_PRICING_URL)
+        ]
+        const [ethResponse, npmResponse] = await Promise.all(requests)
+        const [ethData, npmData] = await Promise.all([ethResponse.json(), npmResponse.json()])
+
+        setConversionRates({ ETH: ethData.data || '1', NPM: npmData.data || '1' })
+      } catch (e) {
+        console.error('Error in fetching bridge price')
+      }
+    }
+
+    makeCalls()
+  }, [])
+
   useEffect(() => {
     setSelectedNetworks(prev => ({ ...prev, network2: null }))
+    setBtnClickValue(0)
   }, [selectedBridge])
 
   const props = {
@@ -33,20 +58,24 @@ const BridgeModule = () => {
     receiverAddress,
     setReceiverAddress,
     selectedNetworks,
-    setSelectedNetworks
+    setSelectedNetworks,
+    conversionRates
   }
 
   return (
     <Container className='pt-20 pb-72'>
-      <div className='flex mx-auto bg-white border divide-x divide-B0C4DB border-B0C4DB rounded-2xl'>
+      <div className='flex flex-col mx-auto bg-white border lg:divide-x divide-B0C4DB border-B0C4DB rounded-2xl lg:flex-row'>
         <CelerBridgeModule
           {...props}
           setInfoArray={(infoArray) => setInfoData(prev => ({ ...prev, celer: infoArray }))}
+          setTotalPriceInUsd={price => setTotalPriceInUsd(prev => ({ ...prev, celer: price }))}
+          setDelayPeriod={(delay) => setCelerDelay(delay)}
         />
 
         <LayerZeroBridgeModule
           {...props}
           setInfoArray={(infoArray) => setInfoData(prev => ({ ...prev, 'layer-zero': infoArray }))}
+          setTotalPriceInUsd={price => setTotalPriceInUsd(prev => ({ ...prev, 'layer-zero': price }))}
         />
 
         <BridgeOptions
@@ -56,6 +85,8 @@ const BridgeModule = () => {
           buttonDisabled={buttonDisabled}
           setBtnClickValue={setBtnClickValue}
           infoData={infoData}
+          totalPriceInUsd={totalPriceInUsd}
+          celerDelay={celerDelay}
         />
       </div>
     </Container>

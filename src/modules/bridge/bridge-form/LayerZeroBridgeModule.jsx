@@ -32,7 +32,7 @@ import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
 
 import * as lzConfig from '@/src/config/bridge/layer-zero'
-import { LAYERZERO_BRIDGE_FEE_RATE } from '@/src/config/constants'
+import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 
 // const SLIPPAGE_MULTIPLIER = 1_000_000
 // const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
@@ -48,7 +48,9 @@ export const LayerZeroBridgeModule = ({
   receiverAddress,
   setReceiverAddress,
   selectedNetworks,
-  setSelectedNetworks
+  setSelectedNetworks,
+  conversionRates,
+  setTotalPriceInUsd
 }) => {
   const { locale } = useRouter()
   const { networkId } = useNetwork()
@@ -90,8 +92,10 @@ export const LayerZeroBridgeModule = ({
     handleBridge,
     approving,
     bridging,
-    getEstimation,
-    estimating: calculatingFee
+    getEstimatedDestGas,
+    estimating: calculatingFee,
+    getEstimatedCurrentChainGas,
+    chainGasPrice
   } = useLayerZeroBridge({
     bridgeContractAddress,
     tokenAddress: sourceTokenAddress,
@@ -108,12 +112,17 @@ export const LayerZeroBridgeModule = ({
   const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
 
   const updateEstimation = useCallback(async function () {
-    const _estimation = await getEstimation(
+    const _estimation = await getEstimatedDestGas(
       debouncedAmount,
       _receiverAddress,
       LayerZeroChainIds[destChainId]
     )
     setEstimation(_estimation)
+
+    const currentChainGas = await getEstimatedCurrentChainGas(
+      convertToUnits(sendAmount, sourceTokenDecimals).toString()
+    )
+    if (currentChainGas) setEstimation(_prev => ({ ..._prev, currentChainGas }))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_receiverAddress, debouncedAmount, destChainId])
@@ -135,28 +144,10 @@ export const LayerZeroBridgeModule = ({
 
   const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
 
-  const formattedNativeFee = formatCurrency(
-    convertFromUnits(estimation?.nativeFee || '0', srcChainConfig.nativeCurrency.decimals),
-    locale,
-    srcChainConfig.nativeCurrency.symbol,
-    true
-  )
-
-  const formattedBridgeFee = formatCurrency(
-    convertFromUnits(
-      toBNSafe(LAYERZERO_BRIDGE_FEE_RATE)
-        .dividedBy(100)
-        .multipliedBy(estimation?.nativeFee || '0')
-        .toString(),
-      srcChainConfig.nativeCurrency.decimals
-    ),
-    locale, srcChainConfig.nativeCurrency.symbol, true
-  )
-
   const handleBridgeClick = async () => {
-    await updateEstimation()
-
     if (canBridge) {
+      await updateEstimation()
+
       await handleBridge(
         convertToUnits(sendAmount, sourceTokenDecimals).toString(),
         LayerZeroChainIds[destChainId],
@@ -176,6 +167,7 @@ export const LayerZeroBridgeModule = ({
     !(canApprove || canBridge) ||
     approving ||
     bridging ||
+    calculatingFee ||
     (canBridge && receiverAddress && !isValidAddress) ||
     convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
 
@@ -195,33 +187,84 @@ export const LayerZeroBridgeModule = ({
   }, [btnClickValue, selectedBridge])
 
   useEffect(() => {
+    const formattedReceiveAmount = formatCurrency(sendAmount, locale, tokenSymbol, true)
+
+    const formattedChainGasPriceInGwei = formatCurrency(
+      convertFromUnits(chainGasPrice, 9),
+      locale,
+      'Gwei',
+      true
+    )
+
+    const formattedNativeFee = formatCurrency(
+      convertFromUnits(estimation?.nativeFee || '0', srcChainConfig.nativeCurrency.decimals),
+      locale,
+      srcChainConfig.nativeCurrency.symbol,
+      true
+    )
+
+    const formattedCurrentGasChainPrice = formatCurrency(
+      convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals),
+      locale,
+      srcChainConfig.nativeCurrency.symbol,
+      true
+    )
+
+    const totalPrice = getSumInDollars({
+      rates: conversionRates,
+      amounts: [
+        {
+          token: srcChainConfig.nativeCurrency.symbol,
+          value: convertFromUnits(estimation?.nativeFee || '0', srcChainConfig.nativeCurrency.decimals).toString(),
+          decimals: srcChainConfig.nativeCurrency.decimals
+        },
+        {
+          token: srcChainConfig.nativeCurrency.symbol,
+          value: convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals).toString(),
+          decimals: srcChainConfig.nativeCurrency.decimals
+        },
+        {
+          token: srcChainConfig.nativeCurrency.symbol,
+          value: 0,
+          decimals: destinationTokenDecimals
+        }
+      ]
+    })
+
+    setTotalPriceInUsd(totalPrice)
+
     setInfoArray([
       {
-        key: 'Estimated Fee',
-        value: formattedNativeFee.long,
-        loading: calculatingFee,
+        key: 'Receive (estimated)',
+        value: formattedReceiveAmount.short,
         bold: true
       },
       {
-        key: 'Minimum receive',
-        value: formatCurrency(sendAmount, 'en', tokenSymbol, true).short,
-        info: 'Minimum receive amount'
+        key: `Current Chain Gas Fee (${formattedChainGasPriceInGwei.short})`,
+        value: formattedCurrentGasChainPrice.short,
+        loading: calculatingFee,
+        info: 'Estimated gas fee for current chain'
+      },
+      {
+        key: 'Destination Chain Gas Fee',
+        value: formattedNativeFee.short,
+        loading: calculatingFee,
+        info: 'Estimated gas fee for destination chain'
       },
       {
         key: 'Bridge Fee (0%)',
-        value: formattedBridgeFee.long,
-        loading: calculatingFee,
+        value: 0,
         info: 'Bridge fee amount'
       }
     ])
     // eslint-disable-next-line
-  }, [calculatingFee, formattedNativeFee.long, sendAmount, tokenSymbol])
+  }, [calculatingFee, sendAmount, tokenSymbol, chainGasPrice, estimation, locale, srcChainConfig])
 
   if (selectedBridge !== 'layer-zero') return <></>
 
   return (
-    <div className='flex-grow p-8 max-w-450'>
-      <h1 className='font-semibold text-display-xs'>LayerZero Bridge</h1>
+    <div className='flex-grow p-4 lg:p-8 lg:max-w-450'>
+      <h1 className='text-xl font-semibold lg:text-display-xs'>LayerZero Bridge</h1>
 
       <div className='relative mt-4'>
         <TransferAmountInput
