@@ -52,7 +52,6 @@ const BridgeModule = () => {
 
   useEffect(() => {
     setSelectedNetworks(prev => ({ ...prev, network2: null }))
-    setBtnClickValue(0)
   }, [selectedBridge])
 
   const props = {
@@ -87,7 +86,10 @@ const BridgeModule = () => {
 
         <BridgeOptions
           selectedBridge={selectedBridge}
-          setSelectedBridge={setSelectedBridge}
+          setSelectedBridge={(bridge) => {
+            setBtnClickValue(0)
+            setSelectedBridge(bridge)
+          }}
           buttonText={buttonText}
           buttonDisabled={buttonDisabled}
           setBtnClickValue={setBtnClickValue}
