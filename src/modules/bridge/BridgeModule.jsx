@@ -1,6 +1,13 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { BridgeOptions } from '@/modules/bridge/bridge-options/BridgeOptions'
-import { BRIDGE_ETH_PRICING_URL, BRIDGE_NPM_PRICING_URL } from '@/src/config/constants'
-import { useEffect, useState } from 'react'
+import {
+  BRIDGE_ETH_PRICING_URL,
+  BRIDGE_NPM_PRICING_URL
+} from '@/src/config/constants'
 
 const { Container } = require('@/common/Container/Container')
 const { CelerBridgeModule } = require('@/modules/bridge/bridge-form/CelerBridgeModule')
@@ -18,7 +25,7 @@ const BridgeModule = () => {
     network1: null,
     network2: null
   })
-  const [selectedBridge, setSelectedBridge] = useState('')
+  const [selectedBridge, setSelectedBridge] = useState('layer-zero')
 
   const [conversionRates, setConversionRates] = useState({ NPM: '1', ETH: '1' })
   const [totalPriceInUsd, setTotalPriceInUsd] = useState({ celer: '0', 'layer-zero': '0' })
