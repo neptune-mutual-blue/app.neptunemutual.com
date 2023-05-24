@@ -1,25 +1,5 @@
 
 export const TESTNET_USDC_BRIDGE_TOKENS = {
-  5: {
-    address: '0xCbE56b00d173A26a5978cE90Db2E33622fD95A28',
-    decimal: 6
-  },
-  97: {
-    address: '0x855fC87f7F14Db747ef27603b02bAe579ba947B6',
-    decimal: 6
-  },
-  280: {
-    address: '0x852a4599217E76aA725F0AdA8BF832a1F57a8A91',
-    decimal: 6
-  },
-  647: {
-    address: '0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98',
-    decimal: 6
-  },
-  43113: {
-    address: '0x2979a1cb90EEB9e75d7fB4f9813FCC40E4a7fD8b',
-    decimal: 6
-  },
   80001: {
     address: '0x6De33698e9e9b787e09d3Bd7771ef63557E148bb',
     decimal: 6
@@ -27,33 +7,6 @@ export const TESTNET_USDC_BRIDGE_TOKENS = {
   84531: {
     address: '0xf5C6825015280CdfD0b56903F9F8B5A2233476F5',
     decimal: 18
-  }
-}
-
-export const TESTNET_USDT_BRIDGE_TOKENS = {
-  5: {
-    address: '0xf4B2cbc3bA04c478F0dC824f4806aC39982Dce73',
-    decimal: 6
-  },
-  69: {
-    address: '0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98',
-    decimal: 6
-  },
-  97: {
-    address: '0x7d43AABC515C356145049227CeE54B608342c0ad',
-    decimal: 6
-  },
-  4002: {
-    address: '0x7d43AABC515C356145049227CeE54B608342c0ad',
-    decimal: 6
-  },
-  84531: {
-    address: '0x5471ea8f739dd37E9B81Be9c5c77754D8AA953E4',
-    decimal: 18
-  },
-  421613: {
-    address: '0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8',
-    decimal: 6
   }
 }
 

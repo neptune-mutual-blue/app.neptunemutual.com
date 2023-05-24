@@ -1,14 +1,17 @@
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Divider } from '@/common/Divider/Divider'
 import { BridgeOption } from '@/modules/bridge/bridge-options/BridgeOption'
 import { InfoKeyValue } from '@/modules/bridge/bridge-options/InfoKeyValue'
-import { WalletNotConnected } from '@/modules/bridge/bridge-options/WalletNotConnected'
+import {
+  WalletNotConnected
+} from '@/modules/bridge/bridge-options/WalletNotConnected'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
 
-const BridgeOptions = ({
+export const BridgeOptions = ({
   selectedBridge,
   setSelectedBridge,
   buttonText,
@@ -132,6 +135,7 @@ const OptionsMobile = ({
                 bold={item.bold}
                 loading={item.loading}
                 info={item.info}
+                title={item.title}
               />
             ))
           }
@@ -157,5 +161,3 @@ const OptionsMobile = ({
     </div>
   )
 }
-
-export { BridgeOptions }

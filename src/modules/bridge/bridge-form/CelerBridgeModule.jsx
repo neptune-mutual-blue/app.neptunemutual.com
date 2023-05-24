@@ -8,27 +8,29 @@ import {
 import { useRouter } from 'next/router'
 
 import DownArrow from '@/icons/DownArrow'
-import { AddressInput } from '@/modules/bridge/bridge-form/AddressInput'
+import { chains } from '@/lib/connect-wallet/config/chains'
+import {
+  BalanceError
+} from '@/modules/bridge/bridge-form/DestinationBalanceError'
+import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 import { NetworkSelect } from '@/modules/bridge/bridge-form/NetworkSelect'
-import { TransferAmountInput } from '@/modules/bridge/bridge-form/TransferAmountInput'
+import {
+  TransferAmountInput
+} from '@/modules/bridge/bridge-form/TransferAmountInput'
+import * as celerConfig from '@/src/config/bridge/celer'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useCelerBridge } from '@/src/hooks/useCelerBridge'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
   toBNSafe
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { getNetworkInfo } from '@/utils/network'
 import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
-import { BalanceError } from '@/modules/bridge/bridge-form/DestinationBalanceError'
-import * as celerConfig from '@/src/config/bridge/celer'
-import { CELER_BRIDGE_PROTOCOL_FEE_RATE } from '@/src/config/constants'
-import { chains } from '@/lib/connect-wallet/config/chains'
-import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 
 const SLIPPAGE_MULTIPLIER = 1_000_000
 const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
@@ -54,8 +56,8 @@ export const CelerBridgeModule = ({
   const { account } = useWeb3React()
   const { isTestNet } = getNetworkInfo(networkId)
 
-  const tokenData = isTestNet ? celerConfig.TESTNET_USDT_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
-  const tokenSymbol = isTestNet ? 'USDT' : 'NPM'
+  const tokenData = isTestNet ? celerConfig.TESTNET_USDC_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
+  const tokenSymbol = isTestNet ? 'USDC' : 'NPM'
 
   const filteredNetworks = useMemo(() => {
     const _networks = isTestNet ? networks.testnet : networks.mainnet
@@ -194,48 +196,41 @@ export const CelerBridgeModule = ({
 
   useEffect(() => {
     const formattedReceiveAmount = formatCurrency(
-      convertFromUnits(
-        estimation?.estimated_receive_amt || '0', destinationTokenDecimals)
-      , locale, tokenSymbol, true)
-
-    const formattedProtocolFee = formatCurrency(
-      toBNSafe(CELER_BRIDGE_PROTOCOL_FEE_RATE)
-        .dividedBy(100)
-        .multipliedBy(sendAmount || '0')
-        .toString(),
-      locale, tokenSymbol, true
-    )
-    const formattedCurrentChainGas = formatCurrency(
-      convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals),
+      convertFromUnits(estimation?.estimated_receive_amt || '0', destinationTokenDecimals),
       locale,
-      srcChainConfig.nativeCurrency.symbol,
+      tokenSymbol,
       true
     )
 
-    const formattedBaseFee = formatCurrency(
-      convertFromUnits(
-        estimation?.base_fee || '0', destinationTokenDecimals)
-      , locale, tokenSymbol, true)
+    const protocolFeePercent = convertFromUnits(estimation?.perc_fee || '0', destinationTokenDecimals).toString()
+    const protocolFee = toBNSafe(protocolFeePercent)
+      .dividedBy(100)
+      .multipliedBy(sendAmount || '0')
+      .toString()
+    const formattedProtocolFee = formatCurrency(protocolFee, locale, tokenSymbol, true)
+
+    const currentChainGasFee = convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals).toString()
+    const formattedCurrentChainGas = formatCurrency(currentChainGasFee, locale, srcChainConfig.nativeCurrency.symbol, true)
+
+    const baseFee = convertFromUnits(estimation?.base_fee || '0', destinationTokenDecimals).toString()
+    const formattedBaseFee = formatCurrency(baseFee, locale, tokenSymbol, true)
 
     const totalPrice = getSumInDollars({
       rates: conversionRates,
       amounts: [
         {
           token: srcChainConfig.nativeCurrency.symbol,
-          value: convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals).toString(),
+          value: currentChainGasFee,
           decimals: srcChainConfig.nativeCurrency.decimals
         },
         {
           token: tokenSymbol,
-          value: convertFromUnits(estimation?.base_fee || '0', destinationTokenDecimals).toString(),
+          value: baseFee,
           decimals: destinationTokenDecimals
         },
         {
           token: tokenSymbol,
-          value: toBNSafe(CELER_BRIDGE_PROTOCOL_FEE_RATE)
-            .dividedBy(100)
-            .multipliedBy(sendAmount || '0')
-            .toString(),
+          value: protocolFee,
           decimals: destinationTokenDecimals
         }
       ]
@@ -250,23 +245,32 @@ export const CelerBridgeModule = ({
     )
 
     setInfoArray([
-      { key: 'Receive (estimated)', value: formattedReceiveAmount.short, bold: true, loading: calculatingFee },
+      {
+        key: 'Receive (estimated)',
+        value: formattedReceiveAmount.short,
+        title: formattedReceiveAmount.long,
+        bold: true,
+        loading: calculatingFee
+      },
       {
         key: `Current Chain Gas Fee (${formattedChainGasPriceInGwei.short})`,
         value: formattedCurrentChainGas.short,
+        title: formattedCurrentChainGas.long,
         loading: calculatingFee,
         info: 'Estimated Gas fee for current chain'
       },
       {
         key: 'Base Fee',
         value: formattedBaseFee.short,
+        title: formattedBaseFee.long,
         loading: calculatingFee,
-        info: 'Estimated base fee'
+        info: 'Base Fee is used to cover the gas cost for sending your transfer on the destination chain.'
       },
       {
-        key: 'Protocol Fee (0.05%)',
+        key: `Protocol Fee (${protocolFeePercent}%)`,
         value: formattedProtocolFee.short,
-        info: 'Protocol Fee amount'
+        title: formattedProtocolFee.long,
+        info: 'Protocol Fee is charged proportionally to your transfer amount. Protocol Fee is paid to cBridge LPs and Celer SGN as economic incentives.'
       }
     ])
     // eslint-disable-next-line
@@ -287,12 +291,12 @@ export const CelerBridgeModule = ({
           onChange={(val) => setSendAmount(val)}
         />
 
-        <AddressInput
+        {/* <AddressInput
           value={receiverAddress}
           onChange={setReceiverAddress}
           className='mt-2.5'
           placeholder="Enter Receiver's Wallet Address"
-        />
+        /> */}
 
         <div className='relative mt-4'>
 

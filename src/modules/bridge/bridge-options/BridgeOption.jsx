@@ -1,11 +1,12 @@
+import { useRouter } from 'next/router'
+
 import { CoverAvatar } from '@/common/CoverAvatar'
 import CheckCircleFilledIcon from '@/icons/CheckCircleFilledIcon'
 import { InfoKeyValue } from '@/modules/bridge/bridge-options/InfoKeyValue'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
 
-const BridgeOption = ({
+export const BridgeOption = ({
   type,
   time,
   infoArray,
@@ -59,6 +60,7 @@ const BridgeOption = ({
                     bold={item.bold}
                     loading={item.loading}
                     info={item.info}
+                    title={item.title}
                   />
                 ))
               }
@@ -72,5 +74,3 @@ const BridgeOption = ({
     </button>
   )
 }
-
-export { BridgeOption }

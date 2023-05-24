@@ -9,30 +9,30 @@ import { useRouter } from 'next/router'
 
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
-import { AddressInput } from '@/modules/bridge/bridge-form/AddressInput'
 import {
   DestinationBalanceError,
   useBalance
 } from '@/modules/bridge/bridge-form/DestinationBalanceError'
+import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 import { NetworkSelect } from '@/modules/bridge/bridge-form/NetworkSelect'
-import { TransferAmountInput } from '@/modules/bridge/bridge-form/TransferAmountInput'
+import {
+  TransferAmountInput
+} from '@/modules/bridge/bridge-form/TransferAmountInput'
+import * as lzConfig from '@/src/config/bridge/layer-zero'
 import { LayerZeroChainIds } from '@/src/config/bridge/layer-zero'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useLayerZeroBridge } from '@/src/hooks/useLayerZeroBridge'
-import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
   toBNSafe
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { getNetworkInfo } from '@/utils/network'
 import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
-
-import * as lzConfig from '@/src/config/bridge/layer-zero'
-import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 
 // const SLIPPAGE_MULTIPLIER = 1_000_000
 // const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
@@ -275,12 +275,12 @@ export const LayerZeroBridgeModule = ({
           onChange={(val) => setSendAmount(val)}
         />
 
-        <AddressInput
+        {/* <AddressInput
           value={receiverAddress}
           onChange={setReceiverAddress}
           className='mt-2.5'
           placeholder="Enter Receiver's Wallet Address"
-        />
+        /> */}
 
         <div className='relative mt-4'>
 

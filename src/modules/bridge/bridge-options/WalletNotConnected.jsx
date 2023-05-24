@@ -1,8 +1,9 @@
 import { RegularButton } from '@/common/Button/RegularButton'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import { useNetwork } from '@/src/context/Network'
 
-const WalletNotConnected = () => {
+export const WalletNotConnected = () => {
   const { networkId } = useNetwork()
   return (
     <div className='p-4 text-center'>
@@ -21,5 +22,3 @@ const WalletNotConnected = () => {
     </div>
   )
 }
-
-export { WalletNotConnected }
