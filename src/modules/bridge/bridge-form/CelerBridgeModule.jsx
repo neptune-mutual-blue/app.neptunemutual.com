@@ -44,7 +44,6 @@ export const CelerBridgeModule = ({
   sendAmount,
   setSendAmount,
   receiverAddress,
-  setReceiverAddress,
   selectedNetworks,
   setSelectedNetworks,
   conversionRates,
@@ -121,8 +120,14 @@ export const CelerBridgeModule = ({
       destChainId,
       SLIPPAGE
     )
-    if (_estimation?.err) setBalanceError(_estimation.err.msg)
-    else setEstimation(_estimation)
+    if (_estimation?.err) {
+      setBalanceError(_estimation.err.msg)
+      setEstimation({
+        estimated_receive_amt: '0',
+        perc_fee: '0',
+        base_fee: '0'
+      })
+    } else setEstimation(_estimation)
 
     const fees = await getEstimatedCurrentChainGas(
       convertToUnits(sendAmount, sourceTokenDecimals).toString()
@@ -257,7 +262,12 @@ export const CelerBridgeModule = ({
         value: formattedCurrentChainGas.short,
         title: formattedCurrentChainGas.long,
         loading: calculatingFee,
-        info: 'Estimated Gas fee for current chain'
+        info: (
+          <>
+            Estimated Gas fee for current chain is {formattedCurrentChainGas.long}.
+            <i>(Network Gas Fee: {formattedChainGasPriceInGwei.long})</i>
+          </>
+        )
       },
       {
         key: 'Base Fee',
