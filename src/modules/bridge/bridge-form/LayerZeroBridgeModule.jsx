@@ -46,7 +46,6 @@ export const LayerZeroBridgeModule = ({
   sendAmount,
   setSendAmount,
   receiverAddress,
-  setReceiverAddress,
   selectedNetworks,
   setSelectedNetworks,
   conversionRates,
@@ -243,13 +242,18 @@ export const LayerZeroBridgeModule = ({
         key: `Current Chain Gas Fee (${formattedChainGasPriceInGwei.short})`,
         value: formattedCurrentGasChainPrice.short,
         loading: calculatingFee,
-        info: 'Estimated gas fee for current chain'
+        info: (
+          <>
+            Estimated gas fee for current chain is {formattedCurrentGasChainPrice.long}.<br />
+            <i>(Network Gas Fee: {formattedChainGasPriceInGwei.long})</i>
+          </>
+        )
       },
       {
         key: 'Destination Chain Gas Fee',
         value: formattedNativeFee.short,
         loading: calculatingFee,
-        info: 'Estimated gas fee for destination chain'
+        info: `Estimated gas fee for destination chain is ${formattedNativeFee.long}`
       },
       {
         key: 'Bridge Fee (0%)',
