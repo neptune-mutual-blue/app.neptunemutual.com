@@ -4,6 +4,9 @@ import { Container } from '@/common/Container/Container'
 import DateLib from '@/lib/date/DateLib'
 import ReportComments from '@/modules/reporting/ReportComments'
 import {
+  ReportDetailsSkeleton
+} from '@/modules/reporting/ReportDetailsSkeleton'
+import {
   useConsensusReportingInfo
 } from '@/src/hooks/useConsensusReportingInfo'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
@@ -17,7 +20,6 @@ import {
   ResolvedReportSummary
 } from '@/src/modules/reporting/resolved/ResolvedReportSummary'
 import { isGreater } from '@/utils/bn'
-import { ReportDetailsSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
 export const ReportingDetailsPage = ({
   incidentReport,

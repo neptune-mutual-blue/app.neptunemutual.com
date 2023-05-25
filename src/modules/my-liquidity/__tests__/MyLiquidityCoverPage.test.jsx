@@ -1,25 +1,25 @@
 import { ProvideLiquidityToCover } from '@/modules/my-liquidity/details'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
 import { screen } from '@/utils/unit-tests/test-utils'
 
 const initialMocks = () => {
   mockHooksOrMethods.useRouter()
   mockHooksOrMethods.useAppConstants()
-  // mockHooksOrMethods.useCoverOrProductData()
+  mockHooksOrMethods.useCoversAndProducts2()
   mockHooksOrMethods.useLiquidityFormsContext()
   mockHooksOrMethods.useCoverActiveReportings()
 }
 
 describe('MyLiquidityTxsTable test', () => {
-  const { initialRender } = initiateTest(
+  const { initialRender, rerenderFn } = initiateTest(
     ProvideLiquidityToCover,
-    {},
+    {
+      coverKey: '0x6f6b780000000000000000000000000000000000000000000000000000000000'
+    },
     initialMocks
   )
 
@@ -28,10 +28,18 @@ describe('MyLiquidityTxsTable test', () => {
   })
 
   test('should render only `loading...` text if coverinfo not loaded', () => {
-    // rerenderFn({}, () => {
-    //   mockHooksOrMethods.useCoverOrProductData(() => null)
-    // })
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, loading: true }))
+    })
     expect(screen.getByText('loading...')).toBeInTheDocument()
+  })
+
+  test('should render "No Data Found" when coverData is empty', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, getCoverByCoverKey: () => null }))
+    })
+
+    expect(screen.getByText('No Data Found')).toBeInTheDocument()
   })
 
   test('should render the main container if coverinfo loaded', () => {
@@ -51,8 +59,14 @@ describe('MyLiquidityTxsTable test', () => {
     expect(wrapper).not.toBeInTheDocument()
   })
 
-  test('should render dedicated cover profile', () => {
-    const wrapper = screen.getByTestId('dedicated-coverprofileinfo-container')
+  test('should render diversified cover profile if supports products', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoversAndProducts2(() => ({
+        ...testData.coversAndProducts2,
+        getCoverByCoverKey: () => ({ ...testData.coversAndProducts2.data, supportsProducts: true })
+      }))
+    })
+    const wrapper = screen.getByTestId('diversified-coverprofileinfo-container')
     expect(wrapper).toBeInTheDocument()
   })
 

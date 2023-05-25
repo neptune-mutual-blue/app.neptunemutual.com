@@ -1,6 +1,6 @@
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -11,7 +11,7 @@ describe('ReportingNewCoverPage test', () => {
   const OLD_ENV = process.env
   beforeEach(() => {
     mockHooksOrMethods.useRouter()
-    mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useCoversAndProducts2()
     mockHooksOrMethods.getNetworkId()
     mockGlobals.fetch(true, undefined, { data: { incidentReport: [] } })
     process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: 'none' }

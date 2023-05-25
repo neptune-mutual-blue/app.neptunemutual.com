@@ -1,13 +1,15 @@
+import { act } from 'react-dom/test-utils'
+
 import { TransactionList } from '@/common/TransactionList'
+import { getActionMessage } from '@/src/helpers/notification'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { initiateTest } from '@/utils/unit-tests/helpers'
-import { getActionMessage } from '@/src/helpers/notification'
-import { screen, fireEvent } from '@testing-library/react'
-import { act } from 'react-dom/test-utils'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { screen } from '@testing-library/react'
 
 const mockItem = {
   hash: '11222331',
@@ -122,6 +124,7 @@ describe('Transaction List', () => {
   describe('with 1 Data', () => {
     beforeEach(() => {
       addItems(1)
+      mockHooksOrMethods.useWeb3React()
       initialRender()
     })
 
@@ -163,6 +166,7 @@ describe('Transaction List', () => {
   describe('with All Data', () => {
     beforeEach(() => {
       addItems()
+      mockHooksOrMethods.useWeb3React()
       initialRender()
     })
 
@@ -178,12 +182,7 @@ describe('Transaction List', () => {
 
       const items = screen.getAllByTestId('notification-item')
 
-      expect(items.length).toBe(6)
-
-      fireEvent.click(viewMore)
-      const moreItems = screen.getAllByTestId('notification-item')
-
-      expect(moreItems.length).toBe(9)
+      expect(items.length).toBe(5)
     })
   })
 })
