@@ -1,268 +1,122 @@
 import { testData } from '@/utils/unit-tests/test-data'
 import * as mockNeptuneMutualSDK from '@neptunemutual/sdk'
 
-const mockFn = (mockObject) => {
-  jest.mock('@neptunemutual/sdk', () => ({
-    ...mockNeptuneMutualSDK,
-    ...mockObject
-  }))
-}
-
 const mockSdk = {
   registry: {
     BondPool: {
-      getInstance: () => {
-        mockFn({
-          registry: {
-            BondPool: {
-              getInstance: jest.fn(() =>
-                Promise.resolve('geInstance() mock')
-              )
-            }
-          }
-
-        })
+      getInstance: (returnData = 'geInstance() mock') => {
+        mockNeptuneMutualSDK.registry.BondPool.getInstance.mockResolvedValue(returnData)
       },
-      getAddress: () => {
-        mockFn({
-          registry: {
-            BondPool: {
-              getAddress: jest.fn(() =>
-                Promise.resolve(testData.bondPoolAddress)
-              )
-            }
-          }
-        })
+      getAddress: (returnData = testData.bondPoolAddress) => {
+        mockNeptuneMutualSDK.registry.BondPool.getAddress.mockResolvedValue(returnData)
       }
     },
     Governance: {
-      getInstance: () => {
-        mockFn({
-          registry: {
-            Governance: {
-              getInstance: jest.fn(() =>
-                Promise.resolve('geInstance() mock')
-              )
-            }
-          }
-        })
+      getInstance: (returnData = 'getInstance() mock') => {
+        mockNeptuneMutualSDK.registry.Governance.getInstance.mockResolvedValue(returnData)
       },
-      getAddress: () => {
-        mockFn({
-          registry: {
-            Governance: {
-              getAddress: jest.fn(() =>
-                Promise.resolve(testData.governanceAddress)
-              )
-            }
-          }
-        })
+      getAddress: (returnData = testData.governanceAddress) => {
+        mockNeptuneMutualSDK.registry.Governance.getAddress.mockResolvedValue(returnData)
       }
     },
     IERC20: {
-      getInstance: (returnUndefined = false) => {
-        mockFn({
-          registry: {
-            IERC20: {
-              getInstance: jest.fn(() =>
-                returnUndefined ? undefined : 'IERC20 geInstance() mock'
-              )
-            }
-          }
-        })
+      getInstance: (returnUndefined = false, returnData = 'IERC20 geInstance() mock') => {
+        mockNeptuneMutualSDK.registry.IERC20.getInstance.mockResolvedValue(
+          returnUndefined ? undefined : returnData
+        )
       }
     },
     Reassurance: {
-      getInstance: () => {
-        mockFn({
-          registry: {
-            IERC20: {
-              getInstance: jest.fn(() =>
-                Promise.resolve('geInstance() mock')
-              )
-            }
-          }
-        })
+      getInstance: (returnData = 'geInstance() mock') => {
+        mockNeptuneMutualSDK.registry.IERC20.getInstance.mockResolvedValue(returnData)
       }
     },
     Resolution: {
-      getInstance: (returnUndefined = false) => {
-        mockFn({
-          resgistry: {
-            Resolution: {
-              getInstance: jest.fn(() =>
-                Promise.resolve(
-                  returnUndefined ? undefined : 'Resolution geInstance() mock'
-                )
-              )
-            }
-          }
-        })
+      getInstance: (returnUndefined = false, returnData = 'Resolution geInstance() mock') => {
+        mockNeptuneMutualSDK.registry.Resolution.getInstance.mockResolvedValue(
+          returnUndefined ? undefined : returnData
+        )
       }
     },
     Cover: {
-      getInstance: (returnUndefined = false) => {
-        mockFn({
-          registry: {
-            Cover: {
-              getInstance: jest.fn(() =>
-                Promise.resolve(
-                  returnUndefined ? undefined : 'Cover geInstance() mock'
-                )
-              )
-            }
-          }
-        })
+      getInstance: (returnUndefined = false, returnData = 'Cover geInstance() mock') => {
+        mockNeptuneMutualSDK.registry.Cover.getInstance.mockResolvedValue(
+          returnUndefined ? undefined : returnData
+        )
       }
     },
     Vault: {
-      getInstance: (returnUndefined = false) => {
-        mockFn({
-          registry: {
-            Vault: {
-              getInstance: jest.fn(() =>
-                Promise.resolve(
-                  returnUndefined ? undefined : 'Vault geInstance() mock'
-                )
-              )
-            }
-          }
-        })
+      getInstance: (returnUndefined = false, returnData = 'Vault geInstance() mock') => {
+        mockNeptuneMutualSDK.registry.Vault.getInstance.mockResolvedValue(
+          returnUndefined ? undefined : returnData
+        )
       },
-      getAddress: () => {
-        mockFn({
-          registry: {
-            Vault: {
-              getAddress: jest.fn(() =>
-                Promise.resolve(testData.vaultAddress)
-              )
-            }
-          }
-        })
+      getAddress: (returnData = testData.vaultAddress) => {
+        mockNeptuneMutualSDK.registry.Vault.getAddress.mockResolvedValue(returnData)
       }
     },
     PolicyContract: {
-      getInstance: (returnUndefined = false) => {
-        mockFn({
-          registry: {
-            PolicyContract: {
-              getInstance: jest.fn(() =>
-                Promise.resolve(
-                  returnUndefined ? undefined : 'PolicyContract getInstance() mock'
-                )
-              )
-            }
-          }
-        })
+      getInstance: (returnUndefined = false, returnData = 'PolicyContract getInstance() mock') => {
+        mockNeptuneMutualSDK.registry.PolicyContract.getInstance.mockResolvedValue(
+          returnUndefined ? undefined : returnData
+        )
       },
-      getAddress: (returnUndefined = false, functionUndefined = false) => {
+      getAddress: (returnUndefined = false, functionUndefined = false, returnData = 'PolicyContract getAddress() mock') => {
         const mockFunction = jest.fn(() =>
           Promise.resolve(
-            returnUndefined ? undefined : 'PolicyContract getAddress() mock'
+            returnUndefined ? undefined : returnData
           )
         )
-
-        mockFn({
-          registry: {
-            PolicyContract: {
-              getAddress: functionUndefined ? undefined : mockFunction
-            }
-          }
-        })
+        mockNeptuneMutualSDK.registry.PolicyContract.getAddress.mockResolvedValue(
+          functionUndefined ? undefined : mockFunction
+        )
       }
     },
     ClaimsProcessor: {
-      getAddress: () => {
-        mockFn({
-          registry: {
-            ClaimsProcessor: {
-              getAddress: jest.fn(() =>
-                Promise.resolve(testData.claimsProcessorAddress)
-              )
-            }
-          }
-        })
+      getAddress: (returnData = testData.claimsProcessorAddress) => {
+        mockNeptuneMutualSDK.registry.ClaimsProcessor.getAddress.mockResolvedValue(returnData)
       }
     },
     StakingPools: {
-      getInstance: (returnUndefined = false) => {
-        mockFn({
-          registry: {
-            StakingPools: {
-              getInstance: jest.fn(() =>
-                Promise.resolve(
-                  returnUndefined ? undefined : 'StakingPools getInstance() mock'
-                )
-              )
-            }
-          }
-        })
+      getInstance: (returnUndefined = false, returnData = 'StakingPools getInstance() mock') => {
+        mockNeptuneMutualSDK.registry.StakingPools.getInstance.mockResolvedValue(
+          returnUndefined ? undefined : returnData
+        )
       },
-      getAddress: () => {
-        mockFn({
-          registry: {
-            StakingPools: {
-              getAddress: jest.fn(() =>
-                Promise.resolve(testData.poolInfo.info.stakingPoolsContractAddress)
-              )
-            }
-          }
-        })
+      getAddress: (returnData = testData.poolInfo.info.stakingPoolsContractAddress) => {
+        mockNeptuneMutualSDK.registry.StakingPools.getAddress.mockResolvedValue(returnData)
       }
     },
     Protocol: {
-      getAddress: (returnUndefined = false, functionUndefined = false) => {
+      getAddress: (returnUndefined = false, functionUndefined = false, returnData = 'Protocol getAddress() mock') => {
         const mockFunction = jest.fn(() =>
           Promise.resolve(
-            returnUndefined ? undefined : 'Protocol getAddress() mock'
+            returnUndefined ? undefined : returnData
           )
         )
-
-        mockFn({
-          registry: {
-            Protocol: {
-              getAddress: functionUndefined
-                ? undefined
-                : mockFunction
-            }
-          }
-        })
+        mockNeptuneMutualSDK.registry.Protocol.getAddress.mockResolvedValue(
+          functionUndefined
+            ? undefined
+            : mockFunction
+        )
       }
     }
   },
   utils: {
     ipfs: {
       write: (returnUndefined = false) => {
-        mockFn({
-          utils: {
-            ipfs: {
-              write: jest.fn((payload) =>
-                Promise.resolve(returnUndefined ? undefined : [payload.toString()])
-              )
-            }
-          }
-        })
+        mockNeptuneMutualSDK.utils.ipfs.write.mockImplementation(
+          (payload) => returnUndefined ? undefined : [payload.toString()]
+        )
       },
       readBytes32: (ipfsBytes) => {
-        mockFn({
-          utils: {
-            ipfs: {
-              readBytes32: jest.fn(() => Promise.resolve(ipfsBytes))
-            }
-          }
-        })
+        mockNeptuneMutualSDK.utils.ipfs.read.mockResolvedValue(ipfsBytes)
       }
     }
   },
   governance: {
-    report: () => {
-      mockFn({
-        governance: {
-          report: jest.fn(() =>
-            Promise.resolve(testData.governanceReportResult)
-          )
-        }
-      })
+    report: (returnData = testData.governanceReportResult) => {
+      mockNeptuneMutualSDK.governance.report.mockResolvedValue(returnData)
     }
   },
   multicall: (returnData) => {
@@ -298,12 +152,8 @@ const mockSdk = {
       all = data.all;
     }
 
-    mockFn({
-      multicall: {
-        Contract: MockContract,
-        Provider: MockProvider
-      }
-    })
+    mockNeptuneMutualSDK.multicall.Contract.mockImplementation(MockContract)
+    mockNeptuneMutualSDK.multicall.Provider.mockImplementation(MockProvider)
   }
 }
 
