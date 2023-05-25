@@ -1,203 +1,79 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from 'react'
+import { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
-import {
-  BalanceError
-} from '@/modules/bridge/bridge-form/DestinationBalanceError'
 import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 import { NetworkSelect } from '@/modules/bridge/bridge-form/NetworkSelect'
 import {
   TransferAmountInput
 } from '@/modules/bridge/bridge-form/TransferAmountInput'
-import * as celerConfig from '@/src/config/bridge/celer'
-import { networks } from '@/src/config/networks'
+import { BRIDGE_KEYS } from '@/src/config/bridge'
 import { useNetwork } from '@/src/context/Network'
-import { useCelerBridge } from '@/src/hooks/useCelerBridge'
-import { useDebounce } from '@/src/hooks/useDebounce'
 import {
   convertFromUnits,
-  convertToUnits,
   toBNSafe
 } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getNetworkInfo } from '@/utils/network'
-import { isAddress } from '@ethersproject/address'
-import { useWeb3React } from '@web3-react/core'
 
-const SLIPPAGE_MULTIPLIER = 1_000_000
-const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
+const CelerApiError = ({ message, className = '' }) => {
+  if (!message) return null
+
+  const splitted = message.split(': ')
+  return (
+    <div
+      className={classNames(
+        'rounded-1 border border-E52E2E border-l-4 pt-3 pr-2 pb-4 pl-4 bg-E52E2E bg-opacity-5 text-E52E2E text-sm',
+        className
+      )}
+    >
+      {splitted.length > 1
+        ? (
+          <>
+            <span className='mt-2 font-bold'>{splitted[0]}: </span> <span>{splitted.slice(1).join(': ')}</span>
+          </>
+          )
+        : message}
+    </div>
+  )
+}
 
 export const CelerBridgeModule = ({
-  setButtonText,
-  setButtonDisabled,
-  btnClickValue,
+  celerHookResult,
   setInfoArray,
   selectedBridge,
   sendAmount,
   setSendAmount,
-  receiverAddress,
   selectedNetworks,
   setSelectedNetworks,
   conversionRates,
-  setTotalPriceInUsd,
-  setDelayPeriod
+  setTotalPriceInUsd
 }) => {
   const { locale } = useRouter()
   const { networkId } = useNetwork()
-  const { account } = useWeb3React()
-  const { isTestNet } = getNetworkInfo(networkId)
-
-  const tokenData = isTestNet ? celerConfig.TESTNET_USDC_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
-  const tokenSymbol = isTestNet ? 'USDC' : 'NPM'
-
-  const filteredNetworks = useMemo(() => {
-    const _networks = isTestNet ? networks.testnet : networks.mainnet
-    const filtered = _networks
-      .filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
-
-    return filtered
-  }, [isTestNet, tokenData])
-
-  const bridgeContractAddress = celerConfig.BRIDGE_CONTRACTS[networkId]
-
-  const [estimation, setEstimation] = useState(null)
-  const [balanceError, setBalanceError] = useState('')
-
-  const sourceTokenAddress = tokenData[networkId].address
-  const sourceTokenDecimals = tokenData[networkId].decimal
-
-  const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
-  // const destinationTokenAddress = destinationTokenData.address || ''
-  const destinationTokenDecimals = destinationTokenData?.decimal || 1
 
   const {
     balance,
-    allowance,
-    handleApprove,
-    handleBridge,
-    approving,
-    bridging,
-    getEstimatedReceiveAmount,
-    estimating: calculatingFee,
-    getEstimatedCurrentChainGas,
-    delayPeriod,
-    chainGasPrice
-  } = useCelerBridge({
-    bridgeContractAddress,
-    tokenAddress: sourceTokenAddress,
+    estimating,
+    chainGasPrice,
+
     tokenSymbol,
-    tokenDecimal: sourceTokenDecimals
-  })
+    sourceTokenDecimal,
 
-  useEffect(() => {
-    const options = networks[getNetworkInfo(networkId).isMainNet ? 'mainnet' : 'testnet']
-    setSelectedNetworks((prev) => ({ ...prev, network1: options.find(x => x.chainId === parseInt(networkId)) }))
+    tokenData,
+    filteredNetworks,
 
-    // eslint-disable-next-line
-  }, [networkId])
+    balanceError,
+    estimation
+  } = celerHookResult
 
-  const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
-  const srcChainId = selectedNetworks?.network1?.chainId
-  const destChainId = selectedNetworks?.network2?.chainId
-  const _receiverAddress = receiverAddress || account
+  const destinationTokenData = selectedNetworks?.destNetwork?.chainId ? tokenData[selectedNetworks?.destNetwork?.chainId] : {}
+  // const destinationTokenAddress = destinationTokenData.address || ''
+  const destinationTokenDecimals = destinationTokenData?.decimal || 1
 
   const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
-
-  const updateEstimation = useCallback(async function () {
-    setBalanceError('')
-    const _estimation = await getEstimatedReceiveAmount(
-      debouncedAmount,
-      _receiverAddress,
-      srcChainId,
-      destChainId,
-      SLIPPAGE
-    )
-    if (_estimation?.err) {
-      setBalanceError(_estimation.err.msg)
-      setEstimation({
-        estimated_receive_amt: '0',
-        perc_fee: '0',
-        base_fee: '0'
-      })
-    } else setEstimation(_estimation)
-
-    const fees = await getEstimatedCurrentChainGas(
-      convertToUnits(sendAmount, sourceTokenDecimals).toString()
-    )
-    if (fees) setEstimation(_prev => ({ ..._prev, currentChainGas: fees }))
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [_receiverAddress, debouncedAmount, destChainId, srcChainId])
-
-  useEffect(() => {
-    updateEstimation()
-  }, [updateEstimation])
-
-  const canApprove =
-    !toBNSafe(sendAmount).isZero() &&
-    convertToUnits(sendAmount, sourceTokenDecimals).isLessThanOrEqualTo(balance) &&
-    convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(allowance)
-
-  const canBridge =
-    !toBNSafe(sendAmount).isZero() &&
-    convertToUnits(sendAmount, sourceTokenDecimals).isLessThanOrEqualTo(allowance)
-
-  const isValidAddress = isAddress(receiverAddress || account)
-
-  const handleBridgeClick = async () => {
-    if (canBridge) {
-      await updateEstimation()
-
-      await handleBridge(
-        convertToUnits(sendAmount, sourceTokenDecimals).toString(),
-        selectedNetworks.network2,
-        receiverAddress || account,
-        estimation.max_slippage
-      )
-      return
-    }
-
-    if (canApprove) {
-      handleApprove(
-        convertToUnits(sendAmount, sourceTokenDecimals).toString()
-      )
-    }
-  }
-
-  const buttonDisabled =
-    !(canApprove || canBridge) ||
-    approving ||
-    bridging ||
-    calculatingFee ||
-    (canBridge && receiverAddress && !isValidAddress)
-
-  useEffect(() => {
-    if (selectedBridge !== 'celer') return
-
-    setButtonText(canBridge ? 'Bridge' : `Approve ${tokenSymbol}`)
-    setButtonDisabled(buttonDisabled)
-  // eslint-disable-next-line
-  }, [canBridge, tokenSymbol, buttonDisabled, selectedBridge])
-
-  useEffect(() => {
-    if (selectedBridge !== 'celer') return
-
-    if (btnClickValue) handleBridgeClick()
-    // eslint-disable-next-line
-  }, [btnClickValue, selectedBridge])
-
-  useEffect(() => {
-    setDelayPeriod(delayPeriod)
-    // eslint-disable-next-line
-  }, [delayPeriod])
 
   useEffect(() => {
     const formattedReceiveAmount = formatCurrency(
@@ -255,13 +131,13 @@ export const CelerBridgeModule = ({
         value: formattedReceiveAmount.short,
         title: formattedReceiveAmount.long,
         bold: true,
-        loading: calculatingFee
+        loading: estimating
       },
       {
         key: `Current Chain Gas Fee (${formattedChainGasPriceInGwei.short})`,
         value: formattedCurrentChainGas.short,
         title: formattedCurrentChainGas.long,
-        loading: calculatingFee,
+        loading: estimating,
         info: (
           <>
             Estimated Gas fee for current chain is {formattedCurrentChainGas.long}.
@@ -273,7 +149,7 @@ export const CelerBridgeModule = ({
         key: 'Base Fee',
         value: formattedBaseFee.short,
         title: formattedBaseFee.long,
-        loading: calculatingFee,
+        loading: estimating,
         info: 'Base Fee is used to cover the gas cost for sending your transfer on the destination chain.'
       },
       {
@@ -284,9 +160,9 @@ export const CelerBridgeModule = ({
       }
     ])
     // eslint-disable-next-line
-  }, [calculatingFee, chainGasPrice, destinationTokenDecimals, estimation, locale, srcChainConfig, tokenSymbol, conversionRates, sendAmount])
+  }, [estimating, chainGasPrice, destinationTokenDecimals, estimation, locale, srcChainConfig, tokenSymbol, conversionRates, sendAmount])
 
-  if (selectedBridge && selectedBridge !== 'celer') return <></>
+  if (selectedBridge && selectedBridge !== BRIDGE_KEYS.CELER) return <></>
 
   return (
     <div className='flex-grow p-4 lg:p-8 lg:max-w-450'>
@@ -295,7 +171,7 @@ export const CelerBridgeModule = ({
       <div className='relative mt-4'>
         <TransferAmountInput
           balance={balance}
-          tokenDecimals={sourceTokenDecimals}
+          tokenDecimals={sourceTokenDecimal}
           tokenSymbol={tokenSymbol}
           value={sendAmount}
           onChange={(val) => setSendAmount(val)}
@@ -312,7 +188,7 @@ export const CelerBridgeModule = ({
 
           <NetworkSelect
             label='From'
-            selected={selectedNetworks.network1}
+            selected={selectedNetworks.srcNetwork}
             defaultChain={parseInt(networkId)}
             onChange={() => {}}
             disabled
@@ -325,14 +201,14 @@ export const CelerBridgeModule = ({
           <NetworkSelect
             label='To'
             className='mt-2.5'
-            selected={selectedNetworks.network2}
+            selected={selectedNetworks.destNetwork}
             options={filteredNetworks.filter(n => n.chainId.toString() !== networkId.toString())}
             onChange={(val) =>
-              setSelectedNetworks((prev) => ({ ...prev, network2: val }))}
+              setSelectedNetworks((prev) => ({ ...prev, destNetwork: val }))}
           />
         </div>
 
-        <BalanceError className='mt-4' message={balanceError} />
+        <CelerApiError className='mt-4' message={balanceError} />
       </div>
     </div>
   )
