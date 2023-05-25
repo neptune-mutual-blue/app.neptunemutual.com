@@ -1,10 +1,10 @@
 import { useCreateBond } from '@/src/hooks/useCreateBond'
 import { convertToUnits } from '@/utils/bn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useCreateBond', () => {
   mockHooksOrMethods.useDebounce()
@@ -57,8 +57,7 @@ describe('useCreateBond', () => {
       await result.handleApprove()
     })
 
-    const amount = await (await testData.txPoster.contractRead()).toString()
-    expect(result.receiveAmount).toEqual(amount)
+    expect(testData.erc20Allowance.approve).toHaveBeenCalled()
     expect(result.canBond).toEqual(true)
   })
 

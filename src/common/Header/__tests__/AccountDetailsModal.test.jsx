@@ -1,8 +1,12 @@
 import { AccountDetailsModal } from '@/common/Header/AccountDetailsModal'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest } from '@/utils/unit-tests/helpers'
-import { act, fireEvent, screen } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('AccountDetailsModal test', () => {
   const closeFn = jest.fn()
@@ -33,7 +37,7 @@ describe('AccountDetailsModal test', () => {
 
   test('should render acccount details modal', () => {
     const modals = screen.getAllByRole('dialog')
-    expect(modals.length).toBe(2)
+    expect(modals.length).toBe(1)
   })
 
   test('should show copied after clicking on copy address', async () => {

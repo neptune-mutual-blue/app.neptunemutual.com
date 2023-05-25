@@ -1,8 +1,13 @@
-import { render, act } from '@/utils/unit-tests/test-utils'
-import { PoliciesActivePage } from '../PoliciesActivePage'
-import { i18n } from '@lingui/core'
-import { testData } from '@/utils/unit-tests/test-data'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  act,
+  render
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+import { PoliciesActivePage } from '../PoliciesActivePage'
 
 describe('PoliciesActivePage', () => {
   beforeEach(() => {
@@ -13,13 +18,22 @@ describe('PoliciesActivePage', () => {
     })
   })
 
+  test('should render main container by default', () => {
+    const { getByTestId } = render(
+      <PoliciesActivePage data={[]} loading />
+    )
+
+    const container = getByTestId('main-container')
+    expect(container).toBeInTheDocument()
+  })
+
   test('should render PoliciesActivePage loading page', () => {
     const { getAllByTestId, queryByTestId } = render(
       <PoliciesActivePage data={[]} loading />
     )
 
     const ids = getAllByTestId('card-outline')
-    expect(ids.length).toEqual(6)
+    expect(ids.length).toEqual(CARDS_PER_PAGE)
 
     const empty = queryByTestId('empty-text')
 

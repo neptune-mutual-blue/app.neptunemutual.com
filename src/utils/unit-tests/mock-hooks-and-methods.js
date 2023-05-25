@@ -1,12 +1,15 @@
 import * as RouterHook from 'next/router'
 
 // import * as CoverStatsContext from '@/common/Cover/CoverStatsContext'
-import * as LiquidityFormsContext from '@/common/LiquidityForms/LiquidityFormsContext'
+import * as LiquidityFormsContext
+  from '@/common/LiquidityForms/LiquidityFormsContext'
+import * as AuthHook from '@/lib/connect-wallet/hooks/useAuth'
 import * as EagerConnectHook from '@/lib/connect-wallet/hooks/useEagerConnect'
 import { registerToken } from '@/lib/connect-wallet/utils/wallet'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import * as ToastHook from '@/lib/toast/context'
-import * as ClaimTableContextHook from '@/modules/my-policies/ClaimCxTokensTable'
+import * as ClaimTableContextHook
+  from '@/modules/my-policies/ClaimCxTokensTable'
 import * as CxTokenRowContextHook from '@/modules/my-policies/CxTokenRowContext'
 import {
   getGraphURL,
@@ -14,6 +17,7 @@ import {
 } from '@/src/config/environment'
 import * as AppConstantsHook from '@/src/context/AppConstants'
 import * as CoversAndProducts2Hook from '@/src/context/CoversAndProductsData2'
+import * as NetworkHook from '@/src/context/Network'
 // import {* as Network} from '@/src/context/Network'
 import * as SortableStatsHook from '@/src/context/SortableStatsContext'
 import * as TxPosterHook from '@/src/context/TxPoster'
@@ -27,18 +31,22 @@ import {
   useStakingPoolsAddress
 } from '@/src/hooks/contracts/useStakingPoolsAddress'
 import * as ActivePoliciesHook from '@/src/hooks/useActivePolicies'
-import * as ActivePoliciesByCoverHook from '@/src/hooks/useActivePoliciesByCover'
+import * as ActivePoliciesByCoverHook
+  from '@/src/hooks/useActivePoliciesByCover'
 import * as ActiveReportingsHook from '@/src/hooks/useActiveReportings'
 import * as AuthValidationHook from '@/src/hooks/useAuthValidation'
 import * as BondInfoHook from '@/src/hooks/useBondInfo'
 import * as BondTxsHook from '@/src/hooks/useBondTxs'
 import * as CalculateLiquidityHook from '@/src/hooks/useCalculateLiquidity'
 import * as CalculatePodsHook from '@/src/hooks/useCalculatePods'
-import * as NetworkHook from '@/src/context/Network'
-import * as CalculateTotalLiquidityHook from '@/src/hooks/useCalculateTotalLiquidity'
+import * as CalculateTotalLiquidityHook
+  from '@/src/hooks/useCalculateTotalLiquidity'
 import * as ClaimPolicyInfoHook from '@/src/hooks/useClaimPolicyInfo'
-import * as ConsensusReportingInfoHook from '@/src/hooks/useConsensusReportingInfo'
-import * as CoverActiveReportingsHook from '@/src/hooks/useCoverActiveReportings'
+import * as ConsensusReportingInfoHook
+  from '@/src/hooks/useConsensusReportingInfo'
+import * as CoverActiveReportingsHook
+  from '@/src/hooks/useCoverActiveReportings'
+import * as CoverDropdownHook from '@/src/hooks/useCoverDropdown'
 // import * as CoverOrProductData from '@/src/hooks/useCoverOrProductData'
 // import * as Covers from '@/src/hooks/useCovers'
 import * as DebounceHook from '@/src/hooks/useDebounce'
@@ -47,11 +55,13 @@ import * as ERC20AllowanceHook from '@/src/hooks/useERC20Allowance'
 import * as ERC20BalanceHook from '@/src/hooks/useERC20Balance'
 import * as ErrorNotifierHook from '@/src/hooks/useErrorNotifier'
 import * as ExpiredPoliciesHook from '@/src/hooks/useExpiredPolicies'
-import * as FetchCoverPurchasedEventHook from '@/src/hooks/useFetchCoverPurchasedEvent'
+import * as FetchCoverPurchasedEventHook
+  from '@/src/hooks/useFetchCoverPurchasedEvent'
 import * as FetchHeroStatsHook from '@/src/hooks/useFetchHeroStats'
 // import { useFetchReport } from '@/src/hooks/useFetchReport'
 import * as FetchReportHook from '@/src/hooks/useFetchReport'
-import * as FetchReportsByKeyAndDateHook from '@/src/hooks/useFetchReportsByKeyAndDate'
+import * as FetchReportsByKeyAndDateHook
+  from '@/src/hooks/useFetchReportsByKeyAndDate'
 import * as LiquidityTxsHook from '@/src/hooks/useLiquidityTxs'
 import * as LocalStorageHook from '@/src/hooks/useLocalStorage'
 import * as MountedStateHook from '@/src/hooks/useMountedState'
@@ -76,10 +86,10 @@ import * as SearchResultsHook from '@/src/hooks/useSearchResults'
 import * as SubgraphFetchHook from '@/src/hooks/useSubgraphFetch'
 import * as TokenDecimalsHook from '@/src/hooks/useTokenDecimals'
 import * as TxToastHook from '@/src/hooks/useTxToast'
-import * as UnstakeReportingStakeHook from '@/src/hooks/useUnstakeReportingStake'
+import * as UnstakeReportingStakeHook
+  from '@/src/hooks/useUnstakeReportingStake'
 import * as ValidateReferralCodeHook from '@/src/hooks/useValidateReferralCode'
 import * as ValidReportHook from '@/src/hooks/useValidReport'
-import * as AuthHook from '@/lib/connect-wallet/hooks/useAuth'
 import * as VoteHook from '@/src/hooks/useVote'
 // import * as CoverProductsFunction from '@/src/services/covers-products'
 // import * as BondInfoFile from '@/src/services/protocol/bond/info'
@@ -497,16 +507,10 @@ const mockHooksOrMethods = {
         .mockImplementation(returnFunction(cb))
   },
 
-  useCoversAndProducts: (resolve = true, returnData = {}) =>
+  useCoversAndProducts2: (cb = () => testData.coversAndProducts2) =>
     jest
       .spyOn(CoversAndProducts2Hook, 'useCoversAndProducts2')
-      .mockImplementation(() => ({
-        getCoverOrProductData: jest.fn(() =>
-          resolve
-            ? Promise.resolve(returnData)
-            : Promise.reject(new Error('Error occurred'))
-        )
-      })),
+      .mockImplementation(returnFunction(cb)),
 
   useGovernanceAddress: (cb = () => testData.governanceAddress) =>
     jest
@@ -537,6 +541,9 @@ const mockHooksOrMethods = {
 
   useVote: (cb = () => testData.castYourVote) =>
     jest.spyOn(VoteHook, 'useVote').mockImplementation(returnFunction(cb)),
+
+  useCoverDropdown: (cb = () => testData.coverDropdown) =>
+    jest.spyOn(CoverDropdownHook, 'useCoverDropdown').mockImplementation(returnFunction(cb)),
 
   useBondInfo: (cb = () => testData.bondInfo) => {
     jest
