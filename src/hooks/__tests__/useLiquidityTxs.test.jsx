@@ -1,13 +1,16 @@
 import { useLiquidityTxs } from '@/src/hooks/useLiquidityTxs'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useLiquidityTxs', () => {
   const { mock, mockFunction, restore } = mockGlobals.console.error()
-  mockHooksOrMethods.useWeb3React()
-  mockHooksOrMethods.useNetwork()
-  mockHooksOrMethods.getGraphURL()
+
+  beforeEach(() => {
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.getGraphURL()
+  })
 
   const args = [
     {
@@ -41,10 +44,10 @@ describe('useLiquidityTxs', () => {
 
     const { result } = await renderHookWrapper(useLiquidityTxs, args, true)
 
-    const hasMore =
+    const isLastPage =
       mockData.data.liquidityTransactions.length === 0 ||
       mockData.data.liquidityTransactions.length < args[0].limit
-    expect(result.hasMore).toBe(!hasMore)
+    expect(result.hasMore).toBe(!isLastPage)
     expect(result.data.blockNumber).toEqual(mockData.data._meta.block.number)
     expect(result.data.transactions).toEqual(
       mockData.data.liquidityTransactions

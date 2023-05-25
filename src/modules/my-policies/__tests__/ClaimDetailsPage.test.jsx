@@ -1,11 +1,9 @@
 import { ClaimDetailsPage } from '@/modules/my-policies/ClaimDetailsPage'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 describe('Claim Details Page loading', () => {
@@ -18,7 +16,7 @@ describe('Claim Details Page loading', () => {
       },
       locale: 'en'
     }))
-    // mockHooksOrMethods.useCoverOrProductData(() => null)
+    mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, loading: true }))
     mockHooksOrMethods.useActivePoliciesByCover()
     mockHooksOrMethods.useFetchReportsByKeyAndDate()
     mockHooksOrMethods.useAppConstants()
@@ -44,7 +42,7 @@ describe('Claim Details Page disabled', () => {
       },
       locale: 'en'
     }))
-    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useCoversAndProducts2()
     mockHooksOrMethods.useActivePoliciesByCover()
     mockHooksOrMethods.useFetchReportsByKeyAndDate()
     mockHooksOrMethods.useAppConstants()
@@ -72,7 +70,6 @@ describe('Claim Details Page', () => {
       },
       locale: 'en'
     }))
-    // mockHooksOrMethods.useCoverOrProductData()
     mockHooksOrMethods.useActivePoliciesByCover()
     mockHooksOrMethods.useFetchReportsByKeyAndDate()
     mockHooksOrMethods.useAppConstants()

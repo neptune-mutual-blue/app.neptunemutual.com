@@ -29,9 +29,9 @@ describe('Toggle test', () => {
     expect(props.setEnabled).toHaveBeenCalled()
   })
 
-  test('should have class `bg-4E7DD9` when enabled', () => {
+  test('should have class `bg-primary` when enabled', () => {
     rerenderFn({ enabled: true })
     const switchComp = screen.getByTestId('switch-component')
-    expect(switchComp).toHaveClass('bg-4E7DD9')
+    expect(switchComp).toHaveClass('bg-primary')
   })
 })

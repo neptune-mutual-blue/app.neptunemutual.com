@@ -1,17 +1,9 @@
-import { mockGlobals } from '@/utils/unit-tests/mock-globals'
-import { useActivePolicies } from '../useActivePolicies'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
 
-const mockReturnData = {
-  data: {
-    userPolicies: [
-      {
-        totalAmountToCover: '1000'
-      }
-    ]
-  }
-}
+import { useActivePolicies } from '../useActivePolicies'
 
 describe('useActivePolicies', () => {
   const { mock, restore, mockFunction } = mockGlobals.console.error()
@@ -31,15 +23,15 @@ describe('useActivePolicies', () => {
 
   test('while fetching successful', async () => {
     mockHooksOrMethods.useWeb3React()
-    mockGlobals.fetch(true, undefined, mockReturnData)
+    mockHooksOrMethods.getActivePolicies()
 
     const { result } = await renderHookWrapper(useActivePolicies, [], true)
 
     expect(result.data.activePolicies).toEqual([
-      ...mockReturnData.data.userPolicies
+      ...testData.activePolicies.data.activePolicies
     ])
     expect(result.data.totalActiveProtection.toString()).toEqual(
-      mockReturnData.data.userPolicies[0].totalAmountToCover
+      testData.activePolicies.data.totalActiveProtection
     )
   })
 

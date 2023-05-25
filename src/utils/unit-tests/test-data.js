@@ -1,5 +1,6 @@
 import {
   convertToUnits,
+  sumOf,
   toBN
 } from '@/utils/bn'
 
@@ -163,6 +164,45 @@ const coverAndProductData2 = {
   coverInfoUrl: '/ipfs/QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq',
   productInfoUrl: '/ipfs/QmTwXYSsMjEZFCCcsJx7JS89Rs4gezQvgqEhf7rb7tm3z1'
 }
+
+const activePolicies = [
+  {
+    id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc-1664582399',
+    coverKey:
+      '0x68756f62692d77616e0000000000000000000000000000000000000000000000',
+    productKey:
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
+    cxToken: {
+      id: '0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc',
+      creationDate: '1659576476',
+      expiryDate: '1664582399'
+    },
+    totalAmountToCover: '32000000',
+    expiresOn: '1664582399',
+    cover: {
+      id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
+    },
+    product: null
+  },
+  {
+    id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399',
+    coverKey:
+      '0x6262382d65786368616e67650000000000000000000000000000000000000000',
+    productKey:
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
+    cxToken: {
+      id: '0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2',
+      creationDate: '1658819063',
+      expiryDate: '1664582399'
+    },
+    totalAmountToCover: '1000000000',
+    expiresOn: '1664582399',
+    cover: {
+      id: '0x6262382d65786368616e67650000000000000000000000000000000000000000'
+    },
+    product: null
+  }
+]
 
 export const testData = {
   covers: [
@@ -925,45 +965,8 @@ export const testData = {
   },
   activePolicies: {
     data: {
-      activePolicies: [
-        {
-          id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc-1664582399',
-          coverKey:
-            '0x68756f62692d77616e0000000000000000000000000000000000000000000000',
-          productKey:
-            '0x0000000000000000000000000000000000000000000000000000000000000000',
-          cxToken: {
-            id: '0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc',
-            creationDate: '1659576476',
-            expiryDate: '1664582399'
-          },
-          totalAmountToCover: '32000000',
-          expiresOn: '1664582399',
-          cover: {
-            id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
-          },
-          product: null
-        },
-        {
-          id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399',
-          coverKey:
-            '0x6262382d65786368616e67650000000000000000000000000000000000000000',
-          productKey:
-            '0x0000000000000000000000000000000000000000000000000000000000000000',
-          cxToken: {
-            id: '0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2',
-            creationDate: '1658819063',
-            expiryDate: '1664582399'
-          },
-          totalAmountToCover: '1000000000',
-          expiresOn: '1664582399',
-          cover: {
-            id: '0x6262382d65786368616e67650000000000000000000000000000000000000000'
-          },
-          product: null
-        }
-      ],
-      totalActiveProtection: '1032000000'
+      activePolicies,
+      totalActiveProtection: sumOf(...activePolicies.map(policy => policy.amount)).toString()
     },
     loading: false
   },
@@ -1970,5 +1973,6 @@ export const testData = {
     covers: [],
     selected: coverAndProductData2,
     setSelected: jest.fn()
-  }
+  },
+  getActivePolicies: activePolicies
 }
