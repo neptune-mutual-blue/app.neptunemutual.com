@@ -1,7 +1,6 @@
 import {
   useCallback,
   useEffect,
-  useMemo,
   useState
 } from 'react'
 
@@ -10,37 +9,29 @@ import { useRouter } from 'next/router'
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
 import {
-  DestinationBalanceError,
-  useBalance
+  DestinationBalanceError
 } from '@/modules/bridge/bridge-form/DestinationBalanceError'
 import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
 import { NetworkSelect } from '@/modules/bridge/bridge-form/NetworkSelect'
 import {
   TransferAmountInput
 } from '@/modules/bridge/bridge-form/TransferAmountInput'
-import * as lzConfig from '@/src/config/bridge/layer-zero'
+import { BRIDGE_KEYS } from '@/src/config/bridge'
 import { LayerZeroChainIds } from '@/src/config/bridge/layer-zero'
-import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { useLayerZeroBridge } from '@/src/hooks/useLayerZeroBridge'
 import {
   convertFromUnits,
-  convertToUnits,
-  toBNSafe
+  convertToUnits
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getNetworkInfo } from '@/utils/network'
-import { isAddress } from '@ethersproject/address'
 import { useWeb3React } from '@web3-react/core'
 
 // const SLIPPAGE_MULTIPLIER = 1_000_000
 // const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
 
 export const LayerZeroBridgeModule = ({
-  setButtonText,
-  setButtonDisabled,
-  btnClickValue,
+  layerZeroHookResult,
   setInfoArray,
   selectedBridge,
   sendAmount,
@@ -54,61 +45,33 @@ export const LayerZeroBridgeModule = ({
   const { locale } = useRouter()
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
-  const { isTestNet } = getNetworkInfo(networkId)
-
-  const tokenData = isTestNet ? lzConfig.TESTNET_TOKENS : lzConfig.MAINNET_TOKENS
-  const tokenSymbol = 'NPM'
-
-  const filteredNetworks = useMemo(() => {
-    const _networks = isTestNet ? networks.testnet : networks.mainnet
-    const filtered = _networks
-      .filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
-
-    return filtered
-  }, [isTestNet, tokenData])
-  const bridgeContractAddress = lzConfig.BRIDGE_CONTRACTS[networkId]
-
   const [estimation, setEstimation] = useState(null)
-
-  const sourceTokenAddress = tokenData[networkId].address
-  const sourceTokenDecimals = tokenData[networkId].decimal
-
-  // const srcChainId = selectedNetworks?.network1?.chainId
-  const destChainId = selectedNetworks?.network2?.chainId
-  const _receiverAddress = receiverAddress || account
-
-  const destinationTokenData = selectedNetworks?.network2?.chainId ? tokenData[selectedNetworks?.network2?.chainId] : {}
-  // const destinationTokenAddress = destinationTokenData.address || ''
-  const destinationTokenDecimals = destinationTokenData?.decimal || 1
-  // const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
-
-  const { balance: destinationBalance } = useBalance(destChainId)
 
   const {
     balance,
-    allowance,
-    handleApprove,
-    handleBridge,
-    approving,
-    bridging,
+    chainGasPrice,
+    estimating,
     getEstimatedDestGas,
-    estimating: calculatingFee,
     getEstimatedCurrentChainGas,
-    chainGasPrice
-  } = useLayerZeroBridge({
-    bridgeContractAddress,
-    tokenAddress: sourceTokenAddress,
+    sourceTokenDecimal,
     tokenSymbol,
-    tokenDecimal: sourceTokenDecimals
-  })
+    tokenData,
+    filteredNetworks,
 
-  useEffect(() => {
-    const options = networks[getNetworkInfo(networkId).isMainNet ? 'mainnet' : 'testnet']
-    setSelectedNetworks((prev) => ({ ...prev, network1: options.find(x => x.chainId === parseInt(networkId)) }))
-    // eslint-disable-next-line
-  }, [networkId])
+    destinationBalance
+  } = layerZeroHookResult
 
-  const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimals).toString(), 1000)
+  const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
+  const _receiverAddress = receiverAddress || account
+  const destChainId = selectedNetworks?.destNetwork?.chainId
+  const destinationTokenData = destChainId ? tokenData[destChainId] : {}
+  const destinationTokenDecimals = destinationTokenData?.decimal || 1
+
+  // const srcChainId = selectedNetworks?.srcNetwork?.chainId
+  // const destinationTokenAddress = destinationTokenData.address || ''
+  // const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
+
+  const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimal).toString(), 1000)
 
   const updateEstimation = useCallback(async function () {
     const _estimation = await getEstimatedDestGas(
@@ -119,7 +82,7 @@ export const LayerZeroBridgeModule = ({
     setEstimation(_estimation)
 
     const currentChainGas = await getEstimatedCurrentChainGas(
-      convertToUnits(sendAmount, sourceTokenDecimals).toString()
+      convertToUnits(sendAmount, sourceTokenDecimal).toString()
     )
     if (currentChainGas) setEstimation(_prev => ({ ..._prev, currentChainGas }))
 
@@ -129,61 +92,6 @@ export const LayerZeroBridgeModule = ({
   useEffect(() => {
     updateEstimation()
   }, [updateEstimation])
-
-  const canApprove =
-    !toBNSafe(sendAmount).isZero() &&
-    convertToUnits(sendAmount, sourceTokenDecimals).isLessThanOrEqualTo(balance) &&
-    convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(allowance)
-
-  const canBridge =
-    !toBNSafe(sendAmount).isZero() &&
-    convertToUnits(sendAmount, sourceTokenDecimals).isLessThanOrEqualTo(allowance)
-
-  const isValidAddress = isAddress(receiverAddress || account)
-
-  const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
-
-  const handleBridgeClick = async () => {
-    if (canBridge) {
-      await updateEstimation()
-
-      await handleBridge(
-        convertToUnits(sendAmount, sourceTokenDecimals).toString(),
-        LayerZeroChainIds[destChainId],
-        receiverAddress || account
-      )
-      return
-    }
-
-    if (canApprove) {
-      handleApprove(
-        convertToUnits(sendAmount, sourceTokenDecimals).toString()
-      )
-    }
-  }
-
-  const buttonDisabled =
-    !(canApprove || canBridge) ||
-    approving ||
-    bridging ||
-    calculatingFee ||
-    (canBridge && receiverAddress && !isValidAddress) ||
-    convertToUnits(sendAmount, sourceTokenDecimals).isGreaterThan(destinationBalance)
-
-  useEffect(() => {
-    if (selectedBridge !== 'layer-zero') return
-
-    setButtonText(canBridge ? 'Bridge' : `Approve ${tokenSymbol}`)
-    setButtonDisabled(buttonDisabled)
-    // eslint-disable-next-line
-    }, [canBridge, tokenSymbol, buttonDisabled, selectedBridge])
-
-  useEffect(() => {
-    if (selectedBridge !== 'layer-zero') return
-
-    if (btnClickValue) handleBridgeClick()
-    // eslint-disable-next-line
-  }, [btnClickValue, selectedBridge])
 
   useEffect(() => {
     const formattedReceiveAmount = formatCurrency(sendAmount, locale, tokenSymbol, true)
@@ -241,7 +149,7 @@ export const LayerZeroBridgeModule = ({
       {
         key: `Current Chain Gas Fee (${formattedChainGasPriceInGwei.short})`,
         value: formattedCurrentGasChainPrice.short,
-        loading: calculatingFee,
+        loading: estimating,
         info: (
           <>
             Estimated gas fee for current chain is {formattedCurrentGasChainPrice.long}.<br />
@@ -252,7 +160,7 @@ export const LayerZeroBridgeModule = ({
       {
         key: 'Destination Chain Gas Fee',
         value: formattedNativeFee.short,
-        loading: calculatingFee,
+        loading: estimating,
         info: `Estimated gas fee for destination chain is ${formattedNativeFee.long}`
       },
       {
@@ -262,9 +170,9 @@ export const LayerZeroBridgeModule = ({
       }
     ])
     // eslint-disable-next-line
-  }, [calculatingFee, sendAmount, tokenSymbol, chainGasPrice, estimation, locale, srcChainConfig])
+  }, [estimating, sendAmount, tokenSymbol, chainGasPrice, estimation, locale, srcChainConfig])
 
-  if (selectedBridge !== 'layer-zero') return <></>
+  if (selectedBridge !== BRIDGE_KEYS.LAYERZERO) return <></>
 
   return (
     <div className='flex-grow p-4 lg:p-8 lg:max-w-450'>
@@ -273,7 +181,7 @@ export const LayerZeroBridgeModule = ({
       <div className='relative mt-4'>
         <TransferAmountInput
           balance={balance}
-          tokenDecimals={sourceTokenDecimals}
+          tokenDecimals={sourceTokenDecimal}
           tokenSymbol={tokenSymbol}
           value={sendAmount}
           onChange={(val) => setSendAmount(val)}
@@ -290,7 +198,7 @@ export const LayerZeroBridgeModule = ({
 
           <NetworkSelect
             label='From'
-            selected={selectedNetworks.network1}
+            selected={selectedNetworks.srcNetwork}
             defaultChain={parseInt(networkId)}
             onChange={() => {}}
             disabled
@@ -303,10 +211,10 @@ export const LayerZeroBridgeModule = ({
           <NetworkSelect
             label='To'
             className='mt-2.5'
-            selected={selectedNetworks.network2}
+            selected={selectedNetworks.destNetwork}
             options={filteredNetworks.filter(n => n.chainId.toString() !== networkId.toString())}
             onChange={(val) =>
-              setSelectedNetworks((prev) => ({ ...prev, network2: val }))}
+              setSelectedNetworks((prev) => ({ ...prev, destNetwork: val }))}
           />
         </div>
 
@@ -314,7 +222,7 @@ export const LayerZeroBridgeModule = ({
           tokenSymbol={tokenSymbol}
           tokenDecimals={destinationTokenDecimals}
           balance={destinationBalance}
-          transferAmount={sendAmount ? convertToUnits(sendAmount, sourceTokenDecimals).toString() : ''}
+          transferAmount={sendAmount ? convertToUnits(sendAmount, sourceTokenDecimal).toString() : ''}
           className='mt-4'
         />
 

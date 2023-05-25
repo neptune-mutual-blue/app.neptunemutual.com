@@ -1,10 +1,15 @@
 import {
-  useCallback,
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import {
+  useLayerZeroDestinationBalance
+} from '@/modules/bridge/useLayerZeroDestinationBalance'
+import * as lzConfig from '@/src/config/bridge/layer-zero'
+import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
@@ -17,48 +22,64 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { convertFromUnits, toBNSafe } from '@/utils/bn'
+import {
+  convertFromUnits,
+  convertToUnits,
+  toBNSafe
+} from '@/utils/bn'
+import { getNetworkInfo } from '@/utils/network'
+import { isAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { useWeb3React } from '@web3-react/core'
-import { GAS_LIMIT_WITHOUT_APPROVAL, GAS_LIMIT_WITH_APPROVAL } from '@/src/config/bridge/layer-zero'
 
-const ABI = [
-  'function estimateSendFee(uint16 _dstChainId, bytes calldata _toAddress, uint _amount, bool _useZro, bytes calldata _adapterParams) external view returns (uint nativeFee, uint zroFee)',
-  'function sendFrom(address _from, uint16 _dstChainId, bytes calldata _toAddress, uint _amount, address payable _refundAddress, address _zroPaymentAddress, bytes calldata _adapterParams) external payable'
-]
+import { useLayerZeroEstimation } from './useLayerZeroEstimation'
 
-export const useLayerZeroBridge = ({
-  bridgeContractAddress,
-  tokenAddress,
-  tokenSymbol,
-  tokenDecimal
-}) => {
+export const useLayerZeroBridge = ({ destChainId, sendAmount, receiverAddress }) => {
+  const { networkId } = useNetwork()
+
+  const layerZeroData = useMemo(() => {
+    const { isTestNet } = getNetworkInfo(networkId)
+    const tokenData = isTestNet ? lzConfig.TESTNET_TOKENS : lzConfig.MAINNET_TOKENS
+    const _networks = isTestNet ? networks.testnet : networks.mainnet
+    const filtered = _networks
+      .filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
+
+    return {
+      bridgeContractAddress: lzConfig.BRIDGE_CONTRACTS[networkId],
+      tokenSymbol: 'NPM',
+      tokenData,
+      filteredNetworks: filtered
+    }
+  }, [networkId])
+
+  const bridgeContractAddress = layerZeroData.bridgeContractAddress
+  const tokenSymbol = layerZeroData.tokenSymbol
+  const sourceTokenAddress = layerZeroData.tokenData[networkId]?.address
+  const sourceTokenDecimal = layerZeroData.tokenData[networkId]?.decimal
+
+  const sendAmountInUnits = convertToUnits(sendAmount || '0', sourceTokenDecimal).toString()
+
   const [approving, setApproving] = useState(false)
   const [bridging, setBridging] = useState(false)
-  const [estimating, setCalculatingFee] = useState(false)
 
-  const { balance, refetch: refetchBalance } = useERC20Balance(tokenAddress)
-  const { allowance, approve, refetch } = useERC20Allowance(tokenAddress)
+  const { balance, refetch: refetchBalance } = useERC20Balance(sourceTokenAddress)
+  const { allowance, approve, refetch } = useERC20Allowance(sourceTokenAddress)
 
-  const { networkId } = useNetwork()
   const { library, account } = useWeb3React()
 
-  const [chainGasPrice, setChainGasPrice] = useState('0')
-
-  const getAndUpdateChainGasPrice = useCallback(async () => {
-    if (!library) return '0'
-
-    try {
-      const _gasPrice = await library.getGasPrice()
-      setChainGasPrice(_gasPrice.toString())
-      return _gasPrice.toString()
-    } catch (e) {
-      console.error(`Error in getting current chain gas Price: ${e}`)
-    }
-
-    return '0'
-  }, [library])
+  const { balance: destinationBalance } = useLayerZeroDestinationBalance(destChainId)
+  const {
+    chainGasPrice,
+    estimating,
+    estimation
+  } = useLayerZeroEstimation({
+    allowance,
+    bridgeContractAddress,
+    destChainId,
+    receiverAddress,
+    sendAmountInUnits
+  })
 
   useEffect(() => {
     refetch(bridgeContractAddress)
@@ -66,9 +87,9 @@ export const useLayerZeroBridge = ({
 
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
-  const { writeContract, contractRead } = useTxPoster()
+  const { writeContract } = useTxPoster()
 
-  const handleApprove = (sendAmount) => {
+  const handleApprove = () => {
     setApproving(true)
 
     const cleanup = () => {
@@ -97,7 +118,7 @@ export const useLayerZeroBridge = ({
           methodName: METHODS.BRIDGE_APPROVE,
           status: STATUS.PENDING,
           data: {
-            value: convertFromUnits(sendAmount, tokenDecimal),
+            value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
             tokenSymbol: tokenSymbol
           }
         })
@@ -106,15 +127,15 @@ export const useLayerZeroBridge = ({
           tx,
           {
             pending: getActionMessage(METHODS.BRIDGE_APPROVE, STATUS.PENDING, {
-              value: convertFromUnits(sendAmount, tokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol: tokenSymbol
             }).title,
             success: getActionMessage(METHODS.BRIDGE_APPROVE, STATUS.SUCCESS, {
-              value: convertFromUnits(sendAmount, tokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol: tokenSymbol
             }).title,
             failure: getActionMessage(METHODS.BRIDGE_APPROVE, STATUS.FAILED, {
-              value: convertFromUnits(sendAmount, tokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol: tokenSymbol
             }).title
           },
@@ -138,7 +159,7 @@ export const useLayerZeroBridge = ({
         cleanup()
       }
 
-      approve(bridgeContractAddress, sendAmount, {
+      approve(bridgeContractAddress, sendAmountInUnits, {
         onTransactionResult,
         onRetryCancel,
         onError
@@ -149,62 +170,7 @@ export const useLayerZeroBridge = ({
     }
   }
 
-  const getEstimatedDestGas = async (
-    sendAmount,
-    receiverAddress,
-    destChainId
-  ) => {
-    if (!sendAmount || !destChainId || !receiverAddress) return null
-
-    const handleError = (err) => {
-      notifyError(err, 'Could not estimate fees')
-    }
-
-    try {
-      setCalculatingFee(true)
-      const provider = getProviderOrSigner(library, account, networkId)
-      const instance = new Contract(bridgeContractAddress, ABI, provider)
-
-      const data = await contractRead({
-        instance,
-        methodName: 'estimateSendFee',
-        args: [
-          destChainId, // _dstChainId
-          receiverAddress, // _toAddress
-          sendAmount, // _amount
-          false, // _useZro
-          '0x'// _adapterParams
-        ]
-      })
-
-      return data
-    } catch (err) {
-      handleError(err)
-    } finally {
-      setCalculatingFee(false)
-    }
-
-    return null
-  }
-
-  const getEstimatedCurrentChainGas = async (sendAmount) => {
-    let fees = '0'
-
-    try {
-      const _chainGasPrice = await getAndUpdateChainGasPrice()
-      const approved = toBNSafe(allowance).isGreaterThanOrEqualTo(sendAmount)
-      const limit = approved ? GAS_LIMIT_WITH_APPROVAL : GAS_LIMIT_WITHOUT_APPROVAL
-      if (limit) {
-        fees = toBNSafe(_chainGasPrice).multipliedBy(limit).toString()
-      }
-    } catch (error) {
-      console.error(`Error in getting gas limit for 'sendFrom' method: ${error}`)
-    }
-
-    return fees
-  }
-
-  const handleBridge = async (sendAmount, dstChainId, receiverAddress) => {
+  const handleBridge = async () => {
     setBridging(true)
 
     const cleanup = () => {
@@ -227,17 +193,17 @@ export const useLayerZeroBridge = ({
     }
 
     const args = {
-      dstChainId: dstChainId,
+      dstChainId: lzConfig.LayerZeroChainIds[destChainId],
       fromAddress: account,
       toAddress: receiverAddress || account,
-      amount: sendAmount,
+      amount: sendAmountInUnits,
       zroPaymentAddress: AddressZero,
       adapterParams: '0x'
     }
 
     try {
       const provider = getProviderOrSigner(library, account, networkId)
-      const instance = new Contract(bridgeContractAddress, ABI, provider)
+      const instance = new Contract(bridgeContractAddress, lzConfig.ABI, provider)
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -245,7 +211,7 @@ export const useLayerZeroBridge = ({
           methodName: METHODS.BRIDGE_TOKEN,
           status: STATUS.PENDING,
           data: {
-            value: convertFromUnits(sendAmount, tokenDecimal),
+            value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
             tokenSymbol
           }
         })
@@ -254,15 +220,15 @@ export const useLayerZeroBridge = ({
           tx,
           {
             pending: getActionMessage(METHODS.BRIDGE_TOKEN, STATUS.PENDING, {
-              value: convertFromUnits(sendAmount, tokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol
             }).title,
             success: getActionMessage(METHODS.BRIDGE_TOKEN, STATUS.SUCCESS, {
-              value: convertFromUnits(sendAmount, tokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol
             }).title,
             failure: getActionMessage(METHODS.BRIDGE_TOKEN, STATUS.FAILED, {
-              value: convertFromUnits(sendAmount, tokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol
             }).title
           },
@@ -301,7 +267,7 @@ export const useLayerZeroBridge = ({
           args.adapterParams // _adapterParam
         ],
         overrides: {
-          value: (await getEstimatedDestGas(args.amount, args.toAddress, args.dstChainId)).nativeFee
+          value: estimation?.nativeFee
         },
         onTransactionResult,
         onRetryCancel,
@@ -313,17 +279,47 @@ export const useLayerZeroBridge = ({
     }
   }
 
+  const canApprove =
+    !toBNSafe(sendAmount).isZero() &&
+    convertToUnits(sendAmount, sourceTokenDecimal).isLessThanOrEqualTo(balance) &&
+    convertToUnits(sendAmount, sourceTokenDecimal).isGreaterThan(allowance)
+
+  const canBridge =
+    !toBNSafe(sendAmount).isZero() &&
+    convertToUnits(sendAmount, sourceTokenDecimal).isLessThanOrEqualTo(allowance)
+
+  const isValidAddress = isAddress(receiverAddress)
+
+  const buttonDisabled =
+    !(canApprove || canBridge) ||
+    approving ||
+    bridging ||
+    estimating ||
+    (canBridge && receiverAddress && !isValidAddress) ||
+    convertToUnits(sendAmount, sourceTokenDecimal).isGreaterThan(destinationBalance)
+
   return {
-    balance,
     approvedNpm: allowance,
-    handleApprove,
     approving,
-    handleBridge,
-    bridging,
     allowance,
-    getEstimatedDestGas,
+    balance,
+    bridgeContractAddress,
+    bridging,
+    handleApprove,
+    handleBridge,
+    sourceTokenAddress,
+    sourceTokenDecimal,
+    tokenSymbol,
+    tokenData: layerZeroData.tokenData,
+    filteredNetworks: layerZeroData.filteredNetworks,
+
+    canApprove,
+    canBridge,
+    destinationBalance,
+    buttonDisabled,
+
+    chainGasPrice,
     estimating,
-    getEstimatedCurrentChainGas,
-    chainGasPrice
+    estimation
   }
 }
