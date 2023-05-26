@@ -84,7 +84,7 @@ const TransferAmountInput = ({
 
       <div className='flex gap-1 mt-2.5'>
         <CurrencyInput
-          className='flex-grow text-xl bg-transparent outline-none'
+          className='flex-grow min-w-120 text-xl bg-transparent outline-none'
           {...inputFieldProps}
         />
         <button
