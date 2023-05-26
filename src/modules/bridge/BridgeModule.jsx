@@ -116,8 +116,8 @@ const BridgeModule = () => {
           {selectedBridge === BRIDGE_KEYS.CELER && (
             <CommonBridgeActions
               disabled={celerHookResult.buttonDisabled}
-              approving={layerZeroHookResult.approving}
-              bridging={layerZeroHookResult.bridging}
+              approving={celerHookResult.approving}
+              bridging={celerHookResult.bridging}
               handleApprove={() => celerHookResult.handleApprove(
                 convertToUnits(sendAmount, celerHookResult.sourceTokenDecimal).toString()
               )}
