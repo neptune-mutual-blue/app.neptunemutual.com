@@ -396,13 +396,13 @@ const useVoteEscrowData = () => {
 
       const unlockTimestamp = await contractRead({
         instance,
-        methodName: 'getUnlockTimestamp',
+        methodName: '_unlockAt',
         args: [account]
       })
 
       const calls = [
         instance.balanceOf(account),
-        instance.getLockedTokenBalance(account)
+        instance._balances(account)
       ]
 
       const [veNPMBalance, lockedNPMBalance] = await Promise.all(calls)
