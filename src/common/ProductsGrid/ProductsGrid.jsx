@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useState
 } from 'react'
@@ -25,6 +26,7 @@ import {
   sorter
 } from '@/utils/sorting'
 import { Trans } from '@lingui/macro'
+import { scrollElementIntoView } from '@/utils/scroll'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -90,8 +92,12 @@ export const ProductsGrid = () => {
     setSearchValue(ev.target.value)
   }
 
+  useEffect(() => {
+    scrollElementIntoView('diversified-products-container', 150)
+  }, [])
+
   return (
-    <Container className='py-16' data-testid='available-covers-container'>
+    <Container className='py-16' data-testid='available-covers-container' id='diversified-products-container'>
       <div className='flex flex-wrap items-center justify-between gap-6 md:flex-nowrap'>
         <div className='flex items-center'>
           <Link
