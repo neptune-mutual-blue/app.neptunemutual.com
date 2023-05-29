@@ -1,8 +1,9 @@
-import { useUnstakeReportingStake } from '../useUnstakeReportingStake'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+import { useUnstakeReportingStake } from '../useUnstakeReportingStake'
 
 const mockProps = {
   coverKey:
@@ -11,6 +12,8 @@ const mockProps = {
     '0x6161766500000000000000000000000000000000000000000000000000000000',
   incidentDate: new Date().getTime()
 }
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useUnstakeReportingStake', () => {
   mockHooksOrMethods.useTxToast()

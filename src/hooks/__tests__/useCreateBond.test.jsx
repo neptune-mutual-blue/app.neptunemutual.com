@@ -6,6 +6,8 @@ import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useCreateBond', () => {
   mockHooksOrMethods.useDebounce()
   mockHooksOrMethods.useNetwork()

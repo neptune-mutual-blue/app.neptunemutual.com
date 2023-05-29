@@ -1,8 +1,9 @@
-import { useCapitalizePool } from '../useCapitalizePool'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+import { useCapitalizePool } from '../useCapitalizePool'
 
 const mockProps = {
   coverKey:
@@ -11,6 +12,8 @@ const mockProps = {
     '0x62616c616e636572000000000000000000000000000000000000000000000000',
   incidentDate: ''
 }
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useCapitalizePool', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

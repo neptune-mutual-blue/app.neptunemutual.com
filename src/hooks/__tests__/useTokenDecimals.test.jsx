@@ -1,8 +1,10 @@
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useTokenDecimals', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

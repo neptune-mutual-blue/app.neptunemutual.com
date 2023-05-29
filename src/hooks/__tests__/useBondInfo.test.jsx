@@ -1,13 +1,16 @@
-import { useBondInfo } from '../useBondInfo'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+import { useBondInfo } from '../useBondInfo'
 
 const mockData = {
   data: testData.bondInfo.data
 }
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useBondInfo', () => {
   describe('wallet is not connected', () => {
@@ -54,7 +57,6 @@ describe('useBondInfo', () => {
   describe('wallet is connected', () => {
     mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
     mockSdk.registry.BondPool.getInstance()
-    mockHooksOrMethods.getBondInfo(mockData.data)
 
     test('while fetching w/o networkId', async () => {
       mockHooksOrMethods.useWeb3React()

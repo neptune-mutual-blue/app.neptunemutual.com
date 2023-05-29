@@ -1,8 +1,10 @@
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { useBondPoolAddress } from '@/src/hooks/contracts/useBondPoolAddress'
-import { testData } from '@/utils/unit-tests/test-data'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useBondPoolAddress', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

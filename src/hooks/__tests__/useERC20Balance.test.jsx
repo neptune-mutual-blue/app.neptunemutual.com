@@ -1,9 +1,11 @@
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useERC20Balance', () => {
   mockHooksOrMethods.useNetwork()

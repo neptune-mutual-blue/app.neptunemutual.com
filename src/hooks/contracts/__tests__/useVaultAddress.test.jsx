@@ -1,8 +1,10 @@
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
 import { useVaultAddress } from '@/src/hooks/contracts/useVaultAddress'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useVaultAddress', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

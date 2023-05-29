@@ -1,11 +1,9 @@
 import {
   NewIncidentReportForm
 } from '@/src/modules/reporting/NewIncidentReportForm'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -16,10 +14,10 @@ describe('Incident Occurred form', () => {
     NewIncidentReportForm,
     {
       coverKey: 'coverKey',
-      productKey: 'productKey'
+      productKey: 'productKey',
+      minReportingStake: testData.coversAndProducts2.data.minReportingStake
     },
     () => {
-      // mockHooksOrMethods.useCoverStatsContext()
       mockHooksOrMethods.useReportIncident()
       mockHooksOrMethods.useTokenDecimals()
     }
@@ -321,25 +319,18 @@ describe('Incident Occurred form', () => {
       })
       fireEvent.change(stakeInput, { target: { value: 10 } })
 
-      const error = screen.getByText('Insufficient stake')
+      const error = screen.getByText('Insufficient Stake')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })
 
     test('Show error Insufficient Balance', () => {
-      // rerenderFn({}, () => {
-      //   mockHooksOrMethods.useCoverStatsContext(() => ({
-      //     ...testData.coverStats.info,
-      //     minReportingStake: '300000000000000000000',
-      //     refetch: () => Promise.resolve(1)
-      //   }))
-      // })
       const stakeInput = screen.getByRole('textbox', {
         name: 'Enter your stake'
       })
-      fireEvent.change(stakeInput, { target: { value: 1000 } })
+      fireEvent.change(stakeInput, { target: { value: 1000000 } })
 
-      const error = screen.getByText('Insufficient balance')
+      const error = screen.getByText('Insufficient Balance')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })

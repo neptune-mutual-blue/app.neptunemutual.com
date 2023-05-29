@@ -1,9 +1,10 @@
-import { useCalculatePods } from '../useCalculatePods'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
 import { convertToUnits } from '@/utils/bn'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+import { useCalculatePods } from '../useCalculatePods'
 
 const mockProps = {
   coverKey:
@@ -11,6 +12,8 @@ const mockProps = {
   value: 100,
   podAddress: '0xBD85714f56622BDec5599BA965E60d01d4943540'
 }
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useCalculatePods', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

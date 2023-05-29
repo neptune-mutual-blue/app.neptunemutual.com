@@ -971,27 +971,25 @@ export const testData = {
     loading: false
   },
   useExpiredPolicies: {
-    data: {
-      expiredPolicies: [
-        {
-          id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x2a405d704a54a1d4da200cb25a5a097c34629519-1661990399',
-          coverKey:
+    data: [
+      {
+        id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x2a405d704a54a1d4da200cb25a5a097c34629519-1661990399',
+        coverKey:
             '0x68756f62692d77616e0000000000000000000000000000000000000000000000',
-          productKey:
+        productKey:
             '0x0000000000000000000000000000000000000000000000000000000000000000',
-          cxToken: {
-            id: '0x2a405d704a54a1d4da200cb25a5a097c34629519',
-            creationDate: '1659576567',
-            expiryDate: '1661990399'
-          },
-          totalAmountToCover: '43000000',
-          expiresOn: '1661990399',
-          cover: {
-            id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
-          }
+        cxToken: {
+          id: '0x2a405d704a54a1d4da200cb25a5a097c34629519',
+          creationDate: '1659576567',
+          expiryDate: '1661990399'
+        },
+        totalAmountToCover: '43000000',
+        expiresOn: '1661990399',
+        cover: {
+          id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
         }
-      ]
-    },
+      }
+    ],
     loading: false
   },
   doughnutChart: {

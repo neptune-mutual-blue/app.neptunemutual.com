@@ -16,6 +16,8 @@ const mockReturnData = {
   loading: false
 }
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useCalculateLiquidity', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
   mockSdk.registry.Vault.getInstance()

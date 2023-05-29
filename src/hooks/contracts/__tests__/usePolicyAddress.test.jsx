@@ -1,7 +1,9 @@
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { usePolicyAddress } from '@/src/hooks/contracts/usePolicyAddress'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useClaimsProcessorAddress', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

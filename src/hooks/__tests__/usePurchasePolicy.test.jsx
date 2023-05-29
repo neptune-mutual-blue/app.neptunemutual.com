@@ -1,10 +1,12 @@
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { convertToUnits } from '@/utils/bn'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+jest.mock('@neptunemutual/sdk')
 
 const mockArgs = {
   coverKey:

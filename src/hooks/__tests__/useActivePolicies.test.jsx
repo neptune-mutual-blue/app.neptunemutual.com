@@ -1,13 +1,10 @@
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 
 import { useActivePolicies } from '../useActivePolicies'
 
 describe('useActivePolicies', () => {
-  const { mock, restore, mockFunction } = mockGlobals.console.error()
-
   mockHooksOrMethods.useNetwork()
   mockHooksOrMethods.getGraphURL()
 
@@ -36,16 +33,12 @@ describe('useActivePolicies', () => {
   })
 
   test('while fetching error', async () => {
-    mockGlobals.fetch(false)
-    mock()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.getActivePolicies(() => [])
 
     const { result } = await renderHookWrapper(useActivePolicies, [], true)
 
     expect(result.data.activePolicies).toEqual([])
     expect(result.data.totalActiveProtection.toString()).toEqual('0')
-    expect(mockFunction).toHaveBeenCalled()
-
-    mockGlobals.fetch().unmock()
-    restore()
   })
 })

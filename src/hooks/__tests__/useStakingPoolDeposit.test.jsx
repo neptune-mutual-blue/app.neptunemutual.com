@@ -1,9 +1,15 @@
 import { useStakingPoolDeposit } from '@/src/hooks/useStakingPoolDeposit'
-import { convertToUnits, sumOf, toBN } from '@/utils/bn'
+import {
+  convertToUnits,
+  sumOf,
+  toBN
+} from '@/utils/bn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useStakingPoolDeposit', () => {
   mockHooksOrMethods.useNetwork()

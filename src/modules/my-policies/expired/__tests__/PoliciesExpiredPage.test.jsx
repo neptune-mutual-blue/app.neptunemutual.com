@@ -1,8 +1,14 @@
-import { render, act, cleanup } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import { PoliciesExpiredPage } from '../PoliciesExpiredPage'
-import { testData } from '@/utils/unit-tests/test-data'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  act,
+  cleanup,
+  render
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+import { PoliciesExpiredPage } from '../PoliciesExpiredPage'
 
 describe('PoliciesExpiredPage', () => {
   beforeEach(() => {
@@ -26,7 +32,7 @@ describe('PoliciesExpiredPage', () => {
     const { getAllByTestId, queryByTestId } = render(<PoliciesExpiredPage />)
 
     const ids = getAllByTestId('card-outline')
-    expect(ids.length).toEqual(6)
+    expect(ids.length).toEqual(CARDS_PER_PAGE)
 
     const empty = queryByTestId('empty-text')
 
@@ -79,10 +85,12 @@ describe('PoliciesExpiredPage', () => {
   test('Should have 1 card', () => {
     cleanup()
 
+    mockHooksOrMethods.useCoversAndProducts2()
     mockHooksOrMethods.useExpiredPolicies()
+
     const { getAllByTestId } = render(<PoliciesExpiredPage />)
 
-    const ids = getAllByTestId('card-outline')
+    const ids = getAllByTestId('policy-card')
     expect(ids.length).toEqual(1)
   })
 })

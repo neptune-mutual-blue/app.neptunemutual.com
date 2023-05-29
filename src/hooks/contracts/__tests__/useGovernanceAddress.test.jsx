@@ -1,8 +1,12 @@
+import {
+  useGovernanceAddress
+} from '@/src/hooks/contracts/useGovernanceAddress'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
-import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress'
-import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useGovernanceAddress', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

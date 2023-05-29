@@ -1,8 +1,10 @@
 import { useVote } from '@/src/hooks/useVote'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useVote', () => {
   mockHooksOrMethods.useWeb3React()

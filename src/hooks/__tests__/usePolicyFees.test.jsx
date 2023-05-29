@@ -1,8 +1,13 @@
-import { defaultInfo, usePolicyFees } from '@/src/hooks/usePolicyFees'
+import {
+  defaultInfo,
+  usePolicyFees
+} from '@/src/hooks/usePolicyFees'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+
+jest.mock('@neptunemutual/sdk')
 
 function assertData (result, defaultData = false) {
   if (defaultData) {
