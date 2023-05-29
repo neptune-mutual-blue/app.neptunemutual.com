@@ -16,13 +16,8 @@ import { useBridgePricing } from '@/modules/bridge/useBridgePricing'
 import { useCelerBridge } from '@/modules/bridge/useCelerBridge'
 import { useLayerZeroBridge } from '@/modules/bridge/useLayerZeroBridge'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
-import * as lzConfig from '@/src/config/bridge/layer-zero'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
-import {
-  convertToUnits,
-  toBNSafe
-} from '@/utils/bn'
 import { getNetworkInfo } from '@/utils/network'
 import { useWeb3React } from '@web3-react/core'
 
@@ -31,7 +26,8 @@ const BridgeModule = () => {
   const { networkId } = useNetwork()
 
   const [sendAmount, setSendAmount] = useState('')
-  const [receiverAddress, setReceiverAddress] = useState('')
+  // eslint-disable-next-line no-unused-vars
+  const [receiverAddress, _setReceiverAddress] = useState('')
   const [selectedBridge, setSelectedBridge] = useState(BRIDGE_KEYS.LAYERZERO)
   const [selectedNetworks, setSelectedNetworks] = useState({
     srcNetwork: null,
@@ -76,22 +72,20 @@ const BridgeModule = () => {
     setSelectedNetworks(prev => ({ ...prev, destNetwork: null }))
   }, [selectedBridge])
 
-  const props = {
-    selectedBridge,
-    sendAmount,
-    setSendAmount,
-    receiverAddress: _receiverAddress,
-    setReceiverAddress,
-    selectedNetworks,
-    setSelectedNetworks,
-    conversionRates
-  }
-
   return (
     <Container className='pt-20 pb-72'>
       <div className='flex flex-col mx-auto bg-white border lg:divide-x divide-B0C4DB border-B0C4DB rounded-2xl lg:flex-row'>
         <CelerBridgeModule
-          {...props}
+          // common props
+          selectedBridge={selectedBridge}
+          sendAmount={sendAmount}
+          setSendAmount={setSendAmount}
+          selectedNetworks={selectedNetworks}
+          setSelectedNetworks={setSelectedNetworks}
+          conversionRates={conversionRates}
+          // receiverAddress={_receiverAddress}
+          // setReceiverAddress={setReceiverAddress}
+          // other props
           celerHookResult={celerHookResult}
           setInfoArray={(infoArray) => setInfoData(prev => ({ ...prev, [BRIDGE_KEYS.CELER]: infoArray }))}
           setTotalPriceInUsd={price => setTotalPriceInUsd(prev => ({ ...prev, [BRIDGE_KEYS.CELER]: price }))}
@@ -99,7 +93,17 @@ const BridgeModule = () => {
         />
 
         <LayerZeroBridgeModule
-          {...props}
+          // common props
+          destChainId={destChainId}
+          selectedBridge={selectedBridge}
+          sendAmount={sendAmount}
+          setSendAmount={setSendAmount}
+          selectedNetworks={selectedNetworks}
+          setSelectedNetworks={setSelectedNetworks}
+          conversionRates={conversionRates}
+          // receiverAddress={_receiverAddress}
+          // setReceiverAddress={setReceiverAddress}
+          // other props
           layerZeroHookResult={layerZeroHookResult}
           setInfoArray={(infoArray) => setInfoData(prev => ({ ...prev, [BRIDGE_KEYS.LAYERZERO]: infoArray }))}
           setTotalPriceInUsd={price => setTotalPriceInUsd(prev => ({ ...prev, [BRIDGE_KEYS.LAYERZERO]: price }))}
@@ -118,15 +122,8 @@ const BridgeModule = () => {
               disabled={celerHookResult.buttonDisabled}
               approving={celerHookResult.approving}
               bridging={celerHookResult.bridging}
-              handleApprove={() => celerHookResult.handleApprove(
-                convertToUnits(sendAmount, celerHookResult.sourceTokenDecimal).toString()
-              )}
-              handleBridge={() => celerHookResult.handleBridge(
-                convertToUnits(sendAmount, celerHookResult.sourceTokenDecimal).toString(),
-                selectedNetworks.destNetwork,
-                _receiverAddress,
-                celerHookResult.estimation.max_slippage
-              )}
+              handleApprove={() => celerHookResult.handleApprove()}
+              handleBridge={() => celerHookResult.handleBridge()}
               canBridge={celerHookResult.canBridge}
               bridgeTokenSymbol={celerHookResult.tokenSymbol}
             />
@@ -137,19 +134,9 @@ const BridgeModule = () => {
               disabled={layerZeroHookResult.buttonDisabled}
               approving={layerZeroHookResult.approving}
               bridging={layerZeroHookResult.bridging}
-              handleApprove={() => layerZeroHookResult.handleApprove(
-                convertToUnits(sendAmount, layerZeroHookResult.sourceTokenDecimal).toString()
-              )}
-              handleBridge={() => layerZeroHookResult.handleBridge(
-                convertToUnits(sendAmount, layerZeroHookResult.sourceTokenDecimal).toString(),
-                lzConfig.LayerZeroChainIds[destChainId],
-                _receiverAddress
-              )}
-              canBridge={
-            !toBNSafe(sendAmount).isZero() &&
-            convertToUnits(sendAmount, layerZeroHookResult.sourceTokenDecimal)
-              .isLessThanOrEqualTo(layerZeroHookResult.allowance)
-          }
+              handleApprove={() => layerZeroHookResult.handleApprove()}
+              handleBridge={() => layerZeroHookResult.handleBridge()}
+              canBridge={layerZeroHookResult.canBridge}
               bridgeTokenSymbol={layerZeroHookResult.tokenSymbol}
             />
           )}

@@ -43,3 +43,8 @@ export const BRIDGE_CONTRACTS = { // Proxy
 
 export const GAS_LIMIT_WITHOUT_APPROVAL = 350_000
 export const GAS_LIMIT_WITH_APPROVAL = 300_000
+
+export const ABI = [
+  'function estimateSendFee(uint16 _dstChainId, bytes calldata _toAddress, uint _amount, bool _useZro, bytes calldata _adapterParams) external view returns (uint nativeFee, uint zroFee)',
+  'function sendFrom(address _from, uint16 _dstChainId, bytes calldata _toAddress, uint _amount, address payable _refundAddress, address _zroPaymentAddress, bytes calldata _adapterParams) external payable'
+]

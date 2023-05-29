@@ -70,6 +70,8 @@ const useCelerBridge = ({
   const sourceTokenAddress = celerData.tokenData[networkId].address
   const sourceTokenDecimal = celerData.tokenData[networkId].decimal
 
+  const sendAmountInUnits = convertToUnits(sendAmount || '0', sourceTokenDecimal).toString()
+
   const [approving, setApproving] = useState(false)
   const [bridging, setBridging] = useState(false)
 
@@ -89,8 +91,7 @@ const useCelerBridge = ({
     allowance,
     destChainId,
     receiverAddress,
-    sendAmount,
-    sourceTokenDecimal,
+    sendAmountInUnits,
     srcChainId,
     tokenSymbol
   })
@@ -128,7 +129,7 @@ const useCelerBridge = ({
   const { notifyError } = useErrorNotifier()
   const { writeContract } = useTxPoster()
 
-  const handleApprove = (sendAmount) => {
+  const handleApprove = () => {
     setApproving(true)
 
     const cleanup = () => {
@@ -157,7 +158,7 @@ const useCelerBridge = ({
           methodName: METHODS.BRIDGE_APPROVE,
           status: STATUS.PENDING,
           data: {
-            value: convertFromUnits(sendAmount, sourceTokenDecimal),
+            value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
             tokenSymbol: tokenSymbol
           }
         })
@@ -166,15 +167,15 @@ const useCelerBridge = ({
           tx,
           {
             pending: getActionMessage(METHODS.BRIDGE_APPROVE, STATUS.PENDING, {
-              value: convertFromUnits(sendAmount, sourceTokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol: tokenSymbol
             }).title,
             success: getActionMessage(METHODS.BRIDGE_APPROVE, STATUS.SUCCESS, {
-              value: convertFromUnits(sendAmount, sourceTokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol: tokenSymbol
             }).title,
             failure: getActionMessage(METHODS.BRIDGE_APPROVE, STATUS.FAILED, {
-              value: convertFromUnits(sendAmount, sourceTokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol: tokenSymbol
             }).title
           },
@@ -198,7 +199,7 @@ const useCelerBridge = ({
         cleanup()
       }
 
-      approve(bridgeContractAddress, sendAmount, {
+      approve(bridgeContractAddress, sendAmountInUnits, {
         onTransactionResult,
         onRetryCancel,
         onError
@@ -209,7 +210,7 @@ const useCelerBridge = ({
     }
   }
 
-  const handleBridge = async (sendAmount, dstNetwork, receiverAddress, maxSlippage) => {
+  const handleBridge = async () => {
     setBridging(true)
 
     const cleanup = () => {
@@ -232,10 +233,10 @@ const useCelerBridge = ({
     }
 
     const args = {
-      dstChainId: dstNetwork.chainId,
+      dstChainId: destChainId,
       fromAddress: account,
       toAddress: receiverAddress || account,
-      amount: sendAmount,
+      amount: sendAmountInUnits,
       zroPaymentAddress: AddressZero,
       adapterParams: '0x'
     }
@@ -250,7 +251,7 @@ const useCelerBridge = ({
           methodName: METHODS.BRIDGE_TOKEN,
           status: STATUS.PENDING,
           data: {
-            value: convertFromUnits(sendAmount, sourceTokenDecimal),
+            value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
             tokenSymbol
           }
         })
@@ -259,15 +260,15 @@ const useCelerBridge = ({
           tx,
           {
             pending: getActionMessage(METHODS.BRIDGE_TOKEN, STATUS.PENDING, {
-              value: convertFromUnits(sendAmount, sourceTokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol
             }).title,
             success: getActionMessage(METHODS.BRIDGE_TOKEN, STATUS.SUCCESS, {
-              value: convertFromUnits(sendAmount, sourceTokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol
             }).title,
             failure: getActionMessage(METHODS.BRIDGE_TOKEN, STATUS.FAILED, {
-              value: convertFromUnits(sendAmount, sourceTokenDecimal),
+              value: convertFromUnits(sendAmountInUnits, sourceTokenDecimal),
               tokenSymbol
             }).title
           },
@@ -302,7 +303,7 @@ const useCelerBridge = ({
           args.amount, // _amount
           args.dstChainId.toString(), // _dstChainId
           Date.now().toString(), // _nonce
-          maxSlippage// maxSlippage
+          estimation.max_slippage// maxSlippage
         ],
         onTransactionResult,
         onRetryCancel,
