@@ -1,8 +1,8 @@
 import { Container } from '@/common/Container/Container'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
 
-const PurchasePageSkeleton = () => (
-  <main>
+const PurchasePageSkeleton = ({ ...rest }) => (
+  <main {...rest}>
     <Container className='pt-5 md:pt-9'>
       <Skeleton className='h-5 w-400 mb-11' />
     </Container>

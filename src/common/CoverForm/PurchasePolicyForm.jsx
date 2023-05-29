@@ -232,7 +232,7 @@ export const PurchasePolicyForm = ({
   }
 
   return (
-    <div className='flex flex-col w-616'>
+    <div className='flex flex-col w-616' data-testid='purchase-policy-form-container'>
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
       <div className='w-full p-4 rounded-xl bg-FEFEFF md:p-9 border-B0C4DB border-1.5' data-testid='purchase-policy-form'>

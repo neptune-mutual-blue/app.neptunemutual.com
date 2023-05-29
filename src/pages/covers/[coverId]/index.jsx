@@ -8,6 +8,7 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
+import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
 
 export default function CoverPage () {
   const router = useRouter()
@@ -35,9 +36,7 @@ export default function CoverPage () {
 function Content ({ loading, coverData, coverKey, productKey }) {
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <HomeHeroSkeleton />
     )
   }
 

@@ -70,10 +70,6 @@ describe('Claim Details Page', () => {
       },
       locale: 'en'
     }))
-    mockHooksOrMethods.useActivePoliciesByCover()
-    mockHooksOrMethods.useFetchReportsByKeyAndDate()
-    mockHooksOrMethods.useAppConstants()
-
     const { initialRender } = initiateTest(ClaimDetailsPage, {})
 
     initialRender()

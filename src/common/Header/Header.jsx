@@ -139,7 +139,7 @@ export const Header = () => {
       <header className='sticky z-40 bg-black -top-px text-EEEEEE'>
         <NavContainer>
           <nav className='flex justify-between max-w-full mx-auto' aria-label='Top'>
-            <div className='flex items-center justify-between py-0 h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none'>
+            <div className='flex items-center justify-between py-0 xl:basis-full h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none'>
               <Link
                 href={Routes.Home}
                 locale={router.locale || router.defaultLocale}
@@ -180,7 +180,7 @@ export const Header = () => {
               })}
             </div>
 
-            <div className='flex'>
+            <div className='flex xl:basis-full xl:justify-end'>
               <div className='items-center hidden pt-3 pb-3 xl:flex'>
                 <ConnectWallet networkId={networkId} notifier={notifier}>
                   {({ onOpen }) => {
