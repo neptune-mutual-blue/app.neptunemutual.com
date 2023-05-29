@@ -8,28 +8,30 @@ describe('Home Page', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockHooksOrMethods.useFetchHeroStats()
-    mockHooksOrMethods.useAppConstants()
-    mockHooksOrMethods.useProtocolDayData()
-
-    mockHooksOrMethods.useCovers()
-    mockHooksOrMethods.useFlattenedCoverProducts()
-    mockHooksOrMethods.useSortableStats()
-
     const { initialRender } = initiateTest(HomePage, {})
+
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useCoversAndProducts2()
 
     initialRender()
   })
 
-  test('should render the liquidity chart wrapper', () => {
-    const liquidityChartWrapper = screen.getByTestId('liquidity-chart-wrapper')
-    expect(liquidityChartWrapper).toBeInTheDocument()
+  test('should render the available covers container', () => {
+    const availableCoversContainer = screen.getByTestId('available-covers-container')
+    expect(availableCoversContainer).toBeInTheDocument()
   })
 
-  test('should render the available covers container', () => {
-    const availableCoversContainer = screen.getByTestId(
-      'available-covers-container'
+  test('should render the insights container', () => {
+    const NFTBannerContainer = screen.getByTestId(
+      'nft-banner'
     )
-    expect(availableCoversContainer).toBeInTheDocument()
+    expect(NFTBannerContainer).toBeInTheDocument()
+  })
+
+  test('should render the insights container', () => {
+    const insightsContainer = screen.getByTestId(
+      'hero-container'
+    )
+    expect(insightsContainer).toBeInTheDocument()
   })
 })

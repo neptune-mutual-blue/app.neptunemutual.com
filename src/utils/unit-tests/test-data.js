@@ -1085,98 +1085,100 @@ export const testData = {
     register: jest.fn()
   },
   protocolDayData: {
-    data: [
-      {
-        date: 1658880000,
-        totalLiquidity: '61483097602741'
-      },
-      {
-        date: 1658361600,
-        totalLiquidity: '61442554000000'
-      },
-      {
-        date: 1658361600,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1658275200,
-        totalLiquidity: '61434054000000'
-      },
-      {
-        date: 1658188800,
-        totalLiquidity: '61432804000000'
-      },
-      {
-        date: 1658534400,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1668102401,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1658793600,
-        totalLiquidity: '61469047602741'
-      },
+    data: {
+      totalCapacity: [
+        {
+          date: 1658880000,
+          value: '61483097602741'
+        },
+        {
+          date: 1658361600,
+          value: '61442554000000'
+        },
+        {
+          date: 1658361600,
+          value: '61447554000000'
+        },
+        {
+          date: 1658275200,
+          value: '61434054000000'
+        },
+        {
+          date: 1658188800,
+          value: '61432804000000'
+        },
+        {
+          date: 1658534400,
+          value: '61447554000000'
+        },
+        {
+          date: 1668102401,
+          value: '61447554000000'
+        },
+        {
+          date: 1658793600,
+          value: '61469047602741'
+        },
 
-      {
-        date: 1658880000,
-        totalLiquidity: '61449554000000'
-      },
+        {
+          date: 1658880000,
+          value: '61449554000000'
+        },
 
-      {
-        date: 1658966400,
-        totalLiquidity: '61483097602741'
-      },
-      {
-        date: 1659052800,
-        totalLiquidity: '61483597602741'
-      },
-      {
-        date: 1659139200,
-        totalLiquidity: '61483597602741'
-      },
-      {
-        date: 1659225600,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659312000,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659398400,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659484800,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659571200,
-        totalLiquidity: '61488419602741'
-      },
-      {
-        date: 1659657600,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659744000,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659830400,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659916800,
-        totalLiquidity: '61489519602741'
-      },
-      {
-        date: 1660003200,
-        totalLiquidity: '61489519602741'
-      }
-    ],
+        {
+          date: 1658966400,
+          value: '61483097602741'
+        },
+        {
+          date: 1659052800,
+          value: '61483597602741'
+        },
+        {
+          date: 1659139200,
+          value: '61483597602741'
+        },
+        {
+          date: 1659225600,
+          value: '61483697602741'
+        },
+        {
+          date: 1659312000,
+          value: '61483697602741'
+        },
+        {
+          date: 1659398400,
+          value: '61483697602741'
+        },
+        {
+          date: 1659484800,
+          value: '61483697602741'
+        },
+        {
+          date: 1659571200,
+          value: '61488419602741'
+        },
+        {
+          date: 1659657600,
+          value: '61489419602741'
+        },
+        {
+          date: 1659744000,
+          value: '61489419602741'
+        },
+        {
+          date: 1659830400,
+          value: '61489419602741'
+        },
+        {
+          date: 1659916800,
+          value: '61489519602741'
+        },
+        {
+          date: 1660003200,
+          value: '61489519602741'
+        }
+      ]
+    },
     loading: false
   },
   resolvedReportings: {
@@ -1959,8 +1961,8 @@ export const testData = {
     getCoverByCoverKey: () => coverAndProductData2,
     getProductsByCoverKey: () => [],
     getCoverOrProduct: jest.fn(),
-    getProduct: jest.fn(),
-    getAllProducts: jest.fn(),
+    getProduct: () => coverAndProductData2,
+    getAllProducts: () => [coverAndProductData2],
     getDedicatedCovers: jest.fn(),
     getDiversifiedCovers: jest.fn(),
     updateData: {}
