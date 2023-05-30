@@ -3,7 +3,7 @@ import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/Connect
 import { useNetwork } from '@/src/context/Network'
 import { classNames } from '@/utils/classnames'
 
-const WalletNotConnected = ({ className = '' }) => {
+export const WalletNotConnected = ({ className = '' }) => {
   const { networkId } = useNetwork()
 
   return (
@@ -23,5 +23,3 @@ const WalletNotConnected = ({ className = '' }) => {
     </div>
   )
 }
-
-export { WalletNotConnected }

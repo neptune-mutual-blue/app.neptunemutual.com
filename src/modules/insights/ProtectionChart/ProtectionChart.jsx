@@ -40,7 +40,7 @@ ChartJS.register(
   Legend
 )
 
-const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
+export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
   const { locale } = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
@@ -254,5 +254,3 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
     </div>
   )
 }
-
-export { ProtectionChart }

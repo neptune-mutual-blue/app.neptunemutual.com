@@ -1,6 +1,6 @@
 import { classNames } from '@/utils/classnames'
 
-const Radio = ({ label, id, disabled, className = '', labelClass = '', ...rest }) => {
+export const Radio = ({ label, id, disabled, className = '', labelClass = '', ...rest }) => {
   return (
     <div
       className={classNames(
@@ -32,7 +32,7 @@ const Radio = ({ label, id, disabled, className = '', labelClass = '', ...rest }
   )
 }
 
-const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...rest }) => {
+export const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...rest }) => {
   return (
     <div
       className={classNames(
@@ -66,5 +66,3 @@ const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...
     </div>
   )
 }
-
-export { CustomRadio, Radio }

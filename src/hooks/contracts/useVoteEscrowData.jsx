@@ -45,7 +45,7 @@ const initialData = {
   penalty: '0'
 }
 
-const useVoteEscrowData = () => {
+export const useVoteEscrowData = () => {
   const { library, account } = useWeb3React()
 
   const { NPMTokenDecimals } = useAppConstants()
@@ -449,5 +449,3 @@ const useVoteEscrowData = () => {
     handleApproveUnlock
   }
 }
-
-export { useVoteEscrowData }

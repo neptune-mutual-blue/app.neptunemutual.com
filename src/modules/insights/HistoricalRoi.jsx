@@ -12,7 +12,7 @@ if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
 }
 
-const HistoricalRoi = ({ loading, data }) => {
+export const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
 
   const ChainIds = data ? Array.from(new Set(data.map(entry => entry.chainId))) : []
@@ -178,5 +178,3 @@ const HistoricalRoi = ({ loading, data }) => {
     </div>
   )
 }
-
-export { HistoricalRoi }

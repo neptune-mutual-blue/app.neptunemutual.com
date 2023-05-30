@@ -63,7 +63,7 @@ const getAggregatedDataWithLabels = (data = []) => {
   }
 }
 
-const useProtectionChartData = () => {
+export const useProtectionChartData = () => {
   const fetched = useRef(false)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(null)
@@ -114,5 +114,3 @@ const useProtectionChartData = () => {
     labels
   }
 }
-
-export { useProtectionChartData }

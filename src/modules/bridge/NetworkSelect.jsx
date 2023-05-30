@@ -8,7 +8,7 @@ import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import { classNames } from '@/utils/classnames'
 import { Menu } from '@headlessui/react'
 
-const NetworkSelect = ({
+export const NetworkSelect = ({
   label,
   selected = null,
   defaultChain = null,
@@ -97,5 +97,3 @@ const NetworkSelect = ({
     </div>
   )
 }
-
-export { NetworkSelect }
