@@ -65,7 +65,6 @@ const BridgeModule = () => {
   useEffect(() => {
     const options = getNetworkInfo(networkId).isMainNet ? networks.mainnet : networks.testnet
     setSelectedNetworks((prev) => ({ ...prev, srcNetwork: options.find(x => x.chainId === parseInt(networkId)) }))
-    // eslint-disable-next-line
   }, [networkId])
 
   useEffect(() => {

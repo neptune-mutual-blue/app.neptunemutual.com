@@ -55,8 +55,8 @@ const useLayerZeroBridge = ({ destChainId, sendAmount, receiverAddress }) => {
 
   const bridgeContractAddress = layerZeroData.bridgeContractAddress
   const tokenSymbol = layerZeroData.tokenSymbol
-  const sourceTokenAddress = layerZeroData.tokenData[networkId].address
-  const sourceTokenDecimal = layerZeroData.tokenData[networkId].decimal
+  const sourceTokenAddress = layerZeroData.tokenData[networkId]?.address
+  const sourceTokenDecimal = layerZeroData.tokenData[networkId]?.decimal
 
   const sendAmountInUnits = convertToUnits(sendAmount || '0', sourceTokenDecimal).toString()
 

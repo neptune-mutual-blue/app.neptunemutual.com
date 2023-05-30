@@ -1,48 +1,21 @@
 
 export const TESTNET_USDC_BRIDGE_TOKENS = {
-  80001: {
-    address: '0x6De33698e9e9b787e09d3Bd7771ef63557E148bb',
+  43113: {
+    address: '0x2979a1cb90EEB9e75d7fB4f9813FCC40E4a7fD8b',
     decimal: 6
   },
   84531: {
     address: '0xf5C6825015280CdfD0b56903F9F8B5A2233476F5',
     decimal: 18
   }
-}
-
-export const MAINNET_USDT_BRIDGE_TOKENS = {
-  1: {
-    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    decimal: 6
-  },
-  10: {
-    address: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
-    decimal: 6
-  },
-  56: {
-    address: '0x55d398326f99059fF775485246999027B3197955',
-    decimal: 18
-  },
-  137: {
-    address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
-    decimal: 6
-  },
-  250: {
-    address: '0x049d68029688eAbF473097a2fC38ef61633A3C7A',
-    decimal: 6
-  },
-  42161: {
-    address: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
-    decimal: 6
-  },
-  43114: {
-    address: '0xc7198437980c041c805A1EDcbA50c1Ce5db95118',
-    decimal: 6
-  },
-  1313161554: {
-    address: '0x4988a896b1227218e4A686fdE5EabdcAbd91571f',
-    decimal: 6
-  }
+  // 5: {
+  //   address: '0xCbE56b00d173A26a5978cE90Db2E33622fD95A28',
+  //   decimal: 6
+  // },
+  // 80001: {
+  //   address: '0x6De33698e9e9b787e09d3Bd7771ef63557E148bb',
+  //   decimal: 6
+  // }
 }
 
 export const BRIDGE_CONTRACTS = {

@@ -67,8 +67,8 @@ const useCelerBridge = ({
 
   const bridgeContractAddress = celerData.bridgeContractAddress
   const tokenSymbol = celerData.tokenSymbol
-  const sourceTokenAddress = celerData.tokenData[networkId].address
-  const sourceTokenDecimal = celerData.tokenData[networkId].decimal
+  const sourceTokenAddress = celerData.tokenData[networkId]?.address
+  const sourceTokenDecimal = celerData.tokenData[networkId]?.decimal
 
   const sendAmountInUnits = convertToUnits(sendAmount || '0', sourceTokenDecimal).toString()
 
