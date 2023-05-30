@@ -72,7 +72,7 @@ export const useProtectionChartData = () => {
   const { networkId } = useNetwork()
 
   const fetchMonthlyProtectionData = async () => {
-    if (fetched.current) return
+    if (fetched.current || loading) return
 
     setLoading(true)
 

@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState
 } from 'react'
@@ -48,7 +49,7 @@ const initialData = {
 export const useVoteEscrowData = () => {
   const { library, account } = useWeb3React()
 
-  const { NPMTokenDecimals } = useAppConstants()
+  const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
 
   const { networkId } = useNetwork()
 
@@ -111,7 +112,11 @@ export const useVoteEscrowData = () => {
       TransactionHistory.push({
         hash: tx.hash,
         methodName: METHODS.VOTE_ESCROW_UNLOCK_APPROVE,
-        status: STATUS.PENDING
+        status: STATUS.PENDING,
+        data: {
+          value: convertFromUnits(escrowData.veNPMBalance.toString(), NPMTokenDecimals),
+          tokenSymbol: 'veNPM'
+        }
       })
 
       await txToast
@@ -181,7 +186,11 @@ export const useVoteEscrowData = () => {
       TransactionHistory.push({
         hash: tx.hash,
         methodName: METHODS.VOTE_ESCROW_APPROVE,
-        status: STATUS.PENDING
+        status: STATUS.PENDING,
+        data: {
+          value,
+          tokenSymbol: NPMTokenSymbol
+        }
       })
 
       await txToast
@@ -254,7 +263,11 @@ export const useVoteEscrowData = () => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: method,
-          status: STATUS.PENDING
+          status: STATUS.PENDING,
+          data: {
+            value: amount,
+            tokenSymbol: NPMTokenSymbol
+          }
         })
 
         await txToast.push(
@@ -329,7 +342,11 @@ export const useVoteEscrowData = () => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.VOTE_ESCROW_UNLOCK,
-          status: STATUS.PENDING
+          status: STATUS.PENDING,
+          data: {
+            value: convertFromUnits(escrowData.veNPMBalance, NPMTokenDecimals),
+            tokenSymbol: 'veNPM'
+          }
         })
 
         await txToast.push(
@@ -387,7 +404,7 @@ export const useVoteEscrowData = () => {
     }
   }
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     setLoading(true)
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
@@ -418,25 +435,24 @@ export const useVoteEscrowData = () => {
       console.error(err)
     }
     setLoading(false)
-  }
+  }, [account, contractRead, library, networkId])
 
   useEffect(() => {
     if (account) {
       getData()
     }
-    // eslint-disable-next-line
-  }, [account])
+  }, [account, getData])
 
   return {
     refetch: getData,
     loading,
     data: {
-      npmBalance: formatCurrency(convertFromUnits(npmBalance, NPMTokenDecimals), router.locale, 'NPM', true),
+      npmBalance: formatCurrency(convertFromUnits(npmBalance, NPMTokenDecimals), router.locale, NPMTokenSymbol, true),
       veNPMBalance: formatCurrency(convertFromUnits(escrowData.veNPMBalance, NPMTokenDecimals), router.locale, 'veNPM', true),
       lockedNPMBalanceRaw: escrowData.lockedNPMBalance,
       unlockTimestamp: escrowData.unlockTimestamp !== '0' ? DateLib.toLongDateFormat(escrowData.unlockTimestamp, router.locale) : escrowData.unlockTimestamp,
-      penalty: formatCurrency(convertFromUnits(escrowData.penalty, NPMTokenDecimals), router.locale, 'NPM', true),
-      receivedAfterPenalty: formatCurrency(convertFromUnits(toBN(escrowData.veNPMBalance).minus(escrowData.penalty).toString(), NPMTokenDecimals), router.locale, 'NPM', true)
+      penalty: formatCurrency(convertFromUnits(escrowData.penalty, NPMTokenDecimals), router.locale, NPMTokenSymbol, true),
+      receivedAfterPenalty: formatCurrency(convertFromUnits(toBN(escrowData.veNPMBalance).minus(escrowData.penalty).toString(), NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
     },
     lock,
     unlock,

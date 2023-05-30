@@ -55,8 +55,7 @@ const ToastMessage = ({
         onRemove(id)
       }, lifetime)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lifetime])
+  }, [lifetime, onRemove, id])
 
   return (
     <div

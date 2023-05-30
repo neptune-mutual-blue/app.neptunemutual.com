@@ -44,6 +44,7 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
+import CurrencyInput from '@/lib/react-currency-input-field'
 
 const secondsInWeek = 604_800
 
@@ -93,8 +94,7 @@ const VoteEscrow = () => {
 
       setSliderValue(weeks < 4 ? 4 : weeks)
     }
-    // eslint-disable-next-line
-  }, [weeks])
+  }, [weeks, unlockDateTimestamp, unlockDuration])
 
   const [sliderValue, setSliderValue] = useState(4)
 
@@ -156,11 +156,25 @@ const VoteEscrow = () => {
     setInput('')
   }
 
+  const inputFieldProps = {
+    className: classNames('py-5 px-6 text-lg outline-none', extend ? 'cursor-not-allowed' : ''),
+    placeholder: '0.00',
+    disabled: extend,
+    intlConfig: {
+      locale: router.locale
+    },
+    autoComplete: 'off',
+    decimalsLimit: 25,
+    onChange: null,
+    value: input,
+    onValueChange: val => setInput(val)
+  }
+
   return (
     <div className='max-w-[990px] mx-auto'>
       <VoteEscrowCard className='!max-w-full p-5 md:p-8 rounded-2xl flex flex-wrap gap-4 justify-between items-end mb-6'>
         <div>
-          <h2 className='text-display-sm text-4E7DD9 font-semibold mb-1'>Get Vote Escrow NPM</h2>
+          <h2 className='mb-1 font-semibold text-display-sm text-4E7DD9'>Get Vote Escrow NPM</h2>
           <p className='text-sm'>Get boosted voting power and boosted gauge emissions</p>
         </div>
         <div className='flex flex-wrap gap-4'>
@@ -180,8 +194,8 @@ const VoteEscrow = () => {
         <div>
           <EscrowSummary className='bg-F3F5F7' veNPMBalance={data.veNPMBalance} unlockTimestamp={data.unlockTimestamp} />
           <div className='mt-6'>
-            <div className='mb-4 flex justify-between items-center'>
-              <div className='text-md font-semibold'>NPM to Lock</div>
+            <div className='flex items-center justify-between mb-4'>
+              <div className='font-semibold text-md'>NPM to Lock</div>
               <div className='flex items-center text-sm'>
                 <Checkbox
                   disabled={!canUnlock}
@@ -190,7 +204,7 @@ const VoteEscrow = () => {
                     if (e.target.checked) {
                       setInput('')
                     }
-                  }} className='border-1 border-gray-300 rounded-1 h-4 w-4 m-0' id='extend-checkbox' labelClassName='ml-1'
+                  }} className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox' labelClassName='ml-1'
                 >
                   Extend Only
                 </Checkbox>
@@ -200,15 +214,10 @@ const VoteEscrow = () => {
             <div className={extend ? 'opacity-50 cursor-not-allowed relative' : 'relative'}>
               <div className='rounded-2 mb-2 border-1 border-B0C4DB overflow-hidden grid grid-cols-[1fr_auto] focus-within:ring-4E7DD9 focus-within:ring focus-within:ring-offset-0 focus-within:ring-opacity-30'>
                 <div className='relative'>
-                  <input
-                    value={input} onChange={(e) => {
-                    // eslint-disable-next-line
-                    if (/^[0-9\.]*$/.test(e.target.value)) {
-                        setInput(e.target.value)
-                      }
-                    }} type='text' className={classNames('py-5 px-6 text-lg outline-none', extend ? 'cursor-not-allowed' : '')} placeholder='0.00' disabled={extend}
+                  <CurrencyInput
+                    {...inputFieldProps}
                   />
-                  <div className='absolute text-9B9B9B text-lg top-5 right-4'>NPM</div>
+                  <div className='absolute text-lg text-9B9B9B top-5 right-4'>NPM</div>
                 </div>
               </div>
               <button
@@ -222,19 +231,19 @@ const VoteEscrow = () => {
                 Max
               </button>
 
-              <div className='flex justify-between items-center mb-6'>
+              <div className='flex items-center justify-between mb-6'>
                 <div className='text-md text-9B9B9B'>Balance: {data.npmBalance.short}</div>
                 <div className='flex gap-4'>
                   <CopyAddressComponent account={NpmTokenContractAddresses[networkId]} iconOnly iconClassName='text-AAAAAA h-6 w-6' />
                   <a href={getTokenLink(networkId, NpmTokenContractAddresses[networkId])} target='_blank' className={extend ? 'cursor-not-allowed' : ''} rel='noreferrer'>
-                    <LaunchIcon className='text-AAAAAA h-6 w-6' />
+                    <LaunchIcon className='w-6 h-6 text-AAAAAA' />
                   </a>
                   <button
                     className={extend ? 'cursor-not-allowed' : ''} onClick={() => {
                       register(NpmTokenContractAddresses[networkId], 'NPM', NPMTokenDecimals)
                     }}
                   >
-                    <AddCircleIcon className='text-AAAAAA h-6 w-6' />
+                    <AddCircleIcon className='w-6 h-6 text-AAAAAA' />
                   </button>
                 </div>
               </div>
@@ -244,14 +253,14 @@ const VoteEscrow = () => {
         </div>
         <div>
 
-          <div className='p-4 md:p-6 bg-F3F5F7 rounded-lg'>
+          <div className='p-4 rounded-lg md:p-6 bg-F3F5F7'>
             <div className='mb-4'>
               <GaugeChartSemiCircle chartDiameter={isSmallDevice ? 240 : undefined} min={1} max={4} value={boost} />
               <div className='max-w-[308px] mx-auto mt-2 text-xs font-semibold flex justify-between'>
                 <div className='text-EAAA08'>Minimum</div>
                 <div className='text-479E28'>Maximum</div>
               </div>
-              <div className='text-center text-md font-semibold'>
+              <div className='font-semibold text-center text-md'>
                 {parseFloat(boost).toFixed(2)}
               </div>
               <div className={classNames('text-sm font-semibold text-center', getBoostTextClass(boost))}>
@@ -275,10 +284,10 @@ const VoteEscrow = () => {
               }}
             />
 
-            <div className='flex justify-between text-sm mb-8'>
+            <div className='flex justify-between mb-8 text-sm'>
               <div>{sliderValue} weeks</div>
               <div>
-                <div className='text-right text-xs'>
+                <div className='text-xs text-right'>
                   Unlocks on:
                 </div>
                 <div>
@@ -291,7 +300,7 @@ const VoteEscrow = () => {
               <Checkbox
                 checked={agreed} onChange={(e) => {
                   setAgreed(e.target.checked)
-                }} className='border-1 border-gray-300 rounded-1 h-4 w-4 m-0' id='agree-terms-escrow'
+                }} className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='agree-terms-escrow'
               />
               <label htmlFor='agree-terms-escrow' className='-mt-0.5 text-sm'>
                 I hereby acknowledge my obligation to pay a penalty fee of 25% in the event that I prematurely unlock, as per the applicable <a href='https://neptunemutual.com/policies/standard-terms-and-conditions/' target='_blank' className='text-1170FF' rel='noreferrer'>terms and conditions</a>.
@@ -305,13 +314,13 @@ const VoteEscrow = () => {
                 } else {
                   handleApprove(input || '0')
                 }
-              }} className='w-full rounded-tooltip p-4 font-semibold text-md normal-case'
+              }} className='w-full p-4 font-semibold normal-case rounded-tooltip text-md'
             >
               {active ? extend ? 'EXTEND MY DURATION' : allowanceExists ? 'GET veNPM TOKENS' : 'Approve' : 'Connect Wallet'}
             </RegularButton>
 
             <KeyValueList
-              className='mt-6 p-0 pt-6 border-t-1 border-B0C4DB rounded-none'
+              className='p-0 pt-6 mt-6 rounded-none border-t-1 border-B0C4DB'
               list={[
                 {
                   key: 'Boost:',
@@ -332,7 +341,7 @@ const VoteEscrow = () => {
             />
 
           </div>
-          <div className='text-right mt-6'>
+          <div className='mt-6 text-right'>
             <button
               disabled={!canUnlock}
               className={classNames('text-4E7DD9 text-sm font-semibold', !canUnlock ? 'opacity-50 cursor-not-allowed' : '')} onClick={() => {

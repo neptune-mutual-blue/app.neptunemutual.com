@@ -16,18 +16,28 @@ import { useWeb3React } from '@web3-react/core'
 export const LiquidityGaugePoolsCard = ({ data }) => {
   const { active } = useWeb3React()
 
-  const descriptionOrDetails = (liquidityGaugeData, mobile = false) =>
+  const DescriptionOrDetail = ({
+    lock,
+    description,
+    balance,
+    subtitle,
+    emissionReceived,
+    lockupPeriod,
+    tvl,
+    mobile = false
+  }) => (
     <div className={classNames(mobile && 'md:hidden', !mobile && 'hidden md:block')}>
-      {liquidityGaugeData.lock || !active
-        ? <p className='max-w-xl font-normal text-999BAB mt-6 md:mt-0'>{liquidityGaugeData.description}</p>
+      {lock || !active
+        ? <p className='max-w-xl mt-6 font-normal text-999BAB md:mt-0'>{description}</p>
         : <LiquidityGaugeBalanceDetails
-            balance={liquidityGaugeData.balance}
-            token={liquidityGaugeData.subtitle}
-            emissionReceived={liquidityGaugeData.emission_received}
-            lockupPeriod={liquidityGaugeData.lockup_period}
-            tvl={liquidityGaugeData.tvl}
+            balance={balance}
+            token={subtitle}
+            emissionReceived={emissionReceived}
+            lockupPeriod={lockupPeriod}
+            tvl={tvl}
           />}
     </div>
+  )
 
   return (
     <div role='list' className='divide-y divide-B0C4DB border-[1px] border-B0C4DB rounded-2xl'>
@@ -43,7 +53,15 @@ export const LiquidityGaugePoolsCard = ({ data }) => {
                   stake={liquidityGaugeData.stake}
                 />
 
-                {descriptionOrDetails(liquidityGaugeData)}
+                <DescriptionOrDetail
+                  lock={liquidityGaugeData.lock}
+                  balance={liquidityGaugeData.balance}
+                  description={liquidityGaugeData.description}
+                  subtitle={liquidityGaugeData.subtitle}
+                  tvl={liquidityGaugeData.tvl}
+                  emissionReceived={liquidityGaugeData.emission_received}
+                  lockupPeriod={liquidityGaugeData.lockup_period}
+                />
               </div>
 
               <LiquidityGaugeBoostDetails
@@ -53,7 +71,16 @@ export const LiquidityGaugePoolsCard = ({ data }) => {
               />
             </div>
 
-            {descriptionOrDetails(liquidityGaugeData, true)}
+            <DescriptionOrDetail
+              lock={liquidityGaugeData.lock}
+              balance={liquidityGaugeData.balance}
+              description={liquidityGaugeData.description}
+              subtitle={liquidityGaugeData.subtitle}
+              tvl={liquidityGaugeData.tvl}
+              emissionReceived={liquidityGaugeData.emission_received}
+              lockupPeriod={liquidityGaugeData.lockup_period}
+              mobile
+            />
 
             <LiquidityGaugeCardAction
               lockupPeriod={liquidityGaugeData.lockup_period}

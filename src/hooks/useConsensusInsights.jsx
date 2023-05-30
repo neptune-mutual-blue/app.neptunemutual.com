@@ -39,7 +39,7 @@ export const useConsensusInsights = () => {
   const fetchConsensusAnalytics = useSubgraphFetch('useConsensusInsights')
 
   const fetchData = () => {
-    if (fetched.current) {
+    if (fetched.current || loading) {
       return
     }
 

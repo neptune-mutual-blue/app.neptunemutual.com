@@ -1,5 +1,5 @@
 import {
-  useEffect,
+  useRef,
   useState
 } from 'react'
 
@@ -11,10 +11,13 @@ import {
 export const useTopAccountsByLiquidity = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
+  const fetched = useRef(false)
 
   const { networkId } = useNetwork()
 
-  useEffect(() => {
+  const fetchTopAccounts = async () => {
+    if (fetched.current || loading) return
+
     setLoading(true);
 
     (async () => {
@@ -23,6 +26,7 @@ export const useTopAccountsByLiquidity = () => {
 
         if (!data) return
 
+        fetched.current = true
         setData(data)
       } catch (error) {
         console.error(error)
@@ -30,9 +34,10 @@ export const useTopAccountsByLiquidity = () => {
         setLoading(false)
       }
     })()
-  }, [networkId])
+  }
 
   return {
+    fetchTopAccountsByLiquidity: fetchTopAccounts,
     data,
     loading
   }

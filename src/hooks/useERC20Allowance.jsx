@@ -155,8 +155,7 @@ export const useERC20Allowance = (tokenAddress) => {
       check: false,
       spender: null
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allowance])
+  }, [allowance, checkForChange.check])
 
   /**
    *

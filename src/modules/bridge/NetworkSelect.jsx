@@ -35,8 +35,7 @@ export const NetworkSelect = ({
     }
 
     return selected
-    // eslint-disable-next-line
-  }, [selected, options])
+  }, [selected, options, defaultChain])
 
   useEffect(() => {
     if (selected !== activeNetwork) {
