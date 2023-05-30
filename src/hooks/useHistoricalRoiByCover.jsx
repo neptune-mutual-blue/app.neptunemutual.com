@@ -2,7 +2,7 @@ import { getHistoricalDataByCoverURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useState, useRef } from 'react'
 
-const useHistoricalRoiDataByCover = () => {
+export const useHistoricalRoiDataByCover = () => {
   const fetched = useRef(false)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
@@ -10,7 +10,7 @@ const useHistoricalRoiDataByCover = () => {
   const { networkId } = useNetwork()
 
   const fetchHistoricalDataByCover = async () => {
-    if (fetched.current) return
+    if (fetched.current || loading) return
 
     setLoading(true)
 
@@ -47,5 +47,3 @@ const useHistoricalRoiDataByCover = () => {
     data
   }
 }
-
-export { useHistoricalRoiDataByCover }

@@ -26,7 +26,7 @@ const ABI = [
   'function sendFrom(address _from, uint16 _dstChainId, bytes calldata _toAddress, uint _amount, address payable _refundAddress, address _zroPaymentAddress, bytes calldata _adapterParams) external payable'
 ]
 
-const useLayerZeroBridge = ({
+export const useLayerZeroBridge = ({
   bridgeContractAddress,
   tokenAddress,
   tokenSymbol,
@@ -290,5 +290,3 @@ const useLayerZeroBridge = ({
     estimating
   }
 }
-
-export { useLayerZeroBridge }

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 // Hook
-function useOnClickOutside (ref, handler) {
+export function useOnClickOutside (ref, handler) {
   useEffect(
     () => {
       const listener = (event) => {
@@ -27,5 +27,3 @@ function useOnClickOutside (ref, handler) {
     [ref, handler]
   )
 }
-
-export { useOnClickOutside }

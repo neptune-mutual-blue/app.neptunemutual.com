@@ -79,7 +79,7 @@ export const AccountDetailsModal = ({
           </div>
 
           <div className='flex items-center justify-center mt-1 font-bold sm:mt-3 text-404040 sm:justify-start'>
-            {account ? <Identicon account={account} /> : <div />}
+            {account ? <Identicon /> : <div />}
             <div className='ml-3'>
               {account?.substring(0, 6) + '...' + account?.slice(-4)}
             </div>

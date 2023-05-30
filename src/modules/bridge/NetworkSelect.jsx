@@ -8,7 +8,7 @@ import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import { classNames } from '@/utils/classnames'
 import { Menu } from '@headlessui/react'
 
-const NetworkSelect = ({
+export const NetworkSelect = ({
   label,
   selected = null,
   defaultChain = null,
@@ -35,8 +35,7 @@ const NetworkSelect = ({
     }
 
     return selected
-    // eslint-disable-next-line
-  }, [selected, options])
+  }, [selected, options, defaultChain])
 
   useEffect(() => {
     if (selected !== activeNetwork) {
@@ -97,5 +96,3 @@ const NetworkSelect = ({
     </div>
   )
 }
-
-export { NetworkSelect }

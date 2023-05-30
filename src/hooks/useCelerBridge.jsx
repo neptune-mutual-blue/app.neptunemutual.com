@@ -29,7 +29,7 @@ const ABI = [
 
 const METHOD_NAME = 'send'
 
-const useCelerBridge = ({
+export const useCelerBridge = ({
   bridgeContractAddress,
   tokenAddress,
   tokenSymbol,
@@ -291,5 +291,3 @@ const useCelerBridge = ({
     estimating
   }
 }
-
-export { useCelerBridge }

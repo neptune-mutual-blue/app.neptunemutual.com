@@ -13,7 +13,7 @@ const formatBreakpoint = (breakpoint) => {
   }
 }
 
-const GaugeChartSemiCircle = ({
+export const GaugeChartSemiCircle = ({
   chartDiameter = 278,
   strokeWidth = 24,
   min,
@@ -175,5 +175,3 @@ const GaugeChartSemiCircle = ({
     </div>
   )
 }
-
-export { GaugeChartSemiCircle }

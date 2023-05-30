@@ -1,7 +1,7 @@
 import { Container } from '@/common/Container/Container'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
 
-const DisputeFormSkeleton = () => {
+export const DisputeFormSkeleton = () => {
   return (
     <Container className='pt-12 bg-white border-t pb-44 border-t-B0C4DB max-w-none md:bg-transparent'>
       <div className='px-2 mx-auto bg-white border rounded-lg max-w-7xl md:py-16 md:px-24 border-B0C4DB'>
@@ -25,5 +25,3 @@ const DisputeFormSkeleton = () => {
     </Container>
   )
 }
-
-export { DisputeFormSkeleton }

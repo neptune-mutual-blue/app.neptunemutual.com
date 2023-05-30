@@ -9,7 +9,7 @@ import { Trans } from '@lingui/macro'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const AbnormalCoverStatus = ({
+export const AbnormalCoverStatus = ({
   status,
   coverKey,
   productKey,
@@ -60,5 +60,3 @@ const AbnormalCoverStatus = ({
     </OutlinedCard>
   )
 }
-
-export { AbnormalCoverStatus }
