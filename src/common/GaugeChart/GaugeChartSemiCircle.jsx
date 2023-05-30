@@ -48,7 +48,7 @@ export const GaugeChartSemiCircle = ({
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <path d='M1 0V10' stroke='#A3A3A3' stroke-width='2' />
+      <path d='M1 0V10' stroke='#A3A3A3' strokeWidth='2' />
     </svg>
   )
 
@@ -123,8 +123,8 @@ export const GaugeChartSemiCircle = ({
                 <stop offset='83.09%' stopColor='#E31B54' />
                 <stop offset='100%' stopColor='#EAAA08' />
               </linearGradient>
-              <filter id='filter0_f_12947_142116' filterUnits='userSpaceOnUse' height='200%' width='200%' color-interpolation-filters='sRGB'>
-                <feFlood flood-opacity='0' result='BackgroundImageFix' />
+              <filter id='filter0_f_12947_142116' filterUnits='userSpaceOnUse' height='200%' width='200%' colorInterpolationFilters='sRGB'>
+                <feFlood floodOpacity='0' result='BackgroundImageFix' />
                 <feBlend mode='normal' in='SourceGraphic' in2='BackgroundImageFix' result='shape' />
                 <feGaussianBlur stdDeviation='16' result='effect1_foregroundBlur_12947_142116' />
               </filter>

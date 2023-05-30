@@ -46,9 +46,9 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
 import CurrencyInput from '@/lib/react-currency-input-field'
 
-const secondsInWeek = 604_800
-const MIN_WEEKS = 1
-const MAX_WEEKS = 208
+export const secondsInWeek = 604_800
+export const VOTE_ESCROW_MIN_WEEKS = 1
+export const VOTE_ESCROW_MAX_WEEKS = 208
 
 const VoteEscrow = () => {
   const [extend, setExtend] = useState(false)
@@ -86,7 +86,7 @@ const VoteEscrow = () => {
     if (weeks !== 0) {
       const weekInFraction = (unlockDuration / secondsInWeek) % 1 !== 0
 
-      if (weekInFraction && weeks > MIN_WEEKS) {
+      if (weekInFraction && weeks > VOTE_ESCROW_MIN_WEEKS) {
         setUnlockDate(DateLib.toDateFormat(unlockDateTimestamp / 1000, 'en', {
           year: 'numeric',
           month: 'long',
@@ -94,7 +94,7 @@ const VoteEscrow = () => {
         }))
       }
 
-      setSliderValue(weeks < MIN_WEEKS ? MIN_WEEKS : weeks)
+      setSliderValue(weeks < VOTE_ESCROW_MIN_WEEKS ? VOTE_ESCROW_MIN_WEEKS : weeks)
     }
   }, [weeks, unlockDateTimestamp, unlockDuration])
 
@@ -275,8 +275,8 @@ const VoteEscrow = () => {
             <Slider
               label='Duration'
               id='escrow-duration'
-              min={MIN_WEEKS}
-              max={MAX_WEEKS}
+              min={VOTE_ESCROW_MIN_WEEKS}
+              max={VOTE_ESCROW_MAX_WEEKS}
               value={sliderValue}
               onChange={(value) => {
                 if (value >= weeks) {
