@@ -37,6 +37,11 @@
     "type": "error"
   },
   {
+    "inputs": [],
+    "name": "ExternalContractInvocationRevertError",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -44,12 +49,7 @@
         "type": "bytes32"
       }
     ],
-    "name": "EmptyArgumentError",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ExternalContractInvocationRevertError",
+    "name": "InvalidArgumentError",
     "type": "error"
   },
   {
@@ -327,7 +327,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "accocunt",
+        "name": "account",
         "type": "address"
       },
       {
@@ -376,7 +376,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "accocunt",
+        "name": "account",
         "type": "address"
       },
       {
