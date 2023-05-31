@@ -23,6 +23,8 @@ export const NetworkSelect = ({
   }
 
   const activeNetwork = useMemo(() => {
+    if (!options.length) return selected
+
     if (defaultChain) {
       const _network = options.find(n => n.chainId === defaultChain)
       if (_network) {
@@ -30,12 +32,13 @@ export const NetworkSelect = ({
       }
     }
 
-    if (!selected) {
-      return options[0]
+    if (selected && options.find(network => network.chainId === selected.chainId)) {
+      return selected
     }
 
-    return selected
-  }, [selected, options, defaultChain])
+    return options[0]
+    // eslint-disable-next-line
+  }, [selected, options])
 
   useEffect(() => {
     if (selected !== activeNetwork) {
@@ -85,7 +88,7 @@ export const NetworkSelect = ({
                   </div>
                   <span className='text-sm'>{name}</span>
 
-                  {(activeNetwork.name === name) && <CheckCircleFilledIcon className='ml-auto' />}
+                  {(activeNetwork.name === name) && <CheckCircleFilledIcon className='ml-auto text-4E7DD9' />}
                 </div>
               </Menu.Item>
 

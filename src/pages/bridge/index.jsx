@@ -1,20 +1,12 @@
-import { isFeatureEnabled } from '@/src/config/environment'
-import { Routes } from '@/src/config/routes'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-
-const isCelerEnabled = isFeatureEnabled('bridge-celer')
-const isLayerZeroEnabled = isFeatureEnabled('bridge-layerzero')
-const redirect = (isLayerZeroEnabled && !isCelerEnabled) ? Routes.BridgeLayerZero : Routes.BridgeCeler
+import { Seo } from '@/common/Seo'
+import { BridgeModule } from '@/modules/bridge/BridgeModule'
 
 export default function BridgeIndexPage () {
-  const router = useRouter()
+  return (
+    <main>
+      <Seo />
 
-  useEffect(() => {
-    if (redirect) {
-      router.replace(redirect)
-    }
-  }, [router])
-
-  return <></>
+      <BridgeModule />
+    </main>
+  )
 }
