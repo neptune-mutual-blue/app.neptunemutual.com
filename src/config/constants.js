@@ -99,6 +99,8 @@ export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
 export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 
+export const SNAPSHOT_TESTNET_QUERY_URL = 'https://testnet.snapshot.org/graphql'
+
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',

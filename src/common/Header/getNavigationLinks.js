@@ -7,6 +7,7 @@ const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
+  const governanceEnabled = isFeatureEnabled('governance')
   const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
 
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
@@ -39,6 +40,11 @@ const getNavigationLinks = (pathname = '') => {
       name: t`Reporting`,
       href: Routes.ActiveReports,
       activeWhenStartsWith: '/reports'
+    },
+    governanceEnabled && {
+      name: t`Governance`,
+      href: Routes.Governance,
+      activeWhenStartsWith: Routes.Governance
     },
     voteEscrowEnabled && {
       name: t`Vote Escrow`,
@@ -106,4 +112,4 @@ const getFlattenedNavLinks = () => {
   return _links
 }
 
-export { getNavigationLinks, getFlattenedNavLinks }
+export { getFlattenedNavLinks, getNavigationLinks }

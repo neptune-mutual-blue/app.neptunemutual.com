@@ -1,0 +1,194 @@
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
+
+import HighchartsReact from 'highcharts-react-official'
+import Highcharts from 'highcharts/highstock.src'
+import HighchartsExporting from 'highcharts/modules/exporting'
+import { useRouter } from 'next/router'
+
+import GovernanceCard from '@/modules/governance/GovernanceCard'
+import ChainDropdown from '@/modules/pools/liquidity-gauge-pools/ChainDropdown'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { Trans } from '@lingui/macro'
+
+if (typeof Highcharts === 'object') {
+  HighchartsExporting(Highcharts)
+}
+
+const DROPDOWN_OPTIONS = [
+  {
+    label: 'Ethereum',
+    value: 1
+  },
+  {
+    label: 'Arbitrum',
+    value: 42161
+  },
+  {
+    label: 'Base Goerli',
+    value: 84531
+  }
+]
+
+const LiquidityGauge = ({ state, selectedChains, setSelectedChains, data = [] }) => {
+  const [hoveredName, setHoveredName] = useState(null)
+  const [mouseEnteredOnLegend, setMouseEnteredOnLegend] = useState(false)
+  const [mobile, setMobile] = useState(window.innerWidth < 768)
+
+  const router = useRouter()
+  const { NPMTokenSymbol } = useAppConstants()
+
+  const chartRef = useRef()
+
+  // choose the screen size
+  const handleResize = useCallback(() => {
+    if (window.innerWidth < 768) {
+      setMobile(true)
+    } else {
+      setMobile(false)
+    }
+  }, [])
+
+  // create an event listener
+  useEffect(() => {
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [handleResize])
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setHoveredName(data[0]?.name)
+    }
+  }, [data])
+
+  const chartOptions = {
+    chart: {
+      type: 'pie',
+      backgroundColor: 'transparent',
+      height: mobile ? '311px' : '600px'
+    },
+    plotOptions: {
+      pie: {
+        slicedOffset: '0',
+        borderWidth: '0',
+        borderRadius: '0',
+        innerSize: '60%',
+        dataLabels: {
+          distance: 20,
+          format: '<b>{point.name}</b>: {point.y:.1f} %',
+          connectorColor: 'black'
+        },
+        showInLegend: false,
+        allowPointSelect: true
+      }
+    },
+    series: [{
+      name: 'pie',
+      colorByPoint: true,
+      data: data.map(item => ({
+        name: item.name,
+        y: item.percent,
+        color: item.color
+      })),
+      dataLabels: {
+        enabled: !mobile,
+        connectorWidth: mobile ? 0 : 1,
+        distance: mobile ? 0 : 30,
+
+        style: {
+          fontWeight: 'bold',
+          textOutline: 'none'
+        },
+        formatter: function () {
+          return this.y > 2.5 ? this.point.name : null
+        }
+      }
+    }],
+    tooltip: {
+      formatter: function () {
+        if (this.key) {
+          setHoveredName(this.key)
+        }
+        return []
+      }
+    },
+    scrollbar: {
+      enabled: false
+    },
+    navigator: {
+      enabled: false
+    },
+    xAxis: {
+      lineWidth: 0
+    },
+    credits: { enabled: false },
+    navigation: {
+      buttonOptions: {
+        enabled: false
+      }
+    },
+    rangeSelector: { enabled: false, inputEnabled: false }
+  }
+
+  const blockEmission = 300000
+
+  if (!data) return
+
+  return (
+    <GovernanceCard className='gap-6 p-5 md:p-8'>
+      <ChainDropdown options={DROPDOWN_OPTIONS} selected={selectedChains} onSelectionChange={setSelectedChains} state={state} />
+      <div className='relative -my-5 gauge-chart-liquidity md:my-0'>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={chartOptions}
+          constructorType='stockChart'
+          ref={chartRef}
+        />
+
+        <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
+          <div className='font-bold text-md md:text-display-sm'><Trans>Liquidity Gauge</Trans></div>
+          <div className='text-sm font-medium md:text-md'>
+            <Trans>Block Emission:{' '}</Trans>
+            {formatCurrency(
+              blockEmission,
+              router.locale,
+              NPMTokenSymbol,
+              true
+            ).long}
+          </div>
+        </div>
+      </div>
+
+      <div className='mt-8 text-center'>
+        <div className='mb-1 text-xl font-semibold'>{hoveredName} ({(data.find((item) => item.name === hoveredName)?.percent.toFixed(2))}%)</div>
+        <div className='mb-4 text-md'>As of: Sep 23, 2025</div>
+      </div>
+
+      <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex'>
+        {data.map((item, i) => (
+          <div
+            onMouseLeave={() => {
+              setMouseEnteredOnLegend(false)
+            }}
+            onMouseEnter={() => {
+              setMouseEnteredOnLegend(true)
+              setHoveredName(item.name)
+            }}
+            key={item.name}
+            style={{ borderRadius: i === 0 ? '16px 0 0 16px' : i === data.length - 1 ? '0 16px 16px 0 ' : undefined, width: item.percent + '%', height: '64px', background: item.color, opacity: mouseEnteredOnLegend && hoveredName !== item.name ? '0.2' : undefined, transition: 'all 0.3s' }}
+          />
+        ))}
+      </div>
+    </GovernanceCard>
+  )
+}
+
+export default LiquidityGauge
