@@ -1,8 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
+import { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -17,26 +13,23 @@ import {
   TransferAmountInput
 } from '@/modules/bridge/bridge-form/TransferAmountInput'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
-import { LayerZeroChainIds } from '@/src/config/bridge/layer-zero'
 import { useNetwork } from '@/src/context/Network'
-import { useDebounce } from '@/src/hooks/useDebounce'
 import {
   convertFromUnits,
   convertToUnits
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useWeb3React } from '@web3-react/core'
 
 // const SLIPPAGE_MULTIPLIER = 1_000_000
 // const SLIPPAGE = (0.3 / 100) * SLIPPAGE_MULTIPLIER // 0.3%
 
 export const LayerZeroBridgeModule = ({
+  destChainId,
   layerZeroHookResult,
   setInfoArray,
   selectedBridge,
   sendAmount,
   setSendAmount,
-  receiverAddress,
   selectedNetworks,
   setSelectedNetworks,
   conversionRates,
@@ -44,54 +37,30 @@ export const LayerZeroBridgeModule = ({
 }) => {
   const { locale } = useRouter()
   const { networkId } = useNetwork()
-  const { account } = useWeb3React()
-  const [estimation, setEstimation] = useState(null)
 
   const {
     balance,
     chainGasPrice,
     estimating,
-    getEstimatedDestGas,
-    getEstimatedCurrentChainGas,
     sourceTokenDecimal,
     tokenSymbol,
     tokenData,
     filteredNetworks,
 
-    destinationBalance
+    destinationBalance,
+
+    estimation
+
   } = layerZeroHookResult
 
   const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
-  const _receiverAddress = receiverAddress || account
-  const destChainId = selectedNetworks?.destNetwork?.chainId
+
   const destinationTokenData = destChainId ? tokenData[destChainId] : {}
   const destinationTokenDecimals = destinationTokenData?.decimal || 1
 
   // const srcChainId = selectedNetworks?.srcNetwork?.chainId
   // const destinationTokenAddress = destinationTokenData.address || ''
   // const destinationBridgeAddress = BRIDGE_CONTRACTS[destChainId]
-
-  const debouncedAmount = useDebounce(convertToUnits(sendAmount || '0', sourceTokenDecimal).toString(), 1000)
-
-  const updateEstimation = useCallback(async function () {
-    const _estimation = await getEstimatedDestGas(
-      debouncedAmount,
-      _receiverAddress,
-      LayerZeroChainIds[destChainId]
-    )
-    setEstimation(_estimation)
-
-    const currentChainGas = await getEstimatedCurrentChainGas(
-      convertToUnits(sendAmount, sourceTokenDecimal).toString()
-    )
-    if (currentChainGas) setEstimation(_prev => ({ ..._prev, currentChainGas }))
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [_receiverAddress, debouncedAmount, destChainId])
-
-  useEffect(() => {
-    updateEstimation()
-  }, [updateEstimation])
 
   useEffect(() => {
     const formattedReceiveAmount = formatCurrency(sendAmount, locale, tokenSymbol, true)
