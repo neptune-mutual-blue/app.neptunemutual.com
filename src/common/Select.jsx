@@ -36,7 +36,7 @@ export const Select = ({
               {prefix}
               {selected?.name}
             </span>
-            <span className='absolute inset-y-0 right-0 flex items-center pr-2 text-9B9B9B pointer-events-none'>
+            <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-9B9B9B'>
               {icon}
             </span>
           </Listbox.Button>
@@ -48,7 +48,7 @@ export const Select = ({
           >
             <Listbox.Options
               className={classNames(
-                'absolute z-10 w-full py-3 mt-1 overflow-auto text-base bg-white border rounded-md shadow-dropdown md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4E7DD9 max-h-60 px-3',
+                'absolute z-10 w-full py-3 mt-1 overflow-auto bg-white border rounded-md shadow-dropdown md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4E7DD9 max-h-60 px-3',
                 direction === 'right' && 'right-0',
                 loading && 'hidden'
               )}
