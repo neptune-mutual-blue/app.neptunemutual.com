@@ -4,19 +4,34 @@ import React, {
   useState
 } from 'react'
 
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import SearchIcon from '@/icons/SearchIcon'
+import {
+  NPM_SNAPSHOT_SPACE,
+  SNAPSHOT_SITE_URL
+} from '@/src/config/constants'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
+import { Trans } from '@lingui/macro'
 
-const ChainDropdown = ({ options, selected, onSelectionChange }) => {
+const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' }) => {
   const [open, setOpen] = useState(false)
-
   const [search, setSearch] = useState('')
+
+  const router = useRouter()
+  const { proposalId } = router.query
+
+  const ref = useRef()
+
+  useEffect(() => {
+    if (!open) {
+      setSearch('')
+    }
+  }, [open])
 
   const changeSelection = (value) => {
     if (selected.includes(value)) {
@@ -26,17 +41,13 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
     }
   }
 
-  const ref = useRef()
-
   useOnClickOutside(ref, () => {
     setOpen(false)
   })
 
-  useEffect(() => {
-    if (!open) {
-      setSearch('')
-    }
-  }, [open])
+  const submitVoteUrl = `${SNAPSHOT_SITE_URL}/#/${NPM_SNAPSHOT_SPACE}/proposal/${proposalId}`
+
+  const allChainSelected = options.every(chainId => selected.includes(chainId.value))
 
   return (
     <div className='relative'>
@@ -54,11 +65,18 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
           </div>
           <ChevronDownIcon className='w-4 h-4' />
         </button>
-        <Link className='' href='#'>
-          <div className='items-center hidden gap-1 font-semibold cursor-pointer md:flex text-4E7DD9 text-md'>
-            Submit Your Vote <ExternalLinkIcon />
-          </div>
-        </Link>
+        {state === 'active' &&
+       (
+         <a
+           className='items-center hidden gap-1 font-semibold cursor-pointer md:flex text-4E7DD9 text-md'
+           href={submitVoteUrl}
+           target='_blank'
+           rel='noreferrer noopener nofollow'
+         >
+           <Trans>Submit Your Vote</Trans>
+           <ExternalLinkIcon />
+         </a>
+       )}
       </div>
 
       {open && (
@@ -81,7 +99,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
               }} className='py-2.5 px-4 flex items-center gap-1 text-sm hover:bg-EEEEEE cursor-pointer'
             >
               <Checkbox
-                checked={selected.length === 0}
+                checked={selected.length === 0 || allChainSelected}
                 onChange={() => {}}
                 className='w-4 h-4 border-1 border-C2C7D0'
               /> All

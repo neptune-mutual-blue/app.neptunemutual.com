@@ -3,15 +3,20 @@ import {
   useState
 } from 'react'
 
-import { SNAPSHOT_TESTNET_QUERY_URL } from '@/src/config/constants'
+import {
+  NPM_SNAPSHOT_SPACE,
+  SNAPSHOT_TESTNET_QUERY_URL
+} from '@/src/config/constants'
+import { colorArrays } from '@/utils/colorArrays'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { getTagFromTitle } from '@/utils/getTagFromTitle'
 
 const getQuery = (id) => {
   return `
   query Proposals {
     proposals(
       where: {
-        space_in: ["neptunemutual.eth"],
+        space_in: ["${NPM_SNAPSHOT_SPACE}"],
         id: "${id}"
       },
     ) {
@@ -37,25 +42,41 @@ const getQuery = (id) => {
 }
 
 const parseData = (proposal, locale) => {
-  const chartColors = ['#E31B54', '#BA24D5', '#6938EF', '#099250', '#293056', '#CA8504', '#FF692E']
+  const getCategoryFromTitle = (text) => {
+    let category = null
 
-  const getTagFromTitle = (text) => {
-    const [, , tag] = Array.from(text.match(/^(\[([a-zA-Z0-9]*)(-.*)?\])?/))
-    return tag ? tag.toLowerCase() : ''
+    if (text.toLowerCase().includes('gce')) category = { value: 'GC Emission', type: 'success' }
+    else if (text.toLowerCase().includes('block emission')) category = { value: 'Emission', type: 'danger' }
+    else if (text.toLowerCase().includes('gcl')) category = { value: 'New Pool', type: 'info' }
+
+    return category
   }
+
+  const chainParam = {
+    eth: 1,
+    fuj: 43113,
+    arb: 42161,
+    bgo: 84531
+  }
+
+  const chainsArray = proposal.choices.map(name => chainParam[getTagFromTitle(name)])
+  const chainIdsArray = [...new Set(chainsArray)]
 
   const scoresSum = proposal.scores.reduce((acc, curr) => acc + curr, 0)
   const scores = proposal.scores.map((score, i) => ({
     name: proposal?.choices[i],
     value: formatCurrency(score, locale, proposal.symbol, true).short,
     percent: ((score / scoresSum) * 100),
-    color: chartColors[i % chartColors.length]
+    color: colorArrays[i % colorArrays.length],
+    chainId: chainParam[getTagFromTitle(proposal?.choices[i])]
   }))
 
   return {
     ...proposal,
     scores,
-    tag: getTagFromTitle(proposal.title)
+    category: getCategoryFromTitle(proposal.title),
+    tag: getTagFromTitle(proposal.title),
+    chains: chainIdsArray
   }
 }
 

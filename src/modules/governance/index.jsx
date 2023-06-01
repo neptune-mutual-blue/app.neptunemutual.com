@@ -10,6 +10,7 @@ import ProposalsDetailCard from '@/modules/governance/ProposalsDetailCard'
 import ProposalSkeleton from '@/modules/governance/ProposalSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useSnapshotProposalsById } from '@/src/hooks/useSnapshotProposalsById'
+import { getTagFromTitle } from '@/utils/getTagFromTitle'
 import { t } from '@lingui/macro'
 
 const GovernanceSinglePage = () => {
@@ -18,6 +19,8 @@ const GovernanceSinglePage = () => {
 
   const { data: proposalDetail, loading } = useSnapshotProposalsById(proposalId)
   const [selectedChains, setSelectedChains] = useState([])
+
+  const filteredScores = selectedChains.length === 0 ? proposalDetail?.scores : proposalDetail?.scores.filter(value => selectedChains.includes(value.chainId))
 
   if (loading) {
     return <ProposalSkeleton />
@@ -48,9 +51,17 @@ const GovernanceSinglePage = () => {
           startDate={proposalDetail?.start}
           endDate={proposalDetail?.end}
           state={proposalDetail?.state}
+          category={proposalDetail?.category}
         />
 
-        <LiquidityGauge state={proposalDetail?.state} data={proposalDetail?.scores} selectedChains={selectedChains} setSelectedChains={setSelectedChains} />
+        {proposalDetail && getTagFromTitle(proposalDetail?.title) === 'gce' &&
+          <LiquidityGauge
+            state={proposalDetail?.state}
+            data={filteredScores}
+            selectedChains={selectedChains}
+            setSelectedChains={setSelectedChains}
+            chainOption={proposalDetail?.chains}
+          />}
 
         <AccountDetail title={proposalDetail?.title} selectedChains={selectedChains} />
       </div>

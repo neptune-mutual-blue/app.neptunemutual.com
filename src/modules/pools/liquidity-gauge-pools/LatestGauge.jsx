@@ -14,6 +14,7 @@ import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import ChainDropdown from '@/modules/pools/liquidity-gauge-pools/ChainDropdown'
+import { colorArrays } from '@/utils/colorArrays'
 import { t } from '@lingui/macro'
 
 if (typeof Highcharts === 'object') {
@@ -157,10 +158,10 @@ const LatestGauge = () => {
     series: [{
       name: 'pie',
       colorByPoint: true,
-      data: data.map(item => ({
+      data: data.map((item, i) => ({
         name: item.name,
         y: item.percentage,
-        color: item.color
+        color: colorArrays[i % colorArrays.length]
       })),
       dataLabels: {
         enabled: !mobile,
@@ -244,7 +245,7 @@ const LatestGauge = () => {
                 onMouseEnter={() => {
                   setMouseEnteredOnLegend(true)
                   setHoveredName(item.name)
-                }} key={item.name} style={{ borderRadius: i === 0 ? '16px 0 0 16px' : i === data.length - 1 ? '0 16px 16px 0 ' : undefined, width: item.percentage + '%', height: '64px', background: (chartColors ?? {})[item.name], opacity: mouseEnteredOnLegend && hoveredName !== item.name ? '0.2' : undefined, transition: 'all 0.3s' }}
+                }} key={item.name} style={{ borderRadius: i === 0 ? '16px 0 0 16px' : i === data.length - 1 ? '0 16px 16px 0 ' : undefined, width: item.percentage + '%', height: '64px', background: colorArrays[i % colorArrays.length], opacity: mouseEnteredOnLegend && hoveredName !== item.name ? '0.2' : undefined, transition: 'all 0.3s' }}
               />
             ))}
           </div>

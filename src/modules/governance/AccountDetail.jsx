@@ -3,7 +3,10 @@ import { useRouter } from 'next/router'
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { networks } from '@/src/config/networks'
+import {
+  allNetworks,
+  networks
+} from '@/src/config/networks'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
@@ -30,6 +33,8 @@ const AccountDetail = ({ title, selectedChains }) => {
   const requiredBalance = 1200233.34
 
   const isBalanceInsufficient = convertToUnits(requiredBalance, NPMTokenDecimals).isGreaterThan(balance)
+
+  const chainName = selectedChains.map(chainId => allNetworks[chainId])
 
   return (
     <GovernanceCard className='p-8'>
@@ -79,9 +84,9 @@ const AccountDetail = ({ title, selectedChains }) => {
         </div>
       </div>
 
-      {selectedChains.length > 0 &&
+      {selectedChains.length === 1 &&
         <RegularButton className='mt-6 rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'>
-          <Trans>Set Gauge On Arbitrum</Trans>
+          <Trans>Set Gauge On {chainName}</Trans>
         </RegularButton>}
 
       {isBalanceInsufficient &&

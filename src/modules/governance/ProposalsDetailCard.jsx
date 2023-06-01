@@ -8,7 +8,13 @@ import {
 } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 
-const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state }) => {
+const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state, category }) => {
+  const colors = {
+    success: { bg: '#ECFDF3', text: '#027A48' },
+    danger: { bg: '#FFF4ED', text: '#B93815' },
+    info: { bg: '#F0F9FF', text: '#026AA2' }
+  }
+
   return (
     <GovernanceCard className='flex flex-col gap-6 p-5 md:p-8'>
       <h1 className='text-xl font-semibold'><Trans>{title}</Trans></h1>
@@ -18,9 +24,18 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state 
           {state !== 'active' && <CheckCircleIcon height={12} width={12} />}
           <Trans>{state !== 'active' ? 'Complete' : 'Live'}</Trans>
         </div>
-        <div className='bg-[#ECFDF3] text-[#027A48] py-0.5 px-2 text-xs rounded-full font-medium items-center justify-center'>
-          <Trans>GC Emission</Trans>
-        </div>
+        {category &&
+        (
+          <div
+            className='py-0.5 px-2 text-xs rounded-full font-medium items-center justify-center'
+            style={{
+              background: colors[category.type].bg,
+              color: colors[category.type].text
+            }}
+          >
+            {category?.value}
+          </div>
+        )}
       </div>
 
       <div className='flex flex-row items-end justify-between p-6 bg-F3F5F7 rounded-2'>
@@ -32,7 +47,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state 
             <div className='flex flex-row gap-4'>
               <a
                 className='underline text-4E7DD9 hover:no-underline'
-                href={`https://goerli.basescan.org//block/${snapshot}`}
+                href={`https://goerli.basescan.org/block/${snapshot}`}
                 target='_blank'
                 rel='noreferrer noopener nofollow'
               >
@@ -77,7 +92,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state 
           >
             #{snapshot}
           </a>
-          <InfoTooltip infoComponent='Your info goes here' className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none'>
+          <InfoTooltip infoComponent={snapshot} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none'>
             <button type='button' className='cursor-default'><InfoCircleIcon className='w-4 h-4' /></button>
           </InfoTooltip>
         </div>

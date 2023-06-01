@@ -10,32 +10,19 @@ import Highcharts from 'highcharts/highstock.src'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import { useRouter } from 'next/router'
 
+import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import ChainDropdown from '@/modules/pools/liquidity-gauge-pools/ChainDropdown'
+import { allNetworks } from '@/src/config/networks'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { getCurrentDate } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
 }
 
-const DROPDOWN_OPTIONS = [
-  {
-    label: 'Ethereum',
-    value: 1
-  },
-  {
-    label: 'Arbitrum',
-    value: 42161
-  },
-  {
-    label: 'Base Goerli',
-    value: 84531
-  }
-]
-
-const LiquidityGauge = ({ state, selectedChains, setSelectedChains, data = [] }) => {
+const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption = [], data = [] }) => {
   const [hoveredName, setHoveredName] = useState(null)
   const [mouseEnteredOnLegend, setMouseEnteredOnLegend] = useState(false)
   const [mobile, setMobile] = useState(window.innerWidth < 768)
@@ -140,11 +127,16 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, data = [] })
 
   const blockEmission = 300000
 
+  const chainDropdownOptions = chainOption.map((chainId) => ({
+    label: allNetworks[chainId],
+    value: chainId
+  }))
+
   if (!data) return
 
   return (
     <GovernanceCard className='gap-6 p-5 md:p-8'>
-      <ChainDropdown options={DROPDOWN_OPTIONS} selected={selectedChains} onSelectionChange={setSelectedChains} state={state} />
+      <ChainDropdown options={chainDropdownOptions} selected={selectedChains} onSelectionChange={setSelectedChains} state={state} />
       <div className='relative -my-5 gauge-chart-liquidity md:my-0'>
         <HighchartsReact
           highcharts={Highcharts}
@@ -169,10 +161,10 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, data = [] })
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>{hoveredName} ({(data.find((item) => item.name === hoveredName)?.percent.toFixed(2))}%)</div>
-        <div className='mb-4 text-md'>As of: Sep 23, 2025</div>
+        <div className='mb-4 text-md'>As of: {getCurrentDate()}</div>
       </div>
 
-      <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex'>
+      <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex text-center justify-center'>
         {data.map((item, i) => (
           <div
             onMouseLeave={() => {

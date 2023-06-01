@@ -169,3 +169,15 @@ export const convertTimestamp = (timestamp, locale = 'en') => {
   // Return the formatted timestamp in 'Sep 20, 2022 9:20 PM UTC'
   return formattedTimestamp
 }
+
+// Get the current date
+export const getCurrentDate = (locale = 'en') => {
+  const currentDate = new Date().toLocaleString(locale, {
+    month: 'short',
+    day: '2-digit',
+    year: 'numeric'
+  })
+
+  // Return date in 'Sep 01, 2023' format
+  return currentDate
+}
