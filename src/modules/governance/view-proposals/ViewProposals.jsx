@@ -13,18 +13,18 @@ export const ViewProposals = () => {
   const boost = parseFloat(boostBN.toString()).toFixed(2) + 'x'
 
   return (
-    <div className='flex items-center gap-8 p-8 bg-white border rounded-2xl border-B0C4DB'>
-      <div className='flex-1'>
+    <div className='flex flex-col items-center gap-8 p-8 bg-white border lg:flex-row rounded-2xl border-B0C4DB'>
+      <div className='flex-1 w-full'>
         <h2 className='text-xl font-semibold'>
           <Trans>View Proposals</Trans>
         </h2>
-        <div className='p-6 mt-6 rounded-2 bg-F3F5F7'>
+        <div className='p-6 mt-6 break-all rounded-2 bg-F3F5F7 md:break-words'>
           <KeyVal
             title='Account'
             value={account || 'N/A'}
           />
 
-          <div className='flex items-center gap-8 mt-4'>
+          <div className='flex flex-wrap items-center gap-8 mt-4'>
             <KeyVal valueXl title='Vote-Locked Balance' value={veNPMBalance.long} />
             <KeyVal valueXl title='Boost' value={boost} />
             <KeyVal valueXl title='Voting Power' value={votingPower.long} />

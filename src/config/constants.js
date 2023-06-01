@@ -105,11 +105,6 @@ export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
 export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
 
-export const SNAPSHOT_TESTNET_QUERY_URL = 'https://testnet.snapshot.org/graphql'
-export const SNAPSHOT_SITE_URL = 'https://demo.snapshot.org'
-
-export const NPM_SNAPSHOT_SPACE = 'neptunemutual.eth'
-
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',

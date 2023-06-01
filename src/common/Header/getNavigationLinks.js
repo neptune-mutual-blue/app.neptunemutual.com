@@ -7,7 +7,6 @@ const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
-  const governanceEnabled = isFeatureEnabled('governance')
   const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
   const governanceEnabled = isFeatureEnabled('governance')
 
