@@ -38,6 +38,8 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
     }
   }, [open])
 
+  const allChainSelected = options.every(chainId => selected.includes(chainId.value))
+
   return (
     <div className='relative'>
       <div className='flex flex-wrap items-center justify-between gap-4 mb-12'>
@@ -81,7 +83,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
               }} className='py-2.5 px-4 flex items-center gap-1 text-sm hover:bg-EEEEEE cursor-pointer'
             >
               <Checkbox
-                checked={selected.length === 0}
+                checked={selected.length === 0 || allChainSelected}
                 onChange={() => {}}
                 className='w-4 h-4 border-1 border-C2C7D0'
               /> All

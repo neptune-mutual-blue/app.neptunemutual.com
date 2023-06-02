@@ -70,3 +70,5 @@ export const colorArrays = [
   '#5B69BE',
   '#838FDE'
 ]
+
+export const getColorByIndex = (index) => colorArrays[index % colorArrays.length]

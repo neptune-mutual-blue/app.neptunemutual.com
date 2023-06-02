@@ -10,12 +10,12 @@ import Highcharts from 'highcharts/highstock.src'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import { useRouter } from 'next/router'
 
+import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
+import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { allNetworks } from '@/src/config/networks'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getCurrentDate } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 
 if (typeof Highcharts === 'object') {
@@ -128,7 +128,7 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
   const blockEmission = 300000
 
   const chainDropdownOptions = chainOption.map((chainId) => ({
-    label: allNetworks[chainId],
+    label: ShortNetworkNames[chainId],
     value: chainId
   }))
 
@@ -161,7 +161,14 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>{hoveredName} ({(data.find((item) => item.name === hoveredName)?.percent.toFixed(2))}%)</div>
-        <div className='mb-4 text-md'>As of: {getCurrentDate()}</div>
+        <div className='mb-4 text-md'>As of:{' '}
+          {DateLib.toDateFormat(
+            new Date(),
+            router.locale,
+            { month: 'short', day: '2-digit', year: 'numeric' },
+            'UTC'
+          )}
+        </div>
       </div>
 
       <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex text-center justify-center'>

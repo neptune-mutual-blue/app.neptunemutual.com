@@ -145,39 +145,3 @@ export const getUtcFormatString = (timestamp, locale = 'en') => {
 
   return [time, fullDate].join(' | ')
 }
-
-export const convertTimestamp = (timestamp, locale = 'en') => {
-  const date = new Date(parseInt(timestamp) * 1000)
-
-  // Get the formatted time in UTC format
-  const time = date.toLocaleString(locale, {
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-    timeZone: 'UTC'
-  })
-
-  // Construct the formatted timestamp string
-  let formattedTimestamp = date.toLocaleString(locale, {
-    month: 'short',
-    day: '2-digit',
-    year: 'numeric'
-  })
-
-  formattedTimestamp += ' ' + time + ' UTC'
-
-  // Return the formatted timestamp in 'Sep 20, 2022 9:20 PM UTC'
-  return formattedTimestamp
-}
-
-// Get the current date
-export const getCurrentDate = (locale = 'en') => {
-  const currentDate = new Date().toLocaleString(locale, {
-    month: 'short',
-    day: '2-digit',
-    year: 'numeric'
-  })
-
-  // Return date in 'Sep 01, 2023' format
-  return currentDate
-}

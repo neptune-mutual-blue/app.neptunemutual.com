@@ -57,11 +57,4 @@ const networks = {
   ]
 }
 
-const allNetworks = Object.values(networks).reduce((acc, value) => {
-  value.forEach(network => {
-    acc[network.chainId] = network.name
-  })
-  return acc
-}, {})
-
-export { allNetworks, networks }
+export { networks }

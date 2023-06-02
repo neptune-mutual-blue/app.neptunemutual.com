@@ -4,19 +4,21 @@ import {
 } from 'react'
 
 import {
-  NPM_SNAPSHOT_SPACE,
-  SNAPSHOT_TESTNET_QUERY_URL
+  SNAPSHOT_API_URL,
+  SNAPSHOT_SPACE_ID
 } from '@/src/config/constants'
-import { colorArrays } from '@/utils/colorArrays'
+import { useNetwork } from '@/src/context/Network'
+import { getColorByIndex } from '@/utils/colorArrays'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { getTagFromTitle } from '@/utils/getTagFromTitle'
+import { getNetworkInfo } from '@/utils/network'
 
 const getQuery = (id) => {
   return `
   query Proposals {
     proposals(
       where: {
-        space_in: ["${NPM_SNAPSHOT_SPACE}"],
+        space_in: ["${SNAPSHOT_SPACE_ID}"],
         id: "${id}"
       },
     ) {
@@ -41,24 +43,24 @@ const getQuery = (id) => {
   `
 }
 
+const chainParam = {
+  eth: 1,
+  fuj: 43113,
+  arb: 42161,
+  bgo: 84531
+}
+
+const getCategoryFromTitle = (text) => {
+  let category = null
+
+  if (text.toLowerCase().includes('gce')) category = { value: 'GC Emission', type: 'success' }
+  else if (text.toLowerCase().includes('block emission')) category = { value: 'Emission', type: 'danger' }
+  else if (text.toLowerCase().includes('gcl')) category = { value: 'New Pool', type: 'info' }
+
+  return category
+}
+
 const parseData = (proposal, locale) => {
-  const getCategoryFromTitle = (text) => {
-    let category = null
-
-    if (text.toLowerCase().includes('gce')) category = { value: 'GC Emission', type: 'success' }
-    else if (text.toLowerCase().includes('block emission')) category = { value: 'Emission', type: 'danger' }
-    else if (text.toLowerCase().includes('gcl')) category = { value: 'New Pool', type: 'info' }
-
-    return category
-  }
-
-  const chainParam = {
-    eth: 1,
-    fuj: 43113,
-    arb: 42161,
-    bgo: 84531
-  }
-
   const chainsArray = proposal.choices.map(name => chainParam[getTagFromTitle(name)])
   const chainIdsArray = [...new Set(chainsArray)]
 
@@ -67,7 +69,7 @@ const parseData = (proposal, locale) => {
     name: proposal?.choices[i],
     value: formatCurrency(score, locale, proposal.symbol, true).short,
     percent: ((score / scoresSum) * 100),
-    color: colorArrays[i % colorArrays.length],
+    color: getColorByIndex(i),
     chainId: chainParam[getTagFromTitle(proposal?.choices[i])]
   }))
 
@@ -84,6 +86,9 @@ export const useSnapshotProposalsById = (id, locale) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  const { networkId } = useNetwork()
+  const { isMainNet } = getNetworkInfo(networkId)
+
   useEffect(() => {
     setLoading(true)
 
@@ -91,7 +96,7 @@ export const useSnapshotProposalsById = (id, locale) => {
 
     const fetchSnapshotById = async () => {
       try {
-        const res = await fetch(SNAPSHOT_TESTNET_QUERY_URL, {
+        const res = await fetch(isMainNet ? SNAPSHOT_API_URL.mainnet : SNAPSHOT_API_URL.testnet, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -115,7 +120,7 @@ export const useSnapshotProposalsById = (id, locale) => {
     }
 
     fetchSnapshotById()
-  }, [id, locale])
+  }, [id, locale, isMainNet])
 
   return {
     data,

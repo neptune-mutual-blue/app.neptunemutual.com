@@ -2,11 +2,10 @@ import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
+import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import {
-  allNetworks,
-  networks
-} from '@/src/config/networks'
+import { requiredBalance } from '@/src/config/constants'
+import { networks } from '@/src/config/networks'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
@@ -30,11 +29,9 @@ const AccountDetail = ({ title, selectedChains }) => {
 
   const currentNetwork = networkId && networks[isMainNet ? 'mainnet' : 'testnet'].find(n => n.chainId === networkId)
 
-  const requiredBalance = 1200233.34
-
   const isBalanceInsufficient = convertToUnits(requiredBalance, NPMTokenDecimals).isGreaterThan(balance)
 
-  const chainName = selectedChains.map(chainId => allNetworks[chainId])
+  const chainName = selectedChains.map(chainId => ShortNetworkNames[chainId])
 
   return (
     <GovernanceCard className='p-4 md:p-8'>

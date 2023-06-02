@@ -14,7 +14,7 @@ import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import ChainDropdown from '@/modules/pools/liquidity-gauge-pools/ChainDropdown'
-import { colorArrays } from '@/utils/colorArrays'
+import { getColorByIndex } from '@/utils/colorArrays'
 import { t } from '@lingui/macro'
 
 if (typeof Highcharts === 'object') {
@@ -161,7 +161,7 @@ const LatestGauge = () => {
       data: data.map((item, i) => ({
         name: item.name,
         y: item.percentage,
-        color: colorArrays[i % colorArrays.length]
+        color: getColorByIndex(i)
       })),
       dataLabels: {
         enabled: !mobile,
@@ -213,11 +213,11 @@ const LatestGauge = () => {
           pages={crumbs}
         />
 
-        <div className='bg-white border-1 border-B0C4DB rounded-2xl p-4 md:p-8'>
+        <div className='p-4 bg-white border-1 border-B0C4DB rounded-2xl md:p-8'>
           <div>
             <ChainDropdown options={DROPDOWN_OPTIONS} selected={selectedChains} onSelectionChange={setSelectedChains} />
           </div>
-          <div className='gauge-chart-liquidity -my-5 md:my-0 relative'>
+          <div className='relative -my-5 gauge-chart-liquidity md:my-0'>
             <HighchartsReact
               highcharts={Highcharts}
               options={chartOptions}
@@ -226,14 +226,14 @@ const LatestGauge = () => {
             />
 
             <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
-              <div className='text-md md:text-display-sm font-bold'>Liquidity Gauge</div>
-              <div className='text-sm md:text-md font-medium'>Block Emission: 300,000 NPM</div>
+              <div className='font-bold text-md md:text-display-sm'>Liquidity Gauge</div>
+              <div className='text-sm font-medium md:text-md'>Block Emission: 300,000 NPM</div>
             </div>
           </div>
 
-          <div className='text-center mt-8'>
-            <div className='text-xl font-semibold mb-1'>{hoveredName} ({(data.find((item) => item.name === hoveredName).percentage)}%)</div>
-            <div className='text-md mb-4'>As of: Sep 23, 2025</div>
+          <div className='mt-8 text-center'>
+            <div className='mb-1 text-xl font-semibold'>{hoveredName} ({(data.find((item) => item.name === hoveredName).percentage)}%)</div>
+            <div className='mb-4 text-md'>As of: Sep 23, 2025</div>
           </div>
 
           <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex'>
@@ -245,13 +245,13 @@ const LatestGauge = () => {
                 onMouseEnter={() => {
                   setMouseEnteredOnLegend(true)
                   setHoveredName(item.name)
-                }} key={item.name} style={{ borderRadius: i === 0 ? '16px 0 0 16px' : i === data.length - 1 ? '0 16px 16px 0 ' : undefined, width: item.percentage + '%', height: '64px', background: colorArrays[i % colorArrays.length], opacity: mouseEnteredOnLegend && hoveredName !== item.name ? '0.2' : undefined, transition: 'all 0.3s' }}
+                }} key={item.name} style={{ borderRadius: i === 0 ? '16px 0 0 16px' : i === data.length - 1 ? '0 16px 16px 0 ' : undefined, width: item.percentage + '%', height: '64px', background: getColorByIndex(i), opacity: mouseEnteredOnLegend && hoveredName !== item.name ? '0.2' : undefined, transition: 'all 0.3s' }}
               />
             ))}
           </div>
 
           <Link className='' href='#'>
-            <div className='flex items-center justify-center mb-1 gap-1 md:hidden text-4E7DD9 text-sm cursor-pointer font-semibold'>
+            <div className='flex items-center justify-center gap-1 mb-1 text-sm font-semibold cursor-pointer md:hidden text-4E7DD9'>
               Submit Your Vote <ExternalLinkIcon />
             </div>
           </Link>

@@ -102,13 +102,8 @@ export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
 export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 
-export const SNAPSHOT_TESTNET_QUERY_URL = 'https://testnet.snapshot.org/graphql'
-
 export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
 export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
-
-export const SNAPSHOT_SITE_URL = 'https://demo.snapshot.org'
-export const NPM_SNAPSHOT_SPACE = 'neptunemutual.eth'
 
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
@@ -135,3 +130,17 @@ export const MIN_LIQUIDITY = 10
 export const MAX_LIQUIDITY = 10_000_000
 
 export const TOP_ACCOUNTS_ROWS_PER_PAGE = 7
+
+export const SNAPSHOT_API_URL = {
+  testnet: 'https://testnet.snapshot.org/graphql',
+  mainnet: 'https://hub.snapshot.org/graphql'
+}
+export const SNAPSHOT_INTERFACE_URL = {
+  testnet: 'https://demo.snapshot.org',
+  mainnet: 'https://snapshot.org'
+}
+export const SNAPSHOT_SPACE_ID = 'neptunemutual.eth'
+
+export const getSubmitYourVoteUrl = (isMainNet, proposalId) => `${isMainNet ? SNAPSHOT_INTERFACE_URL.mainnet : SNAPSHOT_INTERFACE_URL.testnet}/#/${SNAPSHOT_SPACE_ID}/proposal/${proposalId}`
+
+export const requiredBalance = 1200233.34

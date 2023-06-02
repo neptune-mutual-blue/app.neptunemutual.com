@@ -1,18 +1,31 @@
+import { useRouter } from 'next/router'
+
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
+import DateLib from '@/lib/date/DateLib'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import {
-  convertTimestamp,
-  fromNow
-} from '@/utils/formatter/relative-time'
+import { fromNow } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 
-const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state, category }) => {
+const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = '', state, category }) => {
+  const router = useRouter()
+
   const colors = {
     success: { bg: '#ECFDF3', text: '#027A48' },
     danger: { bg: '#FFF4ED', text: '#B93815' },
     info: { bg: '#F0F9FF', text: '#026AA2' }
+  }
+
+  const convertDateFormat = (date) => {
+    return DateLib.toLongDateFormat(date, router.locale, 'UTC', {
+      hour: 'numeric',
+      minute: 'numeric',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZoneName: 'short'
+    })
   }
 
   return (
@@ -68,7 +81,9 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state,
             <h4 className='text-sm font-semibold text-999BAB'>
               <Trans>Start</Trans>
             </h4>
-            <InfoTooltip infoComponent={convertTimestamp(startDate)} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}>
+            <InfoTooltip
+              infoComponent={convertDateFormat(startDate)} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}
+            >
               <p>{fromNow(startDate)}</p>
             </InfoTooltip>
           </div>
@@ -77,7 +92,9 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state,
             <h4 className='text-sm font-semibold text-999BAB'>
               <Trans>End</Trans>
             </h4>
-            <InfoTooltip infoComponent={convertTimestamp(endDate)} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}>
+            <InfoTooltip
+              infoComponent={convertDateFormat(endDate)} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}
+            >
               <p>{fromNow(endDate)}</p>
             </InfoTooltip>
           </div>
