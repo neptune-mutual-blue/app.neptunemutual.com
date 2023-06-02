@@ -24,6 +24,8 @@ const LiquidityGaugePoolsTransactions = '/pools/liquidity-gauge-pools/transactio
 const LiquidityLatestGaugeChart = '/pools/liquidity-gauge-pools/latest-gauge'
 const Bridge = '/bridge'
 
+const GovernanceProposalPage = (proposalId) => `/governance/${proposalId}`
+
 const Pools = () => {
   let url = null
   if (isFeatureEnabled('bond')) {
@@ -180,6 +182,7 @@ export const Routes = {
   ViewCoverProductTerms,
   ViewProductReports,
   VoteEscrow,
+  Bridge,
   Governance,
-  Bridge
+  GovernanceProposalPage
 }

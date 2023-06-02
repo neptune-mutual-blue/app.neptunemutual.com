@@ -25,7 +25,9 @@ import UnlockEscrow from '@/modules/vote-escrow/UnlockEscrow'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import {
   MULTIPLIER,
-  NpmTokenContractAddresses
+  NpmTokenContractAddresses,
+  SNAPSHOT_INTERFACE_URL,
+  SNAPSHOT_SPACE_ID
 } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -45,10 +47,11 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
 import CurrencyInput from '@/lib/react-currency-input-field'
+import { getNetworkInfo } from '@/utils/network'
 
-const secondsInWeek = 604_800
-const MIN_WEEKS = 1
-const MAX_WEEKS = 208
+export const secondsInWeek = 604_800
+export const VOTE_ESCROW_MIN_WEEKS = 1
+export const VOTE_ESCROW_MAX_WEEKS = 208
 
 const VoteEscrow = () => {
   const [extend, setExtend] = useState(false)
@@ -59,6 +62,7 @@ const VoteEscrow = () => {
   const [unlock, setUnlock] = useState(false)
 
   const { networkId } = useNetwork()
+  const { isTestNet } = getNetworkInfo(networkId)
 
   const [input, setInput] = useState('')
 
@@ -86,7 +90,7 @@ const VoteEscrow = () => {
     if (weeks !== 0) {
       const weekInFraction = (unlockDuration / secondsInWeek) % 1 !== 0
 
-      if (weekInFraction && weeks > MIN_WEEKS) {
+      if (weekInFraction && weeks > VOTE_ESCROW_MIN_WEEKS) {
         setUnlockDate(DateLib.toDateFormat(unlockDateTimestamp / 1000, 'en', {
           year: 'numeric',
           month: 'long',
@@ -94,7 +98,7 @@ const VoteEscrow = () => {
         }))
       }
 
-      setSliderValue(weeks < MIN_WEEKS ? MIN_WEEKS : weeks)
+      setSliderValue(weeks < VOTE_ESCROW_MIN_WEEKS ? VOTE_ESCROW_MIN_WEEKS : weeks)
     }
   }, [weeks, unlockDateTimestamp, unlockDuration])
 
@@ -172,6 +176,10 @@ const VoteEscrow = () => {
     onValueChange: val => setInput(val)
   }
 
+  const submitUrl = isTestNet
+    ? `${SNAPSHOT_INTERFACE_URL.testnet}/#/${SNAPSHOT_SPACE_ID}`
+    : `${SNAPSHOT_INTERFACE_URL.mainnet}/#/${SNAPSHOT_SPACE_ID}`
+
   return (
     <div className='max-w-[990px] mx-auto'>
       <VoteEscrowCard className='!max-w-full p-5 md:p-8 rounded-2xl flex flex-wrap gap-4 justify-between items-end mb-6'>
@@ -185,11 +193,11 @@ const VoteEscrow = () => {
               View Liquidity Gauge
             </a>
           </Link>
-          <Link href='#'>
+          <a target='_blank' href={submitUrl} rel='noreferrer'>
             <a className='text-4E7DD9 text-sm font-semibold p-2.5  border-1 border-4E7DD9 flex-grow text-center justify-center md:justify-start md:text-left md:flex-grow-0 rounded-tooltip flex items-center gap-1'>
               Submit Your Vote <ExternalLinkIcon />
             </a>
-          </Link>
+          </a>
         </div>
       </VoteEscrowCard>
       <VoteEscrowCard className='!max-w-full grid grid-cols-1 lg:grid-cols-2 gap-8 p-5 md:p-8'>
@@ -275,8 +283,8 @@ const VoteEscrow = () => {
             <Slider
               label='Duration'
               id='escrow-duration'
-              min={MIN_WEEKS}
-              max={MAX_WEEKS}
+              min={VOTE_ESCROW_MIN_WEEKS}
+              max={VOTE_ESCROW_MAX_WEEKS}
               value={sliderValue}
               onChange={(value) => {
                 if (value >= weeks) {

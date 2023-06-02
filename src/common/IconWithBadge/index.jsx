@@ -1,12 +1,13 @@
 import { classNames } from '@/utils/classnames'
 
-const getNumber = num => {
-  if (num > 10000) return '10k+'
-  if (num > 1000) return '1k+'
-  if (num > 99) return '99+'
-  if (num > 10) return '10+'
-  return num.toString()
+export const getNumber = (num, offset = 0) => {
+  if ((num - offset) > 10000) return '10k+'
+  if ((num - offset) > 1000) return '1k+'
+  if ((num - offset) > 99) return '99+'
+  if ((num - offset) > 10) return '10+'
+  return (num - offset).toString()
 }
+
 export const IconWithBadge = ({ number, children }) => {
   return (
     <div className='relative'>

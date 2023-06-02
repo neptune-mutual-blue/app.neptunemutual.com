@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -9,6 +10,7 @@ import { useRouter } from 'next/router'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import DateLib from '@/lib/date/DateLib'
 import {
+  MULTIPLIER,
   NpmTokenContractAddresses,
   VoteEscrowContractAddresses
 } from '@/src/config/constants'
@@ -38,6 +40,8 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
+import { VOTE_ESCROW_MIN_WEEKS, secondsInWeek } from '@/modules/vote-escrow/VoteEscrow'
+import { calculateBoost } from '@/utils/calculate-boost'
 
 const initialData = {
   veNPMBalance: 0,
@@ -443,6 +447,37 @@ export const useVoteEscrowData = () => {
     }
   }, [account, getData])
 
+  const currentBoostAndVotingPower = useMemo(() => {
+    if (escrowData.unlockTimestamp === '0') {
+      return {
+        boostBN: toBN('1'),
+        votingPower: formatCurrency(0, router.locale, NPMTokenSymbol, true)
+      }
+    }
+
+    const unlockTimestamp = DateLib.toLongDateFormat(escrowData.unlockTimestamp, router.locale)
+    const lockedNPMBalanceRaw = escrowData.lockedNPMBalance
+    const now = Date.now()
+    const unlockDateTimestamp = new Date(unlockTimestamp).valueOf()
+    const unlockDuration = (unlockDateTimestamp - now) / 1000
+    const weeks = Math.ceil(unlockDuration / secondsInWeek)
+    const sliderValue = weeks < VOTE_ESCROW_MIN_WEEKS ? VOTE_ESCROW_MIN_WEEKS : weeks
+    const newUnlockDate = DateLib.addDays(new Date(), sliderValue * 7)
+    const lockedNpmBalance = toBN(lockedNPMBalanceRaw)
+    const boostBN = toBN(calculateBoost((newUnlockDate.valueOf() - now) / 1000)).dividedBy(MULTIPLIER)
+    const votingPower = formatCurrency(
+      convertFromUnits(boostBN.multipliedBy(lockedNpmBalance).toString(), NPMTokenDecimals),
+      router.locale,
+      NPMTokenSymbol,
+      true
+    )
+
+    return {
+      boostBN,
+      votingPower
+    }
+  }, [NPMTokenDecimals, NPMTokenSymbol, escrowData, router.locale])
+
   return {
     refetch: getData,
     loading,
@@ -462,6 +497,7 @@ export const useVoteEscrowData = () => {
     handleApprove,
     loadingVeNPMAllowance,
     hasUnlockAllowance,
-    handleApproveUnlock
+    handleApproveUnlock,
+    currentBoostAndVotingPower
   }
 }
