@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -42,52 +43,58 @@ export function useCelerEstimation ({
     perc_fee: '0',
     base_fee: '0',
     protocolFee: '0',
-    protocolFeePercent: '0'
+    protocolFeePercent: '0',
+    max_slippage: '0'
   })
 
   const { chainGasPrice } = useChainGasPrice()
-  const debouncedAmount = useDebounce(sendAmountInUnits, 1000)
+  const debouncedAmount = useDebounce(sendAmountInUnits, 1500)
   const { isTestNet } = getNetworkInfo(networkId)
 
-  const getEstimatedReceiveAmount = useCallback(async function () {
-    if (!debouncedAmount || toBNSafe(debouncedAmount).isZero() || !destChainId || !srcChainId) { return null }
+  const estimationURL = useMemo(() => {
+    if (!debouncedAmount || toBNSafe(debouncedAmount).isZero() || !destChainId || !srcChainId) {
+      return null
+    }
 
-    const handleError = (err) => {
-      notifyError(err, 'Could not estimate fees')
+    const url = getAmountEstimationUrl({
+      isTest: isTestNet,
+      srcChainId,
+      destChainId,
+      tokenSymbol,
+      sendAmountInUnits: debouncedAmount,
+      receiverAddress,
+      slippage: SLIPPAGE
+    })
+
+    return url
+  }, [debouncedAmount, destChainId, isTestNet, receiverAddress, srcChainId, tokenSymbol])
+
+  const getEstimatedReceiveAmount = useCallback(async function () {
+    if (!estimationURL) {
+      return null
     }
 
     try {
       setEstimating(true)
-      const URL = getAmountEstimationUrl({
-        isTest: isTestNet,
-        srcChainId,
-        destChainId,
-        tokenSymbol,
-        sendAmountInUnits: debouncedAmount,
-        receiverAddress,
-        slippage: SLIPPAGE
-      })
-
-      const res = await fetch(URL)
+      const res = await fetch(estimationURL)
       const data = await res.json()
 
       return data
     } catch (err) {
-      handleError(err)
+      notifyError(err, 'Could not estimate fees')
     } finally {
       setEstimating(false)
     }
 
     return null
-  }, [debouncedAmount, destChainId, isTestNet, notifyError, receiverAddress, srcChainId, tokenSymbol])
+  }, [estimationURL, notifyError])
 
   const getEstimatedCurrentChainGas = useCallback(async function () {
     let fees = '0'
 
     try {
-      const approved = toBNSafe(allowance).isGreaterThanOrEqualTo(
-        debouncedAmount
-      )
+      const approved = toBNSafe(allowance)
+        .isGreaterThanOrEqualTo(debouncedAmount)
       const limit = approved ? GAS_LIMIT_WITH_APPROVAL : GAS_LIMIT_WITHOUT_APPROVAL
       if (limit) {
         fees = toBNSafe(chainGasPrice).multipliedBy(limit).toString()
@@ -110,7 +117,8 @@ export function useCelerEstimation ({
         perc_fee: '0',
         base_fee: '0',
         protocolFee: '0',
-        protocolFeePercent: '0'
+        protocolFeePercent: '0',
+        max_slippage: '0'
       })
     } else {
       const protocolFee = convertFromUnits(_estimation?.perc_fee || '0', destinationTokenDecimal).toString()

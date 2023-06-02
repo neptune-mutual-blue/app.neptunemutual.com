@@ -34,7 +34,7 @@ export function useLayerZeroEstimation ({
   const [estimation, setEstimation] = useState(null)
   const [estimating, setEstimating] = useState(false)
 
-  const debouncedAmount = useDebounce(sendAmountInUnits, 1000)
+  const debouncedAmount = useDebounce(sendAmountInUnits, 1500)
   const { chainGasPrice } = useChainGasPrice()
 
   const getEstimatedDestGas = useCallback(async function () {
