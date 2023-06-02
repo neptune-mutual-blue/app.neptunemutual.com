@@ -9,8 +9,11 @@ export const GAS_MARGIN_MULTIPLIER = 1.5
 
 export const DEBOUNCE_TIMEOUT = 400
 
+// export const CELER_BRIDGE_PROTOCOL_FEE_RATE = 0.05
+export const LAYERZERO_BRIDGE_FEE_RATE = 0
+
 export const VoteEscrowContractAddresses = {
-  84531: '0xb166cf8943fe71dc948bbddccec6ddf569c37401'
+  84531: '0x9Cfef27aC2Bed8689B89De0Ad7B30B02f5F45f9A'
 }
 
 export const NpmTokenContractAddresses = {
@@ -98,6 +101,9 @@ export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
 export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
 export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
+
+export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
+export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
 
 export const NetworkUrlParam = {
   97: 'bsc-testnet',

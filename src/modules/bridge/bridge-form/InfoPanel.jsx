@@ -1,7 +1,7 @@
 import { classNames } from '@/utils/classnames'
 import { Loader } from '@/common/Loader/Loader'
 
-const InfoPanel = ({ infoArray, className = '' }) => {
+export const InfoPanel = ({ infoArray, className = '' }) => {
   if (!infoArray || !infoArray.length) return <></>
 
   return (
@@ -26,5 +26,3 @@ const InfoPanel = ({ infoArray, className = '' }) => {
     </div>
   )
 }
-
-export { InfoPanel }

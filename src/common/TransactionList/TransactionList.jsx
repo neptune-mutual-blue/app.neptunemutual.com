@@ -80,9 +80,7 @@ export function TransactionList ({
     setListOfTransactions([])
     setPage(1)
     setMaxPage(1)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, page, activeTab, account])
+  }, [isOpen, page, activeTab, account, toast])
 
   const handleTabChange = tab => {
     setActiveTab(tab || 'all')

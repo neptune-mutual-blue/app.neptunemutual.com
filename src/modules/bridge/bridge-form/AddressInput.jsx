@@ -1,7 +1,7 @@
 import { classNames } from '@/utils/classnames'
 import { isAddress } from '@ethersproject/address'
 
-const AddressInput = ({ value, onChange, placeholder = 'Enter Value', className = '' }) => {
+export const AddressInput = ({ value, onChange, placeholder = 'Enter Value', className = '' }) => {
   const error = (!isAddress(value) && value) ? 'Invalid Wallet Address' : ''
 
   return (
@@ -25,5 +25,3 @@ const AddressInput = ({ value, onChange, placeholder = 'Enter Value', className 
     </div>
   )
 }
-
-export { AddressInput }

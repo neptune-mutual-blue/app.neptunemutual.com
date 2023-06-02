@@ -88,8 +88,8 @@ export const InsightsContent = () => {
   const { data: statsData, loading } = useNetworkStats()
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
-  const { data: protectionTopAccounts, loading: protectionTopAccountsLoading } = useTopAccountsByProtection()
-  const { data: liquidityTopAccounts, loading: liquidityTopAccountsLoading } = useTopAccountsByLiquidity()
+  const { data: protectionTopAccounts, loading: protectionTopAccountsLoading, fetchTopAccountsByProtection } = useTopAccountsByProtection()
+  const { data: liquidityTopAccounts, loading: liquidityTopAccountsLoading, fetchTopAccountsByLiquidity } = useTopAccountsByLiquidity()
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
@@ -167,8 +167,27 @@ export const InsightsContent = () => {
     if (selected.value === AllDropdownOptions.COVER_EXPIRING) {
       fetchCoverSoldOrPremiumData('expiring')
     }
-    // eslint-disable-next-line
-  }, [selected.value])
+
+    if (selected.value === AllDropdownOptions.TOP_ACCOUNTS_BY_LIQUIDITY) {
+      fetchTopAccountsByLiquidity()
+    }
+
+    if (selected.value === AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION) {
+      fetchTopAccountsByProtection()
+    }
+  }, [
+    selected.value,
+    fetchConsensusData,
+    fetchCoverEarningData,
+    fetchCoverSoldOrPremiumData,
+    fetchGasSummary,
+    fetchHistoricalData,
+    fetchHistoricalDataByCover,
+    fetchMonthlyProtectionData,
+    fetchProtocolDayData,
+    fetchTopAccountsByLiquidity,
+    fetchTopAccountsByProtection
+  ])
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>

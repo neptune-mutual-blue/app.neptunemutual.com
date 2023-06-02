@@ -12,7 +12,6 @@ const getNavigationLinks = (pathname = '') => {
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
   const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
   const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
-  const bridgeUrl = isCelerBridgeEnabled ? Routes.BridgeCeler : Routes.BridgeLayerZero
 
   const poolLink = Routes.Pools()
 
@@ -47,7 +46,7 @@ const getNavigationLinks = (pathname = '') => {
     },
     bridgeEnabled && {
       name: t`Bridge`,
-      href: bridgeUrl,
+      href: Routes.Bridge,
       activeWhenStartsWith: '/bridge'
     },
     {
@@ -106,4 +105,4 @@ const getFlattenedNavLinks = () => {
   return _links
 }
 
-export { getNavigationLinks, getFlattenedNavLinks }
+export { getFlattenedNavLinks, getNavigationLinks }

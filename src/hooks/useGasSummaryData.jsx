@@ -2,7 +2,7 @@ import { getGasSummaryDataURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useRef, useState } from 'react'
 
-const useGasSummaryData = () => {
+export const useGasSummaryData = () => {
   const fetched = useRef(false)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
@@ -10,7 +10,7 @@ const useGasSummaryData = () => {
   const { networkId } = useNetwork()
 
   const fetchGasSummary = async () => {
-    if (fetched.current) return
+    if (fetched.current || loading) return
 
     setLoading(true)
 
@@ -47,5 +47,3 @@ const useGasSummaryData = () => {
     data
   }
 }
-
-export { useGasSummaryData }

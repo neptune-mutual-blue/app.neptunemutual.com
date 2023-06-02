@@ -20,7 +20,7 @@ if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
 }
 
-const TotalCapacityChart = ({ data }) => {
+export const TotalCapacityChart = ({ data }) => {
   const { liquidityTokenDecimals } = useAppConstants()
 
   const [chartData, setChartData] = useState([])
@@ -214,5 +214,3 @@ const TotalCapacityChart = ({ data }) => {
     </div>
   )
 }
-
-export { TotalCapacityChart }

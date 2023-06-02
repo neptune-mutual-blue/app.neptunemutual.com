@@ -1,5 +1,4 @@
-// eslint-disable-next-line unused-imports/no-unused-vars
-export default function Identicon ({ account }) {
+export default function Identicon () {
   return (
     <div className='w-6 h-6 overflow-hidden rounded-full bg-016D8E'>
       <svg viewBox='0 0 32 32' x='0' y='0' width='24' height='24'>

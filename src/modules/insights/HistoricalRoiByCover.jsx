@@ -31,7 +31,7 @@ const getColorForCover = (cover) => {
   return color ?? '#454545'
 }
 
-const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
+export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
   const chartRef = useRef()
 
   const [selectedCover, setSelectedCover] = useState()
@@ -235,7 +235,7 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
         />
       )}
 
-      <div className='flex flex-wrap justify-center items-center gap-4 mt-3'>
+      <div className='flex flex-wrap items-center justify-center gap-4 mt-3'>
         {Object.keys(groupCovers).map((key) => (
           <div
             role='checkbox' aria-checked={selectedCover === key} onClick={() => {
@@ -261,5 +261,3 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
     </div>
   )
 }
-
-export { HistoricalRoiByCover }

@@ -1,8 +1,12 @@
 import React from 'react'
 
-const VoteEscrowCard = ({ children }) => {
+import { classNames } from '@/utils/classnames'
+
+const VoteEscrowCard = ({ children, ...rest }) => {
+  const { className } = rest
+
   return (
-    <div className='rounded-2xl bg-white border-1 border-B0C4DB w-[489px] mx-auto'>{children}</div>
+    <div className={classNames('rounded-2xl bg-white border-1 border-B0C4DB max-w-[489px] mx-auto', className)}>{children}</div>
   )
 }
 

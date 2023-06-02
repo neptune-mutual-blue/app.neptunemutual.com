@@ -1,5 +1,6 @@
 import '@fontsource/inter/latin.css'
 import '../common/GaugeChart/GaugeChart.css'
+import '../common/GaugeChart/GaugeChartSemiCircle.css'
 import '../styles/globals.css'
 
 import { useEffect } from 'react'

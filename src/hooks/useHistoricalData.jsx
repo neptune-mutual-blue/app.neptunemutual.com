@@ -2,7 +2,7 @@ import { getHistoricalDataURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useState, useRef } from 'react'
 
-const useHistoricalData = () => {
+export const useHistoricalData = () => {
   const fetched = useRef(false)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
@@ -10,7 +10,7 @@ const useHistoricalData = () => {
   const { networkId } = useNetwork()
 
   const fetchHistoricalData = async () => {
-    if (fetched.current) return
+    if (fetched.current || loading) return
 
     setLoading(true)
 
@@ -47,5 +47,3 @@ const useHistoricalData = () => {
     data
   }
 }
-
-export { useHistoricalData }

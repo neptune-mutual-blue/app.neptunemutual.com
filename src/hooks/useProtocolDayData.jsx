@@ -11,7 +11,7 @@ export const useProtocolDayData = (eager = true) => {
   const fetched = useRef(false)
 
   const fetchData = useCallback(() => {
-    if (fetched.current) return
+    if (fetched.current || loading) return
 
     setLoading(true)
 
@@ -29,7 +29,7 @@ export const useProtocolDayData = (eager = true) => {
       .finally(() => {
         setLoading(false)
       })
-  }, [networkId])
+  }, [networkId, loading])
 
   useEffect(() => {
     if (eager) {

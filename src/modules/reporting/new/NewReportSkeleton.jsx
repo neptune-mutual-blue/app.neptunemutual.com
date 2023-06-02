@@ -3,7 +3,7 @@ import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
 import { HeroSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
-const NewReportSkeleton = () => (
+export const NewReportSkeleton = () => (
   <>
     <HeroSkeleton />
 
@@ -53,5 +53,3 @@ const NewReportSkeleton = () => (
     </div>
   </>
 )
-
-export { NewReportSkeleton }

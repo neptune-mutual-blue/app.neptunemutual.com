@@ -30,7 +30,7 @@ const getAggregatedDataFromResponses = async (response) => {
   }
 }
 
-const useCoverInsightsData = () => {
+export const useCoverInsightsData = () => {
   const fetched = useRef({})
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(null)
@@ -80,5 +80,3 @@ const useCoverInsightsData = () => {
     labels
   }
 }
-
-export { useCoverInsightsData }

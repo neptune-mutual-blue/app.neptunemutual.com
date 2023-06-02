@@ -1,0 +1,53 @@
+.gauge.semichart .chart {
+  position: relative;
+}
+
+.gauge.semichart .bg,
+.gauge.semichart .foreground {
+  position: absolute;
+  transform: rotateZ(180deg);
+}
+
+.gauge.semichart .meter {
+  position: absolute;
+  left: calc(50% - 8px);
+  top: 24px;
+  transform-origin: 50% 100%;
+  transition: all 1s;
+  z-index: 2;
+}
+
+.gauge.semichart .meter.label {
+  position: absolute;
+  left: calc(50% - 8px);
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transform-origin: 50% 100%;
+  align-items: center;
+  width: 1px !important;
+}
+
+.gauge.semichart .breakpoints div {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transform-origin: 0% 0%;
+  align-items: center;
+  width: 1px !important;
+}
+
+.gauge.semichart .breakpoints span {
+  font-size: 14px;
+  color: #9b9b9b;
+  line-height: 30px;
+  display: block;
+}
+
+.gauge.semichart circle {
+  transition: all 1s;
+}

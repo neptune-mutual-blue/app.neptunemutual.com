@@ -1,95 +1,21 @@
 
 export const TESTNET_USDC_BRIDGE_TOKENS = {
-  5: {
-    address: '0xCbE56b00d173A26a5978cE90Db2E33622fD95A28',
-    decimal: 6
-  },
-  97: {
-    address: '0x855fC87f7F14Db747ef27603b02bAe579ba947B6',
-    decimal: 6
-  },
-  280: {
-    address: '0x852a4599217E76aA725F0AdA8BF832a1F57a8A91',
-    decimal: 6
-  },
-  647: {
-    address: '0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98',
-    decimal: 6
-  },
   43113: {
     address: '0x2979a1cb90EEB9e75d7fB4f9813FCC40E4a7fD8b',
-    decimal: 6
-  },
-  80001: {
-    address: '0x6De33698e9e9b787e09d3Bd7771ef63557E148bb',
     decimal: 6
   },
   84531: {
     address: '0xf5C6825015280CdfD0b56903F9F8B5A2233476F5',
     decimal: 18
   }
-}
-
-export const TESTNET_USDT_BRIDGE_TOKENS = {
-  5: {
-    address: '0xf4B2cbc3bA04c478F0dC824f4806aC39982Dce73',
-    decimal: 6
-  },
-  69: {
-    address: '0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98',
-    decimal: 6
-  },
-  97: {
-    address: '0x7d43AABC515C356145049227CeE54B608342c0ad',
-    decimal: 6
-  },
-  4002: {
-    address: '0x7d43AABC515C356145049227CeE54B608342c0ad',
-    decimal: 6
-  },
-  84531: {
-    address: '0x5471ea8f739dd37E9B81Be9c5c77754D8AA953E4',
-    decimal: 18
-  },
-  421613: {
-    address: '0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8',
-    decimal: 6
-  }
-}
-
-export const MAINNET_USDT_BRIDGE_TOKENS = {
-  1: {
-    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-    decimal: 6
-  },
-  10: {
-    address: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
-    decimal: 6
-  },
-  56: {
-    address: '0x55d398326f99059fF775485246999027B3197955',
-    decimal: 18
-  },
-  137: {
-    address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F',
-    decimal: 6
-  },
-  250: {
-    address: '0x049d68029688eAbF473097a2fC38ef61633A3C7A',
-    decimal: 6
-  },
-  42161: {
-    address: '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
-    decimal: 6
-  },
-  43114: {
-    address: '0xc7198437980c041c805A1EDcbA50c1Ce5db95118',
-    decimal: 6
-  },
-  1313161554: {
-    address: '0x4988a896b1227218e4A686fdE5EabdcAbd91571f',
-    decimal: 6
-  }
+  // 5: {
+  //   address: '0xCbE56b00d173A26a5978cE90Db2E33622fD95A28',
+  //   decimal: 6
+  // },
+  // 80001: {
+  //   address: '0x6De33698e9e9b787e09d3Bd7771ef63557E148bb',
+  //   decimal: 6
+  // }
 }
 
 export const BRIDGE_CONTRACTS = {
@@ -145,8 +71,11 @@ export const MAINNET_NPM_BRIDGE_TOKENS = {
   }
 }
 
-export const getFeeEstimationUrl = ({ isTest = false, srcChainId, destChainId, tokenSymbol, sendAmount, receiverAddress, slippage }) => {
+export const getAmountEstimationUrl = ({ isTest = false, srcChainId, destChainId, tokenSymbol, sendAmountInUnits, receiverAddress, slippage }) => {
   const base = isTest ? 'https://cbridge-v2-test.celer.network' : 'https://cbridge-prod2.celer.app'
 
-  return `${base}/v2/estimateAmt?src_chain_id=${srcChainId}&dst_chain_id=${destChainId}&token_symbol=${tokenSymbol}&amt=${sendAmount}&usr_addr=${receiverAddress}&slippage_tolerance=${slippage}`
+  return `${base}/v2/estimateAmt?src_chain_id=${srcChainId}&dst_chain_id=${destChainId}&token_symbol=${tokenSymbol}&amt=${sendAmountInUnits}&usr_addr=${receiverAddress}&slippage_tolerance=${slippage}`
 }
+
+export const GAS_LIMIT_WITHOUT_APPROVAL = 350_000
+export const GAS_LIMIT_WITH_APPROVAL = 300_000

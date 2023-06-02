@@ -13,7 +13,7 @@ const List = ({ type, children }) => {
  * @param {{parameters: Array, titleClassName?: string, textClassName?: string}} props
  * @returns
  */
-const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibold text-lg', textClassName = '' }) => {
+export const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibold text-lg', textClassName = '' }) => {
   if (!Array.isArray(parameters) || parameters.length === 0) {
     return null
   }
@@ -40,5 +40,3 @@ const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibol
     </>
   )
 }
-
-export { CoverParameters }

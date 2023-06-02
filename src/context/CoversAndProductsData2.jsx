@@ -20,17 +20,13 @@ const CoversAndProductsDataContext = createContext({
   loading: false,
   data: [],
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  getCoverOrProduct: (coverKey, productKey) => null,
+  getCoverOrProduct: (_coverKey, _productKey) => null,
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  getCoverByCoverKey: (coverKey) => null,
+  getCoverByCoverKey: (_coverKey) => null,
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  getProductsByCoverKey: (coverKey) => null,
+  getProductsByCoverKey: (_coverKey) => null,
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  getProduct: (coverKey, productKey) => null,
+  getProduct: (_coverKey, _productKey) => null,
 
   getAllProducts: () => null,
   getDedicatedCovers: () => null,
