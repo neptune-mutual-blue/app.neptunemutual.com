@@ -69,6 +69,7 @@ export const useCelerBridge = ({
   const tokenSymbol = celerData.tokenSymbol
   const sourceTokenAddress = celerData.tokenData[networkId]?.address
   const sourceTokenDecimal = celerData.tokenData[networkId]?.decimal
+  const destinationTokenDecimals = celerData.tokenData[destChainId]?.decimal
 
   const sendAmountInUnits = convertToUnits(sendAmount || '0', sourceTokenDecimal).toString()
 
@@ -93,7 +94,9 @@ export const useCelerBridge = ({
     receiverAddress,
     sendAmountInUnits,
     srcChainId,
-    tokenSymbol
+    tokenSymbol,
+    sourceTokenDecimal,
+    destinationTokenDecimal: destinationTokenDecimals
   })
 
   useEffect(() => {
@@ -331,7 +334,8 @@ export const useCelerBridge = ({
   approving ||
   bridging ||
   estimating ||
-  (canBridge && receiverAddress && !isValidAddress)
+  (canBridge && receiverAddress && !isValidAddress) ||
+  toBNSafe(estimation?.estimated_receive_amt || '0').isLessThanOrEqualTo(0)
 
   return {
     balance,
@@ -349,6 +353,7 @@ export const useCelerBridge = ({
     tokenSymbol,
     sourceTokenAddress,
     sourceTokenDecimal,
+    destinationTokenDecimal: destinationTokenDecimals,
 
     tokenData: celerData.tokenData,
     filteredNetworks: celerData.filteredNetworks,

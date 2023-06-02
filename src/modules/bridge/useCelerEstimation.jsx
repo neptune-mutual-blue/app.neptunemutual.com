@@ -13,7 +13,10 @@ import {
 import { useNetwork } from '@/src/context/Network'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { toBNSafe } from '@/utils/bn'
+import {
+  convertFromUnits,
+  toBNSafe
+} from '@/utils/bn'
 import { getNetworkInfo } from '@/utils/network'
 
 const SLIPPAGE_MULTIPLIER = 1_000_000
@@ -25,14 +28,22 @@ export function useCelerEstimation ({
   destChainId,
   sendAmountInUnits,
   receiverAddress,
-  tokenSymbol
+  tokenSymbol,
+  sourceTokenDecimal,
+  destinationTokenDecimal
 }) {
   const { networkId } = useNetwork()
   const { notifyError } = useErrorNotifier()
 
   const [balanceError, setBalanceError] = useState('')
   const [estimating, setEstimating] = useState(false)
-  const [estimation, setEstimation] = useState(null)
+  const [estimation, setEstimation] = useState({
+    estimated_receive_amt: '0',
+    perc_fee: '0',
+    base_fee: '0',
+    protocolFee: '0',
+    protocolFeePercent: '0'
+  })
 
   const { chainGasPrice } = useChainGasPrice()
   const debouncedAmount = useDebounce(sendAmountInUnits, 1000)
@@ -91,18 +102,31 @@ export function useCelerEstimation ({
   const updateEstimation = useCallback(async function () {
     setBalanceError('')
     const _estimation = await getEstimatedReceiveAmount()
+
     if (_estimation?.err) {
       setBalanceError(_estimation.err.msg)
       setEstimation({
         estimated_receive_amt: '0',
         perc_fee: '0',
-        base_fee: '0'
+        base_fee: '0',
+        protocolFee: '0',
+        protocolFeePercent: '0'
       })
-    } else { setEstimation(_estimation) }
+    } else {
+      const protocolFee = convertFromUnits(_estimation?.perc_fee || '0', destinationTokenDecimal).toString()
+      const sendAmount = convertFromUnits(debouncedAmount || '0', sourceTokenDecimal)
+      setEstimation({
+        ..._estimation,
+        protocolFee,
+        protocolFeePercent: sendAmount.isGreaterThan(0)
+          ? toBNSafe(protocolFee).dividedBy(sendAmount || '0').multipliedBy(100).toString()
+          : '0'
+      })
+    }
 
     const fees = await getEstimatedCurrentChainGas()
     if (fees) { setEstimation(_prev => ({ ..._prev, currentChainGas: fees })) }
-  }, [getEstimatedReceiveAmount, getEstimatedCurrentChainGas])
+  }, [getEstimatedReceiveAmount, getEstimatedCurrentChainGas, destinationTokenDecimal, debouncedAmount, sourceTokenDecimal])
 
   useEffect(() => {
     updateEstimation()
