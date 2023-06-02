@@ -16,6 +16,8 @@ import { useBridgePricing } from '@/modules/bridge/useBridgePricing'
 import { useCelerBridge } from '@/modules/bridge/useCelerBridge'
 import { useLayerZeroBridge } from '@/modules/bridge/useLayerZeroBridge'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
+import * as celerConfig from '@/src/config/bridge/celer'
+import * as lzConfig from '@/src/config/bridge/layer-zero'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { getNetworkInfo } from '@/utils/network'
@@ -62,14 +64,47 @@ const BridgeModule = () => {
 
   const conversionRates = useBridgePricing()
 
+  // Resets source chain
   useEffect(() => {
     const options = getNetworkInfo(networkId).isMainNet ? networks.mainnet : networks.testnet
     setSelectedNetworks((prev) => ({ ...prev, srcNetwork: options.find(x => x.chainId === parseInt(networkId)) }))
   }, [networkId])
 
+  // Resets destination chain - used for avoiding unnecessary re-renders
   useEffect(() => {
-    setSelectedNetworks(prev => ({ ...prev, destNetwork: null }))
-  }, [selectedBridge])
+    const { isTestNet } = getNetworkInfo(networkId)
+    const _networks = isTestNet ? networks.testnet : networks.mainnet
+
+    let tokenData = null
+
+    if (selectedBridge === BRIDGE_KEYS.LAYERZERO) {
+      tokenData = isTestNet ? lzConfig.TESTNET_TOKENS : lzConfig.MAINNET_TOKENS
+    }
+
+    if (selectedBridge === BRIDGE_KEYS.CELER) {
+      tokenData = isTestNet ? celerConfig.TESTNET_USDC_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
+    }
+
+    if (!tokenData) {
+      return
+    }
+
+    const filtered = _networks
+      .filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
+
+    if (!filtered || filtered.length === 0) {
+      return
+    }
+
+    const firstDestOption = filtered.filter(n => n.chainId.toString() !== networkId.toString())[0]
+
+    if (!firstDestOption) {
+      return
+    }
+
+    // used for avoiding unnecessary re-renders
+    setSelectedNetworks(prev => ({ ...prev, destNetwork: firstDestOption }))
+  }, [networkId, selectedBridge])
 
   return (
     <Container className='pt-20 pb-72'>
