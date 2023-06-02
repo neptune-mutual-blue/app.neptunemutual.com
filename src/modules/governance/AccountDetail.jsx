@@ -4,7 +4,7 @@ import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { requiredBalance } from '@/src/config/constants'
+import { requiredBalanceForProposal } from '@/src/config/constants'
 import { networks } from '@/src/config/networks'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -29,7 +29,7 @@ const AccountDetail = ({ title, selectedChains }) => {
 
   const currentNetwork = networkId && networks[isMainNet ? 'mainnet' : 'testnet'].find(n => n.chainId === networkId)
 
-  const isBalanceInsufficient = convertToUnits(requiredBalance, NPMTokenDecimals).isGreaterThan(balance)
+  const isBalanceInsufficient = convertToUnits(requiredBalanceForProposal, NPMTokenDecimals).isGreaterThan(balance)
 
   const chainName = selectedChains.map(chainId => ShortNetworkNames[chainId])
 
@@ -68,7 +68,7 @@ const AccountDetail = ({ title, selectedChains }) => {
                 <Trans>Required</Trans>
               </h4>
               <p className='text-xl'>{formatCurrency(
-                requiredBalance,
+                requiredBalanceForProposal,
                 router.locale,
                 NPMTokenSymbol,
                 true

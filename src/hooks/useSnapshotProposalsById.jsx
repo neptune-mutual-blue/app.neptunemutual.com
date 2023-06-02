@@ -94,9 +94,11 @@ export const useSnapshotProposalsById = (id, locale) => {
 
     if (!id) return
 
+    const url = isMainNet ? SNAPSHOT_API_URL.mainnet : SNAPSHOT_API_URL.testnet
+
     const fetchSnapshotById = async () => {
       try {
-        const res = await fetch(isMainNet ? SNAPSHOT_API_URL.mainnet : SNAPSHOT_API_URL.testnet, {
+        const res = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

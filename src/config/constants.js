@@ -141,6 +141,4 @@ export const SNAPSHOT_INTERFACE_URL = {
 }
 export const SNAPSHOT_SPACE_ID = 'neptunemutual.eth'
 
-export const getSubmitYourVoteUrl = (isMainNet, proposalId) => `${isMainNet ? SNAPSHOT_INTERFACE_URL.mainnet : SNAPSHOT_INTERFACE_URL.testnet}/#/${SNAPSHOT_SPACE_ID}/proposal/${proposalId}`
-
-export const requiredBalance = 1200233.34
+export const requiredBalanceForProposal = 1200233.34
