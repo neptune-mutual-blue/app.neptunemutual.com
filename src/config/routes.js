@@ -11,6 +11,7 @@ const MyActivePolicies = '/my-policies/active'
 const MyExpiredPolicies = '/my-policies/expired'
 const MyLiquidity = '/my-liquidity'
 const ActiveReports = '/reports/active'
+const Governance = '/governance'
 const VoteEscrow = '/vote-escrow'
 const ResolvedReports = '/reports/resolved'
 const BondPool = '/pools/bond'
@@ -179,5 +180,6 @@ export const Routes = {
   ViewCoverProductTerms,
   ViewProductReports,
   VoteEscrow,
+  Governance,
   Bridge
 }

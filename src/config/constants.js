@@ -130,3 +130,15 @@ export const MIN_LIQUIDITY = 10
 export const MAX_LIQUIDITY = 10_000_000
 
 export const TOP_ACCOUNTS_ROWS_PER_PAGE = 7
+
+export const SNAPSHOT_API_URL = {
+  testnet: 'https://testnet.snapshot.org/graphql',
+  mainnet: 'https://hub.snapshot.org/graphql'
+}
+export const SNAPSHOT_INTERFACE_URL = {
+  testnet: 'https://demo.snapshot.org',
+  mainnet: 'https://snapshot.org'
+}
+export const SNAPSHOT_SPACE_ID = 'neptunemutual.eth'
+
+export const requiredBalanceForProposal = 1200233.34
