@@ -135,7 +135,7 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
   if (!data) return
 
   return (
-    <GovernanceCard className='gap-6 p-5 md:p-8'>
+    <GovernanceCard className='gap-6 p-4 md:p-8'>
       <ChainDropdown options={chainDropdownOptions} selected={selectedChains} onSelectionChange={setSelectedChains} state={state} />
       <div className='relative -my-5 gauge-chart-liquidity md:my-0'>
         <HighchartsReact

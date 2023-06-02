@@ -3,7 +3,7 @@ import GovernanceSinglePage from '@/modules/governance'
 
 const Index = () => {
   return (
-    <main className='pb-32 pt-18'>
+    <main className='pt-5 pb-32 md:pt-18'>
       <Seo />
       <GovernanceSinglePage />
     </main>

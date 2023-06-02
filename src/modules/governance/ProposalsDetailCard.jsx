@@ -16,7 +16,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state,
   }
 
   return (
-    <GovernanceCard className='flex flex-col gap-6 p-5 md:p-8'>
+    <GovernanceCard className='flex flex-col gap-6 p-4 md:p-8'>
       <h1 className='text-xl font-semibold'><Trans>{title}</Trans></h1>
 
       <div className='flex flex-row gap-2'>
@@ -38,8 +38,8 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate, endDate, state,
         )}
       </div>
 
-      <div className='flex flex-row items-end justify-between p-6 bg-F3F5F7 rounded-2'>
-        <div className='flex flex-row gap-8'>
+      <div className='flex flex-col gap-4 p-6 sm:gap-0 sm:items-end sm:justify-between sm:flex-row bg-F3F5F7 rounded-2'>
+        <div className='flex flex-col gap-4 sm:gap-8 sm:flex-row'>
           <div className='flex flex-col gap-1'>
             <h4 className='text-sm font-semibold text-999BAB'>
               <Trans>Proposal</Trans>

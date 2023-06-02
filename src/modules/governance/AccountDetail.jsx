@@ -37,48 +37,46 @@ const AccountDetail = ({ title, selectedChains }) => {
   const chainName = selectedChains.map(chainId => allNetworks[chainId])
 
   return (
-    <GovernanceCard className='p-8'>
+    <GovernanceCard className='p-4 md:p-8'>
       <div className='p-6 bg-F3F5F7 rounded-2'>
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-1'>
             <h4 className='text-sm font-semibold text-999BAB'><Trans>Account</Trans></h4>
-            <p>
-              {account}
+            <p className='break-words'>
+              {account || 'N/A'}
             </p>
           </div>
 
-          <div className='flex flex-col gap-8'>
-            <div className='flex flex-row gap-8'>
-              <div className='flex flex-col gap-1'>
-                <h4 className='text-sm font-semibold text-999BAB'>
-                  <Trans>Current Network</Trans>
-                </h4>
-                <p className='text-xl'>{currentNetwork?.name}</p>
-              </div>
-              <div className='flex flex-col gap-1'>
-                <h4 className='text-sm font-semibold text-999BAB'>
-                  <Trans>Balance</Trans>
-                </h4>
-                <p className={`text-xl ${isBalanceInsufficient ? 'text-E52E2E' : 'text-01052D'}`}>{formatCurrency(
-                  convertFromUnits(balance, NPMTokenDecimals),
-                  router.locale,
-                  NPMTokenSymbol,
-                  true
-                ).long}
-                </p>
-              </div>
-              <div className='flex flex-col gap-1'>
-                <h4 className='text-sm font-semibold text-999BAB'>
-                  <Trans>Required</Trans>
-                </h4>
-                <p className='text-xl'>{formatCurrency(
-                  requiredBalance,
-                  router.locale,
-                  NPMTokenSymbol,
-                  true
-                ).long}
-                </p>
-              </div>
+          <div className='flex flex-col gap-4 sm:gap-8 sm:flex-row'>
+            <div className='flex flex-col gap-1'>
+              <h4 className='text-sm font-semibold text-999BAB'>
+                <Trans>Current Network</Trans>
+              </h4>
+              <p className='text-xl'>{currentNetwork?.name}</p>
+            </div>
+            <div className='flex flex-col gap-1'>
+              <h4 className='text-sm font-semibold text-999BAB'>
+                <Trans>Balance</Trans>
+              </h4>
+              <p className={`text-xl ${isBalanceInsufficient ? 'text-E52E2E' : 'text-01052D'}`}>{formatCurrency(
+                convertFromUnits(balance, NPMTokenDecimals),
+                router.locale,
+                NPMTokenSymbol,
+                true
+              ).long}
+              </p>
+            </div>
+            <div className='flex flex-col gap-1'>
+              <h4 className='text-sm font-semibold text-999BAB'>
+                <Trans>Required</Trans>
+              </h4>
+              <p className='text-xl'>{formatCurrency(
+                requiredBalance,
+                router.locale,
+                NPMTokenSymbol,
+                true
+              ).long}
+              </p>
             </div>
           </div>
         </div>
