@@ -14,6 +14,7 @@ import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
+import { blockEmissionForProposal } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
@@ -125,8 +126,6 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
     rangeSelector: { enabled: false, inputEnabled: false }
   }
 
-  const blockEmission = 300000
-
   const chainDropdownOptions = chainOption.map((chainId) => ({
     label: ShortNetworkNames[chainId],
     value: chainId
@@ -150,7 +149,7 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
           <div className='text-sm font-medium md:text-md'>
             <Trans>Block Emission:{' '}</Trans>
             {formatCurrency(
-              blockEmission,
+              blockEmissionForProposal,
               router.locale,
               NPMTokenSymbol,
               true

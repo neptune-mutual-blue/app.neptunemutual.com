@@ -142,3 +142,4 @@ export const SNAPSHOT_INTERFACE_URL = {
 export const SNAPSHOT_SPACE_ID = 'neptunemutual.eth'
 
 export const requiredBalanceForProposal = 1200233.34
+export const blockEmissionForProposal = 300000
