@@ -1,9 +1,22 @@
-import { SNAPSHOT_SPACE_ID, SNAPSHOT_API_URL } from '@/src/config/constants'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
+import {
+  SNAPSHOT_API_URL,
+  SNAPSHOT_SPACE_ID
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { getNetworkInfo } from '@/utils/network'
-import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import {
+  getCategoryFromTitle,
+  getTagFromTitle
+} from '@/utils/snapshot'
 
 const getProposalsQuery = (page, rowsPerPage) => {
   const skip = (page - 1) * rowsPerPage
@@ -44,21 +57,6 @@ space(
 
 const parseProposalsData = (data, locale) => {
   if (!data || !Array.isArray(data?.proposals)) return []
-
-  const getTagFromTitle = (text) => {
-    const [, , tag] = Array.from(text.match(/^(\[([a-zA-Z0-9]*)(-.*)?\])?/))
-    return tag ? tag.toLowerCase() : ''
-  }
-
-  const getCategoryFromTitle = (text) => {
-    let category = null
-
-    if (text.toLowerCase().includes('gce')) category = { value: 'GC Emission', type: 'success' }
-    else if (text.toLowerCase().includes('block emission')) category = { value: 'Emission', type: 'danger' }
-    else if (text.toLowerCase().includes('gcl')) category = { value: 'New Pool', type: 'info' }
-
-    return category
-  }
 
   const proposals = data.proposals.map(proposal => {
     const scoresSum = proposal.scores.reduce((acc, curr) => acc + curr, 0)

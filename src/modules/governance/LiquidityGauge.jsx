@@ -14,7 +14,7 @@ import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { blockEmissionForProposal } from '@/src/config/constants'
+import { EMISSION_PER_EPOCH } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
@@ -147,9 +147,9 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
         <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
           <div className='font-bold text-md md:text-display-sm'><Trans>Liquidity Gauge</Trans></div>
           <div className='text-sm font-medium md:text-md'>
-            <Trans>Block Emission:{' '}</Trans>
+            <Trans>Emission Per Epoch:{' '}</Trans>
             {formatCurrency(
-              blockEmissionForProposal,
+              EMISSION_PER_EPOCH,
               router.locale,
               NPMTokenSymbol,
               true

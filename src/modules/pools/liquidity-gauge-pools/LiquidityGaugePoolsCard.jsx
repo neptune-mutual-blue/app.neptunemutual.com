@@ -67,7 +67,7 @@ export const LiquidityGaugePoolsCard = ({ data }) => {
               <LiquidityGaugeBoostDetails
                 tokenValue={liquidityGaugeData.npm}
                 boost={liquidityGaugeData.boost}
-                apr={liquidityGaugeData.APR}
+                // apr={liquidityGaugeData.APR}
               />
             </div>
 
@@ -84,7 +84,7 @@ export const LiquidityGaugePoolsCard = ({ data }) => {
 
             <LiquidityGaugeCardAction
               lockupPeriod={liquidityGaugeData.lockup_period}
-              tokenName={liquidityGaugeData.reward_token.name}
+              // tokenName={liquidityGaugeData.reward_token.name}
               tokenIcon={liquidityGaugeData.reward_token.icon}
               isLock={liquidityGaugeData.lock}
               subTitle={liquidityGaugeData.subtitle}

@@ -3,12 +3,17 @@ import { useRouter } from 'next/router'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
+import { getBlockLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
+import { IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { getSubmitYourVoteUrl } from '@/utils/getSubmitYourVoteUrl'
-import { getNetworkInfo } from '@/utils/network'
+import {
+  getSubmitYourVoteUrl,
+  snapshotColors
+} from '@/utils/snapshot'
+import { getReplacedString } from '@/utils/string'
 import { Trans } from '@lingui/macro'
 
 const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = '', state, category }) => {
@@ -16,13 +21,6 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
   const { proposalId } = router.query
 
   const { networkId } = useNetwork()
-  const { isMainNet } = getNetworkInfo(networkId)
-
-  const colors = {
-    success: { bg: '#ECFDF3', text: '#027A48' },
-    danger: { bg: '#FFF4ED', text: '#B93815' },
-    info: { bg: '#F0F9FF', text: '#026AA2' }
-  }
 
   const convertDateFormat = (date) => {
     return DateLib.toLongDateFormat(date, router.locale, 'UTC', {
@@ -49,8 +47,8 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
           <div
             className='py-0.5 px-2 text-xs rounded-full font-medium items-center justify-center'
             style={{
-              background: colors[category.type].bg,
-              color: colors[category.type].text
+              background: snapshotColors[category.type].bg,
+              color: snapshotColors[category.type].text
             }}
           >
             {category?.value}
@@ -67,7 +65,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
             <div className='flex flex-row gap-4'>
               <a
                 className='underline text-4E7DD9 hover:no-underline'
-                href={getSubmitYourVoteUrl(isMainNet, proposalId)}
+                href={getSubmitYourVoteUrl(networkId, proposalId)}
                 target='_blank'
                 rel='noreferrer noopener nofollow'
               >
@@ -75,7 +73,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
               </a>
               <a
                 className='underline text-4E7DD9 hover:no-underline'
-                href={`https://snapshot.mypinata.cloud/ipfs/${ipfs}`}
+                href={getReplacedString(IPFS_HASH_URL, { ipfsHash: ipfs })}
                 target='_blank'
                 rel='noreferrer noopener nofollow'
               >
@@ -89,7 +87,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
               <Trans>Start</Trans>
             </h4>
             <InfoTooltip
-              infoComponent={convertDateFormat(startDate)} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}
+              infoComponent={convertDateFormat(startDate)} className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}
             >
               <p>{fromNow(startDate)}</p>
             </InfoTooltip>
@@ -100,7 +98,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
               <Trans>End</Trans>
             </h4>
             <InfoTooltip
-              infoComponent={convertDateFormat(endDate)} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}
+              infoComponent={convertDateFormat(endDate)} className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none' positionOffset={0}
             >
               <p>{fromNow(endDate)}</p>
             </InfoTooltip>
@@ -110,14 +108,16 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
         <div className='flex flex-row items-center gap-1'>
           <a
             className='font-semibold text-4E7DD9'
-            href={`https://goerli.basescan.org//block/${snapshot}`}
+            href={getBlockLink(networkId, snapshot)}
             target='_blank'
             rel='noreferrer noopener nofollow'
           >
             #{snapshot}
           </a>
-          <InfoTooltip infoComponent={snapshot} className='text-[11px] px-2 py-1.5 bg-opacity-100 max-w-none'>
-            <button type='button' className='cursor-default'><InfoCircleIcon className='w-4 h-4' /></button>
+          <InfoTooltip infoComponent={`Snapshot taken at block number ${snapshot}`} className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none'>
+            <button type='button' className='cursor-default'>
+              <InfoCircleIcon className='w-4 h-4' />
+            </button>
           </InfoTooltip>
         </div>
       </div>

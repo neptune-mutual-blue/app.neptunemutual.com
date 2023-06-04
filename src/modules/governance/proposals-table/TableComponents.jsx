@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { LastSynced } from '@/common/LastSynced'
 import { Select } from '@/common/Select'
@@ -8,16 +10,21 @@ import DocumentationIcon2 from '@/icons/DocumentationIcon2'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import { PieChartIcon } from '@/icons/PieChartIcon'
 import DateLib from '@/lib/date/DateLib'
-import { Results } from '@/modules/governance/proposals-table/result-bars/Results'
-import { SNAPSHOT_SPACE_ID, SNAPSHOT_INTERFACE_URL } from '@/src/config/constants'
+import {
+  Results
+} from '@/modules/governance/proposals-table/result-bars/Results'
+import {
+  SNAPSHOT_INTERFACE_URL,
+  SNAPSHOT_SPACE_ID
+} from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useBlockHeight } from '@/src/hooks/useBlockHeight'
 import { classNames } from '@/utils/classnames'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getNetworkInfo } from '@/utils/network'
+import { snapshotColors } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
-import Link from 'next/link'
 
 export const WhenRenderer = ({ row, locale }) => {
   return (
@@ -67,18 +74,12 @@ export const DetailsRenderer = ({ row }) => {
 }
 
 const CategoryTag = ({ value, type }) => {
-  const colors = {
-    success: { bg: '#ECFDF3', text: '#027A48' },
-    danger: { bg: '#FFF4ED', text: '#B93815' },
-    info: { bg: '#F0F9FF', text: '#026AA2' }
-  }
-
   return (
     <span
       className='py-0.5 px-1.5 text-xs rounded-2xl'
       style={{
-        background: colors[type].bg,
-        color: colors[type].text
+        background: snapshotColors[type].bg,
+        color: snapshotColors[type].text
       }}
     >
       {value}

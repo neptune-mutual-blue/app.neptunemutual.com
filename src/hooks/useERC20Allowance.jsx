@@ -146,16 +146,19 @@ export const useERC20Allowance = (tokenAddress) => {
   }, [checkForChange, refetch])
 
   useEffect(() => {
-    if (!checkForChange.check) {
-      return
-    }
+    setCheckForChange(prev => {
+      if (!prev.check) { // if not checking, do not update state
+        return prev
+      }
+
+      return {
+        check: false,
+        spender: null
+      }
+    })
 
     // When allowance changes stop checking
-    setCheckForChange({
-      check: false,
-      spender: null
-    })
-  }, [allowance, checkForChange.check])
+  }, [allowance])
 
   /**
    *

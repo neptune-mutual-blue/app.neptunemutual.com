@@ -10,7 +10,7 @@ import ProposalsDetailCard from '@/modules/governance/ProposalsDetailCard'
 import ProposalSkeleton from '@/modules/governance/ProposalSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useSnapshotProposalsById } from '@/src/hooks/useSnapshotProposalsById'
-import { getTagFromTitle } from '@/utils/getTagFromTitle'
+import { getTagFromTitle } from '@/utils/snapshot'
 import { t } from '@lingui/macro'
 
 const GovernanceSinglePage = () => {

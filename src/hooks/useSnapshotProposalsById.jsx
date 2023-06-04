@@ -10,8 +10,11 @@ import {
 import { useNetwork } from '@/src/context/Network'
 import { getColorByIndex } from '@/utils/colorArrays'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getTagFromTitle } from '@/utils/getTagFromTitle'
 import { getNetworkInfo } from '@/utils/network'
+import {
+  getCategoryFromTitle,
+  getTagFromTitle
+} from '@/utils/snapshot'
 
 const getQuery = (id) => {
   return `
@@ -48,16 +51,6 @@ const chainParam = {
   fuj: 43113,
   arb: 42161,
   bgo: 84531
-}
-
-const getCategoryFromTitle = (text) => {
-  let category = null
-
-  if (text.toLowerCase().includes('gce')) category = { value: 'GC Emission', type: 'success' }
-  else if (text.toLowerCase().includes('block emission')) category = { value: 'Emission', type: 'danger' }
-  else if (text.toLowerCase().includes('gcl')) category = { value: 'New Pool', type: 'info' }
-
-  return category
 }
 
 const parseData = (proposal, locale) => {

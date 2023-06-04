@@ -49,7 +49,7 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
   : '/'
 
-export const IPFS_HASH_URL = 'https://ipfs.io/ipfs/{ipfsHash}'
+export const IPFS_HASH_URL = 'https://cloudflare-ipfs.com/ipfs/{ipfsHash}' // cloudflare works with cidv1 hashes like `bafkreihdaejkl4z2utvdsm7aulv5kmhjvnkpwyoosuqkz73xlkwoq2qiqa`
 export const PRODUCT_SUMMARY_URL = `${API_BASE_URL}home/product-summary/{networkId}`
 export const BRIDGE_BALANCE_URL = `${API_BASE_URL}bridge/balance/{networkId}`
 export const PRODUCT_SUMMARY_WITH_ACCOUNT_URL = `${API_BASE_URL}home/product-summary/{networkId}/{account}`
@@ -141,5 +141,5 @@ export const SNAPSHOT_INTERFACE_URL = {
 }
 export const SNAPSHOT_SPACE_ID = 'neptunemutual.eth'
 
-export const requiredBalanceForProposal = 1200233.34
-export const blockEmissionForProposal = 300000
+export const REQUIRED_BAL_FOR_GAUGE = 1200233
+export const EMISSION_PER_EPOCH = 300000

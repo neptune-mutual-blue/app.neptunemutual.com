@@ -13,8 +13,7 @@ import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import SearchIcon from '@/icons/SearchIcon'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
-import { getSubmitYourVoteUrl } from '@/utils/getSubmitYourVoteUrl'
-import { getNetworkInfo } from '@/utils/network'
+import { getSubmitYourVoteUrl } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
 
 const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' }) => {
@@ -25,7 +24,6 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
   const { proposalId } = router.query
 
   const { networkId } = useNetwork()
-  const { isMainNet } = getNetworkInfo(networkId)
 
   const ref = useRef()
 
@@ -69,7 +67,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
        (
          <a
            className='items-center hidden gap-1 font-semibold cursor-pointer md:flex text-4E7DD9 text-md'
-           href={getSubmitYourVoteUrl(isMainNet, proposalId)}
+           href={getSubmitYourVoteUrl(networkId, proposalId)}
            target='_blank'
            rel='noreferrer noopener nofollow'
          >
