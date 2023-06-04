@@ -5,11 +5,18 @@ import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import DateLib from '@/lib/date/DateLib'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
+import { useNetwork } from '@/src/context/Network'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { getSubmitYourVoteUrl } from '@/utils/getSubmitYourVoteUrl'
+import { getNetworkInfo } from '@/utils/network'
 import { Trans } from '@lingui/macro'
 
 const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = '', state, category }) => {
   const router = useRouter()
+  const { proposalId } = router.query
+
+  const { networkId } = useNetwork()
+  const { isMainNet } = getNetworkInfo(networkId)
 
   const colors = {
     success: { bg: '#ECFDF3', text: '#027A48' },
@@ -60,7 +67,7 @@ const ProposalsDetailCard = ({ title, snapshot, ipfs, startDate = '', endDate = 
             <div className='flex flex-row gap-4'>
               <a
                 className='underline text-4E7DD9 hover:no-underline'
-                href={`https://goerli.basescan.org/block/${snapshot}`}
+                href={getSubmitYourVoteUrl(isMainNet, proposalId)}
                 target='_blank'
                 rel='noreferrer noopener nofollow'
               >
