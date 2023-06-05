@@ -26,7 +26,7 @@ const BoostButton = ({ className = '', value }) => {
   )
 }
 
-const checkBoost = (value) => {
+const BoostData = ({ value }) => {
   const number = Math.floor(value)
 
   if (number <= 2) {
@@ -65,7 +65,7 @@ export const LiquidityGaugeBoostDetails = ({ tokenValue, boost }) => {
 
       <div className='flex flex-row gap-2 md:flex-col'>
         <div className='inline-flex justify-start md:justify-end'>
-          {checkBoost(boost)}
+          <BoostData value={boost} />
         </div>
       </div>
     </div>

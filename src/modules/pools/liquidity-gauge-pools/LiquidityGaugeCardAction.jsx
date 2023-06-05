@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import AddIcon from '@/icons/AddIcon'
 import { LockModal } from '@/modules/pools/liquidity-gauge-pools/LockModal'
+import { explainInterval } from '@/utils/formatter/interval'
 
 export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenIcon, isLock, subTitle, balance, token, emissionReceived }) => {
   const [modal, setModal] = useState(false)
@@ -40,7 +41,7 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenIcon, isLock, subT
           <div className='text-sm text-999BAB'>
             Lockup Period:{' '}
             <span className='font-semibold text-01052D'>
-              {new Date(lockupPeriod).getHours()} hrs approx
+              {explainInterval(lockupPeriod)}
             </span>
           </div>
           {/* <div className='flex flex-row items-center gap-1'>
