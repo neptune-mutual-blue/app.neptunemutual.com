@@ -102,6 +102,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
                 checked={selected.length === 0 || allChainSelected}
                 onChange={() => {}}
                 className='w-4 h-4 border-1 border-C2C7D0'
+                readOnly
               /> All
             </div>
             {options.filter(opt => opt.label.toLowerCase().includes(search.toLowerCase())).map((option) => (
@@ -113,6 +114,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
                 <Checkbox
                   checked={selected.includes(option.value)}
                   className='w-4 h-4 border-1 border-C2C7D0'
+                  readOnly
                 />{option.label}
               </button>
             ))}

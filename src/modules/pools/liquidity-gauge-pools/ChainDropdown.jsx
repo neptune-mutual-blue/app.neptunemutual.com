@@ -64,7 +64,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
       </div>
 
       {open && (
-        <div ref={ref} className='absolute z-60 top-[calc(100%+8px)] bg-white left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
+        <div ref={ref} className='absolute z-10 top-[calc(100%+8px)] bg-white left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
           <div className='m-2.5 flex items-center'>
 
             <input
@@ -86,6 +86,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
                 checked={selected.length === 0 || allChainSelected}
                 onChange={() => {}}
                 className='w-4 h-4 border-1 border-C2C7D0'
+                readOnly
               /> All
             </div>
             {options.filter(opt => opt.label.toLowerCase().includes(search.toLowerCase())).map((option) => (
@@ -97,6 +98,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
                 <Checkbox
                   checked={selected.includes(option.value)}
                   className='w-4 h-4 border-1 border-C2C7D0'
+                  readOnly
                 />{option.label}
               </button>
             ))}
