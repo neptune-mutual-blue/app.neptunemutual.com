@@ -114,6 +114,7 @@ export const useProvideLiquidity = ({
 
     const cleanup = () => {
       setLqApproving(false)
+      updateLqAllowance(vaultTokenAddress)
     }
 
     const handleError = (err) => {
@@ -197,6 +198,7 @@ export const useProvideLiquidity = ({
 
     const cleanup = () => {
       setNPMApproving(false)
+      updateStakeAllowance(vaultTokenAddress)
     }
     const handleError = (err) => {
       notifyError(err, t`Could not approve ${NPMTokenSymbol}`)
