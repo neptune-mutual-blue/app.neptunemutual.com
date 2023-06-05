@@ -5,17 +5,17 @@ import {
 
 import Link from 'next/link'
 
-import { NeutralButton } from '@/common/Button/NeutralButton'
+// import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import {
-  LiquidityGaugePoolsCard
+  LiquidityGaugePoolsList
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsCard'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useAppConstants } from '@/src/context/AppConstants'
+// import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
@@ -41,12 +41,13 @@ const sorterData = {
   [SORT_TYPES.EMISSIONS]: {
     selector: (pool) => pool.name,
     datatype: SORT_DATA_TYPES.STRING
-  },
-  [SORT_TYPES.APR]: {
-    selector: (pool) => pool.apr,
-    datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
+
+const options = [
+  { name: t`TVL`, value: SORT_TYPES.TVL },
+  { name: t`Emissions`, value: SORT_TYPES.EMISSIONS }
+]
 
 export const LiquidityGaugePoolsPage = () => {
   const [sortType, setSortType] = useState({
@@ -54,14 +55,14 @@ export const LiquidityGaugePoolsPage = () => {
     value: SORT_TYPES.TVL
   })
 
-  const { data, loading, hasMore, handleShowMore } = useLiquidityGaugePools()
+  const { data: pools, loading } = useLiquidityGaugePools()
   const { getStatsByKey } = useSortableStats()
-  const { getTVLById } = useAppConstants()
+  // const { getTVLById } = useAppConstants()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: data.pools.map((pool) => ({
+    list: pools.map((pool) => ({
       ...pool,
-      tvl: getTVLById(pool.id),
+      // tvl: getTVLById(pool.id),
       ...getStatsByKey(pool.id)
     })),
 
@@ -79,93 +80,12 @@ export const LiquidityGaugePoolsPage = () => {
     [filtered, sortType.value]
   )
 
-  const options = [
-    { name: t`TVL`, value: SORT_TYPES.TVL },
-    { name: t`Emissions`, value: SORT_TYPES.EMISSIONS },
-    { name: t`APR`, value: SORT_TYPES.APR }
-  ]
-
-  const liquidityGaugePoolsData = [
-    {
-      id: 1,
-      title: 'Prime dApps',
-      subtitle: 'iUSDC-PRIME',
-      icons: [
-        { src: '/images/covers/aave-v2.svg' },
-        { src: '/images/covers/balancer-v2.svg' },
-        { src: '/images/covers/curve-v2.svg' }
-      ],
-      npm: 40023404.34,
-      boost: 1,
-      APR: 0.1603,
-      description: 'The Prime dApps pool comprises the cover portfolios of various platforms including Maker MCD v1, Uniswap v2, Aave v2, and several others.',
-      lockup_period: '2023-05-17T18:12:18.205Z',
-      reward_token: {
-        icon: '/images/tokens/npm.svg',
-        name: 'NPM'
-      },
-      balance: 10000.00,
-      emission_received: 163.00,
-      tvl: 1200000,
-      lock: true,
-      stake: false
-    },
-    {
-      id: 2,
-      title: 'Popular DeFi Apps',
-      subtitle: 'iUSDC-POP',
-      icons: [
-        { src: '/images/covers/1inch-v2.svg' },
-        { src: '/images/covers/aave-v2.svg' },
-        { src: '/images/covers/bancor.svg' },
-        { src: '/images/covers/bancor.svg' },
-        { src: '/images/covers/bancor.svg' }
-      ],
-      npm: 40023404.34,
-      boost: 2.334,
-      APR: 0.1603,
-      description: 'The Prime dApps pool comprises the cover portfolios of various platforms including Maker MCD v1, Uniswap v2, Aave v2, and several others.',
-      lockup_period: '2023-05-17T16:12:18.205Z',
-      reward_token: {
-        icon: '/images/tokens/npm.svg',
-        name: 'NPM'
-      },
-      balance: 10000.00,
-      emission_received: 163.00,
-      tvl: 1200000,
-      lock: false,
-      stake: true
-    },
-    {
-      id: 3,
-      title: 'Binance',
-      subtitle: 'iUSDC-BNB',
-      icons: [
-        { src: '/images/covers/binance-v2.svg' }
-      ],
-      npm: 40023404.34,
-      boost: 4,
-      APR: 0.1603,
-      description: 'The Prime dApps pool comprises the cover portfolios of various platforms including Maker MCD v1, Uniswap v2, Aave v2, and several others.',
-      lockup_period: '2023-05-15T15:46:35.542Z',
-      reward_token: {
-        icon: '/images/tokens/npm.svg',
-        name: 'NPM'
-      },
-      balance: 10000.00,
-      emission_received: 163.00,
-      tvl: 1200000,
-      lock: true,
-      stake: true
-    }
-  ]
-
   return (
     <Container className='pt-7 md:pt-16 pb-36' data-testid='liquidity-gauge-pools-page-container'>
       <div className='flex justify-end mb-7 md:mb-14'>
-        <div className='items-start md:items-center justify-between w-full sm:flex'>
+        <div className='items-start justify-between w-full md:items-center sm:flex'>
           <Link href={Routes.LiquidityGaugePoolsTransactions}>
-            <a className='flex justify-start mb-6 md:mb-0 md:justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'>
+            <a className='flex justify-start mb-6 text-lg font-medium md:mb-0 md:justify-center sm:inline-flex text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>
@@ -185,23 +105,28 @@ export const LiquidityGaugePoolsPage = () => {
       </div>
 
       <div className='flex justify-end font-semibold text-4E7DD9 text-md mb-[18px]'>
-        <Link href='/pools/liquidity-gauge-pools/latest-gauge'>View the Latest Gauge --&gt;</Link>
+        <Link href='/governance'>View the Latest Gauge --&gt;</Link>
       </div>
 
       <Content
-        data={liquidityGaugePoolsData || sortedPools}
+        data={sortedPools}
         loading={loading}
-        hasMore={hasMore}
-        handleShowMore={handleShowMore}
+        // hasMore={hasMore}
+        // handleShowMore={handleShowMore}
       />
     </Container>
   )
 }
 
-function Content ({ data, loading, hasMore, handleShowMore }) {
+function Content ({
+  data,
+  loading
+  // hasMore,
+  // handleShowMore
+}) {
   if (data.length) {
     return (
-      <LiquidityGaugePoolsCard data={data} />
+      <LiquidityGaugePoolsList data={data} />
     )
   }
 
@@ -211,14 +136,14 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
         <Grid className='mb-24 mt-14' data-testid='loading-grid'>
           <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
         </Grid>
-        {!loading && hasMore && (
+        {/* {!loading && hasMore && (
           <NeutralButton
             onClick={handleShowMore}
             data-testid='show-more-button'
           >
             <Trans>Show More</Trans>
           </NeutralButton>
-        )}
+        )} */}
       </>
     )
   }

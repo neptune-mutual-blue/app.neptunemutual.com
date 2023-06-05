@@ -4,6 +4,7 @@ import {
   useState
 } from 'react'
 
+import BigNumber from 'bignumber.js'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -19,15 +20,14 @@ import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import LaunchIcon from '@/icons/LaunchIcon'
 import { getTokenLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
+import CurrencyInput from '@/lib/react-currency-input-field'
 import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import UnlockEscrow from '@/modules/vote-escrow/UnlockEscrow'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import {
-  MULTIPLIER,
-  NpmTokenContractAddresses,
-  SNAPSHOT_INTERFACE_URL,
-  SNAPSHOT_SPACE_ID
+  CONTRACT_DEPLOYMENTS,
+  MULTIPLIER
 } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -36,7 +36,8 @@ import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import {
   convertFromUnits,
   convertToUnits,
-  toBN
+  toBN,
+  toBNSafe
 } from '@/utils/bn'
 import {
   calculateBoost,
@@ -45,53 +46,56 @@ import {
 } from '@/utils/calculate-boost'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { getSpaceLink } from '@/utils/snapshot'
+import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import CurrencyInput from '@/lib/react-currency-input-field'
-import { getNetworkInfo } from '@/utils/network'
 
-export const secondsInWeek = 604_800
+export const SECONDS_IN_WEEK = 7 * 24 * 60 * 60
 export const VOTE_ESCROW_MIN_WEEKS = 1
 export const VOTE_ESCROW_MAX_WEEKS = 208
 
 const VoteEscrow = () => {
+  const [input, setInput] = useState('')
   const [extend, setExtend] = useState(false)
   const [agreed, setAgreed] = useState(false)
-
-  const { active } = useWeb3React()
-
   const [unlock, setUnlock] = useState(false)
 
+  const { active } = useWeb3React()
   const { networkId } = useNetwork()
-  const { isTestNet } = getNetworkInfo(networkId)
 
-  const [input, setInput] = useState('')
-
-  const { data, lock, unlock: unlockNPMTokens, actionLoading, canLock, handleApprove, hasUnlockAllowance, handleApproveUnlock } = useVoteEscrowData()
-
+  const router = useRouter()
+  const { NPMTokenDecimals } = useAppConstants()
   const { register } = useRegisterToken()
 
-  const { NPMTokenDecimals } = useAppConstants()
+  const {
+    data,
+    lock,
+    unlock: unlockNPMTokens,
+    actionLoading,
+    canLock,
+    handleApprove,
+    hasUnlockAllowance,
+    handleApproveUnlock
+  } = useVoteEscrowData()
 
   const canUnlock = data.veNPMBalance.short !== 'N/A'
 
-  const router = useRouter()
-
   const allowanceExists = canLock(input || '0')
 
-  const now = Date.now()
+  const unlockDuration = toBNSafe(data.unlockTimestamp)
+    .minus(DateLib.unix()) // to duration left
+    .dividedBy(SECONDS_IN_WEEK) // to weeks
+    .decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
+    .toNumber()
 
-  const unlockDateTimestamp = (data.unlockTimestamp !== '0' ? new Date(data.unlockTimestamp).valueOf() : now)
-
-  const unlockDuration = (unlockDateTimestamp - now) / 1000
-
-  const weeks = Math.ceil(unlockDuration / secondsInWeek)
+  const weeks = Math.ceil(unlockDuration / SECONDS_IN_WEEK)
 
   useEffect(() => {
     if (weeks !== 0) {
-      const weekInFraction = (unlockDuration / secondsInWeek) % 1 !== 0
+      const weekInFraction = (unlockDuration / SECONDS_IN_WEEK) % 1 !== 0
 
       if (weekInFraction && weeks > VOTE_ESCROW_MIN_WEEKS) {
-        setUnlockDate(DateLib.toDateFormat(unlockDateTimestamp / 1000, 'en', {
+        setUnlockDate(DateLib.toDateFormat(DateLib.fromUnix(data.unlockTimestamp), 'en', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
@@ -100,7 +104,7 @@ const VoteEscrow = () => {
 
       setSliderValue(weeks < VOTE_ESCROW_MIN_WEEKS ? VOTE_ESCROW_MIN_WEEKS : weeks)
     }
-  }, [weeks, unlockDateTimestamp, unlockDuration])
+  }, [weeks, unlockDuration, data.unlockTimestamp])
 
   const [sliderValue, setSliderValue] = useState(1)
 
@@ -112,7 +116,7 @@ const VoteEscrow = () => {
     day: 'numeric'
   }))
 
-  const boostBN = toBN(calculateBoost((newUnlockDate.valueOf() - now) / 1000)).dividedBy(MULTIPLIER)
+  const boostBN = toBN(calculateBoost((newUnlockDate.valueOf() - Date.now()) / 1000)).dividedBy(MULTIPLIER)
   const boost = boostBN.toString()
 
   const lockedNpmBalance = toBN(data.lockedNPMBalanceRaw).plus(convertToUnits(input || '0'))
@@ -176,9 +180,7 @@ const VoteEscrow = () => {
     onValueChange: val => setInput(val)
   }
 
-  const submitUrl = isTestNet
-    ? `${SNAPSHOT_INTERFACE_URL.testnet}/#/${SNAPSHOT_SPACE_ID}`
-    : `${SNAPSHOT_INTERFACE_URL.mainnet}/#/${SNAPSHOT_SPACE_ID}`
+  const submitUrl = getSpaceLink(networkId)
 
   return (
     <div className='max-w-[990px] mx-auto'>
@@ -195,21 +197,26 @@ const VoteEscrow = () => {
           </Link>
           <a target='_blank' href={submitUrl} rel='noreferrer'>
             <a className='text-4E7DD9 text-sm font-semibold p-2.5  border-1 border-4E7DD9 flex-grow text-center justify-center md:justify-start md:text-left md:flex-grow-0 rounded-tooltip flex items-center gap-1'>
-              Submit Your Vote <ExternalLinkIcon />
+              <Trans>Submit Your Vote</Trans> <ExternalLinkIcon />
             </a>
           </a>
         </div>
       </VoteEscrowCard>
       <VoteEscrowCard className='!max-w-full grid grid-cols-1 lg:grid-cols-2 gap-8 p-5 md:p-8'>
         <div>
-          <EscrowSummary className='bg-F3F5F7' veNPMBalance={data.veNPMBalance} unlockTimestamp={data.unlockTimestamp} />
+          <EscrowSummary
+            className='bg-F3F5F7'
+            veNPMBalance={data.veNPMBalance}
+            unlockTimestamp={DateLib.toLongDateFormat(DateLib.fromUnix(data.unlockTimestamp), router.locale)}
+          />
           <div className='mt-6'>
             <div className='flex items-center justify-between mb-4'>
               <div className='font-semibold text-md'>NPM to Lock</div>
               <div className='flex items-center text-sm'>
                 <Checkbox
                   disabled={!canUnlock}
-                  checked={extend} onChange={(e) => {
+                  checked={extend}
+                  onChange={(e) => {
                     setExtend(e.target.checked)
                     if (e.target.checked) {
                       setInput('')
@@ -226,9 +233,7 @@ const VoteEscrow = () => {
             <div className={extend ? 'opacity-50 cursor-not-allowed relative' : 'relative'}>
               <div className='rounded-2 mb-2 border-1 border-B0C4DB overflow-hidden grid grid-cols-[1fr_auto] focus-within:ring-4E7DD9 focus-within:ring focus-within:ring-offset-0 focus-within:ring-opacity-30'>
                 <div className='relative'>
-                  <CurrencyInput
-                    {...inputFieldProps}
-                  />
+                  <CurrencyInput {...inputFieldProps} />
                   <div className='absolute text-lg text-9B9B9B top-5 right-4'>NPM</div>
                 </div>
               </div>
@@ -246,13 +251,13 @@ const VoteEscrow = () => {
               <div className='flex items-center justify-between mb-6'>
                 <div className='text-md text-9B9B9B'>Balance: {data.npmBalance.short}</div>
                 <div className='flex gap-4'>
-                  <CopyAddressComponent account={NpmTokenContractAddresses[networkId]} iconOnly iconClassName='text-AAAAAA h-6 w-6' />
-                  <a href={getTokenLink(networkId, NpmTokenContractAddresses[networkId])} target='_blank' className={extend ? 'cursor-not-allowed' : ''} rel='noreferrer'>
+                  <CopyAddressComponent account={CONTRACT_DEPLOYMENTS[networkId].npm} iconOnly iconClassName='text-AAAAAA h-6 w-6' />
+                  <a href={getTokenLink(networkId, CONTRACT_DEPLOYMENTS[networkId].npm)} target='_blank' className={extend ? 'cursor-not-allowed' : ''} rel='noreferrer'>
                     <LaunchIcon className='w-6 h-6 text-AAAAAA' />
                   </a>
                   <button
                     className={extend ? 'cursor-not-allowed' : ''} onClick={() => {
-                      register(NpmTokenContractAddresses[networkId], 'NPM', NPMTokenDecimals)
+                      register(CONTRACT_DEPLOYMENTS[networkId].npm, 'NPM', NPMTokenDecimals)
                     }}
                   >
                     <AddCircleIcon className='w-6 h-6 text-AAAAAA' />

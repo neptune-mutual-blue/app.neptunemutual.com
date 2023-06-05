@@ -5,33 +5,27 @@ import {
   useState
 } from 'react'
 
-import HighchartsReact from 'highcharts-react-official'
-import Highcharts from 'highcharts/highstock.src'
-import HighchartsExporting from 'highcharts/modules/exporting'
 import { useRouter } from 'next/router'
 
+import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
 import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { blockEmissionForProposal } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
 
-if (typeof Highcharts === 'object') {
-  HighchartsExporting(Highcharts)
-}
-
-const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption = [], data = [] }) => {
+const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
   const [hoveredName, setHoveredName] = useState(null)
   const [mouseEnteredOnLegend, setMouseEnteredOnLegend] = useState(false)
   const [mobile, setMobile] = useState(window.innerWidth < 768)
 
-  const router = useRouter()
-  const { NPMTokenSymbol } = useAppConstants()
-
   const chartRef = useRef()
+  const router = useRouter()
+  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   // choose the screen size
   const handleResize = useCallback(() => {
@@ -52,10 +46,10 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
   }, [handleResize])
 
   useEffect(() => {
-    if (data.length > 0) {
-      setHoveredName(data[0]?.name)
+    if (results.length > 0) {
+      setHoveredName(results[0]?.name)
     }
-  }, [data])
+  }, [results])
 
   const chartOptions = {
     chart: {
@@ -81,9 +75,9 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
     series: [{
       name: 'pie',
       colorByPoint: true,
-      data: data.map(item => ({
+      data: results.map(item => ({
         name: item.name,
-        y: item.percent,
+        y: item.percent * 100,
         color: item.color
       })),
       dataLabels: {
@@ -126,19 +120,20 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
     rangeSelector: { enabled: false, inputEnabled: false }
   }
 
-  const chainDropdownOptions = chainOption.map((chainId) => ({
+  const chainDropdownOptions = chainIds.map((chainId) => ({
     label: ShortNetworkNames[chainId],
     value: chainId
   }))
 
-  if (!data) return
+  const formattedEmission = formatCurrency(convertFromUnits(emission, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+
+  if (!results) return
 
   return (
     <GovernanceCard className='gap-6 p-4 md:p-8'>
       <ChainDropdown options={chainDropdownOptions} selected={selectedChains} onSelectionChange={setSelectedChains} state={state} />
       <div className='relative -my-5 gauge-chart-liquidity md:my-0'>
-        <HighchartsReact
-          highcharts={Highcharts}
+        <HighchartsReactComponent
           options={chartOptions}
           constructorType='stockChart'
           ref={chartRef}
@@ -147,19 +142,16 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
         <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
           <div className='font-bold text-md md:text-display-sm'><Trans>Liquidity Gauge</Trans></div>
           <div className='text-sm font-medium md:text-md'>
-            <Trans>Block Emission:{' '}</Trans>
-            {formatCurrency(
-              blockEmissionForProposal,
-              router.locale,
-              NPMTokenSymbol,
-              true
-            ).long}
+            <Trans>Emission Per Epoch:</Trans>{' '}
+            {formattedEmission.long}
           </div>
         </div>
       </div>
 
       <div className='mt-8 text-center'>
-        <div className='mb-1 text-xl font-semibold'>{hoveredName} ({(data.find((item) => item.name === hoveredName)?.percent.toFixed(2))}%)</div>
+        <div className='mb-1 text-xl font-semibold'>
+          {hoveredName} ({formatPercent(results.find((item) => item.name === hoveredName)?.percent)})
+        </div>
         <div className='mb-4 text-md'>As of:{' '}
           {DateLib.toDateFormat(
             new Date(),
@@ -171,7 +163,7 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
       </div>
 
       <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex text-center justify-center'>
-        {data.map((item, i) => (
+        {results.map((item, i) => (
           <div
             onMouseLeave={() => {
               setMouseEnteredOnLegend(false)
@@ -181,7 +173,16 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainOption 
               setHoveredName(item.name)
             }}
             key={item.name}
-            style={{ borderRadius: i === 0 ? '16px 0 0 16px' : i === data.length - 1 ? '0 16px 16px 0 ' : undefined, width: item.percent + '%', height: '64px', background: item.color, opacity: mouseEnteredOnLegend && hoveredName !== item.name ? '0.2' : undefined, transition: 'all 0.3s' }}
+            style={{
+              borderRadius: i === 0 ? '16px 0 0 16px' : i === results.length - 1 ? '0 16px 16px 0 ' : undefined,
+              width: (item.percent * 100) + '%',
+              height: '64px',
+              background: item.color,
+              opacity: mouseEnteredOnLegend && hoveredName !== item.name
+                ? '0.2'
+                : undefined,
+              transition: 'all 0.3s'
+            }}
           />
         ))}
       </div>

@@ -50,6 +50,13 @@ export const TokenBalance = ({
     }
   }
 
+  const formattedTokenAmount = formatCurrency(
+    convertFromUnits(balance || 0, tokenDecimals),
+    router.locale,
+    unit,
+    true
+  )
+
   return (
     <div
       className='flex flex-col-reverse items-start justify-between mt-2 xs:flex-row text-9B9B9B'
@@ -58,25 +65,11 @@ export const TokenBalance = ({
       <div className='flex flex-col mt-3 xs:block xs:mt-0'>
         {balance && (
           <p
-            title={
-              formatCurrency(
-                convertFromUnits(balance, tokenDecimals),
-                router.locale,
-                unit,
-                true
-              ).long
-            }
+            title={formattedTokenAmount.long}
             data-testid='balance'
           >
             <Trans>Balance:</Trans>{' '}
-            {
-              formatCurrency(
-                convertFromUnits(balance, tokenDecimals),
-                router.locale,
-                unit,
-                true
-              ).short
-            }
+            {formattedTokenAmount.short}
           </p>
         )}
         {children}
