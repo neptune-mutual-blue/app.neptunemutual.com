@@ -2,133 +2,56 @@ import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import {
   NetworkNames,
   ShortNetworkNames
 } from '@/lib/connect-wallet/config/chains'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
-import { abis } from '@/src/config/contracts/abis'
-import { useAppConstants } from '@/src/context/AppConstants'
+import { useSetGauge } from '@/modules/governance/useSetGauge'
 import { useNetwork } from '@/src/context/Network'
-import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTxToast } from '@/src/hooks/useTxToast'
-import { METHODS } from '@/src/services/transactions/const'
-import {
-  STATUS,
-  TransactionHistory
-} from '@/src/services/transactions/transaction-history'
 import {
   convertFromUnits,
   toBN
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getEpochFromTitle } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
-import { utils } from '@neptunemutual/sdk'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 export const AccountDetail = ({ title, selectedChain, distribution, amountToDeposit }) => {
-  const { library, account } = useWeb3React()
+  const { account } = useWeb3React()
   const { networkId } = useNetwork()
 
-  const { NPMTokenAddress, NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
-  const { balance } = useERC20Balance(NPMTokenAddress)
   const router = useRouter()
 
-  const { notifyError } = useErrorNotifier()
-  const { writeContract } = useTxPoster()
-  const txToast = useTxToast()
+  const {
+    loadingAllowance,
+    loadingBalance,
+    allowance,
+    balance,
+    depositTokenDecimals,
+    depositTokenSymbol,
+    handleApprove,
+    handleSetGauge
+  } = useSetGauge({ title, amountToDeposit, distribution })
 
-  const handleSetGauge = () => {
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      const instance = utils.contract.getContract(CONTRACT_DEPLOYMENTS[networkId].gaugeControllerRegistry, abis.GaugeControllerRegistry, signerOrProvider)
-
-      const epoch = getEpochFromTitle(title)
-      const args = [
-        epoch,
-        amountToDeposit,
-        distribution
-      ]
-
-      const cleanup = () => {}
-
-      const onTransactionResult = async (tx) => {
-        TransactionHistory.push({
-          hash: tx.hash,
-          methodName: METHODS.GCR_SET_GAUGE,
-          status: STATUS.PENDING,
-          data: {
-            value: amountToDeposit,
-            tokenSymbol: NPMTokenSymbol
-          }
-        })
-
-        await txToast.push(
-          tx,
-          {
-            pending: getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.PENDING)
-              .title,
-            success: getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.SUCCESS)
-              .title,
-            failure: getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.FAILED)
-              .title
-          },
-          {
-            onTxSuccess: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.GCR_SET_GAUGE,
-                status: STATUS.SUCCESS
-              })
-              cleanup()
-            },
-            onTxFailure: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.GCR_SET_GAUGE,
-                status: STATUS.FAILED
-              })
-              cleanup()
-            }
-          }
-        )
-      }
-
-      const onRetryCancel = () => {
-        cleanup()
-      }
-
-      const onError = (err) => {
-        notifyError(err, getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.FAILED)
-          .title)
-        cleanup()
-      }
-
-      writeContract({
-        instance,
-        methodName: 'setGauge',
-        args,
-        onTransactionResult,
-        onRetryCancel,
-        onError
-      })
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThan(balance)
+  const canSetGauge = toBN(allowance).isGreaterThanOrEqualTo(amountToDeposit)
+  const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThanOrEqualTo(balance)
 
   const currentNetworkName = NetworkNames[networkId]
   const invalidNetwork = networkId !== selectedChain
   const showError = isBalanceInsufficient || invalidNetwork
+
+  let loadingMessage = ''
+  if (loadingBalance) {
+    loadingMessage = t`Fetching balance...`
+  } else if (loadingAllowance) {
+    loadingMessage = t`Fetching allowance...`
+  }
 
   return (
     <GovernanceCard className='p-4 md:p-8'>
@@ -163,9 +86,9 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
               )}
               >
                 {formatCurrency(
-                  convertFromUnits(balance, NPMTokenDecimals),
+                  convertFromUnits(balance, depositTokenDecimals),
                   router.locale,
-                  NPMTokenSymbol,
+                  depositTokenSymbol,
                   true
                 ).long}
               </p>
@@ -175,9 +98,9 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
                 <Trans>Required</Trans>
               </h4>
               <p className='text-xl'>{formatCurrency(
-                convertFromUnits(amountToDeposit, NPMTokenDecimals),
+                convertFromUnits(amountToDeposit, depositTokenDecimals),
                 router.locale,
-                NPMTokenSymbol,
+                depositTokenSymbol,
                 true
               ).long}
               </p>
@@ -186,12 +109,26 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
         </div>
       </div>
 
-      <RegularButton
-        className='mt-6 rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
-        onClick={handleSetGauge}
-      >
-        <Trans>Set Gauge On {ShortNetworkNames[selectedChain]}</Trans>
-      </RegularButton>
+      <DataLoadingIndicator message={loadingMessage} />
+      {!canSetGauge && (
+        <RegularButton
+          className='mt-6 rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
+          onClick={handleApprove}
+          disabled={showError || !!loadingMessage}
+        >
+          <Trans>Approve {depositTokenSymbol}</Trans>
+        </RegularButton>
+      )}
+
+      {canSetGauge && (
+        <RegularButton
+          className='mt-6 rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
+          onClick={handleSetGauge}
+          disabled={showError || !!loadingMessage}
+        >
+          <Trans>Set Gauge On {ShortNetworkNames[selectedChain]}</Trans>
+        </RegularButton>
+      )}
 
       {showError && (
         <Alert className='!mt-6'>

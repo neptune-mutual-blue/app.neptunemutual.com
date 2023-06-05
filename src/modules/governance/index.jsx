@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import {
+  useMemo,
+  useState
+} from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -35,6 +38,41 @@ export const GovernanceSinglePage = () => {
   const [selectedChains, setSelectedChains] = useState([])
   const { data: proposalDetail, loading } = useSnapshotProposalById(proposalId)
 
+  const {
+    isValidProposal,
+    chainIds,
+    filteredResults,
+    emissionOfSelectedChains,
+    distribution
+  } = useMemo(() => {
+    if (!proposalDetail) {
+      return {}
+    }
+
+    const isValidProposal = getTagFromTitle(proposalDetail.title) === 'gce'
+    const chainIds = getChainsFromChoices(proposalDetail.choices)
+
+    const filteredResults = getResultsByChains(getVotingResults(proposalDetail.choices, proposalDetail.scores), selectedChains)
+
+    const percentSum = sumOf(...filteredResults.map(x => x.percent))
+    const emissionOfSelectedChains = toBN(EMISSION_PER_EPOCH).multipliedBy(percentSum).toString()
+
+    const distribution = filteredResults.map(result => {
+      return {
+        key: result.key,
+        emission: toBN(EMISSION_PER_EPOCH).multipliedBy(result.percent).toString()
+      }
+    })
+
+    return {
+      isValidProposal,
+      chainIds,
+      filteredResults,
+      emissionOfSelectedChains,
+      distribution
+    }
+  }, [proposalDetail, selectedChains])
+
   if (loading) {
     return <ProposalSkeleton />
   }
@@ -46,21 +84,6 @@ export const GovernanceSinglePage = () => {
       </p>
     )
   }
-
-  const isValidProposal = getTagFromTitle(proposalDetail.title) === 'gce'
-  const chainIds = getChainsFromChoices(proposalDetail.choices)
-
-  const filteredResults = getResultsByChains(getVotingResults(proposalDetail.choices, proposalDetail.scores), selectedChains)
-
-  const percentSum = sumOf(...filteredResults.map(x => x.percent))
-  const emissionOfSelectedChains = toBN(EMISSION_PER_EPOCH).multipliedBy(percentSum).toString()
-
-  const distribution = filteredResults.map(result => {
-    return {
-      key: result.key,
-      emission: toBN(EMISSION_PER_EPOCH).multipliedBy(result.percent).toString()
-    }
-  })
 
   return (
     <Container>
