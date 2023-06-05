@@ -13,17 +13,15 @@ import DateLib from '@/lib/date/DateLib'
 import {
   Results
 } from '@/modules/governance/proposals-table/result-bars/Results'
-import {
-  SNAPSHOT_INTERFACE_URL,
-  SNAPSHOT_SPACE_ID
-} from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useBlockHeight } from '@/src/hooks/useBlockHeight'
 import { classNames } from '@/utils/classnames'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { getNetworkInfo } from '@/utils/network'
-import { snapshotColors } from '@/utils/snapshot'
+import {
+  getProposalLink,
+  snapshotColors
+} from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
 
 export const WhenRenderer = ({ row, locale }) => {
@@ -117,10 +115,8 @@ export const ResultRenderer = ({ row }) => {
 
 export const ActionsRenderer = ({ row, networkId }) => {
   const setGaugeUrl = Routes.GovernanceProposalPage(row.id)
+  const proposalLink = getProposalLink(networkId, row.id)
 
-  const { isTestNet } = getNetworkInfo(networkId)
-  const interfaceUrl = isTestNet ? SNAPSHOT_INTERFACE_URL.testnet : SNAPSHOT_INTERFACE_URL.mainnet
-  const submitVoteUrl = `${interfaceUrl}/#/${SNAPSHOT_SPACE_ID}/proposal/${row.id}`
   return (
     <td
       className='px-6 py-4 w-96 whitespace-nowrap'
@@ -140,14 +136,14 @@ export const ActionsRenderer = ({ row, networkId }) => {
                   </Link>
                 )
               }
-                <a target='_blank' className='flex items-center justify-end gap-1 mt-2' href={submitVoteUrl} rel='noreferrer'>
+                <a target='_blank' className='flex items-center justify-end gap-1 mt-2' href={proposalLink} rel='noreferrer'>
                   <Trans>Submit Your Vote</Trans>
                   <ExternalLinkIcon />
                 </a>
               </>
               )
             : (
-              <a target='_blank' className='flex items-center justify-end gap-1' href={submitVoteUrl} rel='noreferrer'>
+              <a target='_blank' className='flex items-center justify-end gap-1' href={proposalLink} rel='noreferrer'>
                 <Trans>View Proposal</Trans>
                 <DocumentationIcon2 />
               </a>

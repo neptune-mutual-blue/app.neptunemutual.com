@@ -1,7 +1,7 @@
 import { Seo } from '@/common/Seo'
-import GovernanceSinglePage from '@/modules/governance'
+import { GovernanceSinglePage } from '@/modules/governance'
 
-const ProposalDetails = () => {
+export default function ProposalDetails () {
   return (
     <main className='pt-5 pb-32 md:pt-18'>
       <Seo />
@@ -9,5 +9,3 @@ const ProposalDetails = () => {
     </main>
   )
 }
-
-export default ProposalDetails

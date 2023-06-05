@@ -43,6 +43,23 @@ const actionMessages = {
 
     return { title: t`Approving NPM`, description: displayValue(_data) }
   },
+  [METHODS.GCR_SET_GAUGE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Gauge set successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not set gauge`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Setting gauge`, description: displayValue(_data) }
+  },
   [METHODS.VOTE_ESCROW_LOCK]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {

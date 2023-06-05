@@ -4,21 +4,18 @@ import {
   useState
 } from 'react'
 
-import HighchartsReact from 'highcharts-react-official'
-import Highcharts from 'highcharts/highstock.src'
-import HighchartsExporting from 'highcharts/modules/exporting'
 import { useRouter } from 'next/router'
 
+import {
+  CustomHighcharts,
+  HighchartsReactComponent
+} from '@/common/HighChartsReactComponent'
 import { useAppConstants } from '@/src/context/AppConstants'
 import {
   convertFromUnits,
   sort
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-
-if (typeof Highcharts === 'object') {
-  HighchartsExporting(Highcharts)
-}
 
 export const TotalCapacityChart = ({ data }) => {
   const { liquidityTokenDecimals } = useAppConstants()
@@ -114,7 +111,7 @@ export const TotalCapacityChart = ({ data }) => {
       formatter: function () {
         return `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold tracking-normal text-01052D text-md'>${
           formatCurrency(this.y, router.locale).short
-        }</p><p class='text-xs leading-4.5 tracking-normal font-semibold text-5C738F uppercase'>${Highcharts.dateFormat(
+        }</p><p class='text-xs leading-4.5 tracking-normal font-semibold text-5C738F uppercase'>${CustomHighcharts.dateFormat(
           '%b %e, %H:%S',
           new Date(this.x).getTime()
         )} UTC</p></div>`
@@ -205,8 +202,7 @@ export const TotalCapacityChart = ({ data }) => {
 
   return (
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>
-      <HighchartsReact
-        highcharts={Highcharts}
+      <HighchartsReactComponent
         options={chartOptions}
         constructorType='stockChart'
         ref={chartRef}
