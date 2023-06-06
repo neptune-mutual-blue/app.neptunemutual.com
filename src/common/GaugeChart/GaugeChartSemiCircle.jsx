@@ -53,7 +53,7 @@ export const GaugeChartSemiCircle = ({
   )
 
   return (
-    <div className='gauge semichart'>
+    <div className='pointer-events-none gauge semichart'>
       <div
         className='chart'
         style={{ width: `${chartDiameter}px`, height: `${chartRadius}px`, margin: '0 auto' }}

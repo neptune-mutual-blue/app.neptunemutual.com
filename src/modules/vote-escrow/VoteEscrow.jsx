@@ -1,8 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
+import { useState } from 'react'
 
 import BigNumber from 'bignumber.js'
 import Link from 'next/link'
@@ -24,6 +20,7 @@ import CurrencyInput from '@/lib/react-currency-input-field'
 import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import UnlockEscrow from '@/modules/vote-escrow/UnlockEscrow'
+import { useDeviceSize } from '@/modules/vote-escrow/useDeviceSize'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import {
   CONTRACT_DEPLOYMENTS,
@@ -59,13 +56,15 @@ const VoteEscrow = () => {
   const [extend, setExtend] = useState(false)
   const [agreed, setAgreed] = useState(false)
   const [unlock, setUnlock] = useState(false)
+  const [sliderValue, setSliderValue] = useState(null)
 
   const { active } = useWeb3React()
   const { networkId } = useNetwork()
 
   const router = useRouter()
-  const { NPMTokenDecimals } = useAppConstants()
+  const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
   const { register } = useRegisterToken()
+  const { isMobile } = useDeviceSize()
 
   const {
     data,
@@ -78,72 +77,35 @@ const VoteEscrow = () => {
     handleApproveUnlock
   } = useVoteEscrowData()
 
-  const canUnlock = data.veNPMBalance.short !== 'N/A'
+  const canUnlock = toBN(data.veNPMBalance).isGreaterThan(0)
 
   const allowanceExists = canLock(input || '0')
 
-  const unlockDuration = toBNSafe(data.unlockTimestamp)
-    .minus(DateLib.unix()) // to duration left
+  const oldLockDurationBN = toBNSafe(data.unlockTimestamp).isGreaterThan(DateLib.unix())
+    ? toBNSafe(data.unlockTimestamp).minus(DateLib.unix()) // to duration left
+    : toBN(0)
+
+  const oldDurationInWeeks = oldLockDurationBN
     .dividedBy(SECONDS_IN_WEEK) // to weeks
     .decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
     .toNumber()
 
-  const weeks = Math.ceil(unlockDuration / SECONDS_IN_WEEK)
-
-  useEffect(() => {
-    if (weeks !== 0) {
-      const weekInFraction = (unlockDuration / SECONDS_IN_WEEK) % 1 !== 0
-
-      if (weekInFraction && weeks > VOTE_ESCROW_MIN_WEEKS) {
-        setUnlockDate(DateLib.toDateFormat(DateLib.fromUnix(data.unlockTimestamp), 'en', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        }))
-      }
-
-      setSliderValue(weeks < VOTE_ESCROW_MIN_WEEKS ? VOTE_ESCROW_MIN_WEEKS : weeks)
-    }
-  }, [weeks, unlockDuration, data.unlockTimestamp])
-
-  const [sliderValue, setSliderValue] = useState(1)
-
-  const newUnlockDate = DateLib.addDays(new Date(), sliderValue * 7)
-
-  const [unlockDate, setUnlockDate] = useState(DateLib.toDateFormat(newUnlockDate, 'en', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }))
-
-  const boostBN = toBN(calculateBoost((newUnlockDate.valueOf() - Date.now()) / 1000)).dividedBy(MULTIPLIER)
+  const lockDuration = sliderValue
+    ? (sliderValue * SECONDS_IN_WEEK)
+    : oldLockDurationBN.decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
+      .toNumber()
+  const boostBN = toBN(calculateBoost(lockDuration)).dividedBy(MULTIPLIER)
   const boost = boostBN.toString()
 
-  const lockedNpmBalance = toBN(data.lockedNPMBalanceRaw).plus(convertToUnits(input || '0'))
+  const oldLockedNpm = data.lockedNPMBalance
+  const newLockedNpm = toBN(oldLockedNpm)
+    .plus(convertToUnits(input || '0', NPMTokenDecimals))
 
-  const votingPower = formatCurrency(convertFromUnits(boostBN.multipliedBy(lockedNpmBalance).toString(), NPMTokenDecimals), router.locale, 'NPM', true)
+  const formattedLockedNpm = formatCurrency(convertFromUnits(newLockedNpm, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
-  const lockedNpm = formatCurrency(convertFromUnits(lockedNpmBalance.toString(), NPMTokenDecimals), router.locale, 'NPM', true)
-
-  const [isSmallDevice, setIsSmallDevice] = useState(window.innerWidth < 475)
-
-  // choose the screen size
-  const handleResize = useCallback(() => {
-    if (window.innerWidth < 768) {
-      setIsSmallDevice(true)
-    } else {
-      setIsSmallDevice(false)
-    }
-  }, [])
-
-  // create an event listener
-  useEffect(() => {
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [handleResize])
+  const votingPower = boostBN.multipliedBy(newLockedNpm)
+  const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedNpmBalance = formatCurrency(convertFromUnits(data.npmBalance, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
   if (unlock) {
     return (
@@ -180,7 +142,23 @@ const VoteEscrow = () => {
     onValueChange: val => setInput(val)
   }
 
+  const handleMax = () => {
+    if (toBN(data.npmBalance).isGreaterThan(0)) {
+      setInput(convertFromUnits(data.npmBalance, NPMTokenDecimals).toString())
+    }
+  }
+
   const submitUrl = getSpaceLink(networkId)
+  const sliderDisplayValue = sliderValue || oldDurationInWeeks
+  const unlockDate = sliderValue ? DateLib.addDays(new Date(), sliderValue * 7) : DateLib.fromUnix(data.unlockTimestamp)
+  const formattedUnlockDate = {
+    long: DateLib.toLongDateFormat(unlockDate, router.locale),
+    short: DateLib.toDateFormat(unlockDate, 'en', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
 
   return (
     <div className='max-w-[990px] mx-auto'>
@@ -195,10 +173,11 @@ const VoteEscrow = () => {
               View Liquidity Gauge
             </a>
           </Link>
-          <a target='_blank' href={submitUrl} rel='noreferrer'>
-            <a className='text-4E7DD9 text-sm font-semibold p-2.5  border-1 border-4E7DD9 flex-grow text-center justify-center md:justify-start md:text-left md:flex-grow-0 rounded-tooltip flex items-center gap-1'>
-              <Trans>Submit Your Vote</Trans> <ExternalLinkIcon />
-            </a>
+          <a
+            target='_blank' href={submitUrl} rel='noreferrer'
+            className='text-4E7DD9 text-sm font-semibold p-2.5  border-1 border-4E7DD9 flex-grow text-center justify-center md:justify-start md:text-left md:flex-grow-0 rounded-tooltip flex items-center gap-1'
+          >
+            <Trans>Submit Your Vote</Trans> <ExternalLinkIcon />
           </a>
         </div>
       </VoteEscrowCard>
@@ -207,7 +186,7 @@ const VoteEscrow = () => {
           <EscrowSummary
             className='bg-F3F5F7'
             veNPMBalance={data.veNPMBalance}
-            unlockTimestamp={DateLib.toLongDateFormat(DateLib.fromUnix(data.unlockTimestamp), router.locale)}
+            unlockTimestamp={data.unlockTimestamp}
           />
           <div className='mt-6'>
             <div className='flex items-center justify-between mb-4'>
@@ -238,18 +217,15 @@ const VoteEscrow = () => {
                 </div>
               </div>
               <button
-                className='bg-E6EAEF py-5 px-6 text-lg absolute top-[1px] right-[1px] rounded-tr-2 rounded-br-2' onClick={() => {
-                  if (data.npmBalance.short !== 'N/A') {
-                    setInput(data.npmBalance.long.split(' ')[0].replace(/,/g, ''))
-                  }
-                }}
+                className='bg-E6EAEF py-5 px-6 text-lg absolute top-[1px] right-[1px] rounded-tr-2 rounded-br-2'
+                onClick={handleMax}
                 disabled={extend}
               >
                 Max
               </button>
 
               <div className='flex items-center justify-between mb-6'>
-                <div className='text-md text-9B9B9B'>Balance: {data.npmBalance.short}</div>
+                <div className='text-md text-9B9B9B'>Balance: {formattedNpmBalance.short}</div>
                 <div className='flex gap-4'>
                   <CopyAddressComponent account={CONTRACT_DEPLOYMENTS[networkId].npm} iconOnly iconClassName='text-AAAAAA h-6 w-6' />
                   <a href={getTokenLink(networkId, CONTRACT_DEPLOYMENTS[networkId].npm)} target='_blank' className={extend ? 'cursor-not-allowed' : ''} rel='noreferrer'>
@@ -257,7 +233,7 @@ const VoteEscrow = () => {
                   </a>
                   <button
                     className={extend ? 'cursor-not-allowed' : ''} onClick={() => {
-                      register(CONTRACT_DEPLOYMENTS[networkId].npm, 'NPM', NPMTokenDecimals)
+                      register(CONTRACT_DEPLOYMENTS[networkId].npm, NPMTokenSymbol, NPMTokenDecimals)
                     }}
                   >
                     <AddCircleIcon className='w-6 h-6 text-AAAAAA' />
@@ -272,7 +248,7 @@ const VoteEscrow = () => {
 
           <div className='p-4 rounded-lg md:p-6 bg-F3F5F7'>
             <div className='mb-4'>
-              <GaugeChartSemiCircle chartDiameter={isSmallDevice ? 240 : undefined} min={1} max={4} value={boost} />
+              <GaugeChartSemiCircle chartDiameter={isMobile ? 240 : undefined} min={1} max={4} value={boost} />
               <div className='max-w-[308px] mx-auto mt-2 text-xs font-semibold flex justify-between'>
                 <div className='text-EAAA08'>Minimum</div>
                 <div className='text-479E28'>Maximum</div>
@@ -290,28 +266,22 @@ const VoteEscrow = () => {
               id='escrow-duration'
               min={VOTE_ESCROW_MIN_WEEKS}
               max={VOTE_ESCROW_MAX_WEEKS}
-              value={sliderValue}
+              value={sliderDisplayValue}
               onChange={(value) => {
-                if (value >= weeks) {
+                if (value >= oldDurationInWeeks) { // only allows increasing the duration
                   setSliderValue(parseInt(value))
-
-                  setUnlockDate(DateLib.toDateFormat(DateLib.addDays(new Date(), value * 7), 'en', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  }))
                 }
               }}
             />
 
             <div className='flex justify-between mb-8 text-sm'>
-              <div>{sliderValue} weeks</div>
+              <div>{sliderDisplayValue} weeks</div>
               <div>
                 <div className='text-xs text-right'>
                   Unlocks on:
                 </div>
-                <div>
-                  {unlockDate}
+                <div title={formattedUnlockDate.long}>
+                  {formattedUnlockDate.short}
                 </div>
               </div>
             </div>
@@ -349,13 +319,13 @@ const VoteEscrow = () => {
                 },
                 {
                   key: 'Locked:',
-                  value: lockedNpm.short,
-                  tooltip: lockedNpm.long
+                  value: formattedLockedNpm.short,
+                  tooltip: formattedLockedNpm.long
                 },
                 {
                   key: 'Power:',
-                  value: votingPower.short,
-                  tooltip: votingPower.long
+                  value: formattedVotingPower.short,
+                  tooltip: formattedVotingPower.long
                 }
               ]}
             />

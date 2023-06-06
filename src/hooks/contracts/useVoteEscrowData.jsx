@@ -15,6 +15,7 @@ import {
 } from '@/modules/vote-escrow/VoteEscrow'
 import {
   CONTRACT_DEPLOYMENTS,
+  FALLBACK_VENPM_TOKEN_SYMBOL,
   MULTIPLIER
 } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
@@ -44,31 +45,27 @@ import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
 const initialData = {
-  veNPMBalance: 0,
-  lockedNPMBalance: 0,
-  unlockTimestamp: '0',
-  penalty: '0'
+  veNPMBalance: '0',
+  lockedNPMBalance: '0',
+  unlockTimestamp: '0'
 }
 
 export const useVoteEscrowData = () => {
+  const router = useRouter()
   const { library, account } = useWeb3React()
 
+  const { networkId } = useNetwork()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
 
-  const { networkId } = useNetwork()
-
-  const { balance: npmBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
   const [loading, setLoading] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
-
   const [escrowData, setEscrowData] = useState(initialData)
 
-  const { notifyError } = useErrorNotifier()
+  const { balance: npmBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
 
   const { contractRead, writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
   const txToast = useTxToast()
-
-  const router = useRouter()
 
   const {
     allowance,
@@ -119,7 +116,7 @@ export const useVoteEscrowData = () => {
         status: STATUS.PENDING,
         data: {
           value: convertFromUnits(escrowData.veNPMBalance.toString(), NPMTokenDecimals),
-          tokenSymbol: 'veNPM'
+          tokenSymbol: FALLBACK_VENPM_TOKEN_SYMBOL
         }
       })
 
@@ -169,7 +166,7 @@ export const useVoteEscrowData = () => {
       cleanup()
     }
 
-    approveVeNPM(CONTRACT_DEPLOYMENTS[networkId].veNPM, escrowData.veNPMBalance.toString(), {
+    approveVeNPM(CONTRACT_DEPLOYMENTS[networkId].veNPM, escrowData.veNPMBalance, {
       onTransactionResult,
       onRetryCancel,
       onError
@@ -351,7 +348,7 @@ export const useVoteEscrowData = () => {
           status: STATUS.PENDING,
           data: {
             value: convertFromUnits(escrowData.veNPMBalance, NPMTokenDecimals),
-            tokenSymbol: 'veNPM'
+            tokenSymbol: FALLBACK_VENPM_TOKEN_SYMBOL
           }
         })
 
@@ -433,8 +430,7 @@ export const useVoteEscrowData = () => {
       setEscrowData({
         veNPMBalance: veNPMBalance.toString(),
         lockedNPMBalance: lockedNPMBalance.toString(),
-        unlockTimestamp: unlockTimestamp.toString(),
-        penalty: toBN(veNPMBalance).multipliedBy(0.25).toString()
+        unlockTimestamp: unlockTimestamp.toString()
       })
     } catch (err) {
       setEscrowData(initialData)
@@ -484,12 +480,10 @@ export const useVoteEscrowData = () => {
     refetch: getData,
     loading,
     data: {
-      npmBalance: formatCurrency(convertFromUnits(npmBalance, NPMTokenDecimals), router.locale, NPMTokenSymbol, true),
-      veNPMBalance: formatCurrency(convertFromUnits(escrowData.veNPMBalance, NPMTokenDecimals), router.locale, 'veNPM', true),
-      lockedNPMBalanceRaw: escrowData.lockedNPMBalance,
+      veNPMBalance: escrowData.veNPMBalance,
+      lockedNPMBalance: escrowData.lockedNPMBalance,
       unlockTimestamp: escrowData.unlockTimestamp,
-      penalty: formatCurrency(convertFromUnits(escrowData.penalty, NPMTokenDecimals), router.locale, NPMTokenSymbol, true),
-      receivedAfterPenalty: formatCurrency(convertFromUnits(toBN(escrowData.veNPMBalance).minus(escrowData.penalty).toString(), NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+      npmBalance
     },
     lock,
     unlock,

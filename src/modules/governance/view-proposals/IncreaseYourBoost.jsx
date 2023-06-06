@@ -1,12 +1,17 @@
-import { RegularButton } from '@/common/Button/RegularButton'
+import Link from 'next/link'
+
 import { GaugeChartSemiCircle } from '@/common/GaugeChart/GaugeChartSemiCircle'
 import { Routes } from '@/src/config/routes'
-import { getBoostText, getBoostTextClass } from '@/utils/calculate-boost'
+import {
+  getBoostText,
+  getBoostTextClass
+} from '@/utils/calculate-boost'
 import { classNames } from '@/utils/classnames'
-import Link from 'next/link'
+import { Trans } from '@lingui/macro'
 
 const BOOST_MIN = 1
 const BOOST_MAX = 4
+
 export const IncreaseYourBoost = ({ boostBn }) => {
   return (
     <div className='flex-auto max-w-[442px]'>
@@ -31,14 +36,12 @@ export const IncreaseYourBoost = ({ boostBn }) => {
         </div>
 
         {
-          !boostBn.isGreaterThanOrEqualTo(BOOST_MAX) && (
+          boostBn.isLessThan(BOOST_MAX) && (
             <Link href={Routes.VoteEscrow}>
-              <a>
-                <RegularButton
-                  className='flex-auto rounded-tooltip py-3 px-4 font-semibold !text-sm uppercase z-auto relative'
-                >
-                  Increase Your Boost
-                </RegularButton>
+              <a
+                className='border-primary bg-primary focus-visible:ring-primary text-EEEEEE border  tracking-2 focus:outline-none focus-visible:ring-2  flex-auto rounded-tooltip py-3 px-4 font-semibold !text-sm uppercase z-auto relative'
+              >
+                <Trans>Increase Your Boost</Trans>
               </a>
             </Link>
           )
