@@ -1,22 +1,13 @@
 import {
   useCallback,
   useEffect,
-  useMemo,
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import DateLib from '@/lib/date/DateLib'
-import {
-  SECONDS_IN_WEEK,
-  VOTE_ESCROW_MIN_WEEKS
-} from '@/modules/vote-escrow/VoteEscrow'
 import {
   CONTRACT_DEPLOYMENTS,
-  FALLBACK_VENPM_TOKEN_SYMBOL,
-  MULTIPLIER
+  FALLBACK_VENPM_TOKEN_SYMBOL
 } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -36,11 +27,8 @@ import {
   convertFromUnits,
   convertToUnits,
   isGreaterOrEqual,
-  isValidNumber,
-  toBN
+  isValidNumber
 } from '@/utils/bn'
-import { calculateBoost } from '@/utils/calculate-boost'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
@@ -51,17 +39,15 @@ const initialData = {
 }
 
 export const useVoteEscrowData = () => {
-  const router = useRouter()
   const { library, account } = useWeb3React()
 
   const { networkId } = useNetwork()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
+  const { balance: npmBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
 
   const [loading, setLoading] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
   const [escrowData, setEscrowData] = useState(initialData)
-
-  const { balance: npmBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
 
   const { contractRead, writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
@@ -408,6 +394,10 @@ export const useVoteEscrowData = () => {
   }
 
   const getData = useCallback(async () => {
+    if (!account) {
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -441,49 +431,17 @@ export const useVoteEscrowData = () => {
   }, [account, contractRead, library, networkId])
 
   useEffect(() => {
-    if (account) {
-      getData()
-    }
-  }, [account, getData])
-
-  const currentBoostAndVotingPower = useMemo(() => {
-    if (escrowData.unlockTimestamp === '0') {
-      return {
-        boostBN: toBN('1'),
-        votingPower: formatCurrency(0, router.locale, NPMTokenSymbol, true)
-      }
-    }
-
-    const lockedNPMBalanceRaw = escrowData.lockedNPMBalance
-    const now = Date.now()
-    const unlockDateTimestamp = DateLib.fromUnix(escrowData.unlockTimestamp).getTime()
-    const unlockDuration = (unlockDateTimestamp - now) / 1000
-    const weeks = Math.ceil(unlockDuration / SECONDS_IN_WEEK)
-    const sliderValue = weeks < VOTE_ESCROW_MIN_WEEKS ? VOTE_ESCROW_MIN_WEEKS : weeks
-    const newUnlockDate = DateLib.addDays(new Date(), sliderValue * 7)
-    const lockedNpmBalance = toBN(lockedNPMBalanceRaw)
-    const boostBN = toBN(calculateBoost((newUnlockDate.valueOf() - now) / 1000)).dividedBy(MULTIPLIER)
-    const votingPower = formatCurrency(
-      convertFromUnits(boostBN.multipliedBy(lockedNpmBalance).toString(), NPMTokenDecimals),
-      router.locale,
-      NPMTokenSymbol,
-      true
-    )
-
-    return {
-      boostBN,
-      votingPower
-    }
-  }, [NPMTokenDecimals, NPMTokenSymbol, escrowData, router.locale])
+    getData()
+  }, [getData])
 
   return {
     refetch: getData,
     loading,
     data: {
+      npmBalance,
       veNPMBalance: escrowData.veNPMBalance,
       lockedNPMBalance: escrowData.lockedNPMBalance,
-      unlockTimestamp: escrowData.unlockTimestamp,
-      npmBalance
+      unlockTimestamp: escrowData.unlockTimestamp
     },
     lock,
     unlock,
@@ -493,7 +451,6 @@ export const useVoteEscrowData = () => {
     handleApprove,
     loadingVeNPMAllowance,
     hasUnlockAllowance,
-    handleApproveUnlock,
-    currentBoostAndVotingPower
+    handleApproveUnlock
   }
 }

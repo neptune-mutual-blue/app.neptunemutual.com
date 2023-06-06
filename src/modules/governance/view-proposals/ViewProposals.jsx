@@ -1,13 +1,22 @@
+import BigNumber from 'bignumber.js'
 import { useRouter } from 'next/router'
 
+import DateLib from '@/lib/date/DateLib'
 import {
   IncreaseYourBoost
 } from '@/modules/governance/view-proposals/IncreaseYourBoost'
 import { KeyVal } from '@/modules/governance/view-proposals/KeyVal'
-import { FALLBACK_VENPM_TOKEN_SYMBOL } from '@/src/config/constants'
+import {
+  FALLBACK_VENPM_TOKEN_SYMBOL,
+  MULTIPLIER
+} from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
-import { convertFromUnits } from '@/utils/bn'
+import {
+  convertFromUnits,
+  toBNSafe
+} from '@/utils/bn'
+import { calculateBoost } from '@/utils/calculate-boost'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
@@ -16,15 +25,26 @@ import { useWeb3React } from '@web3-react/core'
 export const ViewProposals = () => {
   const { account } = useWeb3React()
   const router = useRouter()
-  const { NPMTokenDecimals } = useAppConstants()
-  const { data, currentBoostAndVotingPower: { boostBN, votingPower } } = useVoteEscrowData()
+  const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
+  const { data } = useVoteEscrowData()
 
+  const lockDuration = toBNSafe(data.unlockTimestamp).isGreaterThan(DateLib.unix())
+    ? toBNSafe(data.unlockTimestamp).minus(DateLib.unix()) // to duration left
+      .decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
+      .toNumber()
+    : 0
+
+  console.log(lockDuration)
+
+  const boostFraction = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).decimalPlaces(2).toString()
+
+  const votingPower = toBNSafe(boostFraction).multipliedBy(data.lockedNPMBalance)
+  const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), router.locale, FALLBACK_VENPM_TOKEN_SYMBOL, true)
 
   const unlockDate = data.unlockTimestamp !== '0'
-    ? fromNow((data.unlockTimestamp))
+    ? fromNow(data.unlockTimestamp)
     : 'N/A'
-  const boost = `${boostBN.decimalPlaces(2).toString()}x`
 
   return (
     <div className='flex flex-col items-center gap-8 p-8 bg-white border lg:flex-row rounded-2xl border-B0C4DB'>
@@ -34,25 +54,37 @@ export const ViewProposals = () => {
         </h2>
         <div className='p-6 mt-6 break-all rounded-2 bg-F3F5F7 md:break-words'>
           <KeyVal
-            title='Account'
+            heading='Account'
             value={account || 'N/A'}
           />
 
           <div className='flex flex-wrap items-center gap-8 mt-4'>
-            <KeyVal valueXl title='Vote-Locked Balance' value={formattedVeNPMBalance.long} />
-            <KeyVal valueXl title='Boost' value={boost} />
-            <KeyVal valueXl title='Voting Power' value={votingPower.long} />
+            <KeyVal
+              valueXl
+              heading='Vote-Locked Balance'
+              value={formattedVeNPMBalance.long}
+            />
+            <KeyVal
+              valueXl
+              heading='Boost'
+              value={`${boostFraction}x`}
+            />
+            <KeyVal
+              valueXl
+              heading='Voting Power'
+              value={formattedVotingPower.long}
+            />
           </div>
 
           <KeyVal
-            title='Unlock At:'
-            value={unlockDate}
-            className='mt-8'
+            heading='Unlock At:'
+            value={unlockDate} className='mt-8'
+            title={DateLib.toLongDateFormat(data.unlockTimestamp, router.locale)}
           />
         </div>
       </div>
 
-      <IncreaseYourBoost boostBn={boostBN} />
+      <IncreaseYourBoost boostFraction={boostFraction} />
     </div>
   )
 }

@@ -24,7 +24,8 @@ import { useDeviceSize } from '@/modules/vote-escrow/useDeviceSize'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import {
   CONTRACT_DEPLOYMENTS,
-  MULTIPLIER
+  MULTIPLIER,
+  WEEKS
 } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -47,7 +48,6 @@ import { getSpaceLink } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
-export const SECONDS_IN_WEEK = 7 * 24 * 60 * 60
 export const VOTE_ESCROW_MIN_WEEKS = 1
 export const VOTE_ESCROW_MAX_WEEKS = 208
 
@@ -56,6 +56,8 @@ const VoteEscrow = () => {
   const [extend, setExtend] = useState(false)
   const [agreed, setAgreed] = useState(false)
   const [unlock, setUnlock] = useState(false)
+
+  // null when slider is untouched
   const [sliderValue, setSliderValue] = useState(null)
 
   const { active } = useWeb3React()
@@ -86,14 +88,15 @@ const VoteEscrow = () => {
     : toBN(0)
 
   const oldDurationInWeeks = oldLockDurationBN
-    .dividedBy(SECONDS_IN_WEEK) // to weeks
+    .dividedBy(WEEKS) // to weeks
     .decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
     .toNumber()
 
   const lockDuration = sliderValue
-    ? (sliderValue * SECONDS_IN_WEEK)
+    ? (sliderValue * WEEKS)
     : oldLockDurationBN.decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
       .toNumber()
+
   const boostBN = toBN(calculateBoost(lockDuration)).dividedBy(MULTIPLIER)
   const boost = boostBN.toString()
 
@@ -149,6 +152,8 @@ const VoteEscrow = () => {
   }
 
   const submitUrl = getSpaceLink(networkId)
+
+  // When slider is untouched, display old data
   const sliderDisplayValue = sliderValue || oldDurationInWeeks
   const unlockDate = sliderValue ? DateLib.addDays(new Date(), sliderValue * 7) : DateLib.fromUnix(data.unlockTimestamp)
   const formattedUnlockDate = {
