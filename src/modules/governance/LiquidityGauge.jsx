@@ -16,9 +16,10 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
+import { getAsOfDate } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
 
-const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
+const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
   const [hoveredName, setHoveredName] = useState(null)
   const [mouseEnteredOnLegend, setMouseEnteredOnLegend] = useState(false)
   const [mobile, setMobile] = useState(window.innerWidth < 768)
@@ -121,11 +122,21 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [
   }
 
   const chainDropdownOptions = chainIds.map((chainId) => ({
-    label: ShortNetworkNames[chainId],
+    label: ShortNetworkNames[chainId] || '',
     value: chainId
   }))
+  const asOfDate = getAsOfDate(start, end)
 
   const formattedEmission = formatCurrency(convertFromUnits(emission, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedDate = DateLib.toLongDateFormat(
+    asOfDate,
+    router.locale,
+    'UTC', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZoneName: 'short'
+    })
 
   if (!results) return
 
@@ -152,13 +163,8 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [
         <div className='mb-1 text-xl font-semibold'>
           {hoveredName} ({formatPercent(results.find((item) => item.name === hoveredName)?.percent)})
         </div>
-        <div className='mb-4 text-md'>As of:{' '}
-          {DateLib.toDateFormat(
-            new Date(),
-            router.locale,
-            { month: 'short', day: '2-digit', year: 'numeric' },
-            'UTC'
-          )}
+        <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, router.locale)}>
+          As of:{' '}{formattedDate}
         </div>
       </div>
 
