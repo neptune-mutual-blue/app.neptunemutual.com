@@ -97,6 +97,7 @@ module.exports = {
         /* For analytics segment, implementing the spacing */
         '25px': '25px',
         '524px': '524px',
+        '330px': '330px',
         400: '400px',
         420: '420px',
         392: '392px',
@@ -222,7 +223,9 @@ module.exports = {
         F4F8FC: '#F4F8FC',
         FA5C2F: '#FA5C2F',
         primary: 'rgb(var(--color-primary) / var(--tw-bg-opacity))',
-        B2C4DC: '#B2C4DC'
+        B2C4DC: '#B2C4DC',
+        D92D20: '#D92D20',
+        F2F4F7: '#F2F4F7'
       },
       minHeight: {
         360: '360px',

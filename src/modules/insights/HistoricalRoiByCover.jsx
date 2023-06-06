@@ -3,17 +3,10 @@ import React, {
   useState
 } from 'react'
 
-import HighchartsReact from 'highcharts-react-official'
-import Highcharts from 'highcharts/highstock.src'
-import HighchartsExporting from 'highcharts/modules/exporting'
-
+import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
 import { Trans } from '@lingui/macro'
-
-if (typeof Highcharts === 'object') {
-  HighchartsExporting(Highcharts)
-}
 
 const colors = {
   'popular-defi-apps': '#4E7DD9',
@@ -34,7 +27,7 @@ const getColorForCover = (cover) => {
 export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
   const chartRef = useRef()
 
-  const [selectedCover, setSelectedCover] = useState()
+  const [selectedCover, setSelectedCover] = useState(null)
 
   const groupCovers = {}
 
@@ -227,8 +220,7 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       )}
 
       {!loading && (
-        <HighchartsReact
-          highcharts={Highcharts}
+        <HighchartsReactComponent
           options={chartOptions}
           constructorType='stockChart'
           ref={chartRef}

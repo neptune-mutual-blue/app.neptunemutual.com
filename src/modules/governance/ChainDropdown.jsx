@@ -4,19 +4,34 @@ import React, {
   useState
 } from 'react'
 
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import SearchIcon from '@/icons/SearchIcon'
+import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
+import { getProposalLink } from '@/utils/snapshot'
+import { Trans } from '@lingui/macro'
 
-const ChainDropdown = ({ options, selected, onSelectionChange }) => {
+const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' }) => {
   const [open, setOpen] = useState(false)
-
   const [search, setSearch] = useState('')
+
+  const router = useRouter()
+  const { proposalId } = router.query
+
+  const { networkId } = useNetwork()
+
+  const ref = useRef()
+
+  useEffect(() => {
+    if (!open) {
+      setSearch('')
+    }
+  }, [open])
 
   const changeSelection = (value) => {
     if (selected.includes(value)) {
@@ -26,25 +41,19 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
     }
   }
 
-  const ref = useRef()
-
   useOnClickOutside(ref, () => {
     setOpen(false)
   })
 
-  useEffect(() => {
-    if (!open) {
-      setSearch('')
-    }
-  }, [open])
+  const allChainSelected = options.every(chainId => selected.includes(chainId.value))
 
   return (
     <div className='relative'>
-      <div className='flex flex-wrap gap-4 justify-between items-center mb-12'>
+      <div className='flex flex-wrap items-center justify-between gap-4 mb-12'>
         <button
           onClick={() => {
             setOpen(!open)
-          }} className='inline-flex items-center gap-2 text-sm border-1 border-4E7DD9 rounded-2 py-3 px-4 cursor-pointer'
+          }} className='inline-flex items-center gap-2 px-4 py-3 text-sm cursor-pointer border-1 border-B0C4DB focus:border-4E7DD9 rounded-2'
         >
           <div className='text-9B9B9B'>Filter Chain: </div>
           <div>
@@ -52,21 +61,28 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
             {selected.length === 1 && options.find(opt => opt.value === selected[0]).label}
             {selected.length > 1 && selected.length + ' Chains'}
           </div>
-          <ChevronDownIcon className='h-4 w-4' />
+          <ChevronDownIcon className='w-4 h-4' />
         </button>
-        <Link className='' href='#'>
-          <div className='hidden md:flex text-4E7DD9 text-md cursor-pointer font-semibold items-center gap-1'>
-            Submit Your Vote <ExternalLinkIcon />
-          </div>
-        </Link>
+        {state === 'active' &&
+       (
+         <a
+           className='items-center hidden gap-1 font-semibold cursor-pointer md:flex text-4E7DD9 text-md'
+           href={getProposalLink(networkId, proposalId)}
+           target='_blank'
+           rel='noreferrer noopener nofollow'
+         >
+           <Trans>Submit Your Vote</Trans>
+           <ExternalLinkIcon />
+         </a>
+       )}
       </div>
 
       {open && (
-        <div ref={ref} className='absolute z-60 top-[calc(100%+8px)] bg-white left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
+        <div ref={ref} className='absolute z-10 top-[calc(100%+8px)] bg-white left-0 shadow-xl border-1 border-D0D5DD w-[238px] rounded-2'>
           <div className='m-2.5 flex items-center'>
 
             <input
-              className='w-full px-4 py-2 leading-5 outline-none text-sm' value={search} onChange={(e) => {
+              className='w-full px-4 py-2 text-sm leading-5 outline-none' value={search} onChange={(e) => {
                 setSearch(e.target.value)
               }} placeholder='Search Chain'
             />
@@ -81,10 +97,12 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
               }} className='py-2.5 px-4 flex items-center gap-1 text-sm hover:bg-EEEEEE cursor-pointer'
             >
               <Checkbox
-                checked={selected.length === 0}
+                checked={selected.length === 0 || allChainSelected}
                 onChange={() => {}}
-                className='h-4 w-4 border-1 border-C2C7D0'
-              /> All
+                className='w-4 h-4 border-1 border-C2C7D0'
+                readOnly
+              />
+              All
             </div>
             {options.filter(opt => opt.label.toLowerCase().includes(search.toLowerCase())).map((option) => (
               <button
@@ -94,8 +112,10 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
               >
                 <Checkbox
                   checked={selected.includes(option.value)}
-                  className='h-4 w-4 border-1 border-C2C7D0'
-                />{option.label}
+                  className='w-4 h-4 border-1 border-C2C7D0'
+                  readOnly
+                />
+                {option.label}
               </button>
             ))}
           </div>
@@ -103,7 +123,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange }) => {
           <div className='p-4'>
 
             <OutlinedButton
-              className='border-D0D5DD text-344054 hover:text-344054 text-sm font-semibold w-full rounded-2 normal-case' onClick={() => {
+              className='w-full text-sm font-semibold normal-case border-D0D5DD text-344054 hover:text-344054 rounded-2' onClick={() => {
                 onSelectionChange([])
               }}
             >Clear All

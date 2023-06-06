@@ -1,16 +1,12 @@
 import { useRef } from 'react'
 
-import HighchartsReact from 'highcharts-react-official'
-import Highcharts from 'highcharts/highstock.src'
-import HighchartsExporting from 'highcharts/modules/exporting'
-
-import { ChainAnalyticsColors, ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
+import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
+import {
+  ChainAnalyticsColors,
+  ShortNetworkNames
+} from '@/lib/connect-wallet/config/chains'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 import { Trans } from '@lingui/macro'
-
-if (typeof Highcharts === 'object') {
-  HighchartsExporting(Highcharts)
-}
 
 export const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
@@ -158,8 +154,7 @@ export const HistoricalRoi = ({ loading, data }) => {
         </div>
       )}
       {!loading && (
-        <HighchartsReact
-          highcharts={Highcharts}
+        <HighchartsReactComponent
           options={chartOptions}
           constructorType='stockChart'
           ref={chartRef}

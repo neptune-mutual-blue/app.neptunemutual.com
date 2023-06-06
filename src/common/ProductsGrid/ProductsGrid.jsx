@@ -13,12 +13,12 @@ import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import LeftArrow from '@/icons/LeftArrow'
-import { homeViewSelectionKey } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { scrollElementIntoView } from '@/utils/scroll'
 import {
   DEFAULT_SORT,
   SORT_DATA_TYPES,
@@ -26,7 +26,8 @@ import {
   sorter
 } from '@/utils/sorting'
 import { Trans } from '@lingui/macro'
-import { scrollElementIntoView } from '@/utils/scroll'
+
+const homeViewSelectionKey = 'view'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}

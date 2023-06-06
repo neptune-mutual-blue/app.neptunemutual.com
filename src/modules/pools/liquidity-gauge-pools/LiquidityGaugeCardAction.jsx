@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
-import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import AddIcon from '@/icons/AddIcon'
 import { LockModal } from '@/modules/pools/liquidity-gauge-pools/LockModal'
+import { explainInterval } from '@/utils/formatter/interval'
 
-export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenName, tokenIcon, isLock, subTitle, balance, token, emissionReceived }) => {
+export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenIcon, isLock, subTitle, balance, token, emissionReceived }) => {
   const [modal, setModal] = useState(false)
   const [isReceive, setIsReceive] = useState(false)
   const [isAdd, setIsAdd] = useState(false)
@@ -36,20 +36,20 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenName, tokenIcon, i
 
   return (
     <>
-      <div className='flex mt-6 md:mt-0 flex-col md:flex-row md:items-center justify-between'>
+      <div className='flex flex-col justify-between mt-6 md:mt-0 md:flex-row md:items-center'>
         <div className='flex flex-col gap-1'>
           <div className='text-sm text-999BAB'>
             Lockup Period:{' '}
             <span className='font-semibold text-01052D'>
-              {new Date(lockupPeriod).getHours()} hrs approx
+              {explainInterval(lockupPeriod)}
             </span>
           </div>
-          <div className='flex flex-row items-center gap-1'>
+          {/* <div className='flex flex-row items-center gap-1'>
             <div className='text-sm text-999BAB'>Reward Tokens:</div>
-            <InfoTooltip infoComponent={`${tokenName} Token`} className='text-[11px] px-2 py-0.75 bg-opacity-100'>
+            <InfoTooltip infoComponent={`${tokenName} Token`} className='text-xs px-2 py-0.75 bg-opacity-100'>
               <button type='button' className='cursor-default'><img src={tokenIcon} alt='npm_icon' className='w-6' /></button>
             </InfoTooltip>
-          </div>
+          </div> */}
         </div>
 
         <div className='mt-4 md:mt-0'>

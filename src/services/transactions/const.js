@@ -41,5 +41,7 @@ export const METHODS = {
   VOTE_ESCROW_UNLOCK: 'vote.escrow.unlock',
   VOTE_ESCROW_UNLOCK_APPROVE: 'vote.escrow.unlock.approve',
   BRIDGE_APPROVE: 'bridge.approve',
-  BRIDGE_TOKEN: 'bridge.token'
+  BRIDGE_TOKEN: 'bridge.token',
+  GCR_APPROVE: 'gcr.approve',
+  GCR_SET_GAUGE: 'gcr.setGauge'
 }
