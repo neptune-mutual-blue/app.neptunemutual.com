@@ -1,7 +1,8 @@
+import { useCallback } from 'react'
+
 import { useToast } from '@/lib/toast/context'
 import { ERROR_TOAST_TIME } from '@/src/config/toast'
 import { getErrorMessage } from '@/src/helpers/tx'
-import { useCallback } from 'react'
 
 export const defaultArgs = { duration: ERROR_TOAST_TIME }
 

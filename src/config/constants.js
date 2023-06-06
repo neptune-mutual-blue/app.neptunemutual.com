@@ -1,5 +1,4 @@
 export const MULTIPLIER = 10_000
-export const DAYS = 86400
 
 export const DEFAULT_GAS_LIMIT = '6000000'
 export const ADDRESS_ONE = process.env.NEXT_PUBLIC_FALLBACK_ACCOUNT || '0x0000000000000000000000000000000000000001'
@@ -106,6 +105,7 @@ export const NetworkUrlParam = {
 
 export const isProduction = process.env.NODE_ENV === 'production'
 
+export const FALLBACK_VENPM_TOKEN_SYMBOL = 'veNPM'
 export const FALLBACK_NPM_TOKEN_SYMBOL = 'POT'
 export const FALLBACK_NPM_TOKEN_DECIMALS = 18
 export const FALLBACK_LIQUIDITY_TOKEN_SYMBOL = 'USDC'
@@ -157,3 +157,6 @@ export const SNAPSHOT_INTERFACE_URL = {
   mainnet: 'https://snapshot.org'
 }
 export const SNAPSHOT_SPACE_ID = 'neptunemutual.eth'
+
+export const DAYS = 24 * 60 * 60
+export const WEEKS = 7 * DAYS

@@ -123,24 +123,22 @@ export const ActionsRenderer = ({ row, networkId }) => {
     >
       <div className='text-sm text-right text-01052D'>
         {
+          row.tag === 'gce' && (
+            <Link href={setGaugeUrl}>
+              <a className='flex items-center justify-end gap-1'>
+                <Trans>Set Gauge</Trans>
+                <PieChartIcon />
+              </a>
+            </Link>
+          )
+        }
+        {
           row.state === 'Live'
             ? (
-              <>
-                {
-                row.tag === 'gce' && (
-                  <Link href={setGaugeUrl}>
-                    <a className='flex items-center justify-end gap-1'>
-                      <Trans>Set Gauge</Trans>
-                      <PieChartIcon />
-                    </a>
-                  </Link>
-                )
-              }
-                <a target='_blank' className='flex items-center justify-end gap-1 mt-2' href={proposalLink} rel='noreferrer'>
-                  <Trans>Submit Your Vote</Trans>
-                  <ExternalLinkIcon />
-                </a>
-              </>
+              <a target='_blank' className='flex items-center justify-end gap-1 mt-2' href={proposalLink} rel='noreferrer'>
+                <Trans>Submit Your Vote</Trans>
+                <ExternalLinkIcon />
+              </a>
               )
             : (
               <a target='_blank' className='flex items-center justify-end gap-1' href={proposalLink} rel='noreferrer'>
