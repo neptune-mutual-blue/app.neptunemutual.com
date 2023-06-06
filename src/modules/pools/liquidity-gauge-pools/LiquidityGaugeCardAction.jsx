@@ -4,15 +4,12 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import AddIcon from '@/icons/AddIcon'
-import { LockModal } from '@/modules/pools/liquidity-gauge-pools/LockModal'
-import {
-  useLiquidityGaugePoolActions
-} from '@/src/hooks/useLiquidityGaugePoolActions'
+
 import { toBN } from '@/utils/bn'
 import { explainInterval } from '@/utils/formatter/interval'
+import { AddAndLockModal } from '@/modules/pools/liquidity-gauge-pools/AddAndLockModal'
+import { ReceiveAndUnlockModal } from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
 
 export const MODAL_STATES = {
   LOCK: 'lock',
@@ -24,38 +21,24 @@ export const MODAL_STATES = {
 
 export const LiquidityGaugeCardAction = ({
   lockupPeriod,
-  tokenIcon,
-  tokenSymbol,
-  tokenDecimals,
-  stakingToken,
+  stakingTokenIcon,
+  stakingTokenSymbol,
+  stakingTokenDecimals,
+  stakingTokenBalance,
+  stakingTokenAddress,
   poolKey,
-  setLockedAndReward,
-  NPMTokenSymbol,
-  NPMTokenDecimals
+  rewardTokenSymbol,
+  rewardTokenDecimals,
+  poolStaked,
+  rewardAmount
 }) => {
   const [modalState, setModalState] = useState(MODAL_STATES.CLOSED)
 
   const [inputValue, setInputValue] = useState('')
 
-  const { locale } = useRouter()
-
-  const hookResult = useLiquidityGaugePoolActions({
-    stakingTokenAddress: stakingToken,
-    amount: inputValue,
-    poolKey
-  })
-  const { poolStaked, rewardAmount } = hookResult
-
   useEffect(() => {
     setInputValue('')
   }, [modalState])
-
-  useEffect(() => {
-    setLockedAndReward({
-      locked: poolStaked,
-      reward: rewardAmount
-    })
-  }, [poolStaked, rewardAmount, setLockedAndReward])
 
   const handleReceiveModal = () => {
     setModalState(MODAL_STATES.RECEIVE)
@@ -74,12 +57,22 @@ export const LiquidityGaugeCardAction = ({
   }
 
   const modalTitle = useMemo(() => {
-    if (modalState === MODAL_STATES.LOCK) return `Lock ${tokenSymbol}`
-    if (modalState === MODAL_STATES.ADD) return `Add ${tokenSymbol}`
-    if (modalState === MODAL_STATES.RECEIVE) return `Receive ${tokenSymbol}`
-    if (modalState === MODAL_STATES.UNLOCK) return `Unlock ${tokenSymbol}`
+    if (modalState === MODAL_STATES.LOCK) return `Lock ${stakingTokenSymbol}`
+    if (modalState === MODAL_STATES.ADD) return `Add ${stakingTokenSymbol}`
+    if (modalState === MODAL_STATES.RECEIVE) return `Receive ${stakingTokenSymbol}`
+    if (modalState === MODAL_STATES.UNLOCK) return `Unlock ${stakingTokenSymbol}`
     return ''
-  }, [modalState, tokenSymbol])
+  }, [modalState, stakingTokenSymbol])
+
+  const isAddModalOpen = [
+    MODAL_STATES.LOCK,
+    MODAL_STATES.ADD
+  ].includes(modalState)
+
+  const isUnlockModalOpen = [
+    MODAL_STATES.RECEIVE,
+    MODAL_STATES.UNLOCK
+  ].includes(modalState)
 
   return (
     <>
@@ -128,24 +121,48 @@ export const LiquidityGaugeCardAction = ({
         </div>
       </div>
 
-      <LockModal
-        isOpen={Boolean(modalState)}
-        modalState={modalState}
-        onClose={handleCloseModal}
-        modalTitle={modalTitle}
-        imgSrc={tokenIcon}
-        lockupPeriod={lockupPeriod}
-        tokenSymbol={tokenSymbol}
-        tokenDecimals={tokenDecimals}
-        handleSwitch={handleSwitch}
-        stakingToken={stakingToken}
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        hookResult={hookResult}
-        locale={locale}
-        NPMTokenSymbol={NPMTokenSymbol}
-        NPMTokenDecimals={NPMTokenDecimals}
-      />
+      {
+        isAddModalOpen && (
+          <AddAndLockModal
+            isOpen={isAddModalOpen}
+            modalState={modalState}
+            onClose={handleCloseModal}
+            modalTitle={modalTitle}
+            imgSrc={stakingTokenIcon}
+            lockupPeriod={lockupPeriod}
+            stakingTokenAddress={stakingTokenAddress}
+            stakingTokenDecimals={stakingTokenDecimals}
+            stakingTokenSymbol={stakingTokenSymbol}
+            stakingTokenBalance={stakingTokenBalance}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            poolKey={poolKey}
+          />
+        )
+      }
+
+      {
+        isUnlockModalOpen && (
+          <ReceiveAndUnlockModal
+            isOpen={isUnlockModalOpen}
+            modalState={modalState}
+            onClose={handleCloseModal}
+            modalTitle={modalTitle}
+            imgSrc={stakingTokenIcon}
+            stakingTokenSymbol={stakingTokenSymbol}
+            stakingTokenDecimals={stakingTokenDecimals}
+            stakingTokenBalance={stakingTokenBalance}
+            handleSwitch={handleSwitch}
+            stakingTokenAddress={stakingTokenAddress}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            rewardTokenSymbol={rewardTokenSymbol}
+            rewardTokenDecimals={rewardTokenDecimals}
+            poolKey={poolKey}
+            rewardAmount={rewardAmount}
+          />
+        )
+      }
     </>
   )
 }
