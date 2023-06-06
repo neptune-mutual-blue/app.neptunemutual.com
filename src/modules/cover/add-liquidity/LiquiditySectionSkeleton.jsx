@@ -2,7 +2,7 @@ import { Container } from '@/common/Container/Container'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
 import { HeroSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
-const LiquiditySectionSkeleton = ({ ...rest }) => (
+export const LiquiditySectionSkeleton = ({ ...rest }) => (
   <div {...rest}>
     <HeroSkeleton />
 
@@ -25,5 +25,3 @@ const LiquiditySectionSkeleton = ({ ...rest }) => (
     </div>
   </div>
 )
-
-export { LiquiditySectionSkeleton }

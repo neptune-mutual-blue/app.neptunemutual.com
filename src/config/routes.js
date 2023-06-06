@@ -11,6 +11,7 @@ const MyActivePolicies = '/my-policies/active'
 const MyExpiredPolicies = '/my-policies/expired'
 const MyLiquidity = '/my-liquidity'
 const ActiveReports = '/reports/active'
+const Governance = '/governance'
 const VoteEscrow = '/vote-escrow'
 const ResolvedReports = '/reports/resolved'
 const BondPool = '/pools/bond'
@@ -21,8 +22,9 @@ const StakingPoolsTransactions = '/pools/staking/transactions'
 const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
 const LiquidityGaugePoolsTransactions = '/pools/liquidity-gauge-pools/transactions'
 const LiquidityLatestGaugeChart = '/pools/liquidity-gauge-pools/latest-gauge'
-const BridgeCeler = '/bridge/celer'
-const BridgeLayerZero = '/bridge/layer-zero'
+const Bridge = '/bridge'
+
+const GovernanceProposalPage = (proposalId) => `/governance/${proposalId}`
 
 const Pools = () => {
   let url = null
@@ -180,6 +182,7 @@ export const Routes = {
   ViewCoverProductTerms,
   ViewProductReports,
   VoteEscrow,
-  BridgeCeler,
-  BridgeLayerZero
+  Bridge,
+  Governance,
+  GovernanceProposalPage
 }

@@ -8,11 +8,11 @@ const getNavigationLinks = (pathname = '') => {
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
   const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
+  const governanceEnabled = isFeatureEnabled('governance')
 
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
   const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
   const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
-  const bridgeUrl = isCelerBridgeEnabled ? Routes.BridgeCeler : Routes.BridgeLayerZero
 
   const poolLink = Routes.Pools()
 
@@ -40,6 +40,11 @@ const getNavigationLinks = (pathname = '') => {
       href: Routes.ActiveReports,
       activeWhenStartsWith: '/reports'
     },
+    governanceEnabled && {
+      name: t`Governance`,
+      href: Routes.Governance,
+      activeWhenStartsWith: Routes.Governance
+    },
     voteEscrowEnabled && {
       name: t`Vote Escrow`,
       href: Routes.VoteEscrow,
@@ -47,7 +52,7 @@ const getNavigationLinks = (pathname = '') => {
     },
     bridgeEnabled && {
       name: t`Bridge`,
-      href: bridgeUrl,
+      href: Routes.Bridge,
       activeWhenStartsWith: '/bridge'
     },
     {
@@ -106,4 +111,4 @@ const getFlattenedNavLinks = () => {
   return _links
 }
 
-export { getNavigationLinks, getFlattenedNavLinks }
+export { getFlattenedNavLinks, getNavigationLinks }

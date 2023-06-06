@@ -1,4 +1,4 @@
-const OutlineButtonList = (props) => {
+export const OutlineButtonList = (props) => {
   const { options, selected, onChange } = props
 
   return (
@@ -15,5 +15,3 @@ const OutlineButtonList = (props) => {
     </div>
   )
 }
-
-export { OutlineButtonList }

@@ -13,7 +13,7 @@ const formatBreakpoint = (breakpoint) => {
   }
 }
 
-const GaugeChart = ({
+export const GaugeChart = ({
   chartDiameter = 274,
   strokeWidth = 16,
   min,
@@ -144,5 +144,3 @@ const GaugeChart = ({
     </div>
   )
 }
-
-export { GaugeChart }

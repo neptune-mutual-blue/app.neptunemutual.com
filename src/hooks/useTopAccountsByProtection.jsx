@@ -1,5 +1,5 @@
 import {
-  useEffect,
+  useRef,
   useState
 } from 'react'
 
@@ -14,7 +14,11 @@ export const useTopAccountsByProtection = () => {
 
   const { networkId } = useNetwork()
 
-  useEffect(() => {
+  const fetched = useRef(false)
+
+  const fetchData = async () => {
+    if (fetched.current || loading) return
+
     setLoading(true);
 
     (async () => {
@@ -23,6 +27,7 @@ export const useTopAccountsByProtection = () => {
 
         if (!data) return
 
+        fetched.current = true
         setData(data)
       } catch (error) {
         console.error(error)
@@ -30,9 +35,10 @@ export const useTopAccountsByProtection = () => {
         setLoading(false)
       }
     })()
-  }, [networkId])
+  }
 
   return {
+    fetchTopAccountsByProtection: fetchData,
     data,
     loading
   }

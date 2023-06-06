@@ -25,7 +25,7 @@ export const HeroSkeleton = () => (
   </Hero>
 )
 
-const ReportDetailsSkeleton = () => {
+export const ReportDetailsSkeleton = () => {
   return (
     <>
       <HeroSkeleton />
@@ -116,5 +116,3 @@ const ReportDetailsSkeleton = () => {
     </>
   )
 }
-
-export { ReportDetailsSkeleton }

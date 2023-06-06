@@ -11,7 +11,7 @@ export const useProtocolMonthData = (cache = true) => {
   const { networkId } = useNetwork()
 
   const fetchData = () => {
-    if (cache && fetched.current) return
+    if ((cache && fetched.current) || loading) return
 
     setLoading(true)
 

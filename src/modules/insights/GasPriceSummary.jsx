@@ -13,7 +13,7 @@ const maxValues = {
   43113: [0.5, 1, 2.5, 5, 10, 25, 50, 100, 250, 500]
 }
 
-const GasPriceSummary = ({ data, loading }) => {
+export const GasPriceSummary = ({ data, loading }) => {
   return (
     <div className='flex flex-wrap justify-center gap-8'>
       {loading && (
@@ -78,5 +78,3 @@ const GasPriceSummary = ({ data, loading }) => {
     </div>
   )
 }
-
-export { GasPriceSummary }

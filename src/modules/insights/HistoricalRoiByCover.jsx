@@ -3,17 +3,10 @@ import React, {
   useState
 } from 'react'
 
-import HighchartsReact from 'highcharts-react-official'
-import Highcharts from 'highcharts/highstock.src'
-import HighchartsExporting from 'highcharts/modules/exporting'
-
+import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
 import { Trans } from '@lingui/macro'
-
-if (typeof Highcharts === 'object') {
-  HighchartsExporting(Highcharts)
-}
 
 const colors = {
   'popular-defi-apps': '#4E7DD9',
@@ -31,10 +24,10 @@ const getColorForCover = (cover) => {
   return color ?? '#454545'
 }
 
-const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
+export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
   const chartRef = useRef()
 
-  const [selectedCover, setSelectedCover] = useState()
+  const [selectedCover, setSelectedCover] = useState(null)
 
   const groupCovers = {}
 
@@ -227,15 +220,14 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       )}
 
       {!loading && (
-        <HighchartsReact
-          highcharts={Highcharts}
+        <HighchartsReactComponent
           options={chartOptions}
           constructorType='stockChart'
           ref={chartRef}
         />
       )}
 
-      <div className='flex flex-wrap justify-center items-center gap-4 mt-3'>
+      <div className='flex flex-wrap items-center justify-center gap-4 mt-3'>
         {Object.keys(groupCovers).map((key) => (
           <div
             role='checkbox' aria-checked={selectedCover === key} onClick={() => {
@@ -261,5 +253,3 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
     </div>
   )
 }
-
-export { HistoricalRoiByCover }

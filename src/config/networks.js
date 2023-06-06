@@ -45,6 +45,11 @@ const networks = {
       Logo: ChainLogos[84531]
     },
     {
+      chainId: 5,
+      name: 'Goerli',
+      Logo: ChainLogos['5']
+    },
+    {
       chainId: 4002,
       name: 'Fantom Testnet',
       Logo: ChainLogos[4002]

@@ -1,6 +1,6 @@
 import React from 'react'
 
-class InsightsErrorBoundary extends React.Component {
+export class InsightsErrorBoundary extends React.Component {
   constructor (props) {
     super(props)
     this.state = { hasError: false }
@@ -20,5 +20,3 @@ class InsightsErrorBoundary extends React.Component {
     return this.props.children
   }
 }
-
-export { InsightsErrorBoundary }

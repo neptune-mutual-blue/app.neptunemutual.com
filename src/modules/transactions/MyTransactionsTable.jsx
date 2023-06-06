@@ -63,7 +63,7 @@ export const getColumns = (sorts = {}, handleSort = () => {}) => [
   }
 ]
 
-const MyTransactionsTable = () => {
+export const MyTransactionsTable = () => {
   const [
     /**
      * @type {import('@/src/services/transactions/history').IHistoryEntry[]}
@@ -244,5 +244,3 @@ const ActionsRenderer = ({ row }) => {
     </td>
   )
 }
-
-export { MyTransactionsTable }

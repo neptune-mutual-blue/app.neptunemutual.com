@@ -31,6 +31,8 @@
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "cSpell.words": [
         "arbitrum",
+        "Celer",
+        "LayerZero",
         "nosniff",
         "okxwallet"
     ]

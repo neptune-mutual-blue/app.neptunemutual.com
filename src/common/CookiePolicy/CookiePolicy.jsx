@@ -11,7 +11,7 @@ import { Trans } from '@lingui/macro'
 /**
  * @returns {boolean}
  */
-const getLSAcceptedCookie = () => {
+export const getLSAcceptedCookie = () => {
   if (typeof window === 'undefined') {
     return
   }
@@ -23,7 +23,7 @@ const getLSAcceptedCookie = () => {
   }
 }
 
-function CookiePolicy ({ isOpen, onClose }) {
+export function CookiePolicy ({ isOpen, onClose }) {
   const { setAccepted } = useCookies()
 
   const handleClose = () => {
@@ -85,5 +85,3 @@ function CookiePolicy ({ isOpen, onClose }) {
     </Transition>
   )
 }
-
-export { CookiePolicy, getLSAcceptedCookie }

@@ -3,7 +3,7 @@
  * Author: Dalibor Kundrat  https://github.com/damikun
  */
 
-import React from 'react'
+import React, { useCallback } from 'react'
 import { classNames } from './utils'
 import ToastMessage from './message'
 import { useToast } from './context'
@@ -36,9 +36,9 @@ const ToastContainer = ({ variant = 'top_right', data, hidden }) => {
   const context = useToast()
   const Var = VARIANTS[variant] || VARIANTS.top_right
 
-  const handleRemove = (id) => {
+  const handleRemove = useCallback((id) => {
     context.remove(id)
-  }
+  }, [context])
 
   return (
     <div
