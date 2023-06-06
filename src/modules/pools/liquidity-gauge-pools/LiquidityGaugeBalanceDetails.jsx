@@ -10,8 +10,8 @@ export const LiquidityGaugeBalanceDetails = ({
   stakingTokenSymbol,
   stakingTokenDecimals,
   emissionReceived,
-  lockupPeriod,
-  tvl
+  lockupPeriod
+  // tvl
 }) => {
   const router = useRouter()
 
@@ -25,7 +25,7 @@ export const LiquidityGaugeBalanceDetails = ({
   return (
     <div className='flex flex-col gap-4 p-4 bg-F3F5F7 rounded-xl w-full md:max-w-420 text-sm mt-6 md:mt-8.5 flex-auto'>
       <div className='flex flex-row justify-between'>
-        <span>Your Balance</span>
+        <span>Your Locked Balance</span>
         <span
           title={formattedBalance.long}
           className='font-semibold'
@@ -40,10 +40,10 @@ export const LiquidityGaugeBalanceDetails = ({
         <span>Lockup Period</span>
         <span className='font-semibold'>{explainInterval(lockupPeriod)}</span>
       </div>
-      <div className='flex flex-row justify-between'>
+      {/* <div className='flex flex-row justify-between'>
         <span>TVL</span>
         <span className='font-semibold'>{formatCurrency(tvl).short}</span>
-      </div>
+      </div> */}
     </div>
   )
 }

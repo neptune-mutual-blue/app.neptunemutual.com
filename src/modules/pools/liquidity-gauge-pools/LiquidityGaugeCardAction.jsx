@@ -1,38 +1,85 @@
-import { useState } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
 
 import AddIcon from '@/icons/AddIcon'
 import { LockModal } from '@/modules/pools/liquidity-gauge-pools/LockModal'
+import {
+  useLiquidityGaugePoolActions
+} from '@/src/hooks/useLiquidityGaugePoolActions'
+import { toBN } from '@/utils/bn'
 import { explainInterval } from '@/utils/formatter/interval'
 
-export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenIcon, isLock, subTitle, balance, token, emissionReceived }) => {
-  const [modal, setModal] = useState(false)
-  const [isReceive, setIsReceive] = useState(false)
-  const [isAdd, setIsAdd] = useState(false)
-  const [isUnlock, setIsUnlock] = useState(false)
-  const [current, setCurrent] = useState('receive')
+export const MODAL_STATES = {
+  LOCK: 'lock',
+  ADD: 'add',
+  RECEIVE: 'receive',
+  UNLOCK: 'unlock',
+  CLOSED: ''
+}
+
+export const LiquidityGaugeCardAction = ({
+  lockupPeriod,
+  tokenIcon,
+  tokenSymbol,
+  tokenDecimals,
+  stakingToken,
+  poolKey,
+  setLockedAndReward,
+  NPMTokenSymbol,
+  NPMTokenDecimals
+}) => {
+  const [modalState, setModalState] = useState(MODAL_STATES.CLOSED)
+
+  const [inputValue, setInputValue] = useState('')
+
+  const { locale } = useRouter()
+
+  const hookResult = useLiquidityGaugePoolActions({
+    stakingTokenAddress: stakingToken,
+    amount: inputValue,
+    poolKey
+  })
+  const { poolStaked, rewardAmount } = hookResult
+
+  useEffect(() => {
+    setInputValue('')
+  }, [modalState])
+
+  useEffect(() => {
+    setLockedAndReward({
+      locked: poolStaked,
+      reward: rewardAmount
+    })
+  }, [poolStaked, rewardAmount, setLockedAndReward])
 
   const handleReceiveModal = () => {
-    setIsReceive(true)
-    setModal(true)
+    setModalState(MODAL_STATES.RECEIVE)
   }
 
   const handleAddModal = () => {
-    setIsAdd(true)
-    setModal(true)
+    setModalState(MODAL_STATES.ADD)
   }
 
   const handleCloseModal = () => {
-    setIsReceive(false)
-    setIsAdd(false)
-    setModal(false)
+    setModalState(MODAL_STATES.CLOSED)
   }
 
   const handleSwitch = (value) => {
-    setCurrent(value)
-
-    if (value === 'unlock') setIsUnlock(true)
-    else setIsUnlock(false)
+    setModalState(value)
   }
+
+  const modalTitle = useMemo(() => {
+    if (modalState === MODAL_STATES.LOCK) return `Lock ${tokenSymbol}`
+    if (modalState === MODAL_STATES.ADD) return `Add ${tokenSymbol}`
+    if (modalState === MODAL_STATES.RECEIVE) return `Receive ${tokenSymbol}`
+    if (modalState === MODAL_STATES.UNLOCK) return `Unlock ${tokenSymbol}`
+    return ''
+  }, [modalState, tokenSymbol])
 
   return (
     <>
@@ -53,21 +100,28 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenIcon, isLock, subT
         </div>
 
         <div className='mt-4 md:mt-0'>
-          {isLock
+          {toBN(poolStaked).isZero()
             ? (
-              <button onClick={() => setModal(true)} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90 w-full md:max-w-[216px] flex-auto'>
+              <button
+                onClick={() => setModalState(MODAL_STATES.LOCK)}
+                className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90 w-full md:max-w-[216px] flex-auto'
+              >
                 Lock
               </button>
               )
             : (
               <div className='flex flex-row gap-2'>
-                <button onClick={handleReceiveModal} className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90  w-[156px] flex-auto'>
+                <button
+                  onClick={handleReceiveModal}
+                  className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90  w-[156px] flex-auto'
+                >
                   Receive
                 </button>
-                <button onClick={handleAddModal} className='px-4 py-3 font-semibold tracking-wide uppercase rounded-[10px] bg-primary hover:bg-opacity-90'>
-                  <AddIcon
-                    className='w-5 h-5 fill-white'
-                  />
+                <button
+                  onClick={handleAddModal}
+                  className='px-4 py-3 font-semibold tracking-wide uppercase rounded-[10px] bg-primary hover:bg-opacity-90'
+                >
+                  <AddIcon className='w-5 h-5 fill-white' />
                 </button>
               </div>
               )}
@@ -75,19 +129,22 @@ export const LiquidityGaugeCardAction = ({ lockupPeriod, tokenIcon, isLock, subT
       </div>
 
       <LockModal
-        isOpen={modal}
+        isOpen={Boolean(modalState)}
+        modalState={modalState}
         onClose={handleCloseModal}
-        modalTitle={`${isLock ? 'Lock' : ''} ${isReceive && !isUnlock ? 'Receive' : ''} ${isReceive && isUnlock ? 'Unlock' : ''} ${isAdd ? 'Add' : ''} ${subTitle} ${isAdd ? 'Lock' : ''}`}
+        modalTitle={modalTitle}
         imgSrc={tokenIcon}
         lockupPeriod={lockupPeriod}
-        isReceive={isReceive}
-        isAdd={isAdd}
-        isLock={isLock}
-        balance={balance}
-        token={token}
-        emissionReceived={emissionReceived}
+        tokenSymbol={tokenSymbol}
+        tokenDecimals={tokenDecimals}
         handleSwitch={handleSwitch}
-        current={current}
+        stakingToken={stakingToken}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        hookResult={hookResult}
+        locale={locale}
+        NPMTokenSymbol={NPMTokenSymbol}
+        NPMTokenDecimals={NPMTokenDecimals}
       />
     </>
   )

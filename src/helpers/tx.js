@@ -1,4 +1,8 @@
 const parseError = (instance, errorData) => {
+  if (!instance) {
+    return
+  }
+
   try {
     const errorDescription = instance.interface.parseError(errorData)
 
@@ -7,6 +11,7 @@ const parseError = (instance, errorData) => {
   } catch (error) {
     // swallow
     // console.log('error parsing error')
+    // console.error(error)
   }
 }
 
