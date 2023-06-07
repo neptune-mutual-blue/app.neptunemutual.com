@@ -51,6 +51,11 @@ export const InputWithTrailingButton = ({
   }, [])
 
   useEffect(() => {
+    if (inputProps.value === '') {
+      setInputValue('')
+      return
+    }
+
     if (typeof inputProps.value === 'string' && inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/)) {
       setInputValue(inputProps.value)
     }
@@ -78,7 +83,7 @@ export const InputWithTrailingButton = ({
   }
 
   return (
-    <div className='relative w-full text-black text-lg'>
+    <div className='relative w-full text-lg text-black'>
       <CurrencyInput
         {...inputFieldProps}
         className={classNames(
