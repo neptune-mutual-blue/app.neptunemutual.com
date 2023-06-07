@@ -9,21 +9,18 @@ import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import {
-  convertToUnits
-} from '@/utils/bn'
+
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amount, poolKey }) => {
+export const useLiquidityGaugePoolWithdrawRewards = ({ poolKey }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
@@ -32,12 +29,11 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amou
   const [withdrawingRewards, setWithdrawingRewards] = useState(false)
 
   const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
-  const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
 
-  const handleWithdrawRewards = async () => {
+  const handleWithdrawRewards = async (onSuccessCallback) => {
     if (!account || !networkId) {
       return
     }
@@ -88,6 +84,7 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amou
                   methodName: METHODS.GAUGE_POOL_WITHDRAW_REWARDS,
                   status: STATUS.SUCCESS
                 })
+                onSuccessCallback()
               },
               onTxFailure: () => {
                 TransactionHistory.push({
@@ -114,7 +111,7 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amou
         cleanup()
       }
 
-      const args = [poolKey, convertToUnits(amount, stakingTokenDecimals).toString()]
+      const args = [poolKey]
       writeContract({
         instance,
         methodName: 'withdrawRewards',

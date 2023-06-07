@@ -44,8 +44,8 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
   const {
     allowance,
     approve,
-    refetch: updateAllowance
-    // loading: loadingAllowance
+    refetch: updateAllowance,
+    loading: loadingAllowance
   } = useERC20Allowance(stakingTokenAddress)
 
   const { balance, refetch: updateBalance } = useERC20Balance(stakingTokenAddress)
@@ -74,7 +74,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
         status: STATUS.PENDING,
         data: {
           value: amount,
-          stakingTokenSymbol
+          tokenSymbol: stakingTokenSymbol
         }
       })
 
@@ -135,7 +135,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
     })
   }
 
-  const handleDeposit = async () => {
+  const handleDeposit = async (onSuccessCallback) => {
     if (!account || !networkId) {
       return
     }
@@ -192,6 +192,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
                   methodName: METHODS.GAUGE_POOL_DEPOSIT,
                   status: STATUS.SUCCESS
                 })
+                onSuccessCallback()
               },
               onTxFailure: () => {
                 TransactionHistory.push({
@@ -243,6 +244,8 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
 
     approving,
     depositing,
+
+    loadingAllowance,
 
     canApprove,
     canDeposit

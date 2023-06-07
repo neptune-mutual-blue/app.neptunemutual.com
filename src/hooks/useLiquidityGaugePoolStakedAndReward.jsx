@@ -56,6 +56,7 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolKey }) => {
 
   return {
     poolStaked,
-    rewardAmount
+    rewardAmount,
+    update: fetchStakedAndReward
   }
 }

@@ -24,13 +24,13 @@ export const LiquidityGaugeCardAction = ({
   stakingTokenIcon,
   stakingTokenSymbol,
   stakingTokenDecimals,
-  stakingTokenBalance,
   stakingTokenAddress,
   poolKey,
   rewardTokenSymbol,
   rewardTokenDecimals,
   poolStaked,
-  rewardAmount
+  rewardAmount,
+  updateStakedAndReward
 }) => {
   const [modalState, setModalState] = useState(MODAL_STATES.CLOSED)
 
@@ -59,10 +59,10 @@ export const LiquidityGaugeCardAction = ({
   const modalTitle = useMemo(() => {
     if (modalState === MODAL_STATES.LOCK) return `Lock ${stakingTokenSymbol}`
     if (modalState === MODAL_STATES.ADD) return `Add ${stakingTokenSymbol}`
-    if (modalState === MODAL_STATES.RECEIVE) return `Receive ${stakingTokenSymbol}`
+    if (modalState === MODAL_STATES.RECEIVE) return `Receive ${rewardTokenSymbol}`
     if (modalState === MODAL_STATES.UNLOCK) return `Unlock ${stakingTokenSymbol}`
     return ''
-  }, [modalState, stakingTokenSymbol])
+  }, [modalState, stakingTokenSymbol, rewardTokenSymbol])
 
   const isAddModalOpen = [
     MODAL_STATES.LOCK,
@@ -133,10 +133,10 @@ export const LiquidityGaugeCardAction = ({
             stakingTokenAddress={stakingTokenAddress}
             stakingTokenDecimals={stakingTokenDecimals}
             stakingTokenSymbol={stakingTokenSymbol}
-            stakingTokenBalance={stakingTokenBalance}
             inputValue={inputValue}
             setInputValue={setInputValue}
             poolKey={poolKey}
+            updateStakedAndReward={updateStakedAndReward}
           />
         )
       }
@@ -151,7 +151,6 @@ export const LiquidityGaugeCardAction = ({
             imgSrc={stakingTokenIcon}
             stakingTokenSymbol={stakingTokenSymbol}
             stakingTokenDecimals={stakingTokenDecimals}
-            stakingTokenBalance={stakingTokenBalance}
             handleSwitch={handleSwitch}
             stakingTokenAddress={stakingTokenAddress}
             inputValue={inputValue}
@@ -160,6 +159,8 @@ export const LiquidityGaugeCardAction = ({
             rewardTokenDecimals={rewardTokenDecimals}
             poolKey={poolKey}
             rewardAmount={rewardAmount}
+            updateStakedAndReward={updateStakedAndReward}
+            poolStaked={poolStaked}
           />
         )
       }
