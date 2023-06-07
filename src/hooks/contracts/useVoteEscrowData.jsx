@@ -431,6 +431,7 @@ export const useVoteEscrowData = () => {
   }, [account, contractRead, library, networkId])
 
   useEffect(() => {
+    // Get data on load
     getData()
   }, [getData])
 

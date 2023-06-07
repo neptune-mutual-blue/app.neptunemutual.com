@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { GaugeChartSemiCircle } from '@/common/GaugeChart/GaugeChartSemiCircle'
 import { Routes } from '@/src/config/routes'
+import { toBN } from '@/utils/bn'
 import {
   getBoostText,
   getBoostTextClass
@@ -12,7 +13,9 @@ import { Trans } from '@lingui/macro'
 const BOOST_MIN = 1
 const BOOST_MAX = 4
 
-export const IncreaseYourBoost = ({ boostFraction }) => {
+export const IncreaseYourBoost = ({ boost }) => {
+  const boostFraction = toBN(boost).decimalPlaces(4).toNumber()
+
   return (
     <div className='flex-auto max-w-[442px]'>
       <div className='flex flex-col items-center'>
@@ -31,7 +34,7 @@ export const IncreaseYourBoost = ({ boostFraction }) => {
               getBoostTextClass(boostFraction)
             )}
           >
-            {getBoostText(boostFraction)} Boost
+            {getBoostText(boostFraction)}
           </div>
         </div>
 

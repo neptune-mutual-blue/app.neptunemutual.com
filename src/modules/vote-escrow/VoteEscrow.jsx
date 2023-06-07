@@ -25,6 +25,7 @@ import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import {
   CONTRACT_DEPLOYMENTS,
   MULTIPLIER,
+  PREMATURE_UNLOCK_PENALTY_FRACTION,
   WEEKS
 } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -44,12 +45,12 @@ import {
 } from '@/utils/calculate-boost'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
 import { getSpaceLink } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
 
-export const VOTE_ESCROW_MIN_WEEKS = 1
-export const VOTE_ESCROW_MAX_WEEKS = 208
+const VOTE_ESCROW_MIN_WEEKS = 1
+const VOTE_ESCROW_MAX_WEEKS = 208
 
 const VoteEscrow = () => {
   const [input, setInput] = useState('')
@@ -60,7 +61,6 @@ const VoteEscrow = () => {
   // null when slider is untouched
   const [sliderValue, setSliderValue] = useState(null)
 
-  const { active } = useWeb3React()
   const { networkId } = useNetwork()
 
   const router = useRouter()
@@ -97,16 +97,15 @@ const VoteEscrow = () => {
     : oldLockDurationBN.decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
       .toNumber()
 
-  const boostBN = toBN(calculateBoost(lockDuration)).dividedBy(MULTIPLIER)
-  const boost = boostBN.toString()
+  const boost = toBN(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
 
   const oldLockedNpm = data.lockedNPMBalance
   const newLockedNpm = toBN(oldLockedNpm)
-    .plus(convertToUnits(input || '0', NPMTokenDecimals))
+    .plus(convertToUnits(input || '0', NPMTokenDecimals)).toString()
 
   const formattedLockedNpm = formatCurrency(convertFromUnits(newLockedNpm, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
-  const votingPower = boostBN.multipliedBy(newLockedNpm)
+  const votingPower = toBN(boost).multipliedBy(newLockedNpm)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedNpmBalance = formatCurrency(convertFromUnits(data.npmBalance, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
@@ -262,7 +261,7 @@ const VoteEscrow = () => {
                 {parseFloat(boost).toFixed(2)}
               </div>
               <div className={classNames('text-sm font-semibold text-center', getBoostTextClass(boost))}>
-                {getBoostText(boost)} Boost
+                {getBoostText(parseFloat(boost))}
               </div>
             </div>
 
@@ -298,22 +297,33 @@ const VoteEscrow = () => {
                 }} className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='agree-terms-escrow'
               />
               <label htmlFor='agree-terms-escrow' className='-mt-0.5 text-sm'>
-                I hereby acknowledge my obligation to pay a penalty fee of 25% in the event that I prematurely unlock, as per the applicable <a href='https://neptunemutual.com/policies/standard-terms-and-conditions/' target='_blank' className='text-1170FF' rel='noreferrer'>terms and conditions</a>.
+                I hereby acknowledge my obligation to pay a penalty fee of {formatPercent(PREMATURE_UNLOCK_PENALTY_FRACTION)} in the event that I prematurely unlock, as per the applicable <a href='https://neptunemutual.com/policies/standard-terms-and-conditions/' target='_blank' className='text-1170FF' rel='noreferrer'>terms and conditions</a>.
               </label>
             </div>
 
-            <RegularButton
-              disabled={!(active && agreed && !actionLoading && ((!extend && input) || extend))} onClick={() => {
-                if (allowanceExists) {
+            {allowanceExists && (
+              <RegularButton
+                disabled={!(agreed && !actionLoading && ((!extend && input) || extend))}
+                onClick={() => {
                   lock(input || '0', sliderValue, onLockSuccess)
-                } else {
-                  handleApprove(input || '0')
-                }
-              }} className='w-full p-4 font-semibold normal-case rounded-tooltip text-md'
-            >
-              {active ? extend ? 'EXTEND MY DURATION' : allowanceExists ? 'GET veNPM TOKENS' : 'Approve' : 'Connect Wallet'}
-            </RegularButton>
+                }}
+                className='w-full p-4 font-semibold normal-case rounded-tooltip text-md'
+              >
+                {extend ? 'EXTEND MY DURATION' : 'GET veNPM TOKENS'}
+              </RegularButton>
+            )}
 
+            {!allowanceExists && (
+              <RegularButton
+                disabled={!(agreed && !actionLoading && ((!extend && input) || extend))}
+                onClick={() => {
+                  handleApprove(input || '0')
+                }}
+                className='w-full p-4 font-semibold uppercase rounded-tooltip text-md'
+              >
+                Approve
+              </RegularButton>
+            )}
             <KeyValueList
               className='p-0 pt-6 mt-6 rounded-none border-t-1 border-B0C4DB'
               list={[

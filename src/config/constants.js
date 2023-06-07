@@ -160,3 +160,5 @@ export const SNAPSHOT_SPACE_ID = 'neptunemutual.eth'
 
 export const DAYS = 24 * 60 * 60
 export const WEEKS = 7 * DAYS
+
+export const PREMATURE_UNLOCK_PENALTY_FRACTION = 0.25

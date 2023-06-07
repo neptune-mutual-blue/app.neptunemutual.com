@@ -153,7 +153,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
         <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
           <div className='font-bold text-md md:text-display-sm'><Trans>Liquidity Gauge</Trans></div>
           <div className='text-sm font-medium md:text-md'>
-            <Trans>Emission Per Epoch:</Trans>{' '}
+            <Trans>Epoch Emission:</Trans>{' '}
             {formattedEmission.long}
           </div>
         </div>

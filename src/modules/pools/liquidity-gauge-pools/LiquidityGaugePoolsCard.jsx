@@ -12,13 +12,15 @@ import {
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeCardHeading'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
+import {
+  useLiquidityGaugePoolStakedAndReward
+} from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
 import { toBN } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { config } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLiquidityGaugePoolStakedAndReward } from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 
 const DescriptionOrDetail = ({
   lock,

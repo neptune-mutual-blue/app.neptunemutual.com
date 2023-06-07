@@ -3,7 +3,10 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 import DateLib from '@/lib/date/DateLib'
-import { FALLBACK_VENPM_TOKEN_SYMBOL } from '@/src/config/constants'
+import {
+  FALLBACK_VENPM_TOKEN_SYMBOL,
+  PREMATURE_UNLOCK_PENALTY_FRACTION
+} from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import {
   convertFromUnits,
@@ -11,6 +14,7 @@ import {
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
 import { fromNow } from '@/utils/formatter/relative-time'
 
 const TOTAL_LOCKED = 250000
@@ -50,7 +54,7 @@ const EscrowSummary = ({ veNPMBalance, unlockTimestamp, className = '' }) => {
           <span>Your Unlock Timestamp:</span> <span className='font-semibold' title={formattedUnlockDate}>{unlockTimestamp !== '0' ? fromNow(unlockTimestamp) : 'N/A'}</span>
         </div>
         <div className='flex justify-between text-sm'>
-          <span>Premature Unlock Penalty:</span> <span className='font-semibold'>25%</span>
+          <span>Premature Unlock Penalty:</span> <span className='font-semibold'>{formatPercent(PREMATURE_UNLOCK_PENALTY_FRACTION)}</span>
         </div>
       </div>
     </div>
