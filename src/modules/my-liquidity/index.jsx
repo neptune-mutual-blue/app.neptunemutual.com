@@ -6,7 +6,6 @@ import {
 } from '@/common/Cover/MyLiquidity/MyLiquidityCoverCard'
 import { Grid } from '@/common/Grid/Grid'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import {
@@ -37,7 +36,7 @@ function MyLiquidities ({ data, loading }) {
     return (
       <Grid className='mb-24 mt-14' data-testid='loading-grid'>
         <CardSkeleton
-          numberOfCards={CARDS_PER_PAGE}
+          numberOfCards={15}
           statusBadge={false}
           subTitle={false}
         />

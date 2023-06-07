@@ -229,7 +229,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             labelText={t`Enter your ${NPMTokenSymbol} stake`}
             onChange={handleNPMChange}
             handleChooseMax={handleMaxNPM}
-            error={npmErrorMsg}
+            error={Boolean(npmErrorMsg)}
             tokenAddress={NPMTokenAddress}
             tokenSymbol={NPMTokenSymbol}
             tokenBalance={npmBalance || '0'}
@@ -317,12 +317,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
         {!hasBothAllowances && (
           <div className='flex flex-col items-center sm:flex-row gap-x-10'>
             <RegularButton
-              disabled={
+              disabled={Boolean(
                 hasLqTokenAllowance ||
                 lqApproving ||
                 lqErrorMsg ||
                 loadingMessage
-              }
+              )}
               className='w-full p-6 mb-4 font-semibold uppercase sm:mb-0'
               onClick={() => {
                 handleLqTokenApprove()
@@ -341,12 +341,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
             {!isStakeDisabled && (
               <RegularButton
-                disabled={
-                hasNPMTokenAllowance ||
-                npmApproving ||
-                npmErrorMsg ||
-                loadingMessage
-              }
+                disabled={Boolean(
+                  hasNPMTokenAllowance ||
+                  npmApproving ||
+                  npmErrorMsg ||
+                  loadingMessage
+                )}
                 className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleNPMTokenApprove()
@@ -368,7 +368,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
         {hasBothAllowances && (
           <RegularButton
-            disabled={
+            disabled={Boolean(
               isError ||
               providing ||
               !lqValue ||
@@ -376,7 +376,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
               npmErrorMsg ||
               lqErrorMsg ||
               loadingMessage
-            }
+            )}
             className='w-full p-6 font-semibold uppercase'
             onClick={() => {
               handleProvide(() => {

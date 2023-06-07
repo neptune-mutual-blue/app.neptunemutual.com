@@ -16,7 +16,7 @@ export const TokenAmountInput = ({
   tokenDecimals = 18,
   error = false,
   disabled,
-  children,
+  children = <></>,
   buttonClassName = '',
   ...rest
 }) => {
