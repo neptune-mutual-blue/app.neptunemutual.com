@@ -20,7 +20,6 @@ export const ReceiveAndUnlockModal = ({
   imgSrc,
   stakingTokenSymbol,
   stakingTokenDecimals,
-  stakingTokenBalance,
   handleSwitch,
   stakingTokenAddress,
   inputValue,
@@ -28,7 +27,9 @@ export const ReceiveAndUnlockModal = ({
   rewardTokenSymbol,
   rewardTokenDecimals,
   poolKey,
-  rewardAmount
+  rewardAmount,
+  updateStakedAndReward,
+  poolStaked
 }) => {
   const { locale } = useRouter()
 
@@ -39,7 +40,7 @@ export const ReceiveAndUnlockModal = ({
   }
 
   const handleChooseMax = () => {
-    setInputValue(convertFromUnits(stakingTokenBalance, stakingTokenDecimals).toString())
+    setInputValue(convertFromUnits(poolStaked, stakingTokenDecimals).toString())
   }
 
   const {
@@ -48,38 +49,36 @@ export const ReceiveAndUnlockModal = ({
     handleApprove,
     handleWithdraw,
     approving,
-    withdrawing
+    withdrawing,
+    loadingAllowance
   } = useLiquidityGaugePoolWithdraw({
     stakingTokenAddress: stakingTokenAddress,
     amount: inputValue,
     poolKey
   })
 
-  const { handleWithdrawRewards, withdrawingRewards } = useLiquidityGaugePoolWithdrawRewards({
-    stakingTokenAddress: stakingTokenAddress,
-    amount: inputValue,
-    poolKey
-  })
+  const { handleWithdrawRewards, withdrawingRewards } = useLiquidityGaugePoolWithdrawRewards({ poolKey })
 
   const btnClass = 'w-full p-3 mt-6 font-semibold uppercase sm:min-w-auto sm:w-full'
   const closeModal = (approving || withdrawing || withdrawingRewards) ? () => {} : onClose
 
-  const formattedBalance = formatCurrency(
-    convertFromUnits(stakingTokenBalance, stakingTokenDecimals),
+  const emissionReceived = formatCurrency(
+    convertFromUnits(rewardAmount, rewardTokenDecimals),
+    locale,
+    rewardTokenSymbol,
+    true
+  )
+
+  const formattedStakedBalance = formatCurrency(
+    convertFromUnits(poolStaked, stakingTokenDecimals),
     locale,
     stakingTokenSymbol,
     true
   )
 
-  const emissionReceived = formatCurrency(
-    convertFromUnits(rewardAmount, rewardTokenDecimals),
-    locale,
-    rewardTokenSymbol
-  )
-
   return (
     <ModalRegular
-      isOpen={isOpen}
+      isOpen={isOpen && !toBN(poolStaked).isZero()}
       onClose={closeModal}
       className='h-auto max-w-520'
       overlayProps={{ onClick: closeModal }}
@@ -118,7 +117,7 @@ export const ReceiveAndUnlockModal = ({
           {(modalState === MODAL_STATES.UNLOCK) && (
             <TokenAmountInput
               labelText='Enter Amount to Unlock'
-              tokenBalance={stakingTokenBalance}
+              tokenBalance=''
               tokenSymbol={stakingTokenSymbol}
               tokenAddress={stakingTokenAddress}
               handleChooseMax={handleChooseMax}
@@ -128,34 +127,28 @@ export const ReceiveAndUnlockModal = ({
               inputId='modal-input'
               disabled={approving || withdrawing || withdrawingRewards}
             >
-              {/* {errorMsg && (
-                <p className='flex items-center text-FA5C2F'>{errorMsg}</p>
-              )} */}
+              <span title={formattedStakedBalance.long}>
+                Locked Balance: {formattedStakedBalance.short}
+              </span>
             </TokenAmountInput>
           )}
 
           <div className='flex flex-col gap-4 p-4 mt-6 bg-F3F5F7 rounded-big'>
             {(modalState === MODAL_STATES.RECEIVE) && (
-              <>
-                <div className='flex flex-row items-center justify-between text-sm'>
-                  <span>Your Balance</span>
-                  <span className='font-semibold'>
-                    {formattedBalance.long}
-                  </span>
-                </div>
-                <div className='flex flex-row items-center justify-between text-sm'>
-                  <span>Emission Received</span>
-                  <span className='font-semibold'>{emissionReceived.long}</span>
-                </div>
-              </>
-            )}
-
-            {(modalState === MODAL_STATES.UNLOCK) && (
               <div className='flex flex-row items-center justify-between text-sm'>
-                <span>Emission Received</span>
-                <span className='font-semibold'>{emissionReceived.long}</span>
+                <span>Your Locked Balance</span>
+                <span className='font-semibold' title={formattedStakedBalance.long}>
+                  {formattedStakedBalance.short}
+                </span>
               </div>
             )}
+
+            <div className='flex flex-row items-center justify-between text-sm'>
+              <span>Emission Received</span>
+              <span className='font-semibold' title={emissionReceived.long}>
+                {emissionReceived.short}
+              </span>
+            </div>
           </div>
 
           {
@@ -164,8 +157,11 @@ export const ReceiveAndUnlockModal = ({
                 ? (
                   <RegularButton
                     className={btnClass}
-                    onClick={handleWithdraw}
-                    disabled={withdrawing}
+                    onClick={() => handleWithdraw(() => {
+                      updateStakedAndReward()
+                      setInputValue('')
+                    })}
+                    disabled={withdrawing || loadingAllowance}
                   >
                     <Trans>{withdrawing ? 'Unlocking...' : 'Unlock'}</Trans>
                   </RegularButton>
@@ -173,7 +169,7 @@ export const ReceiveAndUnlockModal = ({
                 : (
                   <RegularButton
                     className={btnClass}
-                    disabled={!canApprove || approving}
+                    disabled={!canApprove || approving || loadingAllowance}
                     onClick={handleApprove}
                   >
                     <Trans>{approving ? 'Approving...' : 'Approve'}</Trans>
@@ -187,7 +183,10 @@ export const ReceiveAndUnlockModal = ({
               <RegularButton
                 className={btnClass}
                 disabled={!toBN(rewardAmount).isGreaterThan(0) || withdrawingRewards}
-                onClick={handleWithdrawRewards}
+                onClick={() => handleWithdrawRewards(() => {
+                  updateStakedAndReward()
+                  setInputValue('')
+                })}
               >
                 <Trans>{withdrawingRewards ? 'Receiving...' : 'Receive'}</Trans>
               </RegularButton>

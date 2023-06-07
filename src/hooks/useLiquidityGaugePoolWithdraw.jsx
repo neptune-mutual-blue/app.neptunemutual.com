@@ -10,7 +10,6 @@ import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
@@ -27,6 +26,7 @@ import {
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLiquidityGaugePoolStakedAndReward } from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 
 export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poolKey }) => {
   const { notifyError } = useErrorNotifier()
@@ -44,11 +44,11 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
   const {
     allowance,
     approve,
-    refetch: updateAllowance
-    // loading: loadingAllowance
+    refetch: updateAllowance,
+    loading: loadingAllowance
   } = useERC20Allowance(stakingTokenAddress)
 
-  const { balance, refetch: updateBalance } = useERC20Balance(stakingTokenAddress)
+  const { poolStaked, update } = useLiquidityGaugePoolStakedAndReward({ poolKey })
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
@@ -135,7 +135,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
     })
   }
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (onSuccessCallback) => {
     if (!account || !networkId) {
       return
     }
@@ -143,7 +143,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
     setWithdrawing(true)
 
     const cleanup = () => {
-      updateBalance()
+      update()
       updateAllowance(liquidityGaugePoolAddress)
       setWithdrawing(false)
     }
@@ -188,6 +188,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
                   methodName: METHODS.GAUGE_POOL_WITHDRAW,
                   status: STATUS.SUCCESS
                 })
+                onSuccessCallback()
               },
               onTxFailure: () => {
                 TransactionHistory.push({
@@ -230,7 +231,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
   }
 
   const canApprove = !toBN(amount).isZero() &&
-    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(balance)
+    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(poolStaked)
   const canWithdraw = !toBN(amount).isZero() &&
     convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(allowance)
 
@@ -240,6 +241,8 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
 
     approving,
     withdrawing,
+
+    loadingAllowance,
 
     canApprove,
     canWithdraw

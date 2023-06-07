@@ -12,7 +12,6 @@ import {
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeCardHeading'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
 import { toBN } from '@/utils/bn'
@@ -28,7 +27,8 @@ const DescriptionOrDetail = ({
   lockupPeriod,
   // tvl,
   rewardTokenSymbol,
-  stakingTokenBalance,
+  rewardTokenDecimals,
+  stakedBalance,
   stakingTokenSymbol,
   stakingTokenDecimals,
   mobile = false
@@ -41,7 +41,8 @@ const DescriptionOrDetail = ({
         ? <p className='max-w-xl mt-6 font-normal text-999BAB md:mt-0'>{description}</p>
         : <LiquidityGaugeBalanceDetails
             rewardTokenSymbol={rewardTokenSymbol}
-            stakingTokenBalance={stakingTokenBalance}
+            rewardTokenDecimals={rewardTokenDecimals}
+            stakedBalance={stakedBalance}
             stakingTokenSymbol={stakingTokenSymbol}
             stakingTokenDecimals={stakingTokenDecimals}
             emissionReceived={emissionReceived}
@@ -54,7 +55,7 @@ const DescriptionOrDetail = ({
 export const LiquidityGaugePoolsList = ({ data = [] }) => {
   return (
     <div role='list' className='divide-y divide-B0C4DB border-[1px] border-B0C4DB rounded-2xl'>
-      {data.slice(-2).map((pool) => (
+      {data.map((pool) => (
         <LiquidityGaugePoolCard
           key={pool.key}
           pool={pool}
@@ -73,14 +74,14 @@ const LiquidityGaugePoolCard = ({ pool }) => {
   const rewardTokenDecimals = NPMTokenDecimals
 
   const stakingTokenAddress = pool.token
-  const { balance: stakingTokenBalance } = useERC20Balance(stakingTokenAddress)
+  // const { balance: stakingTokenBalance } = useERC20Balance(stakingTokenAddress)
   const stakingTokenSymbol = useTokenSymbol(stakingTokenAddress)
   const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
 
   const approxBlockTime = config.networks.getChainConfig(networkId).approximateBlockTime
   const lockupPeriod = toBN(pool.lockupPeriodInBlocks).multipliedBy(approxBlockTime)
 
-  const { poolStaked, rewardAmount } = useLiquidityGaugePoolStakedAndReward({ poolKey })
+  const { poolStaked, rewardAmount, update: updateStakedAndReward } = useLiquidityGaugePoolStakedAndReward({ poolKey })
 
   return (
     <div className='p-8 bg-white first:rounded-t-2xl last:rounded-b-2xl' key={pool.id}>
@@ -99,7 +100,8 @@ const LiquidityGaugePoolCard = ({ pool }) => {
                   lock={pool.lock}
                   description={pool.description}
                   rewardTokenSymbol={rewardTokenSymbol}
-                  stakingTokenBalance={stakingTokenBalance}
+                  rewardTokenDecimals={rewardTokenDecimals}
+                  stakedBalance={poolStaked}
                   stakingTokenSymbol={stakingTokenSymbol}
                   stakingTokenDecimals={stakingTokenDecimals}
                   // tvl={pool.tvl}
@@ -123,7 +125,8 @@ const LiquidityGaugePoolCard = ({ pool }) => {
               lock={pool.lock}
               description={pool.description}
               rewardTokenSymbol={rewardTokenSymbol}
-              stakingTokenBalance={stakingTokenBalance}
+              rewardTokenDecimals={rewardTokenDecimals}
+              stakedBalance={poolStaked}
               stakingTokenSymbol={stakingTokenSymbol}
               stakingTokenDecimals={stakingTokenDecimals}
               // tvl={pool.tvl}
@@ -141,12 +144,12 @@ const LiquidityGaugePoolCard = ({ pool }) => {
           stakingTokenIcon='/images/tokens/npm.svg'
           stakingTokenSymbol={stakingTokenSymbol}
           stakingTokenDecimals={stakingTokenDecimals}
-          stakingTokenBalance={stakingTokenBalance}
           stakingTokenAddress={stakingTokenAddress}
           rewardTokenSymbol={rewardTokenSymbol}
           rewardTokenDecimals={rewardTokenDecimals}
           poolStaked={poolStaked}
           rewardAmount={rewardAmount}
+          updateStakedAndReward={updateStakedAndReward}
         />
       </div>
     </div>

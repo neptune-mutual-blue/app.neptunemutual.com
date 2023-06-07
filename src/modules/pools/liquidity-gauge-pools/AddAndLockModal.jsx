@@ -6,6 +6,7 @@ import {
   MODAL_STATES
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeCardAction'
 import { ModalTitle } from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useLiquidityGaugePoolDeposit } from '@/src/hooks/useLiquidityGaugePoolDeposit'
 import { convertFromUnits } from '@/utils/bn'
 
@@ -25,16 +26,18 @@ export const AddAndLockModal = ({
   stakingTokenAddress,
   stakingTokenDecimals,
   stakingTokenSymbol,
-  stakingTokenBalance,
   inputValue,
   setInputValue,
-  poolKey
+  poolKey,
+  updateStakedAndReward
 }) => {
   const handleChange = (val) => {
     if (typeof val === 'string') {
       setInputValue(val)
     }
   }
+
+  const { balance: stakingTokenBalance } = useERC20Balance(stakingTokenAddress)
 
   const handleChooseMax = () => {
     setInputValue(convertFromUnits(stakingTokenBalance, stakingTokenDecimals).toString())
@@ -46,7 +49,8 @@ export const AddAndLockModal = ({
     handleApprove,
     handleDeposit,
     approving,
-    depositing
+    depositing,
+    loadingAllowance
   } = useLiquidityGaugePoolDeposit({
     stakingTokenAddress: stakingTokenAddress,
     amount: inputValue,
@@ -102,8 +106,11 @@ export const AddAndLockModal = ({
               ? (
                 <RegularButton
                   className={btnClass}
-                  onClick={handleDeposit}
-                  disabled={depositing}
+                  onClick={() => handleDeposit(() => {
+                    updateStakedAndReward()
+                    setInputValue('')
+                  })}
+                  disabled={depositing || loadingAllowance}
                 >
                   <Trans>{depositing ? 'Locking...' : 'Lock'}</Trans>
                 </RegularButton>
@@ -111,7 +118,7 @@ export const AddAndLockModal = ({
               : (
                 <RegularButton
                   className={btnClass}
-                  disabled={!canApprove || approving}
+                  disabled={!canApprove || approving || loadingAllowance}
                   onClick={handleApprove}
                 >
                   <Trans>{approving ? 'Approving...' : 'Approve'}</Trans>
