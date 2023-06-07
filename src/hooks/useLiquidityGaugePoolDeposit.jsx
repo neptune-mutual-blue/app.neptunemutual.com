@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -238,6 +239,12 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
   const canDeposit = !toBN(amount).isZero() &&
     convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(allowance)
 
+  const error = useMemo(() => {
+    if (toBN(amount).isZero()) return ''
+
+    if (convertToUnits(amount, stakingTokenDecimals).isGreaterThan(balance)) return 'Amount exceeds balance'
+  }, [amount, balance, stakingTokenDecimals])
+
   return {
     handleApprove,
     handleDeposit,
@@ -248,6 +255,8 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
     loadingAllowance,
 
     canApprove,
-    canDeposit
+    canDeposit,
+
+    error
   }
 }

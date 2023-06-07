@@ -11,8 +11,9 @@ export const useErrorNotifier = ({ duration } = defaultArgs) => {
 
   const notifyError = useCallback(
     (error, message = 'Something went wrong') => {
-      const title =
-        typeof error.data === 'string' ? error.data : message
+      const title = typeof error.data === 'string'
+        ? error.data
+        : error?.data?.error?.message || message
 
       console.error(error)
 

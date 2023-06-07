@@ -11,14 +11,6 @@ import { explainInterval } from '@/utils/formatter/interval'
 import { AddAndLockModal } from '@/modules/pools/liquidity-gauge-pools/AddAndLockModal'
 import { ReceiveAndUnlockModal } from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
 
-export const MODAL_STATES = {
-  LOCK: 'lock',
-  ADD: 'add',
-  RECEIVE: 'receive',
-  UNLOCK: 'unlock',
-  CLOSED: ''
-}
-
 export const LiquidityGaugeCardAction = ({
   lockupPeriod,
   stakingTokenIcon,
@@ -32,47 +24,34 @@ export const LiquidityGaugeCardAction = ({
   rewardAmount,
   updateStakedAndReward
 }) => {
-  const [modalState, setModalState] = useState(MODAL_STATES.CLOSED)
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false)
 
   const [inputValue, setInputValue] = useState('')
 
   useEffect(() => {
     setInputValue('')
-  }, [modalState])
+  }, [isAddModalOpen, isUnlockModalOpen])
 
   const handleReceiveModal = () => {
-    setModalState(MODAL_STATES.RECEIVE)
+    setIsUnlockModalOpen(true)
   }
 
   const handleAddModal = () => {
-    setModalState(MODAL_STATES.ADD)
+    setIsAddModalOpen(true)
   }
 
   const handleCloseModal = () => {
-    setModalState(MODAL_STATES.CLOSED)
+    setIsAddModalOpen(false)
+    setIsUnlockModalOpen(false)
   }
 
-  const handleSwitch = (value) => {
-    setModalState(value)
-  }
-
-  const modalTitle = useMemo(() => {
-    if (modalState === MODAL_STATES.LOCK) return `Lock ${stakingTokenSymbol}`
-    if (modalState === MODAL_STATES.ADD) return `Add ${stakingTokenSymbol}`
-    if (modalState === MODAL_STATES.RECEIVE) return `Receive ${rewardTokenSymbol}`
-    if (modalState === MODAL_STATES.UNLOCK) return `Unlock ${stakingTokenSymbol}`
+  const addModalTitle = useMemo(() => {
+    const isPoolStaked = toBN(poolStaked).isGreaterThan(0)
+    if (isAddModalOpen && isPoolStaked) return `Add ${stakingTokenSymbol}`
+    if (isAddModalOpen && !isPoolStaked) return `Lock ${stakingTokenSymbol}`
     return ''
-  }, [modalState, stakingTokenSymbol, rewardTokenSymbol])
-
-  const isAddModalOpen = [
-    MODAL_STATES.LOCK,
-    MODAL_STATES.ADD
-  ].includes(modalState)
-
-  const isUnlockModalOpen = [
-    MODAL_STATES.RECEIVE,
-    MODAL_STATES.UNLOCK
-  ].includes(modalState)
+  }, [stakingTokenSymbol, isAddModalOpen, poolStaked])
 
   return (
     <>
@@ -96,7 +75,7 @@ export const LiquidityGaugeCardAction = ({
           {toBN(poolStaked).isZero()
             ? (
               <button
-                onClick={() => setModalState(MODAL_STATES.LOCK)}
+                onClick={() => setIsAddModalOpen(true)}
                 className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90 w-full md:max-w-[216px] flex-auto'
               >
                 Lock
@@ -125,9 +104,8 @@ export const LiquidityGaugeCardAction = ({
         isAddModalOpen && (
           <AddAndLockModal
             isOpen={isAddModalOpen}
-            modalState={modalState}
             onClose={handleCloseModal}
-            modalTitle={modalTitle}
+            modalTitle={addModalTitle}
             imgSrc={stakingTokenIcon}
             lockupPeriod={lockupPeriod}
             stakingTokenAddress={stakingTokenAddress}
@@ -137,6 +115,7 @@ export const LiquidityGaugeCardAction = ({
             setInputValue={setInputValue}
             poolKey={poolKey}
             updateStakedAndReward={updateStakedAndReward}
+            poolStaked={poolStaked}
           />
         )
       }
@@ -145,13 +124,10 @@ export const LiquidityGaugeCardAction = ({
         isUnlockModalOpen && (
           <ReceiveAndUnlockModal
             isOpen={isUnlockModalOpen}
-            modalState={modalState}
             onClose={handleCloseModal}
-            modalTitle={modalTitle}
             imgSrc={stakingTokenIcon}
             stakingTokenSymbol={stakingTokenSymbol}
             stakingTokenDecimals={stakingTokenDecimals}
-            handleSwitch={handleSwitch}
             stakingTokenAddress={stakingTokenAddress}
             inputValue={inputValue}
             setInputValue={setInputValue}
