@@ -12,6 +12,7 @@ import { contractRead } from '@/src/services/readContract'
 
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 
 export const useLiquidityGaugePoolStakedAndReward = ({ poolKey }) => {
   const { networkId } = useNetwork()
@@ -21,6 +22,8 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolKey }) => {
 
   const [poolStaked, setPoolStaked] = useState('0')
   const [rewardAmount, setRewardAmount] = useState('0')
+
+  const { notifyError } = useErrorNotifier()
 
   const fetchStakedAndReward = useCallback(async () => {
     if (!networkId || !account || !poolKey) return
@@ -34,21 +37,24 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolKey }) => {
         contractRead({
           instance,
           methodName: '_poolStakedByMe',
-          args
+          args,
+          onError: notifyError
         }),
         contractRead({
           instance,
           methodName: 'calculateReward',
-          args
+          args,
+          onError: notifyError
         })
       ]
       const [staked, reward] = await Promise.all(calls)
-      setPoolStaked(staked.toString())
-      setRewardAmount(reward.toString())
+
+      if (staked) setPoolStaked(staked.toString())
+      if (reward) setRewardAmount(reward.toString())
     } catch (error) {
-      console.error('Error in getting staked pool amount & reward', error)
+      console.error(error)
     }
-  }, [account, library, liquidityGaugePoolAddress, networkId, poolKey])
+  }, [account, library, liquidityGaugePoolAddress, networkId, poolKey, notifyError])
 
   useEffect(() => {
     fetchStakedAndReward()

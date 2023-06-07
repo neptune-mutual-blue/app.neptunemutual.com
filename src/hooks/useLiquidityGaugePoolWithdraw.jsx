@@ -1,5 +1,5 @@
 import {
-  useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -9,7 +9,6 @@ import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
@@ -34,106 +33,16 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
 
-  const [approving, setApproving] = useState(false)
   const [withdrawing, setWithdrawing] = useState(false)
 
   const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
   const stakingTokenSymbol = useTokenSymbol(stakingTokenAddress)
   const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
 
-  const {
-    allowance,
-    approve,
-    refetch: updateAllowance,
-    loading: loadingAllowance
-  } = useERC20Allowance(stakingTokenAddress)
-
   const { poolStaked, update } = useLiquidityGaugePoolStakedAndReward({ poolKey })
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
-
-  useEffect(() => {
-    updateAllowance(liquidityGaugePoolAddress)
-  }, [updateAllowance, liquidityGaugePoolAddress])
-
-  const handleApprove = () => {
-    setApproving(true)
-
-    const cleanup = () => {
-      setApproving(false)
-    }
-    const handleError = (err) => {
-      notifyError(err, t`Could not approve ${stakingTokenSymbol}`)
-    }
-
-    const onTransactionResult = async (tx) => {
-      TransactionHistory.push({
-        hash: tx.hash,
-        methodName: METHODS.GAUGE_POOL_TOKEN_APPROVE,
-        status: STATUS.PENDING,
-        data: {
-          value: amount,
-          stakingTokenSymbol
-        }
-      })
-
-      try {
-        await txToast.push(
-          tx,
-          {
-            pending: getActionMessage(
-              METHODS.GAUGE_POOL_TOKEN_APPROVE,
-              STATUS.PENDING
-            ).title,
-            success: getActionMessage(
-              METHODS.GAUGE_POOL_TOKEN_APPROVE,
-              STATUS.SUCCESS
-            ).title,
-            failure: getActionMessage(
-              METHODS.GAUGE_POOL_TOKEN_APPROVE,
-              STATUS.FAILED
-            ).title
-          },
-          {
-            onTxSuccess: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.GAUGE_POOL_TOKEN_APPROVE,
-                status: STATUS.SUCCESS
-              })
-            },
-            onTxFailure: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.GAUGE_POOL_TOKEN_APPROVE,
-                status: STATUS.FAILED
-              })
-            }
-          }
-        )
-        cleanup()
-      } catch (err) {
-        handleError(err)
-        cleanup()
-      }
-    }
-
-    const onRetryCancel = () => {
-      cleanup()
-    }
-
-    const onError = (err) => {
-      handleError(err)
-      cleanup()
-    }
-
-    approve(liquidityGaugePoolAddress, convertToUnits(amount, stakingTokenDecimals).toString(), {
-      onTransactionResult,
-      onRetryCancel,
-      onError
-    })
-  }
 
   const handleWithdraw = async (onSuccessCallback) => {
     if (!account || !networkId) {
@@ -144,7 +53,6 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
 
     const cleanup = () => {
       update()
-      updateAllowance(liquidityGaugePoolAddress)
       setWithdrawing(false)
     }
 
@@ -230,21 +138,22 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
     }
   }
 
-  const canApprove = !toBN(amount).isZero() &&
-    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(poolStaked)
   const canWithdraw = !toBN(amount).isZero() &&
-    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(allowance)
+    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(poolStaked)
+
+  const error = useMemo(() => {
+    if (toBN(amount).isZero()) return ''
+
+    if (convertToUnits(amount, stakingTokenDecimals).isGreaterThan(poolStaked)) return 'Amount exceeds locked balance'
+  }, [amount, poolStaked, stakingTokenDecimals])
 
   return {
-    handleApprove,
     handleWithdraw,
 
-    approving,
     withdrawing,
 
-    loadingAllowance,
+    canWithdraw,
 
-    canApprove,
-    canWithdraw
+    error
   }
 }

@@ -19,8 +19,9 @@ import {
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { convertFromUnits } from '@/utils/bn'
 
-export const useLiquidityGaugePoolWithdrawRewards = ({ poolKey }) => {
+export const useLiquidityGaugePoolWithdrawRewards = ({ poolKey, rewardAmount, rewardTokenSymbol, rewardTokenDecimals }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
@@ -56,8 +57,11 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ poolKey }) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.GAUGE_POOL_WITHDRAW_REWARDS,
-          status: STATUS.PENDING
-          // data: { value: amount, tokenSymbol: stakingTokenSymbol }
+          status: STATUS.PENDING,
+          data: {
+            value: convertFromUnits(rewardAmount, rewardTokenDecimals).toFixed(4),
+            tokenSymbol: rewardTokenSymbol
+          }
         })
 
         await txToast
