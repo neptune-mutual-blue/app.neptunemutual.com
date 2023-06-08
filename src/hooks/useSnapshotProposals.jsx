@@ -15,14 +15,16 @@ import {
   getTagFromTitle
 } from '@/utils/snapshot'
 
-const getProposalsQuery = (page, rowsPerPage) => {
+const getProposalsQuery = (page, rowsPerPage, titleFilter = '') => {
   const skip = (page - 1) * rowsPerPage
+
   return `
   proposals(
     first: ${rowsPerPage},
     skip: ${skip},
     where: {
       space_in: ["${SNAPSHOT_SPACE_ID}"],
+      title_contains: "${titleFilter}"
     },
     orderBy: "created",
     orderDirection: desc
@@ -83,7 +85,7 @@ export const useSnapshotProposals = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = 10, fetchCount = true }) => {
+  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = 10, titleFilter = '', fetchCount = true }) => {
     setLoading(true)
 
     const url = getSnapshotApiURL(networkId)
@@ -98,7 +100,7 @@ export const useSnapshotProposals = () => {
         body: JSON.stringify({
           query: `
             query ProposalsWithCount { 
-              ${getProposalsQuery(page, rowsPerPage)} 
+              ${getProposalsQuery(page, rowsPerPage, titleFilter)} 
               ${fetchCount ? getProposalsCountQuery() : ''} 
             }
           `

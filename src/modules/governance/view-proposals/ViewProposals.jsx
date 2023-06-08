@@ -34,9 +34,9 @@ export const ViewProposals = () => {
       .toNumber()
     : 0
 
-  const boost = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
+  const boostFraction = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).decimalPlaces(2).toString()
 
-  const votingPower = toBNSafe(boost).multipliedBy(data.lockedNPMBalance)
+  const votingPower = toBNSafe(boostFraction).multipliedBy(data.lockedNPMBalance)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), router.locale, FALLBACK_VENPM_TOKEN_SYMBOL, true)
 
