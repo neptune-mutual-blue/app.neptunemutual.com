@@ -8,9 +8,8 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
-import { contractRead } from '@/src/services/readContract'
 
-import { utils } from '@neptunemutual/sdk'
+import { multicall } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 
@@ -30,28 +29,26 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolKey }) => {
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      const instance = utils.contract.getContract(liquidityGaugePoolAddress, abis.LiquidityGaugePool, signerOrProvider)
+
+      const { Provider, Contract } = multicall
+
+      const multiCallProvider = new Provider(signerOrProvider.provider)
+
+      await multiCallProvider.init()
+
+      const instance = new Contract(liquidityGaugePoolAddress, abis.LiquidityGaugePool)
 
       const args = [poolKey, account]
       const calls = [
-        contractRead({
-          instance,
-          methodName: '_poolStakedByMe',
-          args,
-          onError: notifyError
-        }),
-        contractRead({
-          instance,
-          methodName: 'calculateReward',
-          args,
-          onError: notifyError
-        })
+        instance._poolStakedByMe(...args),
+        instance.calculateReward(...args)
       ]
-      const [staked, reward] = await Promise.all(calls)
+      const [staked, reward] = await multiCallProvider.all(calls)
 
       if (staked) setPoolStaked(staked.toString())
       if (reward) setRewardAmount(reward.toString())
     } catch (error) {
+      notifyError(error)
       console.error(error)
     }
   }, [account, library, liquidityGaugePoolAddress, networkId, poolKey, notifyError])
