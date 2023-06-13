@@ -4,14 +4,14 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import {
+  useLiquidityGaugePoolStakedAndReward
+} from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
 import {
@@ -25,9 +25,8 @@ import {
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLiquidityGaugePoolStakedAndReward } from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 
-export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poolKey }) => {
+export const useLiquidityGaugePoolWithdraw = ({ stakingTokenSymbol, stakingTokenDecimals, amount, poolAddress }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
@@ -35,11 +34,9 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
 
   const [withdrawing, setWithdrawing] = useState(false)
 
-  const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
-  const stakingTokenSymbol = useTokenSymbol(stakingTokenAddress)
-  const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
+  const liquidityGaugePoolAddress = poolAddress
 
-  const { poolStaked, update } = useLiquidityGaugePoolStakedAndReward({ poolKey })
+  const { poolStaked, update } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
@@ -123,7 +120,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
         cleanup()
       }
 
-      const args = [poolKey, convertToUnits(amount, stakingTokenDecimals).toString()]
+      const args = [convertToUnits(amount, stakingTokenDecimals).toString()]
       writeContract({
         instance,
         methodName: 'withdraw',

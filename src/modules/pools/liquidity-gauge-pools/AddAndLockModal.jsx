@@ -1,12 +1,17 @@
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
-import { ModalTitle } from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
+import {
+  ModalTitle
+} from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useLiquidityGaugePoolDeposit } from '@/src/hooks/useLiquidityGaugePoolDeposit'
-import { convertFromUnits, toBN } from '@/utils/bn'
-
+import {
+  useLiquidityGaugePoolDeposit
+} from '@/src/hooks/useLiquidityGaugePoolDeposit'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { explainInterval } from '@/utils/formatter/interval'
 import {
   t,
@@ -19,12 +24,12 @@ export const AddAndLockModal = ({
   onClose,
   imgSrc,
   lockupPeriod,
+  poolAddress,
   stakingTokenAddress,
   stakingTokenDecimals,
   stakingTokenSymbol,
   inputValue,
   setInputValue,
-  poolKey,
   updateStakedAndReward,
   poolStaked
 }) => {
@@ -50,9 +55,11 @@ export const AddAndLockModal = ({
     loadingAllowance,
     error
   } = useLiquidityGaugePoolDeposit({
-    stakingTokenAddress: stakingTokenAddress,
     amount: inputValue,
-    poolKey
+    stakingTokenAddress,
+    stakingTokenDecimals,
+    stakingTokenSymbol,
+    poolAddress
   })
 
   const isPoolStaked = toBN(poolStaked).isGreaterThan(0)

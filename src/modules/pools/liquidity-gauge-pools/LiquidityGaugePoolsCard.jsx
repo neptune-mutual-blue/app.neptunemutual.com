@@ -71,9 +71,9 @@ const LiquidityGaugePoolCard = ({ pool }) => {
   const { networkId } = useNetwork()
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
-  const poolKey = pool.key
   const rewardTokenSymbol = NPMTokenSymbol
   const rewardTokenDecimals = NPMTokenDecimals
+  const poolAddress = pool.poolAddress
 
   const stakingTokenAddress = pool.token
   // const { balance: stakingTokenBalance } = useERC20Balance(stakingTokenAddress)
@@ -83,7 +83,7 @@ const LiquidityGaugePoolCard = ({ pool }) => {
   const approxBlockTime = config.networks.getChainConfig(networkId).approximateBlockTime
   const lockupPeriod = toBN(pool.lockupPeriodInBlocks).multipliedBy(approxBlockTime)
 
-  const { poolStaked, rewardAmount, update: updateStakedAndReward } = useLiquidityGaugePoolStakedAndReward({ poolKey })
+  const { poolStaked, rewardAmount, update: updateStakedAndReward } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
 
   return (
     <div className='p-8 bg-white first:rounded-t-2xl last:rounded-b-2xl' key={pool.id}>
@@ -140,7 +140,7 @@ const LiquidityGaugePoolCard = ({ pool }) => {
         }
 
         <LiquidityGaugeCardAction
-          poolKey={poolKey}
+          poolAddress={poolAddress}
           lockupPeriod={lockupPeriod}
           // tokenIcon={getCoverImgSrc({ key: '' })}
           stakingTokenIcon='/images/tokens/npm.svg'

@@ -1,9 +1,6 @@
-import {
-  useState
-} from 'react'
+import { useState } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -15,13 +12,12 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-
+import { convertFromUnits } from '@/utils/bn'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { convertFromUnits } from '@/utils/bn'
 
-export const useLiquidityGaugePoolWithdrawRewards = ({ poolKey, rewardAmount, rewardTokenSymbol, rewardTokenDecimals }) => {
+export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount, rewardTokenSymbol, rewardTokenDecimals }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
@@ -29,7 +25,7 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ poolKey, rewardAmount, re
 
   const [withdrawingRewards, setWithdrawingRewards] = useState(false)
 
-  const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
+  const liquidityGaugePoolAddress = poolAddress
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
@@ -115,14 +111,13 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ poolKey, rewardAmount, re
         cleanup()
       }
 
-      const args = [poolKey]
       writeContract({
         instance,
         methodName: 'withdrawRewards',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args
+        args: []
       })
     } catch (err) {
       handleError(err)

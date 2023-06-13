@@ -1,8 +1,8 @@
-import { Label } from '@/common/Label/Label'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import { Label } from '@/common/Label/Label'
 import { TokenBalance } from '@/common/TokenBalance'
-import { t } from '@lingui/macro'
 import { classNames } from '@/utils/classnames'
+import { t } from '@lingui/macro'
 
 export const TokenAmountInput = ({
   tokenAddress,
@@ -16,7 +16,7 @@ export const TokenAmountInput = ({
   tokenDecimals = 18,
   error = false,
   disabled,
-  children = <></>,
+  children,
   buttonClassName = '',
   ...rest
 }) => {

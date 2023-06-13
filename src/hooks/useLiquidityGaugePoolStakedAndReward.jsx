@@ -5,27 +5,27 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
-
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { multicall } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 
-export const useLiquidityGaugePoolStakedAndReward = ({ poolKey }) => {
+export const useLiquidityGaugePoolStakedAndReward = ({ poolAddress }) => {
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
 
-  const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
+  const liquidityGaugePoolAddress = poolAddress
 
-  const [poolStaked, setPoolStaked] = useState('0')
-  const [rewardAmount, setRewardAmount] = useState('0')
+  const [data, setData] = useState({
+    lockedByMe: '0',
+    reward: '0'
+  })
 
   const { notifyError } = useErrorNotifier()
 
   const fetchStakedAndReward = useCallback(async () => {
-    if (!networkId || !account || !poolKey) return
+    if (!networkId || !account || !liquidityGaugePoolAddress) return
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
@@ -38,28 +38,29 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolKey }) => {
 
       const instance = new Contract(liquidityGaugePoolAddress, abis.LiquidityGaugePool)
 
-      const args = [poolKey, account]
       const calls = [
-        instance._poolStakedByMe(...args),
-        instance.calculateReward(...args)
+        instance._lockedByMe(account),
+        instance.calculateReward(account)
       ]
-      const [staked, reward] = await multiCallProvider.all(calls)
+      const [lockedByMe, reward] = await multiCallProvider.all(calls)
 
-      if (staked) setPoolStaked(staked.toString())
-      if (reward) setRewardAmount(reward.toString())
+      setData({
+        lockedByMe: lockedByMe.toString(),
+        reward: reward.toString()
+      })
     } catch (error) {
       notifyError(error)
       console.error(error)
     }
-  }, [account, library, liquidityGaugePoolAddress, networkId, poolKey, notifyError])
+  }, [account, library, liquidityGaugePoolAddress, networkId, notifyError])
 
   useEffect(() => {
     fetchStakedAndReward()
   }, [fetchStakedAndReward])
 
   return {
-    poolStaked,
-    rewardAmount,
+    poolStaked: data.lockedByMe,
+    rewardAmount: data.reward,
     update: fetchStakedAndReward
   }
 }

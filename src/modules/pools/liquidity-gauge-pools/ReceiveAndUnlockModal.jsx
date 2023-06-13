@@ -1,16 +1,29 @@
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import CloseIcon from '@/icons/CloseIcon'
-import { useLiquidityGaugePoolWithdraw } from '@/src/hooks/useLiquidityGaugePoolWithdraw'
-import { useLiquidityGaugePoolWithdrawRewards } from '@/src/hooks/useLiquidityGaugePoolWithdrawRewards'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import {
+  useLiquidityGaugePoolWithdraw
+} from '@/src/hooks/useLiquidityGaugePoolWithdraw'
+import {
+  useLiquidityGaugePoolWithdrawRewards
+} from '@/src/hooks/useLiquidityGaugePoolWithdrawRewards'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
 
 export const ReceiveAndUnlockModal = ({
   isOpen,
@@ -23,7 +36,7 @@ export const ReceiveAndUnlockModal = ({
   setInputValue,
   rewardTokenSymbol,
   rewardTokenDecimals,
-  poolKey,
+  poolAddress,
   rewardAmount,
   updateStakedAndReward,
   poolStaked
@@ -48,13 +61,14 @@ export const ReceiveAndUnlockModal = ({
     withdrawing,
     error
   } = useLiquidityGaugePoolWithdraw({
-    stakingTokenAddress: stakingTokenAddress,
     amount: inputValue,
-    poolKey
+    stakingTokenSymbol,
+    stakingTokenDecimals,
+    poolAddress
   })
 
   const { handleWithdrawRewards, withdrawingRewards } = useLiquidityGaugePoolWithdrawRewards({
-    poolKey,
+    poolAddress,
     rewardAmount,
     rewardTokenSymbol,
     rewardTokenDecimals

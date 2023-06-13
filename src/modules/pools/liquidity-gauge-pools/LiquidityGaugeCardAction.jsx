@@ -5,19 +5,22 @@ import {
 } from 'react'
 
 import AddIcon from '@/icons/AddIcon'
-
+import {
+  AddAndLockModal
+} from '@/modules/pools/liquidity-gauge-pools/AddAndLockModal'
+import {
+  ReceiveAndUnlockModal
+} from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
 import { toBN } from '@/utils/bn'
 import { explainInterval } from '@/utils/formatter/interval'
-import { AddAndLockModal } from '@/modules/pools/liquidity-gauge-pools/AddAndLockModal'
-import { ReceiveAndUnlockModal } from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
 
 export const LiquidityGaugeCardAction = ({
   lockupPeriod,
+  poolAddress,
   stakingTokenIcon,
   stakingTokenSymbol,
   stakingTokenDecimals,
   stakingTokenAddress,
-  poolKey,
   rewardTokenSymbol,
   rewardTokenDecimals,
   poolStaked,
@@ -113,7 +116,7 @@ export const LiquidityGaugeCardAction = ({
             stakingTokenSymbol={stakingTokenSymbol}
             inputValue={inputValue}
             setInputValue={setInputValue}
-            poolKey={poolKey}
+            poolAddress={poolAddress}
             updateStakedAndReward={updateStakedAndReward}
             poolStaked={poolStaked}
           />
@@ -133,7 +136,7 @@ export const LiquidityGaugeCardAction = ({
             setInputValue={setInputValue}
             rewardTokenSymbol={rewardTokenSymbol}
             rewardTokenDecimals={rewardTokenDecimals}
-            poolKey={poolKey}
+            poolAddress={poolAddress}
             rewardAmount={rewardAmount}
             updateStakedAndReward={updateStakedAndReward}
             poolStaked={poolStaked}

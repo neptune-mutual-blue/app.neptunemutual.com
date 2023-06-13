@@ -125,14 +125,12 @@ export const CONTRACT_DEPLOYMENTS = {
     npm: '0xd197D59e64caecce9C7dC43Cf5635A4A86694623',
     veNPM: '',
     gaugeControllerRegistry: '',
-    liquidityGaugePool: '',
     stablecoin: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
   },
   42161: {
     npm: '0xB32be027134C35354E16e7E6813469baabFff38c',
     veNPM: '',
     gaugeControllerRegistry: '',
-    liquidityGaugePool: '',
     stablecoin: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8'
   },
   84531: {
@@ -142,8 +140,7 @@ export const CONTRACT_DEPLOYMENTS = {
     policyProofMinter: '0xbF7176F75B73DF752F52f429AF853A5f7edBb1FA',
     merkleProofMinter: '0x0866f9927d94a5D7072E91DcF77E407099170Bf5',
     veNPM: '0x9Cfef27aC2Bed8689B89De0Ad7B30B02f5F45f9A',
-    gaugeControllerRegistry: '0xdEF8C3776D3509fc11AD54839e1D8A146eD973cC',
-    liquidityGaugePool: '0xFB75E68C107F715541FA8c356e51075235223A0b'
+    gaugeControllerRegistry: '0x3bA2F20FF5481451E37Cfc97f50250aB10CAd8eF'
   }
 }
 
@@ -162,3 +159,5 @@ export const DAYS = 24 * 60 * 60
 export const WEEKS = 7 * DAYS
 
 export const PREMATURE_UNLOCK_PENALTY_FRACTION = 0.25
+
+export const EPOCH_DURATION = 28 * DAYS
