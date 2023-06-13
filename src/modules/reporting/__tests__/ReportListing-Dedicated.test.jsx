@@ -1,8 +1,12 @@
-import { initiateTest } from '@/utils/unit-tests/helpers'
 import ReportListing from '@/modules/reporting/ReportListing'
-import { waitFor, screen, fireEvent } from '@testing-library/react'
-import { testData } from '@/utils/unit-tests/test-data'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen,
+  waitFor
+} from '@testing-library/react'
 
 describe('ReportListing test', () => {
   let initialRender
@@ -14,7 +18,7 @@ describe('ReportListing test', () => {
       { coverKey: 'animated-brands', productKey: '', locale: 'en' },
       () => {
         mockHooksOrMethods.useRouter(() => ({ ...testData.router, push }))
-        mockHooksOrMethods.useCoverOrProductData()
+        mockHooksOrMethods.useCoversAndProducts2()
         mockHooksOrMethods.useSubgraphFetch(async () => ({
           incidentReports: [
             {

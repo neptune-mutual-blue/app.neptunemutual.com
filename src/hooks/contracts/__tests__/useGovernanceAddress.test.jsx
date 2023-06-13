@@ -25,7 +25,7 @@ describe('useGovernanceAddress', () => {
     mockHooksOrMethods.useWeb3React()
     mockHooksOrMethods.useNetwork()
 
-    const { result } = await renderHookWrapper(useGovernanceAddress, [])
+    const { result } = await renderHookWrapper(useGovernanceAddress, [], true)
 
     expect(result).toBe(testData.governanceAddress)
   })

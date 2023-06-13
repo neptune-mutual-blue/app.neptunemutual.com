@@ -1,9 +1,7 @@
 import { MyBondTxsTable } from '@/modules/pools/bond/MyBondTxsTable'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -11,13 +9,14 @@ import {
 import { i18n } from '@lingui/core'
 
 describe('MyBondTxsTable test', () => {
-  const { initialRender, rerenderFn } = initiateTest(MyBondTxsTable)
+  const { initialRender, rerenderFn } = initiateTest(MyBondTxsTable, {}, () => {
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useBondTxs()
+  })
 
   beforeEach(() => {
     i18n.activate('en')
     initialRender()
-    mockHooksOrMethods.useWeb3React()
-    mockHooksOrMethods.useBondTxs()
   })
 
   test('should render titles correctly in table', () => {
@@ -27,12 +26,19 @@ describe('MyBondTxsTable test', () => {
 
   test('should render rows according to txn length', () => {
     const rows = screen.getAllByRole('row')
-    expect(rows.length).toBe(testData.bondTxs.data.transactions.length + 1)
+    expect(rows.length).toBe(testData.bondTxs.data.transactions.length + 2)
   })
 
   test("should call register function on clicking 'Add toMetamask'", () => {
+    const mockFun = jest.fn()
+
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useRegisterToken({ register: mockFun })
+    })
+
     const add = screen.getAllByTitle('Add to Metamask')
     fireEvent.click(add[0])
+    expect(mockFun).toHaveBeenCalled()
   })
 
   test('should render Show More if the hook returned hasMore as true', () => {

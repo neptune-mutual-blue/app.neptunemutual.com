@@ -27,6 +27,7 @@ describe('useProvideLiquidity', () => {
   mockHooksOrMethods.useTxPoster()
   mockHooksOrMethods.useErrorNotifier()
   mockSdk.registry.Vault.getInstance()
+  mockHooksOrMethods.useRouter()
 
   test('should return default value from hook', async () => {
     const { result } = await renderHookWrapper(useProvideLiquidity, [mockArgs])

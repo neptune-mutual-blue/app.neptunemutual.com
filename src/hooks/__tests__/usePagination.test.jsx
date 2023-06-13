@@ -21,6 +21,6 @@ describe('usePagination', () => {
   test('should return hook result based on args', async () => {
     const { result } = await renderHookWrapper(usePagination, args)
 
-    expect(result.limit).toEqual(args[0].defaultLimit)
+    expect(result.limit).toEqual(ROWS_PER_PAGE)
   })
 })

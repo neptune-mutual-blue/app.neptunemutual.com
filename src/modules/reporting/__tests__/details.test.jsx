@@ -2,7 +2,6 @@ import { ReportingDetailsPage } from '@/modules/reporting/details'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-
 import {
   render,
   screen
@@ -19,7 +18,6 @@ describe('ReportingDetailsPage test', () => {
     i18n.activate('en')
 
     mockHooksOrMethods.useAppConstants()
-    // mockHooksOrMethods.useCoverOrProductData()
     mockHooksOrMethods.useConsensusReportingInfo()
     mockHooksOrMethods.useRecentVotes()
 
@@ -33,6 +31,7 @@ describe('ReportingDetailsPage test', () => {
     render(
       <ReportingDetailsPage
         incidentReport={testData.incidentReports.data.incidentReport}
+        coverOrProductData={testData.coversAndProducts2.data}
         refetchReport={refetch}
       />
     )

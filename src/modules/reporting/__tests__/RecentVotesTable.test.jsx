@@ -1,8 +1,8 @@
-import { i18n } from '@lingui/core'
-import { render } from '@/utils/unit-tests/test-utils'
-import { testData } from '@/utils/unit-tests/test-data'
 import { RecentVotesTable } from '@/modules/reporting/RecentVotesTable'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import { render } from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 jest.mock('react-chartjs-2', () => ({
   Doughnut: (p) => mockHooksOrMethods.chartMockFn(p),
@@ -26,7 +26,7 @@ describe('RecentVotesTable test', () => {
       />
     )
     const wrapper = screen.getByRole('table')
-    const tableHeading = screen.getByText('Recent Votes')
+    const tableHeading = screen.getAllByText('Recent Votes')[0]
     expect(wrapper).toBeInTheDocument()
     expect(tableHeading).toBeInTheDocument()
   })

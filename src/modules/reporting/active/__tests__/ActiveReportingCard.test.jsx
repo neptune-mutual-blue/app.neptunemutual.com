@@ -1,17 +1,23 @@
-import { initiateTest } from '@/utils/unit-tests/helpers'
-import { screen } from '@testing-library/react'
-import { testData } from '@/utils/unit-tests/test-data'
-import { ActiveReportingCard } from '@/modules/reporting/active/ActiveReportingCard'
-import { getCoverImgSrc } from '@/src/helpers/cover'
+import {
+  ActiveReportingCard
+} from '@/modules/reporting/active/ActiveReportingCard'
 import { MULTIPLIER } from '@/src/config/constants'
-import { formatPercent } from '@/utils/formatter/percent'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import { screen } from '@testing-library/react'
 
 const incidentReport = testData.reporting.activeReporting[0]
 const incidentReportDiversified = testData.reporting.activeReporting[1]
+const data = testData.coversAndProducts2.data
 
 const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
   const liquidity = totalLiquidity
@@ -23,41 +29,18 @@ const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
   return formatPercent(utilization, 'en')
 }
 
-describe('Active Reporting Card Loading', () => {
-  beforeEach(() => {
-    mockHooksOrMethods.useAppConstants()
-    mockHooksOrMethods.useCoverOrProductData(() => null)
-    mockHooksOrMethods.useMyLiquidityInfo()
-    mockHooksOrMethods.useFetchCoverStats()
-
-    const { initialRender } = initiateTest(ActiveReportingCard, {
-      id: incidentReport.id,
-      coverKey: incidentReport.coverKey,
-      productKey: incidentReport.productKey,
-      incidentDate: incidentReport.incidentDate
-    })
-
-    initialRender()
-  })
-
-  test('should render the card skeleton while no cover or product info is fetched', () => {
-    const cardSkeletons = screen.getAllByTestId('skeleton-card')
-    expect(cardSkeletons.length).toBeGreaterThan(0)
-  })
-})
-
 describe('Active Cover Reporting Card Info', () => {
   beforeEach(() => {
     mockHooksOrMethods.useAppConstants()
-    mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useCoversAndProducts2()
     mockHooksOrMethods.useMyLiquidityInfo()
-    mockHooksOrMethods.useFetchCoverStats()
 
     const { initialRender } = initiateTest(ActiveReportingCard, {
       id: incidentReport.id,
       coverKey: incidentReport.coverKey,
       productKey: incidentReport.productKey,
-      incidentDate: incidentReport.incidentDate
+      incidentDate: incidentReport.incidentDate,
+      coverOrProductData: data
     })
 
     initialRender()
@@ -72,11 +55,11 @@ describe('Active Cover Reporting Card Info', () => {
     expect(img).toHaveAttribute('src', src)
 
     const coverFeeWrap = screen.getByTestId('cover-fee')
-    const coverFee = `Cover fee: ${formatPercent(
-      testData.coverInfo.infoObj.pricingFloor / MULTIPLIER,
+    const coverFee = `Annual Cover fee: ${formatPercent(
+      toBN(data.floor).dividedBy(MULTIPLIER),
       'en'
     )}-${formatPercent(
-      testData.coverInfo.infoObj.pricingCeiling / MULTIPLIER,
+      toBN(data.ceiling).dividedBy(MULTIPLIER),
       'en'
     )}`
     expect(coverFeeWrap).toHaveTextContent(coverFee)
@@ -90,10 +73,7 @@ describe('Active Cover Reporting Card Info', () => {
 
     const protection = screen.getByTestId('protection')
     const liquidityText = formatCurrency(
-      convertFromUnits(
-        testData.coverStats.info.activeCommitment,
-        testData.appConstants.liquidityTokenDecimals
-      ).toString(),
+      convertFromUnits(data.commitment, testData.appConstants.liquidityTokenDecimals).toString(),
       'en'
     ).short
     expect(protection).toHaveTextContent(liquidityText)
@@ -107,15 +87,15 @@ describe('Active Cover Reporting Card Info', () => {
 describe('Active Diversified Cover Reporting Card Info', () => {
   beforeEach(() => {
     mockHooksOrMethods.useAppConstants()
-    mockHooksOrMethods.useCoverOrProductData(() => testData.productInfo)
+    mockHooksOrMethods.useCoversAndProducts2(() => testData.productInfo)
     mockHooksOrMethods.useMyLiquidityInfo()
-    mockHooksOrMethods.useFetchCoverStats()
 
     const { initialRender } = initiateTest(ActiveReportingCard, {
       id: incidentReportDiversified.id,
       coverKey: incidentReportDiversified.coverKey,
       productKey: incidentReportDiversified.productKey,
-      incidentDate: incidentReportDiversified.incidentDate
+      incidentDate: incidentReportDiversified.incidentDate,
+      coverOrProductData: data
     })
 
     initialRender()
@@ -130,11 +110,11 @@ describe('Active Diversified Cover Reporting Card Info', () => {
     expect(img).toHaveAttribute('src', src)
 
     const coverFeeWrap = screen.getByTestId('cover-fee')
-    const coverFee = `Cover fee: ${formatPercent(
-      testData.productInfo.cover.infoObj.pricingFloor / MULTIPLIER,
+    const coverFee = `Annual Cover fee: ${formatPercent(
+      toBN(data.floor).dividedBy(MULTIPLIER),
       'en'
     )}-${formatPercent(
-      testData.productInfo.cover.infoObj.pricingCeiling / MULTIPLIER,
+      toBN(data.ceiling).dividedBy(MULTIPLIER),
       'en'
     )}`
     expect(coverFeeWrap).toHaveTextContent(coverFee)
@@ -148,10 +128,7 @@ describe('Active Diversified Cover Reporting Card Info', () => {
 
     const protection = screen.getByTestId('protection')
     const liquidityText = formatCurrency(
-      convertFromUnits(
-        testData.coverStats.info.activeCommitment,
-        testData.appConstants.liquidityTokenDecimals
-      ).toString(),
+      convertFromUnits(data.commitment, testData.appConstants.liquidityTokenDecimals).toString(),
       'en'
     ).short
     expect(protection).toHaveTextContent(liquidityText)

@@ -1,7 +1,7 @@
-import { initiateTest } from '@/utils/unit-tests/helpers'
-import { screen } from '@testing-library/react'
 import { ReportingActivePage } from '@/modules/reporting/active/active'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { screen } from '@testing-library/react'
 
 describe('Active Reporting Page Data Loading', () => {
   beforeEach(() => {
@@ -25,16 +25,23 @@ describe('Active Reporting Page Data Loading', () => {
 })
 
 describe('Active Reporting Page Data Display', () => {
+  const { initialRender, rerenderFn } = initiateTest(
+    ReportingActivePage,
+    {},
+    () => {
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useActiveReportings()
+    })
+
   beforeEach(() => {
-    mockHooksOrMethods.useRouter()
-    mockHooksOrMethods.useActiveReportings()
-
-    const { initialRender } = initiateTest(ReportingActivePage, {})
-
     initialRender()
   })
 
   test('should render the page grid', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoversAndProducts2()
+    })
+
     const cardGrid = screen.getByTestId('active-page-grid')
 
     expect(cardGrid).toBeInTheDocument()

@@ -2,9 +2,10 @@ import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
 
-export const HomeHeroSkeleton = () => (
+export const HomeHeroSkeleton = ({ ...rest }) => (
   <Hero big>
     <Container
+      {...rest}
       className='flex flex-col-reverse items-stretch justify-between py-10 lg:gap-8 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row'
     >
       <div className='pt-10 md:flex lg:flex-col md:gap-4 md:w-full lg:w-auto lg:pt-0'>

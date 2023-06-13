@@ -17,7 +17,7 @@ describe('useClaimBond', () => {
     mockHooksOrMethods.useWeb3React(() => ({ account: null }))
     mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
-    const { result, act } = await renderHookWrapper(useClaimBond)
+    const { result, act } = await renderHookWrapper(useClaimBond, ['2000000000'])
 
     await act(async () => {
       await result.handleClaim(() => {})
@@ -30,10 +30,13 @@ describe('useClaimBond', () => {
   test('while fetching successful', async () => {
     mockHooksOrMethods.useWeb3React()
     mockHooksOrMethods.useNetwork()
-    mockHooksOrMethods.useTxPoster()
+    mockHooksOrMethods.useTxPoster(() => ({
+      ...testData.txPoster,
+      writeContract: undefined
+    }))
     mockHooksOrMethods.useTxToast()
 
-    const { result, act } = await renderHookWrapper(useClaimBond)
+    const { result, act } = await renderHookWrapper(useClaimBond, ['2000000000'])
 
     await act(async () => {
       await result.handleClaim(() => {})
@@ -52,7 +55,7 @@ describe('useClaimBond', () => {
     }))
     mockHooksOrMethods.useTxToast()
 
-    const { result, act } = await renderHookWrapper(useClaimBond)
+    const { result, act } = await renderHookWrapper(useClaimBond, ['2000000000'])
 
     await act(async () => {
       await result.handleClaim(() => {})

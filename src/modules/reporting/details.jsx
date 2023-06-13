@@ -62,7 +62,7 @@ export const ReportingDetailsPage = ({
   const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp)
 
   return (
-    <>
+    <div data-testid='reporting-details-page'>
       <ReportingHero
         coverKey={coverKey}
         productKey={productKey}
@@ -130,6 +130,6 @@ export const ReportingDetailsPage = ({
           incidentDate={incidentReport.incidentDate}
         />
       </Container>
-    </>
+    </div>
   )
 }

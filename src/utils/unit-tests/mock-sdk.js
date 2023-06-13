@@ -112,6 +112,11 @@ const mockSdk = {
       readBytes32: (ipfsBytes) => {
         mockNeptuneMutualSDK.utils.ipfs.read.mockResolvedValue(ipfsBytes)
       }
+    },
+    keyUtil: {
+      toBytes32: (isCode) => {
+        mockNeptuneMutualSDK.utils.keyUtil.toBytes32.mockResolvedValue(isCode ? true : new Error())
+      }
     }
   },
   governance: {

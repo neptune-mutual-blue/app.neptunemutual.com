@@ -1,7 +1,11 @@
-import { mockGlobals } from '@/utils/unit-tests/mock-globals'
-import { useValidateReferralCode } from '../useValidateReferralCode'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+
+import { useValidateReferralCode } from '../useValidateReferralCode'
+
+jest.mock('@neptunemutual/sdk')
 
 const mockProps = {
   referralCode: '1CODE'
@@ -23,21 +27,20 @@ describe('useValidateReferralCode', () => {
 
     expect(result.isValid).toBe(true)
     expect(result.errorMessage).toEqual('')
-    expect(result.isPending).toBe(false)
   })
 
   test('trimmed has value w/ error', async () => {
+    mockSdk.utils.keyUtil.toBytes32(false)
     mockHooksOrMethods.useDebounce('code')
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
-      [mockProps.referralCode],
+      [mockProps.referralCode, () => jest.fn()],
       true
     )
 
     expect(result.isValid).toBe(false)
-    expect(result.errorMessage).toEqual('Invalid Referral Code')
-    expect(result.isPending).toBe(false)
+    expect(result.errorMessage).toEqual('Invalid Cashback Code')
   })
 
   test('while fetching successfully', async () => {
@@ -46,12 +49,11 @@ describe('useValidateReferralCode', () => {
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
-      [mockProps.referralCode],
+      [mockProps.referralCode, () => jest.fn()],
       true
     )
 
     expect(result.isValid).toBe(true)
     expect(result.errorMessage).toEqual('')
-    expect(result.isPending).toBe(false)
   })
 })

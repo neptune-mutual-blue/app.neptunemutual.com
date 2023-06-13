@@ -1,11 +1,18 @@
-import { LiquidityProductModal } from '@/modules/my-liquidity/content/LiquidityProductModal'
-import { testData } from '@/utils/unit-tests/test-data'
+import {
+  LiquidityProductModal
+} from '@/modules/my-liquidity/content/LiquidityProductModal'
 import { initiateTest } from '@/utils/unit-tests/helpers'
-import { fireEvent, screen } from '@testing-library/react'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
+
+const data = testData.coversAndProducts2.data
 
 describe('LiquidityProductModal', () => {
   const props = {
-    product: testData.coverInfoWithProducts.products[0],
+    productData: data,
     setShowModal: jest.fn()
   }
   const { initialRender } = initiateTest(LiquidityProductModal, props)
@@ -31,31 +38,26 @@ describe('LiquidityProductModal', () => {
       .getByTestId('dialog-title')
       .querySelector('span')
 
-    const expectedText = `${props.product.infoObj.productName} Cover Terms`
+    const expectedText = `${data.productInfoDetails.productName} Cover Terms`
     expect(productName.textContent).toBe(expectedText)
   })
 
   test('should render the correct number of cover rules', () => {
     const rules = screen.getByTestId('cover-rules').querySelectorAll('li')
 
-    const expectedRules = props.product.infoObj.rules.split('\n')
+    const expectedRules = testData.productInfo.infoObj.rules.split('\n')
     expect(rules.length).toBe(expectedRules.length)
   })
 
   test('should render correct rule text', () => {
     const rule = screen.getByTestId('cover-rules').querySelector('li')
 
-    const expectedRule = `${props.product.infoObj.rules
+    const expectedRule = `${testData.productInfo.infoObj.rules
       .split('\n')[0]
       .trim()
       .replace(/^\d+\./g, '')
       .trim()}`
     expect(rule.textContent).toBe(expectedRule)
-  })
-
-  test('should render correct exclusions', () => {
-    const exclusions = screen.getByTestId('cover-exclusions')
-    expect(exclusions.textContent).toBe(props.product.infoObj.exclusions)
   })
 
   test('should rende the close button', () => {

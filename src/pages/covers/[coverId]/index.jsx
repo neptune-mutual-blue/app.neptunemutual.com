@@ -1,14 +1,13 @@
-
 import { useRouter } from 'next/router'
 
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
 import { HomeHero } from '@/modules/home/Hero'
+import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
-import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
 
 export default function CoverPage () {
   const router = useRouter()
@@ -36,7 +35,7 @@ export default function CoverPage () {
 function Content ({ loading, coverData, coverKey, productKey }) {
   if (loading) {
     return (
-      <HomeHeroSkeleton />
+      <HomeHeroSkeleton data-testid='hero-skeleton' />
     )
   }
 

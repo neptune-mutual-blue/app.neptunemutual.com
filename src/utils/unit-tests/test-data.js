@@ -1822,7 +1822,7 @@ export const testData = {
           }
         }
       ],
-      totalCount: 3
+      totalCount: 5
     },
     loading: false
   },
@@ -1960,10 +1960,10 @@ export const testData = {
     loading: false,
     data: coverAndProductData2,
     getCoverByCoverKey: () => coverAndProductData2,
-    getProductsByCoverKey: () => [],
+    getProductsByCoverKey: () => [coverAndProductData2],
     getCoverOrProduct: jest.fn(),
-    getProduct: jest.fn(),
-    getAllProducts: jest.fn(),
+    getProduct: () => coverAndProductData2,
+    getAllProducts: () => [coverAndProductData2],
     getDedicatedCovers: jest.fn(),
     getDiversifiedCovers: jest.fn(),
     updateData: {}

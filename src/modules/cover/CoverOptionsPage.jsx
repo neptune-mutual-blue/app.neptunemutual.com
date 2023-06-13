@@ -69,7 +69,7 @@ export const CoverOptionsPage = ({
         />
       </Container>
 
-      <div className='min-h-screen py-6 md:px-2 lg:px-8 pt-7 lg:pt-28'>
+      <div className='min-h-screen py-6 md:px-2 lg:px-8 pt-7 lg:pt-28' data-testid='cover-options-page'>
         <Container className='pb-16'>
           <h2 className='mb-4 text-lg font-bold text-center md:text-display-xs lg:text-display-sm md:mb-6 lg:mb-12'>
             <Trans>I Want to</Trans>

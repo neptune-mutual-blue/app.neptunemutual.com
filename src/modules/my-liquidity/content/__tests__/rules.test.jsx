@@ -1,11 +1,15 @@
 import { DiversifiedCoverRules } from '@/modules/my-liquidity/content/rules'
-import { testData } from '@/utils/unit-tests/test-data'
 import { initiateTest } from '@/utils/unit-tests/helpers'
+import { testData } from '@/utils/unit-tests/test-data'
 import { screen } from '@testing-library/react'
+
+const data = testData.coversAndProducts2.data
 
 describe('DiversifiedCoverRules', () => {
   const props = {
-    coverInfo: testData.coverInfo
+    projectName: data.coverInfoDetails.projectName,
+    coverKey: data.coverInfoDetails.coverKey,
+    productKey: data.productInfoDetails.productKey
   }
   const { initialRender } = initiateTest(DiversifiedCoverRules, props)
 
@@ -30,6 +34,6 @@ describe('DiversifiedCoverRules', () => {
 
   test('should render correct cover name', () => {
     const wrapper = screen.getByTestId('notes')
-    expect(wrapper.textContent).toContain(props.coverInfo.infoObj.coverName)
+    expect(wrapper.textContent).toContain(data.coverInfoDetails.coverName)
   })
 })

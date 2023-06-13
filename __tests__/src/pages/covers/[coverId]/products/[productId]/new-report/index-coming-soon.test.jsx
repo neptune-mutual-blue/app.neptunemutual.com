@@ -1,5 +1,5 @@
-import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -11,7 +11,7 @@ describe('ReportingNewCoverPage test', () => {
 
   beforeEach(() => {
     mockHooksOrMethods.useRouter()
-    process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: 'false' }
+    process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: 'false' }
     const ReportingNewCoverPage =
       require('@/pages/covers/[coverId]/products/[productId]/new-report').default
     const { initialRender } = initiateTest(ReportingNewCoverPage)

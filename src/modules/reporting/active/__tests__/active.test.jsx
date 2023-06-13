@@ -1,59 +1,58 @@
 import { ReportingActivePage } from '@/modules/reporting/active/active'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
+import { testData } from '@/utils/unit-tests/test-data'
 import {
   fireEvent,
   screen
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 
-const activeReportings = {
-  data: {
-    incidentReports: [
-      {
-        id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286',
-        coverKey:
-          '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-        productKey:
-          '0x0000000000000000000000000000000000000000000000000000000000000000',
-        incidentDate: '1661401286',
-        resolutionDeadline: '0',
-        resolved: false,
-        finalized: false,
-        status: 'Reporting',
-        resolutionTimestamp: '1661403086'
-      },
-      {
-        id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661159947',
-        coverKey:
-          '0x6465666900000000000000000000000000000000000000000000000000000000',
-        productKey:
-          '0x31696e6368000000000000000000000000000000000000000000000000000000',
-        incidentDate: '1661159947',
-        resolutionDeadline: '0',
-        resolved: false,
-        finalized: false,
-        status: 'Reporting',
-        resolutionTimestamp: '1661160247'
-      },
-      {
-        id: '0x6262382d65786368616e67650000000000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1660893112',
-        coverKey:
-          '0x6262382d65786368616e67650000000000000000000000000000000000000000',
-        productKey:
-          '0x0000000000000000000000000000000000000000000000000000000000000000',
-        incidentDate: '1660893112',
-        resolutionDeadline: '0',
-        resolved: false,
-        finalized: false,
-        status: 'Reporting',
-        resolutionTimestamp: '1660894912'
-      }
-    ]
-  }
-}
+// const activeReportings = {
+//   data: {
+//     incidentReports: [
+//       {
+//         id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286',
+//         coverKey:
+//           '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
+//         productKey:
+//           '0x0000000000000000000000000000000000000000000000000000000000000000',
+//         incidentDate: '1661401286',
+//         resolutionDeadline: '0',
+//         resolved: false,
+//         finalized: false,
+//         status: 'Reporting',
+//         resolutionTimestamp: '1661403086'
+//       },
+//       {
+//         id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661159947',
+//         coverKey:
+//           '0x6465666900000000000000000000000000000000000000000000000000000000',
+//         productKey:
+//           '0x31696e6368000000000000000000000000000000000000000000000000000000',
+//         incidentDate: '1661159947',
+//         resolutionDeadline: '0',
+//         resolved: false,
+//         finalized: false,
+//         status: 'Reporting',
+//         resolutionTimestamp: '1661160247'
+//       },
+//       {
+//         id: '0x6262382d65786368616e67650000000000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1660893112',
+//         coverKey:
+//           '0x6262382d65786368616e67650000000000000000000000000000000000000000',
+//         productKey:
+//           '0x0000000000000000000000000000000000000000000000000000000000000000',
+//         incidentDate: '1660893112',
+//         resolutionDeadline: '0',
+//         resolved: false,
+//         finalized: false,
+//         status: 'Reporting',
+//         resolutionTimestamp: '1660894912'
+//       }
+//     ]
+//   }
+// }
 
 describe('ReportingActivePage test', () => {
   const { initialRender, rerenderFn } = initiateTest(ReportingActivePage)
@@ -63,10 +62,10 @@ describe('ReportingActivePage test', () => {
     mockHooksOrMethods.useNetwork()
 
     mockHooksOrMethods.useActiveReportings({
-      data: activeReportings.data
+      data: testData.reporting.activeReporting
     })
     mockHooksOrMethods.useRouter()
-    // mockHooksOrMethods.useFlattenedCoverProducts()
+    mockHooksOrMethods.useCoversAndProducts2()
     // mockHooksOrMethods.useFetchCoverStats()
     initialRender()
   })
@@ -91,6 +90,13 @@ describe('ReportingActivePage test', () => {
   })
 
   test('should render cards lists', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useActiveReportings({
+        data: { incidentReports: testData.resolvedReportings.data },
+        loading: false
+      })
+    })
+
     const gridList = screen.getByTestId('active-page-grid')
     expect(gridList).toBeInTheDocument()
   })

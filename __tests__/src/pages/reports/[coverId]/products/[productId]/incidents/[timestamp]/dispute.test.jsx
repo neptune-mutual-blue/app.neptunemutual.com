@@ -1,34 +1,33 @@
 import DateLib from '@/lib/date/DateLib'
-import { isFeatureEnabled } from '@/src/config/environment'
-import DisputeFormPage
-  from '@/src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute'
-import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
+  NewDisputeReportFormContainer
+} from '@/modules/reporting/NewDisputeReportFormContainer'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { screen } from '@testing-library/react'
 
 const mock = jest.spyOn({ isFeatureEnabled }, 'isFeatureEnabled')
 
-jest.mock('@/src/modules/reporting/ReportingHero', () => {
-  return {
-    ReportingHero: () => {
-      return <div data-testid='reporting-hero' />
-    }
-  }
-})
+// jest.mock('@/src/modules/reporting/ReportingHero', () => {
+//   return {
+//     ReportingHero: () => {
+//       return <div data-testid='reporting-hero' />
+//     }
+//   }
+// })
 
-jest.mock('@/src/modules/reporting/NewDisputeReportForm', () => {
-  return {
-    NewDisputeReportForm: () => {
-      return <div data-testid='new-dispute-report-form' />
-    }
-  }
-})
+// jest.mock('@/src/modules/reporting/NewDisputeReportForm', () => {
+//   return {
+//     NewDisputeReportForm: () => {
+//       return <div data-testid='new-dispute-report-form' />
+//     }
+//   }
+// })
 
 describe('DisputeFormPage test', () => {
   const { initialRender, rerenderFn } = initiateTest(
-    DisputeFormPage,
+    NewDisputeReportFormContainer,
     {},
     () => {
       // mockHooksOrMethods.useCoverOrProductData()
