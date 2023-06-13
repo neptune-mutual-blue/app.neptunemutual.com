@@ -6,9 +6,10 @@ import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
-
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { GaugeChartSemiCircle } from '@/common/GaugeChart/GaugeChartSemiCircle'
 import Slider from '@/common/Slider/Slider'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
 import DateLib from '@/lib/date/DateLib'
 import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
@@ -21,6 +22,7 @@ import {
   PREMATURE_UNLOCK_PENALTY_FRACTION,
   WEEKS
 } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
@@ -39,8 +41,10 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getSpaceLink } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
-import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 const VOTE_ESCROW_MIN_WEEKS = 1
 const VOTE_ESCROW_MAX_WEEKS = 208
@@ -65,6 +69,8 @@ const VoteEscrow = () => {
     lock,
     unlock: unlockNPMTokens,
     actionLoading,
+    loadingAllowance,
+    loadingBalance,
     canLock,
     handleApprove,
     hasUnlockAllowance,
@@ -134,7 +140,7 @@ const VoteEscrow = () => {
   const submitUrl = getSpaceLink(networkId)
 
   // When slider is untouched, display old data
-  const sliderDisplayValue = sliderValue || oldDurationInWeeks
+  const sliderDisplayValue = sliderValue || oldDurationInWeeks || VOTE_ESCROW_MIN_WEEKS
   const unlockDate = sliderValue ? DateLib.addDays(new Date(), sliderValue * 7) : DateLib.fromUnix(data.unlockTimestamp)
   const formattedUnlockDate = {
     long: DateLib.toLongDateFormat(unlockDate, router.locale),
@@ -144,6 +150,15 @@ const VoteEscrow = () => {
       day: 'numeric'
     })
   }
+
+  let loadingMessage = ''
+  if (loadingBalance) {
+    loadingMessage = t`Fetching balance...`
+  } else if (loadingAllowance) {
+    loadingMessage = t`Fetching allowance...`
+  }
+
+  const buttonDisabled = !!loadingMessage || !(agreed && !actionLoading && ((!extend && input) || extend))
 
   const LabelComponent = () => (
     <div className='flex items-center justify-between mt-6 mb-4'>
@@ -175,7 +190,7 @@ const VoteEscrow = () => {
           <p className='text-sm'>Get boosted voting power and boosted gauge emissions</p>
         </div>
         <div className='flex flex-wrap gap-4'>
-          <Link href='/pools/liquidity-gauge-pools'>
+          <Link href={Routes.LiquidityGaugePools}>
             <a className='text-4E7DD9 text-sm font-semibold p-2.5 flex-grow text-center md:text-left md:flex-grow-0 border-1 border-4E7DD9 rounded-tooltip'>
               View Liquidity Gauge
             </a>
@@ -252,7 +267,7 @@ const VoteEscrow = () => {
               </div>
             </div>
 
-            <div className='grid grid-cols-[auto_1fr] gap-2 mb-6'>
+            <div className='grid grid-cols-[auto_1fr] gap-2 mb-4'>
               <Checkbox
                 checked={agreed} onChange={(e) => {
                   setAgreed(e.target.checked)
@@ -263,11 +278,13 @@ const VoteEscrow = () => {
               </label>
             </div>
 
+            <DataLoadingIndicator message={loadingMessage} />
+
             {allowanceExists && (
               <RegularButton
-                disabled={!(agreed && !actionLoading && ((!extend && input) || extend))}
+                disabled={buttonDisabled}
                 onClick={() => {
-                  lock(input || '0', sliderValue, onLockSuccess)
+                  lock(input || '0', sliderDisplayValue, onLockSuccess)
                 }}
                 className='w-full p-4 font-semibold normal-case rounded-tooltip text-md'
               >
@@ -277,13 +294,17 @@ const VoteEscrow = () => {
 
             {!allowanceExists && (
               <RegularButton
-                disabled={!(agreed && !actionLoading && ((!extend && input) || extend))}
+                disabled={buttonDisabled}
                 onClick={() => {
                   handleApprove(input || '0')
                 }}
                 className='w-full p-4 font-semibold uppercase rounded-tooltip text-md'
               >
-                Approve
+                {actionLoading
+                  ? (
+                      t`Approving...`
+                    )
+                  : <Trans>Approve {NPMTokenSymbol}</Trans>}
               </RegularButton>
             )}
             <KeyValueList

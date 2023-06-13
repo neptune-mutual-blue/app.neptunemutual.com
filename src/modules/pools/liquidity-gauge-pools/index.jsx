@@ -14,9 +14,6 @@ import {
 import {
   LiquidityGaugePoolsList
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsCard'
-import {
-  useLGPAddresses
-} from '@/modules/pools/liquidity-gauge-pools/useLGPAddresses'
 import { Routes } from '@/src/config/routes'
 // import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
@@ -59,14 +56,12 @@ export const LiquidityGaugePoolsPage = () => {
   })
 
   const { data: pools, loading } = useLiquidityGaugePools()
-  const { data: poolAddresses } = useLGPAddresses(useMemo(() => pools.map(x => x.key), [pools]))
   const { getStatsByKey } = useSortableStats()
   // const { getTVLById } = useAppConstants()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: pools.map((pool) => ({
       ...pool,
-      poolAddress: poolAddresses[pool.key],
       // tvl: getTVLById(pool.id),
       ...getStatsByKey(pool.id)
     })),

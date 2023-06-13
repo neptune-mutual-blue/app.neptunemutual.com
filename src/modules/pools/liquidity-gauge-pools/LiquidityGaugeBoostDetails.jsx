@@ -1,21 +1,35 @@
+import BigNumber from 'bignumber.js'
+
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import DateLib from '@/lib/date/DateLib'
+import { MULTIPLIER } from '@/src/config/constants'
+import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
+import { toBNSafe } from '@/utils/bn'
+import { calculateBoost } from '@/utils/calculate-boost'
 import { useWeb3React } from '@web3-react/core'
 
 const BoostButton = ({ className = '', value }) => {
-  const { active } = useWeb3React()
+  const { account } = useWeb3React()
+
+  const formattedValueShort = `${toBNSafe(value).decimalPlaces(2).toString()}x`
+  const formattedValueLong = toBNSafe(value).decimalPlaces(6).toString()
+
   return (
     <>
-      {!active
+      {!account
         ? (
-          <InfoTooltip infoComponent='Please connect your wallet to view your boost.' className='text-xs px-2 py-0.75 bg-opacity-100 max-w-none' disabled={active}>
+          <InfoTooltip infoComponent='Please connect your wallet to view your boost.' className='text-xs px-2 py-0.75 bg-opacity-100 max-w-none'>
             <button type='button' className={`rounded-full text-white text-sm font-semibold px-[11px] py-1 ${className}`}>
               Boost: ?
             </button>
           </InfoTooltip>
           )
         : (
-          <div className={`rounded-full text-white text-sm font-semibold px-[11px] py-1 ${className}`}>
-            Boost: {value}x
+          <div
+            className={`rounded-full text-white text-sm font-semibold px-[11px] py-1 ${className}`}
+            title={formattedValueLong}
+          >
+            Boost: {formattedValueShort}
           </div>
           )}
     </>
@@ -40,9 +54,18 @@ const BoostData = ({ value }) => {
   return null
 }
 
-export const LiquidityGaugeBoostDetails = ({ boost }) => {
-  // const router = useRouter()
+export const LiquidityGaugeBoostDetails = () => {
+  const { data } = useVoteEscrowData()
 
+  const lockDuration = toBNSafe(data.unlockTimestamp).isGreaterThan(DateLib.unix())
+    ? toBNSafe(data.unlockTimestamp).minus(DateLib.unix()) // to duration left
+      .decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
+      .toNumber()
+    : 0
+
+  const boost = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
+
+  // const router = useRouter()
   // const formattedTokenValue = formatCurrency(tokenValue, router.locale, '', true, true)
 
   return (

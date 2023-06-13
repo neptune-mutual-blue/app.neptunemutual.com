@@ -12,7 +12,6 @@ import {
   convertFromUnits,
   toBN
 } from '@/utils/bn'
-import { explainInterval } from '@/utils/formatter/interval'
 import {
   t,
   Trans
@@ -23,7 +22,7 @@ export const AddAndLockModal = ({
   isOpen,
   onClose,
   imgSrc,
-  lockupPeriod,
+  lockupPeriodInBlocks,
   poolAddress,
   stakingTokenAddress,
   stakingTokenDecimals,
@@ -131,7 +130,7 @@ export const AddAndLockModal = ({
           <div className='flex flex-col gap-4 p-4 mt-6 bg-F3F5F7 rounded-big'>
             <div className='flex flex-row items-center justify-between text-sm'>
               <span>Lockup Period</span>
-              <span className='font-semibold'>{explainInterval(lockupPeriod)}</span>
+              <span className='font-semibold'>{lockupPeriodInBlocks} Blocks</span>
             </div>
 
             {/* {isPoolStaked && (

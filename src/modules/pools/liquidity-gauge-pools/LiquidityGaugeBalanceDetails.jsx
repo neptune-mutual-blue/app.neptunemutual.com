@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { explainInterval } from '@/utils/formatter/interval'
 
 export const LiquidityGaugeBalanceDetails = ({
   rewardTokenSymbol,
@@ -11,7 +10,7 @@ export const LiquidityGaugeBalanceDetails = ({
   stakingTokenSymbol,
   stakingTokenDecimals,
   emissionReceived,
-  lockupPeriod
+  lockupPeriodInBlocks
   // tvl
 }) => {
   const router = useRouter()
@@ -49,7 +48,7 @@ export const LiquidityGaugeBalanceDetails = ({
       </div>
       <div className='flex flex-row justify-between'>
         <span>Lockup Period</span>
-        <span className='font-semibold'>{explainInterval(lockupPeriod)}</span>
+        <span className='font-semibold'>{lockupPeriodInBlocks} Blocks</span>
       </div>
       {/* <div className='flex flex-row justify-between'>
         <span>TVL</span>

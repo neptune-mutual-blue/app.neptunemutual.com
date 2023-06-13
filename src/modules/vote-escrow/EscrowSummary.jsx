@@ -3,30 +3,26 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 import DateLib from '@/lib/date/DateLib'
+import { useVoteEscrowStats } from '@/modules/vote-escrow/useVoteEscrowStats'
 import {
   FALLBACK_VENPM_TOKEN_SYMBOL,
   PREMATURE_UNLOCK_PENALTY_FRACTION
 } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import {
-  convertFromUnits,
-  convertToUnits
-} from '@/utils/bn'
+import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { fromNow } from '@/utils/formatter/relative-time'
 
-const TOTAL_LOCKED = 250000
-
 const EscrowSummary = ({ veNPMBalance, unlockTimestamp, className = '' }) => {
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
+  const { data } = useVoteEscrowStats()
 
   const formattedUnlockDate = DateLib.toLongDateFormat(DateLib.fromUnix(unlockTimestamp), router.locale)
 
-  const totalLocked = convertToUnits(TOTAL_LOCKED, NPMTokenDecimals).toString()
-  const formattedTotalLocked = formatCurrency(convertFromUnits(totalLocked, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedTotalLocked = formatCurrency(convertFromUnits(data.totalVoteLocked, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedVeNPMBalance = formatCurrency(convertFromUnits(veNPMBalance, NPMTokenDecimals), router.locale, FALLBACK_VENPM_TOKEN_SYMBOL, true)
 
   return (
@@ -38,11 +34,12 @@ const EscrowSummary = ({ veNPMBalance, unlockTimestamp, className = '' }) => {
         </div>
         <div>
           <div className='mb-1 text-sm font-semibold text-999BAB'>Max Boost</div>
+          {/* Hardcoded */}
           <div className='text-xl'>4x</div>
         </div>
         <div>
           <div className='mb-1 text-sm font-semibold text-999BAB'>Average Lock</div>
-          <div className='text-xl'>52 weeks</div>
+          <div className='text-xl' title={parseFloat(data.averageLock).toFixed(6)}>{parseFloat(data.averageLock).toFixed(2)} weeks</div>
         </div>
       </div>
       <div className='flex flex-col gap-1'>

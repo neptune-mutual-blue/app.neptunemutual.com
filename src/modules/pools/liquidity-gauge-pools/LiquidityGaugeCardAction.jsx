@@ -12,10 +12,9 @@ import {
   ReceiveAndUnlockModal
 } from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
 import { toBN } from '@/utils/bn'
-import { explainInterval } from '@/utils/formatter/interval'
 
 export const LiquidityGaugeCardAction = ({
-  lockupPeriod,
+  lockupPeriodInBlocks,
   poolAddress,
   stakingTokenIcon,
   stakingTokenSymbol,
@@ -63,7 +62,7 @@ export const LiquidityGaugeCardAction = ({
           <div className='text-sm text-999BAB'>
             Lockup Period:{' '}
             <span className='font-semibold text-01052D'>
-              {explainInterval(lockupPeriod)}
+              {lockupPeriodInBlocks} Blocks
             </span>
           </div>
           {/* <div className='flex flex-row items-center gap-1'>
@@ -110,7 +109,7 @@ export const LiquidityGaugeCardAction = ({
             onClose={handleCloseModal}
             modalTitle={addModalTitle}
             imgSrc={stakingTokenIcon}
-            lockupPeriod={lockupPeriod}
+            lockupPeriodInBlocks={lockupPeriodInBlocks}
             stakingTokenAddress={stakingTokenAddress}
             stakingTokenDecimals={stakingTokenDecimals}
             stakingTokenSymbol={stakingTokenSymbol}
