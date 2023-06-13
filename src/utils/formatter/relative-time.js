@@ -106,7 +106,7 @@ export const fromNow = (date) => {
   }
 
   if (parseInt(date) === 0) {
-    return ''
+    return 'Not available'
   }
 
   if (!(date instanceof Date)) {
@@ -129,7 +129,7 @@ export const fromNow = (date) => {
       return isFuture ? unit.future1 : unit.past1
     }
 
-    return (isFuture ? unit.futureN : unit.pastN).replace('#', x)
+    return (isFuture ? unit.futureN : unit.pastN).replace('#', x.toString())
   }
 }
 

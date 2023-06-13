@@ -1,36 +1,49 @@
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import CloseIcon from '@/icons/CloseIcon'
-import { MODAL_STATES } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeCardAction'
-import { useLiquidityGaugePoolWithdraw } from '@/src/hooks/useLiquidityGaugePoolWithdraw'
-import { useLiquidityGaugePoolWithdrawRewards } from '@/src/hooks/useLiquidityGaugePoolWithdrawRewards'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import {
+  useLiquidityGaugePoolWithdraw
+} from '@/src/hooks/useLiquidityGaugePoolWithdraw'
+import {
+  useLiquidityGaugePoolWithdrawRewards
+} from '@/src/hooks/useLiquidityGaugePoolWithdrawRewards'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useRouter } from 'next/router'
 
 export const ReceiveAndUnlockModal = ({
-  modalTitle,
   isOpen,
-  modalState,
   onClose,
   imgSrc,
   stakingTokenSymbol,
   stakingTokenDecimals,
-  stakingTokenBalance,
-  handleSwitch,
   stakingTokenAddress,
   inputValue,
   setInputValue,
   rewardTokenSymbol,
   rewardTokenDecimals,
-  poolKey,
-  rewardAmount
+  poolAddress,
+  rewardAmount,
+  updateStakedAndReward,
+  poolStaked
 }) => {
   const { locale } = useRouter()
+
+  const [isReceiveRewardsModalOpen, setIsReceiveRewardsModalOpen] = useState(true)
 
   const handleChange = (val) => {
     if (typeof val === 'string') {
@@ -39,43 +52,54 @@ export const ReceiveAndUnlockModal = ({
   }
 
   const handleChooseMax = () => {
-    setInputValue(convertFromUnits(stakingTokenBalance, stakingTokenDecimals).toString())
+    setInputValue(convertFromUnits(poolStaked, stakingTokenDecimals).toString())
   }
 
   const {
-    canApprove,
     canWithdraw,
-    handleApprove,
     handleWithdraw,
-    approving,
-    withdrawing
+    withdrawing,
+    error
   } = useLiquidityGaugePoolWithdraw({
-    stakingTokenAddress: stakingTokenAddress,
     amount: inputValue,
-    poolKey
+    stakingTokenSymbol,
+    stakingTokenDecimals,
+    poolAddress
   })
 
   const { handleWithdrawRewards, withdrawingRewards } = useLiquidityGaugePoolWithdrawRewards({
-    stakingTokenAddress: stakingTokenAddress,
-    amount: inputValue,
-    poolKey
+    poolAddress,
+    rewardAmount,
+    rewardTokenSymbol,
+    rewardTokenDecimals
   })
 
   const btnClass = 'w-full p-3 mt-6 font-semibold uppercase sm:min-w-auto sm:w-full'
-  const closeModal = (approving || withdrawing || withdrawingRewards) ? () => {} : onClose
+  const closeModal = useMemo(() => {
+    return (withdrawing || withdrawingRewards) ? () => {} : onClose
+  }, [onClose, withdrawing, withdrawingRewards])
 
-  const formattedBalance = formatCurrency(
-    convertFromUnits(stakingTokenBalance, stakingTokenDecimals),
+  const emissionReceived = formatCurrency(
+    convertFromUnits(rewardAmount, rewardTokenDecimals),
+    locale,
+    rewardTokenSymbol,
+    true
+  )
+
+  const formattedStakedBalance = formatCurrency(
+    convertFromUnits(poolStaked, stakingTokenDecimals),
     locale,
     stakingTokenSymbol,
     true
   )
 
-  const emissionReceived = formatCurrency(
-    convertFromUnits(rewardAmount, rewardTokenDecimals),
-    locale,
-    rewardTokenSymbol
-  )
+  const modalTitle = isReceiveRewardsModalOpen
+    ? `Receive ${rewardTokenSymbol}`
+    : `Unlock ${stakingTokenSymbol}`
+
+  useEffect(() => {
+    if (toBN(poolStaked).isZero()) closeModal()
+  }, [poolStaked, closeModal])
 
   return (
     <ModalRegular
@@ -86,7 +110,7 @@ export const ReceiveAndUnlockModal = ({
     >
       <div className='w-full overflow-hidden bg-white border-B0C4DB rounded-2xl'>
         <ModalTitle
-          showCloseBtn={!approving && !withdrawing && !withdrawingRewards}
+          showCloseBtn={!withdrawing && !withdrawingRewards}
           imgSrc={imgSrc}
           modalTitle={modalTitle}
           onClose={onClose}
@@ -96,9 +120,9 @@ export const ReceiveAndUnlockModal = ({
           <div className='mb-6'>
             <button
               type='button'
-              onClick={() => handleSwitch(MODAL_STATES.RECEIVE)}
+              onClick={() => setIsReceiveRewardsModalOpen(true)}
               className={classNames('px-4 py-2 text-sm font-semibold text-primary rounded-big',
-                modalState === MODAL_STATES.RECEIVE && 'bg-DEEAF6'
+                isReceiveRewardsModalOpen && 'bg-DEEAF6'
               )}
             >
               Receive
@@ -106,19 +130,19 @@ export const ReceiveAndUnlockModal = ({
 
             <button
               type='button'
-              onClick={() => handleSwitch('unlock')}
+              onClick={() => setIsReceiveRewardsModalOpen(false)}
               className={classNames('px-4 py-2 text-sm font-semibold text-primary rounded-big',
-                modalState === MODAL_STATES.UNLOCK && 'bg-DEEAF6'
+                !isReceiveRewardsModalOpen && 'bg-DEEAF6'
               )}
             >
               Unlock
             </button>
           </div>
 
-          {(modalState === MODAL_STATES.UNLOCK) && (
+          {!isReceiveRewardsModalOpen && (
             <TokenAmountInput
               labelText='Enter Amount to Unlock'
-              tokenBalance={stakingTokenBalance}
+              tokenBalance=''
               tokenSymbol={stakingTokenSymbol}
               tokenAddress={stakingTokenAddress}
               handleChooseMax={handleChooseMax}
@@ -126,68 +150,59 @@ export const ReceiveAndUnlockModal = ({
               id='token-amount'
               onChange={handleChange}
               inputId='modal-input'
-              disabled={approving || withdrawing || withdrawingRewards}
+              disabled={withdrawing || withdrawingRewards}
             >
-              {/* {errorMsg && (
-                <p className='flex items-center text-FA5C2F'>{errorMsg}</p>
-              )} */}
+              <span title={formattedStakedBalance.long}>
+                Locked Balance: {formattedStakedBalance.short}
+              </span>
+
+              {(error) && (
+                <p className='flex items-center text-FA5C2F'>{error}</p>
+              )}
             </TokenAmountInput>
           )}
 
           <div className='flex flex-col gap-4 p-4 mt-6 bg-F3F5F7 rounded-big'>
-            {(modalState === MODAL_STATES.RECEIVE) && (
-              <>
-                <div className='flex flex-row items-center justify-between text-sm'>
-                  <span>Your Balance</span>
-                  <span className='font-semibold'>
-                    {formattedBalance.long}
-                  </span>
-                </div>
-                <div className='flex flex-row items-center justify-between text-sm'>
-                  <span>Emission Received</span>
-                  <span className='font-semibold'>{emissionReceived.long}</span>
-                </div>
-              </>
-            )}
-
-            {(modalState === MODAL_STATES.UNLOCK) && (
+            {isReceiveRewardsModalOpen && (
               <div className='flex flex-row items-center justify-between text-sm'>
-                <span>Emission Received</span>
-                <span className='font-semibold'>{emissionReceived.long}</span>
+                <span>Your Locked Balance</span>
+                <span className='font-semibold' title={formattedStakedBalance.long}>
+                  {formattedStakedBalance.short}
+                </span>
               </div>
             )}
+
+            <div className='flex flex-row items-center justify-between text-sm'>
+              <span>Emission Received</span>
+              <span className='font-semibold' title={emissionReceived.long}>
+                {emissionReceived.short}
+              </span>
+            </div>
           </div>
 
           {
-            modalState === MODAL_STATES.UNLOCK && (
-              canWithdraw
-                ? (
-                  <RegularButton
-                    className={btnClass}
-                    onClick={handleWithdraw}
-                    disabled={withdrawing}
-                  >
-                    <Trans>{withdrawing ? 'Unlocking...' : 'Unlock'}</Trans>
-                  </RegularButton>
-                  )
-                : (
-                  <RegularButton
-                    className={btnClass}
-                    disabled={!canApprove || approving}
-                    onClick={handleApprove}
-                  >
-                    <Trans>{approving ? 'Approving...' : 'Approve'}</Trans>
-                  </RegularButton>
-                  )
+            !isReceiveRewardsModalOpen && (
+              <RegularButton
+                className={btnClass}
+                onClick={() => handleWithdraw(() => {
+                  updateStakedAndReward()
+                  setInputValue('')
+                })}
+                disabled={!canWithdraw || withdrawing}
+              >
+                <Trans>{withdrawing ? 'Unlocking...' : 'Unlock'}</Trans>
+              </RegularButton>
             )
           }
 
           {
-            modalState === MODAL_STATES.RECEIVE && (
+            isReceiveRewardsModalOpen && (
               <RegularButton
                 className={btnClass}
                 disabled={!toBN(rewardAmount).isGreaterThan(0) || withdrawingRewards}
-                onClick={handleWithdrawRewards}
+                onClick={() => handleWithdrawRewards(() => {
+                  updateStakedAndReward()
+                })}
               >
                 <Trans>{withdrawingRewards ? 'Receiving...' : 'Receive'}</Trans>
               </RegularButton>

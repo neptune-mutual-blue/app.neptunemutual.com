@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
@@ -18,7 +22,7 @@ const getQuery = (coverKey) => {
   `
 }
 
-// TODO: Instead we could expose `isCoverNormalInternal` from smart contracts
+// @todo: Instead we could expose `isCoverNormalInternal` from smart contracts
 /**
  *
  * @param {object} param

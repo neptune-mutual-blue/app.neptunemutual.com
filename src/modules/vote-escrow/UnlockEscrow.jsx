@@ -7,6 +7,7 @@ import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
+import { PREMATURE_UNLOCK_PENALTY_FRACTION } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import {
   convertFromUnits,
@@ -15,8 +16,6 @@ import {
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { useWeb3React } from '@web3-react/core'
-
-const PENALTY_FRACTION = 0.25
 
 const UnlockEscrow = ({
   onBack,
@@ -30,16 +29,13 @@ const UnlockEscrow = ({
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
 
-  const unlockDate = DateLib.fromUnix(data.unlockTimestamp)
-  const isPrematureUnlock = Date.now().valueOf() - unlockDate.valueOf() < 0
+  const isPrematureUnlock = toBN(data.unlockTimestamp).isGreaterThan(DateLib.unix())
 
   const penaltyAmount = isPrematureUnlock
-    ? toBN(data.veNPMBalance).multipliedBy(PENALTY_FRACTION).toString()
+    ? toBN(data.veNPMBalance).multipliedBy(PREMATURE_UNLOCK_PENALTY_FRACTION).toString()
     : '0'
 
-  const receiveAmount = isPrematureUnlock
-    ? toBN(data.veNPMBalance).minus(penaltyAmount).toString()
-    : data.veNPMBalance
+  const receiveAmount = toBN(data.veNPMBalance).minus(penaltyAmount).toString()
 
   const formattedPenaltyAmount = formatCurrency(convertFromUnits(penaltyAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedReceiveAmount = formatCurrency(convertFromUnits(receiveAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
@@ -55,7 +51,7 @@ const UnlockEscrow = ({
       <div className='p-8'>
         {!isPrematureUnlock && (
           <div className='mb-6'>
-            <div className='mb-6 font-semibold text-center text-md text-4E7DD9'>Penalty: {formatPercent(PENALTY_FRACTION)}%</div>
+            <div className='mb-6 font-semibold text-center text-md text-4E7DD9'>Penalty: {formatPercent(0)}</div>
             <RegularButton
               className='w-full p-4 font-semibold rounded-tooltip text-md'
               onClick={() => {

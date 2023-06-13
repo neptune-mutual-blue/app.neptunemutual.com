@@ -1,29 +1,23 @@
-import {
-  useState
-} from 'react'
+import { useState } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import {
-  convertToUnits
-} from '@/utils/bn'
+import { convertFromUnits } from '@/utils/bn'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amount, poolKey }) => {
+export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount, rewardTokenSymbol, rewardTokenDecimals }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
@@ -31,13 +25,12 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amou
 
   const [withdrawingRewards, setWithdrawingRewards] = useState(false)
 
-  const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
-  const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
+  const liquidityGaugePoolAddress = poolAddress
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
 
-  const handleWithdrawRewards = async () => {
+  const handleWithdrawRewards = async (onSuccessCallback) => {
     if (!account || !networkId) {
       return
     }
@@ -60,8 +53,11 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amou
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.GAUGE_POOL_WITHDRAW_REWARDS,
-          status: STATUS.PENDING
-          // data: { value: amount, tokenSymbol: stakingTokenSymbol }
+          status: STATUS.PENDING,
+          data: {
+            value: convertFromUnits(rewardAmount, rewardTokenDecimals).toFixed(4),
+            tokenSymbol: rewardTokenSymbol
+          }
         })
 
         await txToast
@@ -88,6 +84,7 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amou
                   methodName: METHODS.GAUGE_POOL_WITHDRAW_REWARDS,
                   status: STATUS.SUCCESS
                 })
+                onSuccessCallback()
               },
               onTxFailure: () => {
                 TransactionHistory.push({
@@ -114,14 +111,13 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ stakingTokenAddress, amou
         cleanup()
       }
 
-      const args = [poolKey, convertToUnits(amount, stakingTokenDecimals).toString()]
       writeContract({
         instance,
         methodName: 'withdrawRewards',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args
+        args: []
       })
     } catch (err) {
       handleError(err)

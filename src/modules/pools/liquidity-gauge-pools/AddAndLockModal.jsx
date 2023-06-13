@@ -1,15 +1,17 @@
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import {
-  MODAL_STATES
-} from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeCardAction'
-import { ModalTitle } from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
-import { useLiquidityGaugePoolDeposit } from '@/src/hooks/useLiquidityGaugePoolDeposit'
-import { convertFromUnits } from '@/utils/bn'
-
-import { explainInterval } from '@/utils/formatter/interval'
+  ModalTitle
+} from '@/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import {
+  useLiquidityGaugePoolDeposit
+} from '@/src/hooks/useLiquidityGaugePoolDeposit'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import {
   t,
   Trans
@@ -18,23 +20,25 @@ import {
 export const AddAndLockModal = ({
   modalTitle,
   isOpen,
-  modalState,
   onClose,
   imgSrc,
-  lockupPeriod,
+  lockupPeriodInBlocks,
+  poolAddress,
   stakingTokenAddress,
   stakingTokenDecimals,
   stakingTokenSymbol,
-  stakingTokenBalance,
   inputValue,
   setInputValue,
-  poolKey
+  updateStakedAndReward,
+  poolStaked
 }) => {
   const handleChange = (val) => {
     if (typeof val === 'string') {
       setInputValue(val)
     }
   }
+
+  const { balance: stakingTokenBalance } = useERC20Balance(stakingTokenAddress)
 
   const handleChooseMax = () => {
     setInputValue(convertFromUnits(stakingTokenBalance, stakingTokenDecimals).toString())
@@ -46,17 +50,20 @@ export const AddAndLockModal = ({
     handleApprove,
     handleDeposit,
     approving,
-    depositing
+    depositing,
+    loadingAllowance,
+    error
   } = useLiquidityGaugePoolDeposit({
-    stakingTokenAddress: stakingTokenAddress,
     amount: inputValue,
-    poolKey
+    stakingTokenAddress,
+    stakingTokenDecimals,
+    stakingTokenSymbol,
+    poolAddress
   })
 
+  const isPoolStaked = toBN(poolStaked).isGreaterThan(0)
   const inputLabel = t`Enter Amount You Wish to ${
-    modalState === MODAL_STATES.LOCK
-      ? 'Lock'
-      : modalState === MODAL_STATES.ADD ? 'Add' : 'Unlock'
+    !isPoolStaked ? 'Lock' : 'Add'
   }`
 
   const btnClass = 'w-full p-3 mt-6 font-semibold uppercase sm:min-w-auto sm:w-full'
@@ -78,32 +85,33 @@ export const AddAndLockModal = ({
         />
 
         <div className='px-8 py-6 pb-8'>
-          {([MODAL_STATES.LOCK, MODAL_STATES.ADD].includes(modalState)) && (
-            <TokenAmountInput
-              labelText={inputLabel}
-              tokenBalance={stakingTokenBalance}
-              tokenSymbol={stakingTokenSymbol}
-              tokenAddress={stakingTokenAddress}
-              handleChooseMax={handleChooseMax}
-              inputValue={inputValue}
-              id='token-amount'
-              onChange={handleChange}
-              inputId='modal-input'
-              disabled={approving || depositing}
-            >
-              {/* {errorMsg && (
-                <p className='flex items-center text-FA5C2F'>{errorMsg}</p>
-              )} */}
-            </TokenAmountInput>
-          )}
+          <TokenAmountInput
+            labelText={inputLabel}
+            tokenBalance={stakingTokenBalance}
+            tokenSymbol={stakingTokenSymbol}
+            tokenAddress={stakingTokenAddress}
+            handleChooseMax={handleChooseMax}
+            inputValue={inputValue}
+            id='token-amount'
+            onChange={handleChange}
+            inputId='modal-input'
+            disabled={approving || depositing}
+          >
+            {(error) && (
+              <p className='flex items-center text-FA5C2F'>{error}</p>
+            )}
+          </TokenAmountInput>
 
           {
             canDeposit
               ? (
                 <RegularButton
                   className={btnClass}
-                  onClick={handleDeposit}
-                  disabled={depositing}
+                  onClick={() => handleDeposit(() => {
+                    updateStakedAndReward()
+                    setInputValue('')
+                  })}
+                  disabled={depositing || loadingAllowance}
                 >
                   <Trans>{depositing ? 'Locking...' : 'Lock'}</Trans>
                 </RegularButton>
@@ -111,7 +119,7 @@ export const AddAndLockModal = ({
               : (
                 <RegularButton
                   className={btnClass}
-                  disabled={!canApprove || approving}
+                  disabled={!canApprove || approving || loadingAllowance}
                   onClick={handleApprove}
                 >
                   <Trans>{approving ? 'Approving...' : 'Approve'}</Trans>
@@ -122,10 +130,10 @@ export const AddAndLockModal = ({
           <div className='flex flex-col gap-4 p-4 mt-6 bg-F3F5F7 rounded-big'>
             <div className='flex flex-row items-center justify-between text-sm'>
               <span>Lockup Period</span>
-              <span className='font-semibold'>{explainInterval(lockupPeriod)}</span>
+              <span className='font-semibold'>{lockupPeriodInBlocks} Blocks</span>
             </div>
 
-            {/* {modalState === MODAL_STATES.ADD && (
+            {/* {isPoolStaked && (
               <div className='flex flex-row items-center justify-between text-sm'>
                 <span>TVL</span>
                 <span className='font-semibold'>{formatCurrency(1200000).short}</span>

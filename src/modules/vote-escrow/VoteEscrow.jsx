@@ -6,31 +6,26 @@ import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
-import {
-  CopyAddressComponent
-} from '@/common/CopyAddressComponent/CopyAddressComponent'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { GaugeChartSemiCircle } from '@/common/GaugeChart/GaugeChartSemiCircle'
 import Slider from '@/common/Slider/Slider'
-import AddCircleIcon from '@/icons/AddCircleIcon'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import ExternalLinkIcon from '@/icons/ExternalLinkIcon'
-import LaunchIcon from '@/icons/LaunchIcon'
-import { getTokenLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
-import CurrencyInput from '@/lib/react-currency-input-field'
 import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import UnlockEscrow from '@/modules/vote-escrow/UnlockEscrow'
 import { useDeviceSize } from '@/modules/vote-escrow/useDeviceSize'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import {
-  CONTRACT_DEPLOYMENTS,
   MULTIPLIER,
+  PREMATURE_UNLOCK_PENALTY_FRACTION,
   WEEKS
 } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import {
   convertFromUnits,
   convertToUnits,
@@ -44,12 +39,15 @@ import {
 } from '@/utils/calculate-boost'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
 import { getSpaceLink } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
-export const VOTE_ESCROW_MIN_WEEKS = 1
-export const VOTE_ESCROW_MAX_WEEKS = 208
+const VOTE_ESCROW_MIN_WEEKS = 1
+const VOTE_ESCROW_MAX_WEEKS = 208
 
 const VoteEscrow = () => {
   const [input, setInput] = useState('')
@@ -60,12 +58,10 @@ const VoteEscrow = () => {
   // null when slider is untouched
   const [sliderValue, setSliderValue] = useState(null)
 
-  const { active } = useWeb3React()
   const { networkId } = useNetwork()
 
   const router = useRouter()
-  const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
-  const { register } = useRegisterToken()
+  const { NPMTokenDecimals, NPMTokenSymbol, NPMTokenAddress } = useAppConstants()
   const { isMobile } = useDeviceSize()
 
   const {
@@ -73,6 +69,8 @@ const VoteEscrow = () => {
     lock,
     unlock: unlockNPMTokens,
     actionLoading,
+    loadingAllowance,
+    loadingBalance,
     canLock,
     handleApprove,
     hasUnlockAllowance,
@@ -97,18 +95,16 @@ const VoteEscrow = () => {
     : oldLockDurationBN.decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
       .toNumber()
 
-  const boostBN = toBN(calculateBoost(lockDuration)).dividedBy(MULTIPLIER)
-  const boost = boostBN.toString()
+  const boost = toBN(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
 
   const oldLockedNpm = data.lockedNPMBalance
   const newLockedNpm = toBN(oldLockedNpm)
-    .plus(convertToUnits(input || '0', NPMTokenDecimals))
+    .plus(convertToUnits(input || '0', NPMTokenDecimals)).toString()
 
   const formattedLockedNpm = formatCurrency(convertFromUnits(newLockedNpm, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
-  const votingPower = boostBN.multipliedBy(newLockedNpm)
+  const votingPower = toBN(boost).multipliedBy(newLockedNpm)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
-  const formattedNpmBalance = formatCurrency(convertFromUnits(data.npmBalance, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
   if (unlock) {
     return (
@@ -131,18 +127,8 @@ const VoteEscrow = () => {
     setInput('')
   }
 
-  const inputFieldProps = {
-    className: classNames('py-5 px-6 text-lg outline-none', extend ? 'cursor-not-allowed' : ''),
-    placeholder: '0.00',
-    disabled: extend,
-    intlConfig: {
-      locale: router.locale
-    },
-    autoComplete: 'off',
-    decimalsLimit: 25,
-    onChange: null,
-    value: input,
-    onValueChange: val => setInput(val)
+  const handleChange = (val) => {
+    if (typeof val === 'string') setInput(val)
   }
 
   const handleMax = () => {
@@ -154,7 +140,7 @@ const VoteEscrow = () => {
   const submitUrl = getSpaceLink(networkId)
 
   // When slider is untouched, display old data
-  const sliderDisplayValue = sliderValue || oldDurationInWeeks
+  const sliderDisplayValue = sliderValue || oldDurationInWeeks || VOTE_ESCROW_MIN_WEEKS
   const unlockDate = sliderValue ? DateLib.addDays(new Date(), sliderValue * 7) : DateLib.fromUnix(data.unlockTimestamp)
   const formattedUnlockDate = {
     long: DateLib.toLongDateFormat(unlockDate, router.locale),
@@ -165,6 +151,37 @@ const VoteEscrow = () => {
     })
   }
 
+  let loadingMessage = ''
+  if (loadingBalance) {
+    loadingMessage = t`Fetching balance...`
+  } else if (loadingAllowance) {
+    loadingMessage = t`Fetching allowance...`
+  }
+
+  const buttonDisabled = !!loadingMessage || !(agreed && !actionLoading && ((!extend && input) || extend))
+
+  const LabelComponent = () => (
+    <div className='flex items-center justify-between mt-6 mb-4'>
+      <div className='font-semibold text-md'>NPM to Lock</div>
+      <div className='flex items-center text-sm'>
+        <Checkbox
+          disabled={!canUnlock}
+          checked={extend}
+          onChange={(e) => {
+            setExtend(e.target.checked)
+            if (e.target.checked) {
+              setInput('')
+            }
+          }}
+          className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox'
+          labelClassName='ml-1'
+        >
+          Extend Only
+        </Checkbox>
+      </div>
+    </div>
+  )
+
   return (
     <div className='max-w-[990px] mx-auto'>
       <VoteEscrowCard className='!max-w-full p-5 md:p-8 rounded-2xl flex flex-wrap gap-4 justify-between items-end mb-6'>
@@ -173,7 +190,7 @@ const VoteEscrow = () => {
           <p className='text-sm'>Get boosted voting power and boosted gauge emissions</p>
         </div>
         <div className='flex flex-wrap gap-4'>
-          <Link href='/pools/liquidity-gauge-pools'>
+          <Link href={Routes.LiquidityGaugePools}>
             <a className='text-4E7DD9 text-sm font-semibold p-2.5 flex-grow text-center md:text-left md:flex-grow-0 border-1 border-4E7DD9 rounded-tooltip'>
               View Liquidity Gauge
             </a>
@@ -193,61 +210,20 @@ const VoteEscrow = () => {
             veNPMBalance={data.veNPMBalance}
             unlockTimestamp={data.unlockTimestamp}
           />
-          <div className='mt-6'>
-            <div className='flex items-center justify-between mb-4'>
-              <div className='font-semibold text-md'>NPM to Lock</div>
-              <div className='flex items-center text-sm'>
-                <Checkbox
-                  disabled={!canUnlock}
-                  checked={extend}
-                  onChange={(e) => {
-                    setExtend(e.target.checked)
-                    if (e.target.checked) {
-                      setInput('')
-                    }
-                  }}
-                  className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox'
-                  labelClassName='ml-1'
-                >
-                  Extend Only
-                </Checkbox>
-              </div>
-            </div>
 
-            <div className={extend ? 'opacity-50 cursor-not-allowed relative' : 'relative'}>
-              <div className='rounded-2 mb-2 border-1 border-B0C4DB overflow-hidden grid grid-cols-[1fr_auto] focus-within:ring-4E7DD9 focus-within:ring focus-within:ring-offset-0 focus-within:ring-opacity-30'>
-                <div className='relative'>
-                  <CurrencyInput {...inputFieldProps} />
-                  <div className='absolute text-lg text-9B9B9B top-5 right-4'>NPM</div>
-                </div>
-              </div>
-              <button
-                className='bg-E6EAEF py-5 px-6 text-lg absolute top-[1px] right-[1px] rounded-tr-2 rounded-br-2'
-                onClick={handleMax}
-                disabled={extend}
-              >
-                Max
-              </button>
-
-              <div className='flex items-center justify-between mb-6'>
-                <div className='text-md text-9B9B9B'>Balance: {formattedNpmBalance.short}</div>
-                <div className='flex gap-4'>
-                  <CopyAddressComponent account={CONTRACT_DEPLOYMENTS[networkId].npm} iconOnly iconClassName='text-AAAAAA h-6 w-6' />
-                  <a href={getTokenLink(networkId, CONTRACT_DEPLOYMENTS[networkId].npm)} target='_blank' className={extend ? 'cursor-not-allowed' : ''} rel='noreferrer'>
-                    <LaunchIcon className='w-6 h-6 text-AAAAAA' />
-                  </a>
-                  <button
-                    className={extend ? 'cursor-not-allowed' : ''} onClick={() => {
-                      register(CONTRACT_DEPLOYMENTS[networkId].npm, NPMTokenSymbol, NPMTokenDecimals)
-                    }}
-                  >
-                    <AddCircleIcon className='w-6 h-6 text-AAAAAA' />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-          </div>
+          <LabelComponent />
+          <TokenAmountInput
+            labelText=''
+            onChange={handleChange}
+            handleChooseMax={handleMax}
+            tokenAddress={NPMTokenAddress}
+            tokenSymbol={NPMTokenSymbol}
+            tokenDecimals={NPMTokenDecimals}
+            tokenBalance={data.npmBalance || '0'}
+            inputId='npm-amount'
+            inputValue={input}
+            disabled={extend}
+          />
         </div>
         <div>
 
@@ -262,7 +238,7 @@ const VoteEscrow = () => {
                 {parseFloat(boost).toFixed(2)}
               </div>
               <div className={classNames('text-sm font-semibold text-center', getBoostTextClass(boost))}>
-                {getBoostText(boost)} Boost
+                {getBoostText(parseFloat(boost))}
               </div>
             </div>
 
@@ -291,29 +267,46 @@ const VoteEscrow = () => {
               </div>
             </div>
 
-            <div className='grid grid-cols-[auto_1fr] gap-2 mb-6'>
+            <div className='grid grid-cols-[auto_1fr] gap-2 mb-4'>
               <Checkbox
                 checked={agreed} onChange={(e) => {
                   setAgreed(e.target.checked)
                 }} className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='agree-terms-escrow'
               />
               <label htmlFor='agree-terms-escrow' className='-mt-0.5 text-sm'>
-                I hereby acknowledge my obligation to pay a penalty fee of 25% in the event that I prematurely unlock, as per the applicable <a href='https://neptunemutual.com/policies/standard-terms-and-conditions/' target='_blank' className='text-1170FF' rel='noreferrer'>terms and conditions</a>.
+                I hereby acknowledge my obligation to pay a penalty fee of {formatPercent(PREMATURE_UNLOCK_PENALTY_FRACTION)} in the event that I prematurely unlock, as per the applicable <a href='https://neptunemutual.com/policies/standard-terms-and-conditions/' target='_blank' className='text-1170FF' rel='noreferrer'>terms and conditions</a>.
               </label>
             </div>
 
-            <RegularButton
-              disabled={!(active && agreed && !actionLoading && ((!extend && input) || extend))} onClick={() => {
-                if (allowanceExists) {
-                  lock(input || '0', sliderValue, onLockSuccess)
-                } else {
-                  handleApprove(input || '0')
-                }
-              }} className='w-full p-4 font-semibold normal-case rounded-tooltip text-md'
-            >
-              {active ? extend ? 'EXTEND MY DURATION' : allowanceExists ? 'GET veNPM TOKENS' : 'Approve' : 'Connect Wallet'}
-            </RegularButton>
+            <DataLoadingIndicator message={loadingMessage} />
 
+            {allowanceExists && (
+              <RegularButton
+                disabled={buttonDisabled}
+                onClick={() => {
+                  lock(input || '0', sliderDisplayValue, onLockSuccess)
+                }}
+                className='w-full p-4 font-semibold normal-case rounded-tooltip text-md'
+              >
+                {extend ? 'EXTEND MY DURATION' : 'GET veNPM TOKENS'}
+              </RegularButton>
+            )}
+
+            {!allowanceExists && (
+              <RegularButton
+                disabled={buttonDisabled}
+                onClick={() => {
+                  handleApprove(input || '0')
+                }}
+                className='w-full p-4 font-semibold uppercase rounded-tooltip text-md'
+              >
+                {actionLoading
+                  ? (
+                      t`Approving...`
+                    )
+                  : <Trans>Approve {NPMTokenSymbol}</Trans>}
+              </RegularButton>
+            )}
             <KeyValueList
               className='p-0 pt-6 mt-6 rounded-none border-t-1 border-B0C4DB'
               list={[

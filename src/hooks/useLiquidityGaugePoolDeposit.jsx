@@ -1,10 +1,10 @@
 import {
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -12,8 +12,6 @@ import { getActionMessage } from '@/src/helpers/notification'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
 import {
@@ -28,7 +26,7 @@ import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, poolKey }) => {
+export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingTokenDecimals, stakingTokenSymbol, amount, poolAddress }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
@@ -37,15 +35,13 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
   const [approving, setApproving] = useState(false)
   const [depositing, setDepositing] = useState(false)
 
-  const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
-  const stakingTokenSymbol = useTokenSymbol(stakingTokenAddress)
-  const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
+  const liquidityGaugePoolAddress = poolAddress
 
   const {
     allowance,
     approve,
-    refetch: updateAllowance
-    // loading: loadingAllowance
+    refetch: updateAllowance,
+    loading: loadingAllowance
   } = useERC20Allowance(stakingTokenAddress)
 
   const { balance, refetch: updateBalance } = useERC20Balance(stakingTokenAddress)
@@ -74,7 +70,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
         status: STATUS.PENDING,
         data: {
           value: amount,
-          stakingTokenSymbol
+          tokenSymbol: stakingTokenSymbol
         }
       })
 
@@ -135,7 +131,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
     })
   }
 
-  const handleDeposit = async () => {
+  const handleDeposit = async (onSuccessCallback) => {
     if (!account || !networkId) {
       return
     }
@@ -192,6 +188,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
                   methodName: METHODS.GAUGE_POOL_DEPOSIT,
                   status: STATUS.SUCCESS
                 })
+                onSuccessCallback()
               },
               onTxFailure: () => {
                 TransactionHistory.push({
@@ -218,7 +215,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
         cleanup()
       }
 
-      const args = [poolKey, convertToUnits(amount, stakingTokenDecimals).toString()]
+      const args = [convertToUnits(amount, stakingTokenDecimals).toString()]
       writeContract({
         instance,
         methodName: 'deposit',
@@ -237,6 +234,12 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
   const canDeposit = !toBN(amount).isZero() &&
     convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(allowance)
 
+  const error = useMemo(() => {
+    if (toBN(amount).isZero()) return ''
+
+    if (convertToUnits(amount, stakingTokenDecimals).isGreaterThan(balance)) return 'Amount exceeds balance'
+  }, [amount, balance, stakingTokenDecimals])
+
   return {
     handleApprove,
     handleDeposit,
@@ -244,7 +247,11 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, amount, pool
     approving,
     depositing,
 
+    loadingAllowance,
+
     canApprove,
-    canDeposit
+    canDeposit,
+
+    error
   }
 }

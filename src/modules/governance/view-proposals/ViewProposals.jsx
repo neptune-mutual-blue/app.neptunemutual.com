@@ -34,17 +34,11 @@ export const ViewProposals = () => {
       .toNumber()
     : 0
 
-  console.log(lockDuration)
+  const boost = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
 
-  const boostFraction = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).decimalPlaces(2).toString()
-
-  const votingPower = toBNSafe(boostFraction).multipliedBy(data.lockedNPMBalance)
+  const votingPower = toBNSafe(boost).multipliedBy(data.lockedNPMBalance)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), router.locale, FALLBACK_VENPM_TOKEN_SYMBOL, true)
-
-  const unlockDate = data.unlockTimestamp !== '0'
-    ? fromNow(data.unlockTimestamp)
-    : 'N/A'
 
   return (
     <div className='flex flex-col items-center gap-8 p-8 bg-white border lg:flex-row rounded-2xl border-B0C4DB'>
@@ -62,29 +56,33 @@ export const ViewProposals = () => {
             <KeyVal
               valueXl
               heading='Vote-Locked Balance'
-              value={formattedVeNPMBalance.long}
+              value={formattedVeNPMBalance.short}
+              title={formattedVeNPMBalance.long}
             />
             <KeyVal
               valueXl
               heading='Boost'
-              value={`${boostFraction}x`}
+              value={`${toBNSafe(boost).decimalPlaces(2).toString()}x`}
+              title={toBNSafe(boost).decimalPlaces(6).toString()}
             />
             <KeyVal
               valueXl
               heading='Voting Power'
-              value={formattedVotingPower.long}
+              value={formattedVotingPower.short}
+              title={formattedVotingPower.long}
             />
           </div>
 
           <KeyVal
             heading='Unlock At:'
-            value={unlockDate} className='mt-8'
+            className='mt-8'
+            value={fromNow(data.unlockTimestamp)}
             title={DateLib.toLongDateFormat(data.unlockTimestamp, router.locale)}
           />
         </div>
       </div>
 
-      <IncreaseYourBoost boostFraction={boostFraction} />
+      <IncreaseYourBoost boost={boost} />
     </div>
   )
 }

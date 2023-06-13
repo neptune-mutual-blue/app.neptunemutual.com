@@ -35,7 +35,7 @@ export default function MyPodStakingTxs ({ disabled }) {
         <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: t`Pool`, href: Routes.BondPool, current: false },
+              { name: t`Pool`, href: Routes.Pools(), current: false },
               {
                 name: t`POD Staking`,
                 href: Routes.PodStakingPools,

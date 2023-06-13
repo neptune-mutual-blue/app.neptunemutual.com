@@ -11,41 +11,36 @@ import {
   LiquidityGaugeCardHeading
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeCardHeading'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useNetwork } from '@/src/context/Network'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import {
+  useLiquidityGaugePoolStakedAndReward
+} from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 import { toBN } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
-import { config } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
-import { useLiquidityGaugePoolStakedAndReward } from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 
 const DescriptionOrDetail = ({
-  lock,
-  description,
+  description = '',
   emissionReceived,
-  lockupPeriod,
+  lockupPeriodInBlocks,
   // tvl,
   rewardTokenSymbol,
-  stakingTokenBalance,
+  rewardTokenDecimals,
+  stakedBalance,
   stakingTokenSymbol,
   stakingTokenDecimals,
   mobile = false
 }) => {
-  const { active } = useWeb3React()
-
   return (
     <div className={classNames(mobile && 'md:hidden', !mobile && 'hidden md:block')}>
-      {lock || !active
+      {toBN(stakedBalance).isZero()
         ? <p className='max-w-xl mt-6 font-normal text-999BAB md:mt-0'>{description}</p>
         : <LiquidityGaugeBalanceDetails
             rewardTokenSymbol={rewardTokenSymbol}
-            stakingTokenBalance={stakingTokenBalance}
+            rewardTokenDecimals={rewardTokenDecimals}
+            stakedBalance={stakedBalance}
             stakingTokenSymbol={stakingTokenSymbol}
             stakingTokenDecimals={stakingTokenDecimals}
             emissionReceived={emissionReceived}
-            lockupPeriod={lockupPeriod}
+            lockupPeriodInBlocks={lockupPeriodInBlocks}
             // tvl={tvl}
           />}
     </div>
@@ -54,7 +49,7 @@ const DescriptionOrDetail = ({
 export const LiquidityGaugePoolsList = ({ data = [] }) => {
   return (
     <div role='list' className='divide-y divide-B0C4DB border-[1px] border-B0C4DB rounded-2xl'>
-      {data.slice(-2).map((pool) => (
+      {data.map((pool) => (
         <LiquidityGaugePoolCard
           key={pool.key}
           pool={pool}
@@ -65,22 +60,21 @@ export const LiquidityGaugePoolsList = ({ data = [] }) => {
 }
 
 const LiquidityGaugePoolCard = ({ pool }) => {
-  const { networkId } = useNetwork()
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
-  const poolKey = pool.key
   const rewardTokenSymbol = NPMTokenSymbol
   const rewardTokenDecimals = NPMTokenDecimals
+  const poolAddress = pool.poolAddress
 
-  const stakingTokenAddress = pool.token
-  const { balance: stakingTokenBalance } = useERC20Balance(stakingTokenAddress)
-  const stakingTokenSymbol = useTokenSymbol(stakingTokenAddress)
-  const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
+  const stakingTokenAddress = pool.stakingToken
+  const stakingTokenSymbol = pool.stakingTokenSymbol
+  const stakingTokenDecimals = pool.stakingTokenDecimals
+  const lockupPeriodInBlocks = pool.lockupPeriodInBlocks
 
-  const approxBlockTime = config.networks.getChainConfig(networkId).approximateBlockTime
-  const lockupPeriod = toBN(pool.lockupPeriodInBlocks).multipliedBy(approxBlockTime)
+  // const approxBlockTime = config.networks.getChainConfig(networkId).approximateBlockTime
+  // const lockupPeriod = toBN(pool.lockupPeriodInBlocks).multipliedBy(approxBlockTime)
 
-  const { poolStaked, rewardAmount } = useLiquidityGaugePoolStakedAndReward({ poolKey })
+  const { poolStaked, rewardAmount, update: updateStakedAndReward } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
 
   return (
     <div className='p-8 bg-white first:rounded-t-2xl last:rounded-b-2xl' key={pool.id}>
@@ -92,61 +86,48 @@ const LiquidityGaugePoolCard = ({ pool }) => {
               stakingTokenSymbol={stakingTokenSymbol}
             />
 
-            {
-              toBN(poolStaked).isGreaterThan(0) &&
-              (
-                <DescriptionOrDetail
-                  lock={pool.lock}
-                  description={pool.description}
-                  rewardTokenSymbol={rewardTokenSymbol}
-                  stakingTokenBalance={stakingTokenBalance}
-                  stakingTokenSymbol={stakingTokenSymbol}
-                  stakingTokenDecimals={stakingTokenDecimals}
-                  // tvl={pool.tvl}
-                  emissionReceived={rewardAmount}
-                  lockupPeriod={lockupPeriod}
-                />
-              )
-            }
-          </div>
-
-          <LiquidityGaugeBoostDetails
-            // tokenValue={pool.npm}
-            boost={pool.boost}
-          />
-        </div>
-
-        {
-          toBN(poolStaked).isGreaterThan(0) &&
-          (
             <DescriptionOrDetail
-              lock={pool.lock}
-              description={pool.description}
+              description={pool?.infoDetails?.description}
               rewardTokenSymbol={rewardTokenSymbol}
-              stakingTokenBalance={stakingTokenBalance}
+              rewardTokenDecimals={rewardTokenDecimals}
+              stakedBalance={poolStaked}
               stakingTokenSymbol={stakingTokenSymbol}
               stakingTokenDecimals={stakingTokenDecimals}
-              // tvl={pool.tvl}
+                  // tvl={pool.tvl}
               emissionReceived={rewardAmount}
-              lockupPeriod={lockupPeriod}
-              mobile
+              lockupPeriodInBlocks={lockupPeriodInBlocks}
             />
-          )
-        }
+          </div>
+
+          <LiquidityGaugeBoostDetails />
+        </div>
+
+        <DescriptionOrDetail
+          description={pool?.infoDetails?.description}
+          rewardTokenSymbol={rewardTokenSymbol}
+          rewardTokenDecimals={rewardTokenDecimals}
+          stakedBalance={poolStaked}
+          stakingTokenSymbol={stakingTokenSymbol}
+          stakingTokenDecimals={stakingTokenDecimals}
+              // tvl={pool.tvl}
+          emissionReceived={rewardAmount}
+          lockupPeriodInBlocks={lockupPeriodInBlocks}
+          mobile
+        />
 
         <LiquidityGaugeCardAction
-          poolKey={poolKey}
-          lockupPeriod={lockupPeriod}
+          poolAddress={poolAddress}
+          lockupPeriodInBlocks={lockupPeriodInBlocks}
           // tokenIcon={getCoverImgSrc({ key: '' })}
           stakingTokenIcon='/images/tokens/npm.svg'
           stakingTokenSymbol={stakingTokenSymbol}
           stakingTokenDecimals={stakingTokenDecimals}
-          stakingTokenBalance={stakingTokenBalance}
           stakingTokenAddress={stakingTokenAddress}
           rewardTokenSymbol={rewardTokenSymbol}
           rewardTokenDecimals={rewardTokenDecimals}
           poolStaked={poolStaked}
           rewardAmount={rewardAmount}
+          updateStakedAndReward={updateStakedAndReward}
         />
       </div>
     </div>
