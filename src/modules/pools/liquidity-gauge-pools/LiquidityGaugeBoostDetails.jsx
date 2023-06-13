@@ -1,8 +1,4 @@
-import { useRouter } from 'next/router'
-
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
-import InfoCircleIcon from '@/icons/InfoCircleIcon'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
 
 const BoostButton = ({ className = '', value }) => {
@@ -44,14 +40,14 @@ const BoostData = ({ value }) => {
   return null
 }
 
-export const LiquidityGaugeBoostDetails = ({ tokenValue, boost }) => {
-  const router = useRouter()
+export const LiquidityGaugeBoostDetails = ({ boost }) => {
+  // const router = useRouter()
 
-  const formattedTokenValue = formatCurrency(tokenValue, router.locale, '', true, true)
+  // const formattedTokenValue = formatCurrency(tokenValue, router.locale, '', true, true)
 
   return (
     <div className='flex flex-col gap-2 mt-6 md:mt-0'>
-      <div className='flex flex-row items-center gap-1'>
+      {/* <div className='flex flex-row items-center gap-1'>
         <h2 className='text-lg font-semibold text-01052D'>
           {formattedTokenValue.short} NPM/Epoch
         </h2>
@@ -61,7 +57,7 @@ export const LiquidityGaugeBoostDetails = ({ tokenValue, boost }) => {
             <InfoCircleIcon className='w-4 h-4' />
           </button>
         </InfoTooltip>
-      </div>
+      </div> */}
 
       <div className='flex flex-row gap-2 md:flex-col'>
         <div className='inline-flex justify-start md:justify-end'>

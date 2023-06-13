@@ -1,3 +1,4 @@
+import DateLib from '@/lib/date/DateLib'
 import {
   SNAPSHOT_API_URL,
   SNAPSHOT_INTERFACE_URL,
@@ -67,7 +68,11 @@ const SnapshotChainParams = {
 }
 
 export const getChoiceChainId = (choice) => {
-  return SnapshotChainParams[getTagFromTitle(choice)]
+  // fuj and fuji are considered same
+  // eth and ethereum are considered same
+  const matchedKey = Object.keys(SnapshotChainParams).find(key => getTagFromTitle(choice).startsWith(key))
+
+  return SnapshotChainParams[matchedKey]
 }
 
 const getPoolKeyFromChoice = (choice) => {
@@ -77,7 +82,7 @@ const getPoolKeyFromChoice = (choice) => {
 
 export const parseChoice = (choice) => {
   return {
-    chainId: SnapshotChainParams[getTagFromTitle(choice)],
+    chainId: getChoiceChainId(choice),
     key: safeFormatBytes32String(getPoolKeyFromChoice(choice))
   }
 }
@@ -135,4 +140,18 @@ export const getVotingResults = (choices = [], scores = []) => {
   })
 
   return results
+}
+
+export const getAsOfDate = (start, end) => {
+  let date = new Date()
+
+  if (date < DateLib.fromUnix(start)) {
+    date = DateLib.fromUnix(start)
+  }
+
+  if (date > DateLib.fromUnix(end)) {
+    date = DateLib.fromUnix(end)
+  }
+
+  return date
 }

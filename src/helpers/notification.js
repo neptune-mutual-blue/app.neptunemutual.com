@@ -724,6 +724,74 @@ const actionMessages = {
 
     return { title: t`Setting gauge`, description: displayValue(_data) }
   },
+  [METHODS.GAUGE_POOL_TOKEN_APPROVE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${_data.tokenSymbol} successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve ${_data.tokenSymbol}`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Approving ${_data.tokenSymbol} token`, description: displayValue(_data) }
+  },
+  [METHODS.GAUGE_POOL_DEPOSIT]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Locked ${_data.tokenSymbol} successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not lock ${_data.tokenSymbol}`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Locking ${_data.tokenSymbol} token`, description: displayValue(_data) }
+  },
+  [METHODS.GAUGE_POOL_WITHDRAW]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Unlocked ${_data.tokenSymbol} successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not unlock ${_data.tokenSymbol}`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Unlocking ${_data.tokenSymbol} token`, description: displayValue(_data) }
+  },
+  [METHODS.GAUGE_POOL_WITHDRAW_REWARDS]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Received Rewards successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not receive rewards`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Receiving Rewards`, description: displayValue(_data) }
+  },
   generic: (_status, _data) => {
     return { title: t`Notification`, description: displayValue(_data) }
   }

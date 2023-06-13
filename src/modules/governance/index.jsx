@@ -115,12 +115,14 @@ export const GovernanceSinglePage = () => {
 
         {isValidProposal && (
           <LiquidityGauge
-            state={proposalDetail?.state}
             results={filteredResults}
             selectedChains={selectedChains}
             setSelectedChains={setSelectedChains}
             chainIds={chainIds}
             emission={emissionOfSelectedChains}
+            start={proposalDetail.start}
+            end={proposalDetail.end}
+            state={proposalDetail.state}
           />)}
 
         {isValidProposal && selectedChains.length === 1 && (

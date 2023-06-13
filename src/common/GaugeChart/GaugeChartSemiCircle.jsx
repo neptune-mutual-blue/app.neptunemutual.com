@@ -53,7 +53,7 @@ export const GaugeChartSemiCircle = ({
   )
 
   return (
-    <div className='gauge semichart'>
+    <div className='pointer-events-none gauge semichart'>
       <div
         className='chart'
         style={{ width: `${chartDiameter}px`, height: `${chartRadius}px`, margin: '0 auto' }}
@@ -116,7 +116,7 @@ export const GaugeChartSemiCircle = ({
             xmlns='http://www.w3.org/2000/svg'
           >
             <defs>
-              <linearGradient id='GradientColor' gradientTransform='rotate(90deg)'>
+              <linearGradient id='GradientColor' gradientTransform='rotate(90)'>
                 <stop offset='0%' stopColor='#4CA30D' />
                 <stop offset='26.04%' stopColor='#1570EF' />
                 <stop offset='59.17%' stopColor='#BA24D5' />
