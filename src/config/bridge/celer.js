@@ -1,80 +1,18 @@
-
-export const TESTNET_USDC_BRIDGE_TOKENS = {
-  43113: {
-    address: '0x2979a1cb90EEB9e75d7fB4f9813FCC40E4a7fD8b',
-    decimal: 6
-  },
-  84531: {
-    address: '0xf5C6825015280CdfD0b56903F9F8B5A2233476F5',
-    decimal: 18
-  }
-  // 5: {
-  //   address: '0xCbE56b00d173A26a5978cE90Db2E33622fD95A28',
-  //   decimal: 6
-  // },
-  // 80001: {
-  //   address: '0x6De33698e9e9b787e09d3Bd7771ef63557E148bb',
-  //   decimal: 6
-  // }
+const CELER_URL = {
+  TESTNET: 'https://cbridge-v2-test.celer.network/v2',
+  MAINNET: 'https://cbridge-prod2.celer.app/v2'
 }
 
-export const BRIDGE_CONTRACTS = {
-  5: '0x358234B325EF9eA8115291A8b81b7d33A2Fa762D',
-  65: '0x70afEaDf9E9d6337Ac81a7394c1269184e2FB6f5',
-  69: '0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8',
-  97: '0xf89354F314faF344Abd754924438bA798E306DF2',
-  280: '0x6A5279E99CA7786fb13F827Fc1Fb4F61684933d6',
-  595: '0xe6F4a83eE9f946B86a2ef008dCD872f4a942DB24',
-  647: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  1442: '0x9Bb46D5100d2Db4608112026951c9C965b233f4D',
-  4002: '0xFA78cBa4ebbf8fE28B4fC1468948F16Fda2752b3',
-  43113: '0xe95E3a9f1a45B5EDa71781448F6047d7B7e31cbF',
-  80001: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  84531: '0x9Bb46D5100d2Db4608112026951c9C965b233f4D',
-  421613: '0x9B36f165baB9ebe611d491180418d8De4b8f3a1f',
-  12340002: '0x000000000000000000000000197f7d55b71FDf43',
-  // Mainnet
-  1: '0x5427FEFA711Eff984124bFBB1AB6fbf5E3DA1820',
-  10: '0x9D39Fc627A6d9d9F8C831c16995b209548cc3401',
-  44: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  56: '0xdd90E5E87A2081Dcf0391920868eBc2FFB81a1aF',
-  58: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  66: '0x6a2d262D56735DbA19Dd70682B39F6bE9a931D98',
-  128: '0xBB7684Cc5408F4DD0921E5c2Cadd547b8f1AD573',
-  137: '0x88DCDC47D2f83a99CF0000FDF667A468bB958a78',
-  248: '0x5200000000000000000000000000000000000015',
-  250: '0x374B8a9f3eC5eB2D97ECA84Ea27aCa45aa1C57EF',
-  288: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  324: '0x54069e96C4247b37C2fbd9559CA99f08CD1CD66c',
-  336: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  592: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  1030: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  1088: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  1101: '0xD46F8E428A06789B5884df54E029e738277388D1',
-  1284: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C',
-  2222: '0xb51541df05DE07be38dcfc4a80c05389A54502BB',
-  7700: '0xD46F8E428A06789B5884df54E029e738277388D1',
-  42161: '0x1619DE6B6B20eD217a58d00f37B9d47C7663feca',
-  42170: '0xb3833Ecd19D4Ff964fA7bc3f8aC070ad5e360E56',
-  43114: '0xef3c714c9425a8F3697A9C969Dc1af30ba82e5d4',
-  1313161554: '0x841ce48F9446C8E281D3F1444cB859b4A6D0738C'
-}
-
-export const MAINNET_NPM_BRIDGE_TOKENS = {
-  1: {
-    address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
-    decimal: 18
-  },
-  42161: {
-    address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
-    decimal: 18
-  }
+export const getConfigUrl = (isTestNet) => {
+  return isTestNet
+    ? `${CELER_URL.TESTNET}/getTransferConfigs`
+    : `${CELER_URL.MAINNET}/getTransferConfigs`
 }
 
 export const getAmountEstimationUrl = ({ isTest = false, srcChainId, destChainId, tokenSymbol, sendAmountInUnits, receiverAddress, slippage }) => {
-  const base = isTest ? 'https://cbridge-v2-test.celer.network' : 'https://cbridge-prod2.celer.app'
+  const base = isTest ? CELER_URL.TESTNET : CELER_URL.MAINNET
 
-  return `${base}/v2/estimateAmt?src_chain_id=${srcChainId}&dst_chain_id=${destChainId}&token_symbol=${tokenSymbol}&amt=${sendAmountInUnits}&usr_addr=${receiverAddress}&slippage_tolerance=${slippage}`
+  return `${base}/estimateAmt?src_chain_id=${srcChainId}&dst_chain_id=${destChainId}&token_symbol=${tokenSymbol}&amt=${sendAmountInUnits}&usr_addr=${receiverAddress}&slippage_tolerance=${slippage}`
 }
 
 export const GAS_LIMIT_WITHOUT_APPROVAL = 350_000

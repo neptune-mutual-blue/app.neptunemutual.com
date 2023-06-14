@@ -11,6 +11,10 @@ import { BRIDGE_KEYS } from '@/src/config/bridge'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
+import { isFeatureEnabled } from '@/src/config/environment'
+
+const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
+const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
 
 export const BridgeOptions = ({
   selectedBridge,
@@ -39,22 +43,31 @@ export const BridgeOptions = ({
 
               <div className='flex-col justify-between flex-grow hidden lg:flex'>
                 <div className='grid gap-4 mb-auto xl:grid-cols-2'>
-                  <BridgeOption
-                    type={BRIDGE_KEYS.LAYERZERO}
-                    time='10-30 mins'
-                    priceInUsd={totalPriceInUsd[BRIDGE_KEYS.LAYERZERO]}
-                    infoArray={infoData[BRIDGE_KEYS.LAYERZERO]}
-                    selected={selectedBridge === BRIDGE_KEYS.LAYERZERO}
-                    onClick={() => setSelectedBridge(BRIDGE_KEYS.LAYERZERO)}
-                  />
-                  <BridgeOption
-                    type={BRIDGE_KEYS.CELER}
-                    time={celerDelay}
-                    priceInUsd={totalPriceInUsd[BRIDGE_KEYS.CELER]}
-                    infoArray={infoData[BRIDGE_KEYS.CELER]}
-                    selected={selectedBridge === BRIDGE_KEYS.CELER}
-                    onClick={() => setSelectedBridge(BRIDGE_KEYS.CELER)}
-                  />
+                  {
+                    isLayerZeroBridgeEnabled && (
+                      <BridgeOption
+                        type={BRIDGE_KEYS.LAYERZERO}
+                        time='10-30 mins'
+                        priceInUsd={totalPriceInUsd[BRIDGE_KEYS.LAYERZERO]}
+                        infoArray={infoData[BRIDGE_KEYS.LAYERZERO]}
+                        selected={selectedBridge === BRIDGE_KEYS.LAYERZERO}
+                        onClick={() => setSelectedBridge(BRIDGE_KEYS.LAYERZERO)}
+                      />
+                    )
+                  }
+
+                  {
+                    isCelerBridgeEnabled && (
+                      <BridgeOption
+                        type={BRIDGE_KEYS.CELER}
+                        time={celerDelay}
+                        priceInUsd={totalPriceInUsd[BRIDGE_KEYS.CELER]}
+                        infoArray={infoData[BRIDGE_KEYS.CELER]}
+                        selected={selectedBridge === BRIDGE_KEYS.CELER}
+                        onClick={() => setSelectedBridge(BRIDGE_KEYS.CELER)}
+                      />
+                    )
+                  }
                 </div>
 
                 <div className='flex justify-end'>
@@ -101,22 +114,30 @@ const OptionsMobile = ({
   return (
     <div className='block p-4 bg-F3F5F7 rounded-big lg:hidden'>
       <div className='space-y-2'>
-        <BridgeOption
-          type={BRIDGE_KEYS.LAYERZERO}
-          time='10-30 mins'
-          priceInUsd={totalPriceInUsd[BRIDGE_KEYS.LAYERZERO]}
-          infoArray={infoData[BRIDGE_KEYS.LAYERZERO]}
-          selected={selectedBridge === BRIDGE_KEYS.LAYERZERO}
-          onClick={() => setSelectedBridge(BRIDGE_KEYS.LAYERZERO)}
-        />
-        <BridgeOption
-          type={BRIDGE_KEYS.CELER}
-          time={celerDelay}
-          priceInUsd={totalPriceInUsd[BRIDGE_KEYS.CELER]}
-          infoArray={infoData[BRIDGE_KEYS.CELER]}
-          selected={selectedBridge === BRIDGE_KEYS.CELER}
-          onClick={() => setSelectedBridge(BRIDGE_KEYS.CELER)}
-        />
+        {
+          isLayerZeroBridgeEnabled && (
+            <BridgeOption
+              type={BRIDGE_KEYS.LAYERZERO}
+              time='10-30 mins'
+              priceInUsd={totalPriceInUsd[BRIDGE_KEYS.LAYERZERO]}
+              infoArray={infoData[BRIDGE_KEYS.LAYERZERO]}
+              selected={selectedBridge === BRIDGE_KEYS.LAYERZERO}
+              onClick={() => setSelectedBridge(BRIDGE_KEYS.LAYERZERO)}
+            />
+          )
+        }
+        {
+          isCelerBridgeEnabled && (
+            <BridgeOption
+              type={BRIDGE_KEYS.CELER}
+              time={celerDelay}
+              priceInUsd={totalPriceInUsd[BRIDGE_KEYS.CELER]}
+              infoArray={infoData[BRIDGE_KEYS.CELER]}
+              selected={selectedBridge === BRIDGE_KEYS.CELER}
+              onClick={() => setSelectedBridge(BRIDGE_KEYS.CELER)}
+            />
+          )
+        }
       </div>
 
       <Divider className='mt-6 mb-4' />
