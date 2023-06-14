@@ -118,7 +118,7 @@ export const ProposalDetailCard = ({
             #{snapshot}
           </a>
           <InfoTooltip
-            infoComponent={`Snapshot taken at block number ${snapshot}`}
+            infoComponent={`Snapshot taken at block ${snapshot}`}
             className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none'
           >
             <button type='button' className='cursor-default'>

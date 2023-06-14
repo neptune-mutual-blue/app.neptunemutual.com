@@ -63,18 +63,17 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
           </div>
           <ChevronDownIcon className='w-4 h-4' />
         </button>
-        {state === 'active' &&
-       (
-         <a
-           className='items-center hidden gap-1 font-semibold cursor-pointer md:flex text-4E7DD9 text-md'
-           href={getProposalLink(networkId, proposalId)}
-           target='_blank'
-           rel='noreferrer noopener nofollow'
-         >
-           <Trans>Submit Your Vote</Trans>
-           <ExternalLinkIcon />
-         </a>
-       )}
+
+        <a
+          className='items-center hidden gap-1 font-semibold cursor-pointer md:flex text-4E7DD9 text-md'
+          href={getProposalLink(networkId, proposalId)}
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+        >
+          {state === 'active' && (<Trans>Submit Your Vote</Trans>)}
+          {state !== 'active' && (<Trans>View Proposal</Trans>)}
+          <ExternalLinkIcon />
+        </a>
       </div>
 
       {open && (

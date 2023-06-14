@@ -1,19 +1,17 @@
 import {
-  useEffect,
+  useMemo,
   useState
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
-import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
-import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import {
+  useLiquidityGaugePoolStakedAndReward
+} from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
 import {
@@ -28,114 +26,22 @@ import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poolKey }) => {
+export const useLiquidityGaugePoolWithdraw = ({ stakingTokenSymbol, stakingTokenDecimals, amount, poolAddress }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
 
-  const [approving, setApproving] = useState(false)
   const [withdrawing, setWithdrawing] = useState(false)
 
-  const liquidityGaugePoolAddress = CONTRACT_DEPLOYMENTS[networkId]?.liquidityGaugePool
-  const stakingTokenSymbol = useTokenSymbol(stakingTokenAddress)
-  const stakingTokenDecimals = useTokenDecimals(stakingTokenAddress)
+  const liquidityGaugePoolAddress = poolAddress
 
-  const {
-    allowance,
-    approve,
-    refetch: updateAllowance
-    // loading: loadingAllowance
-  } = useERC20Allowance(stakingTokenAddress)
-
-  const { balance, refetch: updateBalance } = useERC20Balance(stakingTokenAddress)
+  const { poolStaked, update } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
 
-  useEffect(() => {
-    updateAllowance(liquidityGaugePoolAddress)
-  }, [updateAllowance, liquidityGaugePoolAddress])
-
-  const handleApprove = () => {
-    setApproving(true)
-
-    const cleanup = () => {
-      setApproving(false)
-    }
-    const handleError = (err) => {
-      notifyError(err, t`Could not approve ${stakingTokenSymbol}`)
-    }
-
-    const onTransactionResult = async (tx) => {
-      TransactionHistory.push({
-        hash: tx.hash,
-        methodName: METHODS.GAUGE_POOL_TOKEN_APPROVE,
-        status: STATUS.PENDING,
-        data: {
-          value: amount,
-          stakingTokenSymbol
-        }
-      })
-
-      try {
-        await txToast.push(
-          tx,
-          {
-            pending: getActionMessage(
-              METHODS.GAUGE_POOL_TOKEN_APPROVE,
-              STATUS.PENDING
-            ).title,
-            success: getActionMessage(
-              METHODS.GAUGE_POOL_TOKEN_APPROVE,
-              STATUS.SUCCESS
-            ).title,
-            failure: getActionMessage(
-              METHODS.GAUGE_POOL_TOKEN_APPROVE,
-              STATUS.FAILED
-            ).title
-          },
-          {
-            onTxSuccess: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.GAUGE_POOL_TOKEN_APPROVE,
-                status: STATUS.SUCCESS
-              })
-            },
-            onTxFailure: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.GAUGE_POOL_TOKEN_APPROVE,
-                status: STATUS.FAILED
-              })
-            }
-          }
-        )
-        cleanup()
-      } catch (err) {
-        handleError(err)
-        cleanup()
-      }
-    }
-
-    const onRetryCancel = () => {
-      cleanup()
-    }
-
-    const onError = (err) => {
-      handleError(err)
-      cleanup()
-    }
-
-    approve(liquidityGaugePoolAddress, convertToUnits(amount, stakingTokenDecimals).toString(), {
-      onTransactionResult,
-      onRetryCancel,
-      onError
-    })
-  }
-
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (onSuccessCallback) => {
     if (!account || !networkId) {
       return
     }
@@ -143,8 +49,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
     setWithdrawing(true)
 
     const cleanup = () => {
-      updateBalance()
-      updateAllowance(liquidityGaugePoolAddress)
+      update()
       setWithdrawing(false)
     }
 
@@ -188,6 +93,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
                   methodName: METHODS.GAUGE_POOL_WITHDRAW,
                   status: STATUS.SUCCESS
                 })
+                onSuccessCallback()
               },
               onTxFailure: () => {
                 TransactionHistory.push({
@@ -214,7 +120,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
         cleanup()
       }
 
-      const args = [poolKey, convertToUnits(amount, stakingTokenDecimals).toString()]
+      const args = [convertToUnits(amount, stakingTokenDecimals).toString()]
       writeContract({
         instance,
         methodName: 'withdraw',
@@ -229,19 +135,22 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenAddress, amount, poo
     }
   }
 
-  const canApprove = !toBN(amount).isZero() &&
-    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(balance)
   const canWithdraw = !toBN(amount).isZero() &&
-    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(allowance)
+    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(poolStaked)
+
+  const error = useMemo(() => {
+    if (toBN(amount).isZero()) return ''
+
+    if (convertToUnits(amount, stakingTokenDecimals).isGreaterThan(poolStaked)) return 'Amount exceeds locked balance'
+  }, [amount, poolStaked, stakingTokenDecimals])
 
   return {
-    handleApprove,
     handleWithdraw,
 
-    approving,
     withdrawing,
 
-    canApprove,
-    canWithdraw
+    canWithdraw,
+
+    error
   }
 }

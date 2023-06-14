@@ -80,7 +80,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
       {!editForm && (
         <>
           <hr className='mt-4 border-t border-D4DFEE' />
-          <table>
+          <table className='w-full'>
             <tbody>
               <tr className='flex justify-between mt-3'>
                 <th className='font-semibold text-left uppercase'>

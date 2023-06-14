@@ -33,6 +33,8 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
     loadingBalance,
     allowance,
     balance,
+    approving,
+    isSettingGauge,
     depositTokenDecimals,
     depositTokenSymbol,
     handleApprove,
@@ -109,26 +111,37 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
         </div>
       </div>
 
-      <DataLoadingIndicator message={loadingMessage} />
-      {!canSetGauge && (
-        <RegularButton
-          className='mt-6 rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
-          onClick={handleApprove}
-          disabled={showError || !!loadingMessage}
-        >
-          <Trans>Approve {depositTokenSymbol}</Trans>
-        </RegularButton>
-      )}
+      <div className='inline-flex flex-col mt-3'>
+        <DataLoadingIndicator message={loadingMessage} />
+        {!canSetGauge && (
+          <RegularButton
+            className='rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
+            onClick={handleApprove}
+            disabled={approving || showError || !!loadingMessage}
+          >
+            {approving
+              ? (
+                  t`Approving...`
+                )
+              : <Trans>Approve {depositTokenSymbol}</Trans>}
+          </RegularButton>
+        )}
 
-      {canSetGauge && (
-        <RegularButton
-          className='mt-6 rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
-          onClick={handleSetGauge}
-          disabled={showError || !!loadingMessage}
-        >
-          <Trans>Set Gauge On {ShortNetworkNames[selectedChain]}</Trans>
-        </RegularButton>
-      )}
+        {canSetGauge && (
+          <RegularButton
+            className='rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
+            onClick={handleSetGauge}
+            disabled={isSettingGauge || showError || !!loadingMessage}
+          >
+            {isSettingGauge
+              ? (
+                  t`Setting Gauge...`
+                )
+              : <Trans>Set Gauge On {ShortNetworkNames[selectedChain]}</Trans>}
+
+          </RegularButton>
+        )}
+      </div>
 
       {showError && (
         <Alert className='!mt-6'>

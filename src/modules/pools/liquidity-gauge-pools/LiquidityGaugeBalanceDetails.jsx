@@ -2,23 +2,30 @@ import { useRouter } from 'next/router'
 
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { explainInterval } from '@/utils/formatter/interval'
 
 export const LiquidityGaugeBalanceDetails = ({
   rewardTokenSymbol,
-  stakingTokenBalance,
+  rewardTokenDecimals,
+  stakedBalance,
   stakingTokenSymbol,
   stakingTokenDecimals,
   emissionReceived,
-  lockupPeriod
+  lockupPeriodInBlocks
   // tvl
 }) => {
   const router = useRouter()
 
   const formattedBalance = formatCurrency(
-    convertFromUnits(stakingTokenBalance, stakingTokenDecimals),
+    convertFromUnits(stakedBalance, stakingTokenDecimals),
     router.locale,
     stakingTokenSymbol,
+    true
+  )
+
+  const formattedEmissionAmount = formatCurrency(
+    convertFromUnits(emissionReceived, rewardTokenDecimals),
+    router.locale,
+    rewardTokenSymbol,
     true
   )
 
@@ -29,16 +36,19 @@ export const LiquidityGaugeBalanceDetails = ({
         <span
           title={formattedBalance.long}
           className='font-semibold'
-        >{formattedBalance.short}
+        >
+          {formattedBalance.short}
         </span>
       </div>
       <div className='flex flex-row justify-between'>
         <span>Emission Received</span>
-        <span className='font-semibold'>{emissionReceived} {rewardTokenSymbol}</span>
+        <span className='font-semibold' title={formattedEmissionAmount.long}>
+          {formattedEmissionAmount.short}
+        </span>
       </div>
       <div className='flex flex-row justify-between'>
         <span>Lockup Period</span>
-        <span className='font-semibold'>{explainInterval(lockupPeriod)}</span>
+        <span className='font-semibold'>{lockupPeriodInBlocks} Blocks</span>
       </div>
       {/* <div className='flex flex-row justify-between'>
         <span>TVL</span>

@@ -3,32 +3,35 @@ import {
   useState
 } from 'react'
 
-import { GCR_POOLS_URL } from '@/src/config/constants'
+import { VOTE_ESCROW_STATS_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { getReplacedString } from '@/utils/string'
 import { t } from '@lingui/macro'
 
-export const useLiquidityGaugePools = () => {
+export const useVoteEscrowStats = () => {
   const { networkId } = useNetwork()
-  const [data, setData] = useState([])
+  const [data, setData] = useState({
+    averageLock: '0',
+    totalVoteLocked: '0'
+  })
   const [loading, setLoading] = useState(false)
   const { notifyError } = useErrorNotifier()
 
   useEffect(() => {
-    async function fetchPools () {
+    async function exec () {
       if (!networkId) {
         return
       }
 
       const handleError = (err) => {
-        notifyError(err, t`Could not get liquidity gauge pools`)
+        notifyError(err, t`Could not get vote-escrow stats`)
       }
 
       try {
         // Get data from API if wallet's not connected
         const response = await fetch(
-          getReplacedString(GCR_POOLS_URL, { networkId }),
+          getReplacedString(VOTE_ESCROW_STATS_URL, { networkId }),
           {
             method: 'GET',
             headers: {
@@ -42,20 +45,20 @@ export const useLiquidityGaugePools = () => {
           return
         }
 
-        const pools = (await response.json()).data
+        const _data = (await response.json()).data
 
-        if (!pools || Object.keys(pools).length === 0) {
+        if (!_data || !Array.isArray(_data)) {
           return
         }
 
-        setData(pools)
+        setData(_data[0])
       } catch (err) {
         handleError(err)
       }
     }
 
     setLoading(true)
-    fetchPools()
+    exec()
       .then(() => setLoading(false))
       .catch(() => setLoading(false))
   }, [notifyError, networkId])

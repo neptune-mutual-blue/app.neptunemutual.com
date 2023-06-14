@@ -10,7 +10,6 @@ import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
@@ -120,7 +119,7 @@ function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
     return (
       <div data-testid='active-reportings-card-skeleton'>
         <Grid className='w-full gap-4 mt-14 lg:mb-24 mb-14'>
-          <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
+          <CardSkeleton numberOfCards={15} />
         </Grid>
       </div>
     )

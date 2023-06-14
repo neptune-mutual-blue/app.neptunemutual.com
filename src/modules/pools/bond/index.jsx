@@ -178,7 +178,7 @@ const BondPage = () => {
     setValue(convertFromUnits(balance, lpTokenDecimals).toString())
   }
 
-  const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || '0')
+  const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || '0').toString()
   let loadingMessage = ''
   if (receiveAmountLoading) {
     loadingMessage = t`Calculating tokens...`
@@ -234,7 +234,7 @@ const BondPage = () => {
           {!canBond
             ? (
               <RegularButton
-                disabled={error || approving || !value || loadingMessage}
+                disabled={!!error || approving || !value || !!loadingMessage}
                 className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleApprove()
@@ -253,7 +253,7 @@ const BondPage = () => {
               )
             : (
               <RegularButton
-                disabled={error || bonding || loadingMessage}
+                disabled={!!error || bonding || !!loadingMessage}
                 className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleBond(() => {

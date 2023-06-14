@@ -7,13 +7,13 @@ import Link from 'next/link'
 
 // import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
-import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import {
+  LiquidityGaugePoolCardsSkeleton
+} from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolCardsSkeleton'
 import {
   LiquidityGaugePoolsList
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsCard'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 // import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
@@ -133,9 +133,7 @@ function Content ({
   if (loading) {
     return (
       <>
-        <Grid className='mb-24 mt-14' data-testid='loading-grid'>
-          <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
-        </Grid>
+        <LiquidityGaugePoolCardsSkeleton />
         {/* {!loading && hasMore && (
           <NeutralButton
             onClick={handleShowMore}

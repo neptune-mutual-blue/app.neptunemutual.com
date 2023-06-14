@@ -43,7 +43,7 @@ export const useVoteEscrowData = () => {
 
   const { networkId } = useNetwork()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
-  const { balance: npmBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
+  const { balance: npmBalance, loading: loadingBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
 
   const [loading, setLoading] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
@@ -431,6 +431,7 @@ export const useVoteEscrowData = () => {
   }, [account, contractRead, library, networkId])
 
   useEffect(() => {
+    // Get data on load
     getData()
   }, [getData])
 
@@ -447,6 +448,7 @@ export const useVoteEscrowData = () => {
     unlock,
     actionLoading,
     loadingAllowance,
+    loadingBalance,
     canLock,
     handleApprove,
     loadingVeNPMAllowance,
