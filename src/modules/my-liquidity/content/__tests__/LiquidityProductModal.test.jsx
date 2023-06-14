@@ -45,18 +45,14 @@ describe('LiquidityProductModal', () => {
   test('should render the correct number of cover rules', () => {
     const rules = screen.getByTestId('cover-rules').querySelectorAll('li')
 
-    const expectedRules = testData.productInfo.infoObj.rules.split('\n')
-    expect(rules.length).toBe(expectedRules.length)
+    const expectedRules = data.productInfoDetails.parameters.reduce((acc, curr) => acc + curr.list.items.length, 0)
+    expect(rules.length).toBe(expectedRules)
   })
 
   test('should render correct rule text', () => {
     const rule = screen.getByTestId('cover-rules').querySelector('li')
 
-    const expectedRule = `${testData.productInfo.infoObj.rules
-      .split('\n')[0]
-      .trim()
-      .replace(/^\d+\./g, '')
-      .trim()}`
+    const expectedRule = `${data.productInfoDetails.parameters[0].list.items[0]}`
     expect(rule.textContent).toBe(expectedRule)
   })
 

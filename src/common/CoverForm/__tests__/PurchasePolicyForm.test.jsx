@@ -7,17 +7,26 @@ import {
   screen
 } from '@/utils/unit-tests/test-utils'
 
+const data = testData.coversAndProducts2.data
+
 describe('PurchasePolicyForm component', () => {
   const { initialRender, rerenderFn } = initiateTest(
     PurchasePolicyForm,
     {
-      coverKey: testData.coverInfo.coverKey,
-      productKey: ''
+      coverKey: data.coverInfoDetails.coverKey,
+      productKey: data.productInfoDetails.productKey,
+      availableForUnderwriting: data.availableForUnderwriting,
+      projectOrProductName: data.productInfoDetails.productName,
+      coverageLag: data.coverageLag,
+      parameters: data.productInfoDetails.parameters,
+      isUserWhitelisted: data.isUserWhitelisted,
+      requiresWhitelist: data.requiresWhitelist,
+      activeIncidentDate: data.activeIncidentDate,
+      productStatus: data.productStatus
     },
     () => {
       mockHooksOrMethods.useRouter()
       mockHooksOrMethods.useAppConstants()
-      // mockHooksOrMethods.useCoverStatsContext()
       mockHooksOrMethods.usePolicyFees()
       mockHooksOrMethods.usePurchasePolicy()
       mockHooksOrMethods.useValidateReferralCode()
@@ -29,11 +38,18 @@ describe('PurchasePolicyForm component', () => {
   })
 
   test('should render the purchase policy form', () => {
+    rerenderFn({
+      productStatus: 'Claimable'
+    })
+
     const wrapper = screen.getByTestId('purchase-policy-form')
     expect(wrapper).toBeInTheDocument()
   })
 
   test('should fire on change when changing redderral code', () => {
+    const stepsButton = screen.getByTestId('next-form-steps')
+    fireEvent.click(stepsButton)
+
     const input = screen.getByTestId('referral-input')
     expect(input).toBeInTheDocument()
     fireEvent.change(input, { target: { value: 'sadjasdklads' } })
@@ -65,36 +81,23 @@ describe('PurchasePolicyForm component', () => {
       })
     })
 
-    const loadingMsg = screen.getByText(/Fetching Balance.../i)
+    const loadingMsg = screen.getByText(/Fetching balance.../i)
     expect(loadingMsg).toBeInTheDocument()
   })
 
-  // test('should show alert if user is not whielisted and cover requires whitelist', () => {
-  //   rerenderFn({}, () => {
-  //     mockHooksOrMethods.useCoverStatsContext({
-  //       ...testData.coverStats.info,
-  //       requiresWhitelist: true,
-  //       isUserWhitelisted: false
-  //     })
-  //   })
+  test('should show alert if user is not whielisted and cover requires whitelist', () => {
+    rerenderFn({
+      requiresWhitelist: true,
+      isUserWhitelisted: false
+    })
 
-  //   const message = screen.getByText(/You are not whitelisted/i)
-  //   expect(message).toBeInTheDocument()
-  // })
+    const message = screen.getByText(/You are not whitelisted/i)
+    expect(message).toBeInTheDocument()
+  })
 
   // test('should show alert with product status anything other than normal', () => {
-  //   rerenderFn({}, () => {
-  //     mockHooksOrMethods.useCoverStatsContext({
-  //       ...testData.coverStats.info,
-  //       productStatus: 'Incident Occurred'
-  //     })
-  //   })
-
-  //   const message = screen.getByText(/Cannot purchase policy,/i)
-  //   expect(message).toBeInTheDocument()
-
   //   const purchaseForm = screen.queryByTestId('purchase-policy-form')
-  //   expect(purchaseForm).not.toBeInTheDocument()
+  //   expect(purchaseForm).toBeInTheDocument()
   // })
 
   test('should fire radio button handler on change', () => {

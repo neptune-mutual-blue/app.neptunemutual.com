@@ -33,7 +33,7 @@ const props = {
   }
 }
 describe('PolicyCard test', () => {
-  const { initialRender } = initiateTest(PolicyCard, {
+  const { initialRender, rerenderFn } = initiateTest(PolicyCard, {
     policyInfo: props.policyInfo,
     coverOrProductData: data
 
@@ -90,19 +90,17 @@ describe('PolicyCard test', () => {
     })
 
     test("should display status badge if status is not 'Normal'", () => {
-      // cleanup()
-
-      // mockHooksOrMethods.useValidReport(() => ({
-      //   data: {
-      //     report: {
-      //       ...testData.reporting.validReport.data.report,
-      //       status: 'Claimable'
-      //     }
-      //   }
-      // }))
+      rerenderFn({
+        policyInfo: {
+          ...props.policyInfo,
+          productStatus: '4',
+          productStatusEnum: 'Claimable',
+          claimBeginsFrom: '46445',
+          claimExpiresAt: ''
+        }
+      })
 
       const status = screen.getByTestId('policy-card-status')
-      console.log(status)
       expect(status).toHaveTextContent('Claimable')
     })
   })

@@ -1,10 +1,15 @@
 import DateLib from '@/lib/date/DateLib'
-import { WithdrawLiquidityForm } from '@/modules/my-liquidity/content/WithdrawLiquidityForm'
+import {
+  WithdrawLiquidityForm
+} from '@/modules/my-liquidity/content/WithdrawLiquidityForm'
 import { convertToUnits } from '@/utils/bn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest } from '@/utils/unit-tests/helpers'
-import { fireEvent, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('WithdrawLiquidityForm', () => {
   const props = {
@@ -231,7 +236,7 @@ describe('WithdrawLiquidityForm', () => {
       fireEvent.change(podInput, { target: { value: '1000' } })
 
       const button1 = screen.getByTestId('withdraw-button')
-      expect(button1.textContent).toBe('Withdrawing..')
+      expect(button1.textContent).toBe('Withdrawing...')
     })
 
     test('should disable the button when withdrawing', () => {

@@ -1,9 +1,11 @@
-import { screen, fireEvent } from '@/utils/unit-tests/test-utils'
-
 import { PodStakingPage } from '@/modules/pools/pod-staking'
 import { initiateTest } from '@/utils/unit-tests/helpers'
-import { testData } from '@/utils/unit-tests/test-data'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
 
 const initialMocks = () => {
   mockHooksOrMethods.useNetwork()
@@ -79,7 +81,7 @@ describe('PodStaking Page test', () => {
       const grid = screen.getByTestId('no-pools-container')
       expect(grid).toBeInTheDocument()
 
-      const noDataImage = screen.getByAltText('no data found')
+      const noDataImage = screen.getByAltText(/no data found/i)
       expect(noDataImage).toBeInTheDocument()
     })
 

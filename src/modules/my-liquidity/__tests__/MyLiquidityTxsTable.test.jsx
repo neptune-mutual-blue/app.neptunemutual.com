@@ -1,17 +1,21 @@
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-
+import {
+  getBlockLink,
+  getTxLink
+} from '@/lib/connect-wallet/utils/explorer'
 import {
   columns,
   MyLiquidityTxsTable
 } from '@/modules/my-liquidity/MyLiquidityTxsTable'
-
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
-import { testData } from '@/utils/unit-tests/test-data'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
 import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
 
 const initialMocks = () => {
   mockHooksOrMethods.usePagination()
@@ -19,7 +23,7 @@ const initialMocks = () => {
   mockHooksOrMethods.useNetwork()
   mockHooksOrMethods.useWeb3React()
   mockHooksOrMethods.useAppConstants()
-  mockHooksOrMethods.useCoverOrProductData()
+  mockHooksOrMethods.useCoversAndProducts2()
 }
 
 describe('MyLiquidityTxsTable test', () => {
@@ -139,10 +143,10 @@ describe('MyLiquidityTxsTable test', () => {
             'en'
           ).short
         } ${dataRow.type === 'PodsIssued' ? 'to' : 'from'} ${
-          testData.coverInfo.supportsProducts
-            ? testData.coverInfo.infoObj.coverName
-            : testData.coverInfo.infoObj.projectName
-        }`
+          testData.coversAndProducts2.data.supportsProducts
+            ? testData.coversAndProducts2.data.productInfoDetails.productName
+            : testData.coversAndProducts2.data.coverInfoDetails.coverName
+        } Cover`
         expect(renderedDetails).toBe(expectedDetails)
       })
 
