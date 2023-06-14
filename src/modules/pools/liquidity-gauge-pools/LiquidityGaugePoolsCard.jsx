@@ -82,6 +82,7 @@ const LiquidityGaugePoolCard = ({ pool }) => {
         <div className='grid grid-cols-1 md:grid-cols-[1fr_auto] items-start justify-between'>
           <div className='flex flex-col gap-4'>
             <LiquidityGaugeCardHeading
+              poolKey={pool.key}
               title={pool.name}
               stakingTokenSymbol={stakingTokenSymbol}
             />

@@ -26,6 +26,7 @@ import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
+import { useVoteEscrowLock } from '@/src/hooks/contracts/useVoteEscrowLock'
 import {
   convertFromUnits,
   convertToUnits,
@@ -66,20 +67,23 @@ const VoteEscrow = () => {
 
   const {
     data,
-    lock,
-    unlock: unlockNPMTokens,
-    actionLoading,
+    // loading,
+    refetch: refetchLockData
+  } = useVoteEscrowData()
+  const {
+    canLock,
+    data: { npmBalance },
     loadingAllowance,
     loadingBalance,
-    canLock,
-    handleApprove,
-    hasUnlockAllowance,
-    handleApproveUnlock
-  } = useVoteEscrowData()
-
-  const canUnlock = toBN(data.veNPMBalance).isGreaterThan(0)
-
-  const allowanceExists = canLock(input || '0')
+    lock,
+    locking,
+    approving,
+    handleApprove
+  } = useVoteEscrowLock({
+    refetchLockData,
+    lockAmountInUnits: convertToUnits(input || '0', NPMTokenDecimals),
+    NPMTokenSymbol
+  })
 
   const oldLockDurationBN = toBNSafe(data.unlockTimestamp).isGreaterThan(DateLib.unix())
     ? toBNSafe(data.unlockTimestamp).minus(DateLib.unix()) // to duration left
@@ -106,17 +110,16 @@ const VoteEscrow = () => {
   const votingPower = toBN(boost).multipliedBy(newLockedNpm)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
+  const canUnlock = toBN(data.veNPMBalance).isGreaterThan(0)
   if (unlock) {
     return (
       <UnlockEscrow
-        hasUnlockAllowance={hasUnlockAllowance}
-        handleApproveUnlock={handleApproveUnlock}
-        loading={actionLoading}
-        data={data}
-        unlockNPMTokens={unlockNPMTokens}
+        veNPMBalance={data.veNPMBalance}
+        unlockTimestamp={data.unlockTimestamp}
         onBack={() => {
           setUnlock(false)
         }}
+        refetchLockData={refetchLockData}
       />
     )
   }
@@ -132,8 +135,8 @@ const VoteEscrow = () => {
   }
 
   const handleMax = () => {
-    if (toBN(data.npmBalance).isGreaterThan(0)) {
-      setInput(convertFromUnits(data.npmBalance, NPMTokenDecimals).toString())
+    if (toBN(npmBalance).isGreaterThan(0)) {
+      setInput(convertFromUnits(npmBalance, NPMTokenDecimals).toString())
     }
   }
 
@@ -158,7 +161,7 @@ const VoteEscrow = () => {
     loadingMessage = t`Fetching allowance...`
   }
 
-  const buttonDisabled = !!loadingMessage || !(agreed && !actionLoading && ((!extend && input) || extend))
+  const buttonDisabled = locking || !!loadingMessage || !(agreed && ((!extend && input) || extend))
 
   const LabelComponent = () => (
     <div className='flex items-center justify-between mt-6 mb-4'>
@@ -219,7 +222,7 @@ const VoteEscrow = () => {
             tokenAddress={NPMTokenAddress}
             tokenSymbol={NPMTokenSymbol}
             tokenDecimals={NPMTokenDecimals}
-            tokenBalance={data.npmBalance || '0'}
+            tokenBalance={npmBalance || '0'}
             inputId='npm-amount'
             inputValue={input}
             disabled={extend}
@@ -280,7 +283,7 @@ const VoteEscrow = () => {
 
             <DataLoadingIndicator message={loadingMessage} />
 
-            {allowanceExists && (
+            {canLock && (
               <RegularButton
                 disabled={buttonDisabled}
                 onClick={() => {
@@ -292,7 +295,7 @@ const VoteEscrow = () => {
               </RegularButton>
             )}
 
-            {!allowanceExists && (
+            {!canLock && (
               <RegularButton
                 disabled={buttonDisabled}
                 onClick={() => {
@@ -300,11 +303,11 @@ const VoteEscrow = () => {
                 }}
                 className='w-full p-4 font-semibold uppercase rounded-tooltip text-md'
               >
-                {actionLoading
-                  ? (
-                      t`Approving...`
-                    )
-                  : <Trans>Approve {NPMTokenSymbol}</Trans>}
+                {
+                  approving
+                    ? t`Approving...`
+                    : <Trans>Approve {NPMTokenSymbol}</Trans>
+                }
               </RegularButton>
             )}
             <KeyValueList

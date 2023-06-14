@@ -42,7 +42,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
   } = useSetGauge({ title, amountToDeposit, distribution })
 
   const canSetGauge = toBN(allowance).isGreaterThanOrEqualTo(amountToDeposit)
-  const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThanOrEqualTo(balance)
+  const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThan(balance)
 
   const currentNetworkName = NetworkNames[networkId]
   const invalidNetwork = networkId !== selectedChain

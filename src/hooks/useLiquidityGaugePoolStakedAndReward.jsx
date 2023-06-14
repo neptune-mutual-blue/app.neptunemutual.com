@@ -19,7 +19,8 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolAddress }) => {
 
   const [data, setData] = useState({
     lockedByMe: '0',
-    reward: '0'
+    reward: '0',
+    lockedByEveryone: '0'
   })
 
   const { notifyError } = useErrorNotifier()
@@ -39,12 +40,14 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolAddress }) => {
       const instance = new Contract(liquidityGaugePoolAddress, abis.LiquidityGaugePool)
 
       const calls = [
+        instance._lockedByEveryone(),
         instance._lockedByMe(account),
         instance.calculateReward(account)
       ]
-      const [lockedByMe, reward] = await multiCallProvider.all(calls)
+      const [lockedByEveryone, lockedByMe, reward] = await multiCallProvider.all(calls)
 
       setData({
+        lockedByEveryone: lockedByEveryone.toString(),
         lockedByMe: lockedByMe.toString(),
         reward: reward.toString()
       })
