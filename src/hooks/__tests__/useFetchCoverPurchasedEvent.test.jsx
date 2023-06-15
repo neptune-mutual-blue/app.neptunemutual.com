@@ -3,15 +3,17 @@ import {
   storePurchaseEvent,
   useFetchCoverPurchasedEvent
 } from '@/src/hooks/useFetchCoverPurchasedEvent'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useFetchCoverPurchasedEvent', () => {
-  const { mock, mockFunction } = mockFn.console.error()
+  const { mock, mockFunction } = mockGlobals.console.error()
   mock()
 
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
   jest.mock('@/lib/date/DateLib')
 
   const args = [
@@ -22,7 +24,7 @@ describe('useFetchCoverPurchasedEvent', () => {
 
   test('should return default value when no data returned from api', async () => {
     const mockData = { data: {} }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(
       useFetchCoverPurchasedEvent,
@@ -32,14 +34,14 @@ describe('useFetchCoverPurchasedEvent', () => {
     expect(result.data).toBeFalsy()
     expect(result.loading).toBeFalsy()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return correct data as received', async () => {
     const mockData = {
       data: { coverPurchasedEvent: { id: 123, timestamp: 167934354 } }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(
       useFetchCoverPurchasedEvent,
@@ -50,16 +52,16 @@ describe('useFetchCoverPurchasedEvent', () => {
     expect(result.data).toBe(mockData.data.coverPurchasedEvent)
     expect(result.loading).toBeFalsy()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should log error when error returned from api', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
 
     await renderHookWrapper(useFetchCoverPurchasedEvent, args, true)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should get data from localstorage if available', async () => {

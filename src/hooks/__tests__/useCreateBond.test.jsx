@@ -1,22 +1,27 @@
 import { useCreateBond } from '@/src/hooks/useCreateBond'
 import { convertToUnits } from '@/utils/bn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useCreateBond', () => {
-  mockFn.useDebounce()
-  mockFn.useNetwork()
-  mockFn.useRouter()
-  mockFn.useWeb3React()
-  mockFn.useAppConstants()
-  mockFn.useBondPoolAddress()
-  mockFn.useERC20Allowance()
-  mockFn.useERC20Balance()
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.BondPool.getInstance()
+  mockHooksOrMethods.useDebounce()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useRouter()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useBondPoolAddress()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useERC20Balance()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.BondPool.getInstance()
 
   test('should return default value from hook', async () => {
     const { result } = await renderHookWrapper(useCreateBond, [
@@ -39,7 +44,7 @@ describe('useCreateBond', () => {
   })
 
   test('calling handleApprove function', async () => {
-    mockFn.useERC20Allowance(() => ({
+    mockHooksOrMethods.useERC20Allowance(() => ({
       ...testData.erc20Allowance,
       allowance: convertToUnits(testData.useCreateBondArgs.value)
     }))
@@ -54,13 +59,12 @@ describe('useCreateBond', () => {
       await result.handleApprove()
     })
 
-    const amount = await (await testData.txPoster.contractRead()).toString()
-    expect(result.receiveAmount).toEqual(amount)
+    expect(testData.erc20Allowance.approve).toHaveBeenCalled()
     expect(result.canBond).toEqual(true)
   })
 
   test('calling handleApprove function with error', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Error occurred when calling approve function')))
     }))
@@ -77,7 +81,7 @@ describe('useCreateBond', () => {
   })
 
   test('calling handleBond function', async () => {
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
     const { result, act } = await renderHookWrapper(
       useCreateBond,
       [testData.useCreateBondArgs],
@@ -90,7 +94,7 @@ describe('useCreateBond', () => {
   })
 
   test('calling handleBond function with error', async () => {
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: undefined
     }))
@@ -106,7 +110,7 @@ describe('useCreateBond', () => {
   })
 
   test('rendering with error for useeffects', async () => {
-    mockFn.useNetwork(() => ({
+    mockHooksOrMethods.useNetwork(() => ({
       networkId: null
     }))
     const { result } = await renderHookWrapper(
@@ -116,7 +120,7 @@ describe('useCreateBond', () => {
     )
 
     expect(result.receiveAmount).toEqual('0')
-    // mockFn.useTxPoster(() => ({
+    // mockHooksOrMethods.useTxPoster(() => ({
     //   ...testData.txPoster,
     //   contractRead: jest.fn(() => Promise.reject({ data: "MOCK error" })),
     // }));
@@ -125,7 +129,7 @@ describe('useCreateBond', () => {
   })
 
   test('simulating for coverage', async () => {
-    mockFn.console.error().mock()
+    mockGlobals.console.error().mock()
     let args = { ...testData.useCreateBondArgs, value: 'invalid' }
     const { result, rerender } = await renderHookWrapper(
       useCreateBond,
@@ -143,13 +147,13 @@ describe('useCreateBond', () => {
     args = { ...testData.useCreateBondArgs, value: '0' }
     await rerender([args])
 
-    mockFn.useNetwork()
+    mockHooksOrMethods.useNetwork()
     args = {
       ...testData.useCreateBondArgs,
       info: { ...testData.useCreateBondArgs.info, maxBond: '0' }
     }
     await rerender([args])
 
-    mockFn.console.error().restore()
+    mockGlobals.console.error().restore()
   })
 })

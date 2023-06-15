@@ -6,8 +6,9 @@ import { formatPercent } from '@/utils/formatter/percent'
 import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const props = {
   data: {
@@ -38,9 +39,9 @@ const props = {
   })
 }
 const initialMocks = () => {
-  mockFn.useNetwork()
-  mockFn.useSortableStats()
-  mockFn.usePoolInfo()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useSortableStats()
+  mockHooksOrMethods.usePoolInfo()
 }
 
 describe('PodStakingCard test', () => {
@@ -115,7 +116,7 @@ describe('PodStakingCard test', () => {
 
   test('should render Pool stat cards & staking cards when stake is greater than 0', () => {
     rerenderFn({}, () => {
-      mockFn.usePoolInfo(() => ({
+      mockHooksOrMethods.usePoolInfo(() => ({
         ...testData.poolInfo,
         info: {
           ...testData.poolInfo.info,
@@ -132,7 +133,7 @@ describe('PodStakingCard test', () => {
 
   test('should have correct value in pool stat card', () => {
     rerenderFn({}, () => {
-      mockFn.usePoolInfo(() => ({
+      mockHooksOrMethods.usePoolInfo(() => ({
         ...testData.poolInfo,
         info: {
           ...testData.poolInfo.info,
@@ -159,7 +160,7 @@ describe('PodStakingCard test', () => {
   describe('modals', () => {
     beforeEach(() => {
       rerenderFn({}, () => {
-        mockFn.usePoolInfo(() => ({
+        mockHooksOrMethods.usePoolInfo(() => ({
           ...testData.poolInfo,
           info: {
             ...testData.poolInfo.info,

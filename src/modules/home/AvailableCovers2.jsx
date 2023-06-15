@@ -156,7 +156,7 @@ export const AvailableCovers = () => {
   }
 
   return (
-    <Container className='py-16'>
+    <Container className='py-16' data-testid='available-covers-container'>
       <div
         id='cover-products'
         className='flex flex-wrap items-center justify-between'
@@ -221,7 +221,7 @@ function Content ({
 }) {
   if (loading) {
     return (
-      <CardSkeleton numberOfCards={CARDS_PER_PAGE} className='min-h-301' />
+      <CardSkeleton numberOfCards={CARDS_PER_PAGE} className='min-h-301' data-testid='cards-skeleton' />
     )
   }
 

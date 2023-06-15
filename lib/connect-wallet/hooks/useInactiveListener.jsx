@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { ConnectorNames } from '../config/connectors'
 import { ACTIVE_CONNECTOR_KEY } from '../config/localstorage'
-import useAuth from './useAuth'
+import { useAuth } from './useAuth'
 
 export function useInactiveListener (networkId, notifier) {
   const { login, logout } = useAuth(networkId, notifier)

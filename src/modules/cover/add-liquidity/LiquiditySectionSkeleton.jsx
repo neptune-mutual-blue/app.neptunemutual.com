@@ -2,8 +2,8 @@ import { Container } from '@/common/Container/Container'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
 import { HeroSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
-export const LiquiditySectionSkeleton = () => (
-  <>
+export const LiquiditySectionSkeleton = ({ ...rest }) => (
+  <div {...rest}>
     <HeroSkeleton />
 
     <div className='pt-12 pb-24 border-t border-t-B0C4DB'>
@@ -23,5 +23,5 @@ export const LiquiditySectionSkeleton = () => (
         <Skeleton className='h-4 mt-1.5 w-96' />
       </Container>
     </div>
-  </>
+  </div>
 )

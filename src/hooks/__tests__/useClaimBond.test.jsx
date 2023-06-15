@@ -1,18 +1,23 @@
-import { useClaimBond } from '../useClaimBond'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
 
+import { useClaimBond } from '../useClaimBond'
+
+jest.mock('@neptunemutual/sdk')
+
 describe('useClaimBond', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.BondPool.getInstance()
-  mockFn.useErrorNotifier()
-  mockFn.useAppConstants()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.BondPool.getInstance()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.useAppConstants()
 
   test('while fetching w/o account and networkId', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
-    const { result, act } = await renderHookWrapper(useClaimBond)
+    const { result, act } = await renderHookWrapper(useClaimBond, ['2000000000'])
 
     await act(async () => {
       await result.handleClaim(() => {})
@@ -23,12 +28,15 @@ describe('useClaimBond', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster()
-    mockFn.useTxToast()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster(() => ({
+      ...testData.txPoster,
+      writeContract: undefined
+    }))
+    mockHooksOrMethods.useTxToast()
 
-    const { result, act } = await renderHookWrapper(useClaimBond)
+    const { result, act } = await renderHookWrapper(useClaimBond, ['2000000000'])
 
     await act(async () => {
       await result.handleClaim(() => {})
@@ -39,15 +47,15 @@ describe('useClaimBond', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: undefined
     }))
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
 
-    const { result, act } = await renderHookWrapper(useClaimBond)
+    const { result, act } = await renderHookWrapper(useClaimBond, ['2000000000'])
 
     await act(async () => {
       await result.handleClaim(() => {})

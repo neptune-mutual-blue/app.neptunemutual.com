@@ -1,10 +1,10 @@
 import { CoveredProducts } from '@/modules/my-liquidity/content/CoveredProducts'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
 import { screen } from '@testing-library/react'
 
 describe('CoveredProducts', () => {
-  const props = { coverInfo: testData.coverInfoWithProducts }
+  const props = { products: [testData.coversAndProducts2.data] }
   const { initialRender } = initiateTest(CoveredProducts, props)
 
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe('CoveredProducts', () => {
 
   test('should render the correct number of products', () => {
     const products = screen.queryAllByTestId('cover-product')
-    expect(products.length).toBe(props.coverInfo.products.length)
+    expect(products.length).toBe([testData.coversAndProducts2.data.productInfoDetails].length)
   })
 
   test('should not show the liquidity product modal by default', () => {

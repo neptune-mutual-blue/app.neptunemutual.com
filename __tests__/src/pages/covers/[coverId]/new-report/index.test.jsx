@@ -1,4 +1,5 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/modules/reporting/new', () => ({
@@ -11,7 +12,7 @@ describe('NewIncidentReportPage test', () => {
   const OLD_ENV = process.env
 
   beforeEach(() => {
-    mockFn.useRouter()
+    mockHooksOrMethods.useRouter()
     process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: 'reporting' }
     const NewIncidentReportPage =
       require('@/src/pages/covers/[coverId]/new-report/index').default

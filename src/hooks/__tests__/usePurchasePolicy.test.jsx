@@ -1,7 +1,12 @@
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
-import { testData } from '@/utils/unit-tests/test-data'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { convertToUnits } from '@/utils/bn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+jest.mock('@neptunemutual/sdk')
 
 const mockArgs = {
   coverKey:
@@ -17,19 +22,19 @@ const mockArgs = {
 }
 
 describe('usePurchasePolicy', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.usePolicyAddress()
-  mockFn.useAppConstants()
-  mockFn.useERC20Balance()
-  mockFn.useERC20Allowance()
-  mockFn.useRouter()
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.useLiquidityFormsContext()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.PolicyContract.getInstance()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.usePolicyAddress()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useERC20Balance()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useRouter()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.useLiquidityFormsContext()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.PolicyContract.getInstance()
 
   test('should return default value from hook', async () => {
     const { result } = await renderHookWrapper(usePurchasePolicy, [mockArgs])
@@ -40,7 +45,7 @@ describe('usePurchasePolicy', () => {
   })
 
   test('calling handleApprove function', async () => {
-    mockFn.useERC20Allowance(() => ({
+    mockHooksOrMethods.useERC20Allowance(() => ({
       ...testData.erc20Allowance,
       allowance: convertToUnits(mockArgs.value)
     }))
@@ -59,7 +64,7 @@ describe('usePurchasePolicy', () => {
   })
 
   test('calling handlePurchase function', async () => {
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
     const { result, act } = await renderHookWrapper(usePurchasePolicy, [
       mockArgs
     ])
@@ -70,7 +75,7 @@ describe('usePurchasePolicy', () => {
   })
 
   test('calling handlePurchase function with error', async () => {
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: undefined
     }))
@@ -84,7 +89,7 @@ describe('usePurchasePolicy', () => {
   })
 
   test('simulating for coverage', async () => {
-    mockFn.console.error().mock()
+    mockGlobals.console.error().mock()
     let args = { ...mockArgs, value: 'invalid' }
     const { result, rerender } = await renderHookWrapper(
       usePurchasePolicy,
@@ -108,10 +113,10 @@ describe('usePurchasePolicy', () => {
     args = { ...mockArgs, feeAmount: convertToUnits(1100) }
     await rerender([args])
 
-    mockFn.useNetwork()
+    mockHooksOrMethods.useNetwork()
 
     await rerender([args])
 
-    mockFn.console.error().restore()
+    mockGlobals.console.error().restore()
   })
 })

@@ -1,75 +1,44 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { ActiveReportingEmptyState } from '@/modules/reporting/active/ActiveReportingEmptyState'
-import { fireEvent, screen } from '@testing-library/react'
+import {
+  ActiveReportingEmptyState
+} from '@/modules/reporting/active/ActiveReportingEmptyState'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('ActiveReportingEmptyState loading state', () => {
+  const { initialRender, rerenderFn } = initiateTest(ActiveReportingEmptyState, {}, () => {
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useCoverDropdown()
+  })
+
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useFlattenedCoverProducts({ loading: true })
-    mockFn.useCoverOrProductData()
-
-    const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
-
     initialRender()
   })
 
   test('should render loading when hook returns loading', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoverDropdown(() => ({ ...testData.coverDropdown, loading: true }))
+    })
     const loadingText = screen.getByText(/loading.../)
     expect(loadingText).toBeInTheDocument()
   })
-})
 
-describe('ActiveReportingEmptyState details', () => {
-  // const handleAddReport = jest.fn(() => {});
-
-  beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useCoverOrProductData()
-
-    const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
-
-    initialRender()
-  })
-
-  test('should render loading when hook returns loading', () => {
-    const emptyText = screen.getByText(/No known incident found/i)
-    expect(emptyText).toBeInTheDocument()
+  test('should render main container when loading is false', () => {
+    const container = screen.getByTestId('active-reporting-empty')
+    expect(container).toBeInTheDocument()
   })
 
   test('should call handleAddReport after clicking on report button', () => {
-    const buttons = screen.getAllByRole('button')
-    expect(buttons[1]).toHaveTextContent('REPORT AN INCIDENT')
-    fireEvent.click(buttons[0])
-    const options = screen.getAllByRole('option')
-    fireEvent.click(options[0])
-  })
-})
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoverDropdown(() => ({ ...testData.coverDropdown, loading: false }))
+    })
 
-describe('ActiveReportingEmptyState details with productKey', () => {
-  // const handleAddReport = jest.fn(() => {});
-
-  beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useCoverOrProductData(() => testData.productInfo)
-
-    const { initialRender } = initiateTest(ActiveReportingEmptyState, {})
-
-    initialRender()
-  })
-
-  test('should render loading when hook returns loading', () => {
-    const emptyText = screen.getByText(/No known incident found/i)
-    expect(emptyText).toBeInTheDocument()
-  })
-
-  test('should call handleAddReport after clicking on report button', () => {
-    const buttons = screen.getAllByRole('button')
-    expect(buttons[1]).toHaveTextContent('REPORT AN INCIDENT')
-    fireEvent.click(buttons[0])
-    const options = screen.getAllByRole('option')
-    fireEvent.click(options[0])
+    const button = screen.getByTestId('report-button')
+    fireEvent.click(button)
+    expect(testData.router.push).toHaveBeenCalled()
   })
 })

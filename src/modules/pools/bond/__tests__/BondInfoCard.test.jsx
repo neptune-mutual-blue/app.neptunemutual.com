@@ -1,6 +1,6 @@
 import { i18n } from '@lingui/core'
 import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { BondInfoCard } from '@/modules/pools/bond/BondInfoCard'
 

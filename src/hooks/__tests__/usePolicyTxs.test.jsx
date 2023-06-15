@@ -1,16 +1,18 @@
 import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('usePolicyTxs', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.getGraphURL()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.getGraphURL()
 
   const args = [{ limit: 10, page: 1 }]
 
   test('should return default hook result', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
     const { result } = await renderHookWrapper(usePolicyTxs, args)
 
     expect(result.data.blockNumber).toBeNull()
@@ -19,7 +21,7 @@ describe('usePolicyTxs', () => {
     expect(result.loading).toEqual(false)
     expect(result.hasMore).toEqual(true)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return value as returned from api', async () => {
@@ -29,7 +31,7 @@ describe('usePolicyTxs', () => {
         policyTransactions: [{ id: 1 }, { id: 2 }, { id: 3 }]
       }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
     const { result } = await renderHookWrapper(usePolicyTxs, args, true)
 
     expect(result.data.blockNumber).toEqual(mockData.data._meta.block.number)
@@ -38,11 +40,11 @@ describe('usePolicyTxs', () => {
       mockData.data.policyTransactions.length
     )
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return default value if no account', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result } = await renderHookWrapper(usePolicyTxs, args)
 
@@ -52,17 +54,17 @@ describe('usePolicyTxs', () => {
     expect(result.loading).toEqual(false)
     expect(result.hasMore).toEqual(true)
 
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useWeb3React()
   })
 
   test('should log error if error rises', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     await renderHookWrapper(usePolicyTxs, args)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 
@@ -73,13 +75,13 @@ describe('usePolicyTxs', () => {
         policyTransactions: [{ id: 1 }, { id: 2 }, { id: 3 }]
       }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(usePolicyTxs, [
       { ...args[0], limit: 3 }
     ])
     expect(result.hasMore).toEqual(true)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 })

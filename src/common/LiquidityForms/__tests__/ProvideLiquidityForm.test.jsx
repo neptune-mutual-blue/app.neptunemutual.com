@@ -1,8 +1,9 @@
 import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { ProvideLiquidityForm } from '@/common/LiquidityForms/ProvideLiquidityForm'
 import { convertFromUnits } from '@/utils/bn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('PurchasePolicyForm component', () => {
   const { initialRender, rerenderFn } = initiateTest(
@@ -13,12 +14,12 @@ describe('PurchasePolicyForm component', () => {
       isDiversified: false
     },
     () => {
-      mockFn.useRouter()
-      mockFn.useAppConstants()
-      mockFn.useProvideLiquidity()
-      mockFn.useLiquidityFormsContext()
-      mockFn.useCalculatePods()
-      mockFn.useCoverActiveReportings()
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useAppConstants()
+      mockHooksOrMethods.useProvideLiquidity()
+      mockHooksOrMethods.useLiquidityFormsContext()
+      mockHooksOrMethods.useCalculatePods()
+      mockHooksOrMethods.useCoverActiveReportings()
     }
   )
   beforeEach(() => {
@@ -37,7 +38,7 @@ describe('PurchasePolicyForm component', () => {
 
   test("should render 'Calculating tokens' message on receiveAmountLoading", () => {
     rerenderFn({}, () => {
-      mockFn.useCalculatePods({ ...testData.calculatePods, loading: true })
+      mockHooksOrMethods.useCalculatePods({ ...testData.calculatePods, loading: true })
     })
 
     const loadingText = screen.getByText(/Calculating tokens/i)
@@ -46,7 +47,7 @@ describe('PurchasePolicyForm component', () => {
 
   test("should render 'Fetching balances' message on npm balance loading", () => {
     rerenderFn({}, () => {
-      mockFn.useProvideLiquidity({
+      mockHooksOrMethods.useProvideLiquidity({
         ...testData.provideLiquidity,
         npmBalanceLoading: true
       })
@@ -58,7 +59,7 @@ describe('PurchasePolicyForm component', () => {
 
   test("should render 'Fetching NPM allowance' message on npm allowance loading", () => {
     rerenderFn({}, () => {
-      mockFn.useProvideLiquidity({
+      mockHooksOrMethods.useProvideLiquidity({
         ...testData.provideLiquidity,
         npmAllowanceLoading: true
       })
@@ -70,7 +71,7 @@ describe('PurchasePolicyForm component', () => {
 
   test("should render 'Fetching liquiditySymbol allowance' message on lq allowance loading", () => {
     rerenderFn({}, () => {
-      mockFn.useProvideLiquidity({
+      mockHooksOrMethods.useProvideLiquidity({
         ...testData.provideLiquidity,
         lqAllowanceLoading: true
       })
@@ -82,7 +83,7 @@ describe('PurchasePolicyForm component', () => {
 
   test('should show alert if one of the product status is not normal', () => {
     rerenderFn({ isDiversified: true }, () => {
-      mockFn.useCoverActiveReportings({
+      mockHooksOrMethods.useCoverActiveReportings({
         data: [
           {
             id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x6b79626572000000000000000000000000000000000000000000000000000000-1662689043',
@@ -99,7 +100,7 @@ describe('PurchasePolicyForm component', () => {
 
   test('should have max value on clicking handle max', () => {
     rerenderFn({}, () => {
-      mockFn.useLiquidityFormsContext({
+      mockHooksOrMethods.useLiquidityFormsContext({
         ...testData.liquidityFormsContext,
         info: {
           ...testData.liquidityFormsContext.info,
@@ -138,11 +139,11 @@ describe('PurchasePolicyForm component', () => {
 
   test('should didplay correct error messages', () => {
     rerenderFn({}, () => {
-      mockFn.useProvideLiquidity({
+      mockHooksOrMethods.useProvideLiquidity({
         ...testData.provideLiquidity,
         npmBalance: '450000000000000000000'
       })
-      mockFn.useLiquidityFormsContext({
+      mockHooksOrMethods.useLiquidityFormsContext({
         ...testData.liquidityFormsContext,
         info: { ...testData.liquidityFormsContext.info, myStake: '' }
       })

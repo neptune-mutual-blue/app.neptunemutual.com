@@ -1,59 +1,55 @@
 import { useExpiredPolicies } from '@/src/hooks/useExpiredPolicies'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('useExpiredPolicies', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.getGraphURL()
 
   test('should return default value when null data returned from api', async () => {
     const mockData = { data: null }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useExpiredPolicies)
-    expect(result.data).toEqual({ expiredPolicies: [] })
+    expect(result.data).toEqual([])
     expect(result.loading).toEqual(false)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return result when data received from api', async () => {
     const mockData = {
-      data: { userPolicies: [{ id: 1, policyName: 'my-policy' }] }
+      data: { expiredPolicies: [{ id: 1, policyName: 'my-policy' }] }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useExpiredPolicies, [], true)
-    expect(result.data).toEqual({
-      expiredPolicies: mockData.data.userPolicies
-    })
+    expect(result.data).toEqual(mockData.data)
     expect(result.loading).toEqual(false)
   })
 
   test('should return if no account data available', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result } = await renderHookWrapper(useExpiredPolicies, [])
-    expect(result.data).toEqual({
-      expiredPolicies: []
-    })
+    expect(result.data).toEqual([])
 
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useWeb3React()
   })
 
   test('should log error if error occurs in api', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(useExpiredPolicies, [], true)
-    expect(result.data).toEqual({
-      expiredPolicies: []
-    })
+    expect(result.data).toEqual([])
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

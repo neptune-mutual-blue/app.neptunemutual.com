@@ -1,64 +1,25 @@
-import { getCoverImgSrc } from '@/src/helpers/cover'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { formatPercent } from '@/utils/formatter/percent'
-import {
-  cleanup,
-  screen,
-  act,
-  render,
-  fireEvent
-} from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { ProductCard } from '@/common/Cover/ProductCard'
-import { testData } from '@/utils/unit-tests/test-data'
-import { i18n } from '@lingui/core'
 import { MULTIPLIER } from '@/src/config/constants'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
-const mockCoverDetails = {
-  cover: {
-    coverKey:
-      '0x6465666900000000000000000000000000000000000000000000000000000000',
-    id: '0x6465666900000000000000000000000000000000000000000000000000000000',
-    infoObj: {
-      about:
-        "BB8 Exchange is a global cryptocurrency exchange that lets users from over 140 countries buy and sell over 1200 different digital currencies and tokens. BB8 Exchange offers a simple buy/sell crypto function for beginners as well as a variety of crypto-earning options, in addition to expert cryptocurrency spot and futures trading platforms. On this platform, both novice and expert traders may find what they're looking for.",
-      coverName: 'Bb8 Exchange Cover',
-      links: '{blog: "https://bb8-exchange.medium.com", documenta…}',
-      leverage: '10',
-      projectName: '',
-      tags: '["Smart Contract", "DeFi", "Exchange"]',
-      rules:
-        '1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the exchange was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.',
-      pricingFloor: 200,
-      pricingCeiling: 1400,
-      resolutionSources: undefined
-    },
-    supportsProducts: true
-  },
-  coverKey:
-    '0x6465666900000000000000000000000000000000000000000000000000000000',
-  id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000',
-  infoObj: {
-    about:
-      'The 1inch Network unites decentralized protocols whose synergy enables the most lucrative, fastest, and protected operations in the DeFi space by offering access to hundreds of liquidity sources across multi',
-    capitalEfficiency: '9000',
-    links: {
-      blog: 'https://blog.1inch.io/',
-      discord: 'https://discord.com/invite/1inch',
-      documentation: 'https://docs.1inch.io/',
-      github: 'https://github.com/1inch',
-      reddit: 'https://www.reddit.com/r/1inch/',
-      telegram: 'https://t.me/OneInchNetwork',
-      twitter: 'https://twitter.com/1inch',
-      website: 'https://1inch.io/',
-      youtube: 'https://www.youtube.com/channel/UCk0nvK4bHpteQXZKv7lkq5w'
-    },
-    productName: '1inch '
-  },
-  productKey:
-    '0x31696e6368000000000000000000000000000000000000000000000000000000'
-}
+const mockCoverDetails = testData.coversAndProducts2.data
 
 const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
   const liquidity = totalLiquidity
@@ -72,16 +33,13 @@ const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
 
 describe('ProductCard component', () => {
   beforeEach(() => {
-    mockFn.useAppConstants()
-    mockFn.useRouter()
-    mockFn.useSortableStats()
-    mockFn.useMyLiquidityInfo()
-    mockFn.useFetchCoverStats()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useRouter()
 
     const { initialRender } = initiateTest(ProductCard, {
       coverKey: mockCoverDetails.coverKey,
       productKey: mockCoverDetails.productKey,
-      productInfo: mockCoverDetails
+      productData: mockCoverDetails
     })
 
     initialRender()
@@ -125,24 +83,6 @@ describe('ProductCard component', () => {
       })
     })
     test("should render card status badge 'Incident Occurred'", () => {
-      mockFn.useMyLiquidityInfo()
-
-      mockFn.useFetchCoverStats(() => ({
-        info: {
-          ...testData.coverStats.info,
-          productStatus: 'Incident Occurred'
-        },
-        refetch: () => Promise.resolve(testData.coverStats)
-      }))
-
-      const { initialRender } = initiateTest(ProductCard, {
-        coverKey: mockCoverDetails.coverKey,
-        productKey: mockCoverDetails.productKey,
-        productInfo: mockCoverDetails
-      })
-
-      initialRender()
-
       const badgeText = screen.queryByText('Incident Occurred')
 
       expect(badgeText).toBeInTheDocument()
@@ -151,13 +91,11 @@ describe('ProductCard component', () => {
     test("should not render card status badge for 'Normal' status", () => {
       cleanup()
 
-      mockFn.useFetchCoverStats()
-
       render(
         <ProductCard
           coverKey={mockCoverDetails.coverKey}
           productKey={mockCoverDetails.productKey}
-          productInfo={mockCoverDetails}
+          productData={{ ...mockCoverDetails, productStatus: 0 }}
         />
       )
 
@@ -167,16 +105,16 @@ describe('ProductCard component', () => {
 
   test('should render correct project name', () => {
     const projectName = screen.getByTestId('project-name').textContent
-    expect(`${projectName}`).toEqual(mockCoverDetails.infoObj.productName)
+    expect(`${projectName}`).toEqual(mockCoverDetails.productInfoDetails.productName)
   })
 
-  test('should render correct cover fee text', () => {
+  test('should render correct annual cover fee text', () => {
     const coverFeeEl = screen.getByTestId('cover-fee')
-    const coverFee = `Cover fee: ${formatPercent(
-      mockCoverDetails.cover.infoObj.pricingFloor / MULTIPLIER,
+    const coverFee = `Annual Cover fee: ${formatPercent(
+      toBN(mockCoverDetails.floor).dividedBy(MULTIPLIER),
       'en'
     )}-${formatPercent(
-      mockCoverDetails.cover.infoObj.pricingCeiling / MULTIPLIER,
+      toBN(mockCoverDetails.ceiling).dividedBy(MULTIPLIER),
       'en'
     )}`
 
@@ -197,7 +135,7 @@ describe('ProductCard component', () => {
       const protectionEl = screen.getByTestId('protection')
       const liquidityText = formatCurrency(
         convertFromUnits(
-          testData.coverStats.info.activeCommitment,
+          mockCoverDetails.commitment,
           testData.appConstants.liquidityTokenDecimals
         ).toString(),
         'en'
@@ -209,7 +147,7 @@ describe('ProductCard component', () => {
       const protectionEl = screen.getByTestId('protection')
       const titleText = formatCurrency(
         convertFromUnits(
-          testData.coverStats.info.activeCommitment,
+          mockCoverDetails.commitment,
           testData.appConstants.liquidityTokenDecimals
         ).toString(),
         'en'
@@ -221,11 +159,9 @@ describe('ProductCard component', () => {
   describe('Liquidity', () => {
     test('should render correct liquidity text', () => {
       const liquidityEl = screen.getByTestId('liquidity')
+
       const liquidityText = formatCurrency(
-        convertFromUnits(
-          testData.coverStats.info.availableLiquidity,
-          testData.appConstants.liquidityTokenDecimals
-        ).toString(),
+        convertFromUnits(mockCoverDetails.capacity, testData.appConstants.liquidityTokenDecimals).toString(),
         'en'
       ).short
 
@@ -235,15 +171,8 @@ describe('ProductCard component', () => {
     test('should have correct title text', () => {
       const liquidityEl = screen.getByTestId('liquidity')
 
-      const liquidity = toBN(testData.coverStats.info.availableLiquidity)
-        .plus(testData.coverStats.info.activeCommitment)
-        .toString()
-
       const titleText = formatCurrency(
-        convertFromUnits(
-          liquidity,
-          testData.appConstants.liquidityTokenDecimals
-        ).toString(),
+        convertFromUnits(mockCoverDetails.capacity, testData.appConstants.liquidityTokenDecimals).toString(),
         'en'
       ).long
 

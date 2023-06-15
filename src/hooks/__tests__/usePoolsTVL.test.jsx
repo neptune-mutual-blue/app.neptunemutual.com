@@ -3,13 +3,15 @@ import { calcStakingPoolTVL } from '@/src/helpers/pool'
 import { getPricingData } from '@/src/helpers/pricing'
 import { getNpmPayload } from '@/src/helpers/token'
 import { usePoolsTVL } from '@/src/hooks/usePoolsTVL'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('usePoolsTVL', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.getNetworkId()
-  mockFn.getGraphURL()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.getNetworkId()
+  mockHooksOrMethods.getGraphURL()
 
   const args = ['0xF7c352D9d6967Bd916025030E38eA58cF48029f8']
   const mockFetchData = {
@@ -49,18 +51,18 @@ describe('usePoolsTVL', () => {
   }
 
   test('should return default hook result', async () => {
-    mockFn.fetch(true, undefined, { data: { bondPools: [], pools: [] } })
+    mockGlobals.fetch(true, undefined, { data: { bondPools: [], pools: [] } })
 
     const { result } = await renderHookWrapper(usePoolsTVL, args)
     expect(result.tvl).toEqual('0')
     expect(typeof result.getTVLById).toEqual('function')
     expect(typeof result.getPriceByAddress).toEqual('function')
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return correct result as expected', async () => {
-    mockFn.fetch(true, undefined, mockFetchData)
+    mockGlobals.fetch(true, undefined, mockFetchData)
 
     const { result } = await renderHookWrapper(usePoolsTVL, args, true)
 
@@ -78,17 +80,17 @@ describe('usePoolsTVL', () => {
     ).total
     expect(result.tvl).toEqual(expectedTvl)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should log error when error is raised', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     await renderHookWrapper(usePoolsTVL, args)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 
@@ -98,7 +100,7 @@ describe('usePoolsTVL', () => {
   })
 
   test('should be able to execute getTVLById & getPriceByAddress function', async () => {
-    mockFn.fetch(true, undefined, mockFetchData)
+    mockGlobals.fetch(true, undefined, mockFetchData)
 
     const { result, act } = await renderHookWrapper(usePoolsTVL, args, true)
 
@@ -109,11 +111,11 @@ describe('usePoolsTVL', () => {
       )
     })
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return price 0 from getPriceByAddress function if amount is 0', async () => {
-    mockFn.fetch(true, undefined, mockFetchData)
+    mockGlobals.fetch(true, undefined, mockFetchData)
 
     const { result, act } = await renderHookWrapper(usePoolsTVL, args, true)
 
@@ -124,11 +126,11 @@ describe('usePoolsTVL', () => {
       expect(price).toEqual('0')
     })
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return price 0 from getPriceByAddress function if address not found', async () => {
-    mockFn.fetch(true, undefined, mockFetchData)
+    mockGlobals.fetch(true, undefined, mockFetchData)
 
     const { result, act } = await renderHookWrapper(usePoolsTVL, args, true)
 
@@ -139,6 +141,6 @@ describe('usePoolsTVL', () => {
       expect(price).toEqual('0')
     })
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 })

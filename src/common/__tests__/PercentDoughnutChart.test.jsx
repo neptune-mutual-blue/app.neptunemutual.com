@@ -1,10 +1,11 @@
 import { PercentDoughnutChart } from '@/common/PercentDoughnutChart'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 jest.mock('react-chartjs-2', () => ({
-  Doughnut: (p) => mockFn.chartMockFn(p)
+  Doughnut: (p) => mockHooksOrMethods.chartMockFn(p)
 }))
 
 const props = testData.doughnutChart

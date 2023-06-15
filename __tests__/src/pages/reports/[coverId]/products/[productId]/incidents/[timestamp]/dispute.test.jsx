@@ -1,34 +1,37 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { screen } from '@testing-library/react'
-import DisputeFormPage from '@/src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute'
 import DateLib from '@/lib/date/DateLib'
+import {
+  NewDisputeReportFormContainer
+} from '@/modules/reporting/NewDisputeReportFormContainer'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { screen } from '@testing-library/react'
 
-import * as environment from '@/src/config/environment'
-const mock = jest.spyOn(environment, 'isFeatureEnabled')
+const mock = jest.spyOn({ isFeatureEnabled }, 'isFeatureEnabled')
 
-jest.mock('@/src/modules/reporting/ReportingHero', () => {
-  return {
-    ReportingHero: () => {
-      return <div data-testid='reporting-hero' />
-    }
-  }
-})
+// jest.mock('@/src/modules/reporting/ReportingHero', () => {
+//   return {
+//     ReportingHero: () => {
+//       return <div data-testid='reporting-hero' />
+//     }
+//   }
+// })
 
-jest.mock('@/src/modules/reporting/NewDisputeReportForm', () => {
-  return {
-    NewDisputeReportForm: () => {
-      return <div data-testid='new-dispute-report-form' />
-    }
-  }
-})
+// jest.mock('@/src/modules/reporting/NewDisputeReportForm', () => {
+//   return {
+//     NewDisputeReportForm: () => {
+//       return <div data-testid='new-dispute-report-form' />
+//     }
+//   }
+// })
 
 describe('DisputeFormPage test', () => {
   const { initialRender, rerenderFn } = initiateTest(
-    DisputeFormPage,
+    NewDisputeReportFormContainer,
     {},
     () => {
-      mockFn.useCoverOrProductData()
-      mockFn.useFetchReport(() => ({
+      // mockHooksOrMethods.useCoverOrProductData()
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: true
       }))
@@ -46,16 +49,16 @@ describe('DisputeFormPage test', () => {
   })
 
   test('should display DisputeFormPage with loading text coverInfo', () => {
-    rerenderFn({}, () => {
-      mockFn.useCoverOrProductData(() => null)
-    })
+    // rerenderFn({}, () => {
+    //   mockHooksOrMethods.useCoverOrProductData(() => null)
+    // })
     const incident = screen.getByText('loading...')
     expect(incident).toBeInTheDocument()
   })
 
   test('should display DisputeFormPage with no data found', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: {
           incidentReport: false
         },
@@ -68,7 +71,7 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with NewDisputeReportForm with Not applicable for disputing', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: {
           incidentReport: {
             resolutionTimestamp: DateLib.unix()
@@ -83,7 +86,7 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with NewDisputeReportForm with NewDisputeReportForm component', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: {
           incidentReport: {
             resolutionTimestamp: DateLib.unix() + 36000,

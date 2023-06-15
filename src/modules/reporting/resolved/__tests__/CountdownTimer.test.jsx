@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { CountDownTimer } from '@/modules/reporting/resolved/CountdownTimer'
 import { delay } from '@/utils/unit-tests/test-utils'
 

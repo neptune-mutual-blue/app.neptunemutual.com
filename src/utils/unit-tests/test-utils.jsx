@@ -1,37 +1,48 @@
 import React from 'react'
+
+import { en } from 'make-plural/plurals'
+import { RouterContext } from 'next/dist/shared/lib/router-context'
+
+import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
+import { getLibrary } from '@/lib/connect-wallet/utils/web3'
+import { ToastProvider } from '@/lib/toast/provider'
+import { messages as enMessages } from '@/locales/en/messages'
+// import { messages as frMessages } from '@/locales/fr/messages'
+// import { messages as jaMessages } from '@/locales/ja/messages'
+// import { messages as zhMessages } from '@/locales/zh/messages'
+import { DEFAULT_VARIANT } from '@/src/config/toast'
+import { AppConstantsProvider } from '@/src/context/AppConstants'
+import {
+  CoversAndProductsProvider2
+} from '@/src/context/CoversAndProductsData2'
 import { NetworkProvider } from '@/src/context/Network'
-import { Web3ReactProvider } from '@web3-react/core'
-import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
+import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { TxPosterProvider } from '@/src/context/TxPoster'
+import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
+import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
-import { AppConstantsProvider } from '@/src/context/AppConstants'
-import { ToastProvider } from '@/lib/toast/provider'
-import { render, act, waitFor, cleanup, fireEvent, screen } from '@testing-library/react'
-import { getLibrary } from '@/lib/connect-wallet/utils/web3'
-import { en, fr, ja, zh } from 'make-plural/plurals'
-import { messages as enMessages } from '@/locales/en/messages'
-import { messages as frMessages } from '@/locales/fr/messages'
-import { messages as jaMessages } from '@/locales/ja/messages'
-import { messages as zhMessages } from '@/locales/zh/messages'
-import { RouterContext } from 'next/dist/shared/lib/router-context'
-import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
-import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
-import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
-import { CoversAndProductsProvider } from '@/src/context/CoversAndProductsData'
-import { DEFAULT_VARIANT } from '@/src/config/toast'
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
+import { Web3ReactProvider } from '@web3-react/core'
 
 i18n.load({
-  en: enMessages,
-  fr: frMessages,
-  ja: jaMessages,
-  zh: zhMessages
+  en: enMessages
+  // fr: frMessages,
+  // ja: jaMessages,
+  // zh: zhMessages
 })
 i18n.loadLocaleData({
-  en: { plurals: en },
-  fr: { plurals: fr },
-  ja: { plurals: ja },
-  zh: { plurals: zh }
+  en: { plurals: en }
+  // fr: { plurals: fr },
+  // ja: { plurals: ja },
+  // zh: { plurals: zh }
 })
 
 const NoProviders = ({ children }) => <>{children}</>
@@ -84,7 +95,7 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
           <Web3ReactProvider getLibrary={getLibrary}>
             <NetworkProvider>
               <AppConstantsProvider>
-                <CoversAndProductsProvider>
+                <CoversAndProductsProvider2>
                   <UnlimitedApprovalProvider>
                     <ToastProvider variant={DEFAULT_VARIANT}>
                       <TxPosterProvider>
@@ -92,7 +103,7 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
                       </TxPosterProvider>
                     </ToastProvider>
                   </UnlimitedApprovalProvider>
-                </CoversAndProductsProvider>
+                </CoversAndProductsProvider2>
               </AppConstantsProvider>
             </NetworkProvider>
           </Web3ReactProvider>
@@ -108,7 +119,7 @@ const customRender = (ui, options = {}) =>
     ...options
   })
 
-export { customRender as render, act, waitFor, cleanup, fireEvent, screen }
+export { act, cleanup, customRender as render, fireEvent, screen, waitFor }
 
 const LocalStorage = (() => {
   let store = {

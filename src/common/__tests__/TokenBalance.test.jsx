@@ -2,8 +2,9 @@ const { TokenBalance } = require('@/common/TokenBalance')
 const { getTokenLink } = require('@/lib/connect-wallet/utils/explorer')
 const { convertFromUnits } = require('@/utils/bn')
 const { formatCurrency } = require('@/utils/formatter/currency')
+const { mockHooksOrMethods } = require('@/utils/unit-tests/mock-hooks-and-methods')
 const { testData } = require('@/utils/unit-tests/test-data')
-const { initiateTest, mockFn } = require('@/utils/unit-tests/test-mockup-fn')
+const { initiateTest } = require('@/utils/unit-tests/helpers')
 const { screen, fireEvent } = require('@testing-library/react')
 
 describe('TokenBalance', () => {
@@ -11,10 +12,10 @@ describe('TokenBalance', () => {
     TokenBalance,
     testData.tokenBalanceProps,
     () => {
-      mockFn.useNetwork()
-      mockFn.useRegisterToken()
-      mockFn.useWeb3React()
-      mockFn.useToast()
+      mockHooksOrMethods.useNetwork()
+      mockHooksOrMethods.useRegisterToken()
+      mockHooksOrMethods.useWeb3React()
+      mockHooksOrMethods.useToast()
     }
   )
   Object.assign(navigator, {
@@ -28,6 +29,7 @@ describe('TokenBalance', () => {
   })
 
   test('should render the main container', () => {
+    screen.debug()
     const wrapper = screen.getByTestId('token-balance-container')
     expect(wrapper).toBeInTheDocument()
   })

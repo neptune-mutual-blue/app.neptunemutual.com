@@ -1,14 +1,20 @@
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  useStakingPoolsAddress
+} from '@/src/hooks/contracts/useStakingPoolsAddress'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { useStakingPoolsAddress } from '@/src/hooks/contracts/useStakingPoolsAddress'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useClaimsProcessorAddress', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.StakingPools.getAddress()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.StakingPools.getAddress()
 
   test('while fetching w/o account and networkId', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result } = await renderHookWrapper(useStakingPoolsAddress)
 
@@ -16,8 +22,8 @@ describe('useClaimsProcessorAddress', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
 
     const { result } = await renderHookWrapper(
       useStakingPoolsAddress,

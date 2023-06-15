@@ -1,9 +1,10 @@
 import React from 'react'
 import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { i18n } from '@lingui/core'
 import { Popup } from './../Popup'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 jest.mock('../../../config/wallets', () => ({
   wallets: [
     {
@@ -28,7 +29,7 @@ describe('Popup Component', () => {
   })
 
   beforeEach(() => {
-    mockFn.useAuth(() => ({
+    mockHooksOrMethods.useAuth(() => ({
       login: onLogin,
       logout: onLogout
     }))

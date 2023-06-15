@@ -195,7 +195,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
           </div>
           <div
             className='flex-1 min-h-360'
-            data-testid='liquidity-chart-wrapper'
+            data-testid='capacity-chart-wrapper'
           >
             <TotalCapacityChart data={totalCapacity} />
           </div>

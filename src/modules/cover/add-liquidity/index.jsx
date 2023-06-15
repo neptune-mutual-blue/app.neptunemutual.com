@@ -53,7 +53,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   if (loading) {
     return (
-      <LiquiditySectionSkeleton />
+      <LiquiditySectionSkeleton data-testid='liquidity-section-skeleton' />
     )
   }
 

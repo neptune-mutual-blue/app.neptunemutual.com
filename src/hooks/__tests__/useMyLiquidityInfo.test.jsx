@@ -2,9 +2,13 @@ import {
   defaultInfo,
   useMyLiquidityInfo
 } from '@/src/hooks/useMyLiquidityInfo'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
 
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+jest.mock('@neptunemutual/sdk')
 
 const assertInfo = (result, matchData, defaultInfo = false) => {
   expect(result.info.withdrawalOpen).toEqual(
@@ -75,14 +79,14 @@ const assertInfo = (result, matchData, defaultInfo = false) => {
 }
 
 describe('useMyLiquidityInfo', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.getGraphURL()
-  mockFn.getInfo()
-  mockFn.sdk.registry.Vault.getInstance()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.getGraphURL()
+  // mockHooksOrMethods.getInfo()
+  mockSdk.registry.Vault.getInstance()
 
   const args = [
     {
@@ -102,14 +106,14 @@ describe('useMyLiquidityInfo', () => {
 
   test('should get info from api if account not available', async () => {
     const mockData = { data: testData.myLiquidityInfo }
-    mockFn.fetch(true, undefined, mockData)
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockGlobals.fetch(true, undefined, mockData)
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result } = await renderHookWrapper(useMyLiquidityInfo, args, true)
     assertInfo(result, mockData.data)
 
-    mockFn.fetch().unmock()
-    mockFn.useWeb3React()
+    mockGlobals.fetch().unmock()
+    mockHooksOrMethods.useWeb3React()
   })
 
   test('should be able to execute the refetch function', async () => {
@@ -130,50 +134,50 @@ describe('useMyLiquidityInfo', () => {
 
   describe('Edge cases coverage', () => {
     test('should return default value if no networkId or coverKey', async () => {
-      mockFn.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
       const { result } = await renderHookWrapper(useMyLiquidityInfo, args)
       assertInfo(result, defaultInfo, true)
 
-      mockFn.useNetwork()
+      mockHooksOrMethods.useNetwork()
     })
 
     test('should return default value if bad response from api', async () => {
-      mockFn.useWeb3React(() => ({ account: null }))
-      mockFn.fetch(true, { ...testData.fetch, ok: false })
+      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockGlobals.fetch(true, { ...testData.fetch, ok: false })
 
       const { result } = await renderHookWrapper(useMyLiquidityInfo, args)
       assertInfo(result, defaultInfo, true)
 
-      mockFn.useWeb3React()
-      mockFn.fetch().unmock()
+      mockHooksOrMethods.useWeb3React()
+      mockGlobals.fetch().unmock()
     })
 
     test('should return default value if no data from api', async () => {
-      mockFn.useWeb3React(() => ({ account: null }))
-      mockFn.fetch(true, undefined, { data: null })
+      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockGlobals.fetch(true, undefined, { data: null })
 
       const { result } = await renderHookWrapper(useMyLiquidityInfo, args)
       assertInfo(result, defaultInfo, true)
 
-      mockFn.fetch().unmock()
-      mockFn.useWeb3React()
+      mockGlobals.fetch().unmock()
+      mockHooksOrMethods.useWeb3React()
     })
 
     test('should call notifyError when error is raised', async () => {
-      mockFn.useWeb3React(() => ({ account: null }))
-      mockFn.fetch(false)
+      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockGlobals.fetch(false)
 
       await renderHookWrapper(useMyLiquidityInfo, args)
       expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-      mockFn.fetch().unmock()
-      mockFn.useWeb3React()
+      mockGlobals.fetch().unmock()
+      mockHooksOrMethods.useWeb3React()
     })
 
     test('should return default value if no data from api when refetch function called', async () => {
-      mockFn.useWeb3React(() => ({ account: null }))
-      mockFn.fetch(true, undefined, { data: null })
+      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockGlobals.fetch(true, undefined, { data: null })
 
       const { result, act, renderHookResult } = await renderHookWrapper(
         useMyLiquidityInfo,
@@ -185,12 +189,12 @@ describe('useMyLiquidityInfo', () => {
       })
       assertInfo(renderHookResult.current, defaultInfo, true)
 
-      mockFn.fetch().unmock()
-      mockFn.useWeb3React()
+      mockGlobals.fetch().unmock()
+      mockHooksOrMethods.useWeb3React()
     })
 
     test('should call notifyError when error is raised during accrueInterest', async () => {
-      mockFn.useTxPoster(() => ({ ...testData.txPoster, writeContract: null }))
+      mockHooksOrMethods.useTxPoster(() => ({ ...testData.txPoster, writeContract: null }))
 
       const { result, act } = await renderHookWrapper(useMyLiquidityInfo, args)
       await act(async () => {
@@ -199,7 +203,7 @@ describe('useMyLiquidityInfo', () => {
 
       expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-      mockFn.useTxPoster()
+      mockHooksOrMethods.useTxPoster()
     })
   })
 })

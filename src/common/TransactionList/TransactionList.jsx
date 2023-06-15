@@ -99,6 +99,7 @@ export function TransactionList ({
       defaultContentClassNames='w-screen md:w-auto absolute z-50 transform top-full -right-13 md:-right-10 xl:right-5 px-0 pt-0 md:pt-3 md:rounded-3xl'
       container={container}
       noBlur
+      data-testid='transaction-modal'
     >
       <div className='relative flex flex-col min-h-screen pb-4 pl-8 overflow-hidden md:pl-4 md:min-h-0 bg-3A4557 text-FEFEFF md:rounded-3xl shadow-tx-list md:min-w-416'>
         <p className='mt-6 font-bold text-md'>Transactions</p>

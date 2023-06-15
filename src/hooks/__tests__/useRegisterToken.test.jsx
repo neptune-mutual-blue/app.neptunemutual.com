@@ -1,15 +1,17 @@
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useRegisterToken', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
   const {
     mock: mockLog,
     mockFunction: mockFunctionLog,
     restore: restoreLog
-  } = mockFn.console.log()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
+  } = mockGlobals.console.log()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
 
   const fnArgs = ['0x1254i34345', 'NPM']
 
@@ -32,7 +34,7 @@ describe('useRegisterToken', () => {
 
   test('should call console.error if error occurred', async () => {
     mock()
-    mockFn.registerToken(false)
+    mockHooksOrMethods.registerToken(false)
 
     const { result, act } = await renderHookWrapper(useRegisterToken)
 
@@ -45,8 +47,8 @@ describe('useRegisterToken', () => {
   })
 
   test('should return if no networkId or account', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result, act } = await renderHookWrapper(useRegisterToken)
 
@@ -54,7 +56,7 @@ describe('useRegisterToken', () => {
       await result.register(...fnArgs)
     })
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 })

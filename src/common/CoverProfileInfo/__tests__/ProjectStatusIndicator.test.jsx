@@ -4,7 +4,7 @@ import { i18n } from '@lingui/core'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { Card } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { E_CARD_STATUS } from '@/common/CardStatusBadge'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 
 describe('ProjectStatusIndicator test', () => {
   const props = {

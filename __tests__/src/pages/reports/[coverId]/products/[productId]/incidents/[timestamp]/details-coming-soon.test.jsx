@@ -1,4 +1,5 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -16,7 +17,7 @@ describe('IncidentResolvedCoverPage test', () => {
       IncidentResolvedCoverPage,
       {},
       () => {
-        mockFn.useFetchReport(() => ({
+        mockHooksOrMethods.useFetchReport(() => ({
           data: false,
           loading: true
         }))

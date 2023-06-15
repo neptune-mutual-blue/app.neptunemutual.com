@@ -1,14 +1,15 @@
 import { useRouter } from 'next/router'
 import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { ReportingResolvedPage } from '@/modules/reporting/resolved/resolved'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const initialMocks = () => {
-  // mockFn.useRouter();
-  mockFn.useNetwork()
-  mockFn.useResolvedReportings()
-  mockFn.useSortableStats()
+  // mockHooksOrMethods.useRouter();
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useResolvedReportings()
+  mockHooksOrMethods.useSortableStats()
 }
 
 jest.mock('next/router', () => ({

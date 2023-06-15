@@ -1,24 +1,29 @@
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-
+import {
+  getBlockLink,
+  getTxLink
+} from '@/lib/connect-wallet/utils/explorer'
 import {
   columns,
   MyLiquidityTxsTable
 } from '@/modules/my-liquidity/MyLiquidityTxsTable'
-
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
 
 const initialMocks = () => {
-  mockFn.usePagination()
-  mockFn.useLiquidityTxs()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useAppConstants()
-  mockFn.useCoverOrProductData()
+  mockHooksOrMethods.usePagination()
+  mockHooksOrMethods.useLiquidityTxs()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useCoversAndProducts2()
 }
 
 describe('MyLiquidityTxsTable test', () => {
@@ -57,7 +62,7 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should not render blocknumber element if blocknumber data not present', () => {
       rerenderFn({}, () => {
-        mockFn.useLiquidityTxs(() => ({
+        mockHooksOrMethods.useLiquidityTxs(() => ({
           ...testData.liquidityTxs,
           data: {
             ...testData.liquidityTxs.data,
@@ -97,7 +102,7 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should render show more if its true', () => {
       rerenderFn({}, () => {
-        mockFn.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true })
+        mockHooksOrMethods.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true })
       })
       const showMore = screen.getByTestId('table-show-more')
       expect(showMore).toBeInTheDocument()
@@ -138,10 +143,10 @@ describe('MyLiquidityTxsTable test', () => {
             'en'
           ).short
         } ${dataRow.type === 'PodsIssued' ? 'to' : 'from'} ${
-          testData.coverInfo.supportsProducts
-            ? testData.coverInfo.infoObj.coverName
-            : testData.coverInfo.infoObj.projectName
-        }`
+          testData.coversAndProducts2.data.supportsProducts
+            ? testData.coversAndProducts2.data.productInfoDetails.productName
+            : testData.coversAndProducts2.data.coverInfoDetails.coverName
+        } Cover`
         expect(renderedDetails).toBe(expectedDetails)
       })
 
@@ -185,7 +190,7 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should render no account message if no account connected', () => {
       rerenderFn({}, () => {
-        mockFn.useWeb3React(() => ({
+        mockHooksOrMethods.useWeb3React(() => ({
           account: null
         }))
       })

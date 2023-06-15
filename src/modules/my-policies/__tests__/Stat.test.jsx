@@ -1,7 +1,7 @@
 import { screen } from '@/utils/unit-tests/test-utils'
 
 import { Stat } from '@/modules/my-policies/PolicyCardFooter'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 
 const props = {
   title: 'Expires In',

@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useValidReport } from '../useValidReport'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockProps = {
   start: '1658819063',
@@ -21,10 +23,10 @@ const mockReturnData = {
 }
 
 describe('useValidReport', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   test('while fetching is not valid timestamp', async () => {
     const { result } = await renderHookWrapper(useValidReport, [
@@ -40,7 +42,7 @@ describe('useValidReport', () => {
   })
 
   test('while fetching is valid timestamp', async () => {
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result } = await renderHookWrapper(
       useValidReport,
@@ -55,7 +57,7 @@ describe('useValidReport', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(
@@ -68,7 +70,7 @@ describe('useValidReport', () => {
     expect(result.loading).toBe(false)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

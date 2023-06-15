@@ -15,9 +15,9 @@ describe('DescriptionComponent test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    // mockFn.useCovers();
-    // mockFn.useFlattenedCoverProducts();
-    // mockFn.useCoverOrProductData();
+    // mockHooksOrMethods.useCovers();
+    // mockHooksOrMethods.useFlattenedCoverProducts();
+    // mockHooksOrMethods.useCoverOrProductData();
 
     render(
       <DescriptionComponent

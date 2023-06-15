@@ -1,4 +1,6 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/src/modules/cover/CoverOptionsPage', () => ({
@@ -15,8 +17,8 @@ describe('Options test', () => {
     const Index =
       require('@/src/pages/covers/[coverId]/products/[productId]').default
     const { initialRender } = initiateTest(Index, {}, () => {
-      mockFn.useRouter()
-      mockFn.useCoverOrProductData()
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, getProduct: (...args) => (true), loading: false }))
     })
     initialRender()
   })

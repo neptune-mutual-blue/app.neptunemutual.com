@@ -9,7 +9,12 @@ import { useRouter } from 'next/router'
 
 import { Banner } from '@/common/Banner'
 import { BurgerMenu } from '@/common/BurgerMenu/BurgerMenu'
+import { NavContainer } from '@/common/Container/NavContainer'
 import { AccountDetailsModal } from '@/common/Header/AccountDetailsModal'
+import {
+  getFlattenedNavLinks,
+  getNavigationLinks
+} from '@/common/Header/getNavigationLinks'
 import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
 import { Network } from '@/common/Header/Network'
 import { HeaderLogo } from '@/common/HeaderLogo'
@@ -17,9 +22,10 @@ import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
 import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
+import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import ConnectWallet
   from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import useAuth from '@/lib/connect-wallet/hooks/useAuth'
+import { useAuth } from '@/lib/connect-wallet/hooks/useAuth'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
@@ -29,6 +35,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { truncateAddress } from '@/utils/address'
 import { classNames } from '@/utils/classnames'
+import { Menu } from '@headlessui/react'
 import {
   t,
   Trans
@@ -41,10 +48,6 @@ import {
 } from '@radix-ui/react-dialog'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
-import { NavContainer } from '@/common/Container/NavContainer'
-import { getFlattenedNavLinks, getNavigationLinks } from '@/common/Header/getNavigationLinks'
-import { Menu } from '@headlessui/react'
-import ChevronDownIcon from '@/icons/ChevronDownIcon'
 
 export const Header = () => {
   const router = useRouter()
@@ -243,6 +246,7 @@ export const Header = () => {
                         : 'bg-transparent before:w-px'
                     )}
                     onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+                    data-testid='transaction-modal-button'
                   >
                     <span className='sr-only'>{t`transaction overview button`}</span>
                     <IconWithBadge number={unread}>

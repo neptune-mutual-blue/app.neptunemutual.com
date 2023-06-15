@@ -1,11 +1,12 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { screen } from '@testing-library/react'
 import { ReportingActivePage } from '@/modules/reporting/active/active'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { screen } from '@testing-library/react'
 
 describe('Active Reporting Page Data Loading', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings(() => ({
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings(() => ({
       data: { incidentReports: [] },
       loading: true,
       hasMore: false
@@ -24,16 +25,23 @@ describe('Active Reporting Page Data Loading', () => {
 })
 
 describe('Active Reporting Page Data Display', () => {
+  const { initialRender, rerenderFn } = initiateTest(
+    ReportingActivePage,
+    {},
+    () => {
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useActiveReportings()
+    })
+
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings()
-
-    const { initialRender } = initiateTest(ReportingActivePage, {})
-
     initialRender()
   })
 
   test('should render the page grid', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoversAndProducts2()
+    })
+
     const cardGrid = screen.getByTestId('active-page-grid')
 
     expect(cardGrid).toBeInTheDocument()
@@ -48,13 +56,13 @@ describe('Active Reporting Page Data Display', () => {
 
 describe('Active Reporting Page No Data Display', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings(() => ({
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings(() => ({
       data: { incidentReports: [] },
       loading: false,
       hasMore: false
     }))
-    mockFn.useFlattenedCoverProducts()
+    mockHooksOrMethods.useFlattenedCoverProducts()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
 
