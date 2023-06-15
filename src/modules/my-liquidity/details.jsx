@@ -33,6 +33,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { CoverLiquiditySkeleton } from '@/modules/my-liquidity/CoverLiquiditySkeleton'
 
 export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
@@ -44,9 +45,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <CoverLiquiditySkeleton />
     )
   }
   if (!coverData) {
