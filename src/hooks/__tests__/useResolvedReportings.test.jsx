@@ -1,7 +1,8 @@
+import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { useResolvedReportings } from '@/src/hooks/useResolvedReportings'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useResolvedReportings', () => {
   const { mock, mockFunction, restore } = mockGlobals.console.error()
@@ -40,14 +41,7 @@ describe('useResolvedReportings', () => {
   test('should not set hasMore to false if not lastpage', async () => {
     const mockData = {
       data: {
-        incidentReports: [
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-          { id: 4 },
-          { id: 5 },
-          { id: 6 }
-        ]
+        incidentReports: Array.from({ length: CARDS_PER_PAGE }).map((_, i) => ({ id: i }))
       }
     }
     mockGlobals.fetch(true, undefined, mockData)

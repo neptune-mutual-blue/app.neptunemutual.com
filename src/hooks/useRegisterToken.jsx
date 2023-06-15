@@ -7,7 +7,7 @@ export const useRegisterToken = () => {
   const register = (address, symbol, decimals = 18) => {
     if (!account) return
 
-    const url = new URL(window.location)
+    const url = new URL(window.location.href)
     url.pathname = typeof symbol === 'string' ? `/images/tokens/${symbol.toLowerCase()}.svg` : '/'
     const image = symbol ? url.href : undefined
 

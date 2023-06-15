@@ -3,13 +3,14 @@ import {
   getTxLink
 } from '@/lib/connect-wallet/utils/explorer'
 import {
-  columns,
+  getColumns,
   MyLiquidityTxsTable
 } from '@/modules/my-liquidity/MyLiquidityTxsTable'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import {
@@ -84,7 +85,7 @@ describe('MyLiquidityTxsTable test', () => {
     test('should render correct number of columns', () => {
       const card = screen.getByTestId('table-head')
       const renderedColumns = card.querySelectorAll('th')
-      expect(renderedColumns.length).toBe(columns.length)
+      expect(renderedColumns.length).toBe(getColumns().length + 1)
     })
 
     test('should render the TBody component if account connected', () => {
@@ -110,6 +111,7 @@ describe('MyLiquidityTxsTable test', () => {
     })
 
     test('fire register token', () => {
+      mockGlobals.location()
       const register = screen.getAllByTitle('Add to Metamask')
       fireEvent.click(register[0])
     })

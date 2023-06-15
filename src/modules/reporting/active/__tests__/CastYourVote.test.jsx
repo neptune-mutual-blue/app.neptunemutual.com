@@ -1,10 +1,8 @@
 import { CastYourVote } from '@/modules/reporting/active/CastYourVote'
 import { convertFromUnits } from '@/utils/bn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
 import {
   fireEvent,
   screen
@@ -56,7 +54,8 @@ const incidentReport = {
 
 describe('CastYourVote test', () => {
   const { initialRender, rerenderFn } = initiateTest(CastYourVote, {
-    incidentReport: incidentReport.data.incidentReport
+    incidentReport: incidentReport.data.incidentReport,
+    minReportingStake: '0'
   })
 
   beforeEach(() => {

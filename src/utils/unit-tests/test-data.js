@@ -1585,6 +1585,8 @@ export const testData = {
     refetchBondInfo: jest.fn(),
     value: '100'
   },
+  writeToIpfs: 'QmYzXNoNd3b3iHogfX1xY3Rg1CGpjfBNqQUhCqG6i9Lo2U',
+  readFromIpfs: 'dummy text',
   providerOrSigner: {
     provider: {
       getTransactionReceipt: jest.fn(() => Promise.resolve({}))

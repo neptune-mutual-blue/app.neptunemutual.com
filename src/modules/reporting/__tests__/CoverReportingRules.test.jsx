@@ -18,19 +18,19 @@ describe('CoverReportingRules test', () => {
   test('should render the button with report an incident', () => {
     render(
       <CoverReportingRules
-        coverInfo={testData.coverInfo}
+        coverOrProductData={testData.coverInfo}
         activeReportings={[]}
         handleAcceptRules={() => {}}
       />
     )
-    const wrapper = screen.getByRole('button')
+    const wrapper = screen.getByTestId('accept-report-rules-next-button')
     expect(wrapper).toHaveTextContent('REPORT AN INCIDENT')
   })
 
   test('should render reporting info if active reporting is not empty', () => {
     render(
       <CoverReportingRules
-        coverInfo={testData.coverInfo}
+        coverOrProductData={testData.coverInfo}
         activeReportings={[
           {
             id: '',

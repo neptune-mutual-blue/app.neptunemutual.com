@@ -44,28 +44,9 @@ describe('AcceptReportRules component', () => {
   })
 
   describe('Status not normal', () => {
-    // beforeEach(() => {
-    //   jest
-    //     .spyOn(coverStatsContext, 'useCoverStatsContext')
-    //     .mockImplementation(() => ({
-    //       productStatus: 'NOT NORMAL',
-    //       activeIncidentDate: '12232323',
-    //       claimPlatformFee: '0',
-    //       commitment: '0',
-    //       isUserWhitelisted: false,
-    //       reporterCommission: '0',
-    //       reportingPeriod: '0',
-    //       requiresWhitelist: false,
-    //       activeCommitment: '0',
-    //       totalPoolAmount: '0',
-    //       availableLiquidity: '0',
-    //       refetch: () => Promise.resolve(1)
-    //     }))
-    // })
-
     test('should show error because status is not normal', () => {
       const screen = render(
-        <AcceptRulesForm onAccept={handleSubmit}>
+        <AcceptRulesForm onAccept={handleSubmit} productStatus='NOT NORMAL'>
           This shows forms text.
         </AcceptRulesForm>
       )

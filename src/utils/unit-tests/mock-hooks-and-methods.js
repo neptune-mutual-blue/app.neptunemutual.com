@@ -86,6 +86,7 @@ import * as UnstakeInfoForFn from '@/src/services/protocol/consensus/info'
 import * as SubgraphDataFn from '@/src/services/subgraph'
 import * as TransactionHistoryFile
   from '@/src/services/transactions/transaction-history'
+import * as IPFS from '@/src/utils/ipfs'
 import * as ReplacedStringFn from '@/utils/string'
 import { testData } from '@/utils/unit-tests/test-data'
 
@@ -437,6 +438,16 @@ const mockHooksOrMethods = {
     getProviderOrSigner: (cb = () => testData.providerOrSigner) =>
       jest
         .spyOn(Web3Utils, 'getProviderOrSigner')
+        .mockImplementation(returnFunction(cb))
+  },
+  ipfs: {
+    writeToIpfs: (cb = () => testData.writeToIpfs) =>
+      jest
+        .spyOn(IPFS, 'writeToIpfs')
+        .mockImplementation(returnFunction(cb)),
+    readFromIpfs: (cb = () => testData.readFromIpfs) =>
+      jest
+        .spyOn(IPFS, 'readFromIpfs')
         .mockImplementation(returnFunction(cb))
   },
 

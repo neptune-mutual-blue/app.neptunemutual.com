@@ -12,7 +12,7 @@ import { Trans } from '@lingui/macro'
  * @returns {boolean}
  */
 export const getLSAcceptedCookie = () => {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || process.env.NODE_ENV === 'test') {
     return
   }
 

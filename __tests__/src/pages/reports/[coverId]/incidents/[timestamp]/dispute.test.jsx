@@ -1,4 +1,5 @@
 // import DateLib from '@/lib/date/DateLib'
+import DateLib from '@/lib/date/DateLib'
 import DisputeFormPage
   from '@/src/pages/reports/[coverId]/incidents/[timestamp]/dispute'
 import { initiateTest } from '@/utils/unit-tests/helpers'
@@ -39,10 +40,10 @@ describe('DisputeFormPage test', () => {
     initialRender()
   })
 
-  // test('should display DisputeFormPage with loading text', () => {
-  //   const incident = screen.getByText('loading...')
-  //   expect(incident).toBeInTheDocument()
-  // })
+  test('should display DisputeFormPage with loading text', () => {
+    const incident = screen.getByTestId('dispute-form-loading-skeleton')
+    expect(incident).toBeInTheDocument()
+  })
 
   // test('should display DisputeFormPage with loading text coverInfo', () => {
   //   rerenderFn({}, () => {
@@ -54,46 +55,36 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with no data found', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, data: [] }))
-      // mockHooksOrMethods.useFetchReport(() => ({
-      //   data: {
-      //     incidentReport: false
-      //   },
-      //   loading: false
-      // }))
+      mockHooksOrMethods.useFetchReport(() => ({
+        ...testData.incidentReports,
+        data: null
+      }))
     })
-    const incident = screen.getByText('No Data Found')
+    const incident = screen.getByText('No data found')
     expect(incident).toBeInTheDocument()
   })
 
-  // test('should display DisputeFormPage with NewDisputeReportForm with Not applicable for disputing', () => {
-  //   rerenderFn({}, () => {
-  //     mockHooksOrMethods.useFetchReport(() => ({
-  //       data: {
-  //         incidentReport: {
-  //           resolutionTimestamp: DateLib.unix()
-  //         }
-  //       },
-  //       loading: true
-  //     }))
-  //   })
-  //   const incident = screen.getByText('Not applicable for disputing')
-  //   expect(incident).toBeInTheDocument()
-  // })
+  test('should display DisputeFormPage with NewDisputeReportForm with Not applicable for disputing', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useFetchReport(() => ({
+        ...testData.incidentReports
+      }))
+    })
+    const incident = screen.getByText('Not applicable for disputing')
+    expect(incident).toBeInTheDocument()
+  })
 
-  // test('should display DisputeFormPage with NewDisputeReportForm with NewDisputeReportForm component', () => {
-  //   rerenderFn({}, () => {
-  //     mockHooksOrMethods.useFetchReport(() => ({
-  //       data: {
-  //         incidentReport: {
-  //           resolutionTimestamp: DateLib.unix() + 36000,
-  //           totalRefutedCount: '0'
-  //         }
-  //       },
-  //       loading: true
-  //     }))
-  //   })
-  //   const dispute = screen.getByTestId('new-dispute-report-form')
-  //   expect(dispute).toBeInTheDocument()
-  // })
+  test('should display DisputeFormPage with NewDisputeReportForm with NewDisputeReportForm component', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useFetchReport(() => ({
+        data: {
+          resolutionTimestamp: DateLib.unix() + 36000,
+          totalRefutedCount: '0'
+        },
+        loading: false
+      }))
+    })
+    const dispute = screen.getByTestId('new-dispute-report-form')
+    expect(dispute).toBeInTheDocument()
+  })
 })

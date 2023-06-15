@@ -28,6 +28,8 @@ const mockGlobals = {
       }),
       on: jest.fn(() => {})
     }
+
+    return global.ethereum
   },
   crypto: () => {
     // @ts-ignore
@@ -37,6 +39,23 @@ const mockGlobals = {
   },
   scrollTo: () => {
     global.scrollTo = jest.fn(() => {})
+  },
+  location: () => {
+    global.location = {
+      ancestorOrigins: null,
+      hash: null,
+      host: 'dummy.com',
+      port: '80',
+      protocol: 'http:',
+      hostname: 'dummy.com',
+      href: 'http://dummy.com?page=1&name=testing',
+      origin: 'http://dummy.com',
+      pathname: null,
+      search: null,
+      assign: null,
+      reload: null,
+      replace: null
+    }
   },
   resizeObserver: () => {
     global.ResizeObserver = class ResizeObserver {
