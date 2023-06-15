@@ -157,8 +157,8 @@ const mockSdk = {
       all = data.all;
     }
 
-    mockNeptuneMutualSDK.multicall.Contract.mockImplementation(MockContract)
-    mockNeptuneMutualSDK.multicall.Provider.mockImplementation(MockProvider)
+    mockNeptuneMutualSDK.multicall.Contract = MockContract
+    mockNeptuneMutualSDK.multicall.Provider = MockProvider
   }
 }
 

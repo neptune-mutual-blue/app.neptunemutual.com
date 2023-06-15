@@ -289,6 +289,7 @@ export const PurchasePolicyForm = ({
               name='terms_parameters_exclusions'
               id='terms_parameters_exclusions'
               onChange={() => { setRulesAccepted(!rulesAccepted) }}
+              data-testid='accept-rules'
             >
               <Trans>
                 I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions.
@@ -393,6 +394,7 @@ export const PurchasePolicyForm = ({
                 }
                 setFormSteps((prev) => prev + 1)
               }}
+              data-testid='form-steps-button'
             >
               {formSteps === 0 && (
                 <>
