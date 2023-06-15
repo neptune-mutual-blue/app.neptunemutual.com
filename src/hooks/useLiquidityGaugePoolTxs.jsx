@@ -29,7 +29,7 @@ export const useLiquidityGaugePoolTxs = () => {
 
       try {
         const response = await fetch(
-          getReplacedString(LGP_TXS_URL, { networkId, account }),
+          getReplacedString(LGP_TXS_URL, { networkId, account: account.toLowerCase() }),
           {
             method: 'GET',
             headers: {
