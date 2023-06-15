@@ -62,7 +62,8 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolAddress }) => {
   }, [fetchStakedAndReward])
 
   return {
-    poolStaked: data.lockedByMe,
+    lockedByEveryone: data.lockedByEveryone,
+    lockedByMe: data.lockedByMe,
     rewardAmount: data.reward,
     update: fetchStakedAndReward
   }

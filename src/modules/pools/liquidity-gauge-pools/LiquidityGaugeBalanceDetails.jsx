@@ -10,8 +10,8 @@ export const LiquidityGaugeBalanceDetails = ({
   stakingTokenSymbol,
   stakingTokenDecimals,
   emissionReceived,
-  lockupPeriodInBlocks
-  // tvl
+  lockupPeriodInBlocks,
+  tvl
 }) => {
   const router = useRouter()
 
@@ -50,10 +50,10 @@ export const LiquidityGaugeBalanceDetails = ({
         <span>Lockup Period</span>
         <span className='font-semibold'>{lockupPeriodInBlocks} Blocks</span>
       </div>
-      {/* <div className='flex flex-row justify-between'>
+      <div className='flex flex-row justify-between'>
         <span>TVL</span>
         <span className='font-semibold'>{formatCurrency(tvl).short}</span>
-      </div> */}
+      </div>
     </div>
   )
 }
