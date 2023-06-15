@@ -4,12 +4,8 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import {
-  CONTRACT_DEPLOYMENTS,
-  EPOCH_DURATION
-} from '@/src/config/constants'
+import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
@@ -22,60 +18,53 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { convertFromUnits } from '@/utils/bn'
-import { getEpochFromTitle } from '@/utils/snapshot'
-import { t } from '@lingui/macro'
+import {
+  convertToUnits,
+  isGreaterOrEqual
+} from '@/utils/bn'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
-  const [approving, setApproving] = useState(false)
-  const [isSettingGauge, setIsSettingGauge] = useState(false)
-
+export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMTokenSymbol }) => {
   const { library, account } = useWeb3React()
-  const { networkId } = useNetwork()
 
-  const { NPMTokenAddress, NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
+  const { networkId } = useNetwork()
+  const { balance: npmBalance, loading: loadingBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
+
+  const { writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
+  const txToast = useTxToast()
 
   const {
     allowance,
     loading: loadingAllowance,
     refetch: updateAllowance,
     approve
-  } = useERC20Allowance(NPMTokenAddress)
-  const {
-    balance,
-    loading: loadingBalance,
-    refetch: updateBalance
-  } = useERC20Balance(NPMTokenAddress)
-
-  const { notifyError } = useErrorNotifier()
-  const { writeContract } = useTxPoster()
-  const txToast = useTxToast()
-
-  const gcrContractAddress = CONTRACT_DEPLOYMENTS[networkId].gaugeControllerRegistry
+  } = useERC20Allowance(CONTRACT_DEPLOYMENTS[networkId].npm)
+  const [approving, setApproving] = useState(false)
+  const [locking, setLocking] = useState(false)
 
   useEffect(() => {
-    updateAllowance(gcrContractAddress)
-  }, [gcrContractAddress, updateAllowance])
+    updateAllowance(CONTRACT_DEPLOYMENTS[networkId].veNPM)
+  }, [updateAllowance, networkId])
 
-  const handleApprove = async () => {
+  const handleApprove = async (value) => {
     setApproving(true)
 
     const cleanup = () => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${NPMTokenSymbol}`)
+      notifyError(err, 'Could not approve NPM tokens')
     }
 
     const onTransactionResult = async (tx) => {
       TransactionHistory.push({
         hash: tx.hash,
-        methodName: METHODS.GCR_APPROVE,
+        methodName: METHODS.VOTE_ESCROW_APPROVE,
         status: STATUS.PENDING,
         data: {
-          value: convertFromUnits(amountToDeposit, NPMTokenDecimals),
+          value,
           tokenSymbol: NPMTokenSymbol
         }
       })
@@ -84,27 +73,29 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
         .push(
           tx,
           {
-            pending: getActionMessage(METHODS.GCR_APPROVE, STATUS.PENDING)
+            pending: getActionMessage(METHODS.VOTE_ESCROW_APPROVE, STATUS.PENDING)
               .title,
-            success: getActionMessage(METHODS.GCR_APPROVE, STATUS.SUCCESS)
+            success: getActionMessage(METHODS.VOTE_ESCROW_APPROVE, STATUS.SUCCESS)
               .title,
-            failure: getActionMessage(METHODS.GCR_APPROVE, STATUS.FAILED)
+            failure: getActionMessage(METHODS.VOTE_ESCROW_APPROVE, STATUS.FAILED)
               .title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
-                methodName: METHODS.GCR_APPROVE,
+                methodName: METHODS.VOTE_ESCROW_APPROVE,
                 status: STATUS.SUCCESS
               })
+              updateAllowance(CONTRACT_DEPLOYMENTS[networkId].veNPM)
             },
-            onTxFailure: () => {
+            onTxFailure: (err) => {
               TransactionHistory.push({
                 hash: tx.hash,
-                methodName: METHODS.GCR_APPROVE,
+                methodName: METHODS.VOTE_ESCROW_APPROVE,
                 status: STATUS.FAILED
               })
+              handleError(err)
             }
           }
         )
@@ -124,45 +115,35 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
       cleanup()
     }
 
-    approve(gcrContractAddress, amountToDeposit, {
-      onTransactionResult,
-      onRetryCancel,
-      onError
-    })
+    approve(
+      CONTRACT_DEPLOYMENTS[networkId].veNPM, lockAmountInUnits,
+      {
+        onTransactionResult,
+        onRetryCancel,
+        onError
+      })
   }
 
-  const handleSetGauge = () => {
-    setIsSettingGauge(true)
+  const lock = async (amount, durationInWeeks, cb) => {
+    setLocking(true)
+
+    const cleanup = () => {
+      setLocking(false)
+    }
+
+    const method = amount > 0 ? METHODS.VOTE_ESCROW_LOCK : METHODS.VOTE_ESCROW_EXTEND
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      const instance = utils.contract.getContract(
-        gcrContractAddress,
-        abis.GaugeControllerRegistry,
-        signerOrProvider
-      )
-
-      const epoch = getEpochFromTitle(title)
-      const args = [
-        epoch,
-        amountToDeposit,
-        EPOCH_DURATION,
-        distribution
-      ]
-
-      const cleanup = () => {
-        setIsSettingGauge(false)
-        updateBalance()
-        updateAllowance(gcrContractAddress)
-      }
+      const instance = utils.contract.getContract(CONTRACT_DEPLOYMENTS[networkId].veNPM, abis.IVoteEscrowToken, signerOrProvider)
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
-          methodName: METHODS.GCR_SET_GAUGE,
+          methodName: method,
           status: STATUS.PENDING,
           data: {
-            value: convertFromUnits(amountToDeposit, NPMTokenDecimals),
+            value: amount,
             tokenSymbol: NPMTokenSymbol
           }
         })
@@ -170,26 +151,28 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
         await txToast.push(
           tx,
           {
-            pending: getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.PENDING)
+            pending: getActionMessage(method, STATUS.PENDING)
               .title,
-            success: getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.SUCCESS)
+            success: getActionMessage(method, STATUS.SUCCESS)
               .title,
-            failure: getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.FAILED)
+            failure: getActionMessage(method, STATUS.FAILED)
               .title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
-                methodName: METHODS.GCR_SET_GAUGE,
+                methodName: method,
                 status: STATUS.SUCCESS
               })
+              cb()
+              refetchLockData()
               cleanup()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
-                methodName: METHODS.GCR_SET_GAUGE,
+                methodName: method,
                 status: STATUS.FAILED
               })
               cleanup()
@@ -203,14 +186,17 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
       }
 
       const onError = (err) => {
-        notifyError(err, getActionMessage(METHODS.GCR_SET_GAUGE, STATUS.FAILED)
-          .title)
+        notifyError(
+          err,
+          getActionMessage(method, STATUS.FAILED).title
+        )
         cleanup()
       }
 
+      const args = [convertToUnits(amount).toString(), durationInWeeks]
       writeContract({
         instance,
-        methodName: 'setGauge',
+        methodName: 'lock',
         args,
         onTransactionResult,
         onRetryCancel,
@@ -221,17 +207,18 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
     }
   }
 
-  return {
-    approving,
-    isSettingGauge,
+  const canLock = isGreaterOrEqual(allowance, lockAmountInUnits)
 
+  return {
+    data: {
+      npmBalance
+    },
+    lock,
+    approving,
+    locking,
     loadingAllowance,
     loadingBalance,
-    allowance,
-    balance,
-    depositTokenDecimals: NPMTokenDecimals,
-    depositTokenSymbol: NPMTokenSymbol,
-    handleApprove,
-    handleSetGauge
+    canLock,
+    handleApprove
   }
 }

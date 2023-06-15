@@ -48,7 +48,7 @@ export const GaugeChart = ({
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <path d='M1 0V10' stroke='#E5E5E5' stroke-width='2' />
+      <path d='M1 0V10' stroke='#E5E5E5' strokeWidth='2' />
     </svg>
   )
 

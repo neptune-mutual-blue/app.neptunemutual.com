@@ -14,6 +14,7 @@ import {
   getSnapshotApiURL,
   getTagFromTitle
 } from '@/utils/snapshot'
+import { DEFAULT_ROWS_PER_PAGE } from '@/modules/governance/proposals-table/ProposalsTable'
 
 const getProposalsQuery = (page, rowsPerPage, titleFilter = '') => {
   const skip = (page - 1) * rowsPerPage
@@ -79,13 +80,14 @@ const parseProposalsData = (data, locale) => {
 
 export const useSnapshotProposals = () => {
   const [data, setData] = useState([])
+  const [lastFetchedLength, setLastFetchedLength] = useState(0)
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const { locale } = useRouter()
 
   const { networkId } = useNetwork()
 
-  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = 10, titleFilter = '', fetchCount = true }) => {
+  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = DEFAULT_ROWS_PER_PAGE, titleFilter = '', fetchCount = true }) => {
     setLoading(true)
 
     const url = getSnapshotApiURL(networkId)
@@ -110,7 +112,9 @@ export const useSnapshotProposals = () => {
       if (res.ok) {
         const jsonData = await res.json()
         if (jsonData.data) {
-          setData(parseProposalsData(jsonData.data, locale))
+          const latestData = parseProposalsData(jsonData.data, locale)
+          setData(prev => page > 1 ? [...prev, ...latestData] : latestData)
+          setLastFetchedLength(latestData.length)
           if (jsonData.data.space) setTotal(jsonData.data.space.proposalsCount)
         }
       }
@@ -127,6 +131,7 @@ export const useSnapshotProposals = () => {
   return {
     data,
     total,
+    lastFetchedLength,
     fetchProposals,
     loading
   }

@@ -42,7 +42,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
   } = useSetGauge({ title, amountToDeposit, distribution })
 
   const canSetGauge = toBN(allowance).isGreaterThanOrEqualTo(amountToDeposit)
-  const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThanOrEqualTo(balance)
+  const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThan(balance)
 
   const currentNetworkName = NetworkNames[networkId]
   const invalidNetwork = networkId !== selectedChain
@@ -115,7 +115,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
         <DataLoadingIndicator message={loadingMessage} />
         {!canSetGauge && (
           <RegularButton
-            className='rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
+            className='relative z-auto px-4 py-3 font-semibold uppercase rounded-tooltip hover:bg-opacity-90'
             onClick={handleApprove}
             disabled={approving || showError || !!loadingMessage}
           >
@@ -129,7 +129,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
 
         {canSetGauge && (
           <RegularButton
-            className='rounded-tooltip py-[11px] px-4 font-semibold uppercase z-auto relative hover:bg-opacity-90'
+            className='relative z-auto px-4 py-3 font-semibold uppercase rounded-tooltip hover:bg-opacity-90'
             onClick={handleSetGauge}
             disabled={isSettingGauge || showError || !!loadingMessage}
           >

@@ -1,8 +1,9 @@
 import { TBody, THead, Table, TableWrapper } from '@/common/Table/Table'
 import { renderHeader } from '@/common/Table/renderHeader'
-import { ActionsRenderer, DetailsRenderer, ResultRenderer, TableRowsSkeleton, TagRenderer, TitleComponent, TypeRenderer, WhenRenderer } from '@/modules/governance/proposals-table/TableComponents'
+import { ActionsRenderer, DetailsRenderer, ResultRenderer, TableRowsSkeleton, TableShowMore, TagRenderer, TitleComponent, TypeRenderer, WhenRenderer } from '@/modules/governance/proposals-table/TableComponents'
 import { useNetwork } from '@/src/context/Network'
 import { useSnapshotProposals } from '@/src/hooks/useSnapshotProposals'
+import { classNames } from '@/utils/classnames'
 import { t } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
@@ -48,14 +49,15 @@ export const getColumns = () => [
 
 const filterOptions = [
   { name: t`All`, value: 'all' },
-  { name: t`Gauge Controller Emission (GCE)`, value: 'gce' },
-  { name: t`Neptune Improvement Proposal (NIP)`, value: 'nip' },
-  { name: t`Gauge Controller Listing (GCL)`, value: 'gcl' },
-  { name: t`Liquidity Rewards (LR)`, value: 'lr' },
-  { name: t`Grants`, value: 'grant' }
+  { name: t`Gauge Controller Emission (GCE)`, value: '[gce' },
+  { name: t`Neptune Improvement Proposal (NIP)`, value: '[nip' },
+  { name: t`Gauge Controller Listing (GCL)`, value: '[gcl' },
+  { name: t`Liquidity Rewards (LR)`, value: '[lr' },
+  { name: t`Grants`, value: '[grant' }
 ]
 
 const rowsPerPageOptions = [5, 10, 15, 30, 50, 100]
+export const DEFAULT_ROWS_PER_PAGE = rowsPerPageOptions[4]
 
 const getFilterString = item => {
   return item.value !== 'all' ? item.value : ''
@@ -67,8 +69,11 @@ export const ProposalsTable = () => {
 
   const [filter, setFilter] = useState(filterOptions[0])
 
-  const [rowsPerPage] = useState(rowsPerPageOptions[4])
-  const { data, fetchProposals, loading } = useSnapshotProposals()
+  const [page, setPage] = useState(1)
+  const [rowsPerPage] = useState(DEFAULT_ROWS_PER_PAGE)
+  const { data, fetchProposals, loading, lastFetchedLength } = useSnapshotProposals()
+
+  const showMore = (lastFetchedLength >= rowsPerPage)
 
   return (
     <div className='mt-8'>
@@ -79,9 +84,12 @@ export const ProposalsTable = () => {
           if (val.value === filter.value) return
           fetchProposals({ page: 1, rowsPerPage, titleFilter: getFilterString(val) })
           setFilter(val)
+          setPage(1)
         }}
       />
-      <TableWrapper className='mt-0 rounded-t-none'>
+      <TableWrapper
+        className={classNames('mt-0', showMore ? 'rounded-none' : 'rounded-t-none')}
+      >
         <Table>
           <THead theadClass='rounded-t-none bg-F9FAFA' columns={getColumns()} />
           {
@@ -94,11 +102,23 @@ export const ProposalsTable = () => {
                 />
                 )
               : (
-                <TableRowsSkeleton rowCount={rowsPerPage} />
+                <TableRowsSkeleton rowCount={rowsPerPage * page} />
                 )
           }
         </Table>
       </TableWrapper>
+      <TableShowMore
+        onClick={() => {
+          fetchProposals({
+            page: page + 1,
+            rowsPerPage,
+            titleFilter: getFilterString(filter)
+          })
+          setPage(_page => _page + 1)
+        }}
+        show={showMore}
+        loading={loading}
+      />
     </div>
   )
 }
