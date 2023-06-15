@@ -32,6 +32,7 @@ export const METHODS = {
   LIQUIDITY_REMOVE: 'liquidity.remove',
   LIQUIDITY_TOKEN_APPROVE: 'liquidity.token.remove',
   LIQUIDITY_INFO: 'liquidity.info',
+  UPDATE_WITHDRWAL_WINDOW: 'liquidity.updateState',
   VOTE_REFUTE: 'vote.refute',
   VOTE_ATTEST: 'vote.attest',
   VOTE_APPROVE: 'vote.approve',

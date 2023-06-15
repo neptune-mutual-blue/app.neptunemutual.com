@@ -49,7 +49,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
   const coverData = getCoverByCoverKey(coverKey)
 
-  const { info, isWithdrawalWindowOpen, accrueInterest } = useLiquidityFormsContext()
+  const { info, isWithdrawalWindowOpen, isWithdrawalWindowOutdated, accrueInterest, updateWithdrawalWindow } = useLiquidityFormsContext()
 
   if (loading) {
     return (
@@ -192,6 +192,8 @@ export const CoverAddLiquidityDetailsPage = () => {
               coverData={coverData}
               isWithdrawalWindowOpen={isWithdrawalWindowOpen}
               accrueInterest={accrueInterest}
+              isWithdrawalWindowOutdated={isWithdrawalWindowOutdated}
+              updateWithdrawalWindow={updateWithdrawalWindow}
             />)}
         </Container>
       </div>

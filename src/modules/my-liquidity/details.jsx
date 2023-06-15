@@ -40,7 +40,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const { liquidityTokenDecimals } = useAppConstants()
 
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
-  const { accrueInterest, isWithdrawalWindowOpen, info } = useLiquidityFormsContext()
+  const { accrueInterest, isWithdrawalWindowOpen, info, isWithdrawalWindowOutdated, updateWithdrawalWindow } = useLiquidityFormsContext()
   const coverData = getCoverByCoverKey(coverKey)
 
   if (loading) {
@@ -149,6 +149,8 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
             coverData={coverData}
             isWithdrawalWindowOpen={isWithdrawalWindowOpen}
             accrueInterest={accrueInterest}
+            isWithdrawalWindowOutdated={isWithdrawalWindowOutdated}
+            updateWithdrawalWindow={updateWithdrawalWindow}
           />
         </Container>
       </div>
