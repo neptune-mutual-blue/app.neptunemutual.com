@@ -1,19 +1,25 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { fireEvent, screen } from '@testing-library/react'
-import { NewIncidentReportForm } from '@/src/modules/reporting/NewIncidentReportForm'
+import {
+  NewIncidentReportForm
+} from '@/src/modules/reporting/NewIncidentReportForm'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('Incident Occurred form', () => {
   const { initialRender, rerenderFn } = initiateTest(
     NewIncidentReportForm,
     {
       coverKey: 'coverKey',
-      productKey: 'productKey'
+      productKey: 'productKey',
+      minReportingStake: testData.coversAndProducts2.data.minReportingStake
     },
     () => {
-      mockFn.useCoverStatsContext()
-      mockFn.useReportIncident()
-      mockFn.useTokenDecimals()
+      mockHooksOrMethods.useReportIncident()
+      mockHooksOrMethods.useTokenDecimals()
     }
   )
 
@@ -73,7 +79,7 @@ describe('Incident Occurred form', () => {
 
   test('Form state based on canreport', () => {
     rerenderFn({}, () => {
-      mockFn.useReportIncident(() => ({
+      mockHooksOrMethods.useReportIncident(() => ({
         ...testData.reportIncident,
         canReport: true
       }))
@@ -149,7 +155,7 @@ describe('Incident Occurred form', () => {
 
     test('Submit report', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true
         }))
@@ -187,7 +193,7 @@ describe('Incident Occurred form', () => {
 
     test('Submit report with multiple url reports', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true
         }))
@@ -240,7 +246,7 @@ describe('Incident Occurred form', () => {
   describe('Loading test', () => {
     test('loadingAllowance test', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           loadingAllowance: true
         }))
@@ -253,7 +259,7 @@ describe('Incident Occurred form', () => {
 
     test('loadingBalance test', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           loadingBalance: true
         }))
@@ -268,7 +274,7 @@ describe('Incident Occurred form', () => {
   describe('Approve and Reporting Button', () => {
     test('Show Approving', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           approving: true
         }))
@@ -281,7 +287,7 @@ describe('Incident Occurred form', () => {
 
     test('Show Report Button', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true
         }))
@@ -293,7 +299,7 @@ describe('Incident Occurred form', () => {
 
     test('Show Reporting Button', () => {
       rerenderFn({}, () => {
-        mockFn.useReportIncident(() => ({
+        mockHooksOrMethods.useReportIncident(() => ({
           ...testData.reportIncident,
           canReport: true,
           reporting: true
@@ -313,25 +319,18 @@ describe('Incident Occurred form', () => {
       })
       fireEvent.change(stakeInput, { target: { value: 10 } })
 
-      const error = screen.getByText('Insufficient stake')
+      const error = screen.getByText('Insufficient Stake')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })
 
     test('Show error Insufficient Balance', () => {
-      rerenderFn({}, () => {
-        mockFn.useCoverStatsContext(() => ({
-          ...testData.coverStats.info,
-          minReportingStake: '300000000000000000000',
-          refetch: () => Promise.resolve(1)
-        }))
-      })
       const stakeInput = screen.getByRole('textbox', {
         name: 'Enter your stake'
       })
-      fireEvent.change(stakeInput, { target: { value: 1000 } })
+      fireEvent.change(stakeInput, { target: { value: 1000000 } })
 
-      const error = screen.getByText('Insufficient balance')
+      const error = screen.getByText('Insufficient Balance')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })

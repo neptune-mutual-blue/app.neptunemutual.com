@@ -1,4 +1,4 @@
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@/utils/unit-tests/test-utils'
 import { testData } from '@/utils/unit-tests/test-data'
 import { HlCalendar } from './index'

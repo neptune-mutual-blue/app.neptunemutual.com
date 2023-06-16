@@ -2,6 +2,9 @@ import { useRouter } from 'next/router'
 
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
+import {
+  ReportDetailsSkeleton
+} from '@/modules/reporting/ReportDetailsSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
@@ -9,7 +12,6 @@ import { useFetchReport } from '@/src/hooks/useFetchReport'
 import { ReportingDetailsPage } from '@/src/modules/reporting/details'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
-import { ReportDetailsSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
 const disabled = !isFeatureEnabled('reporting')
 

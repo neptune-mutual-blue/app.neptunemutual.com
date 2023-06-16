@@ -1,12 +1,13 @@
 import { useFetchReport } from '@/src/hooks/useFetchReport'
-
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('useFetchReport', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
 
-  mockFn.getGraphURL()
-  mockFn.getNetworkId()
+  mockHooksOrMethods.getGraphURL()
+  mockHooksOrMethods.getNetworkId()
 
   const args = [
     {
@@ -22,25 +23,25 @@ describe('useFetchReport', () => {
     const mockData = {
       data: { incidentReport: { id: 1, reportedOn: new Date().getTime() } }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useFetchReport, args, true)
 
-    expect(result.data).toEqual(mockData.data)
+    expect(result.data).toEqual(mockData.data.incidentReport)
     expect(result.loading).toBe(false)
     expect(typeof result.refetch).toBe('function')
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should log error if api error occurs', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     await renderHookWrapper(useFetchReport, args, true)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 
@@ -48,7 +49,7 @@ describe('useFetchReport', () => {
     const mockData = {
       data: { incidentReport: { id: 1, reportedOn: new Date().getTime() } }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result, act } = await renderHookWrapper(useFetchReport, args, true)
 
@@ -56,6 +57,6 @@ describe('useFetchReport', () => {
       await result.refetch()
     })
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 })

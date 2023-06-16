@@ -1,9 +1,13 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { CastYourVote } from '@/modules/reporting/active/CastYourVote'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import { testData } from '@/utils/unit-tests/test-data'
 import { convertFromUnits } from '@/utils/bn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const incidentReport = {
   data: {
@@ -50,15 +54,16 @@ const incidentReport = {
 
 describe('CastYourVote test', () => {
   const { initialRender, rerenderFn } = initiateTest(CastYourVote, {
-    incidentReport: incidentReport.data.incidentReport
+    incidentReport: incidentReport.data.incidentReport,
+    minReportingStake: '0'
   })
 
   beforeEach(() => {
     i18n.activate('en')
-    mockFn.useRouter()
-    mockFn.useVote()
-    mockFn.useCoverStatsContext()
-    mockFn.useTokenDecimals()
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useVote()
+    // mockHooksOrMethods.useCoverStatsContext()
+    mockHooksOrMethods.useTokenDecimals()
 
     initialRender()
   })
@@ -86,7 +91,7 @@ describe('CastYourVote test', () => {
 
   test('should show Fetching balance if loadingBalance is true', () => {
     rerenderFn({}, () => {
-      mockFn.useVote(() => ({
+      mockHooksOrMethods.useVote(() => ({
         ...testData.castYourVote,
         loadingBalance: true
       }))
@@ -98,7 +103,7 @@ describe('CastYourVote test', () => {
 
   test("should show 'Fetching allowance' if loadingAllowance is true", () => {
     rerenderFn({}, () => {
-      mockFn.useVote(() => ({
+      mockHooksOrMethods.useVote(() => ({
         ...testData.castYourVote,
         loadingAllowance: true
       }))

@@ -1,22 +1,42 @@
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { render, screen } from '@testing-library/react'
-
-jest.mock('@/common/ComingSoon', () => ({
-  ComingSoon: () => <div data-testid='coming-soon' />
-}))
+import Options from '@/pages/covers/[coverId]/products/[productId]'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import { screen } from '@testing-library/react'
 
 describe('Options test', () => {
-  const OLD_ENV = process.env
-  beforeEach(() => {
-    mockFn.useRouter()
-    process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: 'false' }
-    const Options =
-      require('@/src/pages/covers/[coverId]/products/[productId]').default
-    render(<Options />)
+  const { initialRender, rerenderFn } = initiateTest(Options, {}, () => {
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return { ...testData.coversAndProducts2, loading: true }
+    })
   })
 
-  test('Should display coming soon', () => {
-    const comingSoon = screen.getByTestId('coming-soon')
-    expect(comingSoon).toBeInTheDocument()
+  beforeEach(() => {
+    initialRender()
+  })
+
+  test('Should display loading text', () => {
+    const loadingText = screen.getByText('loading...')
+    expect(loadingText).toBeInTheDocument()
+  })
+
+  test('Should display No Data Found', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoversAndProducts2(() => {
+        return { ...testData.coversAndProducts2, loading: false, getProduct: () => undefined }
+      })
+    })
+    const noDataFound = screen.getByText('No Data Found')
+    expect(noDataFound).toBeInTheDocument()
+  })
+
+  test('Should display Cover Options Page', () => {
+    rerenderFn({}, () => {
+      mockHooksOrMethods.useCoversAndProducts2(() => {
+        return { ...testData.coversAndProducts2, data: testData.coversAndProducts2.data, loading: false }
+      })
+    })
+    const container = screen.getByTestId('cover-options-page')
+    expect(container).toBeInTheDocument()
   })
 })

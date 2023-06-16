@@ -2,7 +2,7 @@ import { t } from '@lingui/macro'
 
 export const HeaderLogo = () => {
   return (
-    <picture>
+    <picture data-testid='header-logo'>
       <img
         loading='lazy'
         alt={t`Neptune Mutual`}

@@ -1,12 +1,14 @@
 import { getErrorMessage } from '@/src/helpers/tx'
 import { defaultArgs, useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { ERROR_TOAST_TIME } from '@/src/config/toast'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 describe('useErrorNotifier', () => {
-  mockFn.useToast()
-  const { mock, mockFunction } = mockFn.console.error()
+  mockHooksOrMethods.useToast()
+  const { mock, mockFunction } = mockGlobals.console.error()
   mock()
 
   const args = [{ duration: 5000 }]

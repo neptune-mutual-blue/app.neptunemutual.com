@@ -61,6 +61,7 @@ export const ResolveIncident = ({
                 setTimeout(refetchAll, 10000)
               })
             }}
+            data-testid='resolve'
           >
             {resolving ? t`Resolving...` : t`Resolve`}
           </RegularButton>

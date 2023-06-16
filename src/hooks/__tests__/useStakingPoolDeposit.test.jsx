@@ -1,19 +1,27 @@
 import { useStakingPoolDeposit } from '@/src/hooks/useStakingPoolDeposit'
-import { convertToUnits, sumOf, toBN } from '@/utils/bn'
+import {
+  convertToUnits,
+  sumOf,
+  toBN
+} from '@/utils/bn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useStakingPoolDeposit', () => {
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useStakingPoolsAddress()
-  mockFn.useERC20Allowance()
-  mockFn.useERC20Balance()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.useRouter()
-  mockFn.sdk.registry.StakingPools.getInstance()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useStakingPoolsAddress()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useERC20Balance()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.useRouter()
+  mockSdk.registry.StakingPools.getInstance()
 
   const args = [
     {
@@ -62,7 +70,7 @@ describe('useStakingPoolDeposit', () => {
 
   test('should handle error in onTransactionResult function while approving', async () => {
     const mockPushFn = jest.fn().mockRejectedValue('Error')
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: mockPushFn
     }))
@@ -76,7 +84,7 @@ describe('useStakingPoolDeposit', () => {
     })
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
   })
 
   test('should be able to execute handleDeposit function', async () => {
@@ -95,7 +103,7 @@ describe('useStakingPoolDeposit', () => {
 
   test('should handle error in onTransactionResult function in handleDeposit', async () => {
     const mockPushFn = jest.fn().mockRejectedValue('Error')
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: mockPushFn
     }))
@@ -109,11 +117,11 @@ describe('useStakingPoolDeposit', () => {
     })
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
   })
 
   test('should handle error for writeContract function in handleDeposit', async () => {
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: null
     }))
@@ -127,12 +135,12 @@ describe('useStakingPoolDeposit', () => {
     })
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useTxPoster()
   })
 
   test('should return if no networkId or account during handleDeposit', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolDeposit,
@@ -142,8 +150,8 @@ describe('useStakingPoolDeposit', () => {
       await result.handleDeposit()
     })
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 
   describe('Edge cases covergae', () => {
@@ -182,7 +190,7 @@ describe('useStakingPoolDeposit', () => {
     })
 
     test('if value is greater than maxStakableAmount', async () => {
-      mockFn.useERC20Balance(() => ({
+      mockHooksOrMethods.useERC20Balance(() => ({
         ...testData.erc20Balance,
         balance: convertToUnits(1000000000)
       }))
@@ -196,7 +204,7 @@ describe('useStakingPoolDeposit', () => {
 
       expect(result.errorMsg).toEqual('Cannot stake more than 10,000')
 
-      mockFn.useERC20Balance()
+      mockHooksOrMethods.useERC20Balance()
     })
 
     test('if error when rerendering', async () => {

@@ -1,47 +1,67 @@
-import { render, act } from '@/utils/unit-tests/test-utils'
-import { PoliciesActivePage } from '../PoliciesActivePage'
-import { i18n } from '@lingui/core'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  act,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+import { PoliciesActivePage } from '../PoliciesActivePage'
 
 describe('PoliciesActivePage', () => {
+  const { initialRender, rerenderFn } = initiateTest(PoliciesActivePage, {}, () => {
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return {
+        data: [],
+        loading: true
+      }
+    })
+  })
+
   beforeEach(() => {
-    mockFn.useValidReport()
+    mockHooksOrMethods.useValidReport()
+    initialRender()
 
     act(() => {
       i18n.activate('en')
     })
   })
 
+  test('should render main container by default', () => {
+    const container = screen.getByTestId('main-container')
+    expect(container).toBeInTheDocument()
+  })
+
   test('should render PoliciesActivePage loading page', () => {
-    const { getAllByTestId, queryByTestId } = render(
-      <PoliciesActivePage data={[]} loading />
-    )
+    const ids = screen.getAllByTestId('card-outline')
+    expect(ids.length).toEqual(CARDS_PER_PAGE)
 
-    const ids = getAllByTestId('card-outline')
-    expect(ids.length).toEqual(6)
-
-    const empty = queryByTestId('empty-text')
+    const empty = screen.queryByTestId('empty-text')
 
     expect(empty).not.toBeInTheDocument()
   })
 
   test('should render PoliciesActivePage placeholder text', () => {
-    const { getByTestId } = render(
-      <PoliciesActivePage data={[]} loading={false} />
-    )
+    rerenderFn({
+      data: []
+    }, () => {
+      mockHooksOrMethods.useCoversAndProducts2(() => {
+        return {
+          ...testData.coversAndProducts2,
+          loading: false
+        }
+      })
+    })
 
-    const empty = getByTestId('empty-text')
+    const empty = screen.getByTestId('empty-text')
 
     expect(empty).toBeInTheDocument()
   })
 
   test('it has Transaction List link', () => {
-    const { getByRole } = render(
-      <PoliciesActivePage data={[]} loading />
-    )
-
-    const TransactionListLink = getByRole('link', {
+    const TransactionListLink = screen.getByRole('link', {
       name: /Transaction List/i
     })
 
@@ -52,14 +72,18 @@ describe('PoliciesActivePage', () => {
   })
 
   test('Should have 2 cards', () => {
-    const { getAllByTestId } = render(
-      <PoliciesActivePage
-        data={testData.activePolicies.data.activePolicies}
-        loading={false}
-      />
-    )
+    rerenderFn({
+      data: testData.activePolicies.data.activePolicies
+    }, () => {
+      mockHooksOrMethods.useCoversAndProducts2(() => {
+        return {
+          ...testData.coversAndProducts2,
+          loading: false
+        }
+      })
+    })
 
-    const ids = getAllByTestId('card-outline')
+    const ids = screen.getAllByTestId('card-outline')
     expect(ids.length).toEqual(2)
   })
 })

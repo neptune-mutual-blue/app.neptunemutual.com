@@ -1,26 +1,13 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { screen } from '@testing-library/react'
+import CoverPage from '@/src/pages/covers/[coverId]'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import * as environment from '@/src/config/environment'
-
-const mockisDiversifiedCoversEnabled = jest.spyOn(
-  environment,
-  'isDiversifiedCoversEnabled'
-)
-
-jest.mock('@/common/ComingSoon', () => ({
-  ComingSoon: () => {
-    return <div data-testid='coming-soon' />
-  }
-}))
+import { screen } from '@testing-library/react'
 
 describe('Options test', () => {
-  mockisDiversifiedCoversEnabled.mockImplementation(() => false)
-  const CoverPage = require('@/src/pages/covers/[coverId]').default
-
   const { initialRender } = initiateTest(CoverPage, {}, () => {
-    mockFn.useCoverOrProductData(() => {
-      return { ...testData.coverInfo, supportsProducts: true }
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return { ...testData.coversAndProducts2, loading: true }
     })
   })
 
@@ -28,13 +15,8 @@ describe('Options test', () => {
     initialRender()
   })
 
-  test('Should display Coming Soon', () => {
-    mockisDiversifiedCoversEnabled.mockImplementation(() => false)
-    const CoverPage = require('@/src/pages/covers/[coverId]').default
-
-    initiateTest(CoverPage)
-
-    const comingSoon = screen.getByTestId('coming-soon')
-    expect(comingSoon).toBeInTheDocument()
+  test('Should display Hero Skeleton', () => {
+    const skeleton = screen.getByTestId('hero-skeleton')
+    expect(skeleton).toBeInTheDocument()
   })
 })

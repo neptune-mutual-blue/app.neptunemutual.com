@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useActivePoliciesByCover } from '../useActivePoliciesByCover'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockProps = {
   coverKey:
@@ -21,12 +23,12 @@ const mockReturnData = {
 }
 
 describe('useActivePoliciesByCover', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
   test('while fetching w/o account, networkId and graphURL', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.getGraphURL(() => '')
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.getGraphURL(() => '')
 
     const { result } = await renderHookWrapper(useActivePoliciesByCover, [
       mockProps
@@ -39,10 +41,10 @@ describe('useActivePoliciesByCover', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.getGraphURL()
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.getGraphURL()
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result } = await renderHookWrapper(
       useActivePoliciesByCover,
@@ -59,7 +61,7 @@ describe('useActivePoliciesByCover', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(
@@ -72,7 +74,7 @@ describe('useActivePoliciesByCover', () => {
     expect(result.data.totalActiveProtection.toString()).toEqual('0')
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

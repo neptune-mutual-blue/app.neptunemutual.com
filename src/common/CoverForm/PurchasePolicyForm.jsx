@@ -232,7 +232,7 @@ export const PurchasePolicyForm = ({
   }
 
   return (
-    <div className='flex flex-col w-616'>
+    <div className='flex flex-col w-616' data-testid='purchase-policy-form-container'>
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
       <div className='w-full p-4 rounded-xl bg-FEFEFF md:p-9 border-B0C4DB border-1.5' data-testid='purchase-policy-form'>
@@ -289,6 +289,7 @@ export const PurchasePolicyForm = ({
               name='terms_parameters_exclusions'
               id='terms_parameters_exclusions'
               onChange={() => { setRulesAccepted(!rulesAccepted) }}
+              data-testid='accept-rules'
             >
               <Trans>
                 I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions.
@@ -393,6 +394,7 @@ export const PurchasePolicyForm = ({
                 }
                 setFormSteps((prev) => prev + 1)
               }}
+              data-testid='form-steps-button'
             >
               {formSteps === 0 && (
                 <>

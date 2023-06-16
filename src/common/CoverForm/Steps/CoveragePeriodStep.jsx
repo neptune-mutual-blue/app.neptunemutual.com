@@ -49,6 +49,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
           onChange={handleClick}
           onClick={handleClick}
           checked={parseInt(coverMonth) >= 1}
+          data-testid='period-1'
         />
         <CustomRadio
           label={`${coverPeriodLabels[1]}`}

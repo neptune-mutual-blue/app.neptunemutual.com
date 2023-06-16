@@ -1,38 +1,26 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  NewDisputeReportFormContainer
+} from '@/modules/reporting/NewDisputeReportFormContainer'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
 import { screen } from '@testing-library/react'
-import DisputeFormPage from '@/src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute'
-import DateLib from '@/lib/date/DateLib'
 
-import * as environment from '@/src/config/environment'
-const mock = jest.spyOn(environment, 'isFeatureEnabled')
+const mock = jest.spyOn({ isFeatureEnabled }, 'isFeatureEnabled')
 
-jest.mock('@/src/modules/reporting/ReportingHero', () => {
-  return {
-    ReportingHero: () => {
-      return <div data-testid='reporting-hero' />
-    }
-  }
-})
-
-jest.mock('@/src/modules/reporting/NewDisputeReportForm', () => {
-  return {
-    NewDisputeReportForm: () => {
-      return <div data-testid='new-dispute-report-form' />
-    }
-  }
-})
+const props = testData.reporting.activeReporting[0]
 
 describe('DisputeFormPage test', () => {
   const { initialRender, rerenderFn } = initiateTest(
-    DisputeFormPage,
-    {},
+    NewDisputeReportFormContainer,
+    {
+      coverKey: props.coverKey,
+      productKey: props.productKey,
+      timestamp: props.incidentDate
+    },
     () => {
-      mockFn.useCoverOrProductData()
-      mockFn.useFetchReport(() => ({
-        data: { incidentReport: false },
-        loading: true
-      }))
-      mock.mockImplementation(() => true)
+      mockHooksOrMethods.useCoversAndProducts2()
     }
   )
 
@@ -40,60 +28,53 @@ describe('DisputeFormPage test', () => {
     initialRender()
   })
 
-  test('should display DisputeFormPage with loading text', () => {
-    const incident = screen.getByText('loading...')
-    expect(incident).toBeInTheDocument()
-  })
-
-  test('should display DisputeFormPage with loading text coverInfo', () => {
+  test('should display DisputeFormPage skeleton when loading', () => {
     rerenderFn({}, () => {
-      mockFn.useCoverOrProductData(() => null)
+      mockHooksOrMethods.useCoversAndProducts2(() => ({
+        ...testData.coversAndProducts2,
+        loading: true
+      }))
     })
-    const incident = screen.getByText('loading...')
+    const incident = screen.getByTestId('dispute-form-loading-skeleton')
     expect(incident).toBeInTheDocument()
   })
 
   test('should display DisputeFormPage with no data found', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
-        data: {
-          incidentReport: false
-        },
-        loading: false
+      mockHooksOrMethods.useCoversAndProducts2(() => ({
+        ...testData.coversAndProducts2,
+        getProduct: () => null,
+        getCoverByCoverKey: () => null
       }))
     })
-    const incident = screen.getByText('No data found')
-    expect(incident).toBeInTheDocument()
+    const noDataFound = screen.getByText('No Data Found')
+    expect(noDataFound).toBeInTheDocument()
   })
 
-  test('should display DisputeFormPage with NewDisputeReportForm with Not applicable for disputing', () => {
+  test('should display hero container if data available', () => {
+    const hero = screen.getByTestId('hero-container')
+    expect(hero).toBeInTheDocument()
+  })
+
+  test('should display loading skeleton in DisputeForm when loading', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
-        data: {
-          incidentReport: {
-            resolutionTimestamp: DateLib.unix()
-          }
-        },
+      mockHooksOrMethods.useFetchReport(() => ({
+        ...testData.incidentReports,
         loading: true
       }))
     })
-    const incident = screen.getByText('Not applicable for disputing')
-    expect(incident).toBeInTheDocument()
+    const dispute = screen.getByTestId('dispute-form-loading-skeleton')
+    expect(dispute).toBeInTheDocument()
   })
 
-  test('should display DisputeFormPage with NewDisputeReportForm with NewDisputeReportForm component', () => {
+  test('should display No data found text in DisputeForm when no data', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
-        data: {
-          incidentReport: {
-            resolutionTimestamp: DateLib.unix() + 36000,
-            totalRefutedCount: '0'
-          }
-        },
-        loading: true
+      mockHooksOrMethods.useFetchReport(() => ({
+        ...testData.incidentReports,
+        data: null
       }))
     })
-    const dispute = screen.getByTestId('new-dispute-report-form')
+    const dispute = screen.getByText('No data found')
     expect(dispute).toBeInTheDocument()
   })
 })

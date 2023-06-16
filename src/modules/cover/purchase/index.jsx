@@ -64,7 +64,7 @@ export const CoverPurchaseDetailsPage = () => {
 
   if (loading) {
     return (
-      <PurchasePageSkeleton />
+      <PurchasePageSkeleton data-testid='purchase-policy-skeleton' />
     )
   }
   if (!coverOrProductData) {
@@ -88,6 +88,7 @@ export const CoverPurchaseDetailsPage = () => {
             coverKey,
             productKey
           )}
+          data-testid='cover-purchase-breadcrumb'
         />
       </Container>
 

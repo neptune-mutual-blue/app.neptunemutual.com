@@ -1,15 +1,16 @@
 import React from 'react'
+
+import { NewIncidentReportPage } from '@/modules/reporting/new'
+import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  render,
   act,
-  withProviders,
   fireEvent,
-  waitFor
+  render,
+  waitFor,
+  withProviders
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
-import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
-import { NewIncidentReportPage } from '@/modules/reporting/new'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 
 describe('NewIncidentReportPage.test', () => {
   beforeAll(async () => {
@@ -23,7 +24,7 @@ describe('NewIncidentReportPage.test', () => {
       query: { id: 'animated-brands' }
     })
 
-    mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useCoversAndProducts2()
 
     const Component = withProviders(NewIncidentReportPage, router)
     const { getByTestId } = render(<Component />)

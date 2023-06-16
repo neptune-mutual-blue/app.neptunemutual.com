@@ -1,30 +1,40 @@
 import React from 'react'
+
 import {
-  render,
-  screen,
+  getBlockLink,
+  getTxLink
+} from '@/lib/connect-wallet/utils/explorer'
+import DateLib from '@/lib/date/DateLib'
+import {
+  MyPoliciesTxsTable, getColumns
+} from '@/modules/my-policies/MyPoliciesTxsTable'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
   cleanup,
-  fireEvent
+  fireEvent,
+  render,
+  screen
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
-import * as Component from '@/modules/my-policies/MyPoliciesTxsTable'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import DateLib from '@/lib/date/DateLib'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { getCoverImgSrc } from '@/src/helpers/cover'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits } from '@/utils/bn'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { testData } from '@/utils/unit-tests/test-data'
 
 describe('MyPoliciesTxsTable test', () => {
-  mockFn.usePolicyTxs()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
+  mockHooksOrMethods.usePagination()
+  mockHooksOrMethods.usePolicyTxs()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useRegisterToken()
+  mockHooksOrMethods.useCoversAndProducts2()
 
   beforeEach(() => {
     cleanup()
     i18n.activate('en')
-    render(<Component.MyPoliciesTxsTable />)
+    render(<MyPoliciesTxsTable />)
   })
 
   describe('Block number', () => {
@@ -52,7 +62,7 @@ describe('MyPoliciesTxsTable test', () => {
 
     test('should not render block number element if blockNumber is not available', () => {
       cleanup()
-      mockFn.usePolicyTxs(() => ({
+      mockHooksOrMethods.usePolicyTxs(() => ({
         ...testData.policies,
         data: {
           ...testData.policies.data,
@@ -61,7 +71,7 @@ describe('MyPoliciesTxsTable test', () => {
       }))
 
       i18n.activate('en')
-      render(<Component.MyPoliciesTxsTable />)
+      render(<MyPoliciesTxsTable />)
 
       const blockP = screen.queryByTestId('block-number')
       expect(blockP).not.toBeInTheDocument()
@@ -74,36 +84,37 @@ describe('MyPoliciesTxsTable test', () => {
   })
 
   describe('Table Head', () => {
+    const columns = getColumns()
     test('should render correct number of th elements', () => {
       const ths = screen
         .getByTestId('policy-txs-table-header')
-        .querySelectorAll('th')
-      expect(ths.length).toBe(Component.columns.length)
+        .querySelectorAll('tr:nth-child(2) > th')
+      expect(ths.length).toBe(columns.length)
     })
 
     test('should render correct table header text', () => {
       const ths = screen
         .getByTestId('policy-txs-table-header')
-        .querySelectorAll('th')
-      expect(ths[0].textContent).toBe(Component.columns[0].name)
-      expect(ths[1].textContent).toBe(Component.columns[1].name)
-      expect(ths[2].textContent).toBe(Component.columns[2].name)
+        .querySelectorAll('tr:nth-child(2) > th')
+      expect(ths[0].textContent).toBe(columns[0].name)
+      expect(ths[1].textContent).toBe(columns[1].name)
+      expect(ths[2].textContent).toBe(columns[2].name)
     })
   })
 
   test('should render the connect wallet td if account is not available', () => {
     cleanup()
-    mockFn.useWeb3React(() => ({
+    mockHooksOrMethods.useWeb3React({
       account: null
-    }))
+    })
 
     i18n.activate('en')
-    render(<Component.MyPoliciesTxsTable />)
+    render(<MyPoliciesTxsTable />)
 
     const tbody = screen.getByTestId('connect-wallet-tbody')
     expect(tbody).toBeInTheDocument()
     expect(tbody.querySelector('tr>td')).toHaveTextContent(
-      'Please connect your wallet...'
+      'Please connect your wallet'
     )
   })
 
@@ -113,11 +124,11 @@ describe('MyPoliciesTxsTable test', () => {
         cleanup()
         i18n.activate('en')
 
-        mockFn.useNetwork()
-        mockFn.useWeb3React()
-        mockFn.usePolicyTxs()
+        mockHooksOrMethods.useNetwork()
+        mockHooksOrMethods.useWeb3React()
+        mockHooksOrMethods.usePolicyTxs()
 
-        render(<Component.MyPoliciesTxsTable />)
+        render(<MyPoliciesTxsTable />)
 
         const td = screen.getAllByTestId('timestamp-col')[0]
         expect(td.textContent).toBe(
@@ -137,28 +148,28 @@ describe('MyPoliciesTxsTable test', () => {
     })
 
     describe("Col 2: 'DETAILS'", () => {
+      const columns = getColumns()
       test('should not render details item if no coverInfo', () => {
         cleanup()
         i18n.activate('en')
 
-        render(<Component.MyPoliciesTxsTable />)
+        render(<MyPoliciesTxsTable />)
 
         const tbody = screen.queryByTestId('app-table-body')
         const tds = tbody.querySelectorAll('tr')[0].querySelectorAll('td')
-        expect(tds.length).toBe(Component.columns.length - 1)
+        expect(tds.length).toBe(columns.length)
       })
 
       test('should render correct details in the row', () => {
         cleanup()
         i18n.activate('en')
-        mockFn.useCovers()
-        mockFn.useNetwork()
-        mockFn.useWeb3React()
-        mockFn.usePolicyTxs()
-        mockFn.useAppConstants()
-        mockFn.useCoverOrProductData()
+        mockHooksOrMethods.useNetwork()
+        mockHooksOrMethods.useWeb3React()
+        mockHooksOrMethods.usePolicyTxs()
+        mockHooksOrMethods.useAppConstants()
+        mockHooksOrMethods.useCoversAndProducts2()
 
-        render(<Component.MyPoliciesTxsTable />)
+        render(<MyPoliciesTxsTable />)
 
         const td = screen.getAllByTestId('details-col')[0]
         expect(td).toBeInTheDocument()
@@ -216,18 +227,16 @@ describe('MyPoliciesTxsTable test', () => {
           .getAllByTestId('details-col')[0]
           .querySelector('span')
 
-        expect(span).toHaveTextContent(testData.coverInfo.infoObj.coverName)
+        expect(span).toHaveTextContent(testData.coversAndProducts2.data.coverInfoDetails.coverName)
       })
     })
 
     describe("Col 3: 'AMOUNT'", () => {
-      mockFn.useRegisterToken()
-
       test('span element should have class based on transaction type', () => {
         const spanPurchased = screen
           .getAllByTestId('col-amount')[0]
           .querySelector('span')
-        expect(spanPurchased).toHaveClass('text-404040')
+        expect(spanPurchased).toHaveClass('text-01052D')
 
         const spanClaimed = screen
           .getAllByTestId('col-amount')[1]
@@ -280,16 +289,15 @@ describe('MyPoliciesTxsTable test', () => {
       test('simulate click on add button', () => {
         cleanup()
         i18n.activate('en')
-        mockFn.useCovers()
-        mockFn.useNetwork()
-        mockFn.useWeb3React()
-        mockFn.usePolicyTxs()
-        mockFn.useAppConstants()
-        mockFn.useCoverOrProductData()
+        mockHooksOrMethods.useNetwork()
+        mockHooksOrMethods.useWeb3React()
+        mockHooksOrMethods.usePolicyTxs()
+        mockHooksOrMethods.useAppConstants()
+        mockHooksOrMethods.useCoversAndProducts2()
         const clickFn = jest.fn()
-        mockFn.useRegisterToken(() => ({ register: clickFn }))
+        mockHooksOrMethods.useRegisterToken(() => ({ register: clickFn }))
 
-        render(<Component.MyPoliciesTxsTable />)
+        render(<MyPoliciesTxsTable />)
 
         const btn = screen
           .getAllByTestId('col-amount')[0]
@@ -300,24 +308,16 @@ describe('MyPoliciesTxsTable test', () => {
     })
 
     describe("Col 4: 'Actions'", () => {
-      test('should render the timestamp button', () => {
-        const btn = screen
-          .getAllByTestId('col-actions')[0]
-          .querySelector('button')
-        expect(btn).toBeInTheDocument()
-        expect(btn).toHaveTextContent('Timestamp')
-      })
-
       test("should render the 'Open in explorer' link", () => {
-        const link = screen.getAllByTestId('col-actions')[0].querySelector('a')
+        const link = screen.getAllByTestId('col-actions')[1].querySelector('a')
         expect(link).toBeInTheDocument()
         expect(link).toHaveTextContent('Open in explorer')
       })
 
       test('link should have correct href', () => {
-        const link = screen.getAllByTestId('col-actions')[0].querySelector('a')
+        const link = screen.getAllByTestId('col-actions')[1].querySelector('a')
         const href = getTxLink(testData.network.networkId, {
-          hash: testData.policies.data.transactions[0].transaction.id
+          hash: testData.policies.data.transactions[1].transaction.id
         })
         expect(link).toHaveAttribute('href', href)
       })

@@ -4,8 +4,9 @@ import { getCoverImgSrc } from '@/src/helpers/cover'
 import { convertFromUnits, toBN } from '@/utils/bn'
 import { formatPercent } from '@/utils/formatter/percent'
 import { MULTIPLIER } from '@/src/config/constants'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const props = {
   claimPlatformFee: '650',
@@ -21,8 +22,8 @@ const props = {
 }
 
 function initialMocks () {
-  mockFn.useClaimPolicyInfo()
-  mockFn.useAppConstants()
+  mockHooksOrMethods.useClaimPolicyInfo()
+  mockHooksOrMethods.useAppConstants()
 }
 
 describe('ClaimCoverModal test', () => {
@@ -59,7 +60,7 @@ describe('ClaimCoverModal test', () => {
 
   test('should render the error text when error is present', () => {
     rerenderFn({}, () => {
-      mockFn.useClaimPolicyInfo(() => ({
+      mockHooksOrMethods.useClaimPolicyInfo(() => ({
         ...testData.claimPolicyInfo,
         error: 'Error'
       }))
@@ -105,7 +106,7 @@ describe('ClaimCoverModal test', () => {
 
     test("claim button should show 'Claiming' when claiming is true", () => {
       rerenderFn({}, () => {
-        mockFn.useClaimPolicyInfo(() => ({
+        mockHooksOrMethods.useClaimPolicyInfo(() => ({
           ...testData.claimPolicyInfo,
           claiming: true
         }))
@@ -125,7 +126,7 @@ describe('ClaimCoverModal test', () => {
   describe('Approve button', () => {
     test('should render the approve button when canClaim is false', () => {
       rerenderFn({}, () => {
-        mockFn.useClaimPolicyInfo(() => ({
+        mockHooksOrMethods.useClaimPolicyInfo(() => ({
           ...testData.claimPolicyInfo,
           canClaim: false
         }))
@@ -137,7 +138,7 @@ describe('ClaimCoverModal test', () => {
 
     test("approve button should show 'Approve' when approving is false", () => {
       rerenderFn({}, () => {
-        mockFn.useClaimPolicyInfo(() => ({
+        mockHooksOrMethods.useClaimPolicyInfo(() => ({
           ...testData.claimPolicyInfo,
           canClaim: false
         }))
@@ -149,7 +150,7 @@ describe('ClaimCoverModal test', () => {
 
     test("approve button should show 'Approving' when approving is true", () => {
       rerenderFn({}, () => {
-        mockFn.useClaimPolicyInfo(() => ({
+        mockHooksOrMethods.useClaimPolicyInfo(() => ({
           ...testData.claimPolicyInfo,
           approving: true,
           canClaim: false
@@ -162,7 +163,7 @@ describe('ClaimCoverModal test', () => {
 
     test('should be disabled when approving or error or loadingAllowance', () => {
       rerenderFn({}, () => {
-        mockFn.useClaimPolicyInfo(() => ({
+        mockHooksOrMethods.useClaimPolicyInfo(() => ({
           ...testData.claimPolicyInfo,
           approving: true,
           error: 'error',
@@ -185,7 +186,7 @@ describe('ClaimCoverModal test', () => {
 
     test('providing loadingBalance from hook', () => {
       rerenderFn({}, () => {
-        mockFn.useCxTokenRowContext(() => ({
+        mockHooksOrMethods.useCxTokenRowContext(() => ({
           ...testData.cxTokenRowContext,
           balance: '0',
           loadingBalance: true,
@@ -196,14 +197,14 @@ describe('ClaimCoverModal test', () => {
 
     test('providing loadingFees from hook', () => {
       rerenderFn({}, () => {
-        mockFn.useCxTokenRowContext(() => ({
+        mockHooksOrMethods.useCxTokenRowContext(() => ({
           ...testData.cxTokenRowContext,
           balance: '0',
           loadingBalance: false,
           tokenSymbol: 'CX'
         }))
         rerenderFn({}, () => {
-          mockFn.useClaimPolicyInfo(() => ({
+          mockHooksOrMethods.useClaimPolicyInfo(() => ({
             ...testData.claimPolicyInfo,
             loadingAllowance: false,
             loadingFees: true

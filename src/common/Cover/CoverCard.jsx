@@ -157,12 +157,11 @@ export const CoverCard = ({
           <div
             className='flex flex-1'
             title={protectionLong}
-            data-testid='protection'
           >
             <span role='tooltip' aria-label='Protection'>
               <SheildIcon className='w-4 h-4 text-01052D' />
             </span>
-            <p>
+            <p data-testid='protection'>
               {protectionShort}
             </p>
           </div>

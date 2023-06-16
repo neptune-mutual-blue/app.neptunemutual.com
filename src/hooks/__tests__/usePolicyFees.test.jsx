@@ -1,6 +1,13 @@
-import { defaultInfo, usePolicyFees } from '@/src/hooks/usePolicyFees'
+import {
+  defaultInfo,
+  usePolicyFees
+} from '@/src/hooks/usePolicyFees'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 function assertData (result, defaultData = false) {
   if (defaultData) {
@@ -24,12 +31,12 @@ function assertData (result, defaultData = false) {
 }
 
 describe('usePolicyFees', () => {
-  mockFn.sdk.multicall()
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useDebounce()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.PolicyContract.getAddress()
+  mockSdk.multicall()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useDebounce()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.PolicyContract.getAddress()
 
   const args = [
     {
@@ -62,16 +69,16 @@ describe('usePolicyFees', () => {
   })
 
   test('should return default info if no networkId', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result } = await renderHookWrapper(usePolicyFees, args)
     assertData(result, true)
 
-    mockFn.useNetwork()
+    mockHooksOrMethods.useNetwork()
   })
 
   test('should call notifyError if error is raised', async () => {
-    mockFn.sdk.registry.PolicyContract.getAddress(false, true)
+    mockSdk.registry.PolicyContract.getAddress(false, true)
 
     await renderHookWrapper(usePolicyFees, args)
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()

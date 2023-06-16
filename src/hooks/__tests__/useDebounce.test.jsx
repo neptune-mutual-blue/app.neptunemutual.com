@@ -1,8 +1,9 @@
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useDebounce', () => {
-  mockFn.setTimeout()
+  mockGlobals.setTimeout()
   test('should return correct value from hook', async () => {
     const args = ['mock value', 500]
 

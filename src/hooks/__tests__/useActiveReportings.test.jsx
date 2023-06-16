@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useActiveReportings } from '../useActiveReportings'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockReturnData = {
   data: {
@@ -12,13 +14,13 @@ const mockReturnData = {
 }
 
 describe('useActiveReportings', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   test('while fetching successful', async () => {
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result } = await renderHookWrapper(useActiveReportings, [], true)
 
@@ -31,7 +33,7 @@ describe('useActiveReportings', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(useActiveReportings, [], true)
@@ -42,12 +44,12 @@ describe('useActiveReportings', () => {
     expect(result.hasMore).toBe(true)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 
   test('calling handleShowMore function', async () => {
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result, act } = await renderHookWrapper(
       useActiveReportings,

@@ -1,5 +1,5 @@
 import { screen, fireEvent } from '@testing-library/react'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import {
   InputField,
   InputDescription,

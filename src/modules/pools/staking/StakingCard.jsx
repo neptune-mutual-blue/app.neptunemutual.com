@@ -182,7 +182,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const collectModalTitle = stakeModalTitle
 
   return (
-    <OutlinedCard className='px-6 pt-6 pb-10 bg-white'>
+    <OutlinedCard className='px-6 pt-6 pb-10 bg-white' data-testid='staking-card'>
       <div className='flex items-start justify-between'>
         <div>
           <DoubleImage
@@ -193,7 +193,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
           />
         </div>
 
-        <Badge className='text-21AD8C'>
+        <Badge className='text-21AD8C' data-testid='apr-badge'>
           <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
         </Badge>
       </div>

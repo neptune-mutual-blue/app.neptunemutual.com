@@ -3,10 +3,11 @@ import { render, screen } from '@/utils/unit-tests/test-utils'
 import { VotesSummaryHorizontalChart } from '@/modules/reporting/VotesSummaryHorizontalChart'
 import { testData } from '@/utils/unit-tests/test-data'
 import { convertFromUnits } from '@/utils/bn'
-import { globalFn, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 
 jest.mock('react-chartjs-2', () => ({
-  Bar: (p) => mockFn.chartMockFn(p)
+  Bar: (p) => mockHooksOrMethods.chartMockFn(p)
 }))
 
 describe('VotesSummaryHorizontalChart test', () => {
@@ -14,8 +15,8 @@ describe('VotesSummaryHorizontalChart test', () => {
     i18n.activate('en')
 
     HTMLCanvasElement.prototype.getContext = jest.fn()
-    globalFn.resizeObserver()
-    globalFn.DOMRect()
+    mockGlobals.resizeObserver()
+    mockGlobals.DOMRect()
 
     const incidentReport = testData.incidentReports.data.incidentReport
 

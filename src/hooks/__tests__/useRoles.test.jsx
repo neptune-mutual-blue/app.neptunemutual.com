@@ -1,15 +1,19 @@
 import { useRoles } from '@/src/hooks/useRoles'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useRoles', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.Protocol.getAddress()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.Protocol.getAddress()
 
   const mockMulticallResult = [true, false, true, true]
-  mockFn.sdk.multicall({ all: () => Promise.resolve(mockMulticallResult) })
+  mockSdk.multicall({ all: () => Promise.resolve(mockMulticallResult) })
 
   test('should return correct data', async () => {
     const { result } = await renderHookWrapper(useRoles, [], true)
@@ -21,7 +25,7 @@ describe('useRoles', () => {
   })
 
   test('should return default data if no network', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result } = await renderHookWrapper(useRoles, [])
 
@@ -30,11 +34,11 @@ describe('useRoles', () => {
     expect(result.isLiquidityManager).toEqual(false)
     expect(result.isCoverManager).toEqual(false)
 
-    mockFn.useNetwork()
+    mockHooksOrMethods.useNetwork()
   })
 
   test('should call notifyError function if error raised', async () => {
-    mockFn.sdk.multicall({ all: () => Promise.reject(new Error('Something went wrong')) })
+    mockSdk.multicall({ all: () => Promise.reject(new Error('Something went wrong')) })
 
     await renderHookWrapper(useRoles, [])
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()

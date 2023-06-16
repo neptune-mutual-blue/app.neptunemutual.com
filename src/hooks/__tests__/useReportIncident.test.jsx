@@ -1,18 +1,22 @@
 import { useReportIncident } from '@/src/hooks/useReportIncident'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useReportIncident', () => {
-  mockFn.useRouter()
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useGovernanceAddress()
-  mockFn.useAppConstants()
-  mockFn.useERC20Allowance()
-  mockFn.useERC20Balance()
-  mockFn.useTxToast()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.governance.report()
+  mockHooksOrMethods.useRouter()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useGovernanceAddress()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useERC20Balance()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.governance.report()
 
   const args = [
     {
@@ -49,17 +53,20 @@ describe('useReportIncident', () => {
   })
 
   test('should be able to execute handleReport function', async () => {
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.ipfs.writeToIpfs()
+
     const { result, act } = await renderHookWrapper(useReportIncident, args)
 
     await act(async () => {
-      const payload = { id: 123 }
+      const payload = { id: 123, observed: new Date() }
       await result.handleReport(payload)
     })
     expect(testData.router.replace).toHaveBeenCalled()
   })
 
   test('should call notifyError in handleApprove function if error raised', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
@@ -71,11 +78,11 @@ describe('useReportIncident', () => {
     })
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
   })
 
   test('should call notifyError in handleReport function if error raised', async () => {
-    mockFn.useTxToast(() => ({
+    mockHooksOrMethods.useTxToast(() => ({
       ...testData.txToast,
       push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
@@ -88,11 +95,11 @@ describe('useReportIncident', () => {
     ])
 
     await act(async () => {
-      const payload = { id: 123 }
+      const payload = { id: 123, observed: new Date() }
       await result.handleReport(payload)
     })
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
-    mockFn.useTxToast()
+    mockHooksOrMethods.useTxToast()
   })
 })

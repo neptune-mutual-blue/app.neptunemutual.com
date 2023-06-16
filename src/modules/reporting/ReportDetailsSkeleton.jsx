@@ -4,8 +4,8 @@ import { Hero } from '@/common/Hero'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
 
-export const HeroSkeleton = ({ infoOnRight = false }) => (
-  <Hero>
+export const HeroSkeleton = ({ infoOnRight = false, ...rest }) => (
+  <Hero {...rest}>
     <Container className='px-2 pt-5 pb-20 md:py-20 min-h-[312px]'>
       <Skeleton className='h-5 w-72 mb-11' />
 

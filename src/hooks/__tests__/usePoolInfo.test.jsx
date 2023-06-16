@@ -1,23 +1,25 @@
 import { defaultInfo, usePoolInfo } from '@/src/hooks/usePoolInfo'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('usePoolInfo', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useErrorNotifier()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useErrorNotifier()
 
   const args = [{ key: 12345, type: 'pod' }]
 
   test('should return default hook result', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
 
     const { result } = await renderHookWrapper(usePoolInfo, args)
     expect(result.info).toEqual(defaultInfo)
     expect(typeof result.refetch).toEqual('function')
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return data as retured from api', async () => {
@@ -32,34 +34,34 @@ describe('usePoolInfo', () => {
         lastRewardHeight: '9855'
       }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(usePoolInfo, args, true)
     expect(result.info).toEqual(mockData.data)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should run notifyError function if error arises', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
 
     await renderHookWrapper(usePoolInfo, args)
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return default value if no network', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result } = await renderHookWrapper(usePoolInfo, args)
     expect(result.info).toEqual(defaultInfo)
 
-    mockFn.useNetwork()
+    mockHooksOrMethods.useNetwork()
   })
 
   test('should be able to execute the refetch function', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
 
     const { result, renderHookResult, act } = await renderHookWrapper(
       usePoolInfo,
@@ -70,7 +72,7 @@ describe('usePoolInfo', () => {
     })
     expect(renderHookResult.current.info).toEqual(defaultInfo)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should get correct result from refetch function', async () => {
@@ -82,7 +84,7 @@ describe('usePoolInfo', () => {
         lastRewardHeight: '9855'
       }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result, renderHookResult, act } = await renderHookWrapper(
       usePoolInfo,
@@ -94,19 +96,19 @@ describe('usePoolInfo', () => {
     })
     expect(renderHookResult.current.info).toEqual(mockData.data)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should log error if error arises in fetchPoolInfo', async () => {
-    mockFn.fetch(false)
-    mockFn.useErrorNotifier(() => ({ notifyError: null }))
+    mockGlobals.fetch(false)
+    mockHooksOrMethods.useErrorNotifier(() => ({ notifyError: null }))
     mock()
 
     await renderHookWrapper(usePoolInfo, args)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
-    mockFn.useErrorNotifier()
+    mockGlobals.fetch().unmock()
+    mockHooksOrMethods.useErrorNotifier()
     restore()
   })
 })

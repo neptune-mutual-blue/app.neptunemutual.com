@@ -1,27 +1,33 @@
-import { useUnstakeReportingStake } from '../useUnstakeReportingStake'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
+
+import { useUnstakeReportingStake } from '../useUnstakeReportingStake'
 
 const mockProps = {
   coverKey:
     '0x7072696d65000000000000000000000000000000000000000000000000000000',
   productKey:
     '0x6161766500000000000000000000000000000000000000000000000000000000',
-  incidentDate: new Date().getTime()
+  incidentDate: new Date().getTime(),
+  willReceive: '1000'
 }
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useUnstakeReportingStake', () => {
-  mockFn.useTxToast()
-  mockFn.useAuthValidation()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Resolution.getInstance()
-  mockFn.useAppConstants()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useAuthValidation()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Resolution.getInstance()
+  mockHooksOrMethods.useAppConstants()
 
   test('calling unstake function w/o networkId and account', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps
@@ -37,8 +43,9 @@ describe('useUnstakeReportingStake', () => {
   })
 
   test('calling unstake function w/networkId and account', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useRouter()
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps
@@ -52,9 +59,9 @@ describe('useUnstakeReportingStake', () => {
   })
 
   test('calling unstake function w/networkId and account and error', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: undefined
     }))
@@ -71,8 +78,8 @@ describe('useUnstakeReportingStake', () => {
   })
 
   test('calling unstakeWithClaim function w/o networkId and account', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps
@@ -88,8 +95,8 @@ describe('useUnstakeReportingStake', () => {
   })
 
   test('calling unstakeWithClaim function w/networkId and account', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps
@@ -103,9 +110,9 @@ describe('useUnstakeReportingStake', () => {
   })
 
   test('calling unstakeWithClaim function w/networkId and account and error', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster(() => ({
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: undefined
     }))

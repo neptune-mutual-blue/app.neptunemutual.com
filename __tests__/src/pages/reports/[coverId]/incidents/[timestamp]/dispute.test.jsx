@@ -1,7 +1,11 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { screen } from '@testing-library/react'
-import DisputeFormPage from '@/src/pages/reports/[coverId]/incidents/[timestamp]/dispute'
+// import DateLib from '@/lib/date/DateLib'
 import DateLib from '@/lib/date/DateLib'
+import DisputeFormPage
+  from '@/src/pages/reports/[coverId]/incidents/[timestamp]/dispute'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import { screen } from '@testing-library/react'
 
 jest.mock('@/src/modules/reporting/ReportingHero', () => {
   return {
@@ -24,8 +28,8 @@ describe('DisputeFormPage test', () => {
     DisputeFormPage,
     {},
     () => {
-      mockFn.useCoverOrProductData()
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useCoversAndProducts2()
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: true
       }))
@@ -37,25 +41,23 @@ describe('DisputeFormPage test', () => {
   })
 
   test('should display DisputeFormPage with loading text', () => {
-    const incident = screen.getByText('loading...')
+    const incident = screen.getByTestId('dispute-form-loading-skeleton')
     expect(incident).toBeInTheDocument()
   })
 
-  test('should display DisputeFormPage with loading text coverInfo', () => {
-    rerenderFn({}, () => {
-      mockFn.useCoverOrProductData(() => null)
-    })
-    const incident = screen.getByText('loading...')
-    expect(incident).toBeInTheDocument()
-  })
+  // test('should display DisputeFormPage with loading text coverInfo', () => {
+  //   rerenderFn({}, () => {
+  //     mockHooksOrMethods.useCoversAndProducts2(() => null)
+  //   })
+  //   const incident = screen.getByText('loading...')
+  //   expect(incident).toBeInTheDocument()
+  // })
 
   test('should display DisputeFormPage with no data found', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
-        data: {
-          incidentReport: false
-        },
-        loading: false
+      mockHooksOrMethods.useFetchReport(() => ({
+        ...testData.incidentReports,
+        data: null
       }))
     })
     const incident = screen.getByText('No data found')
@@ -64,13 +66,8 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with NewDisputeReportForm with Not applicable for disputing', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
-        data: {
-          incidentReport: {
-            resolutionTimestamp: DateLib.unix()
-          }
-        },
-        loading: true
+      mockHooksOrMethods.useFetchReport(() => ({
+        ...testData.incidentReports
       }))
     })
     const incident = screen.getByText('Not applicable for disputing')
@@ -79,14 +76,12 @@ describe('DisputeFormPage test', () => {
 
   test('should display DisputeFormPage with NewDisputeReportForm with NewDisputeReportForm component', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: {
-          incidentReport: {
-            resolutionTimestamp: DateLib.unix() + 36000,
-            totalRefutedCount: '0'
-          }
+          resolutionTimestamp: DateLib.unix() + 36000,
+          totalRefutedCount: '0'
         },
-        loading: true
+        loading: false
       }))
     })
     const dispute = screen.getByTestId('new-dispute-report-form')

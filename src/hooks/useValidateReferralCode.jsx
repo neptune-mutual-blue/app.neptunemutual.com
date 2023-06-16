@@ -1,4 +1,9 @@
 import {
+  useEffect,
+  useState
+} from 'react'
+
+import {
   DEBOUNCE_TIMEOUT,
   REFERRAL_CODE_VALIDATION_URL
 } from '@/src/config/constants'
@@ -6,7 +11,6 @@ import { useDebounce } from '@/src/hooks/useDebounce'
 import { useFetch } from '@/src/hooks/useFetch'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
-import { useState, useEffect } from 'react'
 
 /**
  *
@@ -49,6 +53,7 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
       if (isValidReferralCode(trimmedValue)) {
         let isValidRef = false
 
+        console.log(isValidReferralCode(trimmedValue))
         try {
           const result = await fetchValidateReferralCode(
             REFERRAL_CODE_VALIDATION_URL,

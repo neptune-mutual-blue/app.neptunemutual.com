@@ -1,6 +1,8 @@
 import { useRecentVotes } from '@/src/hooks/useRecentVotes'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 const mockProps = {
   coverKey:
@@ -17,13 +19,13 @@ const mockReturnData = {
 }
 
 describe('useRecentVotes', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   test('should return correct data', async () => {
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockGlobals.fetch(true, undefined, mockReturnData)
     const { result } = await renderHookWrapper(
       useRecentVotes,
       [mockProps],
@@ -36,14 +38,14 @@ describe('useRecentVotes', () => {
   })
 
   test('should log error in case of api error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     await renderHookWrapper(useRecentVotes, [mockProps], true)
 
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 

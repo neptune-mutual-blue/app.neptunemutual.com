@@ -1,4 +1,5 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { screen } from '@testing-library/react'
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -8,8 +9,8 @@ jest.mock('@/common/ComingSoon', () => ({
 describe('CoverPurchaseDetails test', () => {
   const OLD_ENV = process.env
   beforeEach(() => {
-    mockFn.useRouter()
-    process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: 'false' }
+    mockHooksOrMethods.useRouter()
+    process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: 'false' }
     const CoverPurchaseDetails =
       require('@/src/pages/covers/[coverId]/products/[productId]/purchase').default
     const { initialRender } = initiateTest(CoverPurchaseDetails)

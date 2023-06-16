@@ -6,8 +6,8 @@ import * as ProtocolHook from '@/src/hooks/useProtocolDayData'
 import { convertFromUnits, toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const liquidityTokenDecimals = 6
 
@@ -15,22 +15,23 @@ const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData)
 }
 
-const getChangeData = (data) => {
-  if (data && data.length >= 2) {
-    const lastSecond = toBN(data[data.length - 2].totalLiquidity)
-    const last = toBN(data[data.length - 1].totalLiquidity)
+const getChangeData = (totalCapacity) => {
+  if (totalCapacity && totalCapacity.length >= 2) {
+    const lastSecond = toBN(totalCapacity[totalCapacity.length - 2].value)
+    const last = toBN(totalCapacity[totalCapacity.length - 1].value)
 
     const diff =
       lastSecond.isGreaterThan(0) &&
       last.minus(lastSecond).dividedBy(lastSecond)
+
     return {
       last: last.toString(),
       diff: diff && diff.absoluteValue().toString(),
       rise: diff && diff.isGreaterThanOrEqualTo(0)
     }
-  } else if (data && data.length === 1) {
+  } else if (totalCapacity && totalCapacity.length === 1) {
     return {
-      last: toBN(data[0].totalLiquidity).toString(),
+      last: toBN(totalCapacity[0].value).toString(),
       diff: null,
       rise: false
     }
@@ -48,9 +49,9 @@ describe('Hero test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useProtocolDayData()
-    mockFn.useRouter()
-    mockFn.useFetchHeroStats()
+    mockHooksOrMethods.useProtocolDayData()
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useFetchHeroStats()
 
     render(<HomeHero />)
   })
@@ -70,14 +71,14 @@ describe('Hero test', () => {
     expect(wrapper).toBeInTheDocument()
   })
 
-  test('should have element with `Total Liquidity` text', () => {
-    const text = 'Total Liquidity'
+  test('should have element with `Total Capacity` text', () => {
+    const text = 'Total Capacity'
     const wrapper = screen.getByText(text)
     expect(wrapper).toBeInTheDocument()
   })
 
-  test('should render correct total liquidity value', () => {
-    const changeData = getChangeData(testData.protocolDayData.data)
+  test('should render correct total capacity value', () => {
+    const changeData = getChangeData(testData.protocolDayData.data.totalCapacity)
     const currencyText = formatCurrency(
       convertFromUnits(
         changeData?.last || '0',
@@ -89,13 +90,13 @@ describe('Hero test', () => {
     expect(wrapper).toHaveTextContent(currencyText)
   })
 
-  test('should render total liquidity info', () => {
+  test('should render total capacity info', () => {
     const wrapper = screen.getByTestId('changedata-percent')
     expect(wrapper).toBeInTheDocument()
   })
 
   test('should render correct change percentage', () => {
-    const changeData = getChangeData(testData.protocolDayData.data)
+    const changeData = getChangeData(testData.protocolDayData.data.totalCapacity)
     const percentText = formatPercent(changeData.diff, 'en')
     const wrapper = screen
       .getByTestId('changedata-percent')
@@ -104,23 +105,25 @@ describe('Hero test', () => {
   })
 
   test('should render TotalLiquidityChart component', () => {
-    const wrapper = screen.getByTestId('liquidity-chart-wrapper')
+    const wrapper = screen.getByTestId('capacity-chart-wrapper')
     expect(wrapper).toBeInTheDocument()
   })
 
   test('should have class `text-DC2121` and `transform-flip` if changedata.rise is false', () => {
     cleanup()
     mockFunction(ProtocolHook, 'useProtocolDayData', {
-      data: [
-        {
-          date: 1649980800,
-          totalLiquidity: '42972266000000000000000000'
-        },
-        {
-          date: 1650067200,
-          totalLiquidity: '13002586813333333333333335'
-        }
-      ],
+      data: {
+        totalCapacity: [
+          {
+            date: 1649980800,
+            value: '42972266000000000000000000'
+          },
+          {
+            date: 1650067200,
+            value: '13002586813333333333333335'
+          }
+        ]
+      },
       loading: false
     })
     renderer()
@@ -133,12 +136,14 @@ describe('Hero test', () => {
   test('should not render the percent data if data lenght is 1', () => {
     cleanup()
     mockFunction(ProtocolHook, 'useProtocolDayData', {
-      data: [
-        {
-          date: 1649980800,
-          totalLiquidity: '42972266000000000000000000'
-        }
-      ],
+      data: {
+        totalCapacity: [
+          {
+            date: 1649980800,
+            value: '42972266000000000000000000'
+          }
+        ]
+      },
       loading: false
     })
     renderer()

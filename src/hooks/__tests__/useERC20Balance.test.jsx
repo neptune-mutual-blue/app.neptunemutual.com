@@ -1,12 +1,17 @@
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useERC20Balance', () => {
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useTxPoster()
-  const { mock, mockFunction } = mockFn.console.error()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useTxPoster()
+  const { mock, mockFunction } = mockGlobals.console.error()
   mock()
 
   test('should return default value', async () => {
@@ -21,6 +26,7 @@ describe('useERC20Balance', () => {
 
   test('should run refetch function without fail', async () => {
     const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
+    mockSdk.registry.IERC20.getInstance()
     const { result, act } = await renderHookWrapper(
       useERC20Balance,
       args,
@@ -40,15 +46,15 @@ describe('useERC20Balance', () => {
     })
 
     test('no token instance found', async () => {
-      mockFn.sdk.registry.IERC20.getInstance(true)
+      mockSdk.registry.IERC20.getInstance(true)
 
       const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
       await renderHookWrapper(useERC20Balance, args)
     })
 
     test('returned error from contractRead function', async () => {
-      mockFn.sdk.registry.IERC20.getInstance()
-      mockFn.useTxPoster(() => ({
+      mockSdk.registry.IERC20.getInstance()
+      mockHooksOrMethods.useTxPoster(() => ({
         ...testData.txPoster,
         contractRead: () => Promise.reject(new Error('Something went wrong'))
       }))
@@ -59,7 +65,7 @@ describe('useERC20Balance', () => {
     })
 
     test('returned no result from contractRead function', async () => {
-      mockFn.useTxPoster(() => ({
+      mockHooksOrMethods.useTxPoster(() => ({
         ...testData.txPoster,
         contractRead: () => Promise.resolve(null)
       }))
@@ -69,7 +75,7 @@ describe('useERC20Balance', () => {
     })
 
     test('rerendering with no tokenAddress', async () => {
-      mockFn.useTxPoster()
+      mockHooksOrMethods.useTxPoster()
 
       const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
       const { rerender, act } = await renderHookWrapper(useERC20Balance, args)
@@ -80,7 +86,7 @@ describe('useERC20Balance', () => {
     })
 
     test('returned no result from contractRead function when refetching', async () => {
-      mockFn.useTxPoster(() => ({
+      mockHooksOrMethods.useTxPoster(() => ({
         ...testData.txPoster,
         contractRead: () => Promise.resolve(null)
       }))

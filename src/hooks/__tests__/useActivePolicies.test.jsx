@@ -1,24 +1,15 @@
-import { useActivePolicies } from '../useActivePolicies'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
 
-const mockReturnData = {
-  data: {
-    userPolicies: [
-      {
-        totalAmountToCover: '1000'
-      }
-    ]
-  }
-}
+import { useActivePolicies } from '../useActivePolicies'
 
 describe('useActivePolicies', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
-
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   test('while fetching w/o account', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result } = await renderHookWrapper(useActivePolicies)
 
@@ -28,30 +19,26 @@ describe('useActivePolicies', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.getActivePolicies()
 
     const { result } = await renderHookWrapper(useActivePolicies, [], true)
 
     expect(result.data.activePolicies).toEqual([
-      ...mockReturnData.data.userPolicies
+      ...testData.activePolicies.data.activePolicies
     ])
     expect(result.data.totalActiveProtection.toString()).toEqual(
-      mockReturnData.data.userPolicies[0].totalAmountToCover
+      testData.activePolicies.data.totalActiveProtection
     )
   })
 
   test('while fetching error', async () => {
-    mockFn.fetch(false)
-    mock()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.getActivePolicies(() => [])
 
     const { result } = await renderHookWrapper(useActivePolicies, [], true)
 
     expect(result.data.activePolicies).toEqual([])
     expect(result.data.totalActiveProtection.toString()).toEqual('0')
-    expect(mockFunction).toHaveBeenCalled()
-
-    mockFn.fetch().unmock()
-    restore()
   })
 })

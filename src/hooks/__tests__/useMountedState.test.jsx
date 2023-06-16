@@ -1,5 +1,5 @@
 import { useMountedState } from '@/src/hooks/useMountedState'
-import { renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useMountedState', () => {
   test('should return default data', async () => {

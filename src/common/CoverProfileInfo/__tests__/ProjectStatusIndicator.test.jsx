@@ -1,10 +1,12 @@
-import { screen, act } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { Card } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { E_CARD_STATUS } from '@/common/CardStatusBadge'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { Card } from '@/common/CoverProfileInfo/CoverProfileInfo'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import {
+  act,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('ProjectStatusIndicator test', () => {
   const props = {
@@ -132,7 +134,7 @@ describe('ProjectStatusIndicator test', () => {
     const incidentDate = '123124324'
     const href = `/reports/${safeParseBytes32String(props.coverKey)}/products/${
       props.productKey
-    }/incidents/${incidentDate}`
+    }/incidents/${incidentDate}/details`
 
     const { initialRender } = initiateTest(Card, {
       ...props,
