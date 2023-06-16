@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -27,14 +29,20 @@ import {
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
-const renderWhen = (row) => (
-  <td
-    className='px-6 py-6'
-    title={DateLib.toLongDateFormat(row.createdAtTimestamp)}
-  >
-    {fromNow(row.createdAtTimestamp)}
-  </td>
-)
+const WhenRenderer = ({ row }) => {
+  const router = useRouter()
+
+  return (
+    <td
+      className='px-6 py-6'
+      title={DateLib.toLongDateFormat(row.createdAtTimestamp, router.locale)}
+    >
+      {fromNow(row.createdAtTimestamp)}
+    </td>
+  )
+}
+
+const renderWhen = (row) => <WhenRenderer row={row} />
 
 const renderDetails = (row) => <DetailsRenderer row={row} />
 
@@ -121,98 +129,66 @@ export const MyStakingTxsTable = () => {
   )
 }
 
-const getAppropriateData = (row) => {
-  if (row.type === 'Deposited') {
-    const data = {
-      symbol: row.pool.stakingTokenSymbol,
-      tokenDecimals: row.pool.stakingTokenDecimals,
-      amountToShow: row.amount,
-      poolName: row.pool.name,
-      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
-    }
+const DetailsRenderer = ({ row }) => {
+  const imgSrc = [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
+  let textToShow = <></>
 
+  if (row.type === 'Deposited') {
     const stakeAmountWithSymbol = (
       <TokenAmountSpan
         className='text-sm leading-5 text-01052D'
-        amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+        amountInUnits={row.amount} symbol={row.pool.stakingTokenSymbol} decimals={row.pool.stakingTokenDecimals}
       />
     )
 
-    return {
-      ...data,
-      textToShow: (
-        <Trans>Staked {stakeAmountWithSymbol} on {data.poolName}</Trans>
-      )
-    }
+    textToShow = (
+      <Trans>Locked {stakeAmountWithSymbol} in {row.pool.name} Pool</Trans>
+    )
   }
   if (row.type === 'RewardsWithdrawn') {
-    const data = {
-      symbol: row.pool.rewardTokenSymbol,
-      tokenDecimals: row.pool.rewardTokenDecimals,
-      amountToShow: row.rewards,
-      poolName: row.pool.name,
-      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
-    }
-
     const harvestAmountWithSymbol = (
       <TokenAmountSpan
         className='text-sm leading-5 text-01052D'
-        amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+        amountInUnits={row.rewards} symbol={row.pool.rewardTokenSymbol} decimals={row.pool.rewardTokenDecimals}
       />
     )
 
-    return {
-      ...data,
-      textToShow: (
-        <Trans>Harvested {harvestAmountWithSymbol} on {data.poolName}</Trans>
-      )
-    }
+    textToShow = (
+      <Trans>Harvested {harvestAmountWithSymbol} from {row.pool.name} Pool</Trans>
+    )
   }
   if (row.type === 'Withdrawn') {
-    const data = {
-      symbol: `${row.pool.stakingTokenSymbol}`,
-      tokenDecimals: row.pool.stakingTokenDecimals,
-      amountToShow: row.amount,
-      poolName: row.pool.name,
-      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
-    }
-
     const withdrawAmountWithSymbol = (
       <TokenAmountSpan
         className='text-sm leading-5 text-01052D'
-        amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+        amountInUnits={row.amount}
+        symbol={row.pool.stakingTokenSymbol}
+        decimals={row.pool.stakingTokenDecimals}
       />
     )
 
-    return {
-      ...data,
-      textToShow: (
-        <Trans>Withdrawn {withdrawAmountWithSymbol} from {data.poolName}</Trans>
-      )
-    }
+    textToShow = (
+      <Trans>Withdrawn {withdrawAmountWithSymbol} from {row.pool.name} Pool</Trans>
+    )
   }
-}
-
-const DetailsRenderer = ({ row }) => {
-  const data = getAppropriateData(row)
 
   return (
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center w-max'>
-        {data.imgSrc.length === 1
-          ? (<img src={data.imgSrc[0]} alt='npm' height={24} width={24} />)
+        {imgSrc.length === 1
+          ? (<img src={imgSrc[0]} alt='npm' height={24} width={24} />)
           : (
             <div className='relative inline-block'>
               <div className='flex items-center justify-center'>
-                <img src={data.imgSrc[1]} height={24} width={24} className='z-20' alt='rewardTokenSymbol' />
+                <img src={imgSrc[1]} height={24} width={24} className='z-20' alt='rewardTokenSymbol' />
               </div>
               <div className='absolute top-0 z-10 flex items-center justify-center -left-4'>
-                <img src={data.imgSrc[0]} alt='stakingTokenSymbol' height={24} width={24} className='inline-block' />
+                <img src={imgSrc[0]} alt='stakingTokenSymbol' height={24} width={24} className='inline-block' />
               </div>
             </div>
             )}
         <span className='pl-2 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
-          {data.textToShow}
+          {textToShow}
         </span>
       </div>
     </td>
@@ -222,7 +198,35 @@ const DetailsRenderer = ({ row }) => {
 const PoolAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
 
-  const data = getAppropriateData(row)
+  let data = {}
+
+  if (row.type === 'Deposited') {
+    data = {
+      symbol: row.pool.stakingTokenSymbol,
+      tokenDecimals: row.pool.stakingTokenDecimals,
+      amountToShow: row.amount,
+      poolName: row.pool.name
+
+    }
+  }
+  if (row.type === 'RewardsWithdrawn') {
+    data = {
+      symbol: row.pool.rewardTokenSymbol,
+      tokenDecimals: row.pool.rewardTokenDecimals,
+      amountToShow: row.rewards,
+      poolName: row.pool.name
+
+    }
+  }
+  if (row.type === 'Withdrawn') {
+    data = {
+      symbol: `${row.pool.stakingTokenSymbol}`,
+      tokenDecimals: row.pool.stakingTokenDecimals,
+      amountToShow: row.amount,
+      poolName: row.pool.name
+
+    }
+  }
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
