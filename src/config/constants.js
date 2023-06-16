@@ -108,7 +108,7 @@ export const NetworkUrlParam = {
 export const isProduction = process.env.NODE_ENV === 'production'
 
 export const FALLBACK_VENPM_TOKEN_SYMBOL = 'veNPM'
-export const FALLBACK_NPM_TOKEN_SYMBOL = 'POT'
+export const FALLBACK_NPM_TOKEN_SYMBOL = 'NPM'
 export const FALLBACK_NPM_TOKEN_DECIMALS = 18
 export const FALLBACK_LIQUIDITY_TOKEN_SYMBOL = 'USDC'
 export const FALLBACK_LIQUIDITY_TOKEN_DECIMALS = 6
