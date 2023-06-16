@@ -13,8 +13,8 @@ describe('useGovernanceAddress', () => {
   mockSdk.registry.Governance.getAddress()
 
   test('while fetching w/o account and networkId', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(useGovernanceAddress)
 

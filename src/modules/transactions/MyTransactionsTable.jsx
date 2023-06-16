@@ -31,37 +31,39 @@ import { useWeb3React } from '@web3-react/core'
 import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
 
-const renderWhen = (row) => <WhenRenderer row={row} />
-const renderDetails = (row) => <DetailsRenderer row={row} />
-const renderAmount = (row) => <AmountRenderer row={row} />
-const renderActions = (row) => <ActionsRenderer row={row} />
+const renderWhen = (row) => { return <WhenRenderer row={row} /> }
+const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
+const renderAmount = (row) => { return <AmountRenderer row={row} /> }
+const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => [
-  {
-    name: t`when`,
-    align: 'left',
-    renderHeader: (col) => renderHeader(col, 'timestamp', sorts, handleSort),
-    renderData: renderWhen
-  },
-  {
-    name: t`details`,
-    align: 'left',
-    renderHeader,
-    renderData: renderDetails
-  },
-  {
-    name: t`amount`,
-    align: 'right',
-    renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'right',
-    renderHeader,
-    renderData: renderActions
-  }
-]
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
+  return [
+    {
+      name: t`when`,
+      align: 'left',
+      renderHeader: (col) => { return renderHeader(col, 'timestamp', sorts, handleSort) },
+      renderData: renderWhen
+    },
+    {
+      name: t`details`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDetails
+    },
+    {
+      name: t`amount`,
+      align: 'right',
+      renderHeader,
+      renderData: renderAmount
+    },
+    {
+      name: '',
+      align: 'right',
+      renderHeader,
+      renderData: renderActions
+    }
+  ]
+}
 
 export const MyTransactionsTable = () => {
   const [
@@ -92,14 +94,15 @@ export const MyTransactionsTable = () => {
     LSHistory.setId(account, networkId)
 
     const updateListener = TransactionHistory.on((item) => {
-      setListOfTransactions((items) =>
-        items.map((_item) => {
+      setListOfTransactions((items) => {
+        return items.map((_item) => {
           if (_item.hash === item.hash) {
             Object.assign(_item, item)
           }
 
           return _item
         })
+      }
       )
     })
 
@@ -114,11 +117,11 @@ export const MyTransactionsTable = () => {
     const history = LSHistory.get(page)
 
     setListOfTransactions((current) => {
-      const hashes = current.map(({ hash }) => hash)
+      const hashes = current.map(({ hash }) => { return hash })
 
       return [
         ...current,
-        ...history.data.filter((item) => !hashes.includes(item.hash))
+        ...history.data.filter((item) => { return !hashes.includes(item.hash) })
       ]
     })
 
@@ -222,7 +225,7 @@ const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
 
   const handleLinkClick = () => {
-    if (!row.hash) return
+    if (!row.hash) { return }
     TransactionHistory.updateProperty(row.hash, 'read', true)
   }
 

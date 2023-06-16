@@ -6,6 +6,7 @@ export function DiversifiedCoverRules ({ projectName, coverKey, productKey }) {
   const onDownload = () => {
     window.open(Routes.ViewCoverProductTerms(coverKey, productKey), '_blank')
   }
+
   return (
     <>
       <DownloadButton onClick={onDownload} />

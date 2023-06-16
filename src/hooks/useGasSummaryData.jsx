@@ -10,7 +10,7 @@ export const useGasSummaryData = () => {
   const { networkId } = useNetwork()
 
   const fetchGasSummary = async () => {
-    if (fetched.current || loading) return
+    if (fetched.current || loading) { return }
 
     setLoading(true)
 

@@ -4,10 +4,12 @@ import { testData } from '@/utils/unit-tests/test-data'
 import { render } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 
-jest.mock('react-chartjs-2', () => ({
-  Doughnut: (p) => mockHooksOrMethods.chartMockFn(p),
-  Bar: (p) => mockHooksOrMethods.chartMockFn(p)
-}))
+jest.mock('react-chartjs-2', () => {
+  return {
+    Doughnut: (p) => { return mockHooksOrMethods.chartMockFn(p) },
+    Bar: (p) => { return mockHooksOrMethods.chartMockFn(p) }
+  }
+})
 
 describe('RecentVotesTable test', () => {
   beforeEach(() => {

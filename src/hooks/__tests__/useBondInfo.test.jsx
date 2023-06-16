@@ -18,10 +18,10 @@ describe('useBondInfo', () => {
     mockSdk.registry.BondPool.getInstance()
     mockHooksOrMethods.useErrorNotifier()
     mockHooksOrMethods.useTxPoster()
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     test('while fetching w/o account and networkId', async () => {
-      mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
       const { result } = await renderHookWrapper(useBondInfo)
 
@@ -60,7 +60,7 @@ describe('useBondInfo', () => {
 
     test('while fetching w/o networkId', async () => {
       mockHooksOrMethods.useWeb3React()
-      mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
       const { result } = await renderHookWrapper(useBondInfo)
 

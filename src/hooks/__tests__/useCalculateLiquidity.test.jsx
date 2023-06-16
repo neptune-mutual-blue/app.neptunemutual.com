@@ -24,8 +24,8 @@ describe('useCalculateLiquidity', () => {
   mockHooksOrMethods.useErrorNotifier()
 
   test('while fetching w/o networkId, account, debouncedValue', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
     mockHooksOrMethods.useDebounce(null)
 
     const { result } = await renderHookWrapper(useCalculateLiquidity, [
@@ -74,10 +74,12 @@ describe('useCalculateLiquidity', () => {
     mockHooksOrMethods.useWeb3React()
     mockHooksOrMethods.useNetwork()
     mockHooksOrMethods.useDebounce()
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      contractRead: undefined
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        contractRead: undefined
+      }
+    })
 
     const { result } = await renderHookWrapper(
       useCalculateLiquidity,

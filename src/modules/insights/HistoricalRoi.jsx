@@ -11,13 +11,15 @@ import { Trans } from '@lingui/macro'
 export const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
 
-  const ChainIds = data ? Array.from(new Set(data.map(entry => entry.chainId))) : []
+  const ChainIds = data ? Array.from(new Set(data.map(entry => { return entry.chainId }))) : []
 
-  const chains = ChainIds.map(chainId => ({
-    label: ShortNetworkNames[chainId],
-    value: chainId
+  const chains = ChainIds.map(chainId => {
+    return {
+      label: ShortNetworkNames[chainId],
+      value: chainId
 
-  }))
+    }
+  })
 
   const chartOptions = {
     xAxis: {
@@ -54,18 +56,20 @@ export const HistoricalRoi = ({ loading, data }) => {
         linecap: 'square'
       }
     },
-    series: chains.map(chain => (
-      {
+    series: chains.map(chain => {
+      return {
         type: 'areaspline',
         showInNavigator: true,
         name: chain.label,
         data: (data ?? [])
-          .filter((item) => item.chainId === chain.value)
-          .map((item) => ({
-            x: new Date(item.startDate).valueOf(),
-            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
-          }))
-          .sort((a, b) => a.x - b.x),
+          .filter((item) => { return item.chainId === chain.value })
+          .map((item) => {
+            return {
+              x: new Date(item.startDate).valueOf(),
+              y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
+            }
+          })
+          .sort((a, b) => { return a.x - b.x }),
         lineWidth: 3,
         lineColor: '#' + ChainAnalyticsColors[chain.value],
         fillColor: {
@@ -90,7 +94,7 @@ export const HistoricalRoi = ({ loading, data }) => {
           duration: 500
         }
       }
-    )),
+    }),
     chart: {
       backgroundColor: 'transparent',
       height: '408px'
@@ -163,12 +167,14 @@ export const HistoricalRoi = ({ loading, data }) => {
 
       <div className='flex items-center justify-center gap-4 mt-3'>
 
-        {chains.map(chain => (
-          <div className='flex items-center gap-1' key={chain.value}>
-            <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
-            <span className='text-sm font-semibold'>{chain.label}</span>
-          </div>
-        ))}
+        {chains.map(chain => {
+          return (
+            <div className='flex items-center gap-1' key={chain.value}>
+              <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
+              <span className='text-sm font-semibold'>{chain.label}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

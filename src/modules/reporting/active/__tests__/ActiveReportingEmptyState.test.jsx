@@ -21,7 +21,7 @@ describe('ActiveReportingEmptyState loading state', () => {
 
   test('should render loading when hook returns loading', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useCoverDropdown(() => ({ ...testData.coverDropdown, loading: true }))
+      mockHooksOrMethods.useCoverDropdown(() => { return { ...testData.coverDropdown, loading: true } })
     })
     const loadingText = screen.getByText(/loading.../)
     expect(loadingText).toBeInTheDocument()
@@ -34,7 +34,7 @@ describe('ActiveReportingEmptyState loading state', () => {
 
   test('should call handleAddReport after clicking on report button', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useCoverDropdown(() => ({ ...testData.coverDropdown, loading: false }))
+      mockHooksOrMethods.useCoverDropdown(() => { return { ...testData.coverDropdown, loading: false } })
     })
 
     const button = screen.getByTestId('report-button')

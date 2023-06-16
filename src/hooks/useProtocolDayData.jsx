@@ -11,13 +11,13 @@ export const useProtocolDayData = (eager = true) => {
   const fetched = useRef(false)
 
   const fetchData = useCallback(() => {
-    if (fetched.current || loading) return
+    if (fetched.current || loading) { return }
 
     setLoading(true)
 
     getGroupedProtocolDayData(networkId)
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         setData(_data)
 

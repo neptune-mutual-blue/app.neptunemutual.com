@@ -27,6 +27,7 @@ describe('Regukar component', () => {
       />
     )
     const input = screen.getByRole('textbox')
+
     return {
       input,
       ...screen

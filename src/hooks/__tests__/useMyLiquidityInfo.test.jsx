@@ -107,7 +107,7 @@ describe('useMyLiquidityInfo', () => {
   test('should get info from api if account not available', async () => {
     const mockData = { data: testData.myLiquidityInfo }
     mockGlobals.fetch(true, undefined, mockData)
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result } = await renderHookWrapper(useMyLiquidityInfo, args, true)
     assertInfo(result, mockData.data)
@@ -134,7 +134,7 @@ describe('useMyLiquidityInfo', () => {
 
   describe('Edge cases coverage', () => {
     test('should return default value if no networkId or coverKey', async () => {
-      mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
       const { result } = await renderHookWrapper(useMyLiquidityInfo, args)
       assertInfo(result, defaultInfo, true)
@@ -143,7 +143,7 @@ describe('useMyLiquidityInfo', () => {
     })
 
     test('should return default value if bad response from api', async () => {
-      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockHooksOrMethods.useWeb3React(() => { return { account: null } })
       mockGlobals.fetch(true, { ...testData.fetch, ok: false })
 
       const { result } = await renderHookWrapper(useMyLiquidityInfo, args)
@@ -154,7 +154,7 @@ describe('useMyLiquidityInfo', () => {
     })
 
     test('should return default value if no data from api', async () => {
-      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockHooksOrMethods.useWeb3React(() => { return { account: null } })
       mockGlobals.fetch(true, undefined, { data: null })
 
       const { result } = await renderHookWrapper(useMyLiquidityInfo, args)
@@ -165,7 +165,7 @@ describe('useMyLiquidityInfo', () => {
     })
 
     test('should call notifyError when error is raised', async () => {
-      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockHooksOrMethods.useWeb3React(() => { return { account: null } })
       mockGlobals.fetch(false)
 
       await renderHookWrapper(useMyLiquidityInfo, args)
@@ -176,7 +176,7 @@ describe('useMyLiquidityInfo', () => {
     })
 
     test('should return default value if no data from api when refetch function called', async () => {
-      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockHooksOrMethods.useWeb3React(() => { return { account: null } })
       mockGlobals.fetch(true, undefined, { data: null })
 
       const { result, act, renderHookResult } = await renderHookWrapper(
@@ -194,7 +194,7 @@ describe('useMyLiquidityInfo', () => {
     })
 
     test('should call notifyError when error is raised during accrueInterest', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({ ...testData.txPoster, writeContract: null }))
+      mockHooksOrMethods.useTxPoster(() => { return { ...testData.txPoster, writeContract: null } })
 
       const { result, act } = await renderHookWrapper(useMyLiquidityInfo, args)
       await act(async () => {

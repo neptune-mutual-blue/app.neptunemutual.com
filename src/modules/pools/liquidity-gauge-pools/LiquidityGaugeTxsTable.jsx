@@ -115,12 +115,13 @@ const PoolAmountRenderer = ({ row }) => {
         />
         <button
           className='p-1 ml-3'
-          onClick={() =>
-            register(
+          onClick={() => {
+            return register(
               row.token,
               tokenSymbol,
               tokenDecimals
-            )}
+            )
+          }}
           title='Add to Metamask'
         >
           <span className='sr-only'>Add to metamask</span>
@@ -171,40 +172,42 @@ const ActionsRenderer = ({ row }) => {
   )
 }
 
-const renderWhen = (row) => <WhenRenderer row={row} />
+const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
-const renderDetails = (row) => <DetailsRenderer row={row} />
+const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 
-const renderAmount = (row) => <PoolAmountRenderer row={row} />
+const renderAmount = (row) => { return <PoolAmountRenderer row={row} /> }
 
-const renderActions = (row) => <ActionsRenderer row={row} />
+const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-const getColumns = (sorts = {}, handleSort = () => {}) => [
-  {
-    name: t`when`,
-    align: 'left',
-    renderHeader: (col) => renderHeader(col, 'blockTimestamp', sorts, handleSort),
-    renderData: renderWhen
-  },
-  {
-    name: t`details`,
-    align: 'left',
-    renderHeader,
-    renderData: renderDetails
-  },
-  {
-    name: t`amount`,
-    align: 'right',
-    renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'right',
-    renderHeader,
-    renderData: renderActions
-  }
-]
+const getColumns = (sorts = {}, handleSort = () => {}) => {
+  return [
+    {
+      name: t`when`,
+      align: 'left',
+      renderHeader: (col) => { return renderHeader(col, 'blockTimestamp', sorts, handleSort) },
+      renderData: renderWhen
+    },
+    {
+      name: t`details`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDetails
+    },
+    {
+      name: t`amount`,
+      align: 'right',
+      renderHeader,
+      renderData: renderAmount
+    },
+    {
+      name: '',
+      align: 'right',
+      renderHeader,
+      renderData: renderActions
+    }
+  ]
+}
 
 export const LiquidityGaugeTxsTable = () => {
   const { data, loading } = useLiquidityGaugePoolTxs()
@@ -220,16 +223,18 @@ export const LiquidityGaugeTxsTable = () => {
       const coverData = getCoverByCoverKey(txData.key)
       const isDiversified = coverData?.supportsProducts
       const projectName = coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.projectName
-      const pool = pools.find(x => x.key === txData.key)
+      const pool = pools.find(x => { return x.key === txData.key })
 
       return {
         ...txData,
         poolName: pool?.name || '',
         imgSrc: isDiversified
-          ? getProductsByCoverKey(txData.key).map(x => ({
-            src: getCoverImgSrc({ key: x.productKey }),
-            alt: x.productInfoDetails?.productName
-          }))
+          ? getProductsByCoverKey(txData.key).map(x => {
+            return {
+              src: getCoverImgSrc({ key: x.productKey }),
+              alt: x.productInfoDetails?.productName
+            }
+          })
           : [{
               src: getCoverImgSrc({ key: txData.key }),
               alt: projectName

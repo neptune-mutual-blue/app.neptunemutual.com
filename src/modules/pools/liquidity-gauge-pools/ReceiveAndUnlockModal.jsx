@@ -102,7 +102,7 @@ export const ReceiveAndUnlockModal = ({
     : `Unlock ${stakingTokenSymbol}`
 
   useEffect(() => {
-    if (toBN(poolStaked).isZero()) closeModal()
+    if (toBN(poolStaked).isZero()) { closeModal() }
   }, [poolStaked, closeModal])
 
   return (
@@ -124,7 +124,7 @@ export const ReceiveAndUnlockModal = ({
           <div className='mb-6'>
             <button
               type='button'
-              onClick={() => setIsReceiveRewardsModalOpen(true)}
+              onClick={() => { return setIsReceiveRewardsModalOpen(true) }}
               className={classNames('px-4 py-2 text-sm font-semibold text-primary rounded-big',
                 isReceiveRewardsModalOpen && 'bg-DEEAF6'
               )}
@@ -134,7 +134,7 @@ export const ReceiveAndUnlockModal = ({
 
             <button
               type='button'
-              onClick={() => setIsReceiveRewardsModalOpen(false)}
+              onClick={() => { return setIsReceiveRewardsModalOpen(false) }}
               className={classNames('px-4 py-2 text-sm font-semibold text-primary rounded-big',
                 !isReceiveRewardsModalOpen && 'bg-DEEAF6'
               )}
@@ -209,10 +209,12 @@ export const ReceiveAndUnlockModal = ({
             !isReceiveRewardsModalOpen && (
               <RegularButton
                 className={btnClass}
-                onClick={() => handleWithdraw(() => {
-                  updateStakedAndReward()
-                  setInputValue('')
-                })}
+                onClick={() => {
+                  return handleWithdraw(() => {
+                    updateStakedAndReward()
+                    setInputValue('')
+                  })
+                }}
                 disabled={!canWithdraw || withdrawing}
               >
                 <Trans>{withdrawing ? 'Unlocking...' : 'Unlock'}</Trans>
@@ -225,9 +227,11 @@ export const ReceiveAndUnlockModal = ({
               <RegularButton
                 className={btnClass}
                 disabled={!toBN(rewardAmount).isGreaterThan(0) || withdrawingRewards}
-                onClick={() => handleWithdrawRewards(() => {
-                  updateStakedAndReward()
-                })}
+                onClick={() => {
+                  return handleWithdrawRewards(() => {
+                    updateStakedAndReward()
+                  })
+                }}
               >
                 <Trans>{withdrawingRewards ? 'Receiving...' : 'Receive'}</Trans>
               </RegularButton>
@@ -240,12 +244,13 @@ export const ReceiveAndUnlockModal = ({
   )
 }
 
-export const ModalTitle = ({ showCloseBtn = true, onClose = () => {}, modalTitle, imgSrc }) => (
-  <Dialog.Title
-    className='relative flex justify-center w-full px-3 py-4 font-semibold border-b border-b-B0C4DB'
-  >
-    <div className='flex flex-row items-center gap-2.5'>
-      {
+export const ModalTitle = ({ showCloseBtn = true, onClose = () => {}, modalTitle, imgSrc }) => {
+  return (
+    <Dialog.Title
+      className='relative flex justify-center w-full px-3 py-4 font-semibold border-b border-b-B0C4DB'
+    >
+      <div className='flex flex-row items-center gap-2.5'>
+        {
         showCloseBtn && (
           <button
             aria-label='Close'
@@ -257,11 +262,12 @@ export const ModalTitle = ({ showCloseBtn = true, onClose = () => {}, modalTitle
           </button>
         )
       }
-      <img src={imgSrc} alt='token-logo' className='w-10 h-10' />
+        <img src={imgSrc} alt='token-logo' className='w-10 h-10' />
 
-      <span className='text-xl'>
-        {modalTitle}
-      </span>
-    </div>
-  </Dialog.Title>
-)
+        <span className='text-xl'>
+          {modalTitle}
+        </span>
+      </div>
+    </Dialog.Title>
+  )
+}

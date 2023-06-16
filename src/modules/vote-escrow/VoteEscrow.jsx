@@ -131,7 +131,7 @@ const VoteEscrow = () => {
   }
 
   const handleChange = (val) => {
-    if (typeof val === 'string') setInput(val)
+    if (typeof val === 'string') { setInput(val) }
   }
 
   const handleMax = () => {
@@ -163,27 +163,29 @@ const VoteEscrow = () => {
 
   const buttonDisabled = locking || !!loadingMessage || !(agreed && ((!extend && input) || extend))
 
-  const LabelComponent = () => (
-    <div className='flex items-center justify-between mt-6 mb-4'>
-      <div className='font-semibold text-md'>NPM to Lock</div>
-      <div className='flex items-center text-sm'>
-        <Checkbox
-          disabled={!canUnlock}
-          checked={extend}
-          onChange={(e) => {
-            setExtend(e.target.checked)
-            if (e.target.checked) {
-              setInput('')
-            }
-          }}
-          className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox'
-          labelClassName='ml-1'
-        >
-          Extend Only
-        </Checkbox>
+  const LabelComponent = () => {
+    return (
+      <div className='flex items-center justify-between mt-6 mb-4'>
+        <div className='font-semibold text-md'>NPM to Lock</div>
+        <div className='flex items-center text-sm'>
+          <Checkbox
+            disabled={!canUnlock}
+            checked={extend}
+            onChange={(e) => {
+              setExtend(e.target.checked)
+              if (e.target.checked) {
+                setInput('')
+              }
+            }}
+            className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox'
+            labelClassName='ml-1'
+          >
+            Extend Only
+          </Checkbox>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <div className='max-w-[990px] mx-auto'>

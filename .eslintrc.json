@@ -8,6 +8,27 @@
     "unused-imports"
   ],
   "rules": {
+    "arrow-body-style": [
+      "error",
+      "always"
+    ],
+    "curly": [
+      "error",
+      "all"
+    ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "export"
+      }
+    ],
     "@next/next/no-img-element": 0,
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [

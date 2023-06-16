@@ -29,11 +29,11 @@ export const useActivePolicies = () => {
       try {
         const data = await getActivePolicies(networkId, account)
 
-        if (!data) return
+        if (!data) { return }
 
         setData({
           activePolicies: data,
-          totalActiveProtection: sumOf(...data.map(policy => policy.amount)).toString()
+          totalActiveProtection: sumOf(...data.map(policy => { return policy.amount })).toString()
         })
       } catch (error) {
         console.error(error)

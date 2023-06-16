@@ -61,7 +61,7 @@ export const useLiquidityTxs = ({ limit, page }) => {
 
     fetchLiquidityTxs(networkId, query)
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.liquidityTransactions.length === 0 ||
@@ -72,13 +72,15 @@ export const useLiquidityTxs = ({ limit, page }) => {
         }
 
         // setData(_data);
-        setData((prev) => ({
-          blockNumber: _data._meta.block.number,
-          liquidityTransactions: [
-            ...prev.liquidityTransactions,
-            ..._data.liquidityTransactions
-          ]
-        }))
+        setData((prev) => {
+          return {
+            blockNumber: _data._meta.block.number,
+            liquidityTransactions: [
+              ...prev.liquidityTransactions,
+              ..._data.liquidityTransactions
+            ]
+          }
+        })
       })
       .catch((err) => {
         console.error(err)

@@ -103,6 +103,7 @@ export const BondInfoCard = ({
 
 const BondInfoTooltipContent = ({ vestingPeriod }) => {
   const vestingPeriodInterval = explainInterval(vestingPeriod)
+
   return (
     <>
       <Tooltip.Content side='top'>

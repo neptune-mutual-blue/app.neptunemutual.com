@@ -12,14 +12,15 @@ const getAggregatedDataFromResponses = async (response) => {
 
   const res = await response.json()
 
-  if (!res.data) return
+  if (!res.data) { return }
 
   const data = res.data
-  const sorted = sort(data, x => x.totalProtection ?? x.totalPremium, true)
+  const sorted = sort(data, x => { return x.totalProtection ?? x.totalPremium }, true)
 
   const labelsSet = sorted.reduce((acc, curr) => {
     const name = curr.productKeyString || curr.coverKeyString
     acc.add(name)
+
     return acc
   }, new Set())
   labels = Array.from(labelsSet)
@@ -39,7 +40,7 @@ export const useCoverInsightsData = () => {
   const { networkId } = useNetwork()
 
   const fetchCoverSoldOrPremiumData = async (dataType) => {
-    if (fetched.current[dataType]) return
+    if (fetched.current[dataType]) { return }
 
     setLoading(true)
 
@@ -62,8 +63,8 @@ export const useCoverInsightsData = () => {
       )
 
       const { data, labels } = await getAggregatedDataFromResponses(response)
-      setData(_data => ({ ..._data, [dataType]: data }))
-      setLabels(_labels => ({ ..._labels, [dataType]: labels }))
+      setData(_data => { return { ..._data, [dataType]: data } })
+      setLabels(_labels => { return { ..._labels, [dataType]: labels } })
 
       fetched.current[dataType] = true
     } catch (err) {

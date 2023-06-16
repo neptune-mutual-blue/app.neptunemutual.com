@@ -29,30 +29,32 @@ export const InfoTooltip = ({
   arrowOffset = 4,
   delayDuration = 200,
   disabled = false
-}) => (
-  <Tooltip.Root delayDuration={delayDuration}>
-    <Tooltip.Trigger asChild={!disabled} disabled={disabled}>
-      {children}
-    </Tooltip.Trigger>
-    <Tooltip.Content
-      className={classNames(
-        'flex flex-col gap-y-1 text-xs leading-5 max-w-56 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview',
-        className || 'p-4'
-      )}
-      side={position}
-      sideOffset={positionOffset}
-      alignOffset={alignOffset}
-      align={align}
-    >
-      {arrow && (
-        <Tooltip.Arrow
-          className=''
-          offset={arrowOffset}
-          fill='#01052D'
-          height={7}
-        />
-      )}
-      {infoComponent}
-    </Tooltip.Content>
-  </Tooltip.Root>
-)
+}) => {
+  return (
+    <Tooltip.Root delayDuration={delayDuration}>
+      <Tooltip.Trigger asChild={!disabled} disabled={disabled}>
+        {children}
+      </Tooltip.Trigger>
+      <Tooltip.Content
+        className={classNames(
+          'flex flex-col gap-y-1 text-xs leading-5 max-w-56 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview',
+          className || 'p-4'
+        )}
+        side={position}
+        sideOffset={positionOffset}
+        alignOffset={alignOffset}
+        align={align}
+      >
+        {arrow && (
+          <Tooltip.Arrow
+            className=''
+            offset={arrowOffset}
+            fill='#01052D'
+            height={7}
+          />
+        )}
+        {infoComponent}
+      </Tooltip.Content>
+    </Tooltip.Root>
+  )
+}

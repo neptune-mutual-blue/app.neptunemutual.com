@@ -49,10 +49,12 @@ describe('useStakingPoolWithdraw', () => {
   })
 
   test('should handle error if error occurred in handleWithdraw function', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolWithdraw,
@@ -70,8 +72,8 @@ describe('useStakingPoolWithdraw', () => {
   })
 
   test('should return if no networkId or account in handleWithdraw function', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolWithdraw,
@@ -131,10 +133,12 @@ describe('useStakingPoolWithdrawRewards', () => {
   })
 
   test('should handle error if error occurred in handleWithdrawRewards function', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolWithdrawRewards,
@@ -152,8 +156,8 @@ describe('useStakingPoolWithdrawRewards', () => {
   })
 
   test('should return if no networkId or account in handleWithdrawRewards function', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolWithdrawRewards,

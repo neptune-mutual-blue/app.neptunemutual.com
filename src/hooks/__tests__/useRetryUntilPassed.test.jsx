@@ -11,8 +11,7 @@ describe('useRetryUntilPassed', () => {
     jest.useFakeTimers()
     jest.spyOn(global, 'setInterval')
 
-    const { result } = renderHook(() =>
-      useRetryUntilPassed(mockProps.callback, mockProps.interval)
+    const { result } = renderHook(() => { return useRetryUntilPassed(mockProps.callback, mockProps.interval) }
     )
 
     jest.runAllTimers()

@@ -40,30 +40,32 @@ export const Network = ({ closeMenu = () => {} }) => {
 
   const [open, setOpen] = useState(false)
 
-  const networks = useMemo(() => [
-    {
-      name: 'Ethereum Mainnet',
-      value: 'ethereum',
-      href: ETHEREUM_APP_URL,
-      Icon: EthLogo,
-      active: isEthereum
-    },
-    {
-      name: 'Arbitrum One',
-      value: 'arbitrum',
-      href: ARBITRUM_APP_URL,
-      Icon: ArbitrumLogo,
-      active: isArbitrum
-    }
-  ], [isEthereum, isArbitrum])
+  const networks = useMemo(() => {
+    return [
+      {
+        name: 'Ethereum Mainnet',
+        value: 'ethereum',
+        href: ETHEREUM_APP_URL,
+        Icon: EthLogo,
+        active: isEthereum
+      },
+      {
+        name: 'Arbitrum One',
+        value: 'arbitrum',
+        href: ARBITRUM_APP_URL,
+        Icon: ArbitrumLogo,
+        active: isArbitrum
+      }
+    ]
+  }, [isEthereum, isArbitrum])
 
   const ref = useRef()
   useOnClickOutside(ref, () => {
-    if (open && width >= 1200) setOpen(false)
+    if (open && width >= 1200) { setOpen(false) }
   })
 
   const handleKeyPress = useCallback((e) => {
-    if (!open || width < 1200) return
+    if (!open || width < 1200) { return }
 
     if (e.key === 'Escape' || e.code === 'Escape') {
       setOpen(false)
@@ -101,7 +103,7 @@ export const Network = ({ closeMenu = () => {} }) => {
 
       <div className='relative w-full' ref={ref}>
         <button
-          onClick={() => setOpen(_val => !_val)}
+          onClick={() => { return setOpen(_val => { return !_val }) }}
           className={classNames(
             'w-full flex items-center justify-between gap-2 px-3 py-2 lg:py-4 xl:py-2',
             width >= 1200 && 'hidden'
@@ -119,78 +121,84 @@ export const Network = ({ closeMenu = () => {} }) => {
 
         <Menu>
           {
-            ({ open: modalOpen }) => (
-              <div className='relative'>
-                <Menu.Button
+            ({ open: modalOpen }) => {
+              return (
+                <div className='relative'>
+                  <Menu.Button
                   // onClick={() => setOpen(_val => !_val)}
-                  className={classNames(
-                    'h-10 p-2.5 rounded-2 flex gap-1 items-center',
-                    width >= 1200 ? 'block' : 'hidden'
-                  )}
-                >
-                  <figure
-                    className='flex-shrink-0 overflow-hidden rounded-full'
-                    title={NetworkNames[networkId] || 'Network'}
+                    className={classNames(
+                      'h-10 p-2.5 rounded-2 flex gap-1 items-center',
+                      width >= 1200 ? 'block' : 'hidden'
+                    )}
                   >
-                    <ChainLogo width='24' height='24' />
-                  </figure>
+                    <figure
+                      className='flex-shrink-0 overflow-hidden rounded-full'
+                      title={NetworkNames[networkId] || 'Network'}
+                    >
+                      <ChainLogo width='24' height='24' />
+                    </figure>
 
-                  <ChevronDownIcon
-                    width='16' height='16'
-                    className={classNames('flex-shrink-0 transform', modalOpen && 'rotate-180')}
-                  />
-                </Menu.Button>
+                    <ChevronDownIcon
+                      width='16' height='16'
+                      className={classNames('flex-shrink-0 transform', modalOpen && 'rotate-180')}
+                    />
+                  </Menu.Button>
 
-                <Menu.Items
-                  className='absolute right-0 hidden py-6 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
-                  tabIndex={-1}
-                >
+                  <Menu.Items
+                    className='absolute right-0 hidden py-6 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
+                    tabIndex={-1}
+                  >
 
-                  <div className='space-y-2 text-000000'>
-                    <p className='px-6 text-sm font-semibold leading-6'>
-                      Switch Network
-                    </p>
-                    {
-                      networks.map(({ name, href, Icon, active }, i) => (
-                        <Menu.Item key={i}>
-                          {
-                            ({ active: activeState }) => (
-                              <a
-                                className={classNames(
-                                  'flex items-center gap-1.5 justify-between px-6',
-                                  activeState && 'bg-344054 bg-opacity-20'
-                                )}
-                                href={href}
-                                tabIndex={0}
-                              >
-                                <div className='flex items-center gap-1.5'>
-                                  <div className='flex items-center justify-center w-4 h-4 overflow-hidden rounded-full'>
-                                    <Icon width='32' height='32' />
+                    <div className='space-y-2 text-000000'>
+                      <p className='px-6 text-sm font-semibold leading-6'>
+                        Switch Network
+                      </p>
+                      {
+                      networks.map(({ name, href, Icon, active }, i) => {
+                        return (
+                          <Menu.Item key={i}>
+                            {
+                            ({ active: activeState }) => {
+                              return (
+                                <a
+                                  className={classNames(
+                                    'flex items-center gap-1.5 justify-between px-6',
+                                    activeState && 'bg-344054 bg-opacity-20'
+                                  )}
+                                  href={href}
+                                  tabIndex={0}
+                                >
+                                  <div className='flex items-center gap-1.5'>
+                                    <div className='flex items-center justify-center w-4 h-4 overflow-hidden rounded-full'>
+                                      <Icon width='32' height='32' />
+                                    </div>
+                                    <span className='text-sm leading-6'>{name}</span>
                                   </div>
-                                  <span className='text-sm leading-6'>{name}</span>
-                                </div>
 
-                                {
+                                  {
                                   active && (
                                     <CheckCircleFilledIcon className='w-4 h-4 text-4E7DD9' />
                                   )
                                 }
-                              </a>
-                            )
+                                </a>
+                              )
+                            }
                           }
-                        </Menu.Item>
-                      ))
+                          </Menu.Item>
+                        )
+                      })
                     }
-                  </div>
-                </Menu.Items>
-              </div>
-            )
+                    </div>
+                  </Menu.Items>
+                </div>
+              )
+            }
           }
         </Menu>
 
         <NetworkModalMobile
           open={open && width < 1200}
-          onClose={() => setOpen(false)}
+          onClose={() => { return setOpen(false) }}
           networks={networks}
           closeMobileMenu={closeMenu}
         />
@@ -228,26 +236,28 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
 
                 <div className='mt-6 space-y-4 md:mt-10 md:space-y-6'>
                   {
-                    networks.map(({ name, href, Icon, active }, i) => (
-                      <li key={i} value={name}>
-                        <a
-                          className='flex items-center gap-2'
-                          href={href}
-                          tabIndex={0}
-                        >
-                          <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
-                            <Icon width='32' height='32' />
-                          </div>
-                          <span className='leading-6 text-md md:text-display-sm'>{name}</span>
+                    networks.map(({ name, href, Icon, active }, i) => {
+                      return (
+                        <li key={i} value={name}>
+                          <a
+                            className='flex items-center gap-2'
+                            href={href}
+                            tabIndex={0}
+                          >
+                            <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
+                              <Icon width='32' height='32' />
+                            </div>
+                            <span className='leading-6 text-md md:text-display-sm'>{name}</span>
 
-                          {
+                            {
                             active && (
                               <CheckCircleFilledIcon className='w-5 h-5 text-4E7DD9' />
                             )
                           }
-                        </a>
-                      </li>
-                    ))
+                          </a>
+                        </li>
+                      )
+                    })
                   }
                 </div>
               </ul>

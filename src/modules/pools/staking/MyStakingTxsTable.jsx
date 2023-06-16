@@ -42,40 +42,42 @@ const WhenRenderer = ({ row }) => {
   )
 }
 
-const renderWhen = (row) => <WhenRenderer row={row} />
+const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
-const renderDetails = (row) => <DetailsRenderer row={row} />
+const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 
-const renderAmount = (row) => <PoolAmountRenderer row={row} />
+const renderAmount = (row) => { return <PoolAmountRenderer row={row} /> }
 
-const renderActions = (row) => <ActionsRenderer row={row} />
+const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => [
-  {
-    name: t`when`,
-    align: 'left',
-    renderHeader: (col) => renderHeader(col, 'createdAtTimestamp', sorts, handleSort),
-    renderData: renderWhen
-  },
-  {
-    name: t`details`,
-    align: 'left',
-    renderHeader,
-    renderData: renderDetails
-  },
-  {
-    name: t`amount`,
-    align: 'right',
-    renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'right',
-    renderHeader,
-    renderData: renderActions
-  }
-]
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
+  return [
+    {
+      name: t`when`,
+      align: 'left',
+      renderHeader: (col) => { return renderHeader(col, 'createdAtTimestamp', sorts, handleSort) },
+      renderData: renderWhen
+    },
+    {
+      name: t`details`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDetails
+    },
+    {
+      name: t`amount`,
+      align: 'right',
+      renderHeader,
+      renderData: renderAmount
+    },
+    {
+      name: '',
+      align: 'right',
+      renderHeader,
+      renderData: renderActions
+    }
+  ]
+}
 
 export const MyStakingTxsTable = () => {
   const { page, limit, setPage } = usePagination()
@@ -120,7 +122,7 @@ export const MyStakingTxsTable = () => {
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {
-              setPage((prev) => prev + 1)
+              setPage((prev) => { return prev + 1 })
             }}
           />
         )}
@@ -241,12 +243,13 @@ const PoolAmountRenderer = ({ row }) => {
         />
         <button
           className='p-1 ml-3'
-          onClick={() =>
-            register(
+          onClick={() => {
+            return register(
               row.token,
               data.symbol,
               data.tokenDecimals
-            )}
+            )
+          }}
           title='Add to Metamask'
         >
           <span className='sr-only'>Add to metamask</span>

@@ -13,5 +13,6 @@ export const formatPercent = (x, locale, symbol = true) => {
     style: 'percent',
     maximumFractionDigits: percent < 1 ? 6 : 2
   }).format(x)
+
   return symbol ? result : result.replace('%', '')
 }

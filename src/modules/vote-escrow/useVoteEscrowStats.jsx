@@ -59,8 +59,8 @@ export const useVoteEscrowStats = () => {
 
     setLoading(true)
     exec()
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false))
+      .then(() => { return setLoading(false) })
+      .catch(() => { return setLoading(false) })
   }, [notifyError, networkId])
 
   return {

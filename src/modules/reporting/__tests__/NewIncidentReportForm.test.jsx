@@ -79,10 +79,12 @@ describe('Incident Occurred form', () => {
 
   test('Form state based on canreport', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useReportIncident(() => ({
-        ...testData.reportIncident,
-        canReport: true
-      }))
+      mockHooksOrMethods.useReportIncident(() => {
+        return {
+          ...testData.reportIncident,
+          canReport: true
+        }
+      })
     })
 
     const title = screen.getByRole('textbox', { name: 'Title' })
@@ -155,10 +157,12 @@ describe('Incident Occurred form', () => {
 
     test('Submit report', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useReportIncident(() => ({
-          ...testData.reportIncident,
-          canReport: true
-        }))
+        mockHooksOrMethods.useReportIncident(() => {
+          return {
+            ...testData.reportIncident,
+            canReport: true
+          }
+        })
       })
 
       const title = screen.getByRole('textbox', { name: 'Title' })
@@ -193,10 +197,12 @@ describe('Incident Occurred form', () => {
 
     test('Submit report with multiple url reports', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useReportIncident(() => ({
-          ...testData.reportIncident,
-          canReport: true
-        }))
+        mockHooksOrMethods.useReportIncident(() => {
+          return {
+            ...testData.reportIncident,
+            canReport: true
+          }
+        })
       })
 
       const title = screen.getByRole('textbox', { name: 'Title' })
@@ -246,10 +252,12 @@ describe('Incident Occurred form', () => {
   describe('Loading test', () => {
     test('loadingAllowance test', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useReportIncident(() => ({
-          ...testData.reportIncident,
-          loadingAllowance: true
-        }))
+        mockHooksOrMethods.useReportIncident(() => {
+          return {
+            ...testData.reportIncident,
+            loadingAllowance: true
+          }
+        })
       })
 
       const loading = screen.getByTestId('loaders')
@@ -259,10 +267,12 @@ describe('Incident Occurred form', () => {
 
     test('loadingBalance test', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useReportIncident(() => ({
-          ...testData.reportIncident,
-          loadingBalance: true
-        }))
+        mockHooksOrMethods.useReportIncident(() => {
+          return {
+            ...testData.reportIncident,
+            loadingBalance: true
+          }
+        })
       })
 
       const loading = screen.getByTestId('loaders')
@@ -274,10 +284,12 @@ describe('Incident Occurred form', () => {
   describe('Approve and Reporting Button', () => {
     test('Show Approving', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useReportIncident(() => ({
-          ...testData.reportIncident,
-          approving: true
-        }))
+        mockHooksOrMethods.useReportIncident(() => {
+          return {
+            ...testData.reportIncident,
+            approving: true
+          }
+        })
       })
 
       const approving = screen.getByRole('button', { name: 'Approving...' })
@@ -287,10 +299,12 @@ describe('Incident Occurred form', () => {
 
     test('Show Report Button', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useReportIncident(() => ({
-          ...testData.reportIncident,
-          canReport: true
-        }))
+        mockHooksOrMethods.useReportIncident(() => {
+          return {
+            ...testData.reportIncident,
+            canReport: true
+          }
+        })
       })
 
       const report = screen.getByRole('button', { name: 'Report' })
@@ -299,11 +313,13 @@ describe('Incident Occurred form', () => {
 
     test('Show Reporting Button', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useReportIncident(() => ({
-          ...testData.reportIncident,
-          canReport: true,
-          reporting: true
-        }))
+        mockHooksOrMethods.useReportIncident(() => {
+          return {
+            ...testData.reportIncident,
+            canReport: true,
+            reporting: true
+          }
+        })
       })
 
       const report = screen.getByRole('button', { name: 'Reporting...' })

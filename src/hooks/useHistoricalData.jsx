@@ -10,7 +10,7 @@ export const useHistoricalData = () => {
   const { networkId } = useNetwork()
 
   const fetchHistoricalData = async () => {
-    if (fetched.current || loading) return
+    if (fetched.current || loading) { return }
 
     setLoading(true)
 

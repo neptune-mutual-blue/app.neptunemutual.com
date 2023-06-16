@@ -9,7 +9,7 @@ const e = {
  */
 export const getAllowed = (req) => {
   const { WHITELISTED_CORS_DOMAINS, FALLBACK_CORS_ORIGIN } = e
-  const whitelistedDomains = WHITELISTED_CORS_DOMAINS ? WHITELISTED_CORS_DOMAINS.split(',').map(x => x.trim()) : []
+  const whitelistedDomains = WHITELISTED_CORS_DOMAINS ? WHITELISTED_CORS_DOMAINS.split(',').map(x => { return x.trim() }) : []
 
   const caller = req.headers.get('origin') || req.headers.get('referer')
   if (caller) {

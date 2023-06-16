@@ -179,7 +179,7 @@ export const useDisputeIncident = ({
         }
       })
 
-      if (!ipfsHash) throw new Error()
+      if (!ipfsHash) { throw new Error() }
 
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
@@ -288,8 +288,7 @@ export const useDisputeIncident = ({
           : ''
 
       // set error if entered value is invalid
-      if (_value.isGreaterThan(_balance)) err = 'Insufficient Balance'
-      else if (_minStake && _value.isLessThan(_minStake)) { err = t`Insufficient Stake` }
+      if (_value.isGreaterThan(_balance)) { err = 'Insufficient Balance' } else if (_minStake && _value.isLessThan(_minStake)) { err = t`Insufficient Stake` }
     }
 
     // set error if balance is less than minStake

@@ -19,10 +19,12 @@ export const LiquidityGaugeCardHeading = ({ poolKey, title, stakingTokenSymbol }
       {!loading && (
         <CoverAvatar
           imgs={isDiversified
-            ? getProductsByCoverKey(poolKey).map(x => ({
-              src: getCoverImgSrc({ key: x.productKey }),
-              alt: x.productInfoDetails?.productName
-            }))
+            ? getProductsByCoverKey(poolKey).map(x => {
+              return {
+                src: getCoverImgSrc({ key: x.productKey }),
+                alt: x.productInfoDetails?.productName
+              }
+            })
             : [{
                 src: getCoverImgSrc({ key: poolKey }),
                 alt: coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.projectName || ''

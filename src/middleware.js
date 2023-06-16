@@ -25,6 +25,7 @@ export function middleware (req) {
   }
 
   response = fallback(req)
+
   return response
 }
 

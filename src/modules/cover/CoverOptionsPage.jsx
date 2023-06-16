@@ -38,6 +38,7 @@ const getBreadCrumbs = (
       }
     ]
   }
+
   return [
     { name: t`Home`, href: '/', current: false },
     {
@@ -106,7 +107,7 @@ export const CoverOptionsPage = ({
             })}
           </div>
           <div className='flex justify-center'>
-            <BackButton onClick={() => router.back()} />
+            <BackButton onClick={() => { return router.back() }} />
           </div>
         </Container>
       </div>

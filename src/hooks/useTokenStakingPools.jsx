@@ -56,7 +56,7 @@ export const useTokenStakingPools = () => {
 
     fetchTokenStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE
@@ -65,9 +65,11 @@ export const useTokenStakingPools = () => {
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          pools: [...prev.pools, ..._data.pools]
-        }))
+        setData((prev) => {
+          return {
+            pools: [...prev.pools, ..._data.pools]
+          }
+        })
       })
       .catch((err) => {
         console.error(err)
@@ -78,7 +80,7 @@ export const useTokenStakingPools = () => {
   }, [fetchTokenStakingPools, itemsToSkip, networkId])
 
   const handleShowMore = useCallback(() => {
-    setItemsToSkip((prev) => prev + CARDS_PER_PAGE)
+    setItemsToSkip((prev) => { return prev + CARDS_PER_PAGE })
   }, [])
 
   return {

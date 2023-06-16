@@ -2,6 +2,7 @@ const getSubdomain = (hostname = '') => {
   try {
     const urlParts = hostname.split('.')
     const subdomain = urlParts.length >= 3 ? urlParts.slice(0, -2).join('.') : ''
+
     return subdomain
   } catch (error) { }
 

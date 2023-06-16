@@ -12,19 +12,23 @@ const initialMocks = () => {
   mockHooksOrMethods.useSortableStats()
 }
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn()
-}))
+jest.mock('next/router', () => {
+  return {
+    useRouter: jest.fn()
+  }
+})
 
 describe('ResolvedReportingPage test', () => {
   const push = jest.fn()
-  useRouter.mockImplementation(() => ({
-    push,
-    pathname: '/',
-    route: '/',
-    asPath: '/',
-    query: ''
-  }))
+  useRouter.mockImplementation(() => {
+    return {
+      push,
+      pathname: '/',
+      route: '/',
+      asPath: '/',
+      query: ''
+    }
+  })
 
   const { initialRender } = initiateTest(
     ReportingResolvedPage,

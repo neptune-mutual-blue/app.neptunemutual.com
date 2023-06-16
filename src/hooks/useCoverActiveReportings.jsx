@@ -40,9 +40,9 @@ export const useCoverActiveReportings = ({ coverKey }) => {
     if (coverKey) {
       setLoading(true)
       fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
-        .then(({ incidentReports }) => setData(incidentReports))
-        .catch((e) => console.error(e))
-        .finally(() => setLoading(false))
+        .then(({ incidentReports }) => { return setData(incidentReports) })
+        .catch((e) => { return console.error(e) })
+        .finally(() => { return setLoading(false) })
     }
   }, [coverKey, fetchCoverActiveReportings])
 

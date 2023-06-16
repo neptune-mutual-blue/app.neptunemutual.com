@@ -20,30 +20,36 @@ import { WalletList } from '../WalletList'
 describe('ConnectWallet component', () => {
   const onLogin = jest.fn(() => {})
   const onLogout = jest.fn(() => {})
-  const { initialRender, rerenderFn } = initiateTest(() => (
-    <ConnectWallet
-      networkId={testData.network.networkId}
-      notifier={jest.fn(() => {})}
-    >
-      {({ onOpen, logout }) => (
-        <div>
-          <button onClick={onOpen} data-testid='onOpen'>
-            on open
-          </button>
-          <button onClick={logout} data-testid='logout'>
-            logout
-          </button>
-        </div>
-      )}
-    </ConnectWallet>
-  ))
+  const { initialRender, rerenderFn } = initiateTest(() => {
+    return (
+      <ConnectWallet
+        networkId={testData.network.networkId}
+        notifier={jest.fn(() => {})}
+      >
+        {({ onOpen, logout }) => {
+          return (
+            <div>
+              <button onClick={onOpen} data-testid='onOpen'>
+                on open
+              </button>
+              <button onClick={logout} data-testid='logout'>
+                logout
+              </button>
+            </div>
+          )
+        }}
+      </ConnectWallet>
+    )
+  })
 
   beforeEach(() => {
     i18n.activate('en')
-    mockHooksOrMethods.useAuth(() => ({
-      login: onLogin,
-      logout: onLogout
-    }))
+    mockHooksOrMethods.useAuth(() => {
+      return {
+        login: onLogin,
+        logout: onLogout
+      }
+    })
 
     mockHooksOrMethods.useWeb3React()
 
@@ -73,7 +79,7 @@ describe('ConnectWallet component', () => {
   })
 
   test('Should show Modal', () => {
-    mockHooksOrMethods.useWeb3React(() => ({ ...testData.account, active: false }))
+    mockHooksOrMethods.useWeb3React(() => { return { ...testData.account, active: false } })
 
     rerenderFn()
 
@@ -143,7 +149,7 @@ describe('Option Component', () => {
 
   test('Metamask: Show button', () => {
     const metamask = configWallets.wallets[1]
-    const { initialRender } = initiateTest(() => <Option {...metamask} />)
+    const { initialRender } = initiateTest(() => { return <Option {...metamask} /> })
 
     initialRender()
     expect(screen.getByText('Open ' + metamask.name)).toBeInTheDocument()
@@ -162,7 +168,7 @@ describe('Option Component', () => {
   test('Binance: Show Button', () => {
     const binance = configWallets.wallets[4]
     global.BinanceChain = {}
-    const { initialRender } = initiateTest(() => <Option {...binance} />)
+    const { initialRender } = initiateTest(() => { return <Option {...binance} /> })
 
     initialRender()
     expect(screen.getByText(binance.name)).toBeInTheDocument()
@@ -171,7 +177,7 @@ describe('Option Component', () => {
   test('Binance: Show Install Link', () => {
     const metamask = configWallets.wallets[4]
     global.BinanceChain = undefined
-    const { initialRender } = initiateTest(() => <Option {...metamask} />)
+    const { initialRender } = initiateTest(() => { return <Option {...metamask} /> })
 
     initialRender()
     expect(screen.getByText(/Install Binance Wallet/i)).toBeInTheDocument()
@@ -191,10 +197,12 @@ describe('Popup Component', () => {
   })
 
   beforeEach(() => {
-    mockHooksOrMethods.useAuth(() => ({
-      login: onLogin,
-      logout: onLogout
-    }))
+    mockHooksOrMethods.useAuth(() => {
+      return {
+        login: onLogin,
+        logout: onLogout
+      }
+    })
     i18n.activate('en')
 
     initialRender()
@@ -277,9 +285,11 @@ describe('WalletList Component', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    const { initialRender } = initiateTest(() => (
-      <WalletList wallets={configWallets.wallets} onConnect={onConnect} />
-    ))
+    const { initialRender } = initiateTest(() => {
+      return (
+        <WalletList wallets={configWallets.wallets} onConnect={onConnect} />
+      )
+    })
 
     initialRender()
   })

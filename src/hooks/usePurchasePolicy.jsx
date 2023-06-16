@@ -93,6 +93,7 @@ export const usePurchasePolicy = ({
   useEffect(() => {
     if (!value && error) {
       setError('')
+
       return
     }
 
@@ -102,16 +103,19 @@ export const usePurchasePolicy = ({
 
     if (!account) {
       setError(t`Please connect your wallet`)
+
       return
     }
 
     if (!isValidNumber(value)) {
       setError(t`Invalid amount to cover`)
+
       return
     }
 
     if (isGreater(feeAmount || '0', balance || '0')) {
       setError(t`Insufficient Balance`)
+
       return
     }
 
@@ -121,6 +125,7 @@ export const usePurchasePolicy = ({
           formatCurrency(availableLiquidity, router.locale).short
         }` + '. Choose a amount less than available.'
       )
+
       return
     }
 
@@ -130,6 +135,7 @@ export const usePurchasePolicy = ({
           formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
         }`
       )
+
       return
     }
 
@@ -139,6 +145,7 @@ export const usePurchasePolicy = ({
           formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
         }`
       )
+
       return
     }
 
@@ -231,6 +238,7 @@ export const usePurchasePolicy = ({
 
     const cleanup = async () => {
       setPurchasing(false)
+
       return Promise.all([updateAllowance(policyContractAddress), updateBalance()])
     }
 
@@ -318,12 +326,12 @@ export const usePurchasePolicy = ({
 
               tx.wait(1)
               // Delay as subgraph takes time to index
-                .then((receipt) => delay(receipt))
+                .then((receipt) => { return delay(receipt) })
                 .then(async (receipt) => {
                   if (receipt) {
                     const events = receipt.events
                     const event = events.find(
-                      (x) => x.event === 'CoverPurchased'
+                      (x) => { return x.event === 'CoverPurchased' }
                     )
                     const txHash = storePurchaseEvent(event, receipt.from)
 

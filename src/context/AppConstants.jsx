@@ -27,8 +27,8 @@ const initValue = {
   liquidityTokenDecimals: FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
   liquidityTokenSymbol: FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
   poolsTvl: '0',
-  getTVLById: (_id) => '0',
-  getPriceByAddress: (_address) => '0',
+  getTVLById: (_id) => { return '0' },
+  getPriceByAddress: (_address) => { return '0' },
   roles: {
     isGovernanceAgent: false,
     isGovernanceAdmin: false,
@@ -46,6 +46,7 @@ export function useAppConstants () {
       'useAppConstants must be used within a AppConstantsProvider'
     )
   }
+
   return context
 }
 
@@ -61,7 +62,7 @@ export const AppConstantsProvider = ({ children }) => {
 
   useEffect(() => {
     let ignore = false
-    if (!networkId) return
+    if (!networkId) { return }
 
     if (!account) {
       getAddressesFromApi(networkId)
@@ -79,15 +80,17 @@ export const AppConstantsProvider = ({ children }) => {
             liquidityTokenSymbol
           } = result
 
-          setData((prev) => ({
-            ...prev,
-            NPMTokenAddress,
-            liquidityTokenAddress,
-            NPMTokenDecimals,
-            NPMTokenSymbol,
-            liquidityTokenDecimals,
-            liquidityTokenSymbol
-          }))
+          setData((prev) => {
+            return {
+              ...prev,
+              NPMTokenAddress,
+              liquidityTokenAddress,
+              NPMTokenDecimals,
+              NPMTokenSymbol,
+              liquidityTokenDecimals,
+              liquidityTokenSymbol
+            }
+          })
         })
         .catch(console.error)
 
@@ -112,15 +115,17 @@ export const AppConstantsProvider = ({ children }) => {
           liquidityTokenSymbol
         } = result
 
-        setData((prev) => ({
-          ...prev,
-          NPMTokenAddress,
-          liquidityTokenAddress,
-          NPMTokenDecimals,
-          NPMTokenSymbol,
-          liquidityTokenDecimals,
-          liquidityTokenSymbol
-        }))
+        setData((prev) => {
+          return {
+            ...prev,
+            NPMTokenAddress,
+            liquidityTokenAddress,
+            NPMTokenDecimals,
+            NPMTokenSymbol,
+            liquidityTokenDecimals,
+            liquidityTokenSymbol
+          }
+        })
       })
       .catch(console.error)
 

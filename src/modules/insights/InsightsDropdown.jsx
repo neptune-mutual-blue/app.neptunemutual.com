@@ -20,7 +20,7 @@ export const InsightsDropdown = ({
 }) => {
   const [search, setSearch] = useState('')
 
-  const filteredOptions = search ? options.filter((option) => option.type !== 'label' && option.label.toLowerCase().includes(search.toLowerCase())) : options
+  const filteredOptions = search ? options.filter((option) => { return option.type !== 'label' && option.label.toLowerCase().includes(search.toLowerCase()) }) : options
 
   return (
     <Listbox
@@ -87,13 +87,15 @@ export const InsightsDropdown = ({
 
             <div className='overflow-auto h-435'>
               {filteredOptions.length === 0 && <div className='py-2.5 px-6 italic'>No items found</div>}
-              {filteredOptions.map((option, optionIdx) => (
-                <Fragment key={optionIdx}>
-                  {option.type === 'label'
-                    ? <> <hr className='h-px border-0 bg-D6D6D6 ' /> <Listbox.Label className='block py-2.5 px-6 text-sm font-semibold leading-5 text-000000'>{option.label}</Listbox.Label></>
-                    : <ListChoice optionIdx={optionIdx} option={option} selected={selected} />}
-                </Fragment>
-              ))}
+              {filteredOptions.map((option, optionIdx) => {
+                return (
+                  <Fragment key={optionIdx}>
+                    {option.type === 'label'
+                      ? <> <hr className='h-px border-0 bg-D6D6D6 ' /> <Listbox.Label className='block py-2.5 px-6 text-sm font-semibold leading-5 text-000000'>{option.label}</Listbox.Label></>
+                      : <ListChoice optionIdx={optionIdx} option={option} selected={selected} />}
+                  </Fragment>
+                )
+              })}
             </div>
 
           </Listbox.Options>
@@ -107,11 +109,12 @@ const ListChoice = ({ optionIdx, option, selected }) => {
   return (
     <Listbox.Option
       data-testid={`option-${optionIdx + 1}`}
-      className={({ active }) =>
-        classNames(
+      className={({ active }) => {
+        return classNames(
           'cursor-default select-none relative w-full overflow-hidden',
           active ? 'text-4E7DD9' : 'text-black'
-        )}
+        )
+      }}
       value={option}
     >
       {({ active }) => {

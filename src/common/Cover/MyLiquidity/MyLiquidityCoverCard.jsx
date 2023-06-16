@@ -43,10 +43,12 @@ export const MyLiquidityCoverCard = ({
       <div className='flex justify-between'>
         <CoverAvatar
           imgs={isDiversified
-            ? subProducts.map((productData) => ({
-              src: getCoverImgSrc({ key: productData.productKey }),
-              alt: productData.productInfoDetails?.productName
-            }))
+            ? subProducts.map((productData) => {
+              return {
+                src: getCoverImgSrc({ key: productData.productKey }),
+                alt: productData.productInfoDetails?.productName
+              }
+            })
             : [{
                 src: getCoverImgSrc({ key: coverKey }),
                 alt: projectName

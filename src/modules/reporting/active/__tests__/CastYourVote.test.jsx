@@ -91,10 +91,12 @@ describe('CastYourVote test', () => {
 
   test('should show Fetching balance if loadingBalance is true', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useVote(() => ({
-        ...testData.castYourVote,
-        loadingBalance: true
-      }))
+      mockHooksOrMethods.useVote(() => {
+        return {
+          ...testData.castYourVote,
+          loadingBalance: true
+        }
+      })
     })
 
     const text = screen.getByText(/Fetching balance/)
@@ -103,10 +105,12 @@ describe('CastYourVote test', () => {
 
   test("should show 'Fetching allowance' if loadingAllowance is true", () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useVote(() => ({
-        ...testData.castYourVote,
-        loadingAllowance: true
-      }))
+      mockHooksOrMethods.useVote(() => {
+        return {
+          ...testData.castYourVote,
+          loadingAllowance: true
+        }
+      })
     })
 
     const text = screen.getByText(/Fetching allowance.../)

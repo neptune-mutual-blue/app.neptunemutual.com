@@ -17,103 +17,105 @@ describe('ReportListing test', () => {
       ReportListing,
       { coverKey: 'animated-brands', productKey: '', locale: 'en' },
       () => {
-        mockHooksOrMethods.useRouter(() => ({ ...testData.router, push }))
+        mockHooksOrMethods.useRouter(() => { return { ...testData.router, push } })
         mockHooksOrMethods.useCoversAndProducts2()
-        mockHooksOrMethods.useSubgraphFetch(async () => ({
-          incidentReports: [
-            {
-              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286',
-              coverKey:
+        mockHooksOrMethods.useSubgraphFetch(async () => {
+          return {
+            incidentReports: [
+              {
+                id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286',
+                coverKey:
                 '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-              productKey:
+                productKey:
                 '0x0000000000000000000000000000000000000000000000000000000000000000',
-              incidentDate: '1661401286',
-              resolved: true,
-              status: 'Claimable',
-              totalAttestedStake: '3400000000000000000000',
-              totalRefutedStake: '0',
-              reporter: '0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306'
-            },
-            {
-              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661056509',
-              coverKey:
+                incidentDate: '1661401286',
+                resolved: true,
+                status: 'Claimable',
+                totalAttestedStake: '3400000000000000000000',
+                totalRefutedStake: '0',
+                reporter: '0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306'
+              },
+              {
+                id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661056509',
+                coverKey:
                 '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-              productKey:
+                productKey:
                 '0x0000000000000000000000000000000000000000000000000000000000000000',
-              incidentDate: '1661056509',
-              resolved: true,
-              status: 'Claimable',
-              totalAttestedStake: '3400000000000000000000',
-              totalRefutedStake: '0',
-              reporter: '0x201bcc0d375f10543e585fbb883b36c715c959b3'
-            },
-            {
-              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1660719202',
-              coverKey:
+                incidentDate: '1661056509',
+                resolved: true,
+                status: 'Claimable',
+                totalAttestedStake: '3400000000000000000000',
+                totalRefutedStake: '0',
+                reporter: '0x201bcc0d375f10543e585fbb883b36c715c959b3'
+              },
+              {
+                id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1660719202',
+                coverKey:
                 '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-              productKey:
+                productKey:
                 '0x0000000000000000000000000000000000000000000000000000000000000000',
-              incidentDate: '1660719202',
-              resolved: true,
-              status: 'FalseReporting',
-              totalAttestedStake: '3400000000000000000000',
-              totalRefutedStake: '0',
-              reporter: '0x794089c95952a4f2c381e25c36245f265c2ae965'
-            },
-            {
-              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1659338824',
-              coverKey:
+                incidentDate: '1660719202',
+                resolved: true,
+                status: 'FalseReporting',
+                totalAttestedStake: '3400000000000000000000',
+                totalRefutedStake: '0',
+                reporter: '0x794089c95952a4f2c381e25c36245f265c2ae965'
+              },
+              {
+                id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1659338824',
+                coverKey:
                 '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-              productKey:
+                productKey:
                 '0x0000000000000000000000000000000000000000000000000000000000000000',
-              incidentDate: '1659338824',
-              resolved: true,
-              status: 'Claimable',
-              totalAttestedStake: '3400000000000000000000',
-              totalRefutedStake: '0',
-              reporter: '0x794089c95952a4f2c381e25c36245f265c2ae965'
-            },
-            {
-              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658995751',
-              coverKey:
+                incidentDate: '1659338824',
+                resolved: true,
+                status: 'Claimable',
+                totalAttestedStake: '3400000000000000000000',
+                totalRefutedStake: '0',
+                reporter: '0x794089c95952a4f2c381e25c36245f265c2ae965'
+              },
+              {
+                id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658995751',
+                coverKey:
                 '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-              productKey:
+                productKey:
                 '0x0000000000000000000000000000000000000000000000000000000000000000',
-              incidentDate: '1658995751',
-              resolved: true,
-              status: 'Claimable',
-              totalAttestedStake: '4634000000000000000000',
-              totalRefutedStake: '3400000000000000000000',
-              reporter: '0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6'
-            },
-            {
-              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658303011',
-              coverKey:
+                incidentDate: '1658995751',
+                resolved: true,
+                status: 'Claimable',
+                totalAttestedStake: '4634000000000000000000',
+                totalRefutedStake: '3400000000000000000000',
+                reporter: '0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6'
+              },
+              {
+                id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658303011',
+                coverKey:
                 '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-              productKey:
+                productKey:
                 '0x0000000000000000000000000000000000000000000000000000000000000000',
-              incidentDate: '1658303011',
-              resolved: true,
-              status: 'FalseReporting',
-              totalAttestedStake: '3400000000000000000000',
-              totalRefutedStake: '0',
-              reporter: '0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0'
-            },
-            {
-              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658207714',
-              coverKey:
+                incidentDate: '1658303011',
+                resolved: true,
+                status: 'FalseReporting',
+                totalAttestedStake: '3400000000000000000000',
+                totalRefutedStake: '0',
+                reporter: '0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0'
+              },
+              {
+                id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658207714',
+                coverKey:
                 '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
-              productKey:
+                productKey:
                 '0x0000000000000000000000000000000000000000000000000000000000000000',
-              incidentDate: '1658207714',
-              resolved: true,
-              status: 'Claimable',
-              totalAttestedStake: '3400000000000000000000',
-              totalRefutedStake: '0',
-              reporter: '0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0'
-            }
-          ]
-        }))
+                incidentDate: '1658207714',
+                resolved: true,
+                status: 'Claimable',
+                totalAttestedStake: '3400000000000000000000',
+                totalRefutedStake: '0',
+                reporter: '0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0'
+              }
+            ]
+          }
+        })
       }
     )
     initialRender = iR

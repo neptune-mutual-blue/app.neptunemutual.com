@@ -313,6 +313,7 @@ export const useStakingPoolDeposit = ({
   useEffect(() => {
     if (!value && error) {
       setError('')
+
       return
     }
 
@@ -322,21 +323,25 @@ export const useStakingPoolDeposit = ({
 
     if (!isValidNumber(value)) {
       setError(t`Invalid amount to stake`)
+
       return
     }
 
     if (!account) {
       setError(t`Please connect your wallet`)
+
       return
     }
 
     if (isEqualTo(value, '0')) {
       setError(t`Please specify an amount`)
+
       return
     }
 
     if (isGreater(convertToUnits(value).toString(), balance)) {
       setError(t`Insufficient Balance`)
+
       return
     }
 
@@ -349,6 +354,7 @@ export const useStakingPoolDeposit = ({
       ).short
 
       setError(t`Cannot stake more than ${maxStakableTokenAmount}`)
+
       return
     }
 

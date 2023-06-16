@@ -26,9 +26,9 @@ describe('useActivePoliciesByCover', () => {
   const { mock, restore, mockFunction } = mockGlobals.console.error()
 
   test('while fetching w/o account, networkId and graphURL', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.getGraphURL(() => '')
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.getGraphURL(() => { return '' })
 
     const { result } = await renderHookWrapper(useActivePoliciesByCover, [
       mockProps

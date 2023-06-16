@@ -57,6 +57,7 @@ export function useSubgraphFetch (label) {
       } catch (error) {
         if (isAbortedRequest(error)) {
           console.log(`Aborted Request: ${label}`)
+
           return
         }
 

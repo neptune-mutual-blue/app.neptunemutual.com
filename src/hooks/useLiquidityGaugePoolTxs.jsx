@@ -57,8 +57,8 @@ export const useLiquidityGaugePoolTxs = () => {
 
     setLoading(true)
     exec()
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false))
+      .then(() => { return setLoading(false) })
+      .catch(() => { return setLoading(false) })
   }, [notifyError, networkId, account])
 
   return {

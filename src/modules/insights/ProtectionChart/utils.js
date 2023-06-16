@@ -11,11 +11,12 @@ const getTooltipItem = (data, tooltipModel) => {
 }
 
 const getMaxDataValue = (data, dataKey) => {
-  if (!data || !dataKey) return 0
+  if (!data || !dataKey) { return 0 }
 
   const itemSet = Object.keys(data).reduce((acc, curr) => {
     const arr = data[curr]
-    arr.forEach(item => acc.add(item[dataKey]))
+    arr.forEach(item => { return acc.add(item[dataKey]) })
+
     return acc
   }, new Set())
 
@@ -29,6 +30,7 @@ const getXTickValue = ({ dataKey, value, liquidityTokenDecimals, locale }) => {
 
   const amount = convertFromUnits(value, liquidityTokenDecimals).toString()
   const formatted = formatCurrency(amount, locale, undefined, false, true).short
+
   return formatted === 'N/A' ? '$0' : formatted.replace(/\.0+/, '')
 }
 
@@ -47,7 +49,7 @@ const getSuggestedMaxValue = ({ data, dataKey }) => {
 const getTooltipTitle = ({ data, dataKey, tooltipModel }) => {
   const item = getTooltipItem(data, tooltipModel)
 
-  if (['totalProtection', 'totalPremium'].includes(dataKey)) return undefined
+  if (['totalProtection', 'totalPremium'].includes(dataKey)) { return undefined }
 
   return `${item.expired
     ? '<p class="font-semibold text-xs leading-4.5 text-FA5C2F">Expired</p>'
@@ -92,7 +94,7 @@ const getTooltipLabel = ({ data, dataKey, liquidityTokenDecimals, locale, toolti
 }
 
 const getTooltipFooter = ({ data, dataKey, tooltipModel, liquidityTokenDecimals, locale }) => {
-  if (['totalProtection', 'totalPremium'].includes(dataKey)) return undefined
+  if (['totalProtection', 'totalPremium'].includes(dataKey)) { return undefined }
 
   const item = getTooltipItem(data, tooltipModel)
   const amount = convertFromUnits(item[dataKey], liquidityTokenDecimals).toString()

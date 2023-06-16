@@ -20,15 +20,17 @@ import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 
-const renderAddress = (row) => (
-  <td className='max-w-sm px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'>
-    {row.cxToken.id}
-  </td>
-)
+const renderAddress = (row) => {
+  return (
+    <td className='max-w-sm px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'>
+      {row.cxToken.id}
+    </td>
+  )
+}
 
-const renderClaimBefore = (_row) => <ClaimBeforeColumnRenderer />
+const renderClaimBefore = (_row) => { return <ClaimBeforeColumnRenderer /> }
 
-const renderAmount = (_row) => <CxTokenAmountRenderer />
+const renderAmount = (_row) => { return <CxTokenAmountRenderer /> }
 
 const renderActions = (row, extraData) => {
   return <ClaimActionsColumnRenderer row={row} extraData={extraData} />
@@ -62,6 +64,7 @@ export const columns = [
 ]
 
 const ClaimTableContext = React.createContext({ report: null })
+
 export function useClaimTableContext () {
   const context = React.useContext(ClaimTableContext)
   if (context === undefined) {
@@ -69,6 +72,7 @@ export function useClaimTableContext () {
       'useClaimTableContext must be used within a ClaimTableContext.Provider'
     )
   }
+
   return context
 }
 
@@ -100,7 +104,7 @@ export const ClaimCxTokensTable = ({
             <TableShowMore
               isLoading={loading}
               onShowMore={() => {
-                setPage((prev) => prev + 1)
+                setPage((prev) => { return prev + 1 })
               }}
             />
           )}

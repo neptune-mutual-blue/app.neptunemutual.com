@@ -4,7 +4,7 @@ function hyphenToPascalCase (str) {
 
   // Capitalize the first letter of each word and join them with spaces
   const capitalizedWords = words.map(
-    (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    (word) => { return word.charAt(0).toUpperCase() + word.slice(1) }
   )
   const pascalCaseStr = capitalizedWords.join(' ')
 

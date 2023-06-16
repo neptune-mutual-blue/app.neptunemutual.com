@@ -11,17 +11,19 @@ import { i18n } from '@lingui/core'
 
 import { Popup } from '../Popup'
 
-jest.mock('../../../config/wallets', () => ({
-  wallets: [
-    {
-      id: '3',
-      name: 'Custom Wallet',
-      connectorName: 'injected',
-      Icon: () => <></>,
-      isAvailable: () => true
-    }
-  ]
-}))
+jest.mock('../../../config/wallets', () => {
+  return {
+    wallets: [
+      {
+        id: '3',
+        name: 'Custom Wallet',
+        connectorName: 'injected',
+        Icon: () => { return <></> },
+        isAvailable: () => { return true }
+      }
+    ]
+  }
+})
 
 describe('Popup Component', () => {
   const onLogin = jest.fn(() => {})
@@ -36,10 +38,12 @@ describe('Popup Component', () => {
   })
 
   beforeEach(() => {
-    mockHooksOrMethods.useAuth(() => ({
-      login: onLogin,
-      logout: onLogout
-    }))
+    mockHooksOrMethods.useAuth(() => {
+      return {
+        login: onLogin,
+        logout: onLogout
+      }
+    })
     i18n.activate('en')
 
     initialRender()

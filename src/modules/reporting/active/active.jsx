@@ -38,15 +38,15 @@ import {
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (report) => report.stats.text,
+    selector: (report) => { return report.stats.text },
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
-    selector: (report) => report.stats.utilization,
+    selector: (report) => { return report.stats.utilization },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.INCIDENT_DATE]: {
-    selector: (report) => report.stats.incidentDate,
+    selector: (report) => { return report.stats.incidentDate },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
@@ -71,19 +71,22 @@ export const ReportingActivePage = () => {
   const { getStatsByKey } = useSortableStats()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: (incidentReports || []).map((report) => ({
-      ...report,
-      stats: getStatsByKey(report.id)
-    })),
-    filter: (report, term) => toStringSafe(report.stats.text).includes(toStringSafe(term))
+    list: (incidentReports || []).map((report) => {
+      return {
+        ...report,
+        stats: getStatsByKey(report.id)
+      }
+    }),
+    filter: (report, term) => { return toStringSafe(report.stats.text).includes(toStringSafe(term)) }
   })
 
   const activeCardInfoArray = useMemo(
-    () =>
-      sorter({
+    () => {
+      return sorter({
         ...sorterData[sortType.value],
         list: filtered
-      }),
+      })
+    },
 
     [filtered, sortType.value]
   )
@@ -93,7 +96,7 @@ export const ReportingActivePage = () => {
       <div className='flex sm:justify-end'>
         <SearchAndSortBar
           searchValue={searchValue}
-          onSearchChange={(event) => setSearchValue(event.target.value)}
+          onSearchChange={(event) => { return setSearchValue(event.target.value) }}
           optionsProp={sortOptions}
           sortType={sortType}
           setSortType={setSortType}

@@ -287,7 +287,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             id='exitCheckBox'
             name='checkexitliquidity'
             checked={isExit}
-            onChange={(ev) => handleExit(ev)}
+            onChange={(ev) => { return handleExit(ev) }}
             data-testid='exit-checkbox'
           >
             Withdraw Full Liquidity

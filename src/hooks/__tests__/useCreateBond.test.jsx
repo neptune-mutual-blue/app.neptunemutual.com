@@ -44,10 +44,12 @@ describe('useCreateBond', () => {
   })
 
   test('calling handleApprove function', async () => {
-    mockHooksOrMethods.useERC20Allowance(() => ({
-      ...testData.erc20Allowance,
-      allowance: convertToUnits(testData.useCreateBondArgs.value)
-    }))
+    mockHooksOrMethods.useERC20Allowance(() => {
+      return {
+        ...testData.erc20Allowance,
+        allowance: convertToUnits(testData.useCreateBondArgs.value)
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useCreateBond,
@@ -64,10 +66,12 @@ describe('useCreateBond', () => {
   })
 
   test('calling handleApprove function with error', async () => {
-    mockHooksOrMethods.useTxToast(() => ({
-      ...testData.txToast,
-      push: jest.fn(() => Promise.reject(new Error('Error occurred when calling approve function')))
-    }))
+    mockHooksOrMethods.useTxToast(() => {
+      return {
+        ...testData.txToast,
+        push: jest.fn(() => { return Promise.reject(new Error('Error occurred when calling approve function')) })
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useCreateBond,
@@ -94,10 +98,12 @@ describe('useCreateBond', () => {
   })
 
   test('calling handleBond function with error', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: undefined
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: undefined
+      }
+    })
     const { result, act } = await renderHookWrapper(
       useCreateBond,
       [testData.useCreateBondArgs],
@@ -110,9 +116,11 @@ describe('useCreateBond', () => {
   })
 
   test('rendering with error for useeffects', async () => {
-    mockHooksOrMethods.useNetwork(() => ({
-      networkId: null
-    }))
+    mockHooksOrMethods.useNetwork(() => {
+      return {
+        networkId: null
+      }
+    })
     const { result } = await renderHookWrapper(
       useCreateBond,
       [testData.useCreateBondArgs],

@@ -6,9 +6,11 @@ import { VotesSummaryDoughnutChart } from '@/modules/reporting/VotesSummaryDough
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 
-jest.mock('react-chartjs-2', () => ({
-  Doughnut: (p) => mockHooksOrMethods.chartMockFn(p)
-}))
+jest.mock('react-chartjs-2', () => {
+  return {
+    Doughnut: (p) => { return mockHooksOrMethods.chartMockFn(p) }
+  }
+})
 
 describe('VotesSummaryDoughnutChart test', () => {
   beforeEach(() => {

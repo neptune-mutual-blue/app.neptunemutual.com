@@ -55,7 +55,7 @@ export const usePodStakingPools = () => {
 
     fetchPodStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE
@@ -64,9 +64,11 @@ export const usePodStakingPools = () => {
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          pools: [...prev.pools, ..._data.pools]
-        }))
+        setData((prev) => {
+          return {
+            pools: [...prev.pools, ..._data.pools]
+          }
+        })
       })
       .catch((err) => {
         console.error(err)
@@ -77,7 +79,7 @@ export const usePodStakingPools = () => {
   }, [fetchPodStakingPools, itemsToSkip, networkId])
 
   const handleShowMore = useCallback(() => {
-    setItemsToSkip((prev) => prev + CARDS_PER_PAGE)
+    setItemsToSkip((prev) => { return prev + CARDS_PER_PAGE })
   }, [])
 
   return {

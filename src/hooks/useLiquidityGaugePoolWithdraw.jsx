@@ -44,6 +44,7 @@ export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stak
   const handleWithdraw = async (onSuccessCallback) => {
     if (isExit) {
       handleExit(onSuccessCallback)
+
       return
     }
 

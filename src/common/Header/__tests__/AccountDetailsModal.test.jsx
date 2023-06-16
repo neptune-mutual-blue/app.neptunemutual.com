@@ -22,9 +22,9 @@ describe('AccountDetailsModal test', () => {
     AccountDetailsModal,
     {
       isOpen: true,
-      onClose: () => closeFn(),
+      onClose: () => { return closeFn() },
       networkId: testData.network.networkId,
-      handleDisconnect: () => handleDisconnect()
+      handleDisconnect: () => { return handleDisconnect() }
     },
     () => {
       mockHooksOrMethods.useUnlimitedApproval()

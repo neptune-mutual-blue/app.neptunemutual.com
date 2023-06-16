@@ -127,7 +127,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
     fetchInfo()
       .then((_info) => {
-        if (ignore || !_info) return
+        if (ignore || !_info) { return }
         setInfo(_info)
       })
       .catch(console.error)
@@ -140,7 +140,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const updateInfo = useCallback(() => {
     fetchInfo()
       .then((_info) => {
-        if (!_info) return
+        if (!_info) { return }
         setInfo(_info)
       })
       .catch(console.error)

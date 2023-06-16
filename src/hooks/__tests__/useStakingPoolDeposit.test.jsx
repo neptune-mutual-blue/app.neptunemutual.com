@@ -70,10 +70,12 @@ describe('useStakingPoolDeposit', () => {
 
   test('should handle error in onTransactionResult function while approving', async () => {
     const mockPushFn = jest.fn().mockRejectedValue('Error')
-    mockHooksOrMethods.useTxToast(() => ({
-      ...testData.txToast,
-      push: mockPushFn
-    }))
+    mockHooksOrMethods.useTxToast(() => {
+      return {
+        ...testData.txToast,
+        push: mockPushFn
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolDeposit,
@@ -103,10 +105,12 @@ describe('useStakingPoolDeposit', () => {
 
   test('should handle error in onTransactionResult function in handleDeposit', async () => {
     const mockPushFn = jest.fn().mockRejectedValue('Error')
-    mockHooksOrMethods.useTxToast(() => ({
-      ...testData.txToast,
-      push: mockPushFn
-    }))
+    mockHooksOrMethods.useTxToast(() => {
+      return {
+        ...testData.txToast,
+        push: mockPushFn
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolDeposit,
@@ -121,10 +125,12 @@ describe('useStakingPoolDeposit', () => {
   })
 
   test('should handle error for writeContract function in handleDeposit', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolDeposit,
@@ -139,8 +145,8 @@ describe('useStakingPoolDeposit', () => {
   })
 
   test('should return if no networkId or account during handleDeposit', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(
       useStakingPoolDeposit,
@@ -190,10 +196,12 @@ describe('useStakingPoolDeposit', () => {
     })
 
     test('if value is greater than maxStakableAmount', async () => {
-      mockHooksOrMethods.useERC20Balance(() => ({
-        ...testData.erc20Balance,
-        balance: convertToUnits(1000000000)
-      }))
+      mockHooksOrMethods.useERC20Balance(() => {
+        return {
+          ...testData.erc20Balance,
+          balance: convertToUnits(1000000000)
+        }
+      })
 
       const value = toBN(100000000)
       const { result } = await renderHookWrapper(

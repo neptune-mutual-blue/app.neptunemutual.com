@@ -49,6 +49,7 @@ export function TransactionList ({
 
     if (!account) {
       setListOfTransactions([])
+
       return
     }
 
@@ -106,7 +107,7 @@ export function TransactionList ({
 
         <div className='flex gap-2 pr-4 mt-4'>
           <button
-            onClick={() => handleTabChange('all')}
+            onClick={() => { return handleTabChange('all') }}
             className={classNames('rounded-2xl text-sm leading-5 py-0.5 px-4 text-white',
               activeTab === 'all' && 'bg-364253'
             )}
@@ -114,7 +115,7 @@ export function TransactionList ({
             All
           </button>
           <button
-            onClick={() => handleTabChange('unread')}
+            onClick={() => { return handleTabChange('unread') }}
             className={classNames('rounded-2xl text-sm leading-5 py-0.5 px-4 text-white',
               activeTab === 'unread' && 'bg-364253'
             )}
@@ -158,15 +159,17 @@ function NotificationsList ({ data, activeTab }) {
   if (data.length) {
     return (
       <div className='md:w-96'>
-        {data.map((transaction) => (
-          <Notification
-            {...transaction}
-            networkId={networkId}
-            locale={locale}
-            key={transaction.hash}
-            read={transaction.read}
-          />
-        ))}
+        {data.map((transaction) => {
+          return (
+            <Notification
+              {...transaction}
+              networkId={networkId}
+              locale={locale}
+              key={transaction.hash}
+              read={transaction.read}
+            />
+          )
+        })}
       </div>
     )
   }
@@ -205,7 +208,7 @@ function Notification ({
   )
 
   const handleLinkClick = () => {
-    if (!hash) return
+    if (!hash) { return }
     TransactionHistory.updateProperty(hash, 'read', true)
   }
 

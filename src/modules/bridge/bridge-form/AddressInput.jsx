@@ -18,7 +18,7 @@ export const AddressInput = ({ value, onChange, placeholder = 'Enter Value', cla
         placeholder={placeholder}
         className={classNames('w-full text-md bg-transparent outline-none')}
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={e => { return onChange(e.target.value) }}
       />
 
       {error && <p className='mt-2 text-sm text-E52E2E'>{error}</p>}

@@ -96,5 +96,6 @@ export function useLiquidityFormsContext () {
       'useLiquidityFormsContext must be used within a LiquidityFormsContext.Provider'
     )
   }
+
   return context
 }

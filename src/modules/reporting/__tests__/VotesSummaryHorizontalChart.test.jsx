@@ -6,9 +6,11 @@ import { convertFromUnits } from '@/utils/bn'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 
-jest.mock('react-chartjs-2', () => ({
-  Bar: (p) => mockHooksOrMethods.chartMockFn(p)
-}))
+jest.mock('react-chartjs-2', () => {
+  return {
+    Bar: (p) => { return mockHooksOrMethods.chartMockFn(p) }
+  }
+})
 
 describe('VotesSummaryHorizontalChart test', () => {
   beforeEach(() => {

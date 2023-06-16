@@ -17,7 +17,7 @@ export const useTopAccountsByProtection = () => {
   const fetched = useRef(false)
 
   const fetchData = async () => {
-    if (fetched.current || loading) return
+    if (fetched.current || loading) { return }
 
     setLoading(true);
 
@@ -25,7 +25,7 @@ export const useTopAccountsByProtection = () => {
       try {
         const data = await getTopAccountsByProtection(networkId)
 
-        if (!data) return
+        if (!data) { return }
 
         fetched.current = true
         setData(data)

@@ -21,7 +21,7 @@ const getPermalink = (type, networkId, data) => {
 const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
   const url = urls[type]
 
-  if (!url) return
+  if (!url) { return }
 
   const permalink = getPermalink(type, networkId, data)
   const _payload = {
@@ -40,7 +40,7 @@ const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
       }
     })
 
-    if (!response.ok) return
+    if (!response.ok) { return }
 
     const res = await response.json()
 
@@ -63,11 +63,11 @@ const readFromIpfs = async (hash) => {
       }
     })
 
-    if (!response.ok) return
+    if (!response.ok) { return }
 
     const data = await response.json()
 
-    if (data.data && Object.keys(data.data).length) return data.data
+    if (data.data && Object.keys(data.data).length) { return data.data }
   } catch (error) {
     console.error(`Error in reading from ${url}: ${error}`)
   }

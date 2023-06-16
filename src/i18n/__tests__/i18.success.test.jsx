@@ -4,9 +4,11 @@ import { Trans } from '@lingui/macro'
 import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
-jest.mock('../dynamic-activate', () => ({
-  dynamicActivate: jest.fn(() => Promise.resolve())
-}))
+jest.mock('../dynamic-activate', () => {
+  return {
+    dynamicActivate: jest.fn(() => { return Promise.resolve() })
+  }
+})
 
 function WithProvider () {
   return (

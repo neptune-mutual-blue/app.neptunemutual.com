@@ -46,7 +46,7 @@ const getQuery = () => {
 }
 
 function getAvailableKeys (data) {
-  const availableKeys = data.dedicatedCovers.map(x => x.coverKey)
+  const availableKeys = data.dedicatedCovers.map(x => { return x.coverKey })
   data.diversifiedCovers.forEach(c => {
     c.products.forEach(p => {
       availableKeys.push(c.coverKey + '-' + p.productKey)
@@ -79,16 +79,16 @@ async function getIndividualHeroStats (networkId) {
     return
   }
 
-  const totalCoverFee = sumOf(...data.protocols.map((x) => x.totalCoverFee))
-  const totalCoveredAmount = sumOf(...data.cxTokens.map((x) => x.totalCoveredAmount))
+  const totalCoverFee = sumOf(...data.protocols.map((x) => { return x.totalCoverFee }))
+  const totalCoveredAmount = sumOf(...data.cxTokens.map((x) => { return x.totalCoveredAmount }))
 
   const dedicatedCoverCount = data.dedicatedCovers.length
 
   let totalCoverage = '0'
   data.dedicatedCovers.forEach(cover => {
-    const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityAdded))
-    const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityRemoved))
-    const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => x.totalFlashLoanFees))
+    const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => { return x.totalCoverLiquidityAdded }))
+    const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => { return x.totalCoverLiquidityRemoved }))
+    const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => { return x.totalFlashLoanFees }))
 
     const coverage = totalCoverLiquidityAdded
       .minus(totalCoverLiquidityRemoved)
@@ -99,10 +99,10 @@ async function getIndividualHeroStats (networkId) {
   })
 
   data.diversifiedCovers.forEach(cover => {
-    const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityAdded))
-    const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityRemoved))
-    const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => x.totalFlashLoanFees))
-    const medianEfficiency = sumOf(...cover.products.map((x) => x.capitalEfficiency)).dividedBy(cover.products.length)
+    const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => { return x.totalCoverLiquidityAdded }))
+    const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => { return x.totalCoverLiquidityRemoved }))
+    const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => { return x.totalFlashLoanFees }))
+    const medianEfficiency = sumOf(...cover.products.map((x) => { return x.capitalEfficiency })).dividedBy(cover.products.length)
 
     const coverage = totalCoverLiquidityAdded
       .minus(totalCoverLiquidityRemoved)
@@ -139,7 +139,7 @@ export async function getHeroStats (currentNetworkId) {
       (!isMainNet && !getNetworkInfo(parseInt(id)).isMainNet)
     ) {
       promises.push(getIndividualHeroStats(parseInt(id)))
-      if (parseInt(id) === currentNetworkId) currentNetworkIndex = promises.length - 1
+      if (parseInt(id) === currentNetworkId) { currentNetworkIndex = promises.length - 1 }
     }
   }
 

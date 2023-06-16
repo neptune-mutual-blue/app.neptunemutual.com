@@ -65,7 +65,7 @@ export const CoverAvatar = ({
                       sizeClasses.diversifiedImg
                     )}
                     data-testid='cover-img'
-                    onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
+                    onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
                   />
                 </div>
               )
@@ -94,7 +94,7 @@ export const CoverAvatar = ({
               alt={imgs[0].alt}
               className={classNames('inline-block', sizeClasses.dedicatedImg)}
               data-testid='cover-img'
-              onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
+              onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
             />
           </div>
           )}

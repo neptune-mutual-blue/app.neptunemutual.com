@@ -7,6 +7,7 @@ export const getGasLimit = async ({
 }) => {
   if (!instance) {
     onError(new Error('Instance not found'))
+
     return
   }
 

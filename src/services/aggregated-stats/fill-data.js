@@ -2,7 +2,7 @@ import DateLib from '@/lib/date/DateLib'
 
 const toObj = (data = []) => {
   const obj = {}
-  const objectKeys = Object.keys(data[0]).filter(k => k !== 'date')
+  const objectKeys = Object.keys(data[0]).filter(k => { return k !== 'date' })
 
   data.forEach(x => {
     obj[x.date] = {}
@@ -18,7 +18,7 @@ export const getFilledData = (dailyData) => {
   const dataObj = toObj(dailyData)
   const startDateUnix = dailyData[0].date
 
-  const objectKeys = Object.keys(dailyData[0]).filter(k => k !== 'date')
+  const objectKeys = Object.keys(dailyData[0]).filter(k => { return k !== 'date' })
 
   const filledData = []
 

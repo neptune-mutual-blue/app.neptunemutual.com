@@ -73,7 +73,7 @@ export const useRoles = () => {
           isCoverManagerCall
         ])
 
-        if (ignore) return
+        if (ignore) { return }
 
         setRoles({
           isGovernanceAgent,
@@ -87,6 +87,7 @@ export const useRoles = () => {
     }
 
     exec()
+
     return () => {
       ignore = true
     }

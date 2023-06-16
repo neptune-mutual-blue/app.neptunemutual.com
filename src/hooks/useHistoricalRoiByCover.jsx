@@ -10,7 +10,7 @@ export const useHistoricalRoiDataByCover = () => {
   const { networkId } = useNetwork()
 
   const fetchHistoricalDataByCover = async () => {
-    if (fetched.current || loading) return
+    if (fetched.current || loading) { return }
 
     setLoading(true)
 

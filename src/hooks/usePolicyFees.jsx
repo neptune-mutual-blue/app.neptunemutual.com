@@ -102,7 +102,7 @@ export const usePolicyFees = ({
         const [getCoverFeeInfoResult, getExpiryDateResult] =
           await Promise.all([getCoverFeeInfoCall, getExpiryDateCall])
 
-        if (ignore) return
+        if (ignore) { return }
         cleanup()
         setData({
           fee: getCoverFeeInfoResult.fee.toString(),
@@ -130,6 +130,7 @@ export const usePolicyFees = ({
     }
 
     exec()
+
     return () => {
       ignore = true
     }

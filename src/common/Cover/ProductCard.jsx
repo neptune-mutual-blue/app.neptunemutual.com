@@ -137,13 +137,15 @@ export const ProductCard = ({
       <Divider className='mb-4 lg:mb-8' />
 
       {/* Stats */}
-      {loading && lineContentArray.map((_, i) => (
-        <div
-          key={i}
-          className='h-3 mt-3 rounded-full bg-skeleton'
-          data-testid='card-line-content'
-        />
-      ))}
+      {loading && lineContentArray.map((_, i) => {
+        return (
+          <div
+            key={i}
+            className='h-3 mt-3 rounded-full bg-skeleton'
+            data-testid='card-line-content'
+          />
+        )
+      })}
 
       <div className={classNames('justify-between px-1 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}>
         <span className='text-xs uppercase lg:text-sm'>

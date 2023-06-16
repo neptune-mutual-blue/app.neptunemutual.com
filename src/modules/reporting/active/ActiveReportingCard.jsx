@@ -159,13 +159,15 @@ export const ActiveReportingCard = ({
       {/* Divider */}
       <Divider />
 
-      {loading && lineContentArray.map((_, i) => (
-        <div
-          key={i}
-          className='h-3 mt-3 rounded-full bg-skeleton'
-          data-testid='card-line-content'
-        />
-      ))}
+      {loading && lineContentArray.map((_, i) => {
+        return (
+          <div
+            key={i}
+            className='h-3 mt-3 rounded-full bg-skeleton'
+            data-testid='card-line-content'
+          />
+        )
+      })}
 
       {/* Stats */}
       <div className={classNames('justify-between px-1 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}>

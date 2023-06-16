@@ -5,8 +5,7 @@ import { delay } from '@/utils/unit-tests/test-utils'
 describe('useCountdown test', () => {
   test('test with proper time', async () => {
     const mockGetTime = jest.fn().mockReturnValue(1663110000)
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useCountdown({ target: 1663190000, getTime: mockGetTime })
+    const { result, waitForNextUpdate } = renderHook(() => { return useCountdown({ target: 1663190000, getTime: mockGetTime }) }
     )
 
     await waitForNextUpdate()
@@ -22,8 +21,7 @@ describe('useCountdown test', () => {
   test('test with invalid time', async () => {
     const mockGetTime = jest.fn().mockReturnValue(1663110000)
 
-    const { result, rerender } = renderHook(() =>
-      useCountdown({ target: 1663100000, getTime: mockGetTime })
+    const { result, rerender } = renderHook(() => { return useCountdown({ target: 1663100000, getTime: mockGetTime }) }
     )
 
     await delay(1000)

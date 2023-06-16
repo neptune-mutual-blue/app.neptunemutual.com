@@ -12,7 +12,7 @@ export const useClaimsProcessorAddress = () => {
 
   useEffect(() => {
     let ignore = false
-    if (!networkId || !account) return
+    if (!networkId || !account) { return }
 
     async function exec () {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
@@ -22,7 +22,7 @@ export const useClaimsProcessorAddress = () => {
         signerOrProvider
       )
 
-      if (ignore) return
+      if (ignore) { return }
       setAddress(claimsProcessorAddress)
     }
 

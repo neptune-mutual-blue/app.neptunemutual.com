@@ -62,10 +62,11 @@ const mockSdk = {
         )
       },
       getAddress: (returnUndefined = false, functionUndefined = false, returnData = 'PolicyContract getAddress() mock') => {
-        const mockFunction = jest.fn(() =>
-          Promise.resolve(
+        const mockFunction = jest.fn(() => {
+          return Promise.resolve(
             returnUndefined ? undefined : returnData
           )
+        }
         )
         mockNeptuneMutualSDK.registry.PolicyContract.getAddress.mockResolvedValue(
           functionUndefined ? undefined : mockFunction
@@ -89,10 +90,11 @@ const mockSdk = {
     },
     Protocol: {
       getAddress: (returnUndefined = false, functionUndefined = false, returnData = 'Protocol getAddress() mock') => {
-        const mockFunction = jest.fn(() =>
-          Promise.resolve(
+        const mockFunction = jest.fn(() => {
+          return Promise.resolve(
             returnUndefined ? undefined : returnData
           )
+        }
         )
         mockNeptuneMutualSDK.registry.Protocol.getAddress.mockResolvedValue(
           functionUndefined
@@ -106,7 +108,7 @@ const mockSdk = {
     ipfs: {
       write: (returnUndefined = false) => {
         mockNeptuneMutualSDK.utils.ipfs.write.mockImplementation(
-          (payload) => returnUndefined ? undefined : [payload.toString()]
+          (payload) => { return returnUndefined ? undefined : [payload.toString()] }
         )
       },
       readBytes32: (ipfsBytes) => {
@@ -127,18 +129,19 @@ const mockSdk = {
   multicall: (returnData) => {
     const data = {
       getCoverFeeInfo:
-        returnData?.getCoverFeeInfo ?? jest.fn(() => 'getCoverFeeInfo mock'),
+        returnData?.getCoverFeeInfo ?? jest.fn(() => { return 'getCoverFeeInfo mock' }),
       getExpiryDate:
-        returnData?.getExpiryDate ?? jest.fn(() => 'getexpirydate mock'),
-      hasRole: returnData?.hasRole ?? jest.fn((...args) => args),
+        returnData?.getExpiryDate ?? jest.fn(() => { return 'getexpirydate mock' }),
+      hasRole: returnData?.hasRole ?? jest.fn((...args) => { return args }),
       calculateLiquidity:
-        returnData?.calculateLiquidity ?? jest.fn((...args) => args),
-      init: returnData?.init ?? jest.fn(() => Promise.resolve('init')),
+        returnData?.calculateLiquidity ?? jest.fn((...args) => { return args }),
+      init: returnData?.init ?? jest.fn(() => { return Promise.resolve('init') }),
       all:
         returnData?.all ??
         jest.fn(() => {
           const { getCoverFeeInfoResult, getExpiryDateResult } =
             testData.multicallProvider
+
           return Promise.resolve([
             getCoverFeeInfoResult,
             getExpiryDateResult

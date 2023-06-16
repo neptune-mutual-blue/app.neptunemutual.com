@@ -87,7 +87,7 @@ describe('Active Cover Reporting Card Info', () => {
 describe('Active Diversified Cover Reporting Card Info', () => {
   beforeEach(() => {
     mockHooksOrMethods.useAppConstants()
-    mockHooksOrMethods.useCoversAndProducts2(() => testData.productInfo)
+    mockHooksOrMethods.useCoversAndProducts2(() => { return testData.productInfo })
     mockHooksOrMethods.useMyLiquidityInfo()
 
     const { initialRender } = initiateTest(ActiveReportingCard, {

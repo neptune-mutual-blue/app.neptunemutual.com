@@ -48,6 +48,7 @@ export const useUnstakeReportingStake = ({
   const unstake = async (onTxSuccess = () => {}) => {
     if (!networkId || !account) {
       requiresAuth()
+
       return
     }
 
@@ -179,6 +180,7 @@ export const useUnstakeReportingStake = ({
   const unstakeWithClaim = async (onTxSuccess = () => {}) => {
     if (!networkId || !account) {
       requiresAuth()
+
       return
     }
 

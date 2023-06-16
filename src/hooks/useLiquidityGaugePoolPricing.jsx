@@ -19,15 +19,17 @@ export const useLiquidityGaugePoolPricing = (tokenData = []) => {
   const { networkId } = useNetwork()
 
   const payload = useMemo(() => {
-    if (tokenData.find(token => !token.address)) {
+    if (tokenData.find(token => { return !token.address })) {
       return []
     }
 
-    const data = tokenData.map(token => ({
-      type: token.type,
-      address: token.address,
-      amount: AMOUNT
-    }))
+    const data = tokenData.map(token => {
+      return {
+        type: token.type,
+        address: token.address,
+        amount: AMOUNT
+      }
+    })
 
     return [{
       id: 'lgp',
@@ -76,6 +78,7 @@ export const useLiquidityGaugePoolPricing = (tokenData = []) => {
     }
 
     const pricePerUnit = toBN(prices[tokenAddress]).dividedBy(AMOUNT)
+
     return pricePerUnit
   }
 

@@ -21,7 +21,7 @@ export const PoliciesEmptyState = () => {
   } = useCoverDropdown()
 
   const handleClick = () => {
-    if (!selected) return
+    if (!selected) { return }
 
     router.push(
       Routes.PurchasePolicy(

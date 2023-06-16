@@ -167,17 +167,17 @@ export default function ReportComments ({
   const [disputeData, setDisputeData] = useState()
 
   useEffect(() => {
-    if (!reportIpfsHash && !disputeIpfsHash) return
+    if (!reportIpfsHash && !disputeIpfsHash) { return }
 
     async function fetchIpfs () {
       if (reportIpfsHash) {
         const _reportData = await readFromIpfs(reportIpfsHash)
-        if (_reportData) setReportData(_reportData)
+        if (_reportData) { setReportData(_reportData) }
       }
 
       if (disputeIpfsHash) {
         const _disputeData = await readFromIpfs(disputeIpfsHash)
-        if (_disputeData) setDisputeData(_disputeData)
+        if (_disputeData) { setDisputeData(_disputeData) }
       }
     }
 

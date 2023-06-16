@@ -61,7 +61,7 @@ describe('useLiquidityTxs', () => {
 
   describe('Edge cases coverage', () => {
     test('should return if no account', async () => {
-      mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+      mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
       const { result } = await renderHookWrapper(useLiquidityTxs, args)
       expect(result.data.transactions).toEqual([])

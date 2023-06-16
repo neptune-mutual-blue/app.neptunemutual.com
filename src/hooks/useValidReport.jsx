@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNetwork } from '@/src/context/Network'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
-const isValidTimestamp = (_unix) => !!_unix && _unix !== '0'
+const isValidTimestamp = (_unix) => { return !!_unix && _unix !== '0' }
 
 const getQuery = (start, end, coverKey, productKey) => {
   return `
@@ -44,7 +44,7 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
 
     fetchValidReport(networkId, getQuery(start, end, coverKey, productKey))
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
         setData(_data)
       })
       .catch((err) => {

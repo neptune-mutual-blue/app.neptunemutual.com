@@ -50,8 +50,9 @@ export const LiquidityGaugeCardAction = ({
 
   const addModalTitle = useMemo(() => {
     const isPoolStaked = toBN(lockedByMe).isGreaterThan(0)
-    if (isAddModalOpen && isPoolStaked) return `Add ${stakingTokenSymbol}`
-    if (isAddModalOpen && !isPoolStaked) return `Lock ${stakingTokenSymbol}`
+    if (isAddModalOpen && isPoolStaked) { return `Add ${stakingTokenSymbol}` }
+    if (isAddModalOpen && !isPoolStaked) { return `Lock ${stakingTokenSymbol}` }
+
     return ''
   }, [stakingTokenSymbol, isAddModalOpen, lockedByMe])
 
@@ -61,7 +62,7 @@ export const LiquidityGaugeCardAction = ({
         {toBN(lockedByMe).isZero()
           ? (
             <button
-              onClick={() => setIsAddModalOpen(true)}
+              onClick={() => { return setIsAddModalOpen(true) }}
               className='px-4 py-3 font-semibold tracking-wide text-white uppercase rounded-[10px] bg-primary hover:bg-opacity-90 w-full md:max-w-[216px] flex-auto'
             >
               Lock

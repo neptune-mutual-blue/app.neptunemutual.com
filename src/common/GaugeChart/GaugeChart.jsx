@@ -123,22 +123,24 @@ export const GaugeChart = ({
         </div>
 
         <div className='breakpoints'>
-          {breakponts.map((breakpoint, index) => (
-            <div
-              key={breakpoint}
-              style={{
-                height: `${chartRadius - strokeWidth - 8}px`,
-                transform: `rotateZ(${breakpointAngles[index]}deg)`
-              }}
-            >
-              <span
-                style={{ transform: `rotateZ(-${breakpointAngles[index]}deg)` }}
+          {breakponts.map((breakpoint, index) => {
+            return (
+              <div
+                key={breakpoint}
+                style={{
+                  height: `${chartRadius - strokeWidth - 8}px`,
+                  transform: `rotateZ(${breakpointAngles[index]}deg)`
+                }}
               >
-                {formatBreakpoint(breakpoint)}
-              </span>
-              {breakpointLine}
-            </div>
-          ))}
+                <span
+                  style={{ transform: `rotateZ(-${breakpointAngles[index]}deg)` }}
+                >
+                  {formatBreakpoint(breakpoint)}
+                </span>
+                {breakpointLine}
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

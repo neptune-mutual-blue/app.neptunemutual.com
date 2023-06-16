@@ -35,11 +35,11 @@ import {
  */
 const sorterData = {
   [SORT_TYPES.TVL]: {
-    selector: (pool) => pool.tvl,
+    selector: (pool) => { return pool.tvl },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.EMISSIONS]: {
-    selector: (pool) => pool.name,
+    selector: (pool) => { return pool.name },
     datatype: SORT_DATA_TYPES.STRING
   }
 }
@@ -60,11 +60,13 @@ export const LiquidityGaugePoolsPage = () => {
   // const { getTVLById } = useAppConstants()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: pools.map((pool) => ({
-      ...pool,
-      // tvl: getTVLById(pool.id),
-      ...getStatsByKey(pool.id)
-    })),
+    list: pools.map((pool) => {
+      return {
+        ...pool,
+        // tvl: getTVLById(pool.id),
+        ...getStatsByKey(pool.id)
+      }
+    }),
 
     filter: (item, term) => {
       return toStringSafe(item.name).indexOf(toStringSafe(term)) > -1
@@ -72,11 +74,12 @@ export const LiquidityGaugePoolsPage = () => {
   })
 
   const sortedPools = useMemo(
-    () =>
-      sorter({
+    () => {
+      return sorter({
         ...sorterData[sortType.value],
         list: filtered
-      }),
+      })
+    },
     [filtered, sortType.value]
   )
 

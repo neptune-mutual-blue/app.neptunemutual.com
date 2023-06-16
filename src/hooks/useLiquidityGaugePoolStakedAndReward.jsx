@@ -26,7 +26,7 @@ export const useLiquidityGaugePoolStakedAndReward = ({ poolAddress }) => {
   const { notifyError } = useErrorNotifier()
 
   const fetchStakedAndReward = useCallback(async () => {
-    if (!networkId || !account || !liquidityGaugePoolAddress) return
+    if (!networkId || !account || !liquidityGaugePoolAddress) { return }
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)

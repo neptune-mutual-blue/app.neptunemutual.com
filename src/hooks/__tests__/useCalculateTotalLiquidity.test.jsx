@@ -12,7 +12,7 @@ describe('useCalculateTotalLiquidity', () => {
   mockHooksOrMethods.useNetwork()
 
   const mockMulticallResult = ['500002829', '2222001389']
-  mockSdk.multicall({ all: () => Promise.resolve(mockMulticallResult) })
+  mockSdk.multicall({ all: () => { return Promise.resolve(mockMulticallResult) } })
 
   const args = [
     {
@@ -36,7 +36,7 @@ describe('useCalculateTotalLiquidity', () => {
       true
     )
 
-    const expected = mockMulticallResult.reduce((p, c) => p + parseInt(c), 0)
+    const expected = mockMulticallResult.reduce((p, c) => { return p + parseInt(c) }, 0)
     expect(result).toEqual(expected.toString())
   })
 

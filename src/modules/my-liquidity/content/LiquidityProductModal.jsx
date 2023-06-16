@@ -10,7 +10,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 export function LiquidityProductModal ({ productData, setShowModal }) {
   const imgSrc = getCoverImgSrc({ key: productData.productKey })
-  const onClose = () => setShowModal(false)
+  const onClose = () => { return setShowModal(false) }
 
   const onDownload = () => {
     window.open(Routes.ViewCoverProductTerms(productData.coverKey, productData.productKey), '_blank')

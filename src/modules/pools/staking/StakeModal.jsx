@@ -17,6 +17,7 @@ export const StakeModal = ({
   lockupPeriod
 }) => {
   const [isDisabled, setIsDisabled] = useState(false)
+
   return (
     <ModalRegular
       isOpen={isOpen}

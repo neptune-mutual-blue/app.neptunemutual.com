@@ -20,6 +20,7 @@ import { utils } from '@neptunemutual/sdk'
 function isValidReferralCode (referralCode) {
   try {
     utils.keyUtil.toBytes32(referralCode.trim())
+
     return true
   } catch (e) {
     return false
@@ -46,6 +47,7 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
         // if it's empty we set true immediately
         setErrorMessage('')
         setIsValid(true)
+
         return
       }
 
@@ -75,10 +77,12 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
         setIsValid(isValidRef)
         if (isValidRef) {
           setErrorMessage('')
+
           return
         }
 
         setErrorMessage(t`Invalid Cashback Code`)
+
         return
       }
       setErrorMessage(t`Incorrect Cashback Code`)

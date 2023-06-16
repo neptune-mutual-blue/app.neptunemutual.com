@@ -6,9 +6,11 @@ import { screen } from '@testing-library/react'
 
 const props = testData.percentXStackedChart
 
-jest.mock('react-chartjs-2', () => ({
-  Bar: (p) => mockHooksOrMethods.chartMockFn(p)
-}))
+jest.mock('react-chartjs-2', () => {
+  return {
+    Bar: (p) => { return mockHooksOrMethods.chartMockFn(p) }
+  }
+})
 
 describe('Banner test', () => {
   const { initialRender } = initiateTest(

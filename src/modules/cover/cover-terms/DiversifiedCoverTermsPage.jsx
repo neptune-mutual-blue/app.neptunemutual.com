@@ -14,7 +14,7 @@ import {
 
 export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) => {
   useEffect(() => {
-    if (!coverData) return
+    if (!coverData) { return }
 
     setTimeout(() => {
       window.print()
@@ -76,12 +76,14 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
             </p>
             <div className='flex flex-wrap gap-2 mt-2'>
               {
-                blockchains.map((chain, idx) => (
-                  <Network
-                    chainId={chain.chainId}
-                    key={idx}
-                  />
-                ))
+                blockchains.map((chain, idx) => {
+                  return (
+                    <Network
+                      chainId={chain.chainId}
+                      key={idx}
+                    />
+                  )
+                })
               }
             </div>
           </div>
@@ -94,15 +96,17 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
 
       <div>
         {
-          subProducts?.length > 0 && subProducts.map((productData, i) => (
-            <CoverTerms
-              key={i}
-              name={productData?.productInfoDetails?.productName}
-              blockchains={productData?.productInfoDetails?.blockchains}
-              about={productData?.productInfoDetails?.about}
-              parameters={productData?.productInfoDetails?.parameters}
-            />
-          ))
+          subProducts?.length > 0 && subProducts.map((productData, i) => {
+            return (
+              <CoverTerms
+                key={i}
+                name={productData?.productInfoDetails?.productName}
+                blockchains={productData?.productInfoDetails?.blockchains}
+                about={productData?.productInfoDetails?.about}
+                parameters={productData?.productInfoDetails?.parameters}
+              />
+            )
+          })
         }
       </div>
 

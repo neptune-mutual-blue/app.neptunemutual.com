@@ -14,10 +14,12 @@ export const LiquidityGaugePoolsList = ({ pools = [] }) => {
   const rewardTokenDecimals = NPMTokenDecimals
 
   const tokenData = useMemo(() => {
-    return pools.map(pool => ({
-      type: 'pod',
-      address: pool.stakingToken
-    })).concat({
+    return pools.map(pool => {
+      return {
+        type: 'pod',
+        address: pool.stakingToken
+      }
+    }).concat({
       type: 'token',
       address: rewardTokenAddress
     })
@@ -27,15 +29,17 @@ export const LiquidityGaugePoolsList = ({ pools = [] }) => {
 
   return (
     <div role='list' className='divide-y divide-B0C4DB border-[1px] border-B0C4DB rounded-2xl'>
-      {pools.map((pool) => (
-        <LiquidityGaugePoolCard
-          key={pool.key}
-          pool={pool}
-          rewardTokenSymbol={rewardTokenSymbol}
-          rewardTokenDecimals={rewardTokenDecimals}
-          getPriceByToken={getPriceByToken}
-        />
-      ))}
+      {pools.map((pool) => {
+        return (
+          <LiquidityGaugePoolCard
+            key={pool.key}
+            pool={pool}
+            rewardTokenSymbol={rewardTokenSymbol}
+            rewardTokenDecimals={rewardTokenDecimals}
+            getPriceByToken={getPriceByToken}
+          />
+        )
+      })}
     </div>
   )
 }

@@ -50,6 +50,7 @@ export const ReportingDetailsPage = ({
     }
 
     const _now = DateLib.unix()
+
     return isGreater(_now, incidentReport.resolutionDeadline)
   })
 

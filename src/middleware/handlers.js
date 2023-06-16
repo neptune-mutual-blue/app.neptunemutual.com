@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 /** @type string */
 const regions = process.env.NEXT_PUBLIC_UNSUPPORTED_REGIONS || ''
 const disableBuildManifest = false
-const unavailableTo = regions.split(',').filter((x) => !!x)
+const unavailableTo = regions.split(',').filter((x) => { return !!x })
 
 function getIosCsp () {
   const defaultValue = process.env.NEXT_PUBLIC_HEADERS_CONTENT_SECURITY_POLICY || ''
@@ -48,6 +48,7 @@ export function handleBuildManifest (req) {
   const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
   addCommonHeaders(response, req)
   response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
+
   return response
 }
 
@@ -64,6 +65,7 @@ export function handleSiteManifest (req) {
   const response = NextResponse.next()
   addCommonHeaders(response, req)
   response.headers.set('Access-Control-Allow-Origin', '*')
+
   return response
 }
 
@@ -87,6 +89,7 @@ export function handleGeoBlocking (req) {
     const response = NextResponse.rewrite(new URL('/unavailable', req.url), { status: 451 })
     addCommonHeaders(response, req)
     response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
+
     return response
   }
 
@@ -95,6 +98,7 @@ export function handleGeoBlocking (req) {
     const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
     addCommonHeaders(response, req)
     response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
+
     return response
   }
 }
@@ -108,5 +112,6 @@ export function fallback (req) {
   const response = NextResponse.next()
   addCommonHeaders(response, req)
   response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
+
   return response
 }

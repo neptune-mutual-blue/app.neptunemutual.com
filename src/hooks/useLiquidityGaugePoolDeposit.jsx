@@ -235,9 +235,9 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingToken
     convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(allowance)
 
   const error = useMemo(() => {
-    if (toBN(amount).isZero()) return ''
+    if (toBN(amount).isZero()) { return '' }
 
-    if (convertToUnits(amount, stakingTokenDecimals).isGreaterThan(balance)) return 'Amount exceeds balance'
+    if (convertToUnits(amount, stakingTokenDecimals).isGreaterThan(balance)) { return 'Amount exceeds balance' }
   }, [amount, balance, stakingTokenDecimals])
 
   return {

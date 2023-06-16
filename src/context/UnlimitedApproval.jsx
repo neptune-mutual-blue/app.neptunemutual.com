@@ -22,7 +22,7 @@ const UnlimitedApprovalContext = React.createContext({
    * @param {ApprovalAmount} _value
    * @returns {ApprovalAmount}
    */
-  getApprovalAmount: (_value) => MaxUint256.toString()
+  getApprovalAmount: (_value) => { return MaxUint256.toString() }
 })
 
 export function useUnlimitedApproval () {
@@ -33,6 +33,7 @@ export function useUnlimitedApproval () {
       'useUnlimitedApproval must be used within a UnlimitedApprovalProvider'
     )
   }
+
   return context
 }
 
@@ -43,8 +44,8 @@ export const UnlimitedApprovalProvider = ({ children }) => {
      * @param {(value: boolean) => void}
      */
     setUnlimitedApproval
-  ] = useState(() =>
-    LocalStorage.get(
+  ] = useState(() => {
+    return LocalStorage.get(
       KEYS.UNLIMITED_APPROVAL,
       (value) => {
         const result = JSON.parse(value)
@@ -57,6 +58,7 @@ export const UnlimitedApprovalProvider = ({ children }) => {
       },
       true
     )
+  }
   )
 
   const _setUnlimitedApproval = useCallback(

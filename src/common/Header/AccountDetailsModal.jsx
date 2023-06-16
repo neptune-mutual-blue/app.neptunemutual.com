@@ -36,7 +36,7 @@ export const AccountDetailsModal = ({
     }
   }, [])
 
-  const wallet = wallets.find((x) => x.connectorName === connectorName)
+  const wallet = wallets.find((x) => { return x.connectorName === connectorName })
 
   return (
     <ModalRegular

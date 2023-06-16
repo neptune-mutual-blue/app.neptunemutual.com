@@ -54,7 +54,7 @@ export const GovernanceSinglePage = () => {
 
     const filteredResults = getResultsByChains(getVotingResults(proposalDetail.choices, proposalDetail.scores), selectedChains)
 
-    const percentSum = sumOf(...filteredResults.map(x => x.percent))
+    const percentSum = sumOf(...filteredResults.map(x => { return x.percent }))
     const emissionOfSelectedChains = toBN(EMISSION_PER_EPOCH).multipliedBy(percentSum).toString()
 
     const distribution = filteredResults.map(result => {

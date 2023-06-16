@@ -20,7 +20,7 @@ describe('Banner test', () => {
 
   test('should not render the banner container if no network', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
     })
 
     const wrapper = screen.queryByTestId('banner-container')

@@ -74,7 +74,7 @@ export const renderHookWrapper = async (
       waitForNextUpdate: WFNU,
       rerender,
       unmount
-    } = renderHook((args) => hookFunction(...args), {
+    } = renderHook((args) => { return hookFunction(...args) }, {
       initialProps: hookArgs,
       ...renderHookOptions
     })
@@ -91,6 +91,7 @@ export const renderHookWrapper = async (
     wfnu = WFNU
     renderHookResult = result
   })
+
   return {
     result: res,
     act: hooksAct,

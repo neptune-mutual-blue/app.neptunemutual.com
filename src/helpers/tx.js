@@ -7,6 +7,7 @@ const parseError = (instance, errorData) => {
     const errorDescription = instance.interface.parseError(errorData)
 
     const message = `${errorDescription.name}(${errorDescription.args.join(', ')})`
+
     return message
   } catch (error) {
     // swallow

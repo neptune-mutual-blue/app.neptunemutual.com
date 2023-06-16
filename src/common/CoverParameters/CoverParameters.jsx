@@ -21,21 +21,25 @@ export const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-
   return (
     <>
       {
-        parameters.map((param, i) => (
-          <div key={`parameter-${i}`}>
-            <h4 className={titleClassName}>
-              {param.parameter}
-            </h4>
+        parameters.map((param, i) => {
+          return (
+            <div key={`parameter-${i}`}>
+              <h4 className={titleClassName}>
+                {param.parameter}
+              </h4>
 
-            {param.text && <p className={textClassName} key={`parameter-paragraph-${i}`}>{param.text}</p>}
+              {param.text && <p className={textClassName} key={`parameter-paragraph-${i}`}>{param.text}</p>}
 
-            <List type={param.list.type}>
-              {param.list.items.map((item, x) => (
-                <li className={textClassName} key={x}>{item}</li>
-              ))}
-            </List>
-          </div>
-        ))
+              <List type={param.list.type}>
+                {param.list.items.map((item, x) => {
+                  return (
+                    <li className={textClassName} key={x}>{item}</li>
+                  )
+                })}
+              </List>
+            </div>
+          )
+        })
       }
     </>
   )

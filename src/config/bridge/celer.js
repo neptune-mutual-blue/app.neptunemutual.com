@@ -78,4 +78,5 @@ export const getAmountEstimationUrl = ({ isTest = false, srcChainId, destChainId
 }
 
 export const GAS_LIMIT_WITHOUT_APPROVAL = 350_000
+
 export const GAS_LIMIT_WITH_APPROVAL = 300_000

@@ -38,6 +38,7 @@ export const storePurchaseEvent = (event, from) => {
   }
 
   localStorage.setItem(txHash, JSON.stringify(value))
+
   return txHash
 }
 
@@ -70,6 +71,7 @@ const getQuery = (id) => {
 
 const getEventFromSubgraph = async (networkId, txHash) => {
   const data = await getSubgraphData(networkId, getQuery(txHash))
+
   return data.coverPurchasedEvent
 }
 
@@ -107,7 +109,7 @@ export const useFetchCoverPurchasedEvent = ({ txHash }) => {
     setLoading(true)
     getEvent(networkId, txHash)
       .then((data) => {
-        if (!data) return
+        if (!data) { return }
         setData(data)
         setLoading(false)
       })

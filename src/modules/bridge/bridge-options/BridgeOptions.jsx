@@ -45,7 +45,7 @@ export const BridgeOptions = ({
                     priceInUsd={totalPriceInUsd[BRIDGE_KEYS.LAYERZERO]}
                     infoArray={infoData[BRIDGE_KEYS.LAYERZERO]}
                     selected={selectedBridge === BRIDGE_KEYS.LAYERZERO}
-                    onClick={() => setSelectedBridge(BRIDGE_KEYS.LAYERZERO)}
+                    onClick={() => { return setSelectedBridge(BRIDGE_KEYS.LAYERZERO) }}
                   />
                   <BridgeOption
                     type={BRIDGE_KEYS.CELER}
@@ -53,7 +53,7 @@ export const BridgeOptions = ({
                     priceInUsd={totalPriceInUsd[BRIDGE_KEYS.CELER]}
                     infoArray={infoData[BRIDGE_KEYS.CELER]}
                     selected={selectedBridge === BRIDGE_KEYS.CELER}
-                    onClick={() => setSelectedBridge(BRIDGE_KEYS.CELER)}
+                    onClick={() => { return setSelectedBridge(BRIDGE_KEYS.CELER) }}
                   />
                 </div>
 
@@ -107,7 +107,7 @@ const OptionsMobile = ({
           priceInUsd={totalPriceInUsd[BRIDGE_KEYS.LAYERZERO]}
           infoArray={infoData[BRIDGE_KEYS.LAYERZERO]}
           selected={selectedBridge === BRIDGE_KEYS.LAYERZERO}
-          onClick={() => setSelectedBridge(BRIDGE_KEYS.LAYERZERO)}
+          onClick={() => { return setSelectedBridge(BRIDGE_KEYS.LAYERZERO) }}
         />
         <BridgeOption
           type={BRIDGE_KEYS.CELER}
@@ -115,7 +115,7 @@ const OptionsMobile = ({
           priceInUsd={totalPriceInUsd[BRIDGE_KEYS.CELER]}
           infoArray={infoData[BRIDGE_KEYS.CELER]}
           selected={selectedBridge === BRIDGE_KEYS.CELER}
-          onClick={() => setSelectedBridge(BRIDGE_KEYS.CELER)}
+          onClick={() => { return setSelectedBridge(BRIDGE_KEYS.CELER) }}
         />
       </div>
 
@@ -124,17 +124,19 @@ const OptionsMobile = ({
       <div className=''>
         <div className='pb-2 space-y-2 border-b border-B0C4DB'>
           {
-            infoData[selectedBridge || BRIDGE_KEYS.CELER].map((item, idx) => (
-              <InfoKeyValue
-                key={idx}
-                dataKey={item.key}
-                dataValue={item.value}
-                bold={item.bold}
-                loading={item.loading}
-                info={item.info}
-                title={item.title}
-              />
-            ))
+            infoData[selectedBridge || BRIDGE_KEYS.CELER].map((item, idx) => {
+              return (
+                <InfoKeyValue
+                  key={idx}
+                  dataKey={item.key}
+                  dataValue={item.value}
+                  bold={item.bold}
+                  loading={item.loading}
+                  info={item.info}
+                  title={item.title}
+                />
+              )
+            })
           }
         </div>
 

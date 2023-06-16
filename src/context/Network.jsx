@@ -14,6 +14,7 @@ export function useNetwork () {
   if (context === undefined) {
     throw new Error('useAppContext must be used within a AppWrapper')
   }
+
   return context
 }
 

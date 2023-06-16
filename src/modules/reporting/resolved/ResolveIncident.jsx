@@ -70,7 +70,7 @@ export const ResolveIncident = ({
         <RegularButton
           disabled={!roles.isGovernanceAdmin}
           className='w-full px-10 py-4 font-semibold uppercase md:w-80'
-          onClick={() => setIsOpen(true)}
+          onClick={() => { return setIsOpen(true) }}
         >
           <Trans>Emergency resolve</Trans>
         </RegularButton>

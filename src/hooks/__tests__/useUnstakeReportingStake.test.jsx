@@ -26,8 +26,8 @@ describe('useUnstakeReportingStake', () => {
   mockHooksOrMethods.useAppConstants()
 
   test('calling unstake function w/o networkId and account', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps
@@ -61,10 +61,12 @@ describe('useUnstakeReportingStake', () => {
   test('calling unstake function w/networkId and account and error', async () => {
     mockHooksOrMethods.useWeb3React()
     mockHooksOrMethods.useNetwork()
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: undefined
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: undefined
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps
@@ -78,8 +80,8 @@ describe('useUnstakeReportingStake', () => {
   })
 
   test('calling unstakeWithClaim function w/o networkId and account', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps
@@ -112,10 +114,12 @@ describe('useUnstakeReportingStake', () => {
   test('calling unstakeWithClaim function w/networkId and account and error', async () => {
     mockHooksOrMethods.useWeb3React()
     mockHooksOrMethods.useNetwork()
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: undefined
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: undefined
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps

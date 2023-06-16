@@ -36,8 +36,7 @@ const props = {
   },
   tvl: '36023415510680653787764225',
   getPriceByAddress: jest.fn((e) => {
-    if (e === testData.poolInfo.info.stakingToken) return '1.00028'
-    else if (e === testData.poolInfo.info.rewardToken) return '1'
+    if (e === testData.poolInfo.info.stakingToken) { return '1.00028' } else if (e === testData.poolInfo.info.rewardToken) { return '1' }
   })
 }
 const initialMocks = () => {
@@ -118,13 +117,15 @@ describe('PodStakingCard test', () => {
 
   test('should render Pool stat cards & staking cards when stake is greater than 0', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.usePoolInfo(() => ({
-        ...testData.poolInfo,
-        info: {
-          ...testData.poolInfo.info,
-          myStake: '1000000000000000000'
+      mockHooksOrMethods.usePoolInfo(() => {
+        return {
+          ...testData.poolInfo,
+          info: {
+            ...testData.poolInfo.info,
+            myStake: '1000000000000000000'
+          }
         }
-      }))
+      })
     })
 
     screen.debug()
@@ -137,13 +138,15 @@ describe('PodStakingCard test', () => {
 
   test('should have correct value in pool stat card', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.usePoolInfo(() => ({
-        ...testData.poolInfo,
-        info: {
-          ...testData.poolInfo.info,
-          myStake: '1000000000000000000'
+      mockHooksOrMethods.usePoolInfo(() => {
+        return {
+          ...testData.poolInfo,
+          info: {
+            ...testData.poolInfo.info,
+            myStake: '1000000000000000000'
+          }
         }
-      }))
+      })
     })
 
     const poolStatValues = screen.getAllByTestId('stat-value')
@@ -164,13 +167,15 @@ describe('PodStakingCard test', () => {
   describe('modals', () => {
     beforeEach(() => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.usePoolInfo(() => ({
-          ...testData.poolInfo,
-          info: {
-            ...testData.poolInfo.info,
-            myStake: '1000000000000000000'
+        mockHooksOrMethods.usePoolInfo(() => {
+          return {
+            ...testData.poolInfo,
+            info: {
+              ...testData.poolInfo.info,
+              myStake: '1000000000000000000'
+            }
           }
-        }))
+        })
       })
     })
 

@@ -47,11 +47,13 @@ export const useConsensusInsights = () => {
 
     fetchConsensusAnalytics(networkId, getQuery())
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
-        setData(() => ({
-          incidentReports: _data.incidentReports
-        }))
+        setData(() => {
+          return {
+            incidentReports: _data.incidentReports
+          }
+        })
 
         fetched.current = true
       })

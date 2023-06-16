@@ -92,7 +92,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
 
   useEffect(() => {
     let ignore = false
-    if (!networkId || !account || !debouncedValue) return
+    if (!networkId || !account || !debouncedValue) { return }
 
     async function updateReceiveAmount () {
       setReceiveAmountLoading(true)
@@ -128,7 +128,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           onError
         })
 
-        if (ignore) return
+        if (ignore) { return }
         setReceiveAmount(result.toString())
         cleanup()
       } catch (err) {
@@ -147,6 +147,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   useEffect(() => {
     if (!value && error) {
       setError('')
+
       return
     }
 
@@ -156,16 +157,19 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
 
     if (!isValidNumber(value)) {
       setError(t`Invalid amount to bond`)
+
       return
     }
 
     if (isGreater(convertToUnits(value), balance)) {
       setError(t`Insufficient Balance`)
+
       return
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
       setError(t`Please specify a value`)
+
       return
     }
 
@@ -180,6 +184,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           ).long
         }`
       )
+
       return
     }
 

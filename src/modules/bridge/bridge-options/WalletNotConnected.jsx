@@ -5,6 +5,7 @@ import { useNetwork } from '@/src/context/Network'
 
 export const WalletNotConnected = () => {
   const { networkId } = useNetwork()
+
   return (
     <div className='p-4 text-center'>
       <h2 className='text-xl font-semibold text-404040'>Wallet Not Connected</h2>

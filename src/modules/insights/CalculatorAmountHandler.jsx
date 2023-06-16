@@ -47,7 +47,7 @@ export const CalculatorAmountHandler = ({
   useEffect(() => {
     window.addEventListener('resize', getSize)
 
-    return () => window.removeEventListener('resize', getSize)
+    return () => { return window.removeEventListener('resize', getSize) }
   }, [])
 
   useEffect(() => {
@@ -90,8 +90,8 @@ export const CalculatorAmountHandler = ({
             focus || inputValue ? 'text-01052D' : '9B9B9B'
           )}
           style={{ paddingRight: `${width || 64}px` }}
-          onFocus={() => setFocus(true)}
-          onBlur={() => setFocus(false)}
+          onFocus={() => { return setFocus(true) }}
+          onBlur={() => { return setFocus(false) }}
         />
         <div className='absolute inset-y-0 right-0 flex px-0 py-0 mx-0 my-0' ref={ref}>
           {unit && (

@@ -81,7 +81,7 @@ export const CARD_STATUS = {
   [E_CARD_STATUS.DIVERSIFIED]: {
     label: 'Diversified',
     className: 'bg-364253',
-    icon: () => null
+    icon: () => { return null }
   }
 }
 

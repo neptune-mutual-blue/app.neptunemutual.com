@@ -67,7 +67,7 @@ const BridgeModule = () => {
   // Resets source chain
   useEffect(() => {
     const options = getNetworkInfo(networkId).isMainNet ? networks.mainnet : networks.testnet
-    setSelectedNetworks((prev) => ({ ...prev, srcNetwork: options.find(x => x.chainId === parseInt(networkId)) }))
+    setSelectedNetworks((prev) => { return { ...prev, srcNetwork: options.find(x => { return x.chainId === parseInt(networkId) }) } })
   }, [networkId])
 
   // Resets destination chain - used for avoiding unnecessary re-renders
@@ -90,20 +90,20 @@ const BridgeModule = () => {
     }
 
     const filtered = _networks
-      .filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
+      .filter(n => { return Object.keys(tokenData).includes(n.chainId.toString()) }) // filtered based on availability of tokens
 
     if (!filtered || filtered.length === 0) {
       return
     }
 
-    const firstDestOption = filtered.filter(n => n.chainId.toString() !== networkId.toString())[0]
+    const firstDestOption = filtered.filter(n => { return n.chainId.toString() !== networkId.toString() })[0]
 
     if (!firstDestOption) {
       return
     }
 
     // used for avoiding unnecessary re-renders
-    setSelectedNetworks(prev => ({ ...prev, destNetwork: firstDestOption }))
+    setSelectedNetworks(prev => { return { ...prev, destNetwork: firstDestOption } })
   }, [networkId, selectedBridge])
 
   return (
@@ -121,8 +121,8 @@ const BridgeModule = () => {
           // setReceiverAddress={setReceiverAddress}
           // other props
           celerHookResult={celerHookResult}
-          setInfoArray={(infoArray) => setInfoData(prev => ({ ...prev, [BRIDGE_KEYS.CELER]: infoArray }))}
-          setTotalPriceInUsd={price => setTotalPriceInUsd(prev => ({ ...prev, [BRIDGE_KEYS.CELER]: price }))}
+          setInfoArray={(infoArray) => { return setInfoData(prev => { return { ...prev, [BRIDGE_KEYS.CELER]: infoArray } }) }}
+          setTotalPriceInUsd={price => { return setTotalPriceInUsd(prev => { return { ...prev, [BRIDGE_KEYS.CELER]: price } }) }}
 
         />
 
@@ -139,8 +139,8 @@ const BridgeModule = () => {
           // setReceiverAddress={setReceiverAddress}
           // other props
           layerZeroHookResult={layerZeroHookResult}
-          setInfoArray={(infoArray) => setInfoData(prev => ({ ...prev, [BRIDGE_KEYS.LAYERZERO]: infoArray }))}
-          setTotalPriceInUsd={price => setTotalPriceInUsd(prev => ({ ...prev, [BRIDGE_KEYS.LAYERZERO]: price }))}
+          setInfoArray={(infoArray) => { return setInfoData(prev => { return { ...prev, [BRIDGE_KEYS.LAYERZERO]: infoArray } }) }}
+          setTotalPriceInUsd={price => { return setTotalPriceInUsd(prev => { return { ...prev, [BRIDGE_KEYS.LAYERZERO]: price } }) }}
         />
 
         <BridgeOptions
@@ -156,8 +156,8 @@ const BridgeModule = () => {
               disabled={celerHookResult.buttonDisabled}
               approving={celerHookResult.approving}
               bridging={celerHookResult.bridging}
-              handleApprove={() => celerHookResult.handleApprove()}
-              handleBridge={() => celerHookResult.handleBridge()}
+              handleApprove={() => { return celerHookResult.handleApprove() }}
+              handleBridge={() => { return celerHookResult.handleBridge() }}
               canBridge={celerHookResult.canBridge}
               bridgeTokenSymbol={celerHookResult.tokenSymbol}
             />
@@ -168,8 +168,8 @@ const BridgeModule = () => {
               disabled={layerZeroHookResult.buttonDisabled}
               approving={layerZeroHookResult.approving}
               bridging={layerZeroHookResult.bridging}
-              handleApprove={() => layerZeroHookResult.handleApprove()}
-              handleBridge={() => layerZeroHookResult.handleBridge()}
+              handleApprove={() => { return layerZeroHookResult.handleApprove() }}
+              handleBridge={() => { return layerZeroHookResult.handleBridge() }}
               canBridge={layerZeroHookResult.canBridge}
               bridgeTokenSymbol={layerZeroHookResult.tokenSymbol}
             />

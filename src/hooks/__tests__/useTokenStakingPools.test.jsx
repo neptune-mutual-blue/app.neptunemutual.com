@@ -21,7 +21,7 @@ describe('useTokenStakingPools', () => {
   mockHooksOrMethods.getGraphURL()
 
   test('while fetching w/o networkId', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(useTokenStakingPools, [], true)
 

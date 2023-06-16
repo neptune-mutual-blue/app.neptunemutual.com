@@ -61,10 +61,12 @@ describe('useVote', () => {
 
     test('should handle error if error raised inside onTransactionResult', async () => {
       const mockedFn = jest.fn().mockRejectedValue('error')
-      mockHooksOrMethods.useTxToast(() => ({
-        ...testData.txToast,
-        push: mockedFn
-      }))
+      mockHooksOrMethods.useTxToast(() => {
+        return {
+          ...testData.txToast,
+          push: mockedFn
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useVote, args)
       await act(async () => {
@@ -88,10 +90,12 @@ describe('useVote', () => {
     })
 
     test('should handle error if error raised', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        writeContract: null
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          writeContract: null
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useVote, [
         { ...args[0], productKey: '' }
@@ -117,10 +121,12 @@ describe('useVote', () => {
     })
 
     test('should handle error if error raised', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        writeContract: null
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          writeContract: null
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useVote, [
         { ...args[0], productKey: '' }

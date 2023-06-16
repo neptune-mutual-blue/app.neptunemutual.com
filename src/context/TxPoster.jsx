@@ -26,6 +26,7 @@ export function useTxPoster () {
   if (context === undefined) {
     throw new Error('useTxPoster must be used within a TxPosterProvider')
   }
+
   return context
 }
 
@@ -51,6 +52,7 @@ export const TxPosterProvider = ({ children }) => {
     }) => {
       if (!instance) {
         onError(new Error('Instance not found'))
+
         return
       }
 

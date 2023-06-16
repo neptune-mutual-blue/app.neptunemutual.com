@@ -3,11 +3,11 @@ const { testData } = require('@/utils/unit-tests/test-data')
 const mockGlobals = {
   ethereum: (overrides = { isMetaMask: true }) => {
     const ETHEREUM_METHODS = {
-      eth_requestAccounts: () => [testData.account.account]
+      eth_requestAccounts: () => { return [testData.account.account] }
     }
 
     global.ethereum = {
-      enable: jest.fn(() => Promise.resolve(true)),
+      enable: jest.fn(() => { return Promise.resolve(true) }),
       send: jest.fn((method) => {
         if (method === 'eth_chainId') {
           return Promise.resolve(1)
@@ -73,17 +73,19 @@ const mockGlobals = {
   },
   DOMRect: () => {
     global.DOMRect = {
-      fromRect: () => ({
-        x: 0,
-        y: 0,
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-        width: 0,
-        height: 0,
-        toJSON: () => {}
-      })
+      fromRect: () => {
+        return {
+          x: 0,
+          y: 0,
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          width: 0,
+          height: 0,
+          toJSON: () => {}
+        }
+      }
     }
   },
   console: {
@@ -105,7 +107,7 @@ const mockGlobals = {
         mockFunction: mockConsoleError
       }
     },
-    dir: () => (console.dir = jest.fn(() => {})),
+    dir: () => { return (console.dir = jest.fn(() => {})) },
     log: () => {
       const originalLog = console.log
       const mockConsoleLog = jest.fn()
@@ -130,14 +132,16 @@ const mockGlobals = {
     fetchResponse = testData.fetch,
     fetchJsonData = {}
   ) => {
-    global.fetch = jest.fn(() =>
-      resolve
+    global.fetch = jest.fn(() => {
+      return resolve
         ? Promise.resolve({
           ...fetchResponse,
-          json: () => Promise.resolve(fetchJsonData)
+          json: () => { return Promise.resolve(fetchJsonData) }
         })
         : Promise.reject(fetchJsonData ?? 'Error occurred')
+    }
     )
+
     return {
       unmock: () => {
         if (global.fetch?.mockClear) {
@@ -159,6 +163,7 @@ const mockGlobals = {
       jest.useFakeTimers()
       jest.advanceTimersByTime(timeInterval)
       cb()
+
       return 1234
     })
   }

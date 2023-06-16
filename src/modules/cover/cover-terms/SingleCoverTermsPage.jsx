@@ -14,7 +14,7 @@ import {
 
 export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
   useEffect(() => {
-    if (!coverOrProductData) return
+    if (!coverOrProductData) { return }
 
     setTimeout(() => {
       window.print()

@@ -6,7 +6,7 @@ import React, {
 
 const defaultValue = {
   setStatsByKey: (_key, _obj) => {},
-  getStatsByKey: (_key) => ({})
+  getStatsByKey: (_key) => { return {} }
 }
 
 const SortableStatsContext = React.createContext(defaultValue)
@@ -23,6 +23,7 @@ export function useSortableStats () {
       'useSortableStats must be used within a SortableStatsProvider'
     )
   }
+
   return context
 }
 
@@ -31,21 +32,23 @@ export const SortableStatsProvider = ({ children }) => {
   const [state, setState] = useState(defaultValue)
 
   const setStatsByKey = useCallback((key, obj) => {
-    setState((prev) => ({
-      ...prev,
-      [key]: {
-        ...prev[key],
-        ...obj
+    setState((prev) => {
+      return {
+        ...prev,
+        [key]: {
+          ...prev[key],
+          ...obj
+        }
       }
-    }))
+    })
   }, [])
 
-  const getStatsByKey = useCallback((key) => state[key] || {}, [state])
+  const getStatsByKey = useCallback((key) => { return state[key] || {} }, [state])
 
   return (
     <SortableStatsContext.Provider
       value={useMemo(
-        () => ({ getStatsByKey, setStatsByKey }),
+        () => { return { getStatsByKey, setStatsByKey } },
         [getStatsByKey, setStatsByKey]
       )}
     >

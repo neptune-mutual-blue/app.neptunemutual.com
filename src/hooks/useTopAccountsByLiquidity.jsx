@@ -16,7 +16,7 @@ export const useTopAccountsByLiquidity = () => {
   const { networkId } = useNetwork()
 
   const fetchTopAccounts = async () => {
-    if (fetched.current || loading) return
+    if (fetched.current || loading) { return }
 
     setLoading(true);
 
@@ -24,7 +24,7 @@ export const useTopAccountsByLiquidity = () => {
       try {
         const data = await getTopAccountsByLiquidity(networkId)
 
-        if (!data) return
+        if (!data) { return }
 
         fetched.current = true
         setData(data)

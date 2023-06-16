@@ -783,8 +783,8 @@ export const testData = {
     liquidityTokenAddress: '0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468',
     liquidityTokenSymbol: 'DAI',
     poolsTvl: '0',
-    getTVLById: (_id) => '0',
-    getPriceByAddress: (_address) => '0',
+    getTVLById: (_id) => { return '0' },
+    getPriceByAddress: (_address) => { return '0' },
     roles: {
       isGovernanceAgent: false,
       isGovernanceAdmin: true,
@@ -966,7 +966,7 @@ export const testData = {
   activePolicies: {
     data: {
       activePolicies,
-      totalActiveProtection: sumOf(...activePolicies.map(policy => policy.amount)).toString()
+      totalActiveProtection: sumOf(...activePolicies.map(policy => { return policy.amount })).toString()
     },
     loading: false
   },
@@ -1497,6 +1497,7 @@ export const testData = {
     push: jest.fn((...args) => {
       args[2]?.onTxSuccess?.()
       args[2]?.onTxFailure?.()
+
       return Promise.resolve({})
     }),
     pushError: jest.fn(),
@@ -1505,10 +1506,12 @@ export const testData = {
   txPoster: {
     contractRead: jest.fn((...args) => {
       args[0]?.onError?.()
+
       return Promise.resolve(toBN('100'))
     }),
     contractReadBondInfo: jest.fn((...args) => {
       args[0]?.onError?.()
+
       return Promise.resolve([
         ['0x97cCd316db0298498fcfD626b215955b9DF44b71'],
         [
@@ -1536,7 +1539,7 @@ export const testData = {
         chainId: null,
         confirmations: 0,
         from: null,
-        wait: jest.fn(() => Promise.resolve())
+        wait: jest.fn(() => { return Promise.resolve() })
       })
       arg?.onRetryCancel?.()
       arg?.onError?.()
@@ -1587,7 +1590,7 @@ export const testData = {
   readFromIpfs: 'dummy text',
   providerOrSigner: {
     provider: {
-      getTransactionReceipt: jest.fn(() => Promise.resolve({}))
+      getTransactionReceipt: jest.fn(() => { return Promise.resolve({}) })
     },
     _address: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9',
     _index: null,
@@ -1595,14 +1598,14 @@ export const testData = {
   },
   providerOrSignerGetBlockNumber: {
     provider: {
-      getBlockNumber: jest.fn(() => Promise.resolve(100))
+      getBlockNumber: jest.fn(() => { return Promise.resolve(100) })
     }
   },
   governanceAddress: '0xc16be3c0e3028c1C42Ac0dCC3C696a7F237F8060',
   unlimitedApproval: {
     unlimitedApproval: false,
     setUnlimitedApproval: jest.fn(),
-    getApprovalAmount: jest.fn((_value) => _value)
+    getApprovalAmount: jest.fn((_value) => { return _value })
   },
   authValidation: {
     requiresAuth: jest.fn()
@@ -1959,11 +1962,11 @@ export const testData = {
   coversAndProducts2: {
     loading: false,
     data: coverAndProductData2,
-    getCoverByCoverKey: () => coverAndProductData2,
-    getProductsByCoverKey: () => [coverAndProductData2],
+    getCoverByCoverKey: () => { return coverAndProductData2 },
+    getProductsByCoverKey: () => { return [coverAndProductData2] },
     getCoverOrProduct: jest.fn(),
-    getProduct: () => coverAndProductData2,
-    getAllProducts: () => [coverAndProductData2],
+    getProduct: () => { return coverAndProductData2 },
+    getAllProducts: () => { return [coverAndProductData2] },
     getDedicatedCovers: jest.fn(),
     getDiversifiedCovers: jest.fn(),
     updateData: {}

@@ -23,7 +23,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
   const { login } = useAuth(networkId, notifier)
 
   useEffect(() => {
-    if (!isOpen) setIsConnecting(false)
+    if (!isOpen) { setIsConnecting(false) }
 
     if (active) {
       setIsConnecting(false)
@@ -33,7 +33,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
 
   const onConnect = (id) => {
     setIsConnecting(true)
-    const wallet = wallets.find((x) => x.id === id)
+    const wallet = wallets.find((x) => { return x.id === id })
     const connectorName = wallet.connectorName
     login(connectorName)
   }

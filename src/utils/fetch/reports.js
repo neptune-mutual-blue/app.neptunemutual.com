@@ -12,11 +12,11 @@ const query = `
 `
 
 const getIncidentReports = async (networkId) => {
-  if (!networkId) return []
+  if (!networkId) { return [] }
 
   const url = getGraphURL(networkId)
 
-  if (!url) return []
+  if (!url) { return [] }
 
   try {
     const res = await fetch(url, {

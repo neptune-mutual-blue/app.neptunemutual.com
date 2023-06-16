@@ -6,11 +6,13 @@ import { screen } from '@testing-library/react'
 describe('Active Reporting Page Data Loading', () => {
   beforeEach(() => {
     mockHooksOrMethods.useRouter()
-    mockHooksOrMethods.useActiveReportings(() => ({
-      data: { incidentReports: [] },
-      loading: true,
-      hasMore: false
-    }))
+    mockHooksOrMethods.useActiveReportings(() => {
+      return {
+        data: { incidentReports: [] },
+        loading: true,
+        hasMore: false
+      }
+    })
     mockHooksOrMethods.useSearchResults()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
@@ -55,11 +57,13 @@ describe('Active Reporting Page Data Display', () => {
 describe('Active Reporting Page No Data Display', () => {
   beforeEach(() => {
     mockHooksOrMethods.useRouter()
-    mockHooksOrMethods.useActiveReportings(() => ({
-      data: { incidentReports: [] },
-      loading: false,
-      hasMore: false
-    }))
+    mockHooksOrMethods.useActiveReportings(() => {
+      return {
+        data: { incidentReports: [] },
+        loading: false,
+        hasMore: false
+      }
+    })
     mockHooksOrMethods.useCoversAndProducts2()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})

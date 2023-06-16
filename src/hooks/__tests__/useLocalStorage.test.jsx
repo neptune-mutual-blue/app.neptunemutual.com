@@ -95,7 +95,7 @@ describe('useLocalStorage', () => {
       args
     )
     await act(async () => {
-      const newValue = () => JSON.stringify({ a: 1 })
+      const newValue = () => { return JSON.stringify({ a: 1 }) }
       await result[1](newValue)
     })
     expect(renderHookResult.current[0]).toEqual(JSON.stringify({ a: 1 }))

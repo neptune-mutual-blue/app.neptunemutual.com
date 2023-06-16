@@ -9,6 +9,7 @@ export const contractRead = async ({
 }) => {
   if (!instance) {
     onError(new Error('Instance not found'))
+
     return
   }
 

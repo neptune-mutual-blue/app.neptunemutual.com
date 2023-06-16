@@ -46,7 +46,8 @@ const getProposalsQuery = (page, rowsPerPage, titleFilter = '') => {
   `
 }
 
-const getProposalsCountQuery = () => `
+const getProposalsCountQuery = () => {
+  return `
 space(
   id: "${SNAPSHOT_SPACE_ID}"
 ) {
@@ -54,17 +55,20 @@ space(
   proposalsCount
 }
 `
+}
 
 const parseProposalsData = (data, locale) => {
-  if (!data || !Array.isArray(data?.proposals)) return []
+  if (!data || !Array.isArray(data?.proposals)) { return [] }
 
   const proposals = data.proposals.map(proposal => {
-    const scoresSum = proposal.scores.reduce((acc, curr) => acc + curr, 0)
-    const scores = proposal.scores.map((score, i) => ({
-      name: proposal.choices[i],
-      value: formatCurrency(score, locale, proposal.symbol, true).short,
-      percent: ((score / scoresSum) * 100)
-    }))
+    const scoresSum = proposal.scores.reduce((acc, curr) => { return acc + curr }, 0)
+    const scores = proposal.scores.map((score, i) => {
+      return {
+        name: proposal.choices[i],
+        value: formatCurrency(score, locale, proposal.symbol, true).short,
+        percent: ((score / scoresSum) * 100)
+      }
+    })
 
     return {
       ...proposal,
@@ -113,9 +117,9 @@ export const useSnapshotProposals = () => {
         const jsonData = await res.json()
         if (jsonData.data) {
           const latestData = parseProposalsData(jsonData.data, locale)
-          setData(prev => page > 1 ? [...prev, ...latestData] : latestData)
+          setData(prev => { return page > 1 ? [...prev, ...latestData] : latestData })
           setLastFetchedLength(latestData.length)
-          if (jsonData.data.space) setTotal(jsonData.data.space.proposalsCount)
+          if (jsonData.data.space) { setTotal(jsonData.data.space.proposalsCount) }
         }
       }
     } catch (error) {

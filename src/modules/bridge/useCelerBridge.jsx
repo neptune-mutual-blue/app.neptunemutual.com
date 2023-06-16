@@ -53,7 +53,7 @@ export const useCelerBridge = ({
     const tokenData = isTestNet ? celerConfig.TESTNET_USDC_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
     const tokenSymbol = isTestNet ? 'USDC' : 'NPM'
     const _networks = isTestNet ? networks.testnet : networks.mainnet
-    const filtered = _networks.filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
+    const filtered = _networks.filter(n => { return Object.keys(tokenData).includes(n.chainId.toString()) }) // filtered based on availability of tokens
 
     const bridgeContractAddress = celerConfig.BRIDGE_CONTRACTS[networkId]
 
@@ -104,7 +104,7 @@ export const useCelerBridge = ({
   }, [refetch, bridgeContractAddress])
 
   useEffect(() => {
-    if (!account || !networkId || !library) return
+    if (!account || !networkId || !library) { return }
 
     async function getDelay () {
       try {

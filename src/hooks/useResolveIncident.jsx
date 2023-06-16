@@ -27,9 +27,10 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const [resolving, setResolving] = useState(false)
   const [emergencyResolving, setEmergencyResolving] = useState(false)
 
-  const resolve = async (onSuccess = (f) => f) => {
+  const resolve = async (onSuccess = (f) => { return f }) => {
     if (!networkId || !account) {
       requiresAuth()
+
       return
     }
 
@@ -120,9 +121,10 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
     }
   }
 
-  const emergencyResolve = async (decision, onSuccess = (f) => f) => {
+  const emergencyResolve = async (decision, onSuccess = (f) => { return f }) => {
     if (!networkId || !account) {
       requiresAuth()
+
       return
     }
 

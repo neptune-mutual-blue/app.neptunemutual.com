@@ -72,7 +72,7 @@ export const useStakingTxs = ({ limit, page }) => {
 
     fetchStakingTxs(networkId, query)
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.poolTransactions.length === 0 ||
@@ -82,15 +82,17 @@ export const useStakingTxs = ({ limit, page }) => {
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          blockNumber: _data._meta.block.number,
-          poolTransactions: [
-            ...prev.poolTransactions,
-            ..._data.poolTransactions
-          ]
-        }))
+        setData((prev) => {
+          return {
+            blockNumber: _data._meta.block.number,
+            poolTransactions: [
+              ...prev.poolTransactions,
+              ..._data.poolTransactions
+            ]
+          }
+        })
       })
-      .catch((err) => console.error(err))
+      .catch((err) => { return console.error(err) })
       .finally(() => {
         setLoading(false)
       })

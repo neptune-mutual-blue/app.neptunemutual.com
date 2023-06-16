@@ -34,40 +34,42 @@ import {
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
-const renderWhen = (row) => <WhenRenderer row={row} />
+const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
-const renderDetails = (row) => <DetailsRenderer row={row} />
+const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 
-const renderAmount = (row) => <PodAmountRenderer row={row} />
+const renderAmount = (row) => { return <PodAmountRenderer row={row} /> }
 
-const renderActions = (row) => <ActionsRenderer row={row} />
+const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => [
-  {
-    name: t`when`,
-    align: 'left',
-    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
-    renderData: renderWhen
-  },
-  {
-    name: t`details`,
-    align: 'left',
-    renderHeader,
-    renderData: renderDetails
-  },
-  {
-    name: t`amount`,
-    align: 'right',
-    renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'right',
-    renderHeader,
-    renderData: renderActions
-  }
-]
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
+  return [
+    {
+      name: t`when`,
+      align: 'left',
+      renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
+      renderData: renderWhen
+    },
+    {
+      name: t`details`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDetails
+    },
+    {
+      name: t`amount`,
+      align: 'right',
+      renderHeader,
+      renderData: renderAmount
+    },
+    {
+      name: '',
+      align: 'right',
+      renderHeader,
+      renderData: renderActions
+    }
+  ]
+}
 
 export const MyLiquidityTxsTable = () => {
   const { page, limit, setPage } = usePagination()
@@ -84,6 +86,7 @@ export const MyLiquidityTxsTable = () => {
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
   const columns = getColumns(sorts, handleSort)
+
   return (
     <>
       <TableWrapper data-testid='table-wrapper'>
@@ -111,7 +114,7 @@ export const MyLiquidityTxsTable = () => {
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {
-              setPage((prev) => prev + 1)
+              setPage((prev) => { return prev + 1 })
             }}
           />
         )}
@@ -159,10 +162,12 @@ const DetailsRenderer = ({ row }) => {
       <div className='flex items-center gap-2 w-max'>
         <CoverAvatar
           imgs={isDiversified
-            ? getProductsByCoverKey(coverKey).map(x => ({
-              src: getCoverImgSrc({ key: x.productKey }),
-              alt: x.productInfoDetails?.productName
-            }))
+            ? getProductsByCoverKey(coverKey).map(x => {
+              return {
+                src: getCoverImgSrc({ key: x.productKey }),
+                alt: x.productInfoDetails?.productName
+              }
+            })
             : [{
                 src: getCoverImgSrc({ key: coverKey }),
                 alt: projectName
@@ -220,7 +225,7 @@ const PodAmountRenderer = ({ row }) => {
         </span>
         <button
           className='p-1 ml-3'
-          onClick={() => register(row.vault.id, tokenSymbol, tokenDecimals)}
+          onClick={() => { return register(row.vault.id, tokenSymbol, tokenDecimals) }}
           title='Add to Metamask'
         >
           <span className='sr-only'>Add to metamask</span>

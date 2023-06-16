@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 export const ProjectImage = ({ imgSrc, name }) => {
   const [imgUrl, setImgUrl] = useState(imgSrc)
+
   return (
     <>
       <div
@@ -12,7 +13,7 @@ export const ProjectImage = ({ imgSrc, name }) => {
           src={imgUrl}
           alt={name}
           className='inline-block max-w-full'
-          onError={() => setImgUrl('/images/covers/empty.svg')}
+          onError={() => { return setImgUrl('/images/covers/empty.svg') }}
         />
       </div>
     </>

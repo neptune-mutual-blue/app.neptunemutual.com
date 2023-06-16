@@ -43,7 +43,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
   useEffect(() => {
     const hasActiveReportings = activeReportings && activeReportings.length > 0
 
-    if (!hasActiveReportings) return
+    if (!hasActiveReportings) { return }
 
     router.replace(
       Routes.ViewReport(coverKey, productKey, activeReportings[0].incidentDate)

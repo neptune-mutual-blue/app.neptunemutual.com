@@ -33,7 +33,7 @@ export const HarvestForm = ({
   const { register } = useRegisterToken()
 
   useEffect(() => {
-    setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }))
+    setModalDisabled((val) => { return { ...val, wr: withdrawingRewards } })
   }, [setModalDisabled, withdrawingRewards])
 
   return (
@@ -61,7 +61,7 @@ export const HarvestForm = ({
           />
           <button
             className='ml-1'
-            onClick={() => register(rewardTokenAddress, rewardTokenSymbol)}
+            onClick={() => { return register(rewardTokenAddress, rewardTokenSymbol) }}
             title='Add to Metamask'
           >
             <span className='sr-only'>Add to Metamask</span>

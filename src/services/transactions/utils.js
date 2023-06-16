@@ -11,5 +11,6 @@ export const safeParseString = (stringedValue, defaultValue = '') => {
       return JSON.parse(stringedValue)
     } catch (e) {}
   }
+
   return defaultValue
 }
