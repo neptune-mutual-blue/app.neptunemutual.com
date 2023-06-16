@@ -54,8 +54,6 @@ export const useClaimBond = ({ claimable }) => {
         signerOrProvider
       )
 
-      console.log(claimable)
-
       const onTransactionResult = async (tx) => {
         const logData = {
           network: NetworkNames[networkId],

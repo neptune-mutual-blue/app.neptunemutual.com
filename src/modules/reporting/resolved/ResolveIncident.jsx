@@ -68,7 +68,7 @@ export const ResolveIncident = ({
         )}
 
         <RegularButton
-          disabled={process.env.NODE_ENV !== 'test' && !roles.isGovernanceAdmin}
+          disabled={!roles.isGovernanceAdmin}
           className='w-full px-10 py-4 font-semibold uppercase md:w-80'
           onClick={() => setIsOpen(true)}
         >

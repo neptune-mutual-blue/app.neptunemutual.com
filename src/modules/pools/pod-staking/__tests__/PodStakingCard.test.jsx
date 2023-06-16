@@ -146,7 +146,7 @@ describe('PodStakingCard test', () => {
       }))
     })
 
-    const poolStatValues = screen.getAllByRole('stat-value')
+    const poolStatValues = screen.getAllByTestId('stat-value')
     const poolStatValue = formatCurrency(
       convertFromUnits(testData.poolInfo.info.rewards),
       'en',

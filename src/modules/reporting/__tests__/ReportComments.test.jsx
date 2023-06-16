@@ -28,30 +28,30 @@ describe('Incident Occurred', () => {
   })
 
   test('should render the incident report title, description, address, and time', () => {
-    const headerType = screen.getByRole('header-type')
+    const headerType = screen.getByTestId('header-type')
     expect(headerType).toHaveTextContent('Reported by')
     expect(headerType).toBeInTheDocument()
 
-    const address = screen.getByRole('address')
+    const address = screen.getByTestId('address')
     expect(address).toHaveTextContent(
       '0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9'
     )
     expect(address).toBeInTheDocument()
 
-    const reportedAt = screen.getByRole('reported-at')
+    const reportedAt = screen.getByTestId('reported-at')
     expect(reportedAt).toHaveTextContent('3 hours')
     expect(reportedAt).toBeInTheDocument()
 
-    const reportType = screen.getByRole('report-type')
+    const reportType = screen.getByTestId('report-type')
     expect(reportType).toHaveTextContent('Incident Occurred')
     expect(reportType).toHaveClass('bg-21AD8C')
     expect(reportType).toBeInTheDocument()
 
-    const reportTitle = screen.getByRole('title')
+    const reportTitle = screen.getByTestId('title')
     expect(reportTitle).toHaveTextContent('This is test title incident')
     expect(reportTitle).toBeInTheDocument()
 
-    const reportContent = screen.getByRole('desc')
+    const reportContent = screen.getByTestId('desc')
     expect(reportContent).toHaveTextContent(
       'Lorem Ipsum is ismply dummy text of the printingand type setting industry. Lorem ipsum has been the industry standard dummy text'
     )
@@ -86,16 +86,16 @@ describe('Incident Occurred and False Reporting', () => {
   })
 
   test('should render the incident report title, description, address, and time', () => {
-    const dispute = screen.getByRole('dispute')
+    const dispute = screen.getByTestId('dispute')
     expect(dispute).toBeInTheDocument()
 
-    const headerType = screen.getAllByRole('header-type')
+    const headerType = screen.getAllByTestId('header-type')
     expect(headerType[0]).toHaveTextContent('Reported by')
     expect(headerType[1]).toHaveTextContent('Disputed by')
     expect(headerType[0]).toBeInTheDocument()
     expect(headerType[1]).toBeInTheDocument()
 
-    const address = screen.getAllByRole('address')
+    const address = screen.getAllByTestId('address')
     expect(address[0]).toHaveTextContent(
       '0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9'
     )
@@ -105,13 +105,13 @@ describe('Incident Occurred and False Reporting', () => {
     expect(address[0]).toBeInTheDocument()
     expect(address[1]).toBeInTheDocument()
 
-    const reportedAt = screen.getAllByRole('reported-at')
+    const reportedAt = screen.getAllByTestId('reported-at')
     expect(reportedAt[0]).toHaveTextContent('3 hours')
     expect(reportedAt[1]).toHaveTextContent('2 hours')
     expect(reportedAt[0]).toBeInTheDocument()
     expect(reportedAt[1]).toBeInTheDocument()
 
-    const reportType = screen.getAllByRole('report-type')
+    const reportType = screen.getAllByTestId('report-type')
     expect(reportType[0]).toHaveTextContent('Incident Occurred')
     expect(reportType[1]).toHaveTextContent('False Reporting')
     expect(reportType[0]).toHaveClass('bg-21AD8C')
@@ -119,13 +119,13 @@ describe('Incident Occurred and False Reporting', () => {
     expect(reportType[0]).toBeInTheDocument()
     expect(reportType[1]).toBeInTheDocument()
 
-    const reportTitle = screen.getAllByRole('title')
+    const reportTitle = screen.getAllByTestId('title')
     expect(reportTitle[0]).toHaveTextContent('This is a test 1inch incident')
     expect(reportTitle[1]).toHaveTextContent('Dispute')
     expect(reportTitle[0]).toBeInTheDocument()
     expect(reportTitle[1]).toBeInTheDocument()
 
-    const reportContent = screen.getAllByRole('desc')
+    const reportContent = screen.getAllByTestId('desc')
     expect(reportContent[0]).toHaveTextContent(
       'This is a test example incident please ingore'
     )
