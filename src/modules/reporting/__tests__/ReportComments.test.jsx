@@ -1,6 +1,8 @@
-import { initiateTest } from '@/utils/unit-tests/helpers'
 import ReportComments from '@/modules/reporting/ReportComments'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { screen } from '@testing-library/react'
+
 const oneHourToMilliseconds = 3600000
 const currentTime = new Date().getTime()
 
@@ -10,14 +12,18 @@ describe('Incident Occurred', () => {
   )
 
   const { initialRender } = initiateTest(ReportComments, {
-    reportIpfsData:
-      '{\n  "title": "This is test title incident",\n  "observed": "2022-08-09T03:26:00.000Z",\n  "proofOfIncident": "[\\"https://www.example.com/incident\\"]",\n  "description": "Lorem Ipsum is ismply dummy text of the printingand type setting industry. Lorem ipsum has been the industry standard dummy text",\n  "stake": "2000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x7072696d65000000…000000000000000000000000000000000000/reporting/1660015560000"\n}',
+    reportIpfsHash: 'dummy',
+    disputeIpfsHash: 'dummy-dispute',
     reportIpfsDataTimeStamp: plus3HoursToCurrentTime,
-    disputeIpfsData: null,
     disputeIpfsDataTimeStamp: null
   })
 
   beforeEach(() => {
+    mockHooksOrMethods.ipfs.readFromIpfs((hash) => hash === 'dummy'
+      ? JSON.parse('{\n  "title": "This is test title incident",\n  "observed": "2022-08-09T03:26:00.000Z",\n  "proofOfIncident": "[\\"https://www.example.com/incident\\"]",\n  "description": "Lorem Ipsum is ismply dummy text of the printingand type setting industry. Lorem ipsum has been the industry standard dummy text",\n  "stake": "2000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x7072696d65000000…000000000000000000000000000000000000/reporting/1660015560000"\n}')
+      : undefined
+
+    )
     initialRender()
   })
 
@@ -63,15 +69,19 @@ describe('Incident Occurred and False Reporting', () => {
   )
 
   const { initialRender } = initiateTest(ReportComments, {
-    reportIpfsData:
-      '{\n  "title": "This is a test 1inch incident",\n  "observed": null,\n  "proofOfIncident": "[\\"https://www.example.com/incident\\"]",\n  "description": "This is a test example incident please ingore",\n  "stake": "2000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000…0000000000000000000000000000000000000000000000/reporting/NaN"\n}',
+    reportIpfsHash: 'dummy',
+    disputeIpfsHash: 'dummy-dispute',
     reportIpfsDataTimeStamp: plus3HoursToCurrentTime,
-    disputeIpfsData:
-      '{\n  "title": "Dispute ",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "testing this is dispute",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}',
     disputeIpfsDataTimeStamp: plus2HoursToCurrentTime
+
   })
 
   beforeEach(() => {
+    mockHooksOrMethods.ipfs.readFromIpfs((hash) => hash === 'dummy'
+      ? JSON.parse('{\n  "title": "This is a test 1inch incident",\n  "observed": null,\n  "proofOfIncident": "[\\"https://www.example.com/incident\\"]",\n  "description": "This is a test example incident please ingore",\n  "stake": "2000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000…0000000000000000000000000000000000000000000000/reporting/NaN"\n}')
+      : JSON.parse('{\n  "title": "Dispute ",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "testing this is dispute",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}')
+
+    )
     initialRender()
   })
 

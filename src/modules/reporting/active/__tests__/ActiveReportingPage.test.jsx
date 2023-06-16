@@ -11,6 +11,7 @@ describe('Active Reporting Page Data Loading', () => {
       loading: true,
       hasMore: false
     }))
+    mockHooksOrMethods.useSearchResults()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
 
@@ -25,12 +26,13 @@ describe('Active Reporting Page Data Loading', () => {
 })
 
 describe('Active Reporting Page Data Display', () => {
-  const { initialRender, rerenderFn } = initiateTest(
+  const { initialRender } = initiateTest(
     ReportingActivePage,
     {},
     () => {
       mockHooksOrMethods.useRouter()
       mockHooksOrMethods.useActiveReportings()
+      mockHooksOrMethods.useCoversAndProducts2()
     })
 
   beforeEach(() => {
@@ -38,10 +40,6 @@ describe('Active Reporting Page Data Display', () => {
   })
 
   test('should render the page grid', () => {
-    rerenderFn({}, () => {
-      mockHooksOrMethods.useCoversAndProducts2()
-    })
-
     const cardGrid = screen.getByTestId('active-page-grid')
 
     expect(cardGrid).toBeInTheDocument()
@@ -62,7 +60,7 @@ describe('Active Reporting Page No Data Display', () => {
       loading: false,
       hasMore: false
     }))
-    mockHooksOrMethods.useFlattenedCoverProducts()
+    mockHooksOrMethods.useCoversAndProducts2()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
 

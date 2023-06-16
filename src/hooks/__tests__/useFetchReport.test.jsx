@@ -1,8 +1,7 @@
 import { useFetchReport } from '@/src/hooks/useFetchReport'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useFetchReport', () => {
   const { mock, mockFunction, restore } = mockGlobals.console.error()
@@ -28,7 +27,7 @@ describe('useFetchReport', () => {
 
     const { result } = await renderHookWrapper(useFetchReport, args, true)
 
-    expect(result.data).toEqual(mockData.data)
+    expect(result.data).toEqual(mockData.data.incidentReport)
     expect(result.loading).toBe(false)
     expect(typeof result.refetch).toBe('function')
 

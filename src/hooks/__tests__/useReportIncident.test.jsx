@@ -53,10 +53,13 @@ describe('useReportIncident', () => {
   })
 
   test('should be able to execute handleReport function', async () => {
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.ipfs.writeToIpfs()
+
     const { result, act } = await renderHookWrapper(useReportIncident, args)
 
     await act(async () => {
-      const payload = { id: 123 }
+      const payload = { id: 123, observed: new Date() }
       await result.handleReport(payload)
     })
     expect(testData.router.replace).toHaveBeenCalled()
@@ -92,7 +95,7 @@ describe('useReportIncident', () => {
     ])
 
     await act(async () => {
-      const payload = { id: 123 }
+      const payload = { id: 123, observed: new Date() }
       await result.handleReport(payload)
     })
 

@@ -26,6 +26,7 @@ describe('useERC20Balance', () => {
 
   test('should run refetch function without fail', async () => {
     const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
+    mockSdk.registry.IERC20.getInstance()
     const { result, act } = await renderHookWrapper(
       useERC20Balance,
       args,

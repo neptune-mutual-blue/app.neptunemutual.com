@@ -10,7 +10,8 @@ const mockProps = {
     '0x7072696d65000000000000000000000000000000000000000000000000000000',
   productKey:
     '0x6161766500000000000000000000000000000000000000000000000000000000',
-  incidentDate: new Date().getTime()
+  incidentDate: new Date().getTime(),
+  willReceive: '1000'
 }
 
 jest.mock('@neptunemutual/sdk')
@@ -44,6 +45,7 @@ describe('useUnstakeReportingStake', () => {
   test('calling unstake function w/networkId and account', async () => {
     mockHooksOrMethods.useWeb3React()
     mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useRouter()
 
     const { result, act } = await renderHookWrapper(useUnstakeReportingStake, [
       mockProps

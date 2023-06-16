@@ -1,17 +1,24 @@
 import React from 'react'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
+
 import { initiateTest } from '@/utils/unit-tests/helpers'
-import { i18n } from '@lingui/core'
-import { Popup } from './../Popup'
-import { testData } from '@/utils/unit-tests/test-data'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+import { Popup } from '../Popup'
+
 jest.mock('../../../config/wallets', () => ({
   wallets: [
     {
       id: '3',
       name: 'Custom Wallet',
       connectorName: 'injected',
-      Icon: () => <></>
+      Icon: () => <></>,
+      isAvailable: () => true
     }
   ]
 }))

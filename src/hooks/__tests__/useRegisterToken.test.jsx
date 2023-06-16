@@ -1,7 +1,7 @@
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useRegisterToken', () => {
   const { mock, mockFunction, restore } = mockGlobals.console.error()
@@ -10,6 +10,7 @@ describe('useRegisterToken', () => {
     mockFunction: mockFunctionLog,
     restore: restoreLog
   } = mockGlobals.console.log()
+  mockGlobals.location()
   mockHooksOrMethods.useNetwork()
   mockHooksOrMethods.useWeb3React()
 
@@ -24,7 +25,12 @@ describe('useRegisterToken', () => {
     const { result, act } = await renderHookWrapper(useRegisterToken)
     mockLog()
 
+    console.log(window.location)
+
+    // expect(false).toBe(true)
+
     await act(async () => {
+      console.log(window.location)
       await result.register(...fnArgs)
     })
     expect(mockFunctionLog).toHaveBeenCalled()
