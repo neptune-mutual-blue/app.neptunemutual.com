@@ -32,7 +32,7 @@ export const Alert = ({ children, info = undefined, className = '', closable = f
           ? <button
               type='button'
               className='p-1 ml-1'
-              onClick={() => setShow(false)}
+              onClick={() => { return setShow(false) }}
             >
             <CloseIcon className='w-4 h-4' aria-hidden='true' />
 

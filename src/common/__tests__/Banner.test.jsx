@@ -1,11 +1,12 @@
 const { Banner } = require('@/common/Banner')
 const { FAUCET_URL, LEADERBOARD_URL } = require('@/src/config/constants')
-const { initiateTest, mockFn } = require('@/utils/unit-tests/test-mockup-fn')
+const { mockHooksOrMethods } = require('@/utils/unit-tests/mock-hooks-and-methods')
+const { initiateTest } = require('@/utils/unit-tests/helpers')
 const { screen, fireEvent } = require('@testing-library/react')
 
 describe('Banner test', () => {
   const { initialRender, rerenderFn } = initiateTest(Banner, {}, () => {
-    mockFn.useNetwork()
+    mockHooksOrMethods.useNetwork()
   })
 
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('Banner test', () => {
 
   test('should not render the banner container if no network', () => {
     rerenderFn({}, () => {
-      mockFn.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
     })
 
     const wrapper = screen.queryByTestId('banner-container')

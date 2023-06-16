@@ -141,6 +141,7 @@ export const getKeys = async (coverKey, productKey, account, incidentDate) => {
       property: 'toBurn',
       compute: async ({ result }) => {
         const { allocatedReward, burnRate } = result
+
         return allocatedReward.mul(burnRate).div(MULTIPLIER.toString())
       }
     },
@@ -149,6 +150,7 @@ export const getKeys = async (coverKey, productKey, account, incidentDate) => {
       property: 'toReporter',
       compute: async ({ result }) => {
         const { allocatedReward, reporterCommission } = result
+
         return allocatedReward
           .mul(reporterCommission)
           .div(MULTIPLIER.toString())
@@ -159,6 +161,7 @@ export const getKeys = async (coverKey, productKey, account, incidentDate) => {
       property: 'myReward',
       compute: async ({ result }) => {
         const { allocatedReward, toBurn, toReporter } = result
+
         return allocatedReward.sub(toBurn).sub(toReporter)
       }
     },
@@ -168,6 +171,7 @@ export const getKeys = async (coverKey, productKey, account, incidentDate) => {
       compute: async ({ result }) => {
         const { myStakeInWinningCamp, myReward, unstaken, rewardsUnstaken } =
           result
+
         return myStakeInWinningCamp
           .add(myReward)
           .sub(unstaken)

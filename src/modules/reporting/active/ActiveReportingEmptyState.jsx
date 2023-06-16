@@ -1,11 +1,15 @@
+import { useRouter } from 'next/router'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { CoverDropdown } from '@/common/CoverDropdown'
 import { Label } from '@/common/Label/Label'
 import { actions } from '@/src/config/cover/actions'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter()
@@ -18,7 +22,7 @@ export const ActiveReportingEmptyState = () => {
   } = useCoverDropdown()
 
   const handleAddReport = () => {
-    if (!selected) return
+    if (!selected) { return }
 
     const coverKey = selected.coverKey
     const productKey = isValidProduct(selected.productKey) ? selected.productKey : ''
@@ -60,6 +64,7 @@ export const ActiveReportingEmptyState = () => {
         <RegularButton
           className='w-full py-4 mt-6 font-medium uppercase'
           onClick={handleAddReport}
+          data-testid='report-button'
         >
           <Trans>Report an incident</Trans>
         </RegularButton>

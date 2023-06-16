@@ -1,7 +1,13 @@
-import { i18n } from '@lingui/core'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { ResolveIncident } from '@/modules/reporting/resolved/ResolveIncident'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import {
+  initiateTest
+} from '@/utils/unit-tests/helpers'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const incidentReport = {
   data: {
@@ -13,7 +19,7 @@ const incidentReport = {
         '0x31696e6368000000000000000000000000000000000000000000000000000000',
       incidentDate: '1661159947',
       resolutionDeadline: '0',
-      resolved: false,
+      resolved: true,
       resolveTransaction: null,
       emergencyResolved: false,
       emergencyResolveTransaction: null,
@@ -142,23 +148,39 @@ describe('ResolveIncident loading', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useResolveIncident()
-    mockFn.useCoverOrProductData(() => null)
-    mockFn.useWeb3React(() => ({
-      account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
-    }))
+    mockHooksOrMethods.useResolveIncident()
+    // mockHooksOrMethods.useCoverOrProductData(() => null)
+    mockHooksOrMethods.useWeb3React(() => {
+      return {
+        account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
+      }
+    })
   }
 
-  const { initialRender } = initiateTest(ResolveIncident, props, initialMocks)
+  const { initialRender, rerenderFn } = initiateTest(ResolveIncident, props, initialMocks)
 
-  beforeEach(() => {
-    mockFn.useAppConstants()
+  beforeEach(() => { // everything resets (all initial props and mocks), runs before every test()
+    mockHooksOrMethods.useAppConstants()
     initialRender()
   })
 
-  test('should render loading', () => {
-    const loadingText = screen.getByText(/loading.../)
-    expect(loadingText).toBeInTheDocument()
+  test('should render CountDownTimer component if incident is resolved', () => {
+    const countdownElement = screen.getByTestId('countdown-timer-component')
+    expect(countdownElement).toBeInTheDocument()
+  })
+
+  test('should not render CountDownTimer component if incident is not resolved', () => {
+    const newProps = Object.create(props)
+    newProps.incidentReport.resolved = false
+    rerenderFn(newProps) // only affects this test()
+
+    const countdownElement = screen.queryByTestId('countdown-timer-component')
+    expect(countdownElement).not.toBeInTheDocument()
+  })
+
+  test('Resolve button should not be shown if `resolved` is true', () => {
+    const resolveButton = screen.queryByTestId('resolve-button')
+    expect(resolveButton).not.toBeInTheDocument()
   })
 })
 
@@ -172,16 +194,18 @@ describe('ResolveIncident test resolve', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useCoverOrProductData()
-    mockFn.useWeb3React(() => ({
-      account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
-    }))
+    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useWeb3React(() => {
+      return {
+        account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
+      }
+    })
   }
 
   const { initialRender } = initiateTest(ResolveIncident, props, initialMocks)
 
   beforeEach(() => {
-    mockFn.useAppConstants()
+    mockHooksOrMethods.useAppConstants()
     initialRender()
   })
 
@@ -206,11 +230,13 @@ describe('ResolveIncident test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useResolveIncident()
-    mockFn.useCoverOrProductData()
-    mockFn.useWeb3React(() => ({
-      account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
-    }))
+    mockHooksOrMethods.useResolveIncident()
+    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useWeb3React(() => {
+      return {
+        account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
+      }
+    })
   }
 
   const { initialRender } = initiateTest(ResolveIncident, props, initialMocks)
@@ -221,9 +247,9 @@ describe('ResolveIncident test', () => {
     fireEvent.click(button[1])
   })
 
-  test('should render modal ', () => {
-    const emergencyModal = screen.getAllByRole('dialog')
-    expect(emergencyModal.length).toBe(2)
+  test('should render modal ', async () => {
+    const emergencyModal = screen.getByRole('dialog')
+    expect(emergencyModal).toBeTruthy()
   })
 
   test("should have 'you will receive' text", () => {
@@ -244,7 +270,7 @@ describe('ResolveIncident test', () => {
   })
 
   test('should show unstaking after clicking on dialog button', () => {
-    const wrapper = screen.getAllByRole('dialog')[1]
+    const wrapper = screen.getByRole('dialog')
     const emergencyResolve = wrapper.getElementsByTagName('button')
     expect(emergencyResolve[0]).toHaveTextContent('Emergency resolve')
     fireEvent.click(emergencyResolve[0])

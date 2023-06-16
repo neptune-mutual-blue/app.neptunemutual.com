@@ -1,24 +1,24 @@
+import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import {
-  screen,
   render,
-  withProviders,
-  waitFor
+  screen,
+  waitFor,
+  withProviders
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
-import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 
 describe('ProductsGrid', () => {
   beforeEach(async () => {
     i18n.activate('en')
-    mockFn.useCoverOrProductData()
+    mockHooksOrMethods.useCoversAndProducts2()
 
     const Component = withProviders(ProductsGrid)
     render(<Component />)
   })
 
   test('has correct title', async () => {
-    const backBtn = await waitFor(() => screen.getByText(/Back/i))
+    const backBtn = await waitFor(() => { return screen.getByText(/Back/i) })
     expect(backBtn).toBeInTheDocument()
   })
 })

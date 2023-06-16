@@ -1,80 +1,151 @@
-import React from 'react'
+import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import BackIcon from '@/icons/BackIcon'
 import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
-import { useWeb3React } from '@web3-react/core'
+import { PREMATURE_UNLOCK_PENALTY_FRACTION } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useVoteEscrowUnlock } from '@/src/hooks/contracts/useVoteEscrowUnlock'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 const UnlockEscrow = ({
-  onBack, data, loading, unlockNPMTokens, hasUnlockAllowance
-  , handleApproveUnlock
+  onBack,
+  veNPMBalance,
+  unlockTimestamp,
+  refetchLockData
 }) => {
-  const { active } = useWeb3React()
-  const unlockDate = new Date(data.unlockTimestamp)
-  const caution = Date.now().valueOf() - unlockDate.valueOf() < 0
+  const router = useRouter()
+  const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
+
+  const {
+    approving,
+    handleApprove,
+    hasAllowance,
+    loadingAllowance,
+    isPrematureUnlock,
+    unlock,
+    unlocking
+  } = useVoteEscrowUnlock({
+    refetchLockData,
+    veNPMBalance: veNPMBalance,
+    veNPMTokenDecimals: NPMTokenDecimals,
+    unlockTimestamp
+  })
+
+  const penaltyAmount = isPrematureUnlock
+    ? toBN(veNPMBalance).multipliedBy(PREMATURE_UNLOCK_PENALTY_FRACTION).toString()
+    : '0'
+
+  const receiveAmount = toBN(veNPMBalance).minus(penaltyAmount).toString()
+
+  const formattedPenaltyAmount = formatCurrency(convertFromUnits(penaltyAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedReceiveAmount = formatCurrency(convertFromUnits(receiveAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+
+  let loadingMessage = ''
+  if (loadingAllowance) {
+    loadingMessage = t`Fetching allowance...`
+  }
 
   return (
     <VoteEscrowCard>
       <VoteEscrowTitle title='Unlock veNPM' />
-      <EscrowSummary veNPMBalance={data.veNPMBalance} unlockTimestamp={data.unlockTimestamp} />
+      <EscrowSummary
+        veNPMBalance={veNPMBalance}
+        unlockTimestamp={unlockTimestamp}
+      />
 
       <div className='p-8'>
-        {!caution && (
-          <div className='mb-6'>
-            <div className='mb-6 text-md font-semibold text-center text-4E7DD9'>Penalty: 0%</div>
-            <RegularButton
-              className='w-full rounded-tooltip p-4 font-semibold text-md'
-              onClick={() => {
-                if (hasUnlockAllowance) {
-                  unlockNPMTokens(caution, () => {
-                    onBack()
-                  })
-                } else {
-                  handleApproveUnlock()
-                }
-              }}
-            >{hasUnlockAllowance ? 'unlock npm' : 'Approve Unlock'}
-            </RegularButton>
+        <div className='mb-6'>
+          <div
+            className={classNames(
+              'font-semibold text-center text-md',
+              isPrematureUnlock ? 'text-E52E2E' : 'text-4E7DD9'
+            )}
+          >
+            {isPrematureUnlock
+              ? <Trans>Proceed with Caution</Trans>
+              : <Trans>Penalty: {formatPercent(0)}</Trans>}
           </div>
-        )}
 
-        {caution && (
-          <div className='mb-6'>
-            <div className='mb-6 text-md font-semibold text-center text-E52E2E'>Proceed with Caution</div>
+          <DataLoadingIndicator message={loadingMessage} />
+
+          {/* BUTTONS */}
+          {!hasAllowance && (
             <RegularButton
-              disabled={loading || !active} className='w-full rounded-tooltip p-4 bg-E52E2E border-E52E2E font-semibold text-md' onClick={() => {
-                if (hasUnlockAllowance) {
-                  unlockNPMTokens(caution, () => {
-                    onBack()
-                  })
-                } else {
-                  handleApproveUnlock()
-                }
-              }}
-            >{hasUnlockAllowance ? 'prematurely unlock your npm' : 'Approve premature unlock'}
+              disabled={!!loadingMessage || approving}
+              className={classNames(
+                'w-full p-4 font-semibold rounded-tooltip text-md',
+                isPrematureUnlock && 'bg-E52E2E border-E52E2E'
+              )}
+              onClick={handleApprove}
+            >
+              {
+                approving
+                  ? t`Approving...`
+                  : <Trans>Approve VeNPM</Trans>
+              }
             </RegularButton>
-          </div>
-        )}
+          )}
+
+          {hasAllowance && !isPrematureUnlock && (
+            <RegularButton
+              disabled={!!loadingMessage || unlocking}
+              className={classNames(
+                'w-full p-4 font-semibold rounded-tooltip text-md',
+                isPrematureUnlock && 'bg-E52E2E border-E52E2E'
+              )}
+              onClick={() => {
+                unlock(onBack)
+              }}
+            >
+              <Trans>unlock npm</Trans>
+            </RegularButton>
+          )}
+
+          {hasAllowance && isPrematureUnlock && (
+            <RegularButton
+              disabled={!!loadingMessage || unlocking}
+              className={classNames(
+                'w-full p-4 font-semibold rounded-tooltip text-md',
+                isPrematureUnlock && 'bg-E52E2E border-E52E2E'
+              )}
+              onClick={() => {
+                unlock(onBack)
+              }}
+            >
+              <Trans>prematurely unlock your npm</Trans>
+            </RegularButton>
+          )}
+
+        </div>
 
         <KeyValueList
-          className='mb-6' list={[
-            !caution && {
+          className='mb-6'
+          list={[
+            {
               key: 'Penalty',
-              value: '0 NPM'
-            },
-            caution && {
-              key: 'Penalty',
-              value: data.penalty.long,
-              caution: true
+              value: formattedPenaltyAmount.long,
+              caution: isPrematureUnlock
             },
             {
               key: 'You Will Receive',
-              value: caution ? data.receivedAfterPenalty.long : data.veNPMBalance.long
+              value: formattedReceiveAmount.long
             }
-          ].filter(Boolean)}
+          ]}
         />
 
         <button

@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useConsensusReportingInfo } from '../useConsensusReportingInfo'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockProps = {
   coverKey:
@@ -31,12 +33,12 @@ const mockData = {
 }
 
 describe('useConsensusReportingInfo', () => {
-  const { mock, restore } = mockFn.console.error()
+  const { mock, restore } = mockGlobals.console.error()
 
-  mockFn.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
 
   test('while fetching w/o networkId and coverKey', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(useConsensusReportingInfo, [
       {
@@ -51,9 +53,9 @@ describe('useConsensusReportingInfo', () => {
   })
 
   test('while fetching w/ networkId, coverKey and account', async () => {
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
-    mockFn.getUnstakeInfoFor()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.getUnstakeInfoFor()
 
     const { result } = await renderHookWrapper(useConsensusReportingInfo, [
       [mockProps],
@@ -64,10 +66,10 @@ describe('useConsensusReportingInfo', () => {
   })
 
   test('while fetching w/ networkId, coverKey and w/o account', async () => {
-    mockFn.useNetwork()
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.getReplacedString()
-    mockFn.fetch(true, undefined, mockData)
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.getReplacedString()
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(useConsensusReportingInfo, [
       [mockProps],
@@ -78,10 +80,10 @@ describe('useConsensusReportingInfo', () => {
   })
 
   test('calling refetch function', async () => {
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
-    mockFn.getReplacedString()
-    mockFn.fetch(true, undefined, mockData)
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.getReplacedString()
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result, act } = await renderHookWrapper(
       useConsensusReportingInfo,
@@ -97,7 +99,7 @@ describe('useConsensusReportingInfo', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(
@@ -108,7 +110,7 @@ describe('useConsensusReportingInfo', () => {
 
     expect(result.info).toEqual(mockData.info)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

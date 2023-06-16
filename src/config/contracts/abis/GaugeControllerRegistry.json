@@ -37,30 +37,8 @@
     "type": "error"
   },
   {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "arg",
-        "type": "bytes32"
-      }
-    ],
-    "name": "ConfigurationError",
-    "type": "error"
-  },
-  {
     "inputs": [],
     "name": "ExternalContractInvocationRevertError",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "endHeight",
-        "type": "uint256"
-      }
-    ],
-    "name": "HeightOverflowError",
     "type": "error"
   },
   {
@@ -77,22 +55,6 @@
   {
     "inputs": [],
     "name": "InvalidGaugeEpochError",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "platformFee",
-        "type": "uint256"
-      }
-    ],
-    "name": "PlatformFeeTooHighError",
     "type": "error"
   },
   {
@@ -213,25 +175,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "previous",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "current",
-        "type": "uint256"
-      }
-    ],
-    "name": "BlocksPerEpochSet",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": true,
         "internalType": "uint256",
         "name": "epoch",
@@ -251,25 +194,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "address",
-        "name": "previousOperator",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "operator",
-        "type": "address"
-      }
-    ],
-    "name": "GaugeControllerRegistryOperatorSet",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": true,
         "internalType": "address",
         "name": "sender",
@@ -283,75 +207,6 @@
       }
     ],
     "name": "GaugeControllerRegistryPoolActivated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "bytes32",
-            "name": "key",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "info",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "platformFee",
-            "type": "uint256"
-          },
-          {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "token",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "lockupPeriodInBlocks",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "ratio",
-                "type": "uint256"
-              }
-            ],
-            "internalType": "struct IGaugeControllerRegistry.StakingArgs",
-            "name": "staking",
-            "type": "tuple"
-          }
-        ],
-        "indexed": false,
-        "internalType": "struct IGaugeControllerRegistry.PoolSetupArgs",
-        "name": "args",
-        "type": "tuple"
-      }
-    ],
-    "name": "GaugeControllerRegistryPoolAddedOrEdited",
     "type": "event"
   },
   {
@@ -396,25 +251,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "GaugeControllerRegistryRewardsWithdrawn",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": true,
         "internalType": "uint256",
         "name": "epoch",
@@ -425,6 +261,12 @@
         "internalType": "bytes32",
         "name": "key",
         "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ILiquidityGaugePool",
+        "name": "pool",
+        "type": "address"
       },
       {
         "indexed": false,
@@ -447,6 +289,50 @@
       }
     ],
     "name": "Initialized",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "key",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ILiquidityGaugePool",
+        "name": "pool",
+        "type": "address"
+      }
+    ],
+    "name": "LiquidityGaugePoolAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "key",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ILiquidityGaugePool",
+        "name": "previous",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ILiquidityGaugePool",
+        "name": "current",
+        "type": "address"
+      }
+    ],
+    "name": "LiquidityGaugePoolUpdated",
     "type": "event"
   },
   {
@@ -623,38 +509,6 @@
   },
   {
     "inputs": [],
-    "name": "_blocksPerEpoch",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "_emissionsPerBlock",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "_epoch",
     "outputs": [
       {
@@ -674,16 +528,11 @@
         "type": "uint256"
       }
     ],
-    "name": "_epochs",
+    "name": "_epochDurations",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "startBlock",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "endBlock",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -710,19 +559,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "_operator",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -733,46 +569,9 @@
     "name": "_pools",
     "outputs": [
       {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "info",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "platformFee",
-        "type": "uint256"
-      },
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "token",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "lockupPeriodInBlocks",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "ratio",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IGaugeControllerRegistry.StakingArgs",
-        "name": "staking",
-        "type": "tuple"
+        "internalType": "contract ILiquidityGaugePool",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -783,7 +582,7 @@
     "name": "_rewardToken",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "contract IERC20Upgradeable",
         "name": "",
         "type": "address"
       }
@@ -793,20 +592,7 @@
   },
   {
     "inputs": [],
-    "name": "_sumNpmDeposits",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "_sumNpmWithdrawals",
+    "name": "_sumAllocation",
     "outputs": [
       {
         "internalType": "uint256",
@@ -852,53 +638,9 @@
   {
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "bytes32",
-            "name": "key",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "info",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "platformFee",
-            "type": "uint256"
-          },
-          {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "token",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "lockupPeriodInBlocks",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "ratio",
-                "type": "uint256"
-              }
-            ],
-            "internalType": "struct IGaugeControllerRegistry.StakingArgs",
-            "name": "staking",
-            "type": "tuple"
-          }
-        ],
-        "internalType": "struct IGaugeControllerRegistry.PoolSetupArgs[]",
-        "name": "args",
-        "type": "tuple[]"
+        "internalType": "contract ILiquidityGaugePool[]",
+        "name": "pools",
+        "type": "address[]"
       }
     ],
     "name": "addOrEditPools",
@@ -930,176 +672,6 @@
     "name": "deletePool",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "get",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "bytes32",
-            "name": "key",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "info",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "platformFee",
-            "type": "uint256"
-          },
-          {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "token",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "lockupPeriodInBlocks",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "ratio",
-                "type": "uint256"
-              }
-            ],
-            "internalType": "struct IGaugeControllerRegistry.StakingArgs",
-            "name": "staking",
-            "type": "tuple"
-          }
-        ],
-        "internalType": "struct IGaugeControllerRegistry.PoolSetupArgs",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "epoch",
-        "type": "uint256"
-      }
-    ],
-    "name": "getAllocation",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getEmissionPerBlock",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getEpoch",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "startBlock",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "endBlock",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IGaugeControllerRegistry.Epoch",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "epoch",
-        "type": "uint256"
-      }
-    ],
-    "name": "getEpoch",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "startBlock",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "endBlock",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IGaugeControllerRegistry.Epoch",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getLastEpoch",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1167,7 +739,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "blocksPerEpoch",
+        "name": "lastEpoch",
         "type": "uint256"
       },
       {
@@ -1186,7 +758,7 @@
         "type": "address[]"
       },
       {
-        "internalType": "address",
+        "internalType": "contract IERC20Upgradeable",
         "name": "rewardToken",
         "type": "address"
       }
@@ -1194,44 +766,6 @@
     "name": "initialize",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "isActive",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      }
-    ],
-    "name": "isValid",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -1325,25 +859,17 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "blocksPerEpoch",
-        "type": "uint256"
-      }
-    ],
-    "name": "setBlocksPerEpoch",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "epoch",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
         "name": "amountToDeposit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "epochDuration",
         "type": "uint256"
       },
       {
@@ -1372,45 +898,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "operator",
-        "type": "address"
-      }
-    ],
-    "name": "setOperator",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "sumNpmDeposited",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "sumNpmWithdrawn",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes4",
         "name": "interfaceId",
         "type": "bytes4"
@@ -1430,24 +917,6 @@
   {
     "inputs": [],
     "name": "unpause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "key",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdrawRewards",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

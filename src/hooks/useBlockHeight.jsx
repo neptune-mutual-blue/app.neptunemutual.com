@@ -12,16 +12,16 @@ export const useBlockHeight = () => {
 
   useEffect(() => {
     let ignore = false
-    if (!networkId || !account) return
+    if (!networkId || !account) { return }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
-    if (!signerOrProvider) return
+    if (!signerOrProvider) { return }
 
     signerOrProvider.provider
       .getBlockNumber()
       .then((blockNumber) => {
-        if (ignore) return
+        if (ignore) { return }
         setblockHeight(blockNumber)
       })
       .catch(console.error)

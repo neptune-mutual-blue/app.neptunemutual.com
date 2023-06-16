@@ -134,7 +134,7 @@ const ReportListing = (props) => {
 
     fetchReports(networkId, getQuery(coverKey, productKey))
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
         setReports(_data.incidentReports)
       })
       .catch((err) => {
@@ -186,46 +186,48 @@ const ReportListing = (props) => {
               columns={columns}
             />
             <tbody className='divide-y divide-DAE2EB'>
-              {reports.map((report, i) => (
-                <tr
-                  onClick={() => goTo(report.id)}
-                  className='cursor-pointer hover:bg-F4F8FC'
-                  key={i}
-                >
-                  <td className='px-6 py-4 text-sm max-w-180'>
-                    <span className='w-max' title={report.reporter}>
-                      {truncateAddress(report.reporter)}
-                    </span>
-                  </td>
-                  <td className='px-6 py-4 text-sm max-w-180'>
-                    <span
-                      className='w-max'
-                      title={DateLib.toLongDateFormat(
-                        report.incidentDate,
-                        locale
-                      )}
-                    >
-                      {fromNow(report.incidentDate)}
-                    </span>
-                  </td>
-                  <td className='px-6 py-4 text-right'>
-                    {convertFromUnits(report.totalAttestedStake)
-                      .decimalPlaces(0)
-                      .toNumber()}
-                  </td>
-                  <td className='px-6 py-4 text-right'>
-                    {convertFromUnits(report.totalRefutedStake)
-                      .decimalPlaces(0)
-                      .toNumber()}
-                  </td>
-                  <td className='px-6 py-4 text-right'>
-                    <Badge
-                      className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
-                      status={identifyStatus(report.status)}
-                    />
-                  </td>
-                </tr>
-              ))}
+              {reports.map((report, i) => {
+                return (
+                  <tr
+                    onClick={() => { return goTo(report.id) }}
+                    className='cursor-pointer hover:bg-F4F8FC'
+                    key={i}
+                  >
+                    <td className='px-6 py-4 text-sm max-w-180'>
+                      <span className='w-max' title={report.reporter}>
+                        {truncateAddress(report.reporter)}
+                      </span>
+                    </td>
+                    <td className='px-6 py-4 text-sm max-w-180'>
+                      <span
+                        className='w-max'
+                        title={DateLib.toLongDateFormat(
+                          report.incidentDate,
+                          locale
+                        )}
+                      >
+                        {fromNow(report.incidentDate)}
+                      </span>
+                    </td>
+                    <td className='px-6 py-4 text-right'>
+                      {convertFromUnits(report.totalAttestedStake)
+                        .decimalPlaces(0)
+                        .toNumber()}
+                    </td>
+                    <td className='px-6 py-4 text-right'>
+                      {convertFromUnits(report.totalRefutedStake)
+                        .decimalPlaces(0)
+                        .toNumber()}
+                    </td>
+                    <td className='px-6 py-4 text-right'>
+                      <Badge
+                        className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
+                        status={identifyStatus(report.status)}
+                      />
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </Table>
         </TableWrapper>

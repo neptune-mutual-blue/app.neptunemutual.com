@@ -5,6 +5,7 @@ import { classNames } from '@/utils/classnames'
 export const ResultBar = ({ name, value, percent, colors = colorArray[0] }) => {
   const leftBasis = `${percent}%`
   const rightBasis = `${100 - percent}%`
+
   return (
     <div className={classNames(
       'relative max-w-70 rounded-xl h-4.5 text-xs text-white font-semibold overflow-hidden',

@@ -13,7 +13,7 @@ export function CoverTermsModal ({
   parameters,
   imgSrc
 }) {
-  const onClose = () => setShowModal(false)
+  const onClose = () => { return setShowModal(false) }
 
   const onDownload = () => {
     window.open(Routes.ViewCoverProductTerms(coverKey, productKey || ''), '_blank')

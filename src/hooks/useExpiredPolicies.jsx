@@ -25,7 +25,7 @@ export const useExpiredPolicies = () => {
       try {
         const data = await getExpiredPolicies(networkId, account)
 
-        if (!data) return
+        if (!data) { return }
 
         setData(data)
       } catch (error) {

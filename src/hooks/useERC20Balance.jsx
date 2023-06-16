@@ -33,6 +33,7 @@ export const useERC20Balance = (tokenAddress) => {
 
         if (!tokenInstance) {
           console.log('Could not get an instance of the ERC20 from the SDK')
+
           return
         }
 
@@ -60,7 +61,7 @@ export const useERC20Balance = (tokenAddress) => {
 
     const onTransactionResult = (result) => {
       const _balance = result
-      if (ignore || !_balance) return
+      if (ignore || !_balance) { return }
       setBalance(_balance.toString())
       cleanup()
     }

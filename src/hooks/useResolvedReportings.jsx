@@ -59,7 +59,7 @@ export const useResolvedReportings = () => {
 
     fetchResolvedReportings(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.incidentReports.length === 0 ||
@@ -69,9 +69,11 @@ export const useResolvedReportings = () => {
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          incidentReports: [...prev.incidentReports, ..._data.incidentReports]
-        }))
+        setData((prev) => {
+          return {
+            incidentReports: [...prev.incidentReports, ..._data.incidentReports]
+          }
+        })
       })
       .catch((err) => {
         console.error(err)
@@ -82,7 +84,7 @@ export const useResolvedReportings = () => {
   }, [fetchResolvedReportings, itemsToSkip, networkId])
 
   const handleShowMore = useCallback(() => {
-    setItemsToSkip((prev) => prev + CARDS_PER_PAGE)
+    setItemsToSkip((prev) => { return prev + CARDS_PER_PAGE })
   }, [])
 
   return {

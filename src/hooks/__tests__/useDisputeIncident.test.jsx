@@ -1,7 +1,12 @@
 import { useDisputeIncident } from '@/src/hooks/useDisputeIncident'
 import { convertToUnits } from '@/utils/bn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useCreateBond', () => {
   const hookArgs = {
@@ -14,20 +19,20 @@ describe('useCreateBond', () => {
     minStake: '500000000000000'
   }
 
-  mockFn.useNetwork()
-  mockFn.useRouter()
-  mockFn.useWeb3React()
-  mockFn.useAppConstants()
-  mockFn.useERC20Allowance()
-  mockFn.useERC20Balance()
-  mockFn.useTxToast()
-  mockFn.useTxPoster()
-  mockFn.useErrorNotifier()
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Governance.getInstance()
-  mockFn.sdk.utils.ipfs.write()
-  mockFn.useGovernanceAddress()
-  mockFn.console.error().mock()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useRouter()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useERC20Allowance()
+  mockHooksOrMethods.useERC20Balance()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Governance.getInstance()
+  mockSdk.utils.ipfs.write()
+  mockHooksOrMethods.useGovernanceAddress()
+  mockGlobals.console.error().mock()
 
   test('should return default value from hook', async () => {
     const { result } = await renderHookWrapper(useDisputeIncident, [hookArgs])
@@ -40,10 +45,12 @@ describe('useCreateBond', () => {
   })
 
   test('should execute the handleApprove function', async () => {
-    mockFn.useERC20Allowance(() => ({
-      ...testData.erc20Allowance,
-      allowance: convertToUnits(110)
-    }))
+    mockHooksOrMethods.useERC20Allowance(() => {
+      return {
+        ...testData.erc20Allowance,
+        allowance: convertToUnits(110)
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useDisputeIncident,
@@ -57,7 +64,7 @@ describe('useCreateBond', () => {
 
     expect(result.canDispute).toBe(true)
 
-    // mockFn.console.error().restore();
+    // mockGlobals.console.error().restore();
   })
 
   test('should execute the handleDispute function', async () => {
@@ -72,9 +79,11 @@ describe('useCreateBond', () => {
 
   describe('should simulate edge cases', () => {
     test('should return if no networkId', async () => {
-      mockFn.useNetwork(() => ({
-        networkId: null
-      }))
+      mockHooksOrMethods.useNetwork(() => {
+        return {
+          networkId: null
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useDisputeIncident, [
         hookArgs
@@ -86,8 +95,8 @@ describe('useCreateBond', () => {
     })
 
     test('should return if ipfs write returns no payload', async () => {
-      mockFn.useNetwork()
-      mockFn.sdk.utils.ipfs.write(true)
+      mockHooksOrMethods.useNetwork()
+      mockSdk.utils.ipfs.write(true)
 
       const { result, act } = await renderHookWrapper(useDisputeIncident, [
         hookArgs
@@ -99,11 +108,13 @@ describe('useCreateBond', () => {
     })
 
     test('should return error if error in writeContract', async () => {
-      mockFn.sdk.utils.ipfs.write()
-      mockFn.useTxPoster(() => ({
-        ...testData.txPoster,
-        writeContract: undefined
-      }))
+      mockSdk.utils.ipfs.write()
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          writeContract: undefined
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useDisputeIncident, [
         hookArgs
@@ -115,11 +126,13 @@ describe('useCreateBond', () => {
     })
 
     test('should return error in txtoast push function for handleApprove', async () => {
-      mockFn.useTxPoster()
-      mockFn.useTxToast(() => ({
-        ...testData.txToast,
-        push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
-      }))
+      mockHooksOrMethods.useTxPoster()
+      mockHooksOrMethods.useTxToast(() => {
+        return {
+          ...testData.txToast,
+          push: jest.fn(() => { return Promise.reject(new Error('Something went wrong')) })
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useDisputeIncident, [
         hookArgs
@@ -144,10 +157,12 @@ describe('useCreateBond', () => {
       const args3 = [{ ...hookArgs, value: '0.0004' }]
       rerender(args3)
 
-      mockFn.useERC20Balance(() => ({
-        ...testData.erc20Balance,
-        balance: convertToUnits(0.0004)
-      }))
+      mockHooksOrMethods.useERC20Balance(() => {
+        return {
+          ...testData.erc20Balance,
+          balance: convertToUnits(0.0004)
+        }
+      })
       const args4 = [{ ...hookArgs, value: '100' }]
       rerender(args4)
 

@@ -16,7 +16,7 @@ import { getPlainNumber } from '@/utils/formatter/input'
  * @param {React.ComponentProps<'input'> & { allowNegativeValue: boolean }} param.inputProps
  * @param {React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement> & { buttonClassName?: string }} param.buttonProps
  * @param {string} param.unit
- * @param {string} param.unitClass
+ * @param {string} [param.unitClass]
  * @param {boolean} [param.error]
  * @param {number} param.decimalLimit
  * @returns
@@ -47,10 +47,16 @@ export const InputWithTrailingButton = ({
   useEffect(() => {
     window.addEventListener('resize', getSize)
 
-    return () => window.removeEventListener('resize', getSize)
+    return () => { return window.removeEventListener('resize', getSize) }
   }, [])
 
   useEffect(() => {
+    if (inputProps.value === '') {
+      setInputValue('')
+
+      return
+    }
+
     if (typeof inputProps.value === 'string' && inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/)) {
       setInputValue(inputProps.value)
     }
@@ -78,7 +84,7 @@ export const InputWithTrailingButton = ({
   }
 
   return (
-    <div className='relative w-full text-black text-lg'>
+    <div className='relative w-full text-lg text-black'>
       <CurrencyInput
         {...inputFieldProps}
         className={classNames(

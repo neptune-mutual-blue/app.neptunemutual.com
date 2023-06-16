@@ -29,10 +29,10 @@ export const NetworkSwitchPopup = () => {
 
   const handleClosePopup = () => {
     setOpen(false)
-    setCount(_value => _value + 1)
+    setCount(_value => { return _value + 1 })
   }
 
-  if (!isEthereum || count >= 3 || asPath !== '/') return <></>
+  if (!isEthereum || count >= 3 || asPath !== '/') { return <></> }
 
   return (
     <ModalRegular

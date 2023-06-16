@@ -6,31 +6,32 @@ import { HeroStat } from '@/common/HeroStat'
 import { HeroTitle } from '@/common/HeroTitle'
 import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 
 const headers = [
+  isFeatureEnabled('liquidity-gauge-pools') && {
+    name: 'liquidity-gauge-pools',
+    href: Routes.LiquidityGaugePools,
+    displayAs: <Trans>Liquidity Gauge Pools</Trans>
+  },
   isFeatureEnabled('bond') && {
     name: 'bond',
-    href: '/pools/bond',
+    href: Routes.BondPool,
     displayAs: <Trans>Bond</Trans>
   },
   isFeatureEnabled('staking-pool') && {
     name: 'staking',
-    href: '/pools/staking',
+    href: Routes.StakingPools,
     displayAs: <Trans>Staking</Trans>
   },
   isFeatureEnabled('pod-staking-pool') && {
     name: 'pod-staking',
-    href: '/pools/pod-staking',
+    href: Routes.PodStakingPools,
     displayAs: <Trans>POD Staking</Trans>
-  },
-  isFeatureEnabled('liquidity-gauge-pools') && {
-    name: 'liquidity-gauge-pools',
-    href: '/pools/liquidity-gauge-pools',
-    displayAs: <Trans>Liquidity Gauge Pools</Trans>
   }
 ].filter(Boolean)
 
@@ -41,7 +42,7 @@ export const PoolsTabs = ({ active, children }) => {
   return (
     <>
       <Hero className='min-h-[312px] flex flex-col justify-between'>
-        <Container className='flex flex-wrap w-full px-2 pt-12 pb-13 justify-center md:justify-start md:pt-32 md:pb-10'>
+        <Container className='flex flex-wrap justify-center w-full px-2 pt-12 pb-13 md:justify-start md:pt-32 md:pb-10'>
           <HeroTitle>
             <Trans>Bond and Liquidity Gauge</Trans>
           </HeroTitle>

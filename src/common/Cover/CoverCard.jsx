@@ -65,10 +65,12 @@ export const CoverCard = ({
       <div className='flex items-start min-h-72'>
         <CoverAvatar
           imgs={isDiversified
-            ? getProductsByCoverKey(coverKey).map(x => ({
-              src: getCoverImgSrc({ key: x.productKey }),
-              alt: x.productInfoDetails?.productName
-            }))
+            ? getProductsByCoverKey(coverKey).map(x => {
+              return {
+                src: getCoverImgSrc({ key: x.productKey }),
+                alt: x.productInfoDetails?.productName
+              }
+            })
             : [{
                 src: getCoverImgSrc({ key: coverKey }),
                 alt: coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
@@ -157,12 +159,11 @@ export const CoverCard = ({
           <div
             className='flex flex-1'
             title={protectionLong}
-            data-testid='protection'
           >
             <span role='tooltip' aria-label='Protection'>
               <SheildIcon className='w-4 h-4 text-01052D' />
             </span>
-            <p>
+            <p data-testid='protection'>
               {protectionShort}
             </p>
           </div>

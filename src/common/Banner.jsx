@@ -29,7 +29,7 @@ export const Banner = () => {
     setShow(false)
   }
 
-  if (!show) return null
+  if (!show) { return null }
 
   return (
     <div

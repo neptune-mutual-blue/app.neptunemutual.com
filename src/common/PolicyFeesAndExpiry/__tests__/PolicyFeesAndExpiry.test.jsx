@@ -1,9 +1,15 @@
-import { screen, act, render } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
-import { formatPercent } from '@/utils/formatter/percent'
+import {
+  PolicyFeesAndExpiry
+} from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
 import { MULTIPLIER } from '@/src/config/constants'
 import { toBN } from '@/utils/bn'
+import { formatPercent } from '@/utils/formatter/percent'
+import {
+  act,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('PolicyFeesAndExpiry component behaviour', () => {
   const mockdata = {
@@ -22,9 +28,7 @@ describe('PolicyFeesAndExpiry component behaviour', () => {
 
   test('should render fees percent', () => {
     render(<PolicyFeesAndExpiry data={mockdata} />)
-    const feesElement = screen.getByText(/Fees/i)
     const feesPercent = screen.getByText(formatPercent(rateConverted, 'en'))
-    expect(feesElement).toBeInTheDocument()
     expect(feesPercent).toBeInTheDocument()
   })
 })

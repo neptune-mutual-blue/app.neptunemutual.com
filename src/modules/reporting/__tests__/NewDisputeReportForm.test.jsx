@@ -1,18 +1,24 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { NewDisputeReportForm } from '@/src/modules/reporting/NewDisputeReportForm'
-import { screen, fireEvent } from '@testing-library/react'
+import {
+  NewDisputeReportForm
+} from '@/src/modules/reporting/NewDisputeReportForm'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('Incident Occurred form', () => {
   const { initialRender, rerenderFn } = initiateTest(
     NewDisputeReportForm,
     {
-      incidentReport: { coverKey: 'coverKey' }
+      incidentReport: { coverKey: 'coverKey' },
+      minReportingStake: testData.coversAndProducts2.data.minReportingStake
     },
     () => {
-      mockFn.useCoverStatsContext()
-      mockFn.useDisputeIncident()
-      mockFn.useTokenDecimals()
+      mockHooksOrMethods.useDisputeIncident()
+      mockHooksOrMethods.useTokenDecimals()
     }
   )
 
@@ -91,10 +97,12 @@ describe('Incident Occurred form', () => {
 
     test('Submit dispute', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true
+          }
+        })
       })
 
       const title = screen.getByRole('textbox', { name: 'Title' })
@@ -123,10 +131,12 @@ describe('Incident Occurred form', () => {
 
     test('Submit report with multiple url reports', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true
+          }
+        })
       })
 
       const title = screen.getByRole('textbox', { name: 'Title' })
@@ -169,10 +179,12 @@ describe('Incident Occurred form', () => {
 
   describe('Form state based on candispute', () => {
     rerenderFn({}, () => {
-      mockFn.useDisputeIncident(() => ({
-        ...testData.disputeIncident,
-        canDispute: true
-      }))
+      mockHooksOrMethods.useDisputeIncident(() => {
+        return {
+          ...testData.disputeIncident,
+          canDispute: true
+        }
+      })
     })
 
     const title = screen.getByRole('textbox', { name: 'Title' })
@@ -197,10 +209,12 @@ describe('Incident Occurred form', () => {
   describe('Approve and Dispute Button', () => {
     test('Show Approving', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          approving: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            approving: true
+          }
+        })
       })
 
       const approving = screen.getByRole('button', { name: 'Approving...' })
@@ -210,10 +224,12 @@ describe('Incident Occurred form', () => {
 
     test('Show Report Button', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true
+          }
+        })
       })
 
       const report = screen.getByRole('button', { name: 'Dispute' })
@@ -222,11 +238,13 @@ describe('Incident Occurred form', () => {
 
     test('Show Disputing Button', () => {
       rerenderFn({}, () => {
-        mockFn.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true,
-          disputing: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true,
+            disputing: true
+          }
+        })
       })
 
       const report = screen.getByRole('button', { name: 'Disputing...' })
@@ -248,17 +266,10 @@ describe('Incident Occurred form', () => {
     })
 
     test('Show error Insufficient Balance', () => {
-      rerenderFn({}, () => {
-        mockFn.useCoverStatsContext(() => ({
-          ...testData.coverStats.info,
-          minReportingStake: '300000000000000000000',
-          refetch: () => Promise.resolve(1)
-        }))
-      })
       const stakeInput = screen.getByRole('textbox', {
         name: 'Enter your stake'
       })
-      fireEvent.change(stakeInput, { target: { value: 1000 } })
+      fireEvent.change(stakeInput, { target: { value: 100000 } })
 
       const error = screen.getByText('Insufficient Balance')
       expect(error).toHaveClass('text-FA5C2F')

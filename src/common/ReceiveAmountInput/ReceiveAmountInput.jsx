@@ -6,12 +6,14 @@ export const ReceiveAmountInput = ({
   labelText,
   inputValue,
   ...rest
-}) => (
-  <>
-    <Label className='mb-4' htmlFor='receive-amount'>
-      {labelText}
-    </Label>
+}) => {
+  return (
+    <>
+      <Label className='mb-4' htmlFor='receive-amount'>
+        {labelText}
+      </Label>
 
-    <DisabledInput value={inputValue} unit={tokenSymbol} {...rest} />
-  </>
-)
+      <DisabledInput value={inputValue} unit={tokenSymbol} {...rest} />
+    </>
+  )
+}

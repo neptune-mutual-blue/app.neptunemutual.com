@@ -69,7 +69,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
    * @param {string | Object} val
    */
   function handleStakeChange (val) {
-    if (typeof val === 'string') setValue(val)
+    if (typeof val === 'string') { setValue(val) }
   }
 
   /**
@@ -96,6 +96,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
 
     if (e.target.value) {
       setIsInActive(false)
+
       return
     }
 
@@ -119,7 +120,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
           : [current?.incident_url]
 
       const urlReports = Object.keys(incidentUrl).map(
-        (i) => incidentUrl[i]?.value
+        (i) => { return incidentUrl[i]?.value }
       )
 
       const payload = {

@@ -1,46 +1,55 @@
-import React from 'react'
-import { render, act, cleanup, screen } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
 import { PolicyCard } from '@/modules/my-policies/PolicyCard'
-
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  act,
+  cleanup,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
-describe('PolicyCard test', () => {
-  const props = {
-    policyInfo: {
-      id: '0x03b4658fa53bdac8cedd7c4cec3e41ca9777db84-0x5712114cfbc297158a7d7a1142aa82da69de6dbc-1664582399',
-      cxToken: {
-        id: '0x5712114cfbc297158a7d7a1142aa82da69de6dbc',
-        creationDate: '1658377325',
-        expiryDate: '1659076653'
-      },
-      totalAmountToCover: '1000000000',
-      expiresOn: '1664582399',
-      coverKey:
-        '0x6372706f6f6c0000000000000000000000000000000000000000000000000000',
-      productKey:
-        '0x0000000000000000000000000000000000000000000000000000000000000000',
-      cover: {
-        id: '0x6372706f6f6c0000000000000000000000000000000000000000000000000000'
-      },
-      product: null
-    }
+const data = testData.coversAndProducts2.data
+
+const props = {
+  policyInfo: {
+    id: '0x03b4658fa53bdac8cedd7c4cec3e41ca9777db84-0x5712114cfbc297158a7d7a1142aa82da69de6dbc-1664582399',
+    cxToken: {
+      id: '0x5712114cfbc297158a7d7a1142aa82da69de6dbc',
+      creationDate: '1658377325',
+      expiryDate: '1659076653'
+    },
+    totalAmountToCover: '1000000000',
+    expiresOn: '1664582399',
+    coverKey:
+      '0x6372706f6f6c0000000000000000000000000000000000000000000000000000',
+    productKey:
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
+    cover: {
+      id: '0x6372706f6f6c0000000000000000000000000000000000000000000000000000'
+    },
+    product: null
   }
+}
+describe('PolicyCard test', () => {
+  const { initialRender, rerenderFn } = initiateTest(PolicyCard, {
+    policyInfo: props.policyInfo,
+    coverOrProductData: data
+
+  }, () => {
+    mockHooksOrMethods.useValidReport()
+    mockHooksOrMethods.useERC20Balance()
+  })
 
   beforeEach(() => {
     cleanup()
 
-    mockFn.useCoverOrProductData()
-    mockFn.useFetchCoverStats()
-    mockFn.useValidReport()
-    mockFn.useERC20Balance()
-
     act(() => {
       i18n.activate('en')
     })
-    render(<PolicyCard {...props} />)
+
+    initialRender()
   })
 
   test('should render the main container', () => {
@@ -50,9 +59,6 @@ describe('PolicyCard test', () => {
 
   test('should not render the main container if coveInfo is not available', () => {
     cleanup()
-    mockFn.useCoverOrProductData(() => null)
-
-    render(<PolicyCard {...props} />)
 
     const hero = screen.queryByTestId('policy-card')
     expect(hero).not.toBeInTheDocument()
@@ -66,13 +72,13 @@ describe('PolicyCard test', () => {
 
     test('cover image should have correct src', () => {
       const coverImage = screen.getByTestId('cover-img')
-      const src = getCoverImgSrc({ key: testData.coverInfo.coverKey })
+      const src = getCoverImgSrc({ key: props.policyInfo.coverKey })
       expect(coverImage).toHaveAttribute('src', src)
     })
 
     test('cover image should have correct alt text', () => {
       const coverImage = screen.getByTestId('cover-img')
-      const text = testData.coverInfo.infoObj.coverName
+      const text = data.coverInfoDetails.coverName
       expect(coverImage).toHaveAttribute('alt', text)
     })
   })
@@ -84,24 +90,15 @@ describe('PolicyCard test', () => {
     })
 
     test("should display status badge if status is not 'Normal'", () => {
-      cleanup()
-      mockFn.useFetchCoverStats(() => ({
-        info: {
-          ...testData.coverStats.info,
-          productStatus: 'Normal'
+      rerenderFn({
+        policyInfo: {
+          ...props.policyInfo,
+          productStatus: '4',
+          productStatusEnum: 'Claimable',
+          claimBeginsFrom: '46445',
+          claimExpiresAt: ''
         }
-      }))
-
-      mockFn.useValidReport(() => ({
-        data: {
-          report: {
-            ...testData.reporting.validReport.data.report,
-            status: 'Claimable'
-          }
-        }
-      }))
-
-      render(<PolicyCard {...props} />)
+      })
 
       const status = screen.getByTestId('policy-card-status')
       expect(status).toHaveTextContent('Claimable')
@@ -110,7 +107,7 @@ describe('PolicyCard test', () => {
 
   test('should dsplay correct policy card title', () => {
     const title = screen.getByTestId('policy-card-title')
-    expect(title).toHaveTextContent(testData.coverInfo.infoObj.coverName)
+    expect(title).toHaveTextContent(data.coverInfoDetails.coverName)
   })
 
   test('should render policy card footer', () => {

@@ -55,6 +55,7 @@ export const ActiveReportSummary = ({
 
   const isAfterResolution = useRetryUntilPassed(() => {
     const _now = DateLib.unix()
+
     return isGreater(_now, incidentReport.resolutionTimestamp)
   })
 

@@ -4,17 +4,23 @@ import {
 } from 'react'
 
 import { GCR_POOLS_URL } from '@/src/config/constants'
+import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { getReplacedString } from '@/utils/string'
 import { t } from '@lingui/macro'
 
 export const useLiquidityGaugePools = () => {
+  const { networkId } = useNetwork()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const { notifyError } = useErrorNotifier()
 
   useEffect(() => {
     async function fetchPools () {
+      if (!networkId) {
+        return
+      }
+
       const handleError = (err) => {
         notifyError(err, t`Could not get liquidity gauge pools`)
       }
@@ -22,7 +28,7 @@ export const useLiquidityGaugePools = () => {
       try {
         // Get data from API if wallet's not connected
         const response = await fetch(
-          getReplacedString(GCR_POOLS_URL),
+          getReplacedString(GCR_POOLS_URL, { networkId }),
           {
             method: 'GET',
             headers: {
@@ -50,9 +56,9 @@ export const useLiquidityGaugePools = () => {
 
     setLoading(true)
     fetchPools()
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false))
-  }, [notifyError])
+      .then(() => { return setLoading(false) })
+      .catch(() => { return setLoading(false) })
+  }, [notifyError, networkId])
 
   return {
     data,

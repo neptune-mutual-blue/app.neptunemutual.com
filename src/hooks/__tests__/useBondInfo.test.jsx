@@ -1,21 +1,27 @@
-import { useBondInfo } from '../useBondInfo'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
+
+import { useBondInfo } from '../useBondInfo'
 
 const mockData = {
   data: testData.bondInfo.data
 }
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useBondInfo', () => {
   describe('wallet is not connected', () => {
-    mockFn.utilsWeb3.getProviderOrSigner()
-    mockFn.sdk.registry.BondPool.getInstance()
-    mockFn.useErrorNotifier()
-    mockFn.useTxPoster()
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+    mockSdk.registry.BondPool.getInstance()
+    mockHooksOrMethods.useErrorNotifier()
+    mockHooksOrMethods.useTxPoster()
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     test('while fetching w/o account and networkId', async () => {
-      mockFn.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
       const { result } = await renderHookWrapper(useBondInfo)
 
@@ -34,9 +40,9 @@ describe('useBondInfo', () => {
     })
 
     test('while fetching w/o account but w/ networkId', async () => {
-      mockFn.useNetwork()
-      mockFn.getReplacedString()
-      mockFn.fetch(true, undefined, mockData)
+      mockHooksOrMethods.useNetwork()
+      mockHooksOrMethods.getReplacedString()
+      mockGlobals.fetch(true, undefined, mockData)
 
       const { result } = await renderHookWrapper(useBondInfo, [], true)
       const { lpToken, ...rest } = mockData.data
@@ -49,13 +55,12 @@ describe('useBondInfo', () => {
   })
 
   describe('wallet is connected', () => {
-    mockFn.utilsWeb3.getProviderOrSigner()
-    mockFn.sdk.registry.BondPool.getInstance()
-    mockFn.getBondInfo(mockData.data)
+    mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+    mockSdk.registry.BondPool.getInstance()
 
     test('while fetching w/o networkId', async () => {
-      mockFn.useWeb3React()
-      mockFn.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useWeb3React()
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
       const { result } = await renderHookWrapper(useBondInfo)
 
@@ -74,8 +79,8 @@ describe('useBondInfo', () => {
     })
 
     test('while fetching w/ networkId', async () => {
-      mockFn.useWeb3React()
-      mockFn.useNetwork()
+      mockHooksOrMethods.useWeb3React()
+      mockHooksOrMethods.useNetwork()
 
       const { result } = await renderHookWrapper(useBondInfo, [], true)
 
@@ -88,8 +93,8 @@ describe('useBondInfo', () => {
     })
 
     test('calling refetch function', async () => {
-      mockFn.useWeb3React()
-      mockFn.useNetwork()
+      mockHooksOrMethods.useWeb3React()
+      mockHooksOrMethods.useNetwork()
 
       const { result, act } = await renderHookWrapper(useBondInfo, [], true)
 

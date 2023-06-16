@@ -46,11 +46,13 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
 
   const ChainIds = data ? Object.keys(data) : []
 
-  const chains = ChainIds.map(chainId => ({
-    label: ShortNetworkNames[chainId],
-    value: chainId
+  const chains = ChainIds.map(chainId => {
+    return {
+      label: ShortNetworkNames[chainId],
+      value: chainId
 
-  }))
+    }
+  })
 
   /**
    * @type {import("chart.js").ChartData<'bar'>}
@@ -68,7 +70,7 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
       datasets: Object.keys(data).map(chain => {
         return {
           label: data[chain].length ? data[chain][0].networkName : '',
-          data: data[chain].map(item => parseFloat(item[dataKey])),
+          data: data[chain].map(item => { return parseFloat(item[dataKey]) }),
           backgroundColor: ['1', '84531'].includes(chain) ? '#4E7DD9' : '#21AD8C',
           barPercentage: 1,
           borderWidth: 0,
@@ -163,7 +165,7 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
       },
       tooltip: {
         enabled: false,
-        external: (context, className) => externalTooltipHandler(context, className, dataKey),
+        external: (context, className) => { return externalTooltipHandler(context, className, dataKey) },
         displayColors: false,
         callbacks: {
           title: function () {
@@ -201,11 +203,13 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
     const _datasets = chartData.datasets
     if (_datasets.length > 1 && _labels.length > 5) {
       const totalHeight = 32 + _labels.length * 60
+
       return `${totalHeight}px`
     }
 
     if (_datasets.length === 1 && _labels.length > 7) {
       const totalHeight = 32 + _labels.length * 50
+
       return `${totalHeight}px`
     }
 
@@ -242,12 +246,14 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
       {
         !['totalProtection', 'totalPremium'].includes(dataKey) && (
           <div className='flex items-center justify-center gap-4'>
-            {chains.map(chain => (
-              <div className='flex items-center gap-1' key={chain.value}>
-                <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
-                <span className='text-sm font-semibold'>{chain.label}</span>
-              </div>
-            ))}
+            {chains.map(chain => {
+              return (
+                <div className='flex items-center gap-1' key={chain.value}>
+                  <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
+                  <span className='text-sm font-semibold'>{chain.label}</span>
+                </div>
+              )
+            })}
           </div>
         )
       }

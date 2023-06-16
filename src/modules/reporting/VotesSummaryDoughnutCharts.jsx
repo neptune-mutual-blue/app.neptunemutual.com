@@ -65,6 +65,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 
 const DoughnutChartInsight = ({ title, percent, amountStaked, variant }) => {
   const { NPMTokenSymbol } = useAppConstants()
+
   return (
     <div className='absolute flex flex-col items-center justify-center w-16 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'>
       <h5

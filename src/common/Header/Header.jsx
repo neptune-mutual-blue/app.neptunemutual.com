@@ -9,7 +9,12 @@ import { useRouter } from 'next/router'
 
 import { Banner } from '@/common/Banner'
 import { BurgerMenu } from '@/common/BurgerMenu/BurgerMenu'
+import { NavContainer } from '@/common/Container/NavContainer'
 import { AccountDetailsModal } from '@/common/Header/AccountDetailsModal'
+import {
+  getFlattenedNavLinks,
+  getNavigationLinks
+} from '@/common/Header/getNavigationLinks'
 import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
 import { Network } from '@/common/Header/Network'
 import { HeaderLogo } from '@/common/HeaderLogo'
@@ -17,9 +22,10 @@ import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
 import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
+import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import ConnectWallet
   from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import useAuth from '@/lib/connect-wallet/hooks/useAuth'
+import { useAuth } from '@/lib/connect-wallet/hooks/useAuth'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
@@ -29,6 +35,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { truncateAddress } from '@/utils/address'
 import { classNames } from '@/utils/classnames'
+import { Menu } from '@headlessui/react'
 import {
   t,
   Trans
@@ -41,10 +48,6 @@ import {
 } from '@radix-ui/react-dialog'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
-import { NavContainer } from '@/common/Container/NavContainer'
-import { getFlattenedNavLinks, getNavigationLinks } from '@/common/Header/getNavigationLinks'
-import { Menu } from '@headlessui/react'
-import ChevronDownIcon from '@/icons/ChevronDownIcon'
 
 export const Header = () => {
   const router = useRouter()
@@ -72,6 +75,7 @@ export const Header = () => {
   useEffect(() => {
     if (!account) {
       setUnread(0)
+
       return
     }
 
@@ -81,7 +85,7 @@ export const Header = () => {
   }, [account])
 
   const toggleMenu = () => {
-    setIsOpen((prev) => !prev)
+    setIsOpen((prev) => { return !prev })
   }
 
   function onClose () {
@@ -89,12 +93,12 @@ export const Header = () => {
   }
 
   const navigation = useMemo(
-    () => getNavigationLinks(router.pathname),
+    () => { return getNavigationLinks(router.pathname) },
     [router.pathname]
   )
 
   const handleToggleAccountPopup = () => {
-    setIsAccountDetailsOpen((prev) => !prev)
+    setIsAccountDetailsOpen((prev) => { return !prev })
   }
 
   const handleDisconnect = () => {
@@ -104,26 +108,28 @@ export const Header = () => {
     setIsAccountDetailsOpen(false)
   }
 
-  const TransactionOverviewTooltip = ({ children, hide }) => (
-    <Tooltip.Root delayDuration={200}>
-      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
-      <Tooltip.Content
-        className={classNames(
-          'w-56 px-4 py-5 text-white bg-black z-60 rounded-1 shadow-tx-overview',
-          hide ? 'hidden' : 'hidden xl:flex'
-        )}
-        side='bottom'
-        sideOffset={7}
-        alignOffset={15}
-      >
-        <Tooltip.Arrow className='' offset={8} fill='#01052D' height={7} />
-        <span className='text-xs font-light leading-4'>
-          Your transaction statuses will be collected in this tray. Feel free to
-          navigate through the screens while you wait.
-        </span>
-      </Tooltip.Content>
-    </Tooltip.Root>
-  )
+  const TransactionOverviewTooltip = ({ children, hide }) => {
+    return (
+      <Tooltip.Root delayDuration={200}>
+        <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
+        <Tooltip.Content
+          className={classNames(
+            'w-56 px-4 py-5 text-white bg-black z-60 rounded-1 shadow-tx-overview',
+            hide ? 'hidden' : 'hidden xl:flex'
+          )}
+          side='bottom'
+          sideOffset={7}
+          alignOffset={15}
+        >
+          <Tooltip.Arrow className='' offset={8} fill='#01052D' height={7} />
+          <span className='text-xs font-light leading-4'>
+            Your transaction statuses will be collected in this tray. Feel free to
+            navigate through the screens while you wait.
+          </span>
+        </Tooltip.Content>
+      </Tooltip.Root>
+    )
+  }
 
   return (
     <>
@@ -207,6 +213,7 @@ export const Header = () => {
                         </button>
                       )
                     }
+
                     return (
                       <div>
                         <div className='flex items-stretch h-full space-x-4'>
@@ -242,7 +249,8 @@ export const Header = () => {
                         ? 'bg-404A5C before:w-0'
                         : 'bg-transparent before:w-px'
                     )}
-                    onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+                    onClick={() => { return setIsTxDetailsPopupOpen((val) => { return !val }) }}
+                    data-testid='transaction-modal-button'
                   >
                     <span className='sr-only'>{t`transaction overview button`}</span>
                     <IconWithBadge number={unread}>
@@ -383,6 +391,7 @@ export const MenuModal = ({
                           </button>
                         )
                       }
+
                       return (
                         <div className='flex flex-col justify-between w-full'>
                           {network} {button}
@@ -416,58 +425,64 @@ const DropdownLinks = ({ name, isActive, items = [] }) => {
   return (
     <Menu as='div' className='relative'>
       {
-        ({ open }) => (
-          <>
-            <Menu.Button
-              className={classNames(
-                'relative h-full text-sm border-b-4 px-2 border-t-transparent inline-flex gap-2 items-center whitespace-nowrap outline-none',
-                isActive
-                  ? 'border-primary text-primary font-semibold'
-                  : 'border-transparent text-white',
-                (!isActive) && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-primary before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100',
-                !isActive && open && 'before:scale-x-100'
-              )}
-            >
-              {name}
-              <ChevronDownIcon
-                width='20' height='20'
-                className={classNames('flex-shrink-0 transform', open && 'rotate-180')}
-              />
-            </Menu.Button>
+        ({ open }) => {
+          return (
+            <>
+              <Menu.Button
+                className={classNames(
+                  'relative h-full text-sm border-b-4 px-2 border-t-transparent inline-flex gap-2 items-center whitespace-nowrap outline-none',
+                  isActive
+                    ? 'border-primary text-primary font-semibold'
+                    : 'border-transparent text-white',
+                  (!isActive) && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-primary before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100',
+                  !isActive && open && 'before:scale-x-100'
+                )}
+              >
+                {name}
+                <ChevronDownIcon
+                  width='20' height='20'
+                  className={classNames('flex-shrink-0 transform', open && 'rotate-180')}
+                />
+              </Menu.Button>
 
-            <Menu.Items
-              className='absolute z-10 w-auto py-4 space-y-6 overflow-y-auto text-white bg-black shadow-lg outline-none -left-1/3 min-w-205'
-            >
-              {
-                items.map((item, idx) => (
-                  <Menu.Item key={idx}>
-                    {
-                      ({ active }) => (
-                        <a
-                          href={item.href}
-                          className={classNames(
-                            'gap-2 text-sm inline-flex items-center whitespace-nowrap p-1 pl-10 w-full',
-                            item.active && 'text-primary font-semibold',
-                            active && 'text-primary'
-                          )}
-                        >
-                          {
+              <Menu.Items
+                className='absolute z-10 w-auto py-4 space-y-6 overflow-y-auto text-white bg-black shadow-lg outline-none -left-1/3 min-w-205'
+              >
+                {
+                items.map((item, idx) => {
+                  return (
+                    <Menu.Item key={idx}>
+                      {
+                      ({ active }) => {
+                        return (
+                          <a
+                            href={item.href}
+                            className={classNames(
+                              'gap-2 text-sm inline-flex items-center whitespace-nowrap p-1 pl-10 w-full',
+                              item.active && 'text-primary font-semibold',
+                              active && 'text-primary'
+                            )}
+                          >
+                            {
                               item.imgSrc && (
                                 <div className='flex w-6 h-6 overflow-hidden bg-white rounded-full place-items-center'>
                                   <img src={item.imgSrc} className='w-6 h-6' alt={`${item.name} logo`} />
                                 </div>
                               )
                             }
-                          {item.name}
-                        </a>
-                      )
+                            {item.name}
+                          </a>
+                        )
+                      }
                     }
-                  </Menu.Item>
-                ))
+                    </Menu.Item>
+                  )
+                })
               }
-            </Menu.Items>
-          </>
-        )
+              </Menu.Items>
+            </>
+          )
+        }
       }
     </Menu>
   )

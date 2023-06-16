@@ -32,7 +32,7 @@ export async function mockFetch (url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async () => getCover(url)
+      json: async () => { return getCover(url) }
     }
   }
 
@@ -40,7 +40,7 @@ export async function mockFetch (url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async () => contracts
+      json: async () => { return contracts }
     }
   }
 
@@ -48,7 +48,7 @@ export async function mockFetch (url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async () => pricing
+      json: async () => { return pricing }
     }
   }
 
@@ -57,7 +57,7 @@ export async function mockFetch (url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async () => getLiquidity(url)
+      json: async () => { return getLiquidity(url) }
     }
   }
 
@@ -66,7 +66,7 @@ export async function mockFetch (url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async () => QUERY_RESULT.PLATFORM_FEE
+        json: async () => { return QUERY_RESULT.PLATFORM_FEE }
       }
     }
 
@@ -74,7 +74,7 @@ export async function mockFetch (url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async () => QUERY_RESULT.IPFSHASH
+        json: async () => { return QUERY_RESULT.IPFSHASH }
       }
     }
 
@@ -82,7 +82,7 @@ export async function mockFetch (url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async () => QUERY_RESULT.TOTAL_ADDED_TO_BOND
+        json: async () => { return QUERY_RESULT.TOTAL_ADDED_TO_BOND }
       }
     }
 
@@ -90,7 +90,7 @@ export async function mockFetch (url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async () => QUERY_RESULT.TOTAL_LIQUIDITY
+        json: async () => { return QUERY_RESULT.TOTAL_LIQUIDITY }
       }
     }
   }

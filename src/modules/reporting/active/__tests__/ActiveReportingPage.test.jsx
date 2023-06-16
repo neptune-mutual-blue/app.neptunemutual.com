@@ -1,15 +1,19 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { screen } from '@testing-library/react'
 import { ReportingActivePage } from '@/modules/reporting/active/active'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { screen } from '@testing-library/react'
 
 describe('Active Reporting Page Data Loading', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings(() => ({
-      data: { incidentReports: [] },
-      loading: true,
-      hasMore: false
-    }))
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings(() => {
+      return {
+        data: { incidentReports: [] },
+        loading: true,
+        hasMore: false
+      }
+    })
+    mockHooksOrMethods.useSearchResults()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
 
@@ -24,12 +28,16 @@ describe('Active Reporting Page Data Loading', () => {
 })
 
 describe('Active Reporting Page Data Display', () => {
+  const { initialRender } = initiateTest(
+    ReportingActivePage,
+    {},
+    () => {
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useActiveReportings()
+      mockHooksOrMethods.useCoversAndProducts2()
+    })
+
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings()
-
-    const { initialRender } = initiateTest(ReportingActivePage, {})
-
     initialRender()
   })
 
@@ -48,13 +56,15 @@ describe('Active Reporting Page Data Display', () => {
 
 describe('Active Reporting Page No Data Display', () => {
   beforeEach(() => {
-    mockFn.useRouter()
-    mockFn.useActiveReportings(() => ({
-      data: { incidentReports: [] },
-      loading: false,
-      hasMore: false
-    }))
-    mockFn.useFlattenedCoverProducts()
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings(() => {
+      return {
+        data: { incidentReports: [] },
+        loading: false,
+        hasMore: false
+      }
+    })
+    mockHooksOrMethods.useCoversAndProducts2()
 
     const { initialRender } = initiateTest(ReportingActivePage, {})
 

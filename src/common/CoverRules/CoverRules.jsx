@@ -13,14 +13,16 @@ export const CoverRules = ({ rules = '' }) => {
         </Trans>
       </p>
       <ol className='pl-5 list-decimal'>
-        {rules.split('\n').map((x, i) => (
-          <li key={i}>
-            {x
-              .trim()
-              .replace(/^\d+\./g, '')
-              .trim()}
-          </li>
-        ))}
+        {rules.split('\n').map((x, i) => {
+          return (
+            <li key={i}>
+              {x
+                .trim()
+                .replace(/^\d+\./g, '')
+                .trim()}
+            </li>
+          )
+        })}
       </ol>
     </div>
   )

@@ -1,46 +1,55 @@
 import { useTransactionHistory } from '@/src/hooks/useTransactionHistory'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useTransactionHistory', () => {
-  mockFn.useWeb3React(() => ({
-    ...testData.account,
-    library: { provider: true }
-  }))
-  mockFn.useNetwork()
-  mockFn.useTxToast()
-  mockFn.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.useWeb3React(() => {
+    return {
+      ...testData.account,
+      library: { provider: true }
+    }
+  })
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
 
   test('should execute the hook properly ', async () => {
-    mockFn.TransactionHistory.callback()
+    mockHooksOrMethods.TransactionHistory.callback()
     await renderHookWrapper(useTransactionHistory)
-    mockFn.TransactionHistory.callback(false)
+    mockHooksOrMethods.TransactionHistory.callback(false)
   })
 
   describe('Edge cases coverage', () => {
     test('should return if no netowrkId, account ', async () => {
-      mockFn.useNetwork(() => ({ networkId: null }))
-      mockFn.useWeb3React(() => ({
-        account: null,
-        library: null
-      }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+      mockHooksOrMethods.useWeb3React(() => {
+        return {
+          account: null,
+          library: null
+        }
+      })
 
       await renderHookWrapper(useTransactionHistory)
-      mockFn.useNetwork()
-      mockFn.useWeb3React(() => ({
-        ...testData.account,
-        library: { provider: true }
-      }))
+      mockHooksOrMethods.useNetwork()
+      mockHooksOrMethods.useWeb3React(() => {
+        return {
+          ...testData.account,
+          library: { provider: true }
+        }
+      })
     })
 
     test('should return if no provider ', async () => {
-      mockFn.utilsWeb3.getProviderOrSigner(() => ({
-        ...testData.providerOrSigner,
-        provider: null
-      }))
+      mockHooksOrMethods.utilsWeb3.getProviderOrSigner(() => {
+        return {
+          ...testData.providerOrSigner,
+          provider: null
+        }
+      })
 
       await renderHookWrapper(useTransactionHistory)
-      mockFn.utilsWeb3.getProviderOrSigner()
+      mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
     })
   })
 })

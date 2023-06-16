@@ -1,8 +1,14 @@
-import { i18n } from '@lingui/core'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  UnstakeYourAmount
+} from '@/modules/reporting/resolved/UnstakeYourAmount'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { UnstakeYourAmount } from '@/modules/reporting/resolved/UnstakeYourAmount'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const incidentReport = testData.incidentReports.data.incidentReport
 
@@ -14,7 +20,7 @@ describe('UnstakeYourAmount test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useCoverOrProductData()
+    // mockHooksOrMethods.useCoverOrProductData()
   }
 
   const { initialRender } = initiateTest(
@@ -40,7 +46,7 @@ describe('UnstakeYourAmount test', () => {
     const button = screen.getByRole('button')
     fireEvent.click(button)
     const unstakeModals = screen.getAllByRole('dialog')
-    expect(unstakeModals.length).toBe(2)
+    expect(unstakeModals.length).toBe(1)
     const receiveText = screen.getByText(/YOU WILL RECEIVE/i)
     expect(receiveText).toBeInTheDocument()
   })
@@ -54,10 +60,12 @@ describe('UnstakeYourAmountModal test', () => {
 
   const initialMocks = () => {
     i18n.activate('en')
-    mockFn.useCoverOrProductData()
-    mockFn.useWeb3React(() => ({
-      account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
-    }))
+    // mockHooksOrMethods.useCoverOrProductData()
+    mockHooksOrMethods.useWeb3React(() => {
+      return {
+        account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
+      }
+    })
   }
 
   const { initialRender } = initiateTest(
@@ -73,7 +81,7 @@ describe('UnstakeYourAmountModal test', () => {
 
   test('should render modal ', () => {
     const unstakeModals = screen.getAllByRole('dialog')
-    expect(unstakeModals.length).toBe(2)
+    expect(unstakeModals.length).toBe(1)
   })
 
   test("should have 'you will receive' text", () => {
@@ -88,7 +96,7 @@ describe('UnstakeYourAmountModal test', () => {
   })
 
   test('should show unstaking after clicking on dialog button', () => {
-    const wrapper = screen.getAllByRole('dialog')[1]
+    const wrapper = screen.getAllByRole('dialog')[0]
     const modalUnstake = wrapper.getElementsByTagName('button')
     expect(modalUnstake[0]).toHaveTextContent('Unstake')
     fireEvent.click(modalUnstake[0])

@@ -1,10 +1,12 @@
 import { useNotifier } from '@/src/hooks/useNotifier'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useNotifier', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.useToast()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.useToast()
 
   test('should return default hook result', async () => {
     const { result } = await renderHookWrapper(useNotifier)
@@ -22,7 +24,7 @@ describe('useNotifier', () => {
       title: 'Mock Error Title',
       message: 'Mock Error Message'
     }
-    await act(() => result.notifier(notification))
+    await act(() => { return result.notifier(notification) })
 
     expect(mockFunction).toHaveBeenCalled()
     expect(testData.toast.pushError).toHaveBeenCalled()
@@ -41,7 +43,7 @@ describe('useNotifier', () => {
       title: 'Mock Alert Title',
       message: 'Mock Alert Message'
     }
-    await act(() => result.notifier(notification))
+    await act(() => { return result.notifier(notification) })
 
     restore()
   })

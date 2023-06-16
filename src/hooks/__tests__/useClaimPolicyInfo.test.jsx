@@ -20,17 +20,19 @@ const mockProps = {
 
 describe('useClaimPolicyInfo', () => {
   test('should receive values', () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>
-          <ToastProvider variant={DEFAULT_VARIANT}>
-            <TxPosterProvider>{children}</TxPosterProvider>
-          </ToastProvider>
-        </NetworkProvider>
-      </Web3ReactProvider>
-    )
+    const wrapper = ({ children }) => {
+      return (
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <NetworkProvider>
+            <ToastProvider variant={DEFAULT_VARIANT}>
+              <TxPosterProvider>{children}</TxPosterProvider>
+            </ToastProvider>
+          </NetworkProvider>
+        </Web3ReactProvider>
+      )
+    }
 
-    const { result } = renderHook(() => useClaimPolicyInfo(mockProps), {
+    const { result } = renderHook(() => { return useClaimPolicyInfo(mockProps) }, {
       wrapper
     })
 

@@ -32,7 +32,7 @@ export const PercentXStackedChart = ({ data }) => {
                 },
                 ticks: {
                   stepSize: 20,
-                  callback: (val) => `${val * 100}%`
+                  callback: (val) => { return `${val * 100}%` }
                 }
               },
               y: {
@@ -64,7 +64,7 @@ export const PercentXStackedChart = ({ data }) => {
                         const start = prevX
                         const end = bar.x
 
-                        if (!_data) return
+                        if (!_data) { return }
 
                         ctx.fillText(
                           `${(_data * 100).toFixed(2)}%`,

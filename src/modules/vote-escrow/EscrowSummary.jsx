@@ -1,38 +1,57 @@
 import React from 'react'
 
+import { useRouter } from 'next/router'
+
+import DateLib from '@/lib/date/DateLib'
+import { useVoteEscrowStats } from '@/modules/vote-escrow/useVoteEscrowStats'
+import {
+  FALLBACK_VENPM_TOKEN_SYMBOL,
+  PREMATURE_UNLOCK_PENALTY_FRACTION
+} from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
 import { fromNow } from '@/utils/formatter/relative-time'
 
-const EscrowSummary = ({ veNPMBalance, unlockTimestamp, ...rest }) => {
-  const { className } = rest
-  const unlockDate = (unlockTimestamp !== '0' ? new Date(unlockTimestamp) : new Date())
+const EscrowSummary = ({ veNPMBalance, unlockTimestamp, className = '' }) => {
+  const router = useRouter()
+  const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
+  const { data } = useVoteEscrowStats()
+
+  const formattedUnlockDate = DateLib.toLongDateFormat(DateLib.fromUnix(unlockTimestamp), router.locale)
+
+  const formattedTotalLocked = formatCurrency(convertFromUnits(data.totalVoteLocked, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedVeNPMBalance = formatCurrency(convertFromUnits(veNPMBalance, NPMTokenDecimals), router.locale, FALLBACK_VENPM_TOKEN_SYMBOL, true)
 
   return (
     <div className={classNames('rounded-lg p-6', className)}>
-      <div className='flex flex-col sm:flex-row justify-between gap-4 mb-4'>
+      <div className='flex flex-col justify-between gap-4 mb-4 sm:flex-row'>
         <div>
-          <div className='text-sm text-999BAB font-semibold mb-1'>Total Vote-Locked</div>
-          <div className='text-xl'>25.2K NPM</div>
+          <div className='mb-1 text-sm font-semibold text-999BAB'>Total Vote-Locked</div>
+          <div className='text-xl' title={formattedTotalLocked.long}>{formattedTotalLocked.short}</div>
         </div>
         <div>
-          <div className='text-sm text-999BAB font-semibold mb-1'>Max Boost</div>
+          <div className='mb-1 text-sm font-semibold text-999BAB'>Max Boost</div>
+          {/* Hardcoded */}
           <div className='text-xl'>4x</div>
         </div>
         <div>
-          <div className='text-sm text-999BAB font-semibold mb-1'>Average Lock</div>
-          <div className='text-xl'>52 weeks</div>
+          <div className='mb-1 text-sm font-semibold text-999BAB'>Average Lock</div>
+          <div className='text-xl' title={parseFloat(data.averageLock).toFixed(6)}>{parseFloat(data.averageLock).toFixed(2)} weeks</div>
         </div>
       </div>
       <div className='flex flex-col gap-1'>
-        <div className='text-sm flex justify-between'>
+        <div className='flex justify-between text-sm'>
           <span>Your veNPM Balance:</span>
-          <span className='font-semibold' title={veNPMBalance.long}>{veNPMBalance.short}</span>
+          <span className='font-semibold' title={formattedVeNPMBalance.long}>{formattedVeNPMBalance.short}</span>
         </div>
-        <div className='text-sm flex justify-between'>
-          <span>Your Unlock Timestamp:</span> <span className='font-semibold' title={unlockTimestamp}>{unlockTimestamp !== '0' ? fromNow(unlockDate) : 'N/A'}</span>
+        <div className='flex justify-between text-sm'>
+          <span>Your Unlock Timestamp:</span> <span className='font-semibold' title={formattedUnlockDate}>{unlockTimestamp !== '0' ? fromNow(unlockTimestamp) : 'N/A'}</span>
         </div>
-        <div className='text-sm flex justify-between'>
-          <span>Premature Unlock Penalty:</span> <span className='font-semibold'>25%</span>
+        <div className='flex justify-between text-sm'>
+          <span>Premature Unlock Penalty:</span> <span className='font-semibold'>{formatPercent(PREMATURE_UNLOCK_PENALTY_FRACTION)}</span>
         </div>
       </div>
     </div>

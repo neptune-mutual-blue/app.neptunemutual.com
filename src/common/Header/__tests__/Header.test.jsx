@@ -1,30 +1,34 @@
 import { Header } from '@/common/Header/Header'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { fireEvent, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('Header test', () => {
   const { initialRender } = initiateTest(Header, {}, () => {
-    mockFn.useRouter({
+    mockHooksOrMethods.useRouter({
       ...testData.router,
       events: {
-        on: jest.fn((...args) => args[1]()),
+        on: jest.fn((...args) => { return args[1]() }),
         off: jest.fn(),
         emit: jest.fn()
       }
     })
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
-    mockFn.useAuth()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useAuth()
   })
 
   beforeEach(() => {
     initialRender()
   })
 
-  test('should render figure', () => {
-    const modals = screen.getByRole('figure')
-    expect(modals).toBeInTheDocument()
+  test('should render logo', () => {
+    const logos = screen.getAllByTestId('header-logo')
+    expect(logos[0]).toBeInTheDocument()
   })
 
   test('should render account details modal when clicking on acount', () => {
@@ -32,19 +36,19 @@ describe('Header test', () => {
     fireEvent.click(text)
 
     const modals = screen.getAllByRole('dialog')
-    expect(modals.length).toBe(2)
+    expect(modals.length).toBe(1)
 
     const disconnect = screen.getByText(/Disconnect/i)
     fireEvent.click(disconnect)
   })
 
   test('should display transaction popup', () => {
-    const buttons = screen.getAllByRole('button')
+    const button = screen.getByTestId('transaction-modal-button')
 
-    expect(buttons[3]).toHaveTextContent('transaction overview button')
-    fireEvent.click(buttons[3])
+    expect(button).toHaveTextContent('transaction overview button')
+    fireEvent.click(button)
 
-    const dialog = screen.getByRole('dialog')
+    const dialog = screen.getByTestId('transaction-modal')
     expect(dialog).toBeInTheDocument()
   })
 })

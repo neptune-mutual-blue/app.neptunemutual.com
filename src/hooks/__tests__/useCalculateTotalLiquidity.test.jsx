@@ -1,12 +1,18 @@
-import { useCalculateTotalLiquidity } from '@/src/hooks/useCalculateTotalLiquidity'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  useCalculateTotalLiquidity
+} from '@/src/hooks/useCalculateTotalLiquidity'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useCalculateTotalLiquidity', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
 
   const mockMulticallResult = ['500002829', '2222001389']
-  mockFn.sdk.multicall({ all: () => Promise.resolve(mockMulticallResult) })
+  mockSdk.multicall({ all: () => { return Promise.resolve(mockMulticallResult) } })
 
   const args = [
     {
@@ -30,7 +36,7 @@ describe('useCalculateTotalLiquidity', () => {
       true
     )
 
-    const expected = mockMulticallResult.reduce((p, c) => p + parseInt(c), 0)
+    const expected = mockMulticallResult.reduce((p, c) => { return p + parseInt(c) }, 0)
     expect(result).toEqual(expected.toString())
   })
 

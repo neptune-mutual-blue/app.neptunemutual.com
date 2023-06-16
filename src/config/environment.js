@@ -8,13 +8,13 @@ export const getNetworkId = () => {
   return parseInt(chainId, 10)
 }
 
-export const getGraphURL = (networkId) => SUBGRAPH_API_URLS[networkId] || null
+export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
 export const isFeatureEnabled = (feature) => {
   const str =
     process.env.NEXT_PUBLIC_FEATURES ||
     'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
-  const features = str.split(',').map((x) => x.trim())
+  const features = str.split(',').map((x) => { return x.trim() })
 
   return features.indexOf(feature) > -1
 }

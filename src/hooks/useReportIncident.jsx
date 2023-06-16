@@ -165,6 +165,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
 
     const cleanup = () => {
       setReporting(false)
+
       return Promise.all([updateAllowance(governanceContractAddress), updateBalance()])
     }
 
@@ -180,7 +181,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         }
       })
 
-      if (!ipfsHash) throw new Error()
+      if (!ipfsHash) { throw new Error() }
 
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
 

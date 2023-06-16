@@ -21,7 +21,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
           </h1>
           <Grid>
             {Object.keys(coverActions)
-              .filter((x) => x !== activeKey)
+              .filter((x) => { return x !== activeKey })
               .map((actionKey, i) => {
                 return (
                   <Link

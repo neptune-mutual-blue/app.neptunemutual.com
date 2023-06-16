@@ -1,11 +1,12 @@
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { useAuthValidation } from '../useAuthValidation'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useAuthValidation', () => {
-  mockFn.useToast()
+  mockHooksOrMethods.useToast()
 
   test('should return nothing', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useAuthValidation)
 
@@ -17,7 +18,7 @@ describe('useAuthValidation', () => {
   })
 
   test('should require auth', async () => {
-    mockFn.useWeb3React(() => ({ account: '0x32423dfsf34' }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: '0x32423dfsf34' } })
 
     const { result, act } = await renderHookWrapper(useAuthValidation)
 

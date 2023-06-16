@@ -12,7 +12,9 @@ const defaultValue = {
   stablecoinTokenBalanceLoading: false,
   updateStablecoinTokenBalance: async () => {},
   isWithdrawalWindowOpen: true,
+  isWithdrawalWindowOutdated: false,
   accrueInterest: async () => {},
+  updateWithdrawalWindow: async () => { },
   refetchInfo: () => {},
   info: {
     withdrawalOpen: '0',
@@ -42,6 +44,8 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
   const {
     info,
     refetch,
+    updateWithdrawalWindow,
+    isWithdrawalWindowOutdated,
     accrueInterest,
     isWithdrawalWindowOpen
   } = useMyLiquidityInfo({ coverKey })
@@ -75,6 +79,8 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
         refetchInfo,
         accrueInterest,
         isWithdrawalWindowOpen,
+        updateWithdrawalWindow,
+        isWithdrawalWindowOutdated,
         info
       }}
     >
@@ -90,5 +96,6 @@ export function useLiquidityFormsContext () {
       'useLiquidityFormsContext must be used within a LiquidityFormsContext.Provider'
     )
   }
+
   return context
 }

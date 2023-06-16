@@ -195,12 +195,14 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         </h1>
 
         {
-          policyReceiptData.map(({ label, value, valueClassName }, i) => (
-            <div className='flex flex-col mt-2 leading-7 sm:flex-row sm:mt-4 text-md sm:text-lg' key={`${i}-${label}`}>
-              <p className='mr-2 font-bold'>{label}</p>
-              <p className={valueClassName}>{value}</p>
-            </div>
-          ))
+          policyReceiptData.map(({ label, value, valueClassName }, i) => {
+            return (
+              <div className='flex flex-col mt-2 leading-7 sm:flex-row sm:mt-4 text-md sm:text-lg' key={`${i}-${label}`}>
+                <p className='mr-2 font-bold'>{label}</p>
+                <p className={valueClassName}>{value}</p>
+              </div>
+            )
+          })
         }
 
         <hr className='mt-6 sm:mt-12' />
@@ -212,15 +214,17 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
             <p className='break-all text-md sm:text-md'>{onBehalfOf}</p>
           </div>
 
-          {onBehalfOfData.map(({ label, value }, i) => (
-            <div
-              key={i}
-              className='flex flex-col gap-2 pb-4 leading-6 sm:flex-row sm:gap-0 text-md sm:text-lg'
-            >
-              <p className='font-bold leading-5 sm:flex-shrink-0 sm:w-1/2 md:w-full sm:max-w-60'>{label}</p>
-              <div className='overflow-hidden'>{value}</div>
-            </div>
-          ))}
+          {onBehalfOfData.map(({ label, value }, i) => {
+            return (
+              <div
+                key={i}
+                className='flex flex-col gap-2 pb-4 leading-6 sm:flex-row sm:gap-0 text-md sm:text-lg'
+              >
+                <p className='font-bold leading-5 sm:flex-shrink-0 sm:w-1/2 md:w-full sm:max-w-60'>{label}</p>
+                <div className='overflow-hidden'>{value}</div>
+              </div>
+            )
+          })}
 
           <div className='flex flex-col gap-1 font-bold leading-6 sm:flex-row sm:gap-0 text-md sm:text-lg'>
             <p className='w-1/2 md:w-full max-w-60'>Premium Paid</p>

@@ -1,6 +1,9 @@
-import { useCapitalizePool } from '../useCapitalizePool'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
+
+import { useCapitalizePool } from '../useCapitalizePool'
 
 const mockProps = {
   coverKey:
@@ -10,15 +13,17 @@ const mockProps = {
   incidentDate: ''
 }
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useCapitalizePool', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Reassurance.getInstance()
-  mockFn.useErrorNotifier()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Reassurance.getInstance()
+  mockHooksOrMethods.useErrorNotifier()
 
   test('while fetching w/o account and networkId', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useAuthValidation()
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useAuthValidation()
 
     const { result, act } = await renderHookWrapper(useCapitalizePool, [
       mockProps
@@ -33,10 +38,10 @@ describe('useCapitalizePool', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster()
-    mockFn.useTxToast()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster()
+    mockHooksOrMethods.useTxToast()
 
     const { result, act } = await renderHookWrapper(
       useCapitalizePool,
@@ -53,13 +58,15 @@ describe('useCapitalizePool', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: undefined
-    }))
-    mockFn.useTxToast()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: undefined
+      }
+    })
+    mockHooksOrMethods.useTxToast()
 
     const { result, act } = await renderHookWrapper(
       useCapitalizePool,

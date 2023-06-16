@@ -1,5 +1,7 @@
 import { useTokenStakingPools } from '@/src/hooks/useTokenStakingPools'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 const mockReturnData = {
   data: {
@@ -12,14 +14,14 @@ const mockReturnData = {
 }
 
 describe('useTokenStakingPools', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.useTxPoster()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.getGraphURL()
 
   test('while fetching w/o networkId', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(useTokenStakingPools, [], true)
 
@@ -30,8 +32,8 @@ describe('useTokenStakingPools', () => {
   })
 
   test('while fetching successful', async () => {
-    mockFn.useNetwork()
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockHooksOrMethods.useNetwork()
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result } = await renderHookWrapper(useTokenStakingPools, [], true)
 
@@ -39,7 +41,7 @@ describe('useTokenStakingPools', () => {
   })
 
   test('while fetching error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(useTokenStakingPools, [], true)
@@ -50,12 +52,12 @@ describe('useTokenStakingPools', () => {
     expect(result.loading).toBe(false)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 
   test('calling handleShowMore function', async () => {
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result, act } = await renderHookWrapper(
       useTokenStakingPools,

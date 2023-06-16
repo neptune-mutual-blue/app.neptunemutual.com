@@ -47,15 +47,15 @@ import { ResolvedTableSkeleton } from '@/modules/reporting/resolved/ResolvedTabl
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (report) => report.stats.text,
+    selector: (report) => { return report.stats.text },
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.INCIDENT_DATE]: {
-    selector: (report) => report.stats.incidentDate,
+    selector: (report) => { return report.stats.incidentDate },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.RESOLVED_DATE]: {
-    selector: (report) => report.stats.resolvedOn,
+    selector: (report) => { return report.stats.resolvedOn },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
@@ -103,6 +103,7 @@ const renderDateAndTime = (row) => {
 
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
+
   return (
     <td className='px-6 py-6 text-right'>
       {status !== E_CARD_STATUS.NORMAL && (
@@ -244,11 +245,12 @@ export const ReportingResolvedPage = () => {
   })
 
   const sortedResolvedReports = useMemo(
-    () =>
-      sorter({
+    () => {
+      return sorter({
         ...sorterData[sortType.value],
         list: filtered
-      }),
+      })
+    },
 
     [filtered, sortType.value]
   )
@@ -317,7 +319,7 @@ export const ReportingResolvedPage = () => {
                         <Fragment key={report.id}>
                           <tr
                             className='cursor-pointer hover:bg-F4F8FC'
-                            onClick={() => router.push(getUrl(report.id))}
+                            onClick={() => { return router.push(getUrl(report.id)) }}
                           >
                             <ResolvedTBodyRow
                               columns={columns}

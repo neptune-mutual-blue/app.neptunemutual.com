@@ -1,4 +1,9 @@
 import {
+  useEffect,
+  useState
+} from 'react'
+
+import {
   DEBOUNCE_TIMEOUT,
   REFERRAL_CODE_VALIDATION_URL
 } from '@/src/config/constants'
@@ -6,7 +11,6 @@ import { useDebounce } from '@/src/hooks/useDebounce'
 import { useFetch } from '@/src/hooks/useFetch'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
-import { useState, useEffect } from 'react'
 
 /**
  *
@@ -16,6 +20,7 @@ import { useState, useEffect } from 'react'
 function isValidReferralCode (referralCode) {
   try {
     utils.keyUtil.toBytes32(referralCode.trim())
+
     return true
   } catch (e) {
     return false
@@ -42,6 +47,7 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
         // if it's empty we set true immediately
         setErrorMessage('')
         setIsValid(true)
+
         return
       }
 
@@ -49,6 +55,7 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
       if (isValidReferralCode(trimmedValue)) {
         let isValidRef = false
 
+        console.log(isValidReferralCode(trimmedValue))
         try {
           const result = await fetchValidateReferralCode(
             REFERRAL_CODE_VALIDATION_URL,
@@ -70,10 +77,12 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
         setIsValid(isValidRef)
         if (isValidRef) {
           setErrorMessage('')
+
           return
         }
 
         setErrorMessage(t`Invalid Cashback Code`)
+
         return
       }
       setErrorMessage(t`Incorrect Cashback Code`)

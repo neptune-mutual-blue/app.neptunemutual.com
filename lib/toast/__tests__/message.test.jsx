@@ -1,5 +1,5 @@
 import InfoIcon from '@/lib/toast/components/icons/InfoIcon'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import ToastMessage from '../message'
 
@@ -86,7 +86,7 @@ describe('ToastMessage', () => {
     expect(closeButton.parentElement).toBeInTheDocument()
     expect(closeButton.parentElement.tagName).toEqual('BUTTON')
 
-    await waitFor(() => expect(props.onRemove).toBeCalled())
+    await waitFor(() => { return expect(props.onRemove).toBeCalled() })
   })
 
   test('Should render ToastMessage with Info Type', () => {

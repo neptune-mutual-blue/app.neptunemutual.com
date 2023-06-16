@@ -27,9 +27,10 @@ export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
   const { notifyError } = useErrorNotifier()
   const { writeContract } = useTxPoster()
 
-  const capitalize = async (onSuccess = (f) => f) => {
+  const capitalize = async (onSuccess = (f) => { return f }) => {
     if (!networkId || !account) {
       requiresAuth()
+
       return
     }
 

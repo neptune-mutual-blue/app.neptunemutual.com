@@ -100,20 +100,20 @@ const columns = [
   {
     name: t`Cover`,
     align: 'left',
-    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row) => <RenderProductName data={row} productKey={row.productKey} coverKey={row.coverKey} />
+    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+    renderData: (row) => { return <RenderProductName data={row} productKey={row.productKey} coverKey={row.coverKey} /> }
   },
   {
     name: t`Utilization Ratio`,
     align: 'left',
-    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row, { locale }) => <RenderUtilizationRatio ratio={row.utilizationRatio} locale={locale} />
+    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+    renderData: (row, { locale }) => { return <RenderUtilizationRatio ratio={row.utilizationRatio} locale={locale} /> }
   },
   {
     name: t`Capacity`,
     align: 'right',
-    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row, { locale, liquidityTokenDecimals }) => <RenderCapacity capacity={row.capacity} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} />
+    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+    renderData: (row, { locale, liquidityTokenDecimals }) => { return <RenderCapacity capacity={row.capacity} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} /> }
   }
 ]
 
@@ -132,12 +132,12 @@ export const InsightsQuickInfoTable = () => {
   const { loading, getAllProducts } = useCoversAndProducts2()
   const topCovers = useMemo(() => {
     const products = getAllProducts()
-      .filter(x => toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7))
+      .filter(x => { return toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7) })
 
     const result = sorter({
       datatype: SORT_DATA_TYPES.BIGNUMBER,
       list: products,
-      selector: x => x.utilizationRatio
+      selector: x => { return x.utilizationRatio }
     })
 
     return result

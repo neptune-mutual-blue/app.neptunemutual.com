@@ -1,19 +1,29 @@
 import React from 'react'
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { i18n } from '@lingui/core'
-import { Popup } from './../Popup'
+
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-jest.mock('../../../config/wallets', () => ({
-  wallets: [
-    {
-      id: '3',
-      name: 'Custom Wallet',
-      connectorName: 'injected',
-      Icon: () => <></>
-    }
-  ]
-}))
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+import { Popup } from '../Popup'
+
+jest.mock('../../../config/wallets', () => {
+  return {
+    wallets: [
+      {
+        id: '3',
+        name: 'Custom Wallet',
+        connectorName: 'injected',
+        Icon: () => { return <></> },
+        isAvailable: () => { return true }
+      }
+    ]
+  }
+})
 
 describe('Popup Component', () => {
   const onLogin = jest.fn(() => {})
@@ -28,10 +38,12 @@ describe('Popup Component', () => {
   })
 
   beforeEach(() => {
-    mockFn.useAuth(() => ({
-      login: onLogin,
-      logout: onLogout
-    }))
+    mockHooksOrMethods.useAuth(() => {
+      return {
+        login: onLogin,
+        logout: onLogout
+      }
+    })
     i18n.activate('en')
 
     initialRender()

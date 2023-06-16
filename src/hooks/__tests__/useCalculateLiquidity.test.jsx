@@ -1,6 +1,9 @@
-import { useCalculateLiquidity } from '../useCalculateLiquidity'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
+
+import { useCalculateLiquidity } from '../useCalculateLiquidity'
 
 const mockProps = {
   coverKey:
@@ -13,15 +16,17 @@ const mockReturnData = {
   loading: false
 }
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useCalculateLiquidity', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Vault.getInstance()
-  mockFn.useErrorNotifier()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Vault.getInstance()
+  mockHooksOrMethods.useErrorNotifier()
 
   test('while fetching w/o networkId, account, debouncedValue', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useDebounce(null)
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useDebounce(null)
 
     const { result } = await renderHookWrapper(useCalculateLiquidity, [
       mockProps
@@ -32,10 +37,10 @@ describe('useCalculateLiquidity', () => {
   })
 
   test('while fetching successful ', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useDebounce()
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useDebounce()
+    mockHooksOrMethods.useTxPoster()
 
     const { result } = await renderHookWrapper(
       useCalculateLiquidity,
@@ -49,11 +54,11 @@ describe('useCalculateLiquidity', () => {
   })
 
   test('while fetching is not mounted ', async () => {
-    mockFn.useMountedState()
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useDebounce()
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useMountedState()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useDebounce()
+    mockHooksOrMethods.useTxPoster()
 
     const { result } = await renderHookWrapper(
       useCalculateLiquidity,
@@ -66,13 +71,15 @@ describe('useCalculateLiquidity', () => {
   })
 
   test('while fetching error ', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useDebounce()
-    mockFn.useTxPoster(() => ({
-      ...testData.txPoster,
-      contractRead: undefined
-    }))
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useDebounce()
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        contractRead: undefined
+      }
+    })
 
     const { result } = await renderHookWrapper(
       useCalculateLiquidity,

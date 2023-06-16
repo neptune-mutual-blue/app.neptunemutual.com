@@ -43,7 +43,7 @@ export const useLayerZeroBridge = ({ destChainId, sendAmount, receiverAddress })
     const tokenData = isTestNet ? lzConfig.TESTNET_TOKENS : lzConfig.MAINNET_TOKENS
     const _networks = isTestNet ? networks.testnet : networks.mainnet
     const filtered = _networks
-      .filter(n => Object.keys(tokenData).includes(n.chainId.toString())) // filtered based on availability of tokens
+      .filter(n => { return Object.keys(tokenData).includes(n.chainId.toString()) }) // filtered based on availability of tokens
 
     return {
       bridgeContractAddress: lzConfig.BRIDGE_CONTRACTS[networkId],

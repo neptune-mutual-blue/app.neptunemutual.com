@@ -62,7 +62,7 @@ export const usePolicyTxs = ({ limit, page }) => {
 
     fetchPolicyTxs(networkId, getQuery(limit, page, account))
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.policyTransactions.length === 0 ||
@@ -72,13 +72,15 @@ export const usePolicyTxs = ({ limit, page }) => {
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          blockNumber: _data._meta.block.number,
-          policyTransactions: [
-            ...prev.policyTransactions,
-            ..._data.policyTransactions
-          ]
-        }))
+        setData((prev) => {
+          return {
+            blockNumber: _data._meta.block.number,
+            policyTransactions: [
+              ...prev.policyTransactions,
+              ..._data.policyTransactions
+            ]
+          }
+        })
       })
       .catch((err) => {
         console.error(err)

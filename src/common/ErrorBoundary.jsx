@@ -19,6 +19,7 @@ export default class ErrorBoundary extends React.Component {
     const { error } = this.state
     if (error !== null) {
       const encodedBody = encodeURIComponent(issueBody(error))
+
       return (
         <div className='p-12'>
           <div className='flex flex-col gap-4 p-12 m-auto bg-gray-800 rounded-lg'>
@@ -64,6 +65,7 @@ export default class ErrorBoundary extends React.Component {
         </div>
       )
     }
+
     return this.props.children
   }
 }
@@ -79,18 +81,18 @@ function getRelevantState () {
     case 'swap':
       return 'swap'
     case 'add':
-      if (pieces[1] === 'v2') return 'mint'
-      else return 'mintV3'
+      if (pieces[1] === 'v2') { return 'mint' } else { return 'mintV3' }
     case 'remove':
-      if (pieces[1] === 'v2') return 'burn'
-      else return 'burnV3'
+      if (pieces[1] === 'v2') { return 'burn' } else { return 'burnV3' }
   }
+
   return null
 }
 
 function issueBody (error) {
   const relevantState = getRelevantState()
   const deviceData = window?.navigator?.userAgent ?? 'Unknown user agent'
+
   return `## URL
   
 ${window.location.href}

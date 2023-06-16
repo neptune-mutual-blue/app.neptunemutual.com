@@ -82,12 +82,12 @@ const getNavigationLinks = (pathname = '') => {
     const updated = {
       ...link,
       active: link.items
-        ? Boolean(link.items.find(l => pathname.startsWith(l.activeWhenStartsWith)))
+        ? Boolean(link.items.find(l => { return pathname.startsWith(l.activeWhenStartsWith) }))
         : pathname.startsWith(link.activeWhenStartsWith)
     }
 
     if (link.items) {
-      const updatedItems = link.items.map(l => ({ ...l, active: pathname.startsWith(l.activeWhenStartsWith) }))
+      const updatedItems = link.items.map(l => { return { ...l, active: pathname.startsWith(l.activeWhenStartsWith) } })
       updated.items = updatedItems
     }
 
@@ -103,8 +103,9 @@ const getFlattenedNavLinks = () => {
   const _links = []
   const links = getNavigationLinks()
   links.map((link) => {
-    if (link.href) _links.push(link)
-    if (link.items) link.items.map(item => _links.push(item))
+    if (link.href) { _links.push(link) }
+    if (link.items) { link.items.map(item => { return _links.push(item) }) }
+
     return null
   })
 

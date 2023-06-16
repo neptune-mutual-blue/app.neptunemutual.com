@@ -1,4 +1,7 @@
-import React, { useCallback, useState } from 'react'
+import React, {
+  useCallback,
+  useState
+} from 'react'
 
 import { Divider } from '@/common/Divider/Divider'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
@@ -23,6 +26,7 @@ export function useTxPoster () {
   if (context === undefined) {
     throw new Error('useTxPoster must be used within a TxPosterProvider')
   }
+
   return context
 }
 
@@ -48,15 +52,14 @@ export const TxPosterProvider = ({ children }) => {
     }) => {
       if (!instance) {
         onError(new Error('Instance not found'))
+
         return
       }
 
       let estimatedGas = null
 
       try {
-        estimatedGas = await instance.estimateGas[methodName](...args, {
-          ...overrides
-        })
+        estimatedGas = await instance.estimateGas[methodName](...args, { ...overrides })
 
         try {
           const tx = await instance[methodName](...args, {
@@ -82,7 +85,7 @@ export const TxPosterProvider = ({ children }) => {
 
         setData({
           description: description,
-          message: getErrorMessage(err),
+          message: getErrorMessage(err, instance),
           isError: true,
           pendingInvokeArgs: {
             instance,
@@ -178,7 +181,7 @@ const ForceTxModal = ({
           </div>
         </Dialog.Title>
 
-        <div className='overflow-y-auto text-sm max-h-54'>
+        <div className='overflow-y-auto text-sm break-all max-h-54'>
           <div className='mb-5'>
             <p className='leading-5 text-404040'>
               We attempted to submit your transaction but ran into an unexpected

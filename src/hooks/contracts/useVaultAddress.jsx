@@ -12,7 +12,7 @@ export const useVaultAddress = ({ coverKey }) => {
 
   useEffect(() => {
     let ignore = false
-    if (!networkId || !account || !coverKey) return
+    if (!networkId || !account || !coverKey) { return }
 
     async function exec () {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
@@ -23,7 +23,7 @@ export const useVaultAddress = ({ coverKey }) => {
         signerOrProvider
       )
 
-      if (ignore) return
+      if (ignore) { return }
       setAddress(vaultAddress)
     }
 

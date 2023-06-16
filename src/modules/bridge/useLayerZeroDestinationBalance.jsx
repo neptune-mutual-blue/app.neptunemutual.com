@@ -21,6 +21,7 @@ export function useLayerZeroDestinationBalance (destinationChainId) {
         networkId: destinationChainId
       }))
       const result = await res.json()
+
       return result.data || '0'
     },
     [destinationChainId]

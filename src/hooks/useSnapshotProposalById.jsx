@@ -38,7 +38,7 @@ export const useSnapshotProposalById = (id, locale) => {
   useEffect(() => {
     setLoading(true)
 
-    if (!id) return
+    if (!id) { return }
 
     const url = getSnapshotApiURL(networkId)
 

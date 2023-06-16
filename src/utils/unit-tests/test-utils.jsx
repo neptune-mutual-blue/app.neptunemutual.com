@@ -1,40 +1,51 @@
 import React from 'react'
+
+import { en } from 'make-plural/plurals'
+import { RouterContext } from 'next/dist/shared/lib/router-context'
+
+import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
+import { getLibrary } from '@/lib/connect-wallet/utils/web3'
+import { ToastProvider } from '@/lib/toast/provider'
+import { messages as enMessages } from '@/locales/en/messages'
+// import { messages as frMessages } from '@/locales/fr/messages'
+// import { messages as jaMessages } from '@/locales/ja/messages'
+// import { messages as zhMessages } from '@/locales/zh/messages'
+import { DEFAULT_VARIANT } from '@/src/config/toast'
+import { AppConstantsProvider } from '@/src/context/AppConstants'
+import {
+  CoversAndProductsProvider2
+} from '@/src/context/CoversAndProductsData2'
 import { NetworkProvider } from '@/src/context/Network'
-import { Web3ReactProvider } from '@web3-react/core'
-import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
+import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { TxPosterProvider } from '@/src/context/TxPoster'
+import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
+import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
-import { AppConstantsProvider } from '@/src/context/AppConstants'
-import { ToastProvider } from '@/lib/toast/provider'
-import { render, act, waitFor, cleanup, fireEvent, screen } from '@testing-library/react'
-import { getLibrary } from '@/lib/connect-wallet/utils/web3'
-import { en, fr, ja, zh } from 'make-plural/plurals'
-import { messages as enMessages } from '@/locales/en/messages'
-import { messages as frMessages } from '@/locales/fr/messages'
-import { messages as jaMessages } from '@/locales/ja/messages'
-import { messages as zhMessages } from '@/locales/zh/messages'
-import { RouterContext } from 'next/dist/shared/lib/router-context'
-import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
-import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
-import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
-import { CoversAndProductsProvider } from '@/src/context/CoversAndProductsData'
-import { DEFAULT_VARIANT } from '@/src/config/toast'
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react'
+import { Web3ReactProvider } from '@web3-react/core'
 
 i18n.load({
-  en: enMessages,
-  fr: frMessages,
-  ja: jaMessages,
-  zh: zhMessages
+  en: enMessages
+  // fr: frMessages,
+  // ja: jaMessages,
+  // zh: zhMessages
 })
 i18n.loadLocaleData({
-  en: { plurals: en },
-  fr: { plurals: fr },
-  ja: { plurals: ja },
-  zh: { plurals: zh }
+  en: { plurals: en }
+  // fr: { plurals: fr },
+  // ja: { plurals: ja },
+  // zh: { plurals: zh }
 })
 
-const NoProviders = ({ children }) => <>{children}</>
+const NoProviders = ({ children }) => { return <>{children}</> }
 
 const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
   return (
@@ -84,7 +95,7 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
           <Web3ReactProvider getLibrary={getLibrary}>
             <NetworkProvider>
               <AppConstantsProvider>
-                <CoversAndProductsProvider>
+                <CoversAndProductsProvider2>
                   <UnlimitedApprovalProvider>
                     <ToastProvider variant={DEFAULT_VARIANT}>
                       <TxPosterProvider>
@@ -92,7 +103,7 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
                       </TxPosterProvider>
                     </ToastProvider>
                   </UnlimitedApprovalProvider>
-                </CoversAndProductsProvider>
+                </CoversAndProductsProvider2>
               </AppConstantsProvider>
             </NetworkProvider>
           </Web3ReactProvider>
@@ -102,18 +113,20 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
   }
 }
 
-const customRender = (ui, options = {}) =>
-  render(ui, {
+const customRender = (ui, options = {}) => {
+  return render(ui, {
     wrapper: options?.noProviders ? NoProviders : AllTheProviders,
     ...options
   })
+}
 
-export { customRender as render, act, waitFor, cleanup, fireEvent, screen }
+export { act, cleanup, customRender as render, fireEvent, screen, waitFor }
 
 const LocalStorage = (() => {
   let store = {
     [ACTIVE_CONNECTOR_KEY]: 'injected'
   }
+
   return {
     getItem: (key, defaultValue = '') => {
       return store[key] || defaultValue
@@ -138,6 +151,7 @@ Object.defineProperty(window, 'location', {
   },
   writable: true
 })
+
 export const mockLanguage = jest.spyOn(window.navigator, 'language', 'get')
 
 export const originalProcess = process
@@ -148,11 +162,11 @@ global.crypto = {
 }
 
 const ETHEREUM_METHODS = {
-  eth_requestAccounts: () => ['0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e']
+  eth_requestAccounts: () => { return ['0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e'] }
 }
 
 global.ethereum = {
-  enable: jest.fn(() => Promise.resolve(true)),
+  enable: jest.fn(() => { return Promise.resolve(true) }),
   send: jest.fn((method) => {
     if (method === 'eth_chainId') {
       return Promise.resolve(1)
@@ -176,7 +190,8 @@ global.ethereum = {
 
 global.scrollTo = jest.fn(() => {})
 
-export const delay = (ms = 1000) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(), ms)
+export const delay = (ms = 1000) => {
+  return new Promise((resolve) => {
+    setTimeout(() => { return resolve() }, ms)
   })
+}

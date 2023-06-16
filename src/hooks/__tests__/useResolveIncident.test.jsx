@@ -1,15 +1,19 @@
 import { useResolveIncident } from '@/src/hooks/useResolveIncident'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useResolveIncident', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useTxPoster()
-  mockFn.useAuthValidation()
-  mockFn.useTxToast()
-  mockFn.useErrorNotifier()
-  mockFn.sdk.registry.Resolution.getInstance()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useAuthValidation()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useErrorNotifier()
+  mockSdk.registry.Resolution.getInstance()
 
   const args = [
     {
@@ -50,8 +54,8 @@ describe('useResolveIncident', () => {
   })
 
   test('should run auth function if no network or account in resolve function', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, args)
     await act(async () => {
@@ -60,15 +64,17 @@ describe('useResolveIncident', () => {
 
     expect(testData.authValidation.requiresAuth).toHaveBeenCalled()
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 
   test('should call notifyError if error raised in resolve function', async () => {
-    mockFn.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, [
       { ...args[0], productKey: '' }
@@ -79,12 +85,12 @@ describe('useResolveIncident', () => {
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useTxPoster()
   })
 
   test('should run auth function if no network or account in emergencyResolve function', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, args)
     await act(async () => {
@@ -93,15 +99,17 @@ describe('useResolveIncident', () => {
 
     expect(testData.authValidation.requiresAuth).toHaveBeenCalled()
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 
   test('should call notifyError if error raised in emergencyResolve function', async () => {
-    mockFn.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, [
       { ...args[0], productKey: '' }
@@ -113,7 +121,7 @@ describe('useResolveIncident', () => {
 
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
 
-    mockFn.useTxPoster()
+    mockHooksOrMethods.useTxPoster()
   })
 
   test('should be able to execute emergencyResolve function without success function', async () => {

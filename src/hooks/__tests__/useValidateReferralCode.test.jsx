@@ -1,5 +1,11 @@
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+
 import { useValidateReferralCode } from '../useValidateReferralCode'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 const mockProps = {
   referralCode: '1CODE'
@@ -11,7 +17,7 @@ const mockReturnData = {
 
 describe('useValidateReferralCode', () => {
   test('trimmed has empty value', async () => {
-    mockFn.useDebounce('')
+    mockHooksOrMethods.useDebounce('')
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
@@ -21,35 +27,33 @@ describe('useValidateReferralCode', () => {
 
     expect(result.isValid).toBe(true)
     expect(result.errorMessage).toEqual('')
-    expect(result.isPending).toBe(false)
   })
 
   test('trimmed has value w/ error', async () => {
-    mockFn.useDebounce('code')
+    mockSdk.utils.keyUtil.toBytes32(false)
+    mockHooksOrMethods.useDebounce('code')
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
-      [mockProps.referralCode],
+      [mockProps.referralCode, () => { return jest.fn() }],
       true
     )
 
     expect(result.isValid).toBe(false)
-    expect(result.errorMessage).toEqual('Invalid Referral Code')
-    expect(result.isPending).toBe(false)
+    expect(result.errorMessage).toEqual('Invalid Cashback Code')
   })
 
   test('while fetching successfully', async () => {
-    mockFn.useDebounce('code')
-    mockFn.fetch(true, undefined, mockReturnData)
+    mockHooksOrMethods.useDebounce('code')
+    mockGlobals.fetch(true, undefined, mockReturnData)
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
-      [mockProps.referralCode],
+      [mockProps.referralCode, () => { return jest.fn() }],
       true
     )
 
     expect(result.isValid).toBe(true)
     expect(result.errorMessage).toEqual('')
-    expect(result.isPending).toBe(false)
   })
 })

@@ -24,7 +24,7 @@ export const TotalCapacityChart = ({ data }) => {
   const chartRef = useRef()
   const router = useRouter()
 
-  const yAxisMin = (chartData.length >= 2 && sort(chartData.map((x) => x.y))[0]) || 0
+  const yAxisMin = (chartData.length >= 2 && sort(chartData.map((x) => { return x.y }))[0]) || 0
 
   const chartOptions = {
     xAxis: {
@@ -50,6 +50,7 @@ export const TotalCapacityChart = ({ data }) => {
             this.value === 0
               ? { short: '0' }
               : formatCurrency(this.value, router.locale, '', true)
+
           return `<span class='text-black'>${fo.short}</span>`
         },
         useHTML: true
@@ -178,11 +179,10 @@ export const TotalCapacityChart = ({ data }) => {
         })
       })
       _chartData.sort((a, b) => {
-        if (a.x > b.x) return 1
-        if (a.x < b.x) return -1
-        else return 0
+        if (a.x > b.x) { return 1 }
+        if (a.x < b.x) { return -1 } else { return 0 }
       })
-      if (ignore) return
+      if (ignore) { return }
       chartDataTimeout = setTimeout(
         () => {
           setChartData(_chartData)

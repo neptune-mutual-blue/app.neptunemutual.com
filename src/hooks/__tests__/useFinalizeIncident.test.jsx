@@ -1,15 +1,19 @@
 import { useFinalizeIncident } from '@/src/hooks/useFinalizeIncident'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+
+jest.mock('@neptunemutual/sdk')
 
 describe('useFinalizeIncident', () => {
-  mockFn.useWeb3React()
-  mockFn.useNetwork()
-  mockFn.useAuthValidation()
-  mockFn.useTxToast()
-  mockFn.useErrorNotifier()
-  mockFn.useTxPoster()
-  mockFn.sdk.registry.Resolution.getInstance()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useAuthValidation()
+  mockHooksOrMethods.useTxToast()
+  mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.useTxPoster()
+  mockSdk.registry.Resolution.getInstance()
 
   const args = [
     {
@@ -37,8 +41,8 @@ describe('useFinalizeIncident', () => {
   })
 
   test('shoudl return if no networkId or account in finalize function', async () => {
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useFinalizeIncident, args)
 
@@ -46,8 +50,8 @@ describe('useFinalizeIncident', () => {
       await result.finalize(jest.fn())
     })
 
-    mockFn.useNetwork()
-    mockFn.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useWeb3React()
   })
 
   describe('Edge cases coverage', () => {
@@ -62,10 +66,12 @@ describe('useFinalizeIncident', () => {
     })
 
     test('shoudl return if error in writing to contract', async () => {
-      mockFn.useTxPoster(() => ({
-        ...testData.txPoster,
-        writeContract: null
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          writeContract: null
+        }
+      })
 
       const { result, act } = await renderHookWrapper(
         useFinalizeIncident,

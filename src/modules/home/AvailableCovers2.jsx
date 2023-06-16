@@ -31,15 +31,15 @@ import {
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (data) => data.text,
+    selector: (data) => { return data.text },
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.LIQUIDITY]: {
-    selector: (data) => data.capacity,
+    selector: (data) => { return data.capacity },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
-    selector: (data) => data.utilizationRatio,
+    selector: (data) => { return data.utilizationRatio },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
@@ -60,12 +60,14 @@ const defaultSortOption = DEFAULT_SORT_OPTIONS[2]
 
 const getSelectedSortOption = (query) => {
   const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
-  return sortOptions.find((item) => item.value === selectedSort) || defaultSortOption
+
+  return sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
 }
 
 const getSelectedViewOption = (query) => {
   const selectedView = typeof query[ViewQueryParam] === 'string' ? query[ViewQueryParam] : defaultViewOption.value
-  return viewOptions.find((item) => item.value === selectedView) || defaultViewOption
+
+  return viewOptions.find((item) => { return item.value === selectedView }) || defaultViewOption
 }
 
 export const AvailableCovers = () => {
@@ -89,6 +91,7 @@ export const AvailableCovers = () => {
     } else if (selectedViewOption.value === SORT_TYPES.DIVERSIFIED_POOL) {
       return getDiversifiedCovers()
     }
+
     return getAllProducts()
   }, [getAllProducts, getDedicatedCovers, getDiversifiedCovers, selectedViewOption.value])
 
@@ -108,17 +111,19 @@ export const AvailableCovers = () => {
   }, [list, searchTerm])
 
   const sortedCovers = useMemo(
-    () =>
-      sorter({
+    () => {
+      return sorter({
         ...sorterData[selectedSortOption.value],
         list: filtered.map(item => {
           const isDiversifiedProduct = isValidProduct(item.productKey)
           const text = (isDiversifiedProduct
             ? item.productInfoDetails?.productName
             : item?.coverInfoDetails?.coverName || item?.coverInfoDetails?.projectName) || ''
+
           return { ...item, text }
         })
-      }),
+      })
+    },
     [filtered, selectedSortOption.value]
   )
 
@@ -156,7 +161,7 @@ export const AvailableCovers = () => {
   }
 
   return (
-    <Container className='py-16'>
+    <Container className='py-16' data-testid='available-covers-container'>
       <div
         id='cover-products'
         className='flex flex-wrap items-center justify-between'
@@ -221,7 +226,7 @@ function Content ({
 }) {
   if (loading) {
     return (
-      <CardSkeleton numberOfCards={CARDS_PER_PAGE} className='min-h-301' />
+      <CardSkeleton numberOfCards={CARDS_PER_PAGE} className='min-h-301' data-testid='cards-skeleton' />
     )
   }
 

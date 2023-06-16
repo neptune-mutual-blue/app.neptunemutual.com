@@ -16,29 +16,31 @@ const DISPLAY_COUNT = 4
 export const Results = ({ results = [] }) => {
   const [expanded, setExpanded] = useState(false)
 
-  if (!results.length) return null
+  if (!results.length) { return null }
 
   const filteredResults = expanded ? results : results.slice(0, DISPLAY_COUNT)
 
   return (
     <div className='space-y-2'>
       {
-        filteredResults.map((result, i) => (
-          <ResultBar
-            key={i}
-            name={result.name}
-            value={result.value}
-            percent={result.percent}
-            colors={colorArray[i % colorArray.length]}
-          />
-        ))
+        filteredResults.map((result, i) => {
+          return (
+            <ResultBar
+              key={i}
+              name={result.name}
+              value={result.value}
+              percent={result.percent}
+              colors={colorArray[i % colorArray.length]}
+            />
+          )
+        })
       }
 
       {
         results.length > DISPLAY_COUNT && (
           <button
             className='flex items-center gap-1'
-            onClick={() => setExpanded(prev => !prev)}
+            onClick={() => { return setExpanded(prev => { return !prev }) }}
           >
             <span className='text-xs uppercase opacity-40'>
               {

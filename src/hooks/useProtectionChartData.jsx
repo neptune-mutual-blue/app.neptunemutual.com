@@ -9,7 +9,7 @@ const getAggregatedDataWithLabels = (data = []) => {
 
   data.forEach(item => {
     const chain = item.chainId
-    if (!aggregatedData[chain]) aggregatedData[chain] = []
+    if (!aggregatedData[chain]) { aggregatedData[chain] = [] }
 
     aggregatedData[chain].push({
       label: item.expiry,
@@ -22,13 +22,13 @@ const getAggregatedDataWithLabels = (data = []) => {
     })
 
     const label = item.expiry
-    if (!labels.includes(label)) labels.push(label)
+    if (!labels.includes(label)) { labels.push(label) }
   })
 
   Object.keys(aggregatedData).forEach(chain => {
     const networkName = aggregatedData[chain][0].networkName
     labels.forEach((label, idx) => {
-      let data = aggregatedData[chain].find(item => item.label === label)
+      let data = aggregatedData[chain].find(item => { return item.label === label })
 
       if (!data) {
         data = {
@@ -49,13 +49,13 @@ const getAggregatedDataWithLabels = (data = []) => {
     const arr = aggregatedData[chain]
     const sortedArr = sortDates(
       arr,
-      x => x.label
+      x => { return x.label }
     )
     aggregatedData[chain] = sortedArr
   })
 
   const key = Object.keys(aggregatedData)[0]
-  labels = aggregatedData[key].map(i => i.label)
+  labels = aggregatedData[key].map(i => { return i.label })
 
   return {
     data: aggregatedData,
@@ -72,7 +72,7 @@ export const useProtectionChartData = () => {
   const { networkId } = useNetwork()
 
   const fetchMonthlyProtectionData = async () => {
-    if (fetched.current || loading) return
+    if (fetched.current || loading) { return }
 
     setLoading(true)
 

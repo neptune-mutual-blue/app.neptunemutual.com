@@ -1,5 +1,10 @@
+import {
+  useCallback,
+  useEffect,
+  useRef
+} from 'react'
+
 import { getGraphURL } from '@/src/config/environment'
-import { useCallback, useEffect, useRef } from 'react'
 
 export const ERRORS_SUBGRAPH = {
   UNKNOWN_SUBGRAPH_URL: 'UNKNOWN_SUBGRAPH_URL',
@@ -52,6 +57,7 @@ export function useSubgraphFetch (label) {
       } catch (error) {
         if (isAbortedRequest(error)) {
           console.log(`Aborted Request: ${label}`)
+
           return
         }
 

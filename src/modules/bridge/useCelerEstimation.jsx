@@ -133,7 +133,7 @@ export function useCelerEstimation ({
     }
 
     const fees = await getEstimatedCurrentChainGas()
-    if (fees) { setEstimation(_prev => ({ ..._prev, currentChainGas: fees })) }
+    if (fees) { setEstimation(_prev => { return { ..._prev, currentChainGas: fees } }) }
   }, [getEstimatedReceiveAmount, getEstimatedCurrentChainGas, destinationTokenDecimal, debouncedAmount, sourceTokenDecimal])
 
   useEffect(() => {

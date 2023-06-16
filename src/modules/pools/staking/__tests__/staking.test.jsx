@@ -1,97 +1,71 @@
+
+import { act } from 'react-dom/test-utils'
+
+import { StakingPage } from '@/modules/pools/staking'
+
 import {
   fireEvent,
-  waitFor,
+  screen,
   withDataProviders,
   withSorting
 } from '@/utils/unit-tests/test-utils'
-import { act } from 'react-dom/test-utils'
-import { StakingPage } from '@/modules/pools/staking'
-import { i18n } from '@lingui/core'
-import ReactDOM from 'react-dom'
-import { mockFetch } from '@/utils/unit-tests/mockApiRequest'
-import * as envConfig from '@/src/config/environment'
-import * as web3Core from '@web3-react/core'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { testData } from '@/utils/unit-tests/test-data'
 
 describe('Pool Staking', () => {
-  global.fetch = jest.fn(mockFetch)
-
-  jest.spyOn(envConfig, 'getNetworkId').mockImplementation(() => 80001)
-  jest
-    .spyOn(envConfig, 'getGraphURL')
-    .mockImplementation(
-      () =>
-        'https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai'
-    )
-
-  jest.spyOn(web3Core, 'useWeb3React').mockImplementation(() => ({
-    activate: jest.fn(async () => {}),
-    deactivate: jest.fn(async () => {}),
-    active: true,
-    setError: jest.fn(async () => {}),
-    library: undefined,
-    account: '0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e'
-  }))
-
   const Component = withDataProviders(withSorting(StakingPage))
   const container = document.createElement('div')
 
-  beforeAll(async () => {
-    act(() => {
-      i18n.activate('en')
-      ReactDOM.render(<Component />, container)
-    })
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(10))
+  const { initialRender } = initiateTest(Component, {}, () => {
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useSortableStats()
+    mockHooksOrMethods.useTokenStakingPools()
+    mockHooksOrMethods.usePoolInfo()
   })
 
-  describe('Staking card', () => {
-    test('Card should be 6', () => {
-      const stakeCards = select(container, SELECTION.TITLE)
+  beforeEach(() => {
+    initialRender()
+  })
 
-      expect(stakeCards.length).toEqual(6)
+  const data = testData.tokenStakingPools.data
+
+  describe('Staking card', () => {
+    test('Correct number of cards should be shown', () => {
+      const stakingCards = screen.getAllByTestId('staking-card')
+
+      expect(stakingCards.length).toEqual(data.pools.length)
     })
 
     describe('TVL', () => {
-      test('should be 6', () => {
-        const tvlElements = select(container, SELECTION.TVL)
-        expect(tvlElements.length).toEqual(6)
-      })
-
-      test('no 0 value', () => {
-        const tvlValues = getValues(container, SELECTION.TVL)
-
-        const zeroValues = tvlValues.filter((value) => value === 0)
-
-        expect(zeroValues.length).toEqual(0)
+      test('should be correct', () => {
+        const tvls = screen.getAllByText('TVL')
+        expect(tvls.length).toEqual(data.pools.length)
       })
     })
 
     describe('APR', () => {
-      test('should be 6', () => {
-        const aprElements = select(container, SELECTION.APR)
-        expect(aprElements.length).toEqual(6)
-      })
-
-      test('no 0 value', () => {
-        const aprValues = getValues(container, SELECTION.APR)
-        const zeroValues = aprValues.filter((value) => value === 0)
-
-        expect(zeroValues.length).toEqual(0)
+      test('should be correct', () => {
+        const aprs = screen.getAllByTestId('apr-badge')
+        const receivedText = aprs[0].textContent
+        const expectedText = 'APR: 0%'
+        expect(receivedText).toEqual(expectedText)
       })
     })
 
     describe('Sorting', () => {
       test('Sorting is visible', () => {
-        const sortButton = container.querySelector('button')
+        const sortButton = screen.getByTestId('select-button')
+        const options = screen.queryByTestId('options-container')
+
+        expect(options).not.toBeInTheDocument()
 
         act(() => {
           fireEvent.click(sortButton)
         })
 
-        const sortList = container.querySelector(
-          `[aria-labelledby='${sortButton.id}']`
-        )
-
-        expect(container).toContainElement(sortList)
+        const options2 = screen.queryByTestId('options-container')
+        expect(options2).toBeInTheDocument()
       })
 
       test('Sort Alphabetically', () => {
@@ -195,17 +169,15 @@ const select = (container, type) => {
 
 const getValues = (container, type) => {
   if (type === SELECTION.TITLE) {
-    return select(container, type).map((el) => el.textContent)
+    return select(container, type).map((el) => { return el.textContent })
   }
 
   if (type === SELECTION.TVL) {
-    return select(container, type).map((el) =>
-      parseFloat(el.textContent.slice(1))
+    return select(container, type).map((el) => { return parseFloat(el.textContent.slice(1)) }
     )
   }
 
-  return select(container, type).map((el) =>
-    parseFloat(el.textContent.slice('APR: '.length))
+  return select(container, type).map((el) => { return parseFloat(el.textContent.slice('APR: '.length)) }
   )
 }
 

@@ -32,40 +32,42 @@ import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 
-const renderWhen = (row) => <WhenRenderer row={row} />
+const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
-const renderDetails = (row) => <DetailsRenderer row={row} />
+const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 
-const renderAmount = (row) => <CxTokenAmountRenderer row={row} />
+const renderAmount = (row) => { return <CxTokenAmountRenderer row={row} /> }
 
-const renderActions = (row) => <ActionsRenderer row={row} />
+const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => [
-  {
-    name: t`when`,
-    align: 'left',
-    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
-    renderData: renderWhen
-  },
-  {
-    name: t`details`,
-    align: 'left',
-    renderHeader,
-    renderData: renderDetails
-  },
-  {
-    name: t`amount`,
-    align: 'right',
-    renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'right',
-    renderHeader,
-    renderData: renderActions
-  }
-]
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
+  return [
+    {
+      name: t`when`,
+      align: 'left',
+      renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
+      renderData: renderWhen
+    },
+    {
+      name: t`details`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDetails
+    },
+    {
+      name: t`amount`,
+      align: 'right',
+      renderHeader,
+      renderData: renderAmount
+    },
+    {
+      name: '',
+      align: 'right',
+      renderHeader,
+      renderData: renderActions
+    }
+  ]
+}
 
 export const MyPoliciesTxsTable = () => {
   const { page, limit, setPage } = usePagination()
@@ -116,7 +118,7 @@ export const MyPoliciesTxsTable = () => {
           className='mt-4'
           disabled={loading}
           onClick={() => {
-            setPage((prev) => prev + 1)
+            setPage((prev) => { return prev + 1 })
           }}
         >
           <Trans>Show More</Trans>
@@ -216,12 +218,13 @@ const CxTokenAmountRenderer = ({ row }) => {
         </span>
         <button
           className='p-1 ml-3'
-          onClick={() =>
-            register(
+          onClick={() => {
+            return register(
               row.cxToken.id,
               row.cxToken.tokenSymbol,
               row.cxToken.tokenDecimals
-            )}
+            )
+          }}
           title='Add to metamask'
         >
           <span className='sr-only'>Add to metamask</span>

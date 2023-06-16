@@ -43,7 +43,7 @@ export function useTransactionHistory () {
   }, [account, networkId])
 
   useEffect(() => {
-    if (!networkId || !account || !library) return
+    if (!networkId || !account || !library) { return }
 
     LSHistory.setId(account, networkId);
 

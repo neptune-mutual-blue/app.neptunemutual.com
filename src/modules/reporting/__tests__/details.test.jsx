@@ -1,25 +1,30 @@
-import { i18n } from '@lingui/core'
-import { render, screen } from '@/utils/unit-tests/test-utils'
-import { globalFn, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { testData } from '@/utils/unit-tests/test-data'
 import { ReportingDetailsPage } from '@/modules/reporting/details'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
-jest.mock('react-chartjs-2', () => ({
-  Doughnut: (p) => mockFn.chartMockFn(p),
-  Bar: (p) => mockFn.chartMockFn(p)
-}))
+jest.mock('react-chartjs-2', () => {
+  return {
+    Doughnut: (p) => { return mockHooksOrMethods.chartMockFn(p) },
+    Bar: (p) => { return mockHooksOrMethods.chartMockFn(p) }
+  }
+})
 
 describe('ReportingDetailsPage test', () => {
   beforeEach(() => {
     i18n.activate('en')
 
-    mockFn.useAppConstants()
-    mockFn.useCoverOrProductData()
-    mockFn.useConsensusReportingInfo()
-    mockFn.useRecentVotes()
+    mockHooksOrMethods.useAppConstants()
+    mockHooksOrMethods.useConsensusReportingInfo()
+    mockHooksOrMethods.useRecentVotes()
 
-    globalFn.resizeObserver()
-    globalFn.DOMRect()
+    mockGlobals.resizeObserver()
+    mockGlobals.DOMRect()
   })
 
   const refetch = jest.fn()
@@ -28,6 +33,7 @@ describe('ReportingDetailsPage test', () => {
     render(
       <ReportingDetailsPage
         incidentReport={testData.incidentReports.data.incidentReport}
+        coverOrProductData={testData.coversAndProducts2.data}
         refetchReport={refetch}
       />
     )

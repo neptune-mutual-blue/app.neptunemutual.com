@@ -1,13 +1,15 @@
 import { usePodStakingPools } from '@/src/hooks/usePodStakingPools'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('usePodStakingPools', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
 
   test('should return default hook result', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
     const { result } = await renderHookWrapper(usePodStakingPools)
 
     expect(result.data).toEqual({ pools: [] })
@@ -15,56 +17,56 @@ describe('usePodStakingPools', () => {
     expect(result.loading).toEqual(false)
     expect(typeof result.handleShowMore).toBe('function')
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should be able to call handleShowMore function', async () => {
-    mockFn.fetch()
+    mockGlobals.fetch()
     const { result, act } = await renderHookWrapper(usePodStakingPools)
 
-    await act(async () => await result.handleShowMore())
+    await act(async () => { return await result.handleShowMore() })
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   describe('Edge cases coverage', () => {
     test('should set hasMore to false if networkId', async () => {
-      mockFn.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
       const { result } = await renderHookWrapper(usePodStakingPools, [], true)
       expect(result.hasMore).toEqual(false)
 
-      mockFn.useNetwork()
+      mockHooksOrMethods.useNetwork()
     })
 
     test('should set pools data as provided by api', async () => {
       const mockData = { data: { pools: [1, 2, 3, 4, 5, 6] } }
-      mockFn.fetch(true, undefined, mockData)
+      mockGlobals.fetch(true, undefined, mockData)
 
       const { result } = await renderHookWrapper(usePodStakingPools, [], true)
       expect(result.data).toEqual(mockData.data)
 
-      mockFn.fetch().unmock()
+      mockGlobals.fetch().unmock()
     })
 
     test('should set hasMore to false if pools data is empty', async () => {
       const mockData = { data: { pools: [] } }
-      mockFn.fetch(true, undefined, mockData)
+      mockGlobals.fetch(true, undefined, mockData)
 
       const { result } = await renderHookWrapper(usePodStakingPools, [], true)
       expect(result.hasMore).toEqual(false)
 
-      mockFn.fetch().unmock()
+      mockGlobals.fetch().unmock()
     })
 
     test('should log error when error is thrown from api', async () => {
-      mockFn.fetch(false)
+      mockGlobals.fetch(false)
       mock()
 
       await renderHookWrapper(usePodStakingPools, [], true)
       expect(mockFunction).toHaveBeenCalled()
 
-      mockFn.fetch().unmock()
+      mockGlobals.fetch().unmock()
       restore()
     })
   })

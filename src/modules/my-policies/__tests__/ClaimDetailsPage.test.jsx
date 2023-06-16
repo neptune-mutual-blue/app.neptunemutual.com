@@ -1,24 +1,27 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { ClaimDetailsPage } from '@/modules/my-policies/ClaimDetailsPage'
-import { screen } from '@testing-library/react'
-import { testData } from '@/utils/unit-tests/test-data'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import { screen } from '@testing-library/react'
 
 describe('Claim Details Page loading', () => {
   beforeEach(() => {
-    mockFn.useRouter(() => ({
-      ...testData.router,
-      query: {
-        coverId: 'defi',
-        productId: '1inch'
-      },
-      locale: 'en'
-    }))
-    mockFn.useCoverOrProductData(() => null)
-    mockFn.useActivePoliciesByCover()
-    mockFn.useFetchReportsByKeyAndDate()
-    mockFn.useAppConstants()
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        query: {
+          coverId: 'defi',
+          productId: '1inch'
+        },
+        locale: 'en'
+      }
+    })
+    mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, loading: true } })
+    mockHooksOrMethods.useActivePoliciesByCover()
+    mockHooksOrMethods.useFetchReportsByKeyAndDate()
+    mockHooksOrMethods.useAppConstants()
 
     const { initialRender } = initiateTest(ClaimDetailsPage, {})
 
@@ -33,18 +36,20 @@ describe('Claim Details Page loading', () => {
 
 describe('Claim Details Page disabled', () => {
   beforeEach(() => {
-    mockFn.useRouter(() => ({
-      ...testData.router,
-      query: {
-        coverId: 'defi',
-        productId: '1inch'
-      },
-      locale: 'en'
-    }))
-    mockFn.useCoverOrProductData()
-    mockFn.useActivePoliciesByCover()
-    mockFn.useFetchReportsByKeyAndDate()
-    mockFn.useAppConstants()
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        query: {
+          coverId: 'defi',
+          productId: '1inch'
+        },
+        locale: 'en'
+      }
+    })
+    mockHooksOrMethods.useCoversAndProducts2()
+    mockHooksOrMethods.useActivePoliciesByCover()
+    mockHooksOrMethods.useFetchReportsByKeyAndDate()
+    mockHooksOrMethods.useAppConstants()
 
     const { initialRender } = initiateTest(ClaimDetailsPage, {
       disabled: true
@@ -61,19 +66,16 @@ describe('Claim Details Page disabled', () => {
 
 describe('Claim Details Page', () => {
   beforeEach(() => {
-    mockFn.useRouter(() => ({
-      ...testData.router,
-      query: {
-        coverId: 'defi',
-        productId: '1inch'
-      },
-      locale: 'en'
-    }))
-    mockFn.useCoverOrProductData()
-    mockFn.useActivePoliciesByCover()
-    mockFn.useFetchReportsByKeyAndDate()
-    mockFn.useAppConstants()
-
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        query: {
+          coverId: 'defi',
+          productId: '1inch'
+        },
+        locale: 'en'
+      }
+    })
     const { initialRender } = initiateTest(ClaimDetailsPage, {})
 
     initialRender()

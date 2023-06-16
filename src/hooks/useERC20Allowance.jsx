@@ -33,12 +33,14 @@ export const useERC20Allowance = (tokenAddress) => {
     async (spender, { onTransactionResult, onError, cleanup }) => {
       if (!networkId || !account || !tokenAddress) {
         cleanup()
+
         return
       }
 
       if (!spender) {
         // Cleanup explicitly since the below useEffect cannot access spender
         cleanup()
+
         return
       }
 
@@ -59,6 +61,7 @@ export const useERC20Allowance = (tokenAddress) => {
             'Could not get an instance of the ERC20 from the SDK',
             tokenAddress
           )
+
           return
         }
 
@@ -142,7 +145,7 @@ export const useERC20Allowance = (tokenAddress) => {
       }, DELAY_BETWEEN_CHECKS)
     }
 
-    return () => clearInterval(interval)
+    return () => { return clearInterval(interval) }
   }, [checkForChange, refetch])
 
   useEffect(() => {

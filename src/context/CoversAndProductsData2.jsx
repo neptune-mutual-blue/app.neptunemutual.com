@@ -20,17 +20,18 @@ const CoversAndProductsDataContext = createContext({
   loading: false,
   data: [],
 
-  getCoverOrProduct: (_coverKey, _productKey) => null,
+  getCoverOrProduct: (_coverKey, _productKey) => { return null },
 
-  getCoverByCoverKey: (_coverKey) => null,
+  getCoverByCoverKey: (_coverKey) => { return null },
 
-  getProductsByCoverKey: (_coverKey) => null,
+  getProductsByCoverKey: (_coverKey) => { return null },
 
-  getProduct: (_coverKey, _productKey) => null,
+  getProduct: (_coverKey, _productKey) => { return null },
 
-  getAllProducts: () => null,
-  getDedicatedCovers: () => null,
-  getDiversifiedCovers: () => null,
+  getAllProducts: () => { return null },
+  getDedicatedCovers: () => { return null },
+  getDiversifiedCovers: () => { return null },
+  getAllCovers: () => { return null },
   updateData: async () => {}
 })
 
@@ -41,6 +42,7 @@ export function useCoversAndProducts2 () {
       'useCoversAndProducts must be used within a CoversAndProductsProvider'
     )
   }
+
   return context
 }
 
@@ -53,10 +55,12 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   const url = useMemo(() => {
     if (account) {
       const replacements = { networkId, account }
+
       return getReplacedString(PRODUCT_SUMMARY_WITH_ACCOUNT_URL, replacements)
     }
 
     const replacements = { networkId }
+
     return getReplacedString(PRODUCT_SUMMARY_URL, replacements)
   }, [account, networkId])
 
@@ -80,10 +84,11 @@ export const CoversAndProductsProvider2 = ({ children }) => {
       const res = await response.json()
 
       setData(res.data
-        .filter(x => x.chainId.toString() === networkId.toString())
+        .filter(x => { return x.chainId.toString() === networkId.toString() })
         .sort((a, b) => {
           const text1 = a?.productInfoDetails?.productName || (a?.coverInfoDetails?.coverName || a?.coverInfoDetails?.projectName) || ''
           const text2 = b?.productInfoDetails?.productName || (b?.coverInfoDetails?.coverName || b?.coverInfoDetails?.projectName) || ''
+
           return text1.localeCompare(text2, 'en')
         })
       )
@@ -95,7 +100,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   useEffect(() => {
     setLoading(true)
     updateData()
-      .finally(() => setLoading(false))
+      .finally(() => { return setLoading(false) })
   }, [updateData])
 
   // Returned value can be
@@ -112,29 +117,34 @@ export const CoversAndProductsProvider2 = ({ children }) => {
 
   // Get dedicated covers
   const getDedicatedCovers = () => {
-    return data.filter(x => !x.productKey && !x.supportsProducts)
+    return data.filter(x => { return !x.productKey && !x.supportsProducts })
   }
 
   // Get diversified covers
   const getDiversifiedCovers = () => {
-    return data.filter(x => !x.productKey && x.supportsProducts)
+    return data.filter(x => { return !x.productKey && x.supportsProducts })
+  }
+
+  // Get all covers
+  const getAllCovers = () => {
+    return data.filter(x => { return !x.productKey })
   }
 
   // Get dedicated covers and products of diverisified covers
   const getAllProducts = () => {
-    return data.filter(x => x.productKey || !x.supportsProducts)
+    return data.filter(x => { return x.productKey || !x.supportsProducts })
   }
 
   const getCoverByCoverKey = (coverKey) => {
-    return data.find(x => x.coverKey === coverKey && !x.productKey)
+    return data.find(x => { return x.coverKey === coverKey && !x.productKey })
   }
 
   const getProductsByCoverKey = (coverKey) => {
-    return data.filter(x => x.coverKey === coverKey && x.productKey)
+    return data.filter(x => { return x.coverKey === coverKey && x.productKey })
   }
 
   const getProduct = (coverKey, productKey) => {
-    return data.find(x => x.coverKey === coverKey && x.productKey === productKey)
+    return data.find(x => { return x.coverKey === coverKey && x.productKey === productKey })
   }
 
   return (
@@ -148,6 +158,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
       getAllProducts,
       getDedicatedCovers,
       getDiversifiedCovers,
+      getAllCovers,
       updateData
     }}
     >

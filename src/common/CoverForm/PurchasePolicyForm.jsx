@@ -54,6 +54,7 @@ import { AbnormalCoverStatus } from '@/common/CoverForm/AbnormalStatus'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
+
   return d.getDate()
 }
 
@@ -226,13 +227,13 @@ export const PurchasePolicyForm = ({
           className='mb-44'
         />
 
-        <BackButton className='mx-auto' onClick={() => router.back()} />
+        <BackButton className='mx-auto' onClick={() => { return router.back() }} />
       </div>
     )
   }
 
   return (
-    <div className='flex flex-col w-616'>
+    <div className='flex flex-col w-616' data-testid='purchase-policy-form-container'>
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
       <div className='w-full p-4 rounded-xl bg-FEFEFF md:p-9 border-B0C4DB border-1.5' data-testid='purchase-policy-form'>
@@ -289,6 +290,7 @@ export const PurchasePolicyForm = ({
               name='terms_parameters_exclusions'
               id='terms_parameters_exclusions'
               onChange={() => { setRulesAccepted(!rulesAccepted) }}
+              data-testid='accept-rules'
             >
               <Trans>
                 I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions.
@@ -391,8 +393,9 @@ export const PurchasePolicyForm = ({
                 if (formSteps === 1) {
                   !isValidReferralCode && setReferralCode('')
                 }
-                setFormSteps((prev) => prev + 1)
+                setFormSteps((prev) => { return prev + 1 })
               }}
+              data-testid='form-steps-button'
             >
               {formSteps === 0 && (
                 <>
@@ -406,7 +409,7 @@ export const PurchasePolicyForm = ({
 
             {formSteps === 0 && (
               <OutlinedButton
-                onClick={() => router.back()}
+                onClick={() => { return router.back() }}
                 className={classNames('text-[#01052D] hover:text-[#01052D] flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center ml-4 mt-2 md:mt-0 bg-E6EAEF border-none hover:bg-E6EAEF focus-visible:ring-E6EAEF ')}
               >
                 <Trans>Cancel</Trans>
@@ -416,7 +419,7 @@ export const PurchasePolicyForm = ({
             {formSteps > 0 && (
               <BackButton
                 className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase ml-4 mt-2 md:mt-0')}
-                onClick={() => setFormSteps((prev) => prev - 1)}
+                onClick={() => { return setFormSteps((prev) => { return prev - 1 }) }}
               />)}
 
           </div>

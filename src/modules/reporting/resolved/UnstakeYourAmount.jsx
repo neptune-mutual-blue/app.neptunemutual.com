@@ -47,17 +47,19 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
 
   const isClaimExpired = useRetryUntilPassed(() => {
     // If false reporting, we don't care about the claim period
-    if (!incidentReport.decision) return true
+    if (!incidentReport.decision) { return true }
 
     const _now = DateLib.unix()
+
     return isGreater(_now, incidentReport.claimExpiresAt)
   })
 
   const isClaimStarted = useRetryUntilPassed(() => {
     // If false reporting, we don't care about the claim period
-    if (!incidentReport.decision) return true
+    if (!incidentReport.decision) { return true }
 
     const _now = DateLib.unix()
+
     return isGreater(_now, incidentReport.claimBeginsFrom)
   })
 
@@ -83,6 +85,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
   const handleUnstake = async () => {
     if (!incidentReport.finalized) {
       await unstakeWithClaim(handleUnstakeSuccess)
+
       return
     }
 

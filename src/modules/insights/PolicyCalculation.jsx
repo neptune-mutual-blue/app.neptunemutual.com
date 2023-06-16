@@ -34,7 +34,7 @@ export const PolicyCalculation = ({
       pathname: link
     }
 
-    if (amount) routerObject.query = { amount }
+    if (amount) { routerObject.query = { amount } }
     router.push(routerObject)
   }
 

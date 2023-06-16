@@ -12,20 +12,23 @@ import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 
-const RenderNetwork = ({ LogoIcon, name }) => (
-  <td
-    className='px-6 py-4'
-  >
-    <div className='flex flex-row text-sm leading-5 w-54 text-01052D' title={name}>
-      <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
-      <span> {name} </span>
-    </div>
-  </td>
-)
+const RenderNetwork = ({ LogoIcon, name }) => {
+  return (
+    <td
+      className='px-6 py-4'
+    >
+      <div className='flex flex-row text-sm leading-5 w-54 text-01052D' title={name}>
+        <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
+        <span> {name} </span>
+      </div>
+    </td>
+  )
+}
 
 const RenderCover = ({ coverFee }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
+
   return (
     <td
       className='px-6 py-4 text-sm leading-5 text-01052D'
@@ -56,6 +59,7 @@ const RenderCover = ({ coverFee }) => {
 const RenderCapacity = ({ capacity }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
+
   return (
     <td
       className='px-6 py-4 text-sm leading-5 text-right text-01052D'
@@ -117,26 +121,26 @@ const columns = [
   {
     name: t`Network`,
     align: 'left',
-    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row) => <RenderNetwork LogoIcon={row.LogoIcon} name={row.name} />
+    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+    renderData: (row) => { return <RenderNetwork LogoIcon={row.LogoIcon} name={row.name} /> }
   },
   {
     name: t`Cover Fee Earned`,
     align: 'left',
-    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row) => <RenderCover coverFee={row.coverFee} />
+    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+    renderData: (row) => { return <RenderCover coverFee={row.coverFee} /> }
   },
   {
     name: t`TVL`,
     align: 'right',
-    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row) => <RenderTVL tvl={row.tvl} />
+    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+    renderData: (row) => { return <RenderTVL tvl={row.tvl} /> }
   },
   {
     name: t`Capacity`,
     align: 'right',
-    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row) => <RenderCapacity capacity={row.capacity} />
+    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+    renderData: (row) => { return <RenderCapacity capacity={row.capacity} /> }
   }
 ]
 

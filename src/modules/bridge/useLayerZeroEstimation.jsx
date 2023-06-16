@@ -93,7 +93,7 @@ export function useLayerZeroEstimation ({
 
     const currentChainGas = await getEstimatedCurrentChainGas()
     if (currentChainGas) {
-      setEstimation(_prev => ({ ..._prev, currentChainGas }))
+      setEstimation(_prev => { return { ..._prev, currentChainGas } })
     }
 
     setEstimating(false)

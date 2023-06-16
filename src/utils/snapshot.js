@@ -1,3 +1,4 @@
+import DateLib from '@/lib/date/DateLib'
 import {
   SNAPSHOT_API_URL,
   SNAPSHOT_INTERFACE_URL,
@@ -14,9 +15,9 @@ import { getNetworkInfo } from '@/utils/network'
 export const getCategoryFromTitle = (text) => {
   const lowercaseText = text.toLowerCase()
 
-  if (lowercaseText.includes('gce')) return { value: 'GC Emission', type: 'success' }
-  if (lowercaseText.includes('block emission')) return { value: 'Emission', type: 'danger' }
-  if (lowercaseText.includes('gcl')) return { value: 'New Pool', type: 'info' }
+  if (lowercaseText.includes('gce')) { return { value: 'GC Emission', type: 'success' } }
+  if (lowercaseText.includes('block emission')) { return { value: 'Emission', type: 'danger' } }
+  if (lowercaseText.includes('gcl')) { return { value: 'New Pool', type: 'info' } }
 
   return null
 }
@@ -24,6 +25,7 @@ export const getCategoryFromTitle = (text) => {
 export const getTagFromTitle = (text = '') => {
   // Returns the text between [] in the beginning of the sentence
   const [, , tag] = Array.from(text.match(/^(\[([a-zA-Z0-9]*)(-.*)?\])?/))
+
   return tag ? tag.toLowerCase() : ''
 }
 
@@ -67,17 +69,22 @@ const SnapshotChainParams = {
 }
 
 export const getChoiceChainId = (choice) => {
-  return SnapshotChainParams[getTagFromTitle(choice)]
+  // fuj and fuji are considered same
+  // eth and ethereum are considered same
+  const matchedKey = Object.keys(SnapshotChainParams).find(key => { return getTagFromTitle(choice).startsWith(key) })
+
+  return SnapshotChainParams[matchedKey]
 }
 
 const getPoolKeyFromChoice = (choice) => {
   const [, key] = choice.split(']')
+
   return key.trim()
 }
 
 export const parseChoice = (choice) => {
   return {
-    chainId: SnapshotChainParams[getTagFromTitle(choice)],
+    chainId: getChoiceChainId(choice),
     key: safeFormatBytes32String(getPoolKeyFromChoice(choice))
   }
 }
@@ -94,7 +101,7 @@ export const getEpochFromTitle = (title = '') => {
 }
 
 export const getChainsFromChoices = (choices) => {
-  const chainIds = choices.map(name => getChoiceChainId(name))
+  const chainIds = choices.map(name => { return getChoiceChainId(name) })
 
   return [...new Set(chainIds)]
 }
@@ -111,7 +118,7 @@ export const getResultsByChains = (results = [], selectedChains) => {
     return results
   }
 
-  return results.filter(option => selectedChains.includes(option.chainId))
+  return results.filter(option => { return selectedChains.includes(option.chainId) })
 }
 
 export const getVotingResults = (choices = [], scores = []) => {
@@ -130,9 +137,23 @@ export const getVotingResults = (choices = [], scores = []) => {
       percent: toBNSafe(scores[i])
         .dividedBy(totalScore)
         .toNumber(),
-      color: getColorByIndex(i)
+      color: getColorByIndex(i, choices)
     }
   })
 
   return results
+}
+
+export const getAsOfDate = (start, end) => {
+  let date = new Date()
+
+  if (date < DateLib.fromUnix(start)) {
+    date = DateLib.fromUnix(start)
+  }
+
+  if (date > DateLib.fromUnix(end)) {
+    date = DateLib.fromUnix(end)
+  }
+
+  return date
 }

@@ -8,26 +8,28 @@ export const TabHeader = ({ activeTab, headers, onClick }) => {
       data-testid='tab-header-container'
     >
       <div className='flex justify-center mx-auto xs:max-w-7xl xs:justify-start '>
-        {headers.map((header) => (
-          <Tab
-            className=''
-            key={header.name}
-            active={activeTab === header.name}
-          >
-            <button
-              onClick={() => {
-                onClick(header.name)
-              }}
-              className={classNames(
-                'inline-block px-6 py-2',
-                activeTab === header.name ? 'font-semibold' : ''
-              )}
-              data-testid='tab-btn'
+        {headers.map((header) => {
+          return (
+            <Tab
+              className=''
+              key={header.name}
+              active={activeTab === header.name}
             >
-              {header.displayAs}
-            </button>
-          </Tab>
-        ))}
+              <button
+                onClick={() => {
+                  onClick(header.name)
+                }}
+                className={classNames(
+                  'inline-block px-6 py-2',
+                  activeTab === header.name ? 'font-semibold' : ''
+                )}
+                data-testid='tab-btn'
+              >
+                {header.displayAs}
+              </button>
+            </Tab>
+          )
+        })}
       </div>
     </div>
   )

@@ -1,25 +1,55 @@
+import BigNumber from 'bignumber.js'
 import { useRouter } from 'next/router'
 
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
+import DateLib from '@/lib/date/DateLib'
+import { MULTIPLIER } from '@/src/config/constants'
+import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
+import {
+  convertFromUnits,
+  toBNSafe
+} from '@/utils/bn'
+import { calculateBoost } from '@/utils/calculate-boost'
+import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { explainInterval } from '@/utils/formatter/interval'
 import { useWeb3React } from '@web3-react/core'
 
 const BoostButton = ({ className = '', value }) => {
-  const { active } = useWeb3React()
+  const { account } = useWeb3React()
+
+  const formattedValueShort = `${toBNSafe(value).decimalPlaces(2).toString()}x`
+  const formattedValueLong = toBNSafe(value).decimalPlaces(6).toString()
+
   return (
     <>
-      {!active
+      {!account
         ? (
-          <InfoTooltip infoComponent='Please connect your wallet to view your boost.' className='text-xs px-2 py-0.75 bg-opacity-100 max-w-none' disabled={active}>
-            <button type='button' className={`rounded-full text-white text-sm font-semibold px-[11px] py-1 ${className}`}>
+          <InfoTooltip
+            infoComponent='Please connect your wallet to view your boost.'
+            className='text-xs px-2 py-0.75 bg-opacity-100 max-w-none'
+          >
+            <button
+              type='button'
+              className={classNames(
+                'rounded-full text-white text-sm font-semibold px-3 py-1',
+                className
+              )}
+            >
               Boost: ?
             </button>
           </InfoTooltip>
           )
         : (
-          <div className={`rounded-full text-white text-sm font-semibold px-[11px] py-1 ${className}`}>
-            Boost: {value}x
+          <div
+            className={classNames(
+              'rounded-full text-white text-sm font-semibold px-3 py-1',
+              className
+            )}
+            title={formattedValueLong}
+          >
+            Boost: {formattedValueShort}
           </div>
           )}
     </>
@@ -44,10 +74,24 @@ const BoostData = ({ value }) => {
   return null
 }
 
-export const LiquidityGaugeBoostDetails = ({ tokenValue, boost }) => {
-  const router = useRouter()
+export const LiquidityGaugeBoostDetails = ({
+  epochDuration,
+  currentEpoch,
+  rewardTokenDecimals,
+  currentDistribution
+}) => {
+  const { data } = useVoteEscrowData()
 
-  const formattedTokenValue = formatCurrency(tokenValue, router.locale, '', true, true)
+  const lockDuration = toBNSafe(data.unlockTimestamp).isGreaterThan(DateLib.unix())
+    ? toBNSafe(data.unlockTimestamp).minus(DateLib.unix()) // to duration left
+      .decimalPlaces(0, BigNumber.ROUND_CEIL) // rounding
+      .toNumber()
+    : 0
+
+  const boost = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
+
+  const router = useRouter()
+  const formattedTokenValue = formatCurrency(convertFromUnits(currentDistribution, rewardTokenDecimals).toString(), router.locale, '', true, true)
 
   return (
     <div className='flex flex-col gap-2 mt-6 md:mt-0'>
@@ -56,7 +100,10 @@ export const LiquidityGaugeBoostDetails = ({ tokenValue, boost }) => {
           {formattedTokenValue.short} NPM/Epoch
         </h2>
 
-        <InfoTooltip infoComponent={`${formattedTokenValue.long} NPM emission per epoch.`} className='text-xs px-2 py-0.75 bg-opacity-100 max-w-none' align='end'>
+        <InfoTooltip
+          infoComponent={`${formattedTokenValue.long} NPM emission in epoch #${currentEpoch}. Epoch duration is ${explainInterval(epochDuration)}.`}
+          className='text-xs px-2 py-0.75 bg-opacity-100 max-w-none' align='end'
+        >
           <button type='button' className='cursor-default'>
             <InfoCircleIcon className='w-4 h-4' />
           </button>

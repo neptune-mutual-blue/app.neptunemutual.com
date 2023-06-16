@@ -21,14 +21,17 @@ const BondPoolTransactions = '/pools/bond/transactions'
 const StakingPoolsTransactions = '/pools/staking/transactions'
 const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
 const LiquidityGaugePoolsTransactions = '/pools/liquidity-gauge-pools/transactions'
-const LiquidityLatestGaugeChart = '/pools/liquidity-gauge-pools/latest-gauge'
+const LiquidityGaugePools = '/pools/liquidity-gauge-pools'
 const Bridge = '/bridge'
 
-const GovernanceProposalPage = (proposalId) => `/governance/${proposalId}`
+const GovernanceProposalPage = (proposalId) => { return `/governance/${proposalId}` }
 
 const Pools = () => {
   let url = null
-  if (isFeatureEnabled('bond')) {
+  // ORDER is important
+  if (isFeatureEnabled('liquidity-gauge-pools')) {
+    url = LiquidityGaugePools
+  } else if (isFeatureEnabled('bond')) {
     url = BondPool
   } else if (isFeatureEnabled('staking-pool')) {
     url = StakingPools
@@ -166,7 +169,7 @@ export const Routes = {
   PodStakingPools,
   PodStakingPoolsTransactions,
   LiquidityGaugePoolsTransactions,
-  LiquidityLatestGaugeChart,
+  LiquidityGaugePools,
   Pools,
   ViewCover,
   ViewProduct,

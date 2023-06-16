@@ -70,7 +70,7 @@ export const useActivePoliciesByCover = ({
       getQuery(limit, page, startOfMonth, account, coverKey, productKey)
     )
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.userPolicies.length === 0 || _data.userPolicies.length < limit
@@ -79,9 +79,11 @@ export const useActivePoliciesByCover = ({
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          userPolicies: [...prev.userPolicies, ..._data.userPolicies]
-        }))
+        setData((prev) => {
+          return {
+            userPolicies: [...prev.userPolicies, ..._data.userPolicies]
+          }
+        })
       })
       .catch((err) => {
         console.error(err)
@@ -102,7 +104,7 @@ export const useActivePoliciesByCover = ({
   const totalActiveProtection = useMemo(() => {
     return sumOf(
       '0',
-      ...data.userPolicies.map((x) => x.totalAmountToCover || '0')
+      ...data.userPolicies.map((x) => { return x.totalAmountToCover || '0' })
     )
   }, [data.userPolicies])
 

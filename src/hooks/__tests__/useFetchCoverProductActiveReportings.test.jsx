@@ -1,13 +1,15 @@
 import { useFetchCoverProductActiveReportings } from '@/src/hooks/useFetchCoverProductActiveReportings'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useFetchCoverProductActiveReportings', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
 
-  mockFn.useNetwork()
-  mockFn.getGraphURL()
-  mockFn.getNetworkId()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.getGraphURL()
+  mockHooksOrMethods.getNetworkId()
 
   const args = [
     {
@@ -20,7 +22,7 @@ describe('useFetchCoverProductActiveReportings', () => {
 
   test('should return default value', async () => {
     const mockData = { data: {} }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(
       useFetchCoverProductActiveReportings,
@@ -30,14 +32,14 @@ describe('useFetchCoverProductActiveReportings', () => {
     expect(result.data).toEqual([])
     expect(result.loading).toBeFalsy()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return correct value as returned from api', async () => {
     const mockData = {
       data: { incidentReports: { id: '1', reportedOn: new Date().getTime() } }
     }
-    mockFn.fetch(true, undefined, mockData)
+    mockGlobals.fetch(true, undefined, mockData)
 
     const { result } = await renderHookWrapper(
       useFetchCoverProductActiveReportings,
@@ -47,11 +49,11 @@ describe('useFetchCoverProductActiveReportings', () => {
 
     expect(result.data).toEqual(mockData.data.incidentReports)
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should log error if api error occurs', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock() // mocking console.error
 
     await renderHookWrapper(useFetchCoverProductActiveReportings, args, true)
@@ -59,7 +61,7 @@ describe('useFetchCoverProductActiveReportings', () => {
     expect(mockFunction).toHaveBeenCalled()
 
     restore()
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should return if no product key & cover key available', async () => {

@@ -34,15 +34,15 @@ const homeViewSelectionKey = 'view'
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (data) => data.text,
+    selector: (data) => { return data.text },
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.LIQUIDITY]: {
-    selector: (data) => data.capacity,
+    selector: (data) => { return data.capacity },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
-    selector: (data) => data.utilizationRatio,
+    selector: (data) => { return data.utilizationRatio },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
@@ -71,20 +71,22 @@ export const ProductsGrid = () => {
   })
 
   const sortedCovers = useMemo(
-    () =>
-      sorter({
+    () => {
+      return sorter({
         ...sorterData[sortType.value],
         list: filtered.map(data => {
           const isDiversifiedProduct = isValidProduct(data.productKey)
           const text = isDiversifiedProduct
             ? data.productInfoDetails?.productName
             : data?.coverInfoDetails.coverName || data?.coverInfoDetails.projectName
+
           return {
             ...data,
             text
           }
         })
-      }),
+      })
+    },
 
     [filtered, sortType.value]
   )

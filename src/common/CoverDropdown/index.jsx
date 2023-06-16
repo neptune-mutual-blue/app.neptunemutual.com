@@ -134,9 +134,11 @@ export const CoverDropdown = ({
           )}
           disabled={!selected}
         >
-          {({ open }) => (
-            <Button open={open} />
-          )}
+          {({ open }) => {
+            return (
+              <Button open={open} />
+            )
+          }}
         </Listbox.Button>
         <Transition
           as={Fragment}
@@ -150,23 +152,28 @@ export const CoverDropdown = ({
           )}
           >
 
-            {covers.map((option, optionIdx) => (
-              <Listbox.Option
-                key={optionIdx}
-                id='reporting-dropdown'
-                className={({ active }) =>
-                  classNames(
-                    'select-none relative px-1 cursor-pointer disabled:cursor-not-allowed',
-                    active ? 'text-4E7DD9' : 'text-black',
-                    typeof optionClass === 'function' ? optionClass(active) : optionClass
-                  )}
-                value={option}
-              >
-                {({ selected: _selected, active }) => (
-                  <Option active={active} option={option} _selected={_selected} index={optionIdx} />
-                )}
-              </Listbox.Option>
-            ))}
+            {covers.map((option, optionIdx) => {
+              return (
+                <Listbox.Option
+                  key={optionIdx}
+                  id='reporting-dropdown'
+                  className={({ active }) => {
+                    return classNames(
+                      'select-none relative px-1 cursor-pointer disabled:cursor-not-allowed',
+                      active ? 'text-4E7DD9' : 'text-black',
+                      typeof optionClass === 'function' ? optionClass(active) : optionClass
+                    )
+                  }}
+                  value={option}
+                >
+                  {({ selected: _selected, active }) => {
+                    return (
+                      <Option active={active} option={option} _selected={_selected} index={optionIdx} />
+                    )
+                  }}
+                </Listbox.Option>
+              )
+            })}
           </Listbox.Options>
         </Transition>
       </div>

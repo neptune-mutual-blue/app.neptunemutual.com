@@ -10,6 +10,7 @@ import { classNames } from '@/utils/classnames'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
+
   return d.getDate()
 }
 
@@ -57,6 +58,7 @@ export const DateRangePicker = ({ handleRadioChange, coverMonth, disabled }) => 
   function handleClick (e) {
     handleRadioChange(e)
   }
+
   return (
     <div className='relative flex'>
       <div className='absolute h-2 bg-999BAB  bg-opacity-30 top-1.5 z-5' style={{ width: 'calc(100% - 20px)' }} />

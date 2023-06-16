@@ -42,8 +42,8 @@ export const useFetchReportsByKeyAndDate = ({ coverKey, incidentDate }) => {
         .then(({ incidentReports }) => {
           setData(incidentReports)
         })
-        .catch((e) => console.error(e))
-        .finally(() => setLoading(false))
+        .catch((e) => { return console.error(e) })
+        .finally(() => { return setLoading(false) })
     }
   }, [coverKey, fetchReportsByKeyAndDate, incidentDate])
 

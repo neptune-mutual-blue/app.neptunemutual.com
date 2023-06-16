@@ -1,13 +1,16 @@
-import { screen, fireEvent } from '@/utils/unit-tests/test-utils'
-
 import { PodStakingPage } from '@/modules/pools/pod-staking'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
 
 const initialMocks = () => {
-  mockFn.useNetwork()
-  mockFn.usePodStakingPools()
-  mockFn.usePoolInfo()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.usePodStakingPools()
+  mockHooksOrMethods.usePoolInfo()
 }
 
 describe('PodStaking Page test', () => {
@@ -44,10 +47,12 @@ describe('PodStaking Page test', () => {
 
     test('should render the show more button if not loading and has more', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          hasMore: true
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            hasMore: true
+          }
+        })
       })
 
       const btn = screen.getByTestId('show-more-button')
@@ -56,11 +61,13 @@ describe('PodStaking Page test', () => {
 
     test('should show the loading grid when loading', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          data: { pools: [] },
-          loading: true
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            data: { pools: [] },
+            loading: true
+          }
+        })
       })
 
       const grid = screen.getByTestId('loading-grid')
@@ -69,25 +76,29 @@ describe('PodStaking Page test', () => {
 
     test('should render the no pools container if not loading & pool data is empty', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          data: { pools: [] }
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            data: { pools: [] }
+          }
+        })
       })
 
       const grid = screen.getByTestId('no-pools-container')
       expect(grid).toBeInTheDocument()
 
-      const noDataImage = screen.getByAltText('no data found')
+      const noDataImage = screen.getByAltText(/no data found/i)
       expect(noDataImage).toBeInTheDocument()
     })
 
     test('simulating clicking show more button', () => {
       rerenderFn({}, () => {
-        mockFn.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          hasMore: true
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            hasMore: true
+          }
+        })
       })
 
       const btn = screen.getByTestId('show-more-button')

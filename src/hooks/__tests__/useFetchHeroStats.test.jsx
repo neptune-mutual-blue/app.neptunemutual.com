@@ -1,12 +1,14 @@
 import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useFetchHeroStats', () => {
-  const { mock, mockFunction, restore } = mockFn.console.error()
+  const { mock, mockFunction, restore } = mockGlobals.console.error()
 
-  mockFn.getGraphURL()
-  mockFn.getNetworkId()
+  mockHooksOrMethods.getGraphURL()
+  mockHooksOrMethods.getNetworkId()
 
   const mockFetchData = {
     data: {
@@ -29,7 +31,7 @@ describe('useFetchHeroStats', () => {
   }
 
   test('should return correct data ', async () => {
-    mockFn.fetch(true, undefined, mockFetchData)
+    mockGlobals.fetch(true, undefined, mockFetchData)
 
     const { result } = await renderHookWrapper(useFetchHeroStats, [], true)
 
@@ -40,18 +42,18 @@ describe('useFetchHeroStats', () => {
     expect(result.data.totalCoverage).toBeDefined()
     expect(result.data.tvlPool).toBeDefined()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
   })
 
   test('should log error if error returned from api', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     await renderHookWrapper(useFetchHeroStats, [], true)
 
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

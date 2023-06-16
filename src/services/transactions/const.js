@@ -32,6 +32,7 @@ export const METHODS = {
   LIQUIDITY_REMOVE: 'liquidity.remove',
   LIQUIDITY_TOKEN_APPROVE: 'liquidity.token.remove',
   LIQUIDITY_INFO: 'liquidity.info',
+  UPDATE_WITHDRWAL_WINDOW: 'liquidity.updateState',
   VOTE_REFUTE: 'vote.refute',
   VOTE_ATTEST: 'vote.attest',
   VOTE_APPROVE: 'vote.approve',
@@ -43,5 +44,9 @@ export const METHODS = {
   BRIDGE_APPROVE: 'bridge.approve',
   BRIDGE_TOKEN: 'bridge.token',
   GCR_APPROVE: 'gcr.approve',
-  GCR_SET_GAUGE: 'gcr.setGauge'
+  GCR_SET_GAUGE: 'gcr.setGauge',
+  GAUGE_POOL_TOKEN_APPROVE: 'liquidity_gauge_pool.token_approve',
+  GAUGE_POOL_DEPOSIT: 'liquidity_gauge_pool.deposit',
+  GAUGE_POOL_WITHDRAW: 'liquidity_gauge_pool.withdraw',
+  GAUGE_POOL_WITHDRAW_REWARDS: 'liquidity_gauge_pool.withdraw_rewards'
 }

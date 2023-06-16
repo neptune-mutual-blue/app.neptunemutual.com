@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
@@ -18,7 +22,7 @@ const getQuery = (coverKey) => {
   `
 }
 
-// TODO: Instead we could expose `isCoverNormalInternal` from smart contracts
+// @todo: Instead we could expose `isCoverNormalInternal` from smart contracts
 /**
  *
  * @param {object} param
@@ -36,9 +40,9 @@ export const useCoverActiveReportings = ({ coverKey }) => {
     if (coverKey) {
       setLoading(true)
       fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
-        .then(({ incidentReports }) => setData(incidentReports))
-        .catch((e) => console.error(e))
-        .finally(() => setLoading(false))
+        .then(({ incidentReports }) => { return setData(incidentReports) })
+        .catch((e) => { return console.error(e) })
+        .finally(() => { return setLoading(false) })
     }
   }, [coverKey, fetchCoverActiveReportings])
 

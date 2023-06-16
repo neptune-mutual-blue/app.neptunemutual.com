@@ -108,7 +108,7 @@ export const TokenBalance = ({
             'ml-3',
             disabled && 'pointer-events-none cursor-not-allowed'
           )}
-          onClick={() => register(tokenAddress, unit, tokenDecimals)}
+          onClick={() => { return register(tokenAddress, unit, tokenDecimals) }}
           title='Add to Metamask'
           data-testid='add-button'
         >

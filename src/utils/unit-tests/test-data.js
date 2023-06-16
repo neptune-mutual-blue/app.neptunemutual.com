@@ -1,7 +1,208 @@
 import {
   convertToUnits,
+  sumOf,
   toBN
 } from '@/utils/bn'
+
+const coverAndProductData2 = {
+  chainId: '84531',
+  coverKey: '0x6465666900000000000000000000000000000000000000000000000000000000',
+  coverKeyString: 'defi',
+  coverInfo: 'QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq',
+  coverInfoDetails: {
+    coverKey: '0x6465666900000000000000000000000000000000000000000000000000000000',
+    coverName: 'Popular DeFi Apps',
+    projectName: null,
+    tokenName: 'Yield Bearing USDC',
+    tokenSymbol: 'iUSDC-POP',
+    requiresWhitelist: false,
+    supportsProducts: true,
+    leverageFactor: '10',
+    tags: [
+      'nft',
+      'exchange',
+      'dex',
+      'swap',
+      'fork',
+      'stablecoin',
+      'lending',
+      'flashloan',
+      'borrowing',
+      'interest',
+      'loan',
+      'staking',
+      'yield',
+      'insurance',
+      'payment'
+    ],
+    about: '',
+    blockchains: [
+      {
+        chainId: 1,
+        name: 'Main Ethereum Network'
+      }
+    ],
+    floor: '200',
+    ceiling: '1200',
+    reportingPeriod: 300,
+    cooldownPeriod: 300,
+    claimPeriod: 300,
+    minStakeToReport: '2000000000000000000000',
+    stakeWithFee: '25000000000000000000000',
+    initialReassuranceAmount: '50000000000',
+    reassuranceRate: '2500'
+  },
+  productKey: '0x31696e63682d7632000000000000000000000000000000000000000000000000',
+  productKeyString: '1inch-v2',
+  productInfo: 'QmTwXYSsMjEZFCCcsJx7JS89Rs4gezQvgqEhf7rb7tm3z1',
+  productInfoDetails: {
+    coverKey: '0x6465666900000000000000000000000000000000000000000000000000000000',
+    productKey: '0x31696e63682d7632000000000000000000000000000000000000000000000000',
+    productName: '1inch v2',
+    requiresWhitelist: false,
+    efficiency: '9000',
+    tags: [
+      'exchange',
+      'dex',
+      'swap',
+      'aggregation'
+    ],
+    about: 'The 1inch Network unites decentralized protocols whose synergy enables the most lucrative, fastest, and protected operations in the DeFi space by offering access to hundreds of liquidity sources across multiple chains. The 1inch Network was launched at the ETHGlobal New York hackathon in May 2019 with the release of its Aggregation Protocol v1. Since then, 1inch Network has developed additional DeFi tools such as the Liquidity Protocol, Limit Order Protocol, P2P transactions, and 1inch Mobile Wallet.',
+    blockchains: [
+      {
+        chainId: 1,
+        name: 'Main Ethereum Network'
+      }
+    ],
+    parameters: [
+      {
+        parameter: 'Cover Policy Conditions',
+        type: 'condition',
+        text: 'This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.',
+        list: {
+          type: 'unordered',
+          items: [
+            'This policy relates exclusively to the 1inch V2 deployed on the Ethereum blockchain.',
+            'To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy.'
+          ]
+        }
+      },
+      {
+        parameter: 'Cover Parameters',
+        type: 'parameter',
+        text: 'All of the following parameters must be applicable for the policy to be validated:',
+        list: {
+          type: 'ordered',
+          items: [
+            'Minimum total loss of user funds from the reported incident should exceed $5 million.',
+            'The designated protocol suffers a hack of user funds in which the user funds are permanently and irrecoverably stolen from the protocol.',
+            'The loss arises from a smart contract vulnerability.',
+            'The loss must arise from one of the following blockchains: Ethereum.'
+          ]
+        }
+      },
+      {
+        parameter: 'Cover Exclusions',
+        type: 'exclusion',
+        list: {
+          type: 'ordered',
+          items: [
+            'Incident on any blockchain that is not supported by this cover.',
+            'Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.',
+            'All exclusions present in the standard terms and conditions.'
+          ]
+        }
+      }
+    ],
+    links: {
+      website: 'https://1inch.io/',
+      twitter: 'https://twitter.com/1inch',
+      blog: 'https://blog.1inch.io/',
+      documentation: 'https://docs.1inch.io/',
+      reddit: 'https://www.reddit.com/r/1inch/',
+      discord: 'https://discord.com/invite/1inch',
+      youtube: 'https://www.youtube.com/channel/UCk0nvK4bHpteQXZKv7lkq5w',
+      telegram: 'https://t.me/OneInchNetwork',
+      github: 'https://github.com/1inch'
+    },
+    resolutionSources: [
+      {
+        text: '1inch Blog',
+        uri: 'https://blog.1inch.io/'
+      },
+      {
+        text: '1inch Twitter',
+        uri: 'https://twitter.com/1inch'
+      },
+      {
+        text: 'Neptune Mutual Twitter',
+        uri: 'https://twitter.com/neptunemutual'
+      }
+    ]
+  },
+  productStatusEnum: 'IncidentHappened',
+  productStatus: 2,
+  floor: '200',
+  ceiling: '1200',
+  leverage: '10',
+  capitalEfficiency: '9000',
+  capacity: '4231683304505',
+  commitment: '0',
+  availableForUnderwriting: '4231683304505',
+  utilizationRatio: '0.00000000000000000000000000000000',
+  reassurance: '4465100000000',
+  tvl: '4231683304505',
+  coverageLag: '60',
+  supportsProducts: false,
+  requiresWhitelist: false,
+  minReportingStake: '2000000000000000000000',
+  activeIncidentDate: 1683190378,
+  reporterCommission: 1000,
+  reportingPeriod: 300,
+  claimPlatformFee: 650,
+  isUserWhitelisted: false,
+  coverInfoUrl: '/ipfs/QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq',
+  productInfoUrl: '/ipfs/QmTwXYSsMjEZFCCcsJx7JS89Rs4gezQvgqEhf7rb7tm3z1'
+}
+
+const activePolicies = [
+  {
+    id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc-1664582399',
+    coverKey:
+      '0x68756f62692d77616e0000000000000000000000000000000000000000000000',
+    productKey:
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
+    cxToken: {
+      id: '0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc',
+      creationDate: '1659576476',
+      expiryDate: '1664582399'
+    },
+    totalAmountToCover: '32000000',
+    expiresOn: '1664582399',
+    cover: {
+      id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
+    },
+    product: null
+  },
+  {
+    id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399',
+    coverKey:
+      '0x6262382d65786368616e67650000000000000000000000000000000000000000',
+    productKey:
+      '0x0000000000000000000000000000000000000000000000000000000000000000',
+    cxToken: {
+      id: '0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2',
+      creationDate: '1658819063',
+      expiryDate: '1664582399'
+    },
+    totalAmountToCover: '1000000000',
+    expiresOn: '1664582399',
+    cover: {
+      id: '0x6262382d65786368616e67650000000000000000000000000000000000000000'
+    },
+    product: null
+  }
+]
 
 export const testData = {
   covers: [
@@ -582,8 +783,8 @@ export const testData = {
     liquidityTokenAddress: '0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468',
     liquidityTokenSymbol: 'DAI',
     poolsTvl: '0',
-    getTVLById: (_id) => '0',
-    getPriceByAddress: (_address) => '0',
+    getTVLById: (_id) => { return '0' },
+    getPriceByAddress: (_address) => { return '0' },
     roles: {
       isGovernanceAgent: false,
       isGovernanceAdmin: true,
@@ -658,7 +859,8 @@ export const testData = {
     isPreview: false,
     isLocaleDomain: false,
     replace: jest.fn(),
-    back: jest.fn()
+    back: jest.fn(),
+    push: jest.fn()
   },
   coverActiveReportings: {
     data: [],
@@ -763,70 +965,31 @@ export const testData = {
   },
   activePolicies: {
     data: {
-      activePolicies: [
-        {
-          id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc-1664582399',
-          coverKey:
-            '0x68756f62692d77616e0000000000000000000000000000000000000000000000',
-          productKey:
-            '0x0000000000000000000000000000000000000000000000000000000000000000',
-          cxToken: {
-            id: '0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc',
-            creationDate: '1659576476',
-            expiryDate: '1664582399'
-          },
-          totalAmountToCover: '32000000',
-          expiresOn: '1664582399',
-          cover: {
-            id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
-          },
-          product: null
-        },
-        {
-          id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399',
-          coverKey:
-            '0x6262382d65786368616e67650000000000000000000000000000000000000000',
-          productKey:
-            '0x0000000000000000000000000000000000000000000000000000000000000000',
-          cxToken: {
-            id: '0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2',
-            creationDate: '1658819063',
-            expiryDate: '1664582399'
-          },
-          totalAmountToCover: '1000000000',
-          expiresOn: '1664582399',
-          cover: {
-            id: '0x6262382d65786368616e67650000000000000000000000000000000000000000'
-          },
-          product: null
-        }
-      ],
-      totalActiveProtection: '1032000000'
+      activePolicies,
+      totalActiveProtection: sumOf(...activePolicies.map(policy => { return policy.amount })).toString()
     },
     loading: false
   },
   useExpiredPolicies: {
-    data: {
-      expiredPolicies: [
-        {
-          id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x2a405d704a54a1d4da200cb25a5a097c34629519-1661990399',
-          coverKey:
+    data: [
+      {
+        id: '0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x2a405d704a54a1d4da200cb25a5a097c34629519-1661990399',
+        coverKey:
             '0x68756f62692d77616e0000000000000000000000000000000000000000000000',
-          productKey:
+        productKey:
             '0x0000000000000000000000000000000000000000000000000000000000000000',
-          cxToken: {
-            id: '0x2a405d704a54a1d4da200cb25a5a097c34629519',
-            creationDate: '1659576567',
-            expiryDate: '1661990399'
-          },
-          totalAmountToCover: '43000000',
-          expiresOn: '1661990399',
-          cover: {
-            id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
-          }
+        cxToken: {
+          id: '0x2a405d704a54a1d4da200cb25a5a097c34629519',
+          creationDate: '1659576567',
+          expiryDate: '1661990399'
+        },
+        totalAmountToCover: '43000000',
+        expiresOn: '1661990399',
+        cover: {
+          id: '0x68756f62692d77616e0000000000000000000000000000000000000000000000'
         }
-      ]
-    },
+      }
+    ],
     loading: false
   },
   doughnutChart: {
@@ -923,98 +1086,100 @@ export const testData = {
     register: jest.fn()
   },
   protocolDayData: {
-    data: [
-      {
-        date: 1658880000,
-        totalLiquidity: '61483097602741'
-      },
-      {
-        date: 1658361600,
-        totalLiquidity: '61442554000000'
-      },
-      {
-        date: 1658361600,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1658275200,
-        totalLiquidity: '61434054000000'
-      },
-      {
-        date: 1658188800,
-        totalLiquidity: '61432804000000'
-      },
-      {
-        date: 1658534400,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1668102401,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1658793600,
-        totalLiquidity: '61469047602741'
-      },
+    data: {
+      totalCapacity: [
+        {
+          date: 1658880000,
+          value: '61483097602741'
+        },
+        {
+          date: 1658361600,
+          value: '61442554000000'
+        },
+        {
+          date: 1658361600,
+          value: '61447554000000'
+        },
+        {
+          date: 1658275200,
+          value: '61434054000000'
+        },
+        {
+          date: 1658188800,
+          value: '61432804000000'
+        },
+        {
+          date: 1658534400,
+          value: '61447554000000'
+        },
+        {
+          date: 1668102401,
+          value: '61447554000000'
+        },
+        {
+          date: 1658793600,
+          value: '61469047602741'
+        },
 
-      {
-        date: 1658880000,
-        totalLiquidity: '61449554000000'
-      },
+        {
+          date: 1658880000,
+          value: '61449554000000'
+        },
 
-      {
-        date: 1658966400,
-        totalLiquidity: '61483097602741'
-      },
-      {
-        date: 1659052800,
-        totalLiquidity: '61483597602741'
-      },
-      {
-        date: 1659139200,
-        totalLiquidity: '61483597602741'
-      },
-      {
-        date: 1659225600,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659312000,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659398400,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659484800,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659571200,
-        totalLiquidity: '61488419602741'
-      },
-      {
-        date: 1659657600,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659744000,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659830400,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659916800,
-        totalLiquidity: '61489519602741'
-      },
-      {
-        date: 1660003200,
-        totalLiquidity: '61489519602741'
-      }
-    ],
+        {
+          date: 1658966400,
+          value: '61483097602741'
+        },
+        {
+          date: 1659052800,
+          value: '61483597602741'
+        },
+        {
+          date: 1659139200,
+          value: '61483597602741'
+        },
+        {
+          date: 1659225600,
+          value: '61483697602741'
+        },
+        {
+          date: 1659312000,
+          value: '61483697602741'
+        },
+        {
+          date: 1659398400,
+          value: '61483697602741'
+        },
+        {
+          date: 1659484800,
+          value: '61483697602741'
+        },
+        {
+          date: 1659571200,
+          value: '61488419602741'
+        },
+        {
+          date: 1659657600,
+          value: '61489419602741'
+        },
+        {
+          date: 1659744000,
+          value: '61489419602741'
+        },
+        {
+          date: 1659830400,
+          value: '61489419602741'
+        },
+        {
+          date: 1659916800,
+          value: '61489519602741'
+        },
+        {
+          date: 1660003200,
+          value: '61489519602741'
+        }
+      ]
+    },
     loading: false
   },
   resolvedReportings: {
@@ -1176,54 +1341,52 @@ export const testData = {
   },
   incidentReports: {
     data: {
-      incidentReport: {
-        id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1660556048',
-        coverKey:
-          '0x6465666900000000000000000000000000000000000000000000000000000000',
-        productKey:
-          '0x31696e6368000000000000000000000000000000000000000000000000000000',
-        incidentDate: '1660556048',
-        resolutionDeadline: '1660556956',
-        resolved: true,
-        resolveTransaction: {
-          timestamp: '1660556656'
-        },
-        emergencyResolved: false,
-        emergencyResolveTransaction: null,
-        finalized: true,
-        status: 'FalseReporting',
-        decision: false,
-        resolutionTimestamp: '1660556348',
-        claimBeginsFrom: '0',
-        claimExpiresAt: '0',
-        reporter: '0x65e06b1bcf7b91974a15e5178f8aa74dee29b7c9',
-        reporterInfo:
-          '0x5619b6a34143138de536007cabd84e2ce16dbb3f90c7158e730437751d2c6db6',
-        reporterStake: '3000000000000000000000',
-        disputer: '0xae55a2fa7621093fa5e89abf410955764ac1d92b',
-        disputerInfo:
-          '0x8d34a6b705d4ba718992d283ac92552df62188c231f461763b71523fb2ef4307',
-        disputerStake: '2000000000000000000000',
-        totalAttestedStake: '3000000000000000000000',
-        totalAttestedCount: '1',
-        totalRefutedStake: '4000000000000000000000',
-        totalRefutedCount: '2',
-        reportTransaction: {
-          id: '0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9',
-          timestamp: '1660556048'
-        },
-        disputeTransaction: {
-          id: '0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310',
-          timestamp: '1660556209'
-        },
-        reportIpfsData:
-          '{\n  "title": "This is a test report",\n  "observed": "2022-08-14T08:46:00.000Z",\n  "proofOfIncident": [\n    "https://www.example.com/report",\n    "https://www.example.com/report_3",\n    "https://www.example.com/report_2"\n  ],\n  "description": "asdsadsadsadas",\n  "stake": "3000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000000000000000000000000000000000000000000000000000/reporting/1660466760000"\n}',
-        disputeIpfsData:
-          '{\n  "title": "this is dispute",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "this is test dispuite",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}'
-      }
+      id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1660556048',
+      coverKey:
+        '0x6465666900000000000000000000000000000000000000000000000000000000',
+      productKey:
+        '0x31696e6368000000000000000000000000000000000000000000000000000000',
+      incidentDate: '1660556048',
+      resolutionDeadline: '1660556956',
+      resolved: true,
+      resolveTransaction: {
+        timestamp: '1660556656'
+      },
+      emergencyResolved: false,
+      emergencyResolveTransaction: null,
+      finalized: true,
+      status: 'FalseReporting',
+      decision: false,
+      resolutionTimestamp: '1660556348',
+      claimBeginsFrom: '0',
+      claimExpiresAt: '0',
+      reporter: '0x65e06b1bcf7b91974a15e5178f8aa74dee29b7c9',
+      reporterInfo:
+        '0x5619b6a34143138de536007cabd84e2ce16dbb3f90c7158e730437751d2c6db6',
+      reporterStake: '3000000000000000000000',
+      disputer: '0xae55a2fa7621093fa5e89abf410955764ac1d92b',
+      disputerInfo:
+        '0x8d34a6b705d4ba718992d283ac92552df62188c231f461763b71523fb2ef4307',
+      disputerStake: '2000000000000000000000',
+      totalAttestedStake: '3000000000000000000000',
+      totalAttestedCount: '1',
+      totalRefutedStake: '4000000000000000000000',
+      totalRefutedCount: '2',
+      reportTransaction: {
+        id: '0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9',
+        timestamp: '1660556048'
+      },
+      disputeTransaction: {
+        id: '0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310',
+        timestamp: '1660556209'
+      },
+      reportIpfsData:
+        '{\n  "title": "This is a test report",\n  "observed": "2022-08-14T08:46:00.000Z",\n  "proofOfIncident": [\n    "https://www.example.com/report",\n    "https://www.example.com/report_3",\n    "https://www.example.com/report_2"\n  ],\n  "description": "asdsadsadsadas",\n  "stake": "3000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000000000000000000000000000000000000000000000000000/reporting/1660466760000"\n}',
+      disputeIpfsData:
+        '{\n  "title": "this is dispute",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "this is test dispuite",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}'
     },
     loading: false,
-    refetch: jest.fn()
+    refetch: jest.fn
   },
   consensusInfo: {
     info: {
@@ -1334,6 +1497,7 @@ export const testData = {
     push: jest.fn((...args) => {
       args[2]?.onTxSuccess?.()
       args[2]?.onTxFailure?.()
+
       return Promise.resolve({})
     }),
     pushError: jest.fn(),
@@ -1342,10 +1506,12 @@ export const testData = {
   txPoster: {
     contractRead: jest.fn((...args) => {
       args[0]?.onError?.()
+
       return Promise.resolve(toBN('100'))
     }),
     contractReadBondInfo: jest.fn((...args) => {
       args[0]?.onError?.()
+
       return Promise.resolve([
         ['0x97cCd316db0298498fcfD626b215955b9DF44b71'],
         [
@@ -1373,7 +1539,7 @@ export const testData = {
         chainId: null,
         confirmations: 0,
         from: null,
-        wait: jest.fn(() => Promise.resolve())
+        wait: jest.fn(() => { return Promise.resolve() })
       })
       arg?.onRetryCancel?.()
       arg?.onError?.()
@@ -1420,9 +1586,11 @@ export const testData = {
     refetchBondInfo: jest.fn(),
     value: '100'
   },
+  writeToIpfs: 'QmYzXNoNd3b3iHogfX1xY3Rg1CGpjfBNqQUhCqG6i9Lo2U',
+  readFromIpfs: 'dummy text',
   providerOrSigner: {
     provider: {
-      getTransactionReceipt: jest.fn(() => Promise.resolve({}))
+      getTransactionReceipt: jest.fn(() => { return Promise.resolve({}) })
     },
     _address: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9',
     _index: null,
@@ -1430,14 +1598,14 @@ export const testData = {
   },
   providerOrSignerGetBlockNumber: {
     provider: {
-      getBlockNumber: jest.fn(() => Promise.resolve(100))
+      getBlockNumber: jest.fn(() => { return Promise.resolve(100) })
     }
   },
   governanceAddress: '0xc16be3c0e3028c1C42Ac0dCC3C696a7F237F8060',
   unlimitedApproval: {
     unlimitedApproval: false,
     setUnlimitedApproval: jest.fn(),
-    getApprovalAmount: jest.fn((_value) => _value)
+    getApprovalAmount: jest.fn((_value) => { return _value })
   },
   authValidation: {
     requiresAuth: jest.fn()
@@ -1657,7 +1825,7 @@ export const testData = {
           }
         }
       ],
-      totalCount: 3
+      totalCount: 5
     },
     loading: false
   },
@@ -1790,5 +1958,71 @@ export const testData = {
     emergencyResolve: jest.fn(),
     resolving: false,
     emergencyResolving: false
+  },
+  coversAndProducts2: {
+    loading: false,
+    data: coverAndProductData2,
+    getCoverByCoverKey: () => { return coverAndProductData2 },
+    getProductsByCoverKey: () => { return [coverAndProductData2] },
+    getCoverOrProduct: jest.fn(),
+    getProduct: () => { return coverAndProductData2 },
+    getAllProducts: () => { return [coverAndProductData2] },
+    getDedicatedCovers: jest.fn(),
+    getDiversifiedCovers: jest.fn(),
+    updateData: {}
+  },
+  coverDropdown: {
+    loading: false,
+    covers: [],
+    selected: coverAndProductData2,
+    setSelected: jest.fn()
+  },
+  getActivePolicies: activePolicies,
+  tokenStakingPools: {
+    data: {
+      pools: [
+        {
+          id: '0x4245430000000000000000000000000000000000000000000000000000000000',
+          key: '0x4245430000000000000000000000000000000000000000000000000000000000',
+          name: 'BEC Staking',
+          poolType: 'TokenStaking',
+          stakingToken: '0x4bbdc138dd105c7dde874df7fcd087b064f7973d',
+          stakingTokenName: 'Fake Neptune Mutual Token',
+          stakingTokenSymbol: 'NPM',
+          uniStakingTokenDollarPair: '0xf02c6bc3ec89a62fcb373d36df0dd618162e6476',
+          rewardToken: '0xee97c7334a31f399d23741c792fbd9c6814d59b3',
+          rewardTokenName: 'Fake Bb8 Exchange',
+          rewardTokenSymbol: 'BEC',
+          uniRewardTokenDollarPair: '0x623e84b024f74adcd0aad5a4ad140e4d2f47aebf',
+          rewardTokenDeposit: '27000000000000000000000000',
+          maxStake: '100000000000000000000000',
+          rewardPerBlock: '8940330000',
+          lockupPeriodInBlocks: '57600',
+          platformFee: '25'
+        },
+        {
+          id: '0x4372706f6f6c0000000000000000000000000000000000000000000000000000',
+          key: '0x4372706f6f6c0000000000000000000000000000000000000000000000000000',
+          name: 'Crystalpool Staking',
+          poolType: 'TokenStaking',
+          stakingToken: '0x4bbdc138dd105c7dde874df7fcd087b064f7973d',
+          stakingTokenName: 'Fake Neptune Mutual Token',
+          stakingTokenSymbol: 'NPM',
+          uniStakingTokenDollarPair: '0xf02c6bc3ec89a62fcb373d36df0dd618162e6476',
+          rewardToken: '0x8f01ef6dd3358e9cd2fb55ad6c7b45c31898724f',
+          rewardTokenName: 'Fake Crystalpool Token',
+          rewardTokenSymbol: 'CRPOOL',
+          uniRewardTokenDollarPair: '0xfb371b9d612aba626801275e19b40c2a0fd5592c',
+          rewardTokenDeposit: '13400300000000000000000000',
+          maxStake: '10000000000000000000000',
+          rewardPerBlock: '22094995300',
+          lockupPeriodInBlocks: '100',
+          platformFee: '50'
+        }
+      ]
+    },
+    hasMore: false,
+    loading: false,
+    handleShowMore: jest.fn
   }
 }

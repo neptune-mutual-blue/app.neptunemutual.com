@@ -3,6 +3,7 @@ import { isGreater, toBN } from '@/utils/bn'
 
 export const getDiscountedPrice = (discountRate, npmPrice) => {
   const discountedPrice = (npmPrice * (MULTIPLIER - discountRate)) / MULTIPLIER
+
   return discountedPrice.toFixed(12)
 }
 

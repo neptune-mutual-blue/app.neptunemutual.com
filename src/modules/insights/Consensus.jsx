@@ -28,6 +28,7 @@ import {
 
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
+
   return (
     <td className='max-w-xs p-4 text-sm leading-5 whitespace-nowrap text-01052D'>
       {status !== E_CARD_STATUS.NORMAL && (
@@ -105,7 +106,7 @@ const renderCover = (row, _extraData) => {
           className='w-6 h-6 mr-2'
           data-testid='cover-img'
             // @ts-ignore
-          onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
+          onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
         />
         <div className='overflow-hidden text-sm overflow-ellipsis' title={row.projectOrProductName}>
           {row.projectOrProductName}

@@ -64,7 +64,7 @@ export const useBondTxs = ({ limit, page }) => {
 
     fetchBondTxs(networkId, query)
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.bondTransactions.length === 0 ||
@@ -74,15 +74,17 @@ export const useBondTxs = ({ limit, page }) => {
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          blockNumber: _data._meta.block.number,
-          bondTransactions: [
-            ...prev.bondTransactions,
-            ..._data.bondTransactions
-          ]
-        }))
+        setData((prev) => {
+          return {
+            blockNumber: _data._meta.block.number,
+            bondTransactions: [
+              ...prev.bondTransactions,
+              ..._data.bondTransactions
+            ]
+          }
+        })
       })
-      .catch((err) => console.error(err))
+      .catch((err) => { return console.error(err) })
       .finally(() => {
         setLoading(false)
       })

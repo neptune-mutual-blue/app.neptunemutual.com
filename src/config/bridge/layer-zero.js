@@ -47,6 +47,7 @@ export const BRIDGE_CONTRACTS = { // Proxy
 }
 
 export const GAS_LIMIT_WITHOUT_APPROVAL = 350_000
+
 export const GAS_LIMIT_WITH_APPROVAL = 300_000
 
 export const ABI = [

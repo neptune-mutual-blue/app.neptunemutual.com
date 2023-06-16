@@ -54,7 +54,7 @@ export const GovernanceSinglePage = () => {
 
     const filteredResults = getResultsByChains(getVotingResults(proposalDetail.choices, proposalDetail.scores), selectedChains)
 
-    const percentSum = sumOf(...filteredResults.map(x => x.percent))
+    const percentSum = sumOf(...filteredResults.map(x => { return x.percent }))
     const emissionOfSelectedChains = toBN(EMISSION_PER_EPOCH).multipliedBy(percentSum).toString()
 
     const distribution = filteredResults.map(result => {
@@ -115,12 +115,14 @@ export const GovernanceSinglePage = () => {
 
         {isValidProposal && (
           <LiquidityGauge
-            state={proposalDetail?.state}
             results={filteredResults}
             selectedChains={selectedChains}
             setSelectedChains={setSelectedChains}
             chainIds={chainIds}
             emission={emissionOfSelectedChains}
+            start={proposalDetail.start}
+            end={proposalDetail.end}
+            state={proposalDetail.state}
           />)}
 
         {isValidProposal && selectedChains.length === 1 && (

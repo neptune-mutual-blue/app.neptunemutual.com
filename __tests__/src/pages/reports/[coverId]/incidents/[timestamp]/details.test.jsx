@@ -1,11 +1,14 @@
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import IncidentResolvedCoverPage
+  from '@/src/pages/reports/[coverId]/incidents/[timestamp]/details'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
 import { screen } from '@testing-library/react'
-import IncidentResolvedCoverPage from '@/src/pages/reports/[coverId]/incidents/[timestamp]/details'
 
 jest.mock('@/src/modules/reporting/details', () => {
   return {
     ReportingDetailsPage: () => {
-      return <div data-testid='reporting-details-page' />
+      return <div data-testid='reporting-details-page'>Reporting details</div>
     }
   }
 })
@@ -15,7 +18,7 @@ describe('IncidentResolvedCoverPage test', () => {
     IncidentResolvedCoverPage,
     {},
     () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: false,
         loading: true
       }))
@@ -26,14 +29,14 @@ describe('IncidentResolvedCoverPage test', () => {
     initialRender()
   })
 
-  test('should display IncidentResolvedCoverPage with loading text', () => {
-    const incident = screen.getByText('loading...')
+  test('should display IncidentResolvedCoverPage with loading skeleton', () => {
+    const incident = screen.getByTestId('report-detail-skeleton')
     expect(incident).toBeInTheDocument()
   })
 
   test('should display IncidentResolvedCoverPage with No data found text', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: false },
         loading: false
       }))
@@ -44,10 +47,11 @@ describe('IncidentResolvedCoverPage test', () => {
 
   test('should display IncidentResolvedCoverPage with ReportingDetailsPage Component', () => {
     rerenderFn({}, () => {
-      mockFn.useFetchReport(() => ({
+      mockHooksOrMethods.useFetchReport(() => ({
         data: { incidentReport: true },
         loading: false
       }))
+      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, loading: false }))
     })
 
     const reporting = screen.getByTestId('reporting-details-page')

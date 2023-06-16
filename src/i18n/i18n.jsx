@@ -1,9 +1,13 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { dynamicActivate } from '@/src/i18n/dynamic-activate'
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
-import { useEffect, useState } from 'react'
 
 import { useActiveLocale } from '../hooks/useActiveLocale'
-import { dynamicActivate } from '@/src/i18n/dynamic-activate'
 
 export function LanguageProvider ({ children }) {
   const locale = useActiveLocale()
@@ -16,11 +20,10 @@ export function LanguageProvider ({ children }) {
     dynamicActivate(locale)
       .then(() => {
         /* istanbul ignore next */
-        if (ignore) return
+        if (ignore) { return }
         setLoaded(true)
       })
-      .catch((error) =>
-        console.error('Failed to activate locale', locale, error)
+      .catch((error) => { return console.error('Failed to activate locale', locale, error) }
       )
 
     return () => {
@@ -29,18 +32,18 @@ export function LanguageProvider ({ children }) {
   }, [locale])
 
   useEffect(() => {
-    if (refresh === true) setRefresh(false)
+    if (refresh === true) { setRefresh(false) }
   }, [refresh])
 
   useEffect(() => {
-    const updateRefresh = () => setRefresh(true)
+    const updateRefresh = () => { return setRefresh(true) }
 
     // Detect network change and manually refresh
     if (window && window.addEventListener) {
       window.addEventListener('languagechange', updateRefresh)
     }
 
-    return () => window.removeEventListener('languagechange', updateRefresh)
+    return () => { return window.removeEventListener('languagechange', updateRefresh) }
   }, [])
 
   if (!loaded) {

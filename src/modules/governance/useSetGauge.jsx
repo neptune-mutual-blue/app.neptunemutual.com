@@ -4,7 +4,10 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
+import {
+  CONTRACT_DEPLOYMENTS,
+  EPOCH_DURATION
+} from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -143,6 +146,7 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
       const args = [
         epoch,
         amountToDeposit,
+        EPOCH_DURATION,
         distribution
       ]
 

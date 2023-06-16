@@ -1,24 +1,30 @@
-import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
-
 import {
-  columns,
+  getBlockLink,
+  getTxLink
+} from '@/lib/connect-wallet/utils/explorer'
+import {
+  getColumns,
   MyLiquidityTxsTable
 } from '@/modules/my-liquidity/MyLiquidityTxsTable'
-
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import {
+  fireEvent,
+  screen
+} from '@/utils/unit-tests/test-utils'
 
 const initialMocks = () => {
-  mockFn.usePagination()
-  mockFn.useLiquidityTxs()
-  mockFn.useNetwork()
-  mockFn.useWeb3React()
-  mockFn.useAppConstants()
-  mockFn.useCoverOrProductData()
+  mockHooksOrMethods.usePagination()
+  mockHooksOrMethods.useLiquidityTxs()
+  mockHooksOrMethods.useNetwork()
+  mockHooksOrMethods.useWeb3React()
+  mockHooksOrMethods.useAppConstants()
+  mockHooksOrMethods.useCoversAndProducts2()
 }
 
 describe('MyLiquidityTxsTable test', () => {
@@ -57,13 +63,15 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should not render blocknumber element if blocknumber data not present', () => {
       rerenderFn({}, () => {
-        mockFn.useLiquidityTxs(() => ({
-          ...testData.liquidityTxs,
-          data: {
-            ...testData.liquidityTxs.data,
-            blockNumber: null
+        mockHooksOrMethods.useLiquidityTxs(() => {
+          return {
+            ...testData.liquidityTxs,
+            data: {
+              ...testData.liquidityTxs.data,
+              blockNumber: null
+            }
           }
-        }))
+        })
       })
       const card = screen.queryByTestId('block-number')
       expect(card).not.toBeInTheDocument()
@@ -79,7 +87,7 @@ describe('MyLiquidityTxsTable test', () => {
     test('should render correct number of columns', () => {
       const card = screen.getByTestId('table-head')
       const renderedColumns = card.querySelectorAll('th')
-      expect(renderedColumns.length).toBe(columns.length)
+      expect(renderedColumns.length).toBe(getColumns().length + 1)
     })
 
     test('should render the TBody component if account connected', () => {
@@ -97,7 +105,7 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should render show more if its true', () => {
       rerenderFn({}, () => {
-        mockFn.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true })
+        mockHooksOrMethods.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true })
       })
       const showMore = screen.getByTestId('table-show-more')
       expect(showMore).toBeInTheDocument()
@@ -105,6 +113,7 @@ describe('MyLiquidityTxsTable test', () => {
     })
 
     test('fire register token', () => {
+      mockGlobals.location()
       const register = screen.getAllByTitle('Add to Metamask')
       fireEvent.click(register[0])
     })
@@ -138,10 +147,10 @@ describe('MyLiquidityTxsTable test', () => {
             'en'
           ).short
         } ${dataRow.type === 'PodsIssued' ? 'to' : 'from'} ${
-          testData.coverInfo.supportsProducts
-            ? testData.coverInfo.infoObj.coverName
-            : testData.coverInfo.infoObj.projectName
-        }`
+          testData.coversAndProducts2.data.supportsProducts
+            ? testData.coversAndProducts2.data.productInfoDetails.productName
+            : testData.coversAndProducts2.data.coverInfoDetails.coverName
+        } Cover`
         expect(renderedDetails).toBe(expectedDetails)
       })
 
@@ -185,9 +194,11 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should render no account message if no account connected', () => {
       rerenderFn({}, () => {
-        mockFn.useWeb3React(() => ({
-          account: null
-        }))
+        mockHooksOrMethods.useWeb3React(() => {
+          return {
+            account: null
+          }
+        })
       })
       const card = screen.getByTestId('no-account-message')
       const tableWrapper = screen.queryByTestId('app-table-body')

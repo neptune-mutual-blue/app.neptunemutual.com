@@ -1,14 +1,18 @@
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
 import { testData } from '@/utils/unit-tests/test-data'
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useTokenSymbol', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.useTxPoster()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockHooksOrMethods.useTxPoster()
 
   test('while fetching w/o networkId, tokenAddress and account ', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const mockProps = {
       tokenAddress: ''
@@ -22,9 +26,9 @@ describe('useTokenSymbol', () => {
   })
 
   test('while fetching w/o instance', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.sdk.registry.IERC20.getInstance(true)
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockSdk.registry.IERC20.getInstance(true)
 
     const mockProps = {
       tokenAddress: ''
@@ -34,19 +38,21 @@ describe('useTokenSymbol', () => {
   })
 
   test('while fetching w/ networkId, tokenAddress and account', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: (arg) => {
-        arg?.onTransactionResult?.()
-        arg?.onRetryCancel?.()
-        arg?.onError?.()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: (arg) => {
+          arg?.onTransactionResult?.()
+          arg?.onRetryCancel?.()
+          arg?.onError?.()
 
-        return ''
+          return ''
+        }
       }
-    }))
-    mockFn.sdk.registry.IERC20.getInstance()
+    })
+    mockSdk.registry.IERC20.getInstance()
 
     const mockProps = {
       tokenAddress: '0x98e7786ffF366AEff1A55131C92C4Aa7EDd68aD1'

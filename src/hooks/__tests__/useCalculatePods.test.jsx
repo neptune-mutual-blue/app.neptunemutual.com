@@ -1,7 +1,10 @@
-import { useCalculatePods } from '../useCalculatePods'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
-import { testData } from '@/utils/unit-tests/test-data'
 import { convertToUnits } from '@/utils/bn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockSdk } from '@/utils/unit-tests/mock-sdk'
+import { testData } from '@/utils/unit-tests/test-data'
+
+import { useCalculatePods } from '../useCalculatePods'
 
 const mockProps = {
   coverKey:
@@ -10,15 +13,17 @@ const mockProps = {
   podAddress: '0xBD85714f56622BDec5599BA965E60d01d4943540'
 }
 
+jest.mock('@neptunemutual/sdk')
+
 describe('useCalculatePods', () => {
-  mockFn.utilsWeb3.getProviderOrSigner()
-  mockFn.sdk.registry.Vault.getInstance()
-  mockFn.useErrorNotifier()
+  mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
+  mockSdk.registry.Vault.getInstance()
+  mockHooksOrMethods.useErrorNotifier()
 
   test('while fetching w/o networkId, account, debouncedValue', async () => {
-    mockFn.useWeb3React(() => ({ account: null }))
-    mockFn.useNetwork(() => ({ networkId: null }))
-    mockFn.useDebounce(null)
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useDebounce(null)
 
     const { result } = await renderHookWrapper(useCalculatePods, [mockProps])
 
@@ -27,11 +32,11 @@ describe('useCalculatePods', () => {
   })
 
   test('while fetching successful ', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useDebounce()
-    mockFn.useTxPoster()
-    mockFn.useTokenDecimals()
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useDebounce()
+    mockHooksOrMethods.useTxPoster()
+    mockHooksOrMethods.useTokenDecimals()
 
     const { result } = await renderHookWrapper(
       useCalculatePods,
@@ -45,13 +50,15 @@ describe('useCalculatePods', () => {
   })
 
   test('while fetching error ', async () => {
-    mockFn.useWeb3React()
-    mockFn.useNetwork()
-    mockFn.useDebounce()
-    mockFn.useTxPoster(() => ({
-      ...testData.txPoster,
-      contractRead: undefined
-    }))
+    mockHooksOrMethods.useWeb3React()
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useDebounce()
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        contractRead: undefined
+      }
+    })
 
     const { result } = await renderHookWrapper(
       useCalculatePods,

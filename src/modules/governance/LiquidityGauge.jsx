@@ -16,9 +16,10 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
+import { getAsOfDate } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
 
-const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
+const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
   const [hoveredName, setHoveredName] = useState(null)
   const [mouseEnteredOnLegend, setMouseEnteredOnLegend] = useState(false)
   const [mobile, setMobile] = useState(window.innerWidth < 768)
@@ -75,11 +76,13 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [
     series: [{
       name: 'pie',
       colorByPoint: true,
-      data: results.map(item => ({
-        name: item.name,
-        y: item.percent * 100,
-        color: item.color
-      })),
+      data: results.map(item => {
+        return {
+          name: item.name,
+          y: item.percent * 100,
+          color: item.color
+        }
+      }),
       dataLabels: {
         enabled: !mobile,
         connectorWidth: mobile ? 0 : 1,
@@ -99,6 +102,7 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [
         if (this.key) {
           setHoveredName(this.key)
         }
+
         return []
       }
     },
@@ -120,14 +124,26 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [
     rangeSelector: { enabled: false, inputEnabled: false }
   }
 
-  const chainDropdownOptions = chainIds.map((chainId) => ({
-    label: ShortNetworkNames[chainId],
-    value: chainId
-  }))
+  const chainDropdownOptions = chainIds.map((chainId) => {
+    return {
+      label: ShortNetworkNames[chainId] || '',
+      value: chainId
+    }
+  })
+  const asOfDate = getAsOfDate(start, end)
 
   const formattedEmission = formatCurrency(convertFromUnits(emission, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedDate = DateLib.toLongDateFormat(
+    asOfDate,
+    router.locale,
+    'UTC', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZoneName: 'short'
+    })
 
-  if (!results) return
+  if (!results) { return }
 
   return (
     <GovernanceCard className='gap-6 p-4 md:p-8'>
@@ -142,7 +158,7 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [
         <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
           <div className='font-bold text-md md:text-display-sm'><Trans>Liquidity Gauge</Trans></div>
           <div className='text-sm font-medium md:text-md'>
-            <Trans>Emission Per Epoch:</Trans>{' '}
+            <Trans>Epoch Emission:</Trans>{' '}
             {formattedEmission.long}
           </div>
         </div>
@@ -150,41 +166,38 @@ const LiquidityGauge = ({ state, selectedChains, setSelectedChains, chainIds = [
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>
-          {hoveredName} ({formatPercent(results.find((item) => item.name === hoveredName)?.percent)})
+          {hoveredName} ({formatPercent(results.find((item) => { return item.name === hoveredName })?.percent)})
         </div>
-        <div className='mb-4 text-md'>As of:{' '}
-          {DateLib.toDateFormat(
-            new Date(),
-            router.locale,
-            { month: 'short', day: '2-digit', year: 'numeric' },
-            'UTC'
-          )}
+        <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, router.locale)}>
+          As of:{' '}{formattedDate}
         </div>
       </div>
 
       <div className='max-w-[586px] mx-auto mb-4 md:mb-10 flex text-center justify-center'>
-        {results.map((item, i) => (
-          <div
-            onMouseLeave={() => {
-              setMouseEnteredOnLegend(false)
-            }}
-            onMouseEnter={() => {
-              setMouseEnteredOnLegend(true)
-              setHoveredName(item.name)
-            }}
-            key={item.name}
-            style={{
-              borderRadius: i === 0 ? '16px 0 0 16px' : i === results.length - 1 ? '0 16px 16px 0 ' : undefined,
-              width: (item.percent * 100) + '%',
-              height: '64px',
-              background: item.color,
-              opacity: mouseEnteredOnLegend && hoveredName !== item.name
-                ? '0.2'
-                : undefined,
-              transition: 'all 0.3s'
-            }}
-          />
-        ))}
+        {results.map((item, i) => {
+          return (
+            <div
+              onMouseLeave={() => {
+                setMouseEnteredOnLegend(false)
+              }}
+              onMouseEnter={() => {
+                setMouseEnteredOnLegend(true)
+                setHoveredName(item.name)
+              }}
+              key={item.name}
+              style={{
+                borderRadius: i === 0 ? '16px 0 0 16px' : i === results.length - 1 ? '0 16px 16px 0 ' : undefined,
+                width: (item.percent * 100) + '%',
+                height: '64px',
+                background: item.color,
+                opacity: mouseEnteredOnLegend && hoveredName !== item.name
+                  ? '0.2'
+                  : undefined,
+                transition: 'all 0.3s'
+              }}
+            />
+          )
+        })}
       </div>
     </GovernanceCard>
   )

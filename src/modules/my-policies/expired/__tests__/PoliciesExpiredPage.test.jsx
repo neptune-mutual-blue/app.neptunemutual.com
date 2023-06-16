@@ -1,12 +1,18 @@
-import { render, act, cleanup } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { PoliciesExpiredPage } from '../PoliciesExpiredPage'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
+import {
+  act,
+  cleanup,
+  render
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+import { PoliciesExpiredPage } from '../PoliciesExpiredPage'
 
 describe('PoliciesExpiredPage', () => {
   beforeEach(() => {
-    mockFn.useValidReport()
+    mockHooksOrMethods.useValidReport()
 
     act(() => {
       i18n.activate('en')
@@ -16,7 +22,7 @@ describe('PoliciesExpiredPage', () => {
   test('should render PoliciesExpiredPage loading page', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies(() => {
+    mockHooksOrMethods.useExpiredPolicies(() => {
       return {
         data: testData.useExpiredPolicies.data,
         loading: true
@@ -26,7 +32,7 @@ describe('PoliciesExpiredPage', () => {
     const { getAllByTestId, queryByTestId } = render(<PoliciesExpiredPage />)
 
     const ids = getAllByTestId('card-outline')
-    expect(ids.length).toEqual(6)
+    expect(ids.length).toEqual(CARDS_PER_PAGE)
 
     const empty = queryByTestId('empty-text')
 
@@ -36,7 +42,7 @@ describe('PoliciesExpiredPage', () => {
   test('should render PoliciesExpiredPage placeholder text', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies(() => {
+    mockHooksOrMethods.useExpiredPolicies(() => {
       return {
         data: {
           expiredPolicies: []
@@ -55,7 +61,7 @@ describe('PoliciesExpiredPage', () => {
   test('it has Transaction List link', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies(() => {
+    mockHooksOrMethods.useExpiredPolicies(() => {
       return {
         data: {
           expiredPolicies: []
@@ -79,10 +85,12 @@ describe('PoliciesExpiredPage', () => {
   test('Should have 1 card', () => {
     cleanup()
 
-    mockFn.useExpiredPolicies()
+    mockHooksOrMethods.useCoversAndProducts2()
+    mockHooksOrMethods.useExpiredPolicies()
+
     const { getAllByTestId } = render(<PoliciesExpiredPage />)
 
-    const ids = getAllByTestId('card-outline')
+    const ids = getAllByTestId('policy-card')
     expect(ids.length).toEqual(1)
   })
 })

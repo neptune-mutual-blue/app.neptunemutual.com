@@ -1,6 +1,6 @@
 import { Select } from '@/common/Select'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen, fireEvent } from '@testing-library/react'
 
 describe('Select', () => {

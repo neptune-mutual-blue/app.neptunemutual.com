@@ -70,7 +70,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
             tvl: result.total
           })
         })
-        .catch((e) => console.error(e))
+        .catch((e) => { return console.error(e) })
     }
   }, [NPMTokenAddress, fetchPoolsTVL])
 
@@ -80,10 +80,11 @@ export const usePoolsTVL = (NPMTokenAddress) => {
      * @returns {string}
      */
     (id) => {
-      const poolTVLInfo = poolsTVL.items.find((x) => x.id === id) || {}
+      const poolTVLInfo = poolsTVL.items.find((x) => { return x.id === id }) || {}
       const tokensInfo = poolTVLInfo.data || []
 
-      const tvl = sumOf(...tokensInfo.map((x) => x.price || '0')).toString()
+      const tvl = sumOf(...tokensInfo.map((x) => { return x.price || '0' })).toString()
+
       return tvl
     },
     [poolsTVL.items]

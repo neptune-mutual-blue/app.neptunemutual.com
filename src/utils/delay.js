@@ -4,7 +4,7 @@ export const delay = (value) => {
       ? parseInt(process.env.NEXT_PUBLIC_TRANSACTION_NOTIFICATION_DELAY)
       : 5000
 
-    setTimeout(() => resolve(value), time)
+    setTimeout(() => { return resolve(value) }, time)
   })
-    .catch(error => console.error(error))
+    .catch(error => { return console.error(error) })
 }

@@ -1,5 +1,7 @@
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { useCoverActiveReportings } from '../useCoverActiveReportings'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const mockProps = {
   coverKey:
@@ -33,13 +35,13 @@ const mockReturnData = {
 }
 
 describe('useCoverActiveReportings', () => {
-  const { mock, restore, mockFunction } = mockFn.console.error()
+  const { mock, restore, mockFunction } = mockGlobals.console.error()
 
-  mockFn.getNetworkId()
-  mockFn.getGraphURL()
+  mockHooksOrMethods.getNetworkId()
+  mockHooksOrMethods.getGraphURL()
 
   test('while fetching successfully', async () => {
-    mockFn.fetch(true, undefined, mockResolvedData)
+    mockGlobals.fetch(true, undefined, mockResolvedData)
 
     const { result } = await renderHookWrapper(
       useCoverActiveReportings,
@@ -52,7 +54,7 @@ describe('useCoverActiveReportings', () => {
   })
 
   test('when fetched error', async () => {
-    mockFn.fetch(false)
+    mockGlobals.fetch(false)
     mock()
 
     const { result } = await renderHookWrapper(
@@ -65,7 +67,7 @@ describe('useCoverActiveReportings', () => {
     expect(result.loading).toBe(false)
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
+    mockGlobals.fetch().unmock()
     restore()
   })
 })

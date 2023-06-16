@@ -29,6 +29,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
     setCalendarState((prev) => {
       const _month = prev.month === 0 ? 11 : prev.month - 1
       const _year = prev.month === 0 ? prev.year - 1 : prev.year
+
       return { month: _month, year: _year }
     })
   }
@@ -37,6 +38,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
     setCalendarState((prev) => {
       const _month = prev.month === 11 ? 0 : prev.month + 1
       const _year = prev.month === 11 ? prev.year + 1 : prev.year
+
       return { month: _month, year: _year }
     })
   }
@@ -76,54 +78,58 @@ export const HlCalendar = ({ startDate, endDate }) => {
       <table className='text-xxs' aria-hidden='true' data-testid='hlcalendar'>
         <thead>
           <tr>
-            {weekDays.map((x) => (
-              <td
-                key={x}
-                title={x}
-                className='p-3 font-medium text-center lowercase align-middle'
-              >
-                {x[0]}
-              </td>
-            ))}
+            {weekDays.map((x) => {
+              return (
+                <td
+                  key={x}
+                  title={x}
+                  className='p-3 font-medium text-center lowercase align-middle'
+                >
+                  {x[0]}
+                </td>
+              )
+            })}
           </tr>
         </thead>
         <tbody>
-          {arr.map((x, _i) => (
-            <tr key={_i}>
-              {x.map((y, _j) => {
-                // const isStart = startDate.getTime() === y.getTime();
-                // const isEnd = endDate.getTime() === y.getTime();
-                const isInsideRange =
+          {arr.map((x, _i) => {
+            return (
+              <tr key={_i}>
+                {x.map((y, _j) => {
+                  // const isStart = startDate.getTime() === y.getTime();
+                  // const isEnd = endDate.getTime() === y.getTime();
+                  const isInsideRange =
                   startDate.getTime() <= y.getTime() &&
                   endDate.getTime() >= y.getTime()
-                const isDifferentMonth = calendarState.month !== y.getMonth()
-                const isToday =
+                  const isDifferentMonth = calendarState.month !== y.getMonth()
+                  const isToday =
                   y.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)
 
-                return (
-                  <td
-                    key={_j}
-                    className={classNames(
-                      'p-2 text-center align-middle',
-                      // isStart && "rounded-l-lg",
-                      // isEnd && "rounded-r-lg",
-                      isInsideRange && 'bg-DEEAF6'
-                    )}
-                  >
-                    <span
+                  return (
+                    <td
+                      key={_j}
                       className={classNames(
-                        'px-1.5 py-2 block',
-                        isDifferentMonth && 'opacity-40',
-                        isToday && 'rounded-full bg-4E7DD9 text-white'
+                        'p-2 text-center align-middle',
+                        // isStart && "rounded-l-lg",
+                        // isEnd && "rounded-r-lg",
+                        isInsideRange && 'bg-DEEAF6'
                       )}
                     >
-                      {y.getDate()}
-                    </span>
-                  </td>
-                )
-              })}
-            </tr>
-          ))}
+                      <span
+                        className={classNames(
+                          'px-1.5 py-2 block',
+                          isDifferentMonth && 'opacity-40',
+                          isToday && 'rounded-full bg-4E7DD9 text-white'
+                        )}
+                      >
+                        {y.getDate()}
+                      </span>
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>
@@ -146,6 +152,7 @@ function addWeekDatesBefore (dates) {
   function getPreviousDate (date) {
     const copiedDate = getClone(date)
     copiedDate.setDate(date.getDate() - 1)
+
     return copiedDate
   }
 
@@ -173,6 +180,7 @@ function addWeekDatesAfter (dates) {
   function getNextDate (date) {
     const copiedDate = getClone(date)
     copiedDate.setDate(date.getDate() + 1)
+
     return copiedDate
   }
 

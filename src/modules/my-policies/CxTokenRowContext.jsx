@@ -42,5 +42,6 @@ export function useCxTokenRowContext () {
       'useCxTokenRowContext must be used within a CxTokenRowContext.Provider'
     )
   }
+
   return context
 }

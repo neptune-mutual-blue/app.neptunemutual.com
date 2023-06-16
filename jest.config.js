@@ -22,7 +22,7 @@ const customJestConfig = {
   modulePathIgnorePatterns: ['<rootDir>/.next'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }]
+    '^.+\\.(js|jsx|ts|tsx|mjs)$': ['babel-jest', { presets: ['next/babel'] }]
   },
   transformIgnorePatterns: [
     '/node_modules/',

@@ -13,7 +13,7 @@ export const dynamicActivate = async (locale) => {
     ? await import(`../../locales/${locale}/messages`)
     : await import(`@lingui/loader!../../locales/${locale}/messages.po`)
 
-  i18n.loadLocaleData(locale, { plurals: () => plurals[locale] })
+  i18n.loadLocaleData(locale, { plurals: () => { return plurals[locale] } })
   i18n.load(locale, messages.messages)
   i18n.activate(locale)
 }

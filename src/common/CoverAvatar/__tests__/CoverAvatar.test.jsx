@@ -1,7 +1,32 @@
-import { screen, act, render, fireEvent } from '@/utils/unit-tests/test-utils'
-import { testData } from '@/utils/unit-tests/test-data'
-import { i18n } from '@lingui/core'
 import { CoverAvatar } from '@/common/CoverAvatar/CoverAvatar'
+import {
+  act,
+  fireEvent,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+
+const props = {
+  imgs: [
+    {
+      src: '/images/covers/empty_0.svg',
+      alt: 'empty_0'
+    },
+    {
+      src: '/images/covers/empty_1.svg',
+      alt: 'empty_1'
+    },
+    {
+      src: '/images/covers/empty_2.svg',
+      alt: 'empty_2'
+    },
+    {
+      src: '/images/covers/empty_3.svg',
+      alt: 'empty_3'
+    }
+  ]
+}
 
 describe('CoverAvatar component', () => {
   beforeAll(() => {
@@ -18,7 +43,7 @@ describe('CoverAvatar component', () => {
 
   test('should show single img if cover is not diversified', () => {
     render(
-      <CoverAvatar coverInfo={testData.coverInfo} isDiversified={false} />
+      <CoverAvatar imgs={[props.imgs[0]]} />
     )
     const divElement = screen.getByTestId('cover-img')
     expect(divElement).toBeInTheDocument()
@@ -27,23 +52,21 @@ describe('CoverAvatar component', () => {
   test('should show different images according to number of products if cover is diversified', () => {
     render(
       <CoverAvatar
-        coverInfo={testData.coverInfoWithProducts}
-        isDiversified
+        imgs={props.imgs}
       />
     )
     const images = screen.getAllByTestId('cover-img')
     expect(images.length).toEqual(
-      testData.coverInfoWithProducts.products.length > 3
+      props.imgs.length > 3
         ? 3
-        : testData.coverInfoWithProducts.products.length
+        : props.imgs.length
     )
   })
 
   test('should have More if the products length is more than 3', () => {
     render(
       <CoverAvatar
-        coverInfo={testData.coverInfoWithProducts}
-        isDiversified
+        imgs={props.imgs}
       />
     )
     const moreText = screen.getByText(/MORE/i)
@@ -53,26 +76,12 @@ describe('CoverAvatar component', () => {
   test('should show empty images in case of error', () => {
     const screen = render(
       <CoverAvatar
-        coverInfo={testData.coverInfoWithProducts}
-        isDiversified
+        imgs={[props.imgs[0]]}
       />
     )
-    const imgs = screen.container.getElementsByTagName('img')
-    fireEvent.error(imgs[0], { target: imgs[0] })
+    const imgs = screen.getByTestId('cover-img')
+    fireEvent.error(imgs, { target: imgs })
 
-    expect(imgs[0]).toHaveAttribute('src', '/images/covers/empty.svg')
-  })
-
-  test('should show empty images in case of error', () => {
-    const screen = render(
-      <CoverAvatar
-        coverInfo={testData.coverInfoWithProducts}
-        isDiversified={false}
-      />
-    )
-    const imgs = screen.container.getElementsByTagName('img')
-    fireEvent.error(imgs[0], { target: imgs[0] })
-
-    expect(imgs[0]).toHaveAttribute('src', '/images/covers/empty.svg')
+    expect(imgs).toHaveAttribute('src', '/images/covers/empty.svg')
   })
 })

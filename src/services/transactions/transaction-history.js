@@ -10,6 +10,7 @@ export const STATUS = {
 const ERRORS = {
   TIMEOUT: 'TIMEOUT'
 }
+
 export class TransactionHistory {
   static listener = [];
 
@@ -90,7 +91,7 @@ export class TransactionHistory {
    * @param {AddItem} item
    */
   static emit (item) {
-    TransactionHistory.listener.forEach((callback) => callback(item))
+    TransactionHistory.listener.forEach((callback) => { return callback(item) })
   }
 
   /**
@@ -102,7 +103,7 @@ export class TransactionHistory {
     return {
       off: () => {
         const index = TransactionHistory.listener.findIndex(
-          (cb) => cb === callback
+          (cb) => { return cb === callback }
         )
 
         TransactionHistory.listener.splice(index, 1)
@@ -132,8 +133,7 @@ export class TransactionHistory {
         .getTransactionReceipt(item.hash)
         .then((result) => {
           if (result === null) {
-            return waitForTransactionWithTimeout(() =>
-              provider.waitForTransaction(item.hash)
+            return waitForTransactionWithTimeout(() => { return provider.waitForTransaction(item.hash) }
             )
           }
 
@@ -171,8 +171,9 @@ export class TransactionHistory {
    */
   static process (callback) {
     const items = LSHistory.getAllPending()
+
     return items.reduce((promise, item) => {
-      return promise.then(() => callback(item))
+      return promise.then(() => { return callback(item) })
     }, Promise.resolve())
   }
 }

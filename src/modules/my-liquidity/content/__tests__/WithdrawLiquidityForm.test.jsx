@@ -1,9 +1,15 @@
 import DateLib from '@/lib/date/DateLib'
-import { WithdrawLiquidityForm } from '@/modules/my-liquidity/content/WithdrawLiquidityForm'
+import {
+  WithdrawLiquidityForm
+} from '@/modules/my-liquidity/content/WithdrawLiquidityForm'
 import { convertToUnits } from '@/utils/bn'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
-import { fireEvent, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
 
 describe('WithdrawLiquidityForm', () => {
   const props = {
@@ -13,17 +19,19 @@ describe('WithdrawLiquidityForm', () => {
     WithdrawLiquidityForm,
     props,
     () => {
-      mockFn.useRouter(() => ({
-        ...testData.router,
-        query: {
-          coverId: '0x1234567890123456789012345678901234567890'
-        },
-        locale: 'en'
-      }))
-      mockFn.useAppConstants()
-      mockFn.useCalculateLiquidity()
-      mockFn.useLiquidityFormsContext()
-      mockFn.useRemoveLiquidity()
+      mockHooksOrMethods.useRouter(() => {
+        return {
+          ...testData.router,
+          query: {
+            coverId: '0x1234567890123456789012345678901234567890'
+          },
+          locale: 'en'
+        }
+      })
+      mockHooksOrMethods.useAppConstants()
+      mockHooksOrMethods.useCalculateLiquidity()
+      mockHooksOrMethods.useLiquidityFormsContext()
+      mockHooksOrMethods.useRemoveLiquidity()
     }
   )
 
@@ -50,13 +58,15 @@ describe('WithdrawLiquidityForm', () => {
 
   test('should not render `Your Stake` prefix if myStake is 0', () => {
     rerenderFn({}, () => {
-      mockFn.useLiquidityFormsContext(() => ({
-        ...testData.liquidityFormsContext,
-        info: {
-          ...testData.liquidityFormsContext.info,
-          myStake: '0'
+      mockHooksOrMethods.useLiquidityFormsContext(() => {
+        return {
+          ...testData.liquidityFormsContext,
+          info: {
+            ...testData.liquidityFormsContext.info,
+            myStake: '0'
+          }
         }
-      }))
+      })
     })
 
     const prefix = screen.queryByTestId('my-stake-prefix')
@@ -136,13 +146,15 @@ describe('WithdrawLiquidityForm', () => {
 
   test('should show `Wait for accural` text if accural not complete', () => {
     rerenderFn({}, () => {
-      mockFn.useLiquidityFormsContext(() => ({
-        ...testData.liquidityFormsContext,
-        info: {
-          ...testData.liquidityFormsContext.info,
-          isAccrualComplete: false
+      mockHooksOrMethods.useLiquidityFormsContext(() => {
+        return {
+          ...testData.liquidityFormsContext,
+          info: {
+            ...testData.liquidityFormsContext.info,
+            isAccrualComplete: false
+          }
         }
-      }))
+      })
     })
     const wrapper = screen.queryByText('Wait for accrual')
     expect(wrapper).toBeInTheDocument()
@@ -150,7 +162,7 @@ describe('WithdrawLiquidityForm', () => {
 
   test('should show loadingMessage', () => {
     rerenderFn({}, () => {
-      mockFn.useCalculateLiquidity({
+      mockHooksOrMethods.useCalculateLiquidity({
         ...testData.calculateLiquidity,
         loading: true
       })
@@ -170,10 +182,12 @@ describe('WithdrawLiquidityForm', () => {
       expect(button.textContent).toBe('Approve')
 
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
-          ...testData.removeLiquidity,
-          approving: true
-        }))
+        mockHooksOrMethods.useRemoveLiquidity(() => {
+          return {
+            ...testData.removeLiquidity,
+            approving: true
+          }
+        })
       })
       button = screen.getByTestId('approve-button')
       expect(button.textContent).toBe('Approving...')
@@ -181,10 +195,12 @@ describe('WithdrawLiquidityForm', () => {
 
     test('should disable the approve button when approving', () => {
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
-          ...testData.removeLiquidity,
-          approving: true
-        }))
+        mockHooksOrMethods.useRemoveLiquidity(() => {
+          return {
+            ...testData.removeLiquidity,
+            approving: true
+          }
+        })
       })
       const button = screen.getByTestId('approve-button')
       expect(button).toHaveAttribute('disabled')
@@ -201,10 +217,12 @@ describe('WithdrawLiquidityForm', () => {
   describe('Withdraw Button', () => {
     beforeEach(() => {
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
-          ...testData.removeLiquidity,
-          allowance: convertToUnits('1000').toString()
-        }))
+        mockHooksOrMethods.useRemoveLiquidity(() => {
+          return {
+            ...testData.removeLiquidity,
+            allowance: convertToUnits('1000').toString()
+          }
+        })
       })
       const podInput = screen.getByTestId('pod-input')
       fireEvent.change(podInput, { target: { value: '1000' } })
@@ -220,26 +238,30 @@ describe('WithdrawLiquidityForm', () => {
       expect(button.textContent).toBe('Withdraw')
 
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
-          ...testData.removeLiquidity,
-          allowance: convertToUnits('1000').toString(),
-          withdrawing: true
-        }))
+        mockHooksOrMethods.useRemoveLiquidity(() => {
+          return {
+            ...testData.removeLiquidity,
+            allowance: convertToUnits('1000').toString(),
+            withdrawing: true
+          }
+        })
       })
       const podInput = screen.getByTestId('pod-input')
       fireEvent.change(podInput, { target: { value: '1000' } })
 
       const button1 = screen.getByTestId('withdraw-button')
-      expect(button1.textContent).toBe('Withdrawing..')
+      expect(button1.textContent).toBe('Withdrawing...')
     })
 
     test('should disable the button when withdrawing', () => {
       rerenderFn({}, () => {
-        mockFn.useRemoveLiquidity(() => ({
-          ...testData.removeLiquidity,
-          allowance: convertToUnits('1000').toString(),
-          withdrawing: true
-        }))
+        mockHooksOrMethods.useRemoveLiquidity(() => {
+          return {
+            ...testData.removeLiquidity,
+            allowance: convertToUnits('1000').toString(),
+            withdrawing: true
+          }
+        })
       })
       const podInput = screen.getByTestId('pod-input')
       fireEvent.change(podInput, { target: { value: '1000' } })

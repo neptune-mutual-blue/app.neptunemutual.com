@@ -15,7 +15,7 @@ export const useTokenDecimals = (tokenAddress) => {
 
   useEffect(() => {
     let ignore = false
-    if (!networkId || !tokenAddress || !account) return
+    if (!networkId || !tokenAddress || !account) { return }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
@@ -35,7 +35,7 @@ export const useTokenDecimals = (tokenAddress) => {
 
     const onTransactionResult = (tx) => {
       const decimals = tx
-      if (ignore) return
+      if (ignore) { return }
       setTokenDecimals(decimals)
     }
 

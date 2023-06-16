@@ -20,6 +20,7 @@ export const useTxToast = () => {
   const push = async (tx, titles, options = {}) => {
     if (!tx) {
       options?.onTxFailure && options.onTxFailure()
+
       return
     }
 
@@ -44,6 +45,7 @@ export const useTxToast = () => {
       })
 
       options?.onTxSuccess && options.onTxSuccess(tx)
+
       return
     }
 

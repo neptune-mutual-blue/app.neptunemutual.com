@@ -3,21 +3,24 @@ import { render, screen } from '@/utils/unit-tests/test-utils'
 import { testData } from '@/utils/unit-tests/test-data'
 import { convertFromUnits } from '@/utils/bn'
 import { VotesSummaryDoughnutChart } from '@/modules/reporting/VotesSummaryDoughnutCharts'
-import { globalFn, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 
-jest.mock('react-chartjs-2', () => ({
-  Doughnut: (p) => mockFn.chartMockFn(p)
-}))
+jest.mock('react-chartjs-2', () => {
+  return {
+    Doughnut: (p) => { return mockHooksOrMethods.chartMockFn(p) }
+  }
+})
 
 describe('VotesSummaryDoughnutChart test', () => {
   beforeEach(() => {
     i18n.activate('en')
-    mockFn.useRouter()
+    mockHooksOrMethods.useRouter()
 
     HTMLCanvasElement.prototype.getContext = jest.fn()
 
-    globalFn.resizeObserver()
-    globalFn.DOMRect()
+    mockGlobals.resizeObserver()
+    mockGlobals.DOMRect()
 
     const yesPercent = '43%'
     const noPercent = '57%'

@@ -1,19 +1,21 @@
-import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
+import {
+  DiversifiedLiquidityResolutionSources
+} from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { screen } from '@testing-library/react'
 
 describe('DiversifiedLiquidityResolutionSources component', () => {
   const { initialRender } = initiateTest(
     DiversifiedLiquidityResolutionSources,
     {
-      info: testData.liquidityFormsContext.info,
+      coverData: testData.coversAndProducts2.data,
       children: <p>Here is the children</p>
     },
     () => {
-      mockFn.useRouter()
-      mockFn.useAppConstants()
-      mockFn.useCoverStatsContext()
+      mockHooksOrMethods.useRouter()
+      mockHooksOrMethods.useAppConstants()
     }
   )
   beforeEach(() => {

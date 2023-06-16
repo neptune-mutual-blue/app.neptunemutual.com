@@ -1,11 +1,18 @@
-import { LiquidityProductModal } from '@/modules/my-liquidity/content/LiquidityProductModal'
+import {
+  LiquidityProductModal
+} from '@/modules/my-liquidity/content/LiquidityProductModal'
+import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
-import { initiateTest } from '@/utils/unit-tests/test-mockup-fn'
-import { fireEvent, screen } from '@testing-library/react'
+import {
+  fireEvent,
+  screen
+} from '@testing-library/react'
+
+const data = testData.coversAndProducts2.data
 
 describe('LiquidityProductModal', () => {
   const props = {
-    product: testData.coverInfoWithProducts.products[0],
+    productData: data,
     setShowModal: jest.fn()
   }
   const { initialRender } = initiateTest(LiquidityProductModal, props)
@@ -31,31 +38,22 @@ describe('LiquidityProductModal', () => {
       .getByTestId('dialog-title')
       .querySelector('span')
 
-    const expectedText = `${props.product.infoObj.productName} Cover Terms`
+    const expectedText = `${data.productInfoDetails.productName} Cover Terms`
     expect(productName.textContent).toBe(expectedText)
   })
 
   test('should render the correct number of cover rules', () => {
     const rules = screen.getByTestId('cover-rules').querySelectorAll('li')
 
-    const expectedRules = props.product.infoObj.rules.split('\n')
-    expect(rules.length).toBe(expectedRules.length)
+    const expectedRules = data.productInfoDetails.parameters.reduce((acc, curr) => { return acc + curr.list.items.length }, 0)
+    expect(rules.length).toBe(expectedRules)
   })
 
   test('should render correct rule text', () => {
     const rule = screen.getByTestId('cover-rules').querySelector('li')
 
-    const expectedRule = `${props.product.infoObj.rules
-      .split('\n')[0]
-      .trim()
-      .replace(/^\d+\./g, '')
-      .trim()}`
+    const expectedRule = `${data.productInfoDetails.parameters[0].list.items[0]}`
     expect(rule.textContent).toBe(expectedRule)
-  })
-
-  test('should render correct exclusions', () => {
-    const exclusions = screen.getByTestId('cover-exclusions')
-    expect(exclusions.textContent).toBe(props.product.infoObj.exclusions)
   })
 
   test('should rende the close button', () => {

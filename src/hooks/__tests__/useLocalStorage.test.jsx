@@ -1,9 +1,10 @@
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
-import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 import { originalProcess } from '@/utils/unit-tests/test-utils'
 
 describe('useLocalStorage', () => {
-  const { mock, mockFunction, restore } = mockFn.console.log()
+  const { mock, mockFunction, restore } = mockGlobals.console.log()
 
   const args = ['stored-key', '{"value": "Initial value"}']
 
@@ -94,7 +95,7 @@ describe('useLocalStorage', () => {
       args
     )
     await act(async () => {
-      const newValue = () => JSON.stringify({ a: 1 })
+      const newValue = () => { return JSON.stringify({ a: 1 }) }
       await result[1](newValue)
     })
     expect(renderHookResult.current[0]).toEqual(JSON.stringify({ a: 1 }))

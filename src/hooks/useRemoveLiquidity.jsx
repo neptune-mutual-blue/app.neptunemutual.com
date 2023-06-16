@@ -137,7 +137,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   }
 
   const handleWithdraw = async (onTxSuccess, exit) => {
-    if (!networkId || !account) return
+    if (!networkId || !account) { return }
 
     setWithdrawing(true)
     const cleanup = () => {
