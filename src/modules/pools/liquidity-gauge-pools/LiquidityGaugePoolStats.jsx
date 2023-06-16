@@ -97,7 +97,7 @@ export function LiquidityGaugePoolStats ({
       )}
 
       {hasLockedAmount && (
-        <div className='flex flex-col gap-4 p-4 bg-F3F5F7 rounded-xl w-full md:max-w-420 text-sm mt-6 md:mt-8.5'>
+        <div className='flex flex-col w-full gap-4 p-4 mt-6 text-sm bg-F3F5F7 rounded-xl md:max-w-420 md:mt-0'>
           {(stats.map(stat => {
             return (
               <StatAfterLocked

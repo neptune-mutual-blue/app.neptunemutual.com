@@ -1,3 +1,7 @@
+import { useMemo } from 'react'
+
+import { useRouter } from 'next/router'
+
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
@@ -13,15 +17,16 @@ import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useBlockHeight } from '@/src/hooks/useBlockHeight'
+import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
 import { useLiquidityGaugePoolTxs } from '@/src/hooks/useLiquidityGaugePoolTxs'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
@@ -30,134 +35,63 @@ import {
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
-const renderWhen = (row) => (
-  <td
-    className='px-6 py-6'
-    title={DateLib.toLongDateFormat(row.blockTimestamp)}
-  >
-    {fromNow(row.blockTimestamp)}
-  </td>
-)
-
-const renderDetails = (row) => <DetailsRenderer row={row} />
-
-const renderAmount = (row) => <PoolAmountRenderer row={row} />
-
-const renderActions = (row) => <ActionsRenderer row={row} />
-
-export const getColumns = (sorts = {}, handleSort = () => {}) => [
-  {
-    name: t`when`,
-    align: 'left',
-    renderHeader: (col) => renderHeader(col, 'blockTimestamp', sorts, handleSort),
-    renderData: renderWhen
-  },
-  {
-    name: t`details`,
-    align: 'left',
-    renderHeader,
-    renderData: renderDetails
-  },
-  {
-    name: t`amount`,
-    align: 'right',
-    renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'right',
-    renderHeader,
-    renderData: renderActions
-  }
-]
-
-export const LiquidityGaugeTxsTable = () => {
-  const { data, loading } = useLiquidityGaugePoolTxs()
-
-  const { networkId } = useNetwork()
-  const { account } = useWeb3React()
-  const blockNumber = useBlockHeight()
-
-  const { sorts, handleSort, sortedData } = useSortData({ data: data })
-
-  const columns = getColumns(sorts, handleSort)
+const WhenRenderer = ({ row }) => {
+  const router = useRouter()
 
   return (
-    <>
-      <TableWrapper>
-        <Table>
-          <THead
-            columns={columns}
-            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
-          />
-          {account
-            ? (
-              <TBody
-                isLoading={loading}
-                columns={columns}
-                data={sortedData}
-              />
-              )
-            : (
-              <tbody>
-                <tr className='w-full text-center'>
-                  <td className='p-6' colSpan={columns.length}>
-                    <Trans>Please connect your wallet</Trans>
-                  </td>
-                </tr>
-              </tbody>
-              )}
-        </Table>
-      </TableWrapper>
-    </>
+    <td
+      className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
+      title={DateLib.toLongDateFormat(row.blockTimestamp, router.locale)}
+    >
+      {fromNow(row.blockTimestamp)}
+    </td>
   )
-}
-
-const getAppropriateData = (row, tokenSymbol, tokenDecimals) => {
-  const data = {
-    symbol: tokenSymbol,
-    tokenDecimals: tokenDecimals,
-    amountToShow: row.amount,
-    imgSrc: [{ src: getCoverImgSrc({ key: row.key }), alt: `${safeParseBytes32String(row.key)} token logo` }]
-  }
-
-  return {
-    ...data,
-    textToShow: (
-      <Trans>
-        {row.event}
-        <TokenAmountSpan
-          className='text-sm leading-5 text-01052D'
-          amountInUnits={data.amountToShow}
-          symbol={data.symbol}
-          decimals={data.tokenDecimals}
-        />
-      </Trans>
-    )
-  }
 }
 
 const DetailsRenderer = ({ row }) => {
   const tokenSymbol = useTokenSymbol(row.token)
   const tokenDecimals = useTokenDecimals(row.token)
 
-  const data = getAppropriateData(row, tokenSymbol, tokenDecimals)
+  const tokenAmountWithSymbol = (
+    <TokenAmountSpan
+      className='text-sm leading-5 text-01052D'
+      amountInUnits={row.amount}
+      symbol={tokenSymbol}
+      decimals={tokenDecimals}
+    />
+  )
 
-  if (!data) {
-    return null
+  let textToShow = <></>
+  if (row.event === 'Removed') {
+    textToShow = (
+      <Trans>
+        Removed {tokenAmountWithSymbol} from {row.poolName} Pool
+      </Trans>
+    )
+  } else if (row.event === 'Get Reward') {
+    textToShow = (
+      <Trans>
+        Withdrawn reward of {tokenAmountWithSymbol} from {row.poolName} Pool
+      </Trans>
+    )
+  } else if (row.event === 'Added') {
+    textToShow = (
+      <Trans>
+        Locked {tokenAmountWithSymbol} in {row.poolName} Pool
+      </Trans>
+    )
   }
 
   return (
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center gap-2 w-max'>
         <CoverAvatar
-          imgs={data.imgSrc}
+          imgs={row.imgSrc}
           containerClass='grow-0'
           size='xs'
         />
         <span className='text-sm leading-5 text-left whitespace-nowrap text-01052D'>
-          {data.textToShow}
+          {textToShow}
         </span>
       </div>
     </td>
@@ -170,30 +104,22 @@ const PoolAmountRenderer = ({ row }) => {
   const tokenSymbol = useTokenSymbol(row.token)
   const tokenDecimals = useTokenDecimals(row.token)
 
-  const data = getAppropriateData(row, tokenSymbol, tokenDecimals)
-
-  if (!data) {
-    return null
-  }
-
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
       <div className='flex items-center justify-end w-full text-sm leading-6 whitespace-nowrap'>
         <TokenAmountSpan
-          className={row.event === 'Added' ? 'text-01052D' : 'text-FA5C2F'}
-          amountInUnits={
-            data.amountToShow
-          }
-          symbol={data.symbol}
-          decimals={data.tokenDecimals}
+          className={row.event === 'Removed' ? 'text-FA5C2F' : ''}
+          amountInUnits={row.amount}
+          symbol={tokenSymbol}
+          decimals={tokenDecimals}
         />
         <button
           className='p-1 ml-3'
           onClick={() =>
             register(
               row.token,
-              data.symbol,
-              data.tokenDecimals
+              tokenSymbol,
+              tokenDecimals
             )}
           title='Add to Metamask'
         >
@@ -242,5 +168,107 @@ const ActionsRenderer = ({ row }) => {
         </a>
       </div>
     </td>
+  )
+}
+
+const renderWhen = (row) => <WhenRenderer row={row} />
+
+const renderDetails = (row) => <DetailsRenderer row={row} />
+
+const renderAmount = (row) => <PoolAmountRenderer row={row} />
+
+const renderActions = (row) => <ActionsRenderer row={row} />
+
+const getColumns = (sorts = {}, handleSort = () => {}) => [
+  {
+    name: t`when`,
+    align: 'left',
+    renderHeader: (col) => renderHeader(col, 'blockTimestamp', sorts, handleSort),
+    renderData: renderWhen
+  },
+  {
+    name: t`details`,
+    align: 'left',
+    renderHeader,
+    renderData: renderDetails
+  },
+  {
+    name: t`amount`,
+    align: 'right',
+    renderHeader,
+    renderData: renderAmount
+  },
+  {
+    name: '',
+    align: 'right',
+    renderHeader,
+    renderData: renderActions
+  }
+]
+
+export const LiquidityGaugeTxsTable = () => {
+  const { data, loading } = useLiquidityGaugePoolTxs()
+  const { data: pools } = useLiquidityGaugePools()
+  const { getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+
+  const { networkId } = useNetwork()
+  const { account } = useWeb3React()
+  const blockNumber = useBlockHeight()
+
+  const updateData = useMemo(() => {
+    return data.map(txData => {
+      const coverData = getCoverByCoverKey(txData.key)
+      const isDiversified = coverData?.supportsProducts
+      const projectName = coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.projectName
+      const pool = pools.find(x => x.key === txData.key)
+
+      return {
+        ...txData,
+        poolName: pool?.name || '',
+        imgSrc: isDiversified
+          ? getProductsByCoverKey(txData.key).map(x => ({
+            src: getCoverImgSrc({ key: x.productKey }),
+            alt: x.productInfoDetails?.productName
+          }))
+          : [{
+              src: getCoverImgSrc({ key: txData.key }),
+              alt: projectName
+            }]
+      }
+    })
+  }, [data, getCoverByCoverKey, getProductsByCoverKey, pools])
+
+  const { sorts, handleSort, sortedData } = useSortData({ data: updateData })
+
+  const columns = getColumns(sorts, handleSort)
+
+  return (
+    <>
+      <TableWrapper>
+        <Table>
+          <THead
+            columns={columns}
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
+          />
+          {account
+            ? (
+              <TBody
+                isLoading={loading}
+                columns={columns}
+                data={sortedData}
+              />
+              )
+            : (
+              <tbody>
+                <tr className='w-full text-center'>
+                  <td className='p-6' colSpan={columns.length}>
+                    <Trans>Please connect your wallet</Trans>
+                  </td>
+                </tr>
+              </tbody>
+              )}
+        </Table>
+      </TableWrapper>
+    </>
   )
 }
