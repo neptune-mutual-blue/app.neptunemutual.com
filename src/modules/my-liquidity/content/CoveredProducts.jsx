@@ -11,8 +11,6 @@ export function CoveredProducts ({ products }) {
   const [showModal, setShowModal] = useState(false)
   const [selectedProductData, setSelectedProductData] = useState()
 
-  console.log(products)
-
   return (
     <Container
       className='flex flex-col py-9'

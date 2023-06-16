@@ -89,7 +89,7 @@ export const MyBondTxsTable = () => {
             columns={columns}
             title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
           />
-          {process.env.NODE_ENV === 'test' || account
+          {account
             ? (
               <TBody
                 isLoading={loading}
