@@ -1,7 +1,7 @@
 const { testData } = require('@/utils/unit-tests/test-data')
 
 const mockGlobals = {
-  ethereum: () => {
+  ethereum: (overrides = { isMetaMask: true }) => {
     const ETHEREUM_METHODS = {
       eth_requestAccounts: () => [testData.account.account]
     }
@@ -26,7 +26,8 @@ const mockGlobals = {
 
         return ''
       }),
-      on: jest.fn(() => {})
+      on: jest.fn(() => {}),
+      ...overrides
     }
 
     return global.ethereum

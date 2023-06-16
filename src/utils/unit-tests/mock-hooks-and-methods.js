@@ -64,6 +64,7 @@ import * as PolicyTxsHook from '@/src/hooks/usePolicyTxs'
 import * as PoolInfoHook from '@/src/hooks/usePoolInfo'
 import * as ProtocolDayDataHook from '@/src/hooks/useProtocolDayData'
 import * as ProvideLiquidityHook from '@/src/hooks/useProvideLiquidity'
+import * as TokenStakingPoolsHook from '@/src/hooks/useTokenStakingPools'
 import * as PurchasePolicyHook from '@/src/hooks/usePurchasePolicy'
 import * as RecentVotesHook from '@/src/hooks/useRecentVotes'
 import * as RegisterTokenHook from '@/src/hooks/useRegisterToken'
@@ -560,6 +561,11 @@ const mockHooksOrMethods = {
   useProvideLiquidity: (cb = () => testData.provideLiquidity) =>
     jest
       .spyOn(ProvideLiquidityHook, 'useProvideLiquidity')
+      .mockImplementation(returnFunction(cb)),
+
+  useTokenStakingPools: (cb = () => testData.tokenStakingPools) =>
+    jest
+      .spyOn(TokenStakingPoolsHook, 'useTokenStakingPools')
       .mockImplementation(returnFunction(cb))
 }
 

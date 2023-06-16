@@ -79,7 +79,8 @@ const PurchaseAmountStep = ({
           placeholder: t`Enter Amount`,
           value: value,
           onChange: handleChange,
-          allowNegativeValue: false
+          allowNegativeValue: false,
+          'data-testid': 'input-field'
         }}
       />
       {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}

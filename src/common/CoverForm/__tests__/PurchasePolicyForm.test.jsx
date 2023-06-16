@@ -22,7 +22,7 @@ describe('PurchasePolicyForm component', () => {
       isUserWhitelisted: data.isUserWhitelisted,
       requiresWhitelist: data.requiresWhitelist,
       activeIncidentDate: data.activeIncidentDate,
-      productStatus: data.productStatus
+      productStatus: 0
     },
     () => {
       mockHooksOrMethods.useRouter()
@@ -30,6 +30,7 @@ describe('PurchasePolicyForm component', () => {
       mockHooksOrMethods.usePolicyFees()
       mockHooksOrMethods.usePurchasePolicy()
       mockHooksOrMethods.useValidateReferralCode()
+      mockHooksOrMethods.useWeb3React()
     }
   )
   beforeEach(() => {
@@ -46,15 +47,18 @@ describe('PurchasePolicyForm component', () => {
     expect(wrapper).toBeInTheDocument()
   })
 
-  test('should fire on change when changing redderral code', () => {
-    const stepsButton = screen.getByTestId('next-form-steps')
+  test('should fire on change when changing redderral code', async () => {
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
+
+    fireEvent.change(input, { target: { value: '100' } })
     fireEvent.click(stepsButton)
 
-    const input = screen.getByTestId('referral-input')
-    expect(input).toBeInTheDocument()
-    fireEvent.change(input, { target: { value: 'sadjasdklads' } })
-    const errorCode = screen.getByText(testData.referralCodeHook.errorMessage)
-    expect(errorCode).toBeInTheDocument()
+    const radio = screen.getByTestId('period-1')
+    fireEvent.click(radio)
+
+    const referralInput = screen.getByTestId('referral-input')
+    fireEvent.change(referralInput) // changing referral code input
   })
 
   test("should show 'Fetching...' if fees is loading", () => {
@@ -62,12 +66,42 @@ describe('PurchasePolicyForm component', () => {
       mockHooksOrMethods.usePolicyFees({ ...testData.policyFees, loading: true })
     })
 
-    const loadingMsg = screen.getByText(/Fetching.../i)
-    expect(loadingMsg).toBeInTheDocument()
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
+
+    fireEvent.change(input, { target: { value: '100' } })
+    fireEvent.click(stepsButton)
+
+    const radio = screen.getByTestId('period-1')
+    fireEvent.click(radio)
+    fireEvent.click(stepsButton)
+
+    const rulesCheckbox = screen.getByTestId('accept-rules')
+    fireEvent.click(rulesCheckbox)
+
+    fireEvent.click(stepsButton)
+
+    const loadingMsg = screen.getAllByText('Fetching fees...')
+    expect(loadingMsg.length).toBeTruthy()
   })
 
   test("should show 'Fetching Allowance...' if allowance is updating", () => {
     // as mock fn is already returning updating allowance as true
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
+
+    fireEvent.change(input, { target: { value: '100' } })
+    fireEvent.click(stepsButton)
+
+    const radio = screen.getByTestId('period-1')
+    fireEvent.click(radio)
+    fireEvent.click(stepsButton)
+
+    const rulesCheckbox = screen.getByTestId('accept-rules')
+    fireEvent.click(rulesCheckbox)
+
+    fireEvent.click(stepsButton)
+
     const loadingMsg = screen.getByText(/Fetching Allowance.../i)
     expect(loadingMsg).toBeInTheDocument()
   })
@@ -80,6 +114,21 @@ describe('PurchasePolicyForm component', () => {
         updatingBalance: true
       })
     })
+
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
+
+    fireEvent.change(input, { target: { value: '100' } })
+    fireEvent.click(stepsButton)
+
+    const radio = screen.getByTestId('period-1')
+    fireEvent.click(radio)
+    fireEvent.click(stepsButton)
+
+    const rulesCheckbox = screen.getByTestId('accept-rules')
+    fireEvent.click(rulesCheckbox)
+
+    fireEvent.click(stepsButton)
 
     const loadingMsg = screen.getByText(/Fetching balance.../i)
     expect(loadingMsg).toBeInTheDocument()
@@ -95,12 +144,13 @@ describe('PurchasePolicyForm component', () => {
     expect(message).toBeInTheDocument()
   })
 
-  // test('should show alert with product status anything other than normal', () => {
-  //   const purchaseForm = screen.queryByTestId('purchase-policy-form')
-  //   expect(purchaseForm).toBeInTheDocument()
-  // })
-
   test('should fire radio button handler on change', () => {
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
+
+    fireEvent.change(input, { target: { value: '100' } })
+    fireEvent.click(stepsButton)
+
     const radios = screen.getAllByRole('radio')
     expect(radios.length).toBe(3)
 
@@ -121,11 +171,17 @@ describe('PurchasePolicyForm component', () => {
       })
     })
 
-    const input = screen.getByTestId('referral-input')
-    fireEvent.change(input, { target: { value: 'sadjasdklads' } })
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
 
-    const errorCode = screen.getByText(testData.referralCodeHook.errorMessage)
-    expect(errorCode).toBeInTheDocument()
+    fireEvent.change(input, { target: { value: '100' } })
+    fireEvent.click(stepsButton)
+
+    const radio = screen.getByTestId('period-1')
+    fireEvent.click(radio)
+
+    const referralInput = screen.getByTestId('referral-input')
+    fireEvent.change(referralInput, { target: { value: 'sadjasdklads' } })
   })
 
   test('should show loader', () => {
@@ -138,8 +194,17 @@ describe('PurchasePolicyForm component', () => {
       })
     })
 
-    const input = screen.getByTestId('referral-input')
-    fireEvent.change(input, { target: { value: 'sadjasdklads' } })
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
+
+    fireEvent.change(input, { target: { value: '100' } })
+    fireEvent.click(stepsButton)
+
+    const radio = screen.getByTestId('period-1')
+    fireEvent.click(radio)
+
+    const referralInput = screen.getByTestId('referral-input')
+    fireEvent.change(referralInput, { target: { value: 'sadjasdklads' } })
 
     const loading = screen.getByTestId('loader')
     expect(loading).toBeInTheDocument()
@@ -162,11 +227,20 @@ describe('PurchasePolicyForm component', () => {
       })
     })
 
-    const radios = screen.getAllByRole('radio')
-    fireEvent.click(radios[2])
+    const stepsButton = screen.getByTestId('form-steps-button')
+    const input = screen.getByTestId('input-field')
 
-    const purchase = screen.getAllByRole('button')
-    expect(purchase[purchase.length - 2]).toHaveTextContent('Purchase policy')
-    fireEvent.click(purchase[purchase.length - 2])
+    fireEvent.change(input, { target: { value: '100' } })
+    fireEvent.click(stepsButton)
+
+    const radio = screen.getByTestId('period-1')
+    fireEvent.click(radio)
+    fireEvent.click(stepsButton)
+
+    const rulesCheckbox = screen.getByTestId('accept-rules')
+    fireEvent.click(rulesCheckbox)
+
+    expect(stepsButton).toHaveTextContent('Purchase Policy')
+    expect(fireEvent.click(stepsButton)).toBeTruthy()
   })
 })

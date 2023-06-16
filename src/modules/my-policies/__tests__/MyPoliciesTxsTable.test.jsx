@@ -6,8 +6,7 @@ import {
 } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import {
-  columns,
-  MyPoliciesTxsTable
+  MyPoliciesTxsTable, getColumns
 } from '@/modules/my-policies/MyPoliciesTxsTable'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
@@ -85,17 +84,18 @@ describe('MyPoliciesTxsTable test', () => {
   })
 
   describe('Table Head', () => {
+    const columns = getColumns()
     test('should render correct number of th elements', () => {
       const ths = screen
         .getByTestId('policy-txs-table-header')
-        .querySelectorAll('th')
+        .querySelectorAll('tr:nth-child(2) > th')
       expect(ths.length).toBe(columns.length)
     })
 
     test('should render correct table header text', () => {
       const ths = screen
         .getByTestId('policy-txs-table-header')
-        .querySelectorAll('th')
+        .querySelectorAll('tr:nth-child(2) > th')
       expect(ths[0].textContent).toBe(columns[0].name)
       expect(ths[1].textContent).toBe(columns[1].name)
       expect(ths[2].textContent).toBe(columns[2].name)
@@ -148,6 +148,7 @@ describe('MyPoliciesTxsTable test', () => {
     })
 
     describe("Col 2: 'DETAILS'", () => {
+      const columns = getColumns()
       test('should not render details item if no coverInfo', () => {
         cleanup()
         i18n.activate('en')
@@ -156,7 +157,7 @@ describe('MyPoliciesTxsTable test', () => {
 
         const tbody = screen.queryByTestId('app-table-body')
         const tds = tbody.querySelectorAll('tr')[0].querySelectorAll('td')
-        expect(tds.length).toBe(columns.length - 1)
+        expect(tds.length).toBe(columns.length)
       })
 
       test('should render correct details in the row', () => {
