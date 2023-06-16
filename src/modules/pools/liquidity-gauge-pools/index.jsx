@@ -13,7 +13,7 @@ import {
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolCardsSkeleton'
 import {
   LiquidityGaugePoolsList
-} from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsCard'
+} from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsList'
 import { Routes } from '@/src/config/routes'
 // import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
@@ -126,7 +126,7 @@ function Content ({
 }) {
   if (data.length) {
     return (
-      <LiquidityGaugePoolsList data={data} />
+      <LiquidityGaugePoolsList pools={data} />
     )
   }
 

@@ -25,6 +25,8 @@ export const LiquidityResolutionSources = ({
   isDiversified,
   coverData,
   isWithdrawalWindowOpen,
+  isWithdrawalWindowOutdated,
+  updateWithdrawalWindow,
   accrueInterest
 }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -77,6 +79,15 @@ export const LiquidityResolutionSources = ({
             onClick={accrueInterest}
           >
             <Trans>Accrue</Trans>
+          </button>
+        )}
+
+        {!isWithdrawalWindowOpen && isWithdrawalWindowOutdated && (
+          <button
+            className='mt-4 mr-2 text-sm tracking-wide uppercase text-4E7DD9 hover:underline disabled:hover:no-underline'
+            onClick={updateWithdrawalWindow}
+          >
+            <Trans>Update unlock cycle</Trans>
           </button>
         )}
       </div>

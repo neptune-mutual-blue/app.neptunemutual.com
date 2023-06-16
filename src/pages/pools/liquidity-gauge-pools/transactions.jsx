@@ -4,14 +4,15 @@ import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
+import {
+  LiquidityGaugeTxsTable
+} from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import {
   t,
   Trans
 } from '@lingui/macro'
-
-// import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -56,7 +57,7 @@ export default function MyLiquidityGaugePoolsTxs ({ disabled }) {
       </Hero>
 
       <Container className='pt-14 pb-28'>
-        {/* <MyStakingTxsTable /> */}
+        <LiquidityGaugeTxsTable />
       </Container>
     </main>
   )

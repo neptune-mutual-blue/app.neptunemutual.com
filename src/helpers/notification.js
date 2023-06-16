@@ -595,6 +595,23 @@ const actionMessages = {
 
     return { title: t`Accruing interest`, description: displayValue(_data) }
   },
+  [METHODS.UPDATE_WITHDRWAL_WINDOW]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Updating withdrawal period successfully`,
+        description: displayValue(_data)
+      }
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not update withdrawal period`,
+        description: displayValue(_data)
+      }
+    }
+
+    return { title: t`Updating withdrawal period`, description: displayValue(_data) }
+  },
   [METHODS.VOTE_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || ''
 

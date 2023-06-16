@@ -31,6 +31,7 @@ const CoversAndProductsDataContext = createContext({
   getAllProducts: () => null,
   getDedicatedCovers: () => null,
   getDiversifiedCovers: () => null,
+  getAllCovers: () => null,
   updateData: async () => {}
 })
 
@@ -120,6 +121,11 @@ export const CoversAndProductsProvider2 = ({ children }) => {
     return data.filter(x => !x.productKey && x.supportsProducts)
   }
 
+  // Get all covers
+  const getAllCovers = () => {
+    return data.filter(x => !x.productKey)
+  }
+
   // Get dedicated covers and products of diverisified covers
   const getAllProducts = () => {
     return data.filter(x => x.productKey || !x.supportsProducts)
@@ -148,6 +154,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
       getAllProducts,
       getDedicatedCovers,
       getDiversifiedCovers,
+      getAllCovers,
       updateData
     }}
     >

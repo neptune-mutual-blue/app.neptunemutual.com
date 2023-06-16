@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
+import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import CloseIcon from '@/icons/CloseIcon'
@@ -18,6 +19,7 @@ import {
 } from '@/src/hooks/useLiquidityGaugePoolWithdrawRewards'
 import {
   convertFromUnits,
+  convertToUnits,
   toBN
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
@@ -43,6 +45,7 @@ export const ReceiveAndUnlockModal = ({
 }) => {
   const { locale } = useRouter()
 
+  const [isExit, setIsExit] = useState(false)
   const [isReceiveRewardsModalOpen, setIsReceiveRewardsModalOpen] = useState(true)
 
   const handleChange = (val) => {
@@ -61,9 +64,10 @@ export const ReceiveAndUnlockModal = ({
     withdrawing,
     error
   } = useLiquidityGaugePoolWithdraw({
-    amount: inputValue,
+    isExit,
     stakingTokenSymbol,
     stakingTokenDecimals,
+    amountInUnits: convertToUnits(inputValue || '0', stakingTokenDecimals).toString(),
     poolAddress
   })
 
@@ -140,26 +144,47 @@ export const ReceiveAndUnlockModal = ({
           </div>
 
           {!isReceiveRewardsModalOpen && (
-            <TokenAmountInput
-              labelText='Enter Amount to Unlock'
-              tokenBalance=''
-              tokenSymbol={stakingTokenSymbol}
-              tokenAddress={stakingTokenAddress}
-              handleChooseMax={handleChooseMax}
-              inputValue={inputValue}
-              id='token-amount'
-              onChange={handleChange}
-              inputId='modal-input'
-              disabled={withdrawing || withdrawingRewards}
-            >
-              <span title={formattedStakedBalance.long}>
-                Locked Balance: {formattedStakedBalance.short}
-              </span>
+            <>
+              <div className='flex items-center justify-between mt-6 mb-4'>
+                <div className='font-semibold text-md'>Enter Amount to Unlock</div>
+                <div className='flex items-center text-sm'>
+                  <Checkbox
+                    checked={isExit}
+                    onChange={(e) => {
+                      setIsExit(e.target.checked)
+                      if (e.target.checked) {
+                        handleChooseMax()
+                      }
+                    }}
+                    className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox'
+                    labelClassName='ml-1'
+                  >
+                    Exit
+                  </Checkbox>
+                </div>
+              </div>
 
-              {(error) && (
-                <p className='flex items-center text-FA5C2F'>{error}</p>
-              )}
-            </TokenAmountInput>
+              <TokenAmountInput
+                labelText=''
+                tokenBalance=''
+                tokenSymbol={stakingTokenSymbol}
+                tokenAddress={stakingTokenAddress}
+                handleChooseMax={handleChooseMax}
+                inputValue={inputValue}
+                id='token-amount'
+                onChange={handleChange}
+                inputId='modal-input'
+                disabled={withdrawing || withdrawingRewards || isExit}
+              >
+                <span title={formattedStakedBalance.long}>
+                  Locked Balance: {formattedStakedBalance.short}
+                </span>
+
+                {(error) && (
+                  <p className='flex items-center text-FA5C2F'>{error}</p>
+                )}
+              </TokenAmountInput>
+            </>
           )}
 
           <div className='flex flex-col gap-4 p-4 mt-6 bg-F3F5F7 rounded-big'>

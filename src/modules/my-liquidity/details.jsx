@@ -33,20 +33,19 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { CoverLiquiditySkeleton } from '@/modules/my-liquidity/CoverLiquiditySkeleton'
 
 export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
-  const { accrueInterest, isWithdrawalWindowOpen, info } = useLiquidityFormsContext()
+  const { accrueInterest, isWithdrawalWindowOpen, info, isWithdrawalWindowOutdated, updateWithdrawalWindow } = useLiquidityFormsContext()
   const coverData = getCoverByCoverKey(coverKey)
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <CoverLiquiditySkeleton />
     )
   }
   if (!coverData) {
@@ -150,6 +149,8 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
             coverData={coverData}
             isWithdrawalWindowOpen={isWithdrawalWindowOpen}
             accrueInterest={accrueInterest}
+            isWithdrawalWindowOutdated={isWithdrawalWindowOutdated}
+            updateWithdrawalWindow={updateWithdrawalWindow}
           />
         </Container>
       </div>

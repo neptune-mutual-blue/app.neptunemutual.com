@@ -135,7 +135,7 @@ export const getVotingResults = (choices = [], scores = []) => {
       percent: toBNSafe(scores[i])
         .dividedBy(totalScore)
         .toNumber(),
-      color: getColorByIndex(i)
+      color: getColorByIndex(i, choices)
     }
   })
 
