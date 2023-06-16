@@ -1,4 +1,5 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableShowMore,
@@ -6,23 +7,25 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { useWeb3React } from '@web3-react/core'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { useNetwork } from '@/src/context/Network'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import { t, Trans } from '@lingui/macro'
-import { usePagination } from '@/src/hooks/usePagination'
-import { useStakingTxs } from '@/src/hooks/useStakingTxs'
 import DateLib from '@/lib/date/DateLib'
+import { useNetwork } from '@/src/context/Network'
 import { getTokenImgSrc } from '@/src/helpers/token'
-import { LastSynced } from '@/common/LastSynced'
-import { renderHeader } from '@/common/Table/renderHeader'
+import { usePagination } from '@/src/hooks/usePagination'
+import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
+import { useStakingTxs } from '@/src/hooks/useStakingTxs'
+import { fromNow } from '@/utils/formatter/relative-time'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { useWeb3React } from '@web3-react/core'
 
 const renderWhen = (row) => (
   <td
@@ -124,17 +127,21 @@ const getAppropriateData = (row) => {
       symbol: row.pool.stakingTokenSymbol,
       tokenDecimals: row.pool.stakingTokenDecimals,
       amountToShow: row.amount,
-      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol)]
+      poolName: row.pool.name,
+      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
     }
+
+    const stakeAmountWithSymbol = (
+      <TokenAmountSpan
+        className='text-sm leading-5 text-01052D'
+        amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+      />
+    )
 
     return {
       ...data,
       textToShow: (
-        <Trans>Staked <TokenAmountSpan
-          className='text-sm leading-5 text-01052D'
-          amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
-                      />
-        </Trans>
+        <Trans>Staked {stakeAmountWithSymbol} on {data.poolName}</Trans>
       )
     }
   }
@@ -143,17 +150,21 @@ const getAppropriateData = (row) => {
       symbol: row.pool.rewardTokenSymbol,
       tokenDecimals: row.pool.rewardTokenDecimals,
       amountToShow: row.rewards,
-      imgSrc: [getTokenImgSrc(row.pool.rewardTokenSymbol)]
+      poolName: row.pool.name,
+      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
     }
+
+    const harvestAmountWithSymbol = (
+      <TokenAmountSpan
+        className='text-sm leading-5 text-01052D'
+        amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+      />
+    )
 
     return {
       ...data,
       textToShow: (
-        <Trans>Harvested <TokenAmountSpan
-          className='text-sm leading-5 text-01052D'
-          amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
-                         />
-        </Trans>
+        <Trans>Harvested {harvestAmountWithSymbol} on {data.poolName}</Trans>
       )
     }
   }
@@ -162,17 +173,21 @@ const getAppropriateData = (row) => {
       symbol: `${row.pool.stakingTokenSymbol}`,
       tokenDecimals: row.pool.stakingTokenDecimals,
       amountToShow: row.amount,
+      poolName: row.pool.name,
       imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
     }
+
+    const withdrawAmountWithSymbol = (
+      <TokenAmountSpan
+        className='text-sm leading-5 text-01052D'
+        amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+      />
+    )
 
     return {
       ...data,
       textToShow: (
-        <Trans>Withdrawn <TokenAmountSpan
-          className='text-sm leading-5 text-01052D'
-          amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
-                         />
-        </Trans>
+        <Trans>Withdrawn {withdrawAmountWithSymbol} from {data.poolName}</Trans>
       )
     }
   }
@@ -180,24 +195,24 @@ const getAppropriateData = (row) => {
 
 const DetailsRenderer = ({ row }) => {
   const data = getAppropriateData(row)
+
   return (
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center w-max'>
         {data.imgSrc.length === 1
-          ? (<img src={data.imgSrc[0]} alt='npm' height={32} width={32} />)
+          ? (<img src={data.imgSrc[0]} alt='npm' height={24} width={24} />)
           : (
             <div className='relative inline-block'>
               <div className='flex items-center justify-center'>
-                <img src={data.imgSrc[1]} height={32} width={32} className='z-20' alt='rewardTokenSymbol' />
+                <img src={data.imgSrc[1]} height={24} width={24} className='z-20' alt='rewardTokenSymbol' />
               </div>
-              <div className='absolute top-0 z-10 flex items-center justify-center -left-6'>
-                <img src={data.imgSrc[0]} alt='stakingTokenSymbol' height={32} width={32} className='inline-block' />
+              <div className='absolute top-0 z-10 flex items-center justify-center -left-4'>
+                <img src={data.imgSrc[0]} alt='stakingTokenSymbol' height={24} width={24} className='inline-block' />
               </div>
             </div>
             )}
-        <span className='pl-4 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
+        <span className='pl-2 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {data.textToShow}
-
         </span>
       </div>
     </td>

@@ -72,7 +72,11 @@ export const CoverAvatar = ({
             })}
 
             {imgs.length > 3 && (
-              <p className='ml-2 text-xs opacity-40 text-01052D'>
+              <p className={classNames(
+                'text-xs opacity-40 text-01052D',
+                size === 'xs' ? 'ml-6' : 'ml-2'
+              )}
+              >
                 +{imgs.length - 3} MORE
               </p>
             )}

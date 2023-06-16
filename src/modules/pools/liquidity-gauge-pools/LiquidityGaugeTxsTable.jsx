@@ -13,6 +13,7 @@ import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useBlockHeight } from '@/src/hooks/useBlockHeight'
@@ -21,7 +22,6 @@ import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
@@ -114,25 +114,41 @@ export const LiquidityGaugeTxsTable = () => {
   )
 }
 
-const getAppropriateData = (row, tokenSymbol, tokenDecimals) => {
+const getAppropriateData = (row, tokenSymbol, tokenDecimals, coverData, getProductsByCoverKey) => {
+  const isDiversified = coverData?.supportsProducts
+  const projectName = coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.projectName
+
   const data = {
     symbol: tokenSymbol,
     tokenDecimals: tokenDecimals,
     amountToShow: row.amount,
-    imgSrc: [{ src: getCoverImgSrc({ key: row.key }), alt: `${safeParseBytes32String(row.key)} token logo` }]
+    imgSrc: isDiversified
+      ? getProductsByCoverKey(row.key).map(x => ({
+        src: getCoverImgSrc({ key: x.productKey }),
+        alt: x.productInfoDetails?.productName
+      }))
+      : [{
+          src: getCoverImgSrc({ key: row.key }),
+          alt: projectName
+        }]
   }
+
+  const tokenAmountWithSymbol = (
+    <TokenAmountSpan
+      className='text-sm leading-5 text-01052D'
+      amountInUnits={data.amountToShow}
+      symbol={data.symbol}
+      decimals={data.tokenDecimals}
+    />
+  )
+
+  const prepo = row.event === 'Removed' ? 'from' : 'to'
 
   return {
     ...data,
     textToShow: (
       <Trans>
-        {row.event}
-        <TokenAmountSpan
-          className='text-sm leading-5 text-01052D'
-          amountInUnits={data.amountToShow}
-          symbol={data.symbol}
-          decimals={data.tokenDecimals}
-        />
+        {row.event} {tokenAmountWithSymbol} {prepo} {projectName} Pool
       </Trans>
     )
   }
@@ -141,8 +157,10 @@ const getAppropriateData = (row, tokenSymbol, tokenDecimals) => {
 const DetailsRenderer = ({ row }) => {
   const tokenSymbol = useTokenSymbol(row.token)
   const tokenDecimals = useTokenDecimals(row.token)
+  const { getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const coverData = getCoverByCoverKey(row.key)
 
-  const data = getAppropriateData(row, tokenSymbol, tokenDecimals)
+  const data = getAppropriateData(row, tokenSymbol, tokenDecimals, coverData, getProductsByCoverKey)
 
   if (!data) {
     return null
@@ -180,7 +198,7 @@ const PoolAmountRenderer = ({ row }) => {
     <td className='max-w-sm px-6 py-6 text-right'>
       <div className='flex items-center justify-end w-full text-sm leading-6 whitespace-nowrap'>
         <TokenAmountSpan
-          className={row.event === 'Added' ? 'text-01052D' : 'text-FA5C2F'}
+          className={row.event === 'Removed' ? 'text-FA5C2F' : 'text-01052D'}
           amountInUnits={
             data.amountToShow
           }

@@ -1,7 +1,11 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { useWeb3React } from '@web3-react/core'
-import { useState, useEffect } from 'react'
 
 const getQuery = (account, limit, skip) => {
   return `
@@ -30,6 +34,8 @@ const getQuery = (account, limit, skip) => {
       rewards
       platformFee
       pool {
+        key
+        name
         stakingTokenSymbol
         rewardTokenDecimals
         stakingTokenDecimals
