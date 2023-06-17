@@ -285,9 +285,6 @@ export const InsightsContent = () => {
           </>
         )
 
-      case AllDropdownOptions.DEMAND:
-        return <TotalCapacityChart data={totalCovered} />
-
       case AllDropdownOptions.HISTORICAL_ROI:
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
 
@@ -353,6 +350,9 @@ export const InsightsContent = () => {
 
       case AllDropdownOptions.TOTAL_CAPACITY:
         return <TotalCapacityChart data={totalCapacity} />
+
+      case AllDropdownOptions.DEMAND:
+        return <TotalCapacityChart data={totalCovered} />
 
       case AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION:
         return <TopAccountsByProtection userData={protectionTopAccounts} loading={protectionTopAccountsLoading} page={currentPage} />

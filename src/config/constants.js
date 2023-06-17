@@ -90,8 +90,6 @@ export const IPFS_REPORT_INFO_URL = `${API_BASE_URL}ipfs/report-info`
 
 export const IPFS_DISPUTE_INFO_URL = `${API_BASE_URL}ipfs/dispute-info`
 
-export const IPFS_GET = (hash) => { return `${API_BASE_URL}ipfs/${hash}` }
-
 export const api = {
   USER_ACTIVE_POLICIES: `${API_BASE_URL}policy/active/{networkId}/{account}`,
   USER_EXPIRED_POLICIES: `${API_BASE_URL}policy/expired/{networkId}/{account}`,
@@ -130,6 +128,8 @@ export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
 
 export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
 
+export const BRIDGE_BNB_PRICING_URL = `${API_BASE_URL}bridge/pricing/bnb`
+
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',
@@ -142,14 +142,6 @@ export const NetworkUrlParam = {
 export const isProduction = process.env.NODE_ENV === 'production'
 
 export const FALLBACK_VENPM_TOKEN_SYMBOL = 'veNPM'
-
-export const FALLBACK_NPM_TOKEN_SYMBOL = 'NPM'
-
-export const FALLBACK_NPM_TOKEN_DECIMALS = 18
-
-export const FALLBACK_LIQUIDITY_TOKEN_SYMBOL = 'USDC'
-
-export const FALLBACK_LIQUIDITY_TOKEN_DECIMALS = 6
 
 export const MIN_PROPOSAL_AMOUNT = 10
 

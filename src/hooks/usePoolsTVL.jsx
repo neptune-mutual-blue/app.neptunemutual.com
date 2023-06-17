@@ -1,12 +1,20 @@
-import { useCallback, useEffect, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
+import { getNetworkId } from '@/src/config/environment'
 import { calcBondPoolTVL } from '@/src/helpers/bond'
 import { calcStakingPoolTVL } from '@/src/helpers/pool'
 import { getPricingData } from '@/src/helpers/pricing'
-import { isEqualTo, sumOf, toBN } from '@/utils/bn'
 import { getNpmPayload } from '@/src/helpers/token'
-import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import {
+  isEqualTo,
+  sumOf,
+  toBN
+} from '@/utils/bn'
 
 const getQuery = () => {
   return `
@@ -44,34 +52,34 @@ export const usePoolsTVL = (NPMTokenAddress) => {
   const fetchPoolsTVL = useSubgraphFetch('usePoolsTVL')
 
   useEffect(() => {
-    if (NPMTokenAddress) {
-      const networkId = getNetworkId()
+    if (!NPMTokenAddress) { return }
 
-      fetchPoolsTVL(networkId, getQuery())
-        .then(async ({ bondPools, pools }) => {
-          const bondsPayload = bondPools.map((bondPool) => {
-            return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress)
-          })
+    const networkId = getNetworkId()
 
-          const poolsPayload = pools.map((currentPool) => {
-            return calcStakingPoolTVL(currentPool)
-          })
-
-          const npmPayload = getNpmPayload(NPMTokenAddress)
-
-          const result = await getPricingData(networkId, [
-            ...bondsPayload,
-            ...poolsPayload,
-            ...npmPayload
-          ])
-
-          setPoolsTVL({
-            items: result.items,
-            tvl: result.total
-          })
+    fetchPoolsTVL(networkId, getQuery())
+      .then(async ({ bondPools, pools }) => {
+        const bondsPayload = bondPools.map((bondPool) => {
+          return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress)
         })
-        .catch((e) => { return console.error(e) })
-    }
+
+        const poolsPayload = pools.map((currentPool) => {
+          return calcStakingPoolTVL(currentPool)
+        })
+
+        const npmPayload = getNpmPayload(NPMTokenAddress)
+
+        const result = await getPricingData(networkId, [
+          ...bondsPayload,
+          ...poolsPayload,
+          ...npmPayload
+        ])
+
+        setPoolsTVL({
+          items: result.items,
+          tvl: result.total
+        })
+      })
+      .catch((e) => { return console.error(e) })
   }, [NPMTokenAddress, fetchPoolsTVL])
 
   const getTVLById = useCallback(

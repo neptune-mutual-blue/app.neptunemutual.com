@@ -11,8 +11,10 @@ import {
   PRODUCT_SUMMARY_URL,
   PRODUCT_SUMMARY_WITH_ACCOUNT_URL
 } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
+import { convertToUnits } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
 import { useWeb3React } from '@web3-react/core'
 
@@ -52,6 +54,9 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
 
+  const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
+  const npmDecimals = ChainConfig[networkId].npm.tokenDecimals
+
   const url = useMemo(() => {
     if (account) {
       const replacements = { networkId, account }
@@ -84,7 +89,20 @@ export const CoversAndProductsProvider2 = ({ children }) => {
       const res = await response.json()
 
       setData(res.data
-        .filter(x => { return x.chainId.toString() === networkId.toString() })
+        .filter(x => {
+          return x.chainId.toString() === networkId.toString()
+        })
+        .map(x => {
+          return {
+            ...x,
+            capacity: convertToUnits(x.capacity, stablecoinDecimals).toString(),
+            commitment: convertToUnits(x.commitment, stablecoinDecimals).toString(),
+            availableForUnderwriting: convertToUnits(x.availableForUnderwriting, stablecoinDecimals).toString(),
+            reassurance: convertToUnits(x.reassurance, stablecoinDecimals).toString(),
+            tvl: convertToUnits(x.tvl, stablecoinDecimals).toString(),
+            minReportingStake: convertToUnits(x.minReportingStake, npmDecimals).toString()
+          }
+        })
         .sort((a, b) => {
           const text1 = a?.productInfoDetails?.productName || (a?.coverInfoDetails?.coverName || a?.coverInfoDetails?.projectName) || ''
           const text2 = b?.productInfoDetails?.productName || (b?.coverInfoDetails?.coverName || b?.coverInfoDetails?.projectName) || ''
@@ -95,7 +113,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
-  }, [networkId, url])
+  }, [networkId, npmDecimals, stablecoinDecimals, url])
 
   useEffect(() => {
     setLoading(true)

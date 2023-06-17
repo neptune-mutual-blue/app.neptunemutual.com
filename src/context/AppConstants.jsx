@@ -4,12 +4,7 @@ import React, {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import {
-  FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
-  FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
-  FALLBACK_NPM_TOKEN_DECIMALS,
-  FALLBACK_NPM_TOKEN_SYMBOL
-} from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
 import { usePoolsTVL } from '@/src/hooks/usePoolsTVL'
 import { useRoles } from '@/src/hooks/useRoles'
@@ -21,11 +16,11 @@ import { useWeb3React } from '@web3-react/core'
 
 const initValue = {
   NPMTokenAddress: '',
-  NPMTokenDecimals: FALLBACK_NPM_TOKEN_DECIMALS,
-  NPMTokenSymbol: FALLBACK_NPM_TOKEN_SYMBOL,
+  NPMTokenDecimals: ChainConfig[1].npm.tokenDecimals,
+  NPMTokenSymbol: ChainConfig[1].npm.tokenSymbol,
   liquidityTokenAddress: '',
-  liquidityTokenDecimals: FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
-  liquidityTokenSymbol: FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
+  liquidityTokenSymbol: ChainConfig[1].stablecoin.tokenSymbol,
+  liquidityTokenDecimals: ChainConfig[1].stablecoin.tokenDecimals,
   poolsTvl: '0',
   getTVLById: (_id) => { return '0' },
   getPriceByAddress: (_address) => { return '0' },
@@ -51,11 +46,9 @@ export function useAppConstants () {
 }
 
 export const AppConstantsProvider = ({ children }) => {
-  const [data, setData] = useState(initValue)
   const { networkId } = useNetwork()
-  const { tvl, getTVLById, getPriceByAddress } = usePoolsTVL(
-    data.NPMTokenAddress
-  )
+  const [data, setData] = useState(initValue)
+  const { tvl, getTVLById, getPriceByAddress } = usePoolsTVL(data.NPMTokenAddress)
   const { library, account } = useWeb3React()
 
   const roles = useRoles()
@@ -84,9 +77,9 @@ export const AppConstantsProvider = ({ children }) => {
             return {
               ...prev,
               NPMTokenAddress,
-              liquidityTokenAddress,
               NPMTokenDecimals,
               NPMTokenSymbol,
+              liquidityTokenAddress,
               liquidityTokenDecimals,
               liquidityTokenSymbol
             }
@@ -119,9 +112,9 @@ export const AppConstantsProvider = ({ children }) => {
           return {
             ...prev,
             NPMTokenAddress,
-            liquidityTokenAddress,
             NPMTokenDecimals,
             NPMTokenSymbol,
+            liquidityTokenAddress,
             liquidityTokenDecimals,
             liquidityTokenSymbol
           }
