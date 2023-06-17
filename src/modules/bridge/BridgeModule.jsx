@@ -16,21 +16,24 @@ import { useBridgePricing } from '@/modules/bridge/useBridgePricing'
 import { useCelerBridge } from '@/modules/bridge/useCelerBridge'
 import { useLayerZeroBridge } from '@/modules/bridge/useLayerZeroBridge'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
-import * as celerConfig from '@/src/config/bridge/celer'
 import * as lzConfig from '@/src/config/bridge/layer-zero'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { getNetworkInfo } from '@/utils/network'
 import { useWeb3React } from '@web3-react/core'
 
+const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
+const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
+const DEFAULT_BRIDGE = isLayerZeroBridgeEnabled ? BRIDGE_KEYS.LAYERZERO : BRIDGE_KEYS.CELER
+
 const BridgeModule = () => {
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
 
+  const receiverAddress = ''
   const [sendAmount, setSendAmount] = useState('')
-  // eslint-disable-next-line no-unused-vars
-  const [receiverAddress, _setReceiverAddress] = useState('')
-  const [selectedBridge, setSelectedBridge] = useState(BRIDGE_KEYS.LAYERZERO)
+  const [selectedBridge, setSelectedBridge] = useState(DEFAULT_BRIDGE)
   const [selectedNetworks, setSelectedNetworks] = useState({
     srcNetwork: null,
     destNetwork: null
@@ -64,6 +67,8 @@ const BridgeModule = () => {
 
   const conversionRates = useBridgePricing()
 
+  const isCelerBridgeAvailable = !!celerHookResult.tokenData && !!celerHookResult.bridgeContractAddress && !!celerHookResult.tokenData[destChainId]
+
   // Resets source chain
   useEffect(() => {
     const options = getNetworkInfo(networkId).isMainNet ? networks.mainnet : networks.testnet
@@ -82,7 +87,7 @@ const BridgeModule = () => {
     }
 
     if (selectedBridge === BRIDGE_KEYS.CELER) {
-      tokenData = isTestNet ? celerConfig.TESTNET_USDC_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
+      tokenData = celerHookResult.tokenData
     }
 
     if (!tokenData) {
@@ -104,51 +109,59 @@ const BridgeModule = () => {
 
     // used for avoiding unnecessary re-renders
     setSelectedNetworks(prev => { return { ...prev, destNetwork: firstDestOption } })
-  }, [networkId, selectedBridge])
+  }, [networkId, selectedBridge, celerHookResult.tokenData])
 
   return (
     <Container className='pt-20 pb-72'>
       <div className='flex flex-col mx-auto bg-white border lg:divide-x divide-B0C4DB border-B0C4DB rounded-2xl lg:flex-row'>
-        <CelerBridgeModule
-          // common props
-          selectedBridge={selectedBridge}
-          sendAmount={sendAmount}
-          setSendAmount={setSendAmount}
-          selectedNetworks={selectedNetworks}
-          setSelectedNetworks={setSelectedNetworks}
-          conversionRates={conversionRates}
-          // receiverAddress={_receiverAddress}
-          // setReceiverAddress={setReceiverAddress}
-          // other props
-          celerHookResult={celerHookResult}
-          setInfoArray={(infoArray) => { return setInfoData(prev => { return { ...prev, [BRIDGE_KEYS.CELER]: infoArray } }) }}
-          setTotalPriceInUsd={price => { return setTotalPriceInUsd(prev => { return { ...prev, [BRIDGE_KEYS.CELER]: price } }) }}
+        {
+          isCelerBridgeEnabled && isCelerBridgeAvailable && (
+            <CelerBridgeModule
+              // common props
+              selectedBridge={selectedBridge}
+              sendAmount={sendAmount}
+              setSendAmount={setSendAmount}
+              selectedNetworks={selectedNetworks}
+              setSelectedNetworks={setSelectedNetworks}
+              conversionRates={conversionRates}
+              // receiverAddress={_receiverAddress}
+              // setReceiverAddress={setReceiverAddress}
+              // other props
+              celerHookResult={celerHookResult}
+              setInfoArray={(infoArray) => { return setInfoData(prev => { return { ...prev, [BRIDGE_KEYS.CELER]: infoArray } }) }}
+              setTotalPriceInUsd={price => { return setTotalPriceInUsd(prev => { return { ...prev, [BRIDGE_KEYS.CELER]: price } }) }}
+            />
+          )
+        }
 
-        />
-
-        <LayerZeroBridgeModule
-          // common props
-          destChainId={destChainId}
-          selectedBridge={selectedBridge}
-          sendAmount={sendAmount}
-          setSendAmount={setSendAmount}
-          selectedNetworks={selectedNetworks}
-          setSelectedNetworks={setSelectedNetworks}
-          conversionRates={conversionRates}
-          // receiverAddress={_receiverAddress}
-          // setReceiverAddress={setReceiverAddress}
-          // other props
-          layerZeroHookResult={layerZeroHookResult}
-          setInfoArray={(infoArray) => { return setInfoData(prev => { return { ...prev, [BRIDGE_KEYS.LAYERZERO]: infoArray } }) }}
-          setTotalPriceInUsd={price => { return setTotalPriceInUsd(prev => { return { ...prev, [BRIDGE_KEYS.LAYERZERO]: price } }) }}
-        />
+        {isLayerZeroBridgeEnabled && (
+          <LayerZeroBridgeModule
+            // common props
+            destChainId={destChainId}
+            selectedBridge={selectedBridge}
+            sendAmount={sendAmount}
+            setSendAmount={setSendAmount}
+            selectedNetworks={selectedNetworks}
+            setSelectedNetworks={setSelectedNetworks}
+            conversionRates={conversionRates}
+            // receiverAddress={_receiverAddress}
+            // setReceiverAddress={setReceiverAddress}
+            // other props
+            layerZeroHookResult={layerZeroHookResult}
+            setInfoArray={(infoArray) => { return setInfoData(prev => { return { ...prev, [BRIDGE_KEYS.LAYERZERO]: infoArray } }) }}
+            setTotalPriceInUsd={price => { return setTotalPriceInUsd(prev => { return { ...prev, [BRIDGE_KEYS.LAYERZERO]: price } }) }}
+          />
+        )}
 
         <BridgeOptions
+          isCelerBridgeEnabled={isCelerBridgeEnabled}
+          isLayerZeroBridgeEnabled={isLayerZeroBridgeEnabled}
+          isCelerBridgeAvailable={isCelerBridgeAvailable}
+          celerDelay={celerHookResult.delayPeriod}
           selectedBridge={selectedBridge}
           setSelectedBridge={setSelectedBridge}
           infoData={infoData}
           totalPriceInUsd={totalPriceInUsd}
-          celerDelay={celerHookResult.delayPeriod}
         >
 
           {selectedBridge === BRIDGE_KEYS.CELER && (
