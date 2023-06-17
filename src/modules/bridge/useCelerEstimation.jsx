@@ -57,7 +57,7 @@ export function useCelerEstimation ({
     }
 
     const url = getAmountEstimationUrl({
-      isTest: isTestNet,
+      isTestNet,
       srcChainId,
       destChainId,
       tokenSymbol,

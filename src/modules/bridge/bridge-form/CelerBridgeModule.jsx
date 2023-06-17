@@ -73,8 +73,10 @@ export const CelerBridgeModule = ({
   const srcChainConfig = chains.find(x => { return x.chainId === `0x${(networkId).toString(16)}` })
 
   useEffect(() => {
+    const receiveAmount = convertFromUnits(estimation?.estimated_receive_amt || '0', destinationTokenDecimal).toString()
+    const validReceiveAmount = toBNSafe(receiveAmount).isGreaterThan(0)
     const formattedReceiveAmount = formatCurrency(
-      convertFromUnits(estimation?.estimated_receive_amt || '0', destinationTokenDecimal),
+      receiveAmount,
       locale,
       tokenSymbol,
       true
@@ -83,7 +85,7 @@ export const CelerBridgeModule = ({
     const protocolFee = estimation.protocolFee
     const formattedProtocolFee = formatCurrency(protocolFee, locale, tokenSymbol, true)
 
-    const currentChainGasFee = convertFromUnits(estimation?.estimated_receive_amt || '0', destinationTokenDecimal).isGreaterThan(0)
+    const currentChainGasFee = validReceiveAmount
       ? convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals).toString()
       : '0'
     const formattedCurrentChainGas = formatCurrency(currentChainGasFee, locale, srcChainConfig.nativeCurrency.symbol, true)
