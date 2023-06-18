@@ -5,8 +5,8 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { utils } from '@neptunemutual/sdk'
@@ -37,7 +37,7 @@ export const useVoteEscrowData = () => {
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      const instance = utils.contract.getContract(CONTRACT_DEPLOYMENTS[networkId].veNPM, abis.IVoteEscrowToken, signerOrProvider)
+      const instance = utils.contract.getContract(ChainConfig[networkId].veNPM.address, abis.IVoteEscrowToken, signerOrProvider)
 
       const unlockTimestamp = await contractRead({
         instance,

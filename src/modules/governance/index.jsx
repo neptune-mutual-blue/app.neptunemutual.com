@@ -11,10 +11,10 @@ import { AccountDetail } from '@/modules/governance/AccountDetail'
 import LiquidityGauge from '@/modules/governance/LiquidityGauge'
 import { ProposalDetailCard } from '@/modules/governance/ProposalDetailCard'
 import ProposalSkeleton from '@/modules/governance/ProposalSkeleton'
+import { EMISSION_PER_EPOCH } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useSnapshotProposalById } from '@/src/hooks/useSnapshotProposalById'
 import {
-  convertToUnits,
   sumOf,
   toBN
 } from '@/utils/bn'
@@ -28,8 +28,6 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-
-const EMISSION_PER_EPOCH = convertToUnits(150_000, 18).toString()
 
 export const GovernanceSinglePage = () => {
   const router = useRouter()

@@ -4,11 +4,9 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import {
-  CONTRACT_DEPLOYMENTS,
-  EPOCH_DURATION
-} from '@/src/config/constants'
+import { EPOCH_DURATION } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -53,7 +51,7 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
   const { writeContract } = useTxPoster()
   const txToast = useTxToast()
 
-  const gcrContractAddress = CONTRACT_DEPLOYMENTS[networkId].gaugeControllerRegistry
+  const gcrContractAddress = ChainConfig[networkId].gaugeControllerRegistry
 
   useEffect(() => {
     updateAllowance(gcrContractAddress)

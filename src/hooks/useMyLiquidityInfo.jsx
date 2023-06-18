@@ -67,31 +67,26 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
 
     try {
-      let data
-
-      {
-        // Get data from API if wallet's not connected
-        const response = await fetch(
-          getReplacedString(VAULT_INFO_URL, {
-            networkId,
-            coverKey,
-            account: account || ADDRESS_ONE
-          }),
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            }
+      const response = await fetch(
+        getReplacedString(VAULT_INFO_URL, {
+          networkId,
+          coverKey,
+          account: account || ADDRESS_ONE
+        }),
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
           }
-        )
-
-        if (!response.ok) {
-          return
         }
+      )
 
-        data = (await response.json()).data
+      if (!response.ok) {
+        return
       }
+
+      const data = (await response.json()).data
 
       if (!data || Object.keys(data).length === 0) {
         return

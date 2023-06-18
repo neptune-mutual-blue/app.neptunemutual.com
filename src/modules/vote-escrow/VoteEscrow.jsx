@@ -22,6 +22,7 @@ import {
   PREMATURE_UNLOCK_PENALTY_FRACTION,
   WEEKS
 } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -63,6 +64,9 @@ const VoteEscrow = () => {
 
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol, NPMTokenAddress } = useAppConstants()
+  const veNPMTokenSymbol = ChainConfig[networkId].veNPM.tokenSymbol
+  const veNPMTokenDecimals = ChainConfig[networkId].veNPM.tokenDecimals
+  const veNPMTokenAddress = ChainConfig[networkId].veNPM.address
   const { isMobile } = useDeviceSize()
 
   const {
@@ -82,6 +86,8 @@ const VoteEscrow = () => {
   } = useVoteEscrowLock({
     refetchLockData,
     lockAmountInUnits: convertToUnits(input || '0', NPMTokenDecimals),
+    veNPMTokenAddress,
+    NPMTokenAddress,
     NPMTokenSymbol
   })
 
@@ -115,6 +121,9 @@ const VoteEscrow = () => {
     return (
       <UnlockEscrow
         veNPMBalance={data.veNPMBalance}
+        veNPMTokenAddress={veNPMTokenAddress}
+        veNPMTokenSymbol={veNPMTokenSymbol}
+        veNPMTokenDecimals={veNPMTokenDecimals}
         unlockTimestamp={data.unlockTimestamp}
         onBack={() => {
           setUnlock(false)
@@ -213,6 +222,7 @@ const VoteEscrow = () => {
           <EscrowSummary
             className='bg-F3F5F7'
             veNPMBalance={data.veNPMBalance}
+            veNPMTokenSymbol={veNPMTokenSymbol}
             unlockTimestamp={data.unlockTimestamp}
           />
 

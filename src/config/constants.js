@@ -1,3 +1,5 @@
+import { convertToUnits } from '@/utils/bn'
+
 export const MULTIPLIER = 10_000
 
 export const DEFAULT_GAS_LIMIT = '6000000'
@@ -40,7 +42,7 @@ export const DISCORD_LINK = 'https://discord.gg/2qMGTtJtnW'
 export const STANDARD_TERMS_AND_CONDITIONS = 'https://docs.neptunemutual.com/usage/standard-terms-and-conditions'
 
 // Will end with `/`
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
   : '/'
 
@@ -90,6 +92,8 @@ export const IPFS_REPORT_INFO_URL = `${API_BASE_URL}ipfs/report-info`
 
 export const IPFS_DISPUTE_INFO_URL = `${API_BASE_URL}ipfs/dispute-info`
 
+export const READ_IPFS_URL = `${API_BASE_URL}ipfs/{ipfsHash}`
+
 export const api = {
   USER_ACTIVE_POLICIES: `${API_BASE_URL}policy/active/{networkId}/{account}`,
   USER_EXPIRED_POLICIES: `${API_BASE_URL}policy/expired/{networkId}/{account}`,
@@ -131,6 +135,7 @@ export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
 export const BRIDGE_BNB_PRICING_URL = `${API_BASE_URL}bridge/pricing/bnb`
 
 export const NetworkUrlParam = {
+  56: 'bsc',
   97: 'bsc-testnet',
   80001: 'mumbai',
   43113: 'fuji',
@@ -141,8 +146,6 @@ export const NetworkUrlParam = {
 
 export const isProduction = process.env.NODE_ENV === 'production'
 
-export const FALLBACK_VENPM_TOKEN_SYMBOL = 'veNPM'
-
 export const MIN_PROPOSAL_AMOUNT = 10
 
 export const MAX_PROPOSAL_AMOUNT = 10_000_000
@@ -152,31 +155,6 @@ export const MIN_LIQUIDITY = 10
 export const MAX_LIQUIDITY = 10_000_000
 
 export const TOP_ACCOUNTS_ROWS_PER_PAGE = 7
-
-// CONTRACT ADDRESSES
-export const CONTRACT_DEPLOYMENTS = {
-  1: {
-    npm: '0xd197D59e64caecce9C7dC43Cf5635A4A86694623',
-    veNPM: '',
-    gaugeControllerRegistry: '',
-    stablecoin: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
-  },
-  42161: {
-    npm: '0xB32be027134C35354E16e7E6813469baabFff38c',
-    veNPM: '',
-    gaugeControllerRegistry: '',
-    stablecoin: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8'
-  },
-  84531: {
-    npm: '0x4BbDc138dd105C7ddE874df7FCd087b064F7973d',
-    stablecoin: '0xbdCDBD278467b84F67AEE5737Ddc83A9C054cC29',
-    neptuneLegends: '0xd673f97cA6DC3f807E0EAA9d0271b165C2A6d657',
-    policyProofMinter: '0xbF7176F75B73DF752F52f429AF853A5f7edBb1FA',
-    merkleProofMinter: '0x0866f9927d94a5D7072E91DcF77E407099170Bf5',
-    veNPM: '0x9Cfef27aC2Bed8689B89De0Ad7B30B02f5F45f9A',
-    gaugeControllerRegistry: '0x3bA2F20FF5481451E37Cfc97f50250aB10CAd8eF'
-  }
-}
 
 // SNAPSHOT
 export const SNAPSHOT_API_URL = {
@@ -198,3 +176,5 @@ export const WEEKS = 7 * DAYS
 export const PREMATURE_UNLOCK_PENALTY_FRACTION = 0.25
 
 export const EPOCH_DURATION = 28 * DAYS
+
+export const EMISSION_PER_EPOCH = convertToUnits(150_000, 18).toString()
