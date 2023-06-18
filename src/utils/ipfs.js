@@ -1,5 +1,10 @@
+import {
+  IPFS_DISPUTE_INFO_URL,
+  IPFS_REPORT_INFO_URL,
+  READ_IPFS_URL
+} from '@/src/config/constants'
+import { getReplacedString } from '@/utils/string'
 import { config } from '@neptunemutual/sdk'
-import { IPFS_REPORT_INFO_URL, IPFS_DISPUTE_INFO_URL, IPFS_GET } from '@/src/config/constants'
 
 const urls = {
   report: IPFS_REPORT_INFO_URL,
@@ -52,8 +57,8 @@ const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
   }
 }
 
-const readFromIpfs = async (hash) => {
-  const url = IPFS_GET(hash)
+const readFromIpfs = async (ipfsHash) => {
+  const url = getReplacedString(READ_IPFS_URL, { ipfsHash })
 
   try {
     const response = await fetch(url, {
@@ -73,4 +78,4 @@ const readFromIpfs = async (hash) => {
   }
 }
 
-export { writeToIpfs, readFromIpfs }
+export { readFromIpfs, writeToIpfs }

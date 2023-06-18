@@ -6,11 +6,10 @@ import {
   IncreaseYourBoost
 } from '@/modules/governance/view-proposals/IncreaseYourBoost'
 import { KeyVal } from '@/modules/governance/view-proposals/KeyVal'
-import {
-  FALLBACK_VENPM_TOKEN_SYMBOL,
-  MULTIPLIER
-} from '@/src/config/constants'
+import { MULTIPLIER } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
 import {
   convertFromUnits,
@@ -24,6 +23,7 @@ import { useWeb3React } from '@web3-react/core'
 
 export const ViewProposals = () => {
   const { account } = useWeb3React()
+  const { networkId } = useNetwork()
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
   const { data } = useVoteEscrowData()
@@ -36,9 +36,10 @@ export const ViewProposals = () => {
 
   const boost = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
 
+  const veNPMTokenSymbol = ChainConfig[networkId].veNPM.tokenSymbol
   const votingPower = toBNSafe(boost).multipliedBy(data.lockedNPMBalance)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
-  const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), router.locale, FALLBACK_VENPM_TOKEN_SYMBOL, true)
+  const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), router.locale, veNPMTokenSymbol, true)
 
   return (
     <div className='flex flex-col items-center gap-8 p-8 bg-white border lg:flex-row rounded-2xl border-B0C4DB'>

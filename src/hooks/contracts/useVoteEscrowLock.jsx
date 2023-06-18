@@ -4,7 +4,6 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { CONTRACT_DEPLOYMENTS } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -25,11 +24,11 @@ import {
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMTokenSymbol }) => {
+export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMTokenSymbol, NPMTokenAddress, veNPMTokenAddress }) => {
   const { library, account } = useWeb3React()
 
   const { networkId } = useNetwork()
-  const { balance: npmBalance, loading: loadingBalance } = useERC20Balance(CONTRACT_DEPLOYMENTS[networkId].npm)
+  const { balance: npmBalance, loading: loadingBalance } = useERC20Balance(NPMTokenAddress)
 
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
@@ -40,13 +39,13 @@ export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMToken
     loading: loadingAllowance,
     refetch: updateAllowance,
     approve
-  } = useERC20Allowance(CONTRACT_DEPLOYMENTS[networkId].npm)
+  } = useERC20Allowance(NPMTokenAddress)
   const [approving, setApproving] = useState(false)
   const [locking, setLocking] = useState(false)
 
   useEffect(() => {
-    updateAllowance(CONTRACT_DEPLOYMENTS[networkId].veNPM)
-  }, [updateAllowance, networkId])
+    updateAllowance(veNPMTokenAddress)
+  }, [updateAllowance, veNPMTokenAddress])
 
   const handleApprove = async (value) => {
     setApproving(true)
@@ -87,7 +86,7 @@ export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMToken
                 methodName: METHODS.VOTE_ESCROW_APPROVE,
                 status: STATUS.SUCCESS
               })
-              updateAllowance(CONTRACT_DEPLOYMENTS[networkId].veNPM)
+              updateAllowance(veNPMTokenAddress)
             },
             onTxFailure: (err) => {
               TransactionHistory.push({
@@ -116,7 +115,7 @@ export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMToken
     }
 
     approve(
-      CONTRACT_DEPLOYMENTS[networkId].veNPM, lockAmountInUnits,
+      veNPMTokenAddress, lockAmountInUnits,
       {
         onTransactionResult,
         onRetryCancel,
@@ -135,7 +134,7 @@ export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMToken
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      const instance = utils.contract.getContract(CONTRACT_DEPLOYMENTS[networkId].veNPM, abis.IVoteEscrowToken, signerOrProvider)
+      const instance = utils.contract.getContract(veNPMTokenAddress, abis.IVoteEscrowToken, signerOrProvider)
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
