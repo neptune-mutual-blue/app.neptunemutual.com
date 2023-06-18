@@ -53,7 +53,7 @@ export const useVoteEscrowUnlock = ({
 
   useEffect(() => {
     updateVeNPMAllowance(veNPMTokenAddress)
-  }, [updateVeNPMAllowance, networkId])
+  }, [updateVeNPMAllowance, veNPMTokenAddress])
 
   const isPrematureUnlock = toBN(unlockTimestamp).isGreaterThan(DateLib.unix())
 
