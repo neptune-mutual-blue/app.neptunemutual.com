@@ -25,6 +25,7 @@ import { truncateAddressParam } from '@/utils/address'
 import {
   convertFromUnits,
   isGreater,
+  sumOf,
   toBN
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -51,7 +52,7 @@ export const ActiveReportSummary = ({
   const router = useRouter()
   const startDate = DateLib.fromUnix(incidentReport.incidentDate)
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp)
-  const { NPMTokenSymbol } = useAppConstants()
+  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   const isAfterResolution = useRetryUntilPassed(() => {
     const _now = DateLib.unix()
@@ -60,14 +61,14 @@ export const ActiveReportSummary = ({
   })
 
   const votes = {
-    yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
-    no: convertFromUnits(no).decimalPlaces(0).toNumber()
+    yes: convertFromUnits(yes, NPMTokenDecimals).toString(),
+    no: convertFromUnits(no, NPMTokenDecimals).toString()
   }
 
-  const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
+  const yesPercent = toBN(votes.yes).dividedBy(sumOf(votes.yes, votes.no))
     .decimalPlaces(2)
     .toNumber()
-  const noPercent = toBN(1 - yesPercent)
+  const noPercent = toBN(1).minus(yesPercent)
     .decimalPlaces(2)
     .toNumber()
 
@@ -84,7 +85,7 @@ export const ActiveReportSummary = ({
     voteCount: isAttestedWon
       ? incidentReport.totalAttestedCount
       : incidentReport.totalRefutedCount,
-    stake: isAttestedWon ? votes.yes : votes.no,
+    stake: isAttestedWon ? yes : no,
     percent: isAttestedWon ? yesPercent : noPercent,
     variant: isAttestedWon ? 'success' : 'failure'
   }

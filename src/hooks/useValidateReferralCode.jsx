@@ -3,12 +3,12 @@ import {
   useState
 } from 'react'
 
-import {
-  DEBOUNCE_TIMEOUT,
-  REFERRAL_CODE_VALIDATION_URL
-} from '@/src/config/constants'
+import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useFetch } from '@/src/hooks/useFetch'
+import {
+  validateReferralCode
+} from '@/src/services/api/policy/validate-referral-code'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 
@@ -52,41 +52,25 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
       }
 
       // if there's a value we check it
-      if (isValidReferralCode(trimmedValue)) {
-        let isValidRef = false
-
-        console.log(isValidReferralCode(trimmedValue))
-        try {
-          const result = await fetchValidateReferralCode(
-            REFERRAL_CODE_VALIDATION_URL,
-            {
-              method: 'POST',
-              body: JSON.stringify({ referralCode: trimmedValue })
-            }
-          )
-
-          // status 401 is a valid request rejection
-          // try catch won't work here
-          isValidRef = result?.message.toLowerCase() === 'ok'
-        } catch (e) {
-          isValidRef = false
-        } finally {
-          setIsReferralCodeCheckPending(false)
-        }
-
-        setIsValid(isValidRef)
-        if (isValidRef) {
-          setErrorMessage('')
-
-          return
-        }
-
-        setErrorMessage(t`Invalid Cashback Code`)
+      if (!isValidReferralCode(trimmedValue)) {
+        setErrorMessage(t`Incorrect Cashback Code`)
+        setIsValid(false)
 
         return
       }
-      setErrorMessage(t`Incorrect Cashback Code`)
-      setIsValid(false)
+
+      let isValidCode = false
+
+      try {
+        isValidCode = await validateReferralCode(trimmedValue)
+      } catch (e) {
+        isValidCode = false
+      } finally {
+        setIsReferralCodeCheckPending(false)
+        setIsValid(isValidCode)
+      }
+
+      setErrorMessage(isValidCode ? '' : t`Invalid Cashback Code`)
     })()
   }, [debouncedValue, fetchValidateReferralCode, setIsReferralCodeCheckPending])
 

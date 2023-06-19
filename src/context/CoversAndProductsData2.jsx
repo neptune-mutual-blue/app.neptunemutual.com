@@ -3,19 +3,17 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState
 } from 'react'
 
-import {
-  PRODUCT_SUMMARY_URL,
-  PRODUCT_SUMMARY_WITH_ACCOUNT_URL
-} from '@/src/config/constants'
 import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
+import { getProductSummary } from '@/src/services/api/home/product-summary'
+import {
+  getProductSummaryWithAccount
+} from '@/src/services/api/home/product-summary-with-account'
 import { convertToUnits } from '@/utils/bn'
-import { getReplacedString } from '@/utils/string'
 import { useWeb3React } from '@web3-react/core'
 
 const CoversAndProductsDataContext = createContext({
@@ -57,50 +55,23 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
   const npmDecimals = ChainConfig[networkId].npm.tokenDecimals
 
-  const url = useMemo(() => {
-    if (account) {
-      const replacements = { networkId, account }
-
-      return getReplacedString(PRODUCT_SUMMARY_WITH_ACCOUNT_URL, replacements)
-    }
-
-    const replacements = { networkId }
-
-    return getReplacedString(PRODUCT_SUMMARY_URL, replacements)
-  }, [account, networkId])
-
   const updateData = useCallback(async function () {
     try {
-      const response = await fetch(
-        url,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          }
-        }
-      )
+      const _data = account ? await getProductSummaryWithAccount(networkId, account) : await getProductSummary(networkId)
 
-      if (!response.ok) {
-        return
-      }
-
-      const res = await response.json()
-
-      setData(res.data
+      setData(_data
         .filter(x => {
           return x.chainId.toString() === networkId.toString()
         })
         .map(x => {
           return {
             ...x,
+            availableForUnderwriting: convertToUnits(x.availableForUnderwriting, stablecoinDecimals).toString(),
             capacity: convertToUnits(x.capacity, stablecoinDecimals).toString(),
             commitment: convertToUnits(x.commitment, stablecoinDecimals).toString(),
-            availableForUnderwriting: convertToUnits(x.availableForUnderwriting, stablecoinDecimals).toString(),
+            minReportingStake: convertToUnits(x.minReportingStake, npmDecimals).toString(),
             reassurance: convertToUnits(x.reassurance, stablecoinDecimals).toString(),
-            tvl: convertToUnits(x.tvl, stablecoinDecimals).toString(),
-            minReportingStake: convertToUnits(x.minReportingStake, npmDecimals).toString()
+            tvl: convertToUnits(x.tvl, stablecoinDecimals).toString()
           }
         })
         .sort((a, b) => {
@@ -113,7 +84,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
-  }, [networkId, npmDecimals, stablecoinDecimals, url])
+  }, [account, networkId, npmDecimals, stablecoinDecimals])
 
   useEffect(() => {
     setLoading(true)

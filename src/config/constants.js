@@ -48,13 +48,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const IPFS_HASH_URL = 'https://cloudflare-ipfs.com/ipfs/{ipfsHash}' // cloudflare works with cidv1 hashes like `bafkreihdaejkl4z2utvdsm7aulv5kmhjvnkpwyoosuqkz73xlkwoq2qiqa`
 
-export const PRODUCT_SUMMARY_URL = `${API_BASE_URL}home/product-summary/{networkId}`
-
 export const BRIDGE_BALANCE_URL = `${API_BASE_URL}bridge/balance/{networkId}`
-
-export const PRODUCT_SUMMARY_WITH_ACCOUNT_URL = `${API_BASE_URL}home/product-summary/{networkId}/{account}`
-
-export const getHistoricalDataURL = (chainId) => { return `${API_BASE_URL}home/charts/historical-apr/${chainId}` }
 
 export const getGasSummaryDataURL = (chainId) => { return `${API_BASE_URL}home/charts/gas-price-summary/${chainId}` }
 
@@ -62,17 +56,9 @@ export const getHistoricalDataByCoverURL = (chainId) => { return `${API_BASE_URL
 
 export const getMonthlyProtectionDataURL = (chainId) => { return `${API_BASE_URL}home/charts/protection-by-month/${chainId}` }
 
-export const getCoverSoldByPoolURL = (chainId) => { return `${API_BASE_URL}home/charts/cover-sold-by-pool/${chainId}` }
-
-export const getCoverPremiumByPoolURL = (chainId) => { return `${API_BASE_URL}home/charts/cover-premium-by-pool/${chainId}` }
-
-export const getExpiringCoversURL = (chainId) => { return `${API_BASE_URL}home/charts/cover-expiring-this-month/${chainId}` }
-
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`
 
 export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`
-
-export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{productKey}/{account}/{incidentDate}`
 
 export const BOND_INFO_URL = `${API_BASE_URL}protocol/bond/info/{networkId}/{account}`
 
@@ -80,27 +66,11 @@ export const GCR_POOLS_URL = `${API_BASE_URL}vote-escrow/gcr/pools/{networkId}`
 
 export const VOTE_ESCROW_STATS_URL = `${API_BASE_URL}vote-escrow/stats/{networkId}`
 
+export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{productKey}/{account}/{incidentDate}`
+
 export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`
 
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`
-
-export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/referral-code`
-
-export const LGP_TXS_URL = `${API_BASE_URL}vote-escrow/lgp/transactions/{networkId}/{account}`
-
-export const IPFS_REPORT_INFO_URL = `${API_BASE_URL}ipfs/report-info`
-
-export const IPFS_DISPUTE_INFO_URL = `${API_BASE_URL}ipfs/dispute-info`
-
-export const READ_IPFS_URL = `${API_BASE_URL}ipfs/{ipfsHash}`
-
-export const api = {
-  USER_ACTIVE_POLICIES: `${API_BASE_URL}policy/active/{networkId}/{account}`,
-  USER_EXPIRED_POLICIES: `${API_BASE_URL}policy/expired/{networkId}/{account}`,
-  USER_POLICY_TXS: `${API_BASE_URL}policy/transactions/{networkId}/{account}`,
-  TOP_ACCOUNTS_BY_PROTECTION: `${API_BASE_URL}home/charts/top-accounts-by-protection/{networkId}`,
-  TOP_ACCOUNTS_BY_LIQUIDITY: `${API_BASE_URL}home/charts/top-accounts-by-liquidity/{networkId}`
-}
 
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',

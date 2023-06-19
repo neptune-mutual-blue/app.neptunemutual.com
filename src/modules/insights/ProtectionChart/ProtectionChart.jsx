@@ -50,7 +50,6 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
     return {
       label: ShortNetworkNames[chainId],
       value: chainId
-
     }
   })
 

@@ -2,13 +2,13 @@ import { ChainConfig } from '@/src/config/hardcoded'
 import { convertToUnits } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
 
-import * as api from '../config'
+import * as api from '../../config'
 
-export const getExpiredPolicies = async (networkId, account) => {
+export const getHistoricalApr = async (networkId) => {
   const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
 
   try {
-    const url = getReplacedString(api.USER_EXPIRED_POLICIES, { networkId, account: account.toLowerCase() })
+    const url = getReplacedString(api.HISTORICAL_APR, { networkId })
 
     const response = await fetch(url, {
       method: 'GET',
@@ -24,20 +24,21 @@ export const getExpiredPolicies = async (networkId, account) => {
 
     const data = await response.json()
 
-    const policies = data.data
+    const items = data.data
 
-    if (!policies || !Array.isArray(policies)) {
+    if (!items || !Array.isArray(items)) {
       return null
     }
 
-    return policies.map(policy => {
+    return items.map(item => {
       return {
-        ...policy,
-        amount: convertToUnits(policy.amount, stablecoinDecimals).toString()
+        ...item,
+        policyFeeEarned: convertToUnits(item.policyFeeEarned, stablecoinDecimals).toString(),
+        startBalance: convertToUnits(item.startBalance, stablecoinDecimals).toString()
       }
     })
   } catch (error) {
-    console.error('Could not get expired policies', error)
+    console.error('Could not get historical APR', error)
   }
 
   return null

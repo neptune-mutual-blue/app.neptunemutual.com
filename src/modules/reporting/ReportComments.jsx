@@ -11,8 +11,8 @@ import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
+import { readFromIpfs } from '@/src/services/api/ipfs/read'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { readFromIpfs } from '@/utils/ipfs'
 import { getReplacedString } from '@/utils/string'
 import {
   t,

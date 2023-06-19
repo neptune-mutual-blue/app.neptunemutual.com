@@ -20,6 +20,7 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { writeToIpfs } from '@/src/services/api/ipfs/write'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -36,7 +37,6 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { writeToIpfs } from '@/utils/ipfs.js'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter()

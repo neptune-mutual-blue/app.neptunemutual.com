@@ -1,34 +1,35 @@
-import { getCoverPremiumByPoolURL, getCoverSoldByPoolURL, getExpiringCoversURL } from '@/src/config/constants'
+import {
+  useRef,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
+import {
+  getCoverExpiringThisMonth
+} from '@/src/services/api/home/charts/cover-expiring-this-month'
+import {
+  getCoverPremiumByPool
+} from '@/src/services/api/home/charts/cover-premium-by-pool'
+import {
+  getCoverSoldByPool
+} from '@/src/services/api/home/charts/cover-sold-by-pool'
 import { sort } from '@/utils/bn'
-import { useRef, useState } from 'react'
 
-const getAggregatedDataFromResponses = async (response) => {
-  let labels = []
+const getLabels = (data) => {
+  const labels = new Set()
 
-  if (!response.ok) {
-    return
-  }
+  data.forEach((curr) => {
+    const name = curr.productKeyString || curr.coverKeyString
+    labels.add(name)
+  })
 
-  const res = await response.json()
+  return Array.from(labels)
+}
 
-  if (!res.data) { return }
-
-  const data = res.data
+const sortData = (data) => {
   const sorted = sort(data, x => { return x.totalProtection ?? x.totalPremium }, true)
 
-  const labelsSet = sorted.reduce((acc, curr) => {
-    const name = curr.productKeyString || curr.coverKeyString
-    acc.add(name)
-
-    return acc
-  }, new Set())
-  labels = Array.from(labelsSet)
-
-  return {
-    data: { 1: sorted },
-    labels
-  }
+  return sorted
 }
 
 export const useCoverInsightsData = () => {
@@ -40,31 +41,36 @@ export const useCoverInsightsData = () => {
   const { networkId } = useNetwork()
 
   const fetchCoverSoldOrPremiumData = async (dataType) => {
-    if (fetched.current[dataType]) { return }
+    if (fetched.current[dataType] || loading) { return }
 
     setLoading(true)
 
-    const url = {
-      sold: getCoverSoldByPoolURL,
-      premium: getCoverPremiumByPoolURL,
-      expiring: getExpiringCoversURL
+    const functions = {
+      sold: getCoverSoldByPool,
+      premium: getCoverPremiumByPool,
+      expiring: getCoverExpiringThisMonth
     }
 
     try {
-      const response = await fetch(
-        url[dataType](networkId),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
+      const dataArray = await functions[dataType](networkId)
+
+      const data = sortData(dataArray)
+      const labels = getLabels(data)
+
+      setData(_data => {
+        return {
+          ..._data,
+          [dataType]: {
+            [networkId]: data
           }
         }
-      )
-
-      const { data, labels } = await getAggregatedDataFromResponses(response)
-      setData(_data => { return { ..._data, [dataType]: data } })
-      setLabels(_labels => { return { ..._labels, [dataType]: labels } })
+      })
+      setLabels(_labels => {
+        return {
+          ..._labels,
+          [dataType]: labels
+        }
+      })
 
       fetched.current[dataType] = true
     } catch (err) {

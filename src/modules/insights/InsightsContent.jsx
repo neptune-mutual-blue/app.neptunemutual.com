@@ -177,19 +177,8 @@ export const InsightsContent = () => {
     if (selected.value === AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION) {
       fetchTopAccountsByProtection()
     }
-  }, [
-    selected.value,
-    fetchConsensusData,
-    fetchCoverEarningData,
-    fetchCoverSoldOrPremiumData,
-    fetchGasSummary,
-    fetchHistoricalData,
-    fetchHistoricalDataByCover,
-    fetchMonthlyProtectionData,
-    fetchProtocolDayData,
-    fetchTopAccountsByLiquidity,
-    fetchTopAccountsByProtection
-  ])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected.value])
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>

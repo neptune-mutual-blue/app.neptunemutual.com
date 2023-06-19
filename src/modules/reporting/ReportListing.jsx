@@ -18,6 +18,7 @@ import {
 import DateLib from '@/lib/date/DateLib'
 import { ReportingHero } from '@/modules/reporting/ReportingHero'
 import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
@@ -25,6 +26,7 @@ import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { truncateAddress } from '@/utils/address'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
@@ -118,10 +120,12 @@ const columns = [
  */
 const ReportListing = (props) => {
   const { coverKey, productKey, locale } = props
-  const { push } = useRouter()
+  const router = useRouter()
   const { networkId } = useNetwork()
   const [reports, setReports] = useState([])
   const fetchReports = useSubgraphFetch('ReportListing')
+
+  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   const isDiversified = isValidProduct(productKey)
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
@@ -148,7 +152,7 @@ const ReportListing = (props) => {
    */
   function goTo (reportId) {
     const [, , timestamp] = reportId.split('-')
-    push(Routes.ViewReport(coverKey, productKey, timestamp))
+    router.push(Routes.ViewReport(coverKey, productKey, timestamp))
   }
 
   if (loading) {
@@ -187,6 +191,19 @@ const ReportListing = (props) => {
             />
             <tbody className='divide-y divide-DAE2EB'>
               {reports.map((report, i) => {
+                const formattedTotalAttestedStake = formatCurrency(
+                  convertFromUnits(report.totalAttestedStake, NPMTokenDecimals),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                )
+                const formattedTotalRefutedStake = formatCurrency(
+                  convertFromUnits(report.totalRefutedStake, NPMTokenDecimals),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                )
+
                 return (
                   <tr
                     onClick={() => { return goTo(report.id) }}
@@ -209,15 +226,11 @@ const ReportListing = (props) => {
                         {fromNow(report.incidentDate)}
                       </span>
                     </td>
-                    <td className='px-6 py-4 text-right'>
-                      {convertFromUnits(report.totalAttestedStake)
-                        .decimalPlaces(0)
-                        .toNumber()}
+                    <td className='px-6 py-4 text-right' title={formattedTotalAttestedStake.long}>
+                      {formattedTotalAttestedStake.short}
                     </td>
-                    <td className='px-6 py-4 text-right'>
-                      {convertFromUnits(report.totalRefutedStake)
-                        .decimalPlaces(0)
-                        .toNumber()}
+                    <td className='px-6 py-4 text-right' title={formattedTotalRefutedStake.long}>
+                      {formattedTotalRefutedStake.short}
                     </td>
                     <td className='px-6 py-4 text-right'>
                       <Badge

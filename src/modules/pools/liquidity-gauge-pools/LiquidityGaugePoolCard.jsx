@@ -33,7 +33,7 @@ export function LiquidityGaugePoolCard ({
   // const lockupPeriod = toBN(pool.lockupPeriodInBlocks).multipliedBy(approxBlockTime)
   const { lockedByMe, rewardAmount, lockedByEveryone, update: updateStakedAndReward } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
 
-  const stakingTokenTVL = convertFromUnits(toBN(getPriceByToken(stakingTokenAddress)).multipliedBy(lockedByEveryone).toString(), stakingTokenDecimals)
+  const stakingTokenTVL = convertFromUnits(toBN(getPriceByToken(stakingTokenAddress)).multipliedBy(lockedByEveryone).toString(), stakingTokenDecimals).toString()
 
   return (
     <div className='p-8 bg-white first:rounded-t-2xl last:rounded-b-2xl' key={pool.id}>

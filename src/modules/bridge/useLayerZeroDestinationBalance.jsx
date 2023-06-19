@@ -17,9 +17,7 @@ export function useLayerZeroDestinationBalance (destinationChainId) {
         return
       }
 
-      const res = await fetch(getReplacedString(BRIDGE_BALANCE_URL, {
-        networkId: destinationChainId
-      }))
+      const res = await fetch(getReplacedString(BRIDGE_BALANCE_URL, { networkId: destinationChainId }))
       const result = await res.json()
 
       return result.data || '0'
