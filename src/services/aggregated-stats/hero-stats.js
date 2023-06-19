@@ -1,7 +1,14 @@
 import DateLib from '@/lib/date/DateLib'
-import { MULTIPLIER, SUBGRAPH_API_URLS } from '@/src/config/constants'
+import {
+  MULTIPLIER,
+  SUBGRAPH_API_URLS
+} from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { getSubgraphData } from '@/src/services/subgraph'
-import { sumOf } from '@/utils/bn'
+import {
+  convertFromUnits,
+  sumOf
+} from '@/utils/bn'
 import { getNetworkInfo } from '@/utils/network'
 
 const getQuery = () => {
@@ -79,6 +86,8 @@ async function getIndividualHeroStats (networkId) {
     return
   }
 
+  const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
+
   const totalCoverFee = sumOf(...data.protocols.map((x) => { return x.totalCoverFee }))
   const totalCoveredAmount = sumOf(...data.cxTokens.map((x) => { return x.totalCoveredAmount }))
 
@@ -120,9 +129,9 @@ async function getIndividualHeroStats (networkId) {
     reportingKeys: getReportingKeys(data),
     dedicatedCoverCount: dedicatedCoverCount,
     productCount: getProductCount(data),
-    coverFee: totalCoverFee.toString(),
-    covered: totalCoveredAmount.toString(),
-    totalCoverage: totalCoverage,
+    coverFee: convertFromUnits(totalCoverFee.toString(), stablecoinDecimals).toString(),
+    covered: convertFromUnits(totalCoveredAmount.toString(), stablecoinDecimals).toString(),
+    totalCoverage: convertFromUnits(totalCoverage.toString(), stablecoinDecimals).toString(),
     tvlPool: '0'
   }
 }
