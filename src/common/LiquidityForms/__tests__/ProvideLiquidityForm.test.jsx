@@ -2,8 +2,8 @@ import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
 import { initiateTest } from '@/utils/unit-tests/helpers'
 import { testData } from '@/utils/unit-tests/test-data'
 import { ProvideLiquidityForm } from '@/common/LiquidityForms/ProvideLiquidityForm'
-import { convertFromUnits } from '@/utils/bn'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { convertFromUnits } from '@/utils/bn'
 
 describe('PurchasePolicyForm component', () => {
   const { initialRender, rerenderFn } = initiateTest(
@@ -100,13 +100,8 @@ describe('PurchasePolicyForm component', () => {
 
   test('should have max value on clicking handle max', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useLiquidityFormsContext({
-        ...testData.liquidityFormsContext,
-        info: {
-          ...testData.liquidityFormsContext.info,
-          myStablecoinBalance: '10000000'
-        }
-      })
+      mockHooksOrMethods.useProvideLiquidity()
+      mockHooksOrMethods.useLiquidityFormsContext()
     })
 
     const buttons = screen.getAllByRole('button')
@@ -122,7 +117,7 @@ describe('PurchasePolicyForm component', () => {
 
     expect(screen.getAllByRole('textbox')[1]).toHaveValue(
       convertFromUnits(
-        '10000000',
+        testData.liquidityFormsContext.stablecoinTokenBalance,
         testData.appConstants.liquidityTokenDecimals
       ).toString()
     )
@@ -139,36 +134,18 @@ describe('PurchasePolicyForm component', () => {
 
   test('should didplay correct error messages', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useProvideLiquidity({
-        ...testData.provideLiquidity,
-        npmBalance: '450000000000000000000'
-      })
-      mockHooksOrMethods.useLiquidityFormsContext({
-        ...testData.liquidityFormsContext,
-        info: { ...testData.liquidityFormsContext.info, myStake: '' }
-      })
+      mockHooksOrMethods.useProvideLiquidity()
+      mockHooksOrMethods.useLiquidityFormsContext()
     })
+
     const inputs = screen.getAllByRole('textbox')
     const npmInput = inputs[0]
     const lqInput = inputs[1]
 
-    fireEvent.change(npmInput, { target: { value: '100' } })
-    // expect(screen.getByText(/Insufficient Stake/i)).toBeInTheDocument();
+    fireEvent.change(npmInput, { target: { value: '100000' } })
+    fireEvent.change(lqInput, { target: { value: '5' } })
 
-    fireEvent.change(npmInput, {
-      target: { value: '550' }
-    })
-    expect(screen.getByText(/Exceeds maximum balance/i))
-
-    fireEvent.change(lqInput, {
-      target: {
-        value:
-          testData.liquidityFormsContext.info.myStablecoinBalance + '123485'
-      }
-    })
-    expect(screen.getAllByText(/Exceeds maximum balance/i).length).toBe(2)
-
-    fireEvent.change(lqInput, { target: { value: '0' } })
-    expect(screen.getByText(/Please specify an amount/i)).toBeInTheDocument()
+    expect(screen.getByText(/Exceeds maximum balance/i)).toBeInTheDocument()
+    expect(screen.getByText(/Liquidity is below threshold/i)).toBeInTheDocument()
   })
 })

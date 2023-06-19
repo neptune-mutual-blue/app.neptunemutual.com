@@ -62,13 +62,11 @@ const mockSdk = {
         )
       },
       getAddress: (returnUndefined = false, functionUndefined = false, returnData = 'PolicyContract getAddress() mock') => {
-        const mockFunction = jest.fn(() =>
-          Promise.resolve(
-            returnUndefined ? undefined : returnData
-          )
+        const mockReturn = Promise.resolve(
+          returnUndefined ? undefined : returnData
         )
         mockNeptuneMutualSDK.registry.PolicyContract.getAddress.mockResolvedValue(
-          functionUndefined ? undefined : mockFunction
+          functionUndefined ? undefined : mockReturn
         )
       }
     },
@@ -159,6 +157,15 @@ const mockSdk = {
 
     mockNeptuneMutualSDK.multicall.Contract = MockContract
     mockNeptuneMutualSDK.multicall.Provider = MockProvider
+  },
+  config: {
+    networks: {
+      getChainConfig: {
+        approximateBlockTime: () => {
+          mockNeptuneMutualSDK.config.networks.getChainConfig = () => ({ approximateBlockTime: 10000 })
+        }
+      }
+    }
   }
 }
 

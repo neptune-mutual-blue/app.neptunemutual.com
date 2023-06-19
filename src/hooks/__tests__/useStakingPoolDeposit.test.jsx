@@ -22,6 +22,7 @@ describe('useStakingPoolDeposit', () => {
   mockHooksOrMethods.useErrorNotifier()
   mockHooksOrMethods.useRouter()
   mockSdk.registry.StakingPools.getInstance()
+  mockSdk.config.networks.getChainConfig.approximateBlockTime()
 
   const args = [
     {
@@ -31,7 +32,8 @@ describe('useStakingPoolDeposit', () => {
       refetchInfo: jest.fn(),
       tokenAddress: '0xF7c352D9d6967Bd916025030E38eA58cF48029f8',
       tokenSymbol: 'NPM',
-      maximumStake: '10000000000000000000000'
+      maximumStake: '10000000000000000000000',
+      info: testData.poolInfo.info
     }
   ]
 

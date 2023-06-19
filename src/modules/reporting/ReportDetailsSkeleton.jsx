@@ -32,7 +32,7 @@ export const ReportDetailsSkeleton = () => {
 
       <hr className='border-B0C4DB' />
 
-      <Container className='py-16'>
+      <Container className='py-16' data-testid='report-detail-skeleton'>
         <OutlinedCard className='grid-cols-4 bg-white md:grid'>
           <div className='col-span-3 p-10 md:border-r border-B0C4DB pb-72'>
             <Skeleton className='h-8 w-42' />

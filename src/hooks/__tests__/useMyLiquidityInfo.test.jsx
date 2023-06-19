@@ -51,8 +51,8 @@ const assertInfo = (result, matchData, defaultInfo = false) => {
   expect(result.info.totalLiquidity).toEqual(
     defaultInfo ? matchData.totalLiquidity : matchData.totalLiquidity
   )
-  expect(result.info.myStablecoinBalance).toEqual(
-    defaultInfo ? matchData.myStablecoinBalance : matchData.myStablecoinBalance
+  expect(result.info.vaultStablecoinBalance).toEqual(
+    defaultInfo ? matchData.vaultStablecoinBalance : matchData.vaultStablecoinBalance
   )
   expect(result.info.stablecoinTokenSymbol).toEqual(
     defaultInfo
@@ -95,10 +95,10 @@ describe('useMyLiquidityInfo', () => {
     }
   ]
 
-  test('should return data from getInfo function if account connected ', async () => {
-    const { result } = await renderHookWrapper(useMyLiquidityInfo, args, true)
+  test('should return default data ', async () => {
+    const { result } = await renderHookWrapper(useMyLiquidityInfo, args)
 
-    assertInfo(result, testData.myLiquidityInfo)
+    assertInfo(result, defaultInfo, true)
     expect(result.isWithdrawalWindowOpen).toEqual(false)
     expect(typeof result.accrueInterest).toEqual('function')
     expect(typeof result.refetch).toEqual('function')
@@ -107,13 +107,11 @@ describe('useMyLiquidityInfo', () => {
   test('should get info from api if account not available', async () => {
     const mockData = { data: testData.myLiquidityInfo }
     mockGlobals.fetch(true, undefined, mockData)
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
 
     const { result } = await renderHookWrapper(useMyLiquidityInfo, args, true)
     assertInfo(result, mockData.data)
 
     mockGlobals.fetch().unmock()
-    mockHooksOrMethods.useWeb3React()
   })
 
   test('should be able to execute the refetch function', async () => {

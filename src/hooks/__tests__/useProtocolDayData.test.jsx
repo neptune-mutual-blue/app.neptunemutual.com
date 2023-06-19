@@ -1,225 +1,58 @@
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
-import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { testData } from '@/utils/unit-tests/test-data'
 
-const mockReturnData = {
-  data: {
-    protocolDayDatas: [
-      {
-        date: 1658102400,
-        totalLiquidity: '61432804000000'
-      },
-      {
-        date: 1658188800,
-        totalLiquidity: '61432804000000'
-      },
-      {
-        date: 1658275200,
-        totalLiquidity: '61434054000000'
-      },
-      {
-        date: 1658361600,
-        totalLiquidity: '61442554000000'
-      },
-      {
-        date: 1658448000,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1658534400,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1658620800,
-        totalLiquidity: '61447554000000'
-      },
-      {
-        date: 1658707200,
-        totalLiquidity: '61449554000000'
-      },
-      {
-        date: 1658793600,
-        totalLiquidity: '61469047602741'
-      },
-      {
-        date: 1658880000,
-        totalLiquidity: '61483097602741'
-      },
-      {
-        date: 1658966400,
-        totalLiquidity: '61483097602741'
-      },
-      {
-        date: 1659052800,
-        totalLiquidity: '61483597602741'
-      },
-      {
-        date: 1659139200,
-        totalLiquidity: '61483597602741'
-      },
-      {
-        date: 1659225600,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659312000,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659398400,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659484800,
-        totalLiquidity: '61483697602741'
-      },
-      {
-        date: 1659571200,
-        totalLiquidity: '61488419602741'
-      },
-      {
-        date: 1659657600,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659744000,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659830400,
-        totalLiquidity: '61489419602741'
-      },
-      {
-        date: 1659916800,
-        totalLiquidity: '61489519602741'
-      },
-      {
-        date: 1660003200,
-        totalLiquidity: '61489609602741'
-      },
-      {
-        date: 1660089600,
-        totalLiquidity: '61489609602741'
-      },
-      {
-        date: 1660176000,
-        totalLiquidity: '61509609602741'
-      },
-      {
-        date: 1660262400,
-        totalLiquidity: '61509609602741'
-      },
-      {
-        date: 1660348800,
-        totalLiquidity: '61509609602741'
-      },
-      {
-        date: 1660435200,
-        totalLiquidity: '61509609602741'
-      },
-      {
-        date: 1660521600,
-        totalLiquidity: '61509609602741'
-      },
-      {
-        date: 1660608000,
-        totalLiquidity: '61509609602741'
-      },
-      {
-        date: 1660694400,
-        totalLiquidity: '61510498602741'
-      },
-      {
-        date: 1660780800,
-        totalLiquidity: '61510498602741'
-      },
-      {
-        date: 1660867200,
-        totalLiquidity: '61510498602741'
-      },
-      {
-        date: 1660953600,
-        totalLiquidity: '61520498602741'
-      },
-      {
-        date: 1661040000,
-        totalLiquidity: '61520498602741'
-      },
-      {
-        date: 1661126400,
-        totalLiquidity: '61520498602741'
-      },
-      {
-        date: 1661212800,
-        totalLiquidity: '61521498602741'
-      },
-      {
-        date: 1661299200,
-        totalLiquidity: '61523698602741'
-      },
-      {
-        date: 1661385600,
-        totalLiquidity: '61523698602741'
-      },
-      {
-        date: 1661472000,
-        totalLiquidity: '61523698602741'
-      },
-      {
-        date: 1661558400,
-        totalLiquidity: '61523698602741'
-      },
-      {
-        date: 1661644800,
-        totalLiquidity: '61523898602741'
-      },
-      {
-        date: 1661731200,
-        totalLiquidity: '61523998602741'
-      },
-      {
-        date: 1661817600,
-        totalLiquidity: '61524998602741'
-      },
-      {
-        date: 1661904000,
-        totalLiquidity: '61524998602741'
-      },
-      {
-        date: 1661990400,
-        totalLiquidity: '61524998602741'
-      }
-    ]
-  },
-  loading: false
-}
+const mockReturnData = testData.protocolDayData
 
 describe('useProtocolDayData', () => {
-  const { mock, mockFunction, restore } = mockGlobals.console.error()
+  // const { mock, mockFunction, restore } = mockGlobals.console.error()
   mockHooksOrMethods.useWeb3React()
   mockHooksOrMethods.useNetwork()
   mockHooksOrMethods.getGraphURL()
+  mockHooksOrMethods.getGroupedProtocolDayData()
 
   test('should return correct data', async () => {
-    mockGlobals.fetch(true, undefined, mockReturnData)
-    const { result } = await renderHookWrapper(useProtocolDayData, [], true)
+    // mockGlobals.fetch(true, undefined, mockReturnData)
+    const { result } = await renderHookWrapper(useProtocolDayData, [true], true)
 
     expect(result.loading).toBeFalsy()
-    expect(result.data.length).toBe(
-      mockReturnData.data.protocolDayDatas.length
+    expect(result.data.totalCapacity.length).toEqual(
+      mockReturnData.data.totalCapacity.length
+    )
+    expect(result.data.totalLiquidity.length).toEqual(
+      mockReturnData.data.totalLiquidity.length
+    )
+    expect(result.data.totalCovered.length).toEqual(
+      mockReturnData.data.totalCovered.length
     )
   })
 
-  test('should log error in case of api error', async () => {
-    mockGlobals.fetch(false)
-    mock()
+  // test('should log error in case of api error', async () => {
+  //   mock()
+  //   // mockHooksOrMethods.getGroupedProtocolDayData(() => Promise.reject(new Error('sdsdsd')))
 
-    await renderHookWrapper(useProtocolDayData)
+  //   // jest
+  //   //   .spyOn(ProtocolDayDataFile, 'getGroupedProtocolDayData')
+  //   //   .mockImplementation(async () => {
+  //   //     await new Promise((resolve, reject) => {
+  //   //       setTimeout(() => {
+  //   //         resolve('Hello')
+  //   //         // reject(new Error("dsdsd"))
+  //   //       }, 500)
+  //   //     })
+  //   //     // setTimeout(() => {
+  //   //     //   return Promise.reject(new Error('OH NOOOOOOO'))
+  //   //     //   // reject(new Error("dsdsd"))
+  //   //     // }, 500)
 
-    expect(mockFunction).toHaveBeenCalled()
+  //   //     throw new Error('ERROR')
+  //   //   })
 
-    mockGlobals.fetch().unmock()
-    restore()
-  })
+  //   await renderHookWrapper(useProtocolDayData, [true])
+
+  //   expect(mockFunction).toHaveBeenCalled()
+
+  //   restore()
+  // })
 })

@@ -1,41 +1,41 @@
-import { initiateTest } from "@/utils/unit-tests/helpers";
-import { screen } from "@testing-library/react";
-import ReportingResolved from "@/src/pages/reports/resolved";
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { screen } from '@testing-library/react'
+import ReportingResolved from '@/src/pages/reports/resolved'
 
-jest.mock("@/src/modules/reporting/ReportingTabs", () => {
+jest.mock('@/src/modules/reporting/ReportingTabs', () => {
   return {
     ReportingTabs: ({ children }) => {
-      return <div data-testid="reporting-tabs">{children}</div>;
-    },
-  };
-});
+      return <div data-testid='reporting-tabs'>{children}</div>
+    }
+  }
+})
 
-jest.mock("@/src/modules/reporting/resolved/resolved", () => {
+jest.mock('@/src/modules/reporting/resolved/resolved', () => {
   return {
     ReportingResolvedPage: () => {
-      return <div data-testid="reporting-resolved-page"></div>;
-    },
-  };
-});
+      return <div data-testid='reporting-resolved-page' />
+    }
+  }
+})
 
-describe("ReportingResolved test", () => {
-  const { initialRender, rerenderFn } = initiateTest(ReportingResolved);
+describe('ReportingResolved test', () => {
+  const { initialRender, rerenderFn } = initiateTest(ReportingResolved)
 
   beforeEach(() => {
-    initialRender();
-  });
+    initialRender()
+  })
 
-  test("should display ReportingResolved and ReportingTabs, and ReportingResolvedPage component", () => {
-    const tabs = screen.getByTestId("reporting-tabs");
-    expect(tabs).toBeInTheDocument();
+  test('should display ReportingResolved and ReportingTabs, and ReportingResolvedPage component', () => {
+    const tabs = screen.getByTestId('reporting-tabs')
+    expect(tabs).toBeInTheDocument()
 
-    const policies = screen.getByTestId("reporting-resolved-page");
-    expect(policies).toBeInTheDocument();
-  });
+    const policies = screen.getByTestId('reporting-resolved-page')
+    expect(policies).toBeInTheDocument()
+  })
 
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
-  });
-});
+  test('Should display coming soon', () => {
+    rerenderFn({ disabled: true })
+    const comingSoon = screen.getByText('Coming soon!')
+    expect(comingSoon).toBeInTheDocument()
+  })
+})

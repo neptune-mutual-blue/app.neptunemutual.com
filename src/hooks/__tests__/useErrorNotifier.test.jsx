@@ -62,7 +62,7 @@ describe('useErrorNotifier', () => {
     })
 
     const pushErrorArgs = {
-      title: 'Could not perform action',
+      title: 'Something went wrong',
       message: getErrorMessage({}),
       lifetime: defaultArgs.duration
     }
@@ -78,7 +78,7 @@ describe('useErrorNotifier', () => {
     })
 
     const pushErrorArgs = {
-      title: 'Could not perform action',
+      title: 'Something went wrong',
       message: getErrorMessage({}),
       lifetime: ERROR_TOAST_TIME
     }

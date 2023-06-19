@@ -9,7 +9,9 @@ import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const props = {
   active: 'active',
-  children: () => <></>
+  children: () => <></>,
+  heroStatValue: '10000',
+  heroStatTitle: 'Total Active Protection'
 }
 
 const initialMocks = () => {
@@ -43,7 +45,7 @@ describe('PoliciesTab test', () => {
   })
 
   test('should render the herostat title', () => {
-    const heroStat = screen.getByText('Total Active Protection')
+    const heroStat = screen.getByText(props.heroStatTitle)
     expect(heroStat).toBeInTheDocument()
   })
 
@@ -66,14 +68,7 @@ describe('PoliciesTab test', () => {
   })
 
   test('should render the herostat value', () => {
-    const value = formatCurrency(
-      convertFromUnits(
-        '1032000000',
-        testData.appConstants.liquidityTokenDecimals
-      ),
-      'en'
-    ).long
-    const heroStatVal = screen.queryByText(value)
+    const heroStatVal = screen.queryByText(props.heroStatValue)
     expect(heroStatVal).toBeInTheDocument()
   })
 
