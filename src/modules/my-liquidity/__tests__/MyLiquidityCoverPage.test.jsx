@@ -29,14 +29,14 @@ describe('MyLiquidityTxsTable test', () => {
 
   test('should render only `loading...` text if coverinfo not loaded', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, loading: true }))
+      mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, loading: true } })
     })
     expect(screen.getByText('loading...')).toBeInTheDocument()
   })
 
   test('should render "No Data Found" when coverData is empty', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, getCoverByCoverKey: () => null }))
+      mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, getCoverByCoverKey: () => { return null } } })
     })
 
     expect(screen.getByText('No Data Found')).toBeInTheDocument()
@@ -61,10 +61,12 @@ describe('MyLiquidityTxsTable test', () => {
 
   test('should render diversified cover profile if supports products', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useCoversAndProducts2(() => ({
-        ...testData.coversAndProducts2,
-        getCoverByCoverKey: () => ({ ...testData.coversAndProducts2.data, supportsProducts: true })
-      }))
+      mockHooksOrMethods.useCoversAndProducts2(() => {
+        return {
+          ...testData.coversAndProducts2,
+          getCoverByCoverKey: () => { return { ...testData.coversAndProducts2.data, supportsProducts: true } }
+        }
+      })
     })
     const wrapper = screen.getByTestId('diversified-coverprofileinfo-container')
     expect(wrapper).toBeInTheDocument()

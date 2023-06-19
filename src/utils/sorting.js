@@ -60,7 +60,7 @@ const sortByBigNumber = (dataList, selector, asc = false) => {
 }
 
 /* sort array of dates formatted as "MMM-YY" (eg. JAN-23) */
-export function sortDates (dates, selector = (x) => x, asc = true) {
+export function sortDates (dates, selector = (x) => { return x }, asc = true) {
   return dates.sort((a, b) => {
     const aData = selector(a)
     const bData = selector(b)
@@ -110,13 +110,14 @@ export const sortDataByKey = (data = [], sortKey, sortType) => {
     const currValue = getNestedObjectValue(curr, sortKey) || ''
 
     if (Number(prevValue) && Number(currValue)) {
-      if (sortType === 'asc') return Number(prevValue) - Number(currValue)
-      if (sortType === 'desc') return Number(currValue) - Number(prevValue)
+      if (sortType === 'asc') { return Number(prevValue) - Number(currValue) }
+      if (sortType === 'desc') { return Number(currValue) - Number(prevValue) }
+
       return 0
     }
 
-    if (sortType === 'asc') return prevValue.localeCompare(currValue)
-    if (sortType === 'desc') return currValue.localeCompare(prevValue)
+    if (sortType === 'asc') { return prevValue.localeCompare(currValue) }
+    if (sortType === 'desc') { return currValue.localeCompare(prevValue) }
 
     return 0
   })

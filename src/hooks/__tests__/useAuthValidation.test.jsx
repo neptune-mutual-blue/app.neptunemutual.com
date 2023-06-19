@@ -6,7 +6,7 @@ describe('useAuthValidation', () => {
   mockHooksOrMethods.useToast()
 
   test('should return nothing', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useAuthValidation)
 
@@ -18,7 +18,7 @@ describe('useAuthValidation', () => {
   })
 
   test('should require auth', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: '0x32423dfsf34' }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: '0x32423dfsf34' } })
 
     const { result, act } = await renderHookWrapper(useAuthValidation)
 

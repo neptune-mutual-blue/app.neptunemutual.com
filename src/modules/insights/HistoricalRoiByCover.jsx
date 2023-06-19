@@ -55,11 +55,13 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       showInNavigator: true,
       name: hyphenToPascalCase(key),
       data: value
-        .map((item) => ({
-          x: new Date(item.startDate).valueOf(),
-          y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
-        }))
-        .sort((a, b) => a.x - b.x),
+        .map((item) => {
+          return {
+            x: new Date(item.startDate).valueOf(),
+            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
+          }
+        })
+        .sort((a, b) => { return a.x - b.x }),
       lineWidth: 3,
       lineColor: color,
       color: color,
@@ -85,7 +87,7 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
         duration: 500
       }
     }
-  }).filter(v => v !== undefined)
+  }).filter(v => { return v !== undefined })
 
   const chartOptions = {
     xAxis: {
@@ -144,7 +146,7 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       shadow: false,
       shape: 'rect',
       formatter: function () {
-        const points = this.points.slice().sort((a, b) => b.y - a.y)
+        const points = this.points.slice().sort((a, b) => { return b.y - a.y })
 
         const result = []
         for (let i = 0; i < points.length; i += 4) {
@@ -153,19 +155,23 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
 
         return `
           <div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'>
-            <div class='grid gap-4' style='grid-template-columns: ${Array.from({ length: result.length }).map(() => 'auto').join(' ')};'>
-              ${result.map(group => (
+            <div class='grid gap-4' style='grid-template-columns: ${Array.from({ length: result.length }).map(() => { return 'auto' }).join(' ')};'>
+              ${result.map(group => {
+ return (
                 `<div>
-                  ${group.map((point, index) => (
+                  ${group.map((point, index) => {
+ return (
                     `
                     <p class='font-semibold tracking-normal text-01052D${index !== group.length ? ' mb-2.5' : ''}${index === 0 ? ' -mt-2.5' : ''}'>
                       <div class='text-xs font-semibold' style="color: ${point.series.color};font-size: 12px;line-height: 24px;">${point.series.name}</div>
                       <div class='text-sm font-semibold text-black'>${point.y}%</div>
                     </p>
                     `
-                  )).join('')}
+                  )
+}).join('')}
                 </div>`
-              )).join('')}
+              )
+}).join('')}
             </div>
           </div>`
       },
@@ -228,27 +234,29 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       )}
 
       <div className='flex flex-wrap items-center justify-center gap-4 mt-3'>
-        {Object.keys(groupCovers).map((key) => (
-          <div
-            role='checkbox' aria-checked={selectedCover === key} onClick={() => {
-              if (selectedCover === key) {
-                setSelectedCover(undefined)
-              } else {
-                setSelectedCover(key)
-              }
-            }} className={`cursor-pointer${selectedCover ? selectedCover === key ? '' : ' opacity-50' : ''} flex items-center gap-1`} key={key}
-          >
+        {Object.keys(groupCovers).map((key) => {
+          return (
             <div
-              className='rounded-full h-3.5 w-3.5'
-              style={{
-                background: getColorForCover(
-                  key
-                )
-              }}
-            />
-            <span className='text-sm font-semibold'>{hyphenToPascalCase(key)}</span>
-          </div>
-        ))}
+              role='checkbox' aria-checked={selectedCover === key} onClick={() => {
+                if (selectedCover === key) {
+                  setSelectedCover(undefined)
+                } else {
+                  setSelectedCover(key)
+                }
+              }} className={`cursor-pointer${selectedCover ? selectedCover === key ? '' : ' opacity-50' : ''} flex items-center gap-1`} key={key}
+            >
+              <div
+                className='rounded-full h-3.5 w-3.5'
+                style={{
+                  background: getColorForCover(
+                    key
+                  )
+                }}
+              />
+              <span className='text-sm font-semibold'>{hyphenToPascalCase(key)}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

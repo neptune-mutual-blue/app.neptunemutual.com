@@ -22,7 +22,7 @@ describe('CoverOptionsPage', () => {
 
     const router = createMockRouter({
       query: { coverId: 'animated-brands' },
-      back: () => backBtnHandler()
+      back: () => { return backBtnHandler() }
     })
     const Component = withProviders(CoverOptionsPage, router, {
       coverProductInfo: testData.coverInfo
@@ -31,8 +31,7 @@ describe('CoverOptionsPage', () => {
   })
 
   test('has correct number cover actions', async () => {
-    const coverOptionActions = await waitFor(() =>
-      screen.getAllByTestId('cover-option-actions')
+    const coverOptionActions = await waitFor(() => { return screen.getAllByTestId('cover-option-actions') }
     )
     expect(coverOptionActions).toHaveLength(NUMBER_OF_ACTIONS)
   })

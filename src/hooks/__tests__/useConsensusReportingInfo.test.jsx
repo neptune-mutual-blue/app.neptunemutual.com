@@ -38,7 +38,7 @@ describe('useConsensusReportingInfo', () => {
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
 
   test('while fetching w/o networkId and coverKey', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(useConsensusReportingInfo, [
       {
@@ -67,7 +67,7 @@ describe('useConsensusReportingInfo', () => {
 
   test('while fetching w/ networkId, coverKey and w/o account', async () => {
     mockHooksOrMethods.useNetwork()
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
     mockHooksOrMethods.getReplacedString()
     mockGlobals.fetch(true, undefined, mockData)
 

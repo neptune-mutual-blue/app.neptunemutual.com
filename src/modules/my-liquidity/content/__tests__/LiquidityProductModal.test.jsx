@@ -45,7 +45,7 @@ describe('LiquidityProductModal', () => {
   test('should render the correct number of cover rules', () => {
     const rules = screen.getByTestId('cover-rules').querySelectorAll('li')
 
-    const expectedRules = data.productInfoDetails.parameters.reduce((acc, curr) => acc + curr.list.items.length, 0)
+    const expectedRules = data.productInfoDetails.parameters.reduce((acc, curr) => { return acc + curr.list.items.length }, 0)
     expect(rules.length).toBe(expectedRules)
   })
 

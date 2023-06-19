@@ -21,44 +21,48 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 
-const renderWhen = (row) => <WhenRenderer row={row} />
+const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
-const renderAccount = (row) => (
-  <td className='px-6 py-6 text-sm leading-5 text-01052D'>
-    <span className='whitespace-nowrap'>{row.witness}</span>
-  </td>
-)
+const renderAccount = (row) => {
+  return (
+    <td className='px-6 py-6 text-sm leading-5 text-01052D'>
+      <span className='whitespace-nowrap'>{row.witness}</span>
+    </td>
+  )
+}
 
-const renderAmount = (row) => <AmountRenderer row={row} />
+const renderAmount = (row) => { return <AmountRenderer row={row} /> }
 
-const renderActions = (row) => <ActionsRenderer row={row} />
+const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => [
-  {
-    name: t`when`,
-    align: 'left',
-    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
-    renderData: renderWhen
-  },
-  {
-    name: t`Account`,
-    align: 'left',
-    renderHeader,
-    renderData: renderAccount
-  },
-  {
-    name: t`Weight`,
-    align: 'right',
-    renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'right',
-    renderHeader,
-    renderData: renderActions
-  }
-]
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
+  return [
+    {
+      name: t`when`,
+      align: 'left',
+      renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
+      renderData: renderWhen
+    },
+    {
+      name: t`Account`,
+      align: 'left',
+      renderHeader,
+      renderData: renderAccount
+    },
+    {
+      name: t`Weight`,
+      align: 'right',
+      renderHeader,
+      renderData: renderAmount
+    },
+    {
+      name: '',
+      align: 'right',
+      renderHeader,
+      renderData: renderActions
+    }
+  ]
+}
 
 export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
   const { page, limit, setPage } = usePagination()
@@ -76,13 +80,15 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   const columns = getColumns(sorts, handleSort)
 
-  const Title = () => (
-    <p
-      className='font-semibold w-max text-md text-1D2939'
-    >
-      <Trans>Recent Votes</Trans>
-    </p>
-  )
+  const Title = () => {
+    return (
+      <p
+        className='font-semibold w-max text-md text-1D2939'
+      >
+        <Trans>Recent Votes</Trans>
+      </p>
+    )
+  }
 
   return (
     <>
@@ -106,7 +112,7 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {
-              setPage((prev) => prev + 1)
+              setPage((prev) => { return prev + 1 })
             }}
           />
         )}

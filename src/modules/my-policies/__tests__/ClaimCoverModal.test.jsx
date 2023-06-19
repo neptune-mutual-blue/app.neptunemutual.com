@@ -60,10 +60,12 @@ describe('ClaimCoverModal test', () => {
 
   test('should render the error text when error is present', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useClaimPolicyInfo(() => ({
-        ...testData.claimPolicyInfo,
-        error: 'Error'
-      }))
+      mockHooksOrMethods.useClaimPolicyInfo(() => {
+        return {
+          ...testData.claimPolicyInfo,
+          error: 'Error'
+        }
+      })
     })
 
     const wrapper = screen.getByTestId('error-text')
@@ -106,10 +108,12 @@ describe('ClaimCoverModal test', () => {
 
     test("claim button should show 'Claiming' when claiming is true", () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useClaimPolicyInfo(() => ({
-          ...testData.claimPolicyInfo,
-          claiming: true
-        }))
+        mockHooksOrMethods.useClaimPolicyInfo(() => {
+          return {
+            ...testData.claimPolicyInfo,
+            claiming: true
+          }
+        })
       })
 
       const wrapper = screen.getByTestId('claim-button')
@@ -126,10 +130,12 @@ describe('ClaimCoverModal test', () => {
   describe('Approve button', () => {
     test('should render the approve button when canClaim is false', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useClaimPolicyInfo(() => ({
-          ...testData.claimPolicyInfo,
-          canClaim: false
-        }))
+        mockHooksOrMethods.useClaimPolicyInfo(() => {
+          return {
+            ...testData.claimPolicyInfo,
+            canClaim: false
+          }
+        })
       })
 
       const wrapper = screen.getByTestId('approve-button')
@@ -138,10 +144,12 @@ describe('ClaimCoverModal test', () => {
 
     test("approve button should show 'Approve' when approving is false", () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useClaimPolicyInfo(() => ({
-          ...testData.claimPolicyInfo,
-          canClaim: false
-        }))
+        mockHooksOrMethods.useClaimPolicyInfo(() => {
+          return {
+            ...testData.claimPolicyInfo,
+            canClaim: false
+          }
+        })
       })
 
       const wrapper = screen.getByTestId('approve-button')
@@ -150,11 +158,13 @@ describe('ClaimCoverModal test', () => {
 
     test("approve button should show 'Approving' when approving is true", () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useClaimPolicyInfo(() => ({
-          ...testData.claimPolicyInfo,
-          approving: true,
-          canClaim: false
-        }))
+        mockHooksOrMethods.useClaimPolicyInfo(() => {
+          return {
+            ...testData.claimPolicyInfo,
+            approving: true,
+            canClaim: false
+          }
+        })
       })
 
       const wrapper = screen.getByTestId('approve-button')
@@ -163,13 +173,15 @@ describe('ClaimCoverModal test', () => {
 
     test('should be disabled when approving or error or loadingAllowance', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useClaimPolicyInfo(() => ({
-          ...testData.claimPolicyInfo,
-          approving: true,
-          error: 'error',
-          loadingAllowance: true,
-          canClaim: false
-        }))
+        mockHooksOrMethods.useClaimPolicyInfo(() => {
+          return {
+            ...testData.claimPolicyInfo,
+            approving: true,
+            error: 'error',
+            loadingAllowance: true,
+            canClaim: false
+          }
+        })
       })
       const button = screen.getByTestId('approve-button')
       expect(button).toBeDisabled()
@@ -186,29 +198,35 @@ describe('ClaimCoverModal test', () => {
 
     test('providing loadingBalance from hook', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useCxTokenRowContext(() => ({
-          ...testData.cxTokenRowContext,
-          balance: '0',
-          loadingBalance: true,
-          tokenSymbol: 'CX'
-        }))
+        mockHooksOrMethods.useCxTokenRowContext(() => {
+          return {
+            ...testData.cxTokenRowContext,
+            balance: '0',
+            loadingBalance: true,
+            tokenSymbol: 'CX'
+          }
+        })
       })
     })
 
     test('providing loadingFees from hook', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useCxTokenRowContext(() => ({
-          ...testData.cxTokenRowContext,
-          balance: '0',
-          loadingBalance: false,
-          tokenSymbol: 'CX'
-        }))
+        mockHooksOrMethods.useCxTokenRowContext(() => {
+          return {
+            ...testData.cxTokenRowContext,
+            balance: '0',
+            loadingBalance: false,
+            tokenSymbol: 'CX'
+          }
+        })
         rerenderFn({}, () => {
-          mockHooksOrMethods.useClaimPolicyInfo(() => ({
-            ...testData.claimPolicyInfo,
-            loadingAllowance: false,
-            loadingFees: true
-          }))
+          mockHooksOrMethods.useClaimPolicyInfo(() => {
+            return {
+              ...testData.claimPolicyInfo,
+              loadingAllowance: false,
+              loadingFees: true
+            }
+          })
         })
       })
     })

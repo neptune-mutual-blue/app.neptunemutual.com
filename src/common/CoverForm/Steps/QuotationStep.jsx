@@ -12,6 +12,7 @@ const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityToken
   const router = useRouter()
 
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
+
   return (
     <div className='mb-6'>
       <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>

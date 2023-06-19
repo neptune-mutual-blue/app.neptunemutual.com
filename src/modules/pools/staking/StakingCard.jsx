@@ -203,13 +203,15 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
       <hr className='mt-4 mb-5 border-t border-B0C4DB' />
 
-      {stats.map((x) => (
-        <div className='block mt-2' key={x.title}>
-          <div className='flex flex-row justify-between w-full text-sm'>
-            <PoolCardStat tooltip={x?.tooltip} value={x.value} title={x.title} />
+      {stats.map((x) => {
+        return (
+          <div className='block mt-2' key={x.title}>
+            <div className='flex flex-row justify-between w-full text-sm'>
+              <PoolCardStat tooltip={x?.tooltip} value={x.value} title={x.title} />
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
 
       <div className='flex items-center mt-5'>
         {hasStaked

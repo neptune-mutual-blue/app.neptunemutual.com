@@ -4,10 +4,12 @@ import { testData } from '@/utils/unit-tests/test-data'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
 
 describe('useTransactionHistory', () => {
-  mockHooksOrMethods.useWeb3React(() => ({
-    ...testData.account,
-    library: { provider: true }
-  }))
+  mockHooksOrMethods.useWeb3React(() => {
+    return {
+      ...testData.account,
+      library: { provider: true }
+    }
+  })
   mockHooksOrMethods.useNetwork()
   mockHooksOrMethods.useTxToast()
   mockHooksOrMethods.utilsWeb3.getProviderOrSigner()
@@ -20,25 +22,31 @@ describe('useTransactionHistory', () => {
 
   describe('Edge cases coverage', () => {
     test('should return if no netowrkId, account ', async () => {
-      mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-      mockHooksOrMethods.useWeb3React(() => ({
-        account: null,
-        library: null
-      }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+      mockHooksOrMethods.useWeb3React(() => {
+        return {
+          account: null,
+          library: null
+        }
+      })
 
       await renderHookWrapper(useTransactionHistory)
       mockHooksOrMethods.useNetwork()
-      mockHooksOrMethods.useWeb3React(() => ({
-        ...testData.account,
-        library: { provider: true }
-      }))
+      mockHooksOrMethods.useWeb3React(() => {
+        return {
+          ...testData.account,
+          library: { provider: true }
+        }
+      })
     })
 
     test('should return if no provider ', async () => {
-      mockHooksOrMethods.utilsWeb3.getProviderOrSigner(() => ({
-        ...testData.providerOrSigner,
-        provider: null
-      }))
+      mockHooksOrMethods.utilsWeb3.getProviderOrSigner(() => {
+        return {
+          ...testData.providerOrSigner,
+          provider: null
+        }
+      })
 
       await renderHookWrapper(useTransactionHistory)
       mockHooksOrMethods.utilsWeb3.getProviderOrSigner()

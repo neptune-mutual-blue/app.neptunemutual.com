@@ -62,7 +62,7 @@ describe('Local Storage', () => {
     items
       .slice(0)
       .reverse()
-      .forEach((item) => TransactionHistory.push(item))
+      .forEach((item) => { return TransactionHistory.push(item) })
 
     const state = LocalStorage.get(
       LocalStorage.KEYS.TRANSACTION_HISTORY,
@@ -102,7 +102,7 @@ describe('Local Storage', () => {
       .slice(0)
       .reverse()
       // @ts-ignore
-      .forEach((item) => TransactionHistory.push(item))
+      .forEach((item) => { return TransactionHistory.push(item) })
 
     const state = LocalStorage.get(
       LocalStorage.KEYS.TRANSACTION_HISTORY,

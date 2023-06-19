@@ -45,10 +45,12 @@ describe('useCreateBond', () => {
   })
 
   test('should execute the handleApprove function', async () => {
-    mockHooksOrMethods.useERC20Allowance(() => ({
-      ...testData.erc20Allowance,
-      allowance: convertToUnits(110)
-    }))
+    mockHooksOrMethods.useERC20Allowance(() => {
+      return {
+        ...testData.erc20Allowance,
+        allowance: convertToUnits(110)
+      }
+    })
 
     const { result, act } = await renderHookWrapper(
       useDisputeIncident,
@@ -77,9 +79,11 @@ describe('useCreateBond', () => {
 
   describe('should simulate edge cases', () => {
     test('should return if no networkId', async () => {
-      mockHooksOrMethods.useNetwork(() => ({
-        networkId: null
-      }))
+      mockHooksOrMethods.useNetwork(() => {
+        return {
+          networkId: null
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useDisputeIncident, [
         hookArgs
@@ -105,10 +109,12 @@ describe('useCreateBond', () => {
 
     test('should return error if error in writeContract', async () => {
       mockSdk.utils.ipfs.write()
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        writeContract: undefined
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          writeContract: undefined
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useDisputeIncident, [
         hookArgs
@@ -121,10 +127,12 @@ describe('useCreateBond', () => {
 
     test('should return error in txtoast push function for handleApprove', async () => {
       mockHooksOrMethods.useTxPoster()
-      mockHooksOrMethods.useTxToast(() => ({
-        ...testData.txToast,
-        push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
-      }))
+      mockHooksOrMethods.useTxToast(() => {
+        return {
+          ...testData.txToast,
+          push: jest.fn(() => { return Promise.reject(new Error('Something went wrong')) })
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useDisputeIncident, [
         hookArgs
@@ -149,10 +157,12 @@ describe('useCreateBond', () => {
       const args3 = [{ ...hookArgs, value: '0.0004' }]
       rerender(args3)
 
-      mockHooksOrMethods.useERC20Balance(() => ({
-        ...testData.erc20Balance,
-        balance: convertToUnits(0.0004)
-      }))
+      mockHooksOrMethods.useERC20Balance(() => {
+        return {
+          ...testData.erc20Balance,
+          balance: convertToUnits(0.0004)
+        }
+      })
       const args4 = [{ ...hookArgs, value: '100' }]
       rerender(args4)
 

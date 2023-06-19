@@ -65,14 +65,15 @@ function useCoverEarningInsights () {
       })
 
       setYAxisData(newLabels.map(lbl => {
-        const foundMonth = monthDataInRange.find(monthData => monthData.id === lbl)
+        const foundMonth = monthDataInRange.find(monthData => { return monthData.id === lbl })
 
         if (foundMonth) {
           return foundMonth.nonCumulativeCoverFee
         }
+
         return '0'
       }
-      ).map(val => Number(convertFromUnits(val, liquidityTokenDecimals))))
+      ).map(val => { return Number(convertFromUnits(val, liquidityTokenDecimals)) }))
     }
   }, [data, dateRange, liquidityTokenDecimals])
 

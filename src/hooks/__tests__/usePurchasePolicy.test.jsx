@@ -45,10 +45,12 @@ describe('usePurchasePolicy', () => {
   })
 
   test('calling handleApprove function', async () => {
-    mockHooksOrMethods.useERC20Allowance(() => ({
-      ...testData.erc20Allowance,
-      allowance: convertToUnits(mockArgs.value)
-    }))
+    mockHooksOrMethods.useERC20Allowance(() => {
+      return {
+        ...testData.erc20Allowance,
+        allowance: convertToUnits(mockArgs.value)
+      }
+    })
 
     const { result, act } = await renderHookWrapper(usePurchasePolicy, [
       mockArgs
@@ -75,10 +77,12 @@ describe('usePurchasePolicy', () => {
   })
 
   test('calling handlePurchase function with error', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: undefined
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: undefined
+      }
+    })
     const { result, act } = await renderHookWrapper(usePurchasePolicy, [
       mockArgs
     ])

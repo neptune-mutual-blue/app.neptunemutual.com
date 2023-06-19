@@ -63,13 +63,15 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should not render blocknumber element if blocknumber data not present', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useLiquidityTxs(() => ({
-          ...testData.liquidityTxs,
-          data: {
-            ...testData.liquidityTxs.data,
-            blockNumber: null
+        mockHooksOrMethods.useLiquidityTxs(() => {
+          return {
+            ...testData.liquidityTxs,
+            data: {
+              ...testData.liquidityTxs.data,
+              blockNumber: null
+            }
           }
-        }))
+        })
       })
       const card = screen.queryByTestId('block-number')
       expect(card).not.toBeInTheDocument()
@@ -192,9 +194,11 @@ describe('MyLiquidityTxsTable test', () => {
 
     test('should render no account message if no account connected', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useWeb3React(() => ({
-          account: null
-        }))
+        mockHooksOrMethods.useWeb3React(() => {
+          return {
+            account: null
+          }
+        })
       })
       const card = screen.getByTestId('no-account-message')
       const tableWrapper = screen.queryByTestId('app-table-body')

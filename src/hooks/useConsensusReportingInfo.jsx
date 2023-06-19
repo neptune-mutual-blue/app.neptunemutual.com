@@ -107,7 +107,7 @@ export const useConsensusReportingInfo = ({
         setInfo(data)
       })
       .catch(console.error)
-      .finally(() => setLoading(false))
+      .finally(() => { return setLoading(false) })
 
     return () => {
       ignore = true
@@ -118,7 +118,7 @@ export const useConsensusReportingInfo = ({
   const updateFetchInfo = useCallback(() => {
     fetchInfo()
       .then((_info) => {
-        if (!_info) return
+        if (!_info) { return }
         setInfo(_info)
       })
       .catch(console.error)

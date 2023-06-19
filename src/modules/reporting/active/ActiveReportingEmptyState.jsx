@@ -22,7 +22,7 @@ export const ActiveReportingEmptyState = () => {
   } = useCoverDropdown()
 
   const handleAddReport = () => {
-    if (!selected) return
+    if (!selected) { return }
 
     const coverKey = selected.coverKey
     const productKey = isValidProduct(selected.productKey) ? selected.productKey : ''

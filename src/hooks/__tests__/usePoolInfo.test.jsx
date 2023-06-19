@@ -52,7 +52,7 @@ describe('usePoolInfo', () => {
   })
 
   test('should return default value if no network', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(usePoolInfo, args)
     expect(result.info).toEqual(defaultInfo)
@@ -101,7 +101,7 @@ describe('usePoolInfo', () => {
 
   test('should log error if error arises in fetchPoolInfo', async () => {
     mockGlobals.fetch(false)
-    mockHooksOrMethods.useErrorNotifier(() => ({ notifyError: null }))
+    mockHooksOrMethods.useErrorNotifier(() => { return { notifyError: null } })
     mock()
 
     await renderHookWrapper(usePoolInfo, args)

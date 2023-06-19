@@ -97,10 +97,12 @@ describe('Incident Occurred form', () => {
 
     test('Submit dispute', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true
+          }
+        })
       })
 
       const title = screen.getByRole('textbox', { name: 'Title' })
@@ -129,10 +131,12 @@ describe('Incident Occurred form', () => {
 
     test('Submit report with multiple url reports', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true
+          }
+        })
       })
 
       const title = screen.getByRole('textbox', { name: 'Title' })
@@ -175,10 +179,12 @@ describe('Incident Occurred form', () => {
 
   describe('Form state based on candispute', () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useDisputeIncident(() => ({
-        ...testData.disputeIncident,
-        canDispute: true
-      }))
+      mockHooksOrMethods.useDisputeIncident(() => {
+        return {
+          ...testData.disputeIncident,
+          canDispute: true
+        }
+      })
     })
 
     const title = screen.getByRole('textbox', { name: 'Title' })
@@ -203,10 +209,12 @@ describe('Incident Occurred form', () => {
   describe('Approve and Dispute Button', () => {
     test('Show Approving', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          approving: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            approving: true
+          }
+        })
       })
 
       const approving = screen.getByRole('button', { name: 'Approving...' })
@@ -216,10 +224,12 @@ describe('Incident Occurred form', () => {
 
     test('Show Report Button', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true
+          }
+        })
       })
 
       const report = screen.getByRole('button', { name: 'Dispute' })
@@ -228,11 +238,13 @@ describe('Incident Occurred form', () => {
 
     test('Show Disputing Button', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.useDisputeIncident(() => ({
-          ...testData.disputeIncident,
-          canDispute: true,
-          disputing: true
-        }))
+        mockHooksOrMethods.useDisputeIncident(() => {
+          return {
+            ...testData.disputeIncident,
+            canDispute: true,
+            disputing: true
+          }
+        })
       })
 
       const report = screen.getByRole('button', { name: 'Disputing...' })

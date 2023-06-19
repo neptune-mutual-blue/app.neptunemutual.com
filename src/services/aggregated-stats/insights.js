@@ -92,6 +92,7 @@ export async function getInsightsTVLData () {
   }
 
   const result = await Promise.all(promises)
+
   return result
 }
 

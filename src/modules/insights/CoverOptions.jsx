@@ -20,35 +20,43 @@ export const CoverOptions = ({
         optionsClass='z-30 !p-4 border ring-0 shadow-cover-dropdown border-B0C4DB
         ring-1 ring-black ring-opacity-5 focus:outline-none rou !mt-2 rounded-2xl'
         buttonClass='!p-4'
-        renderButton={({ name, image, open }) => (
-          <DropdownButton name={name} image={image} open={open} />
-        )}
-        renderOption={({ active, isSelected, name, image }) => (
-          <DropdownOption name={name} image={image} active={active} isSelected={isSelected} />
-        )}
-        optionClass={(active) => classNames(
-          'cursor-pointer select-none relative !p-0',
-          active ? 'text-4E7DD9' : 'text-black'
-        )}
+        renderButton={({ name, image, open }) => {
+          return (
+            <DropdownButton name={name} image={image} open={open} />
+          )
+        }}
+        renderOption={({ active, isSelected, name, image }) => {
+          return (
+            <DropdownOption name={name} image={image} active={active} isSelected={isSelected} />
+          )
+        }}
+        optionClass={(active) => {
+          return classNames(
+            'cursor-pointer select-none relative !p-0',
+            active ? 'text-4E7DD9' : 'text-black'
+          )
+        }}
       />
     </div>
   )
 }
 
-const DropdownButton = ({ name, image, open }) => (
-  <div className='flex items-center justify-between gap-2'>
-    <div className='flex items-center gap-2'>
-      <img
-        src={image || '/images/covers/empty.svg'}
-        alt={name}
-        className='w-6 h-6 p-0.5'
-      />
-      <span className='text-sm'>{name}</span>
-    </div>
+const DropdownButton = ({ name, image, open }) => {
+  return (
+    <div className='flex items-center justify-between gap-2'>
+      <div className='flex items-center gap-2'>
+        <img
+          src={image || '/images/covers/empty.svg'}
+          alt={name}
+          className='w-6 h-6 p-0.5'
+        />
+        <span className='text-sm'>{name}</span>
+      </div>
 
-    <UpArrowFilled className={classNames('w-4 h-4 transform', open ? 'rotate-0' : 'rotate-180')} aria-hidden='true' />
-  </div>
-)
+      <UpArrowFilled className={classNames('w-4 h-4 transform', open ? 'rotate-0' : 'rotate-180')} aria-hidden='true' />
+    </div>
+  )
+}
 
 const DropdownOption = ({ name, image, isSelected, active }) => {
   return (

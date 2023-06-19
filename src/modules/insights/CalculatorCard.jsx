@@ -107,7 +107,7 @@ export const CalculatorCard = () => {
       coverMonth,
       liquidityTokenDecimals
     })
-    if (error) setError(getErrorMessage(error))
+    if (error) { setError(getErrorMessage(error)) }
 
     setResult(data)
     setResultLoading(false)

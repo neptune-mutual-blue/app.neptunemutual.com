@@ -4,8 +4,10 @@ import {
 } from 'react'
 
 import { VOTE_ESCROW_STATS_URL } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { convertToUnits } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
 import { t } from '@lingui/macro'
 
@@ -27,6 +29,8 @@ export const useVoteEscrowStats = () => {
       const handleError = (err) => {
         notifyError(err, t`Could not get vote-escrow stats`)
       }
+
+      const NPMTokenDecimals = ChainConfig[networkId].npm.tokenDecimals
 
       try {
         // Get data from API if wallet's not connected
@@ -51,7 +55,12 @@ export const useVoteEscrowStats = () => {
           return
         }
 
-        setData(_data[0])
+        const stats = _data[0]
+
+        setData({
+          averageLock: stats.averageLock,
+          totalVoteLocked: convertToUnits(stats.totalVoteLocked, NPMTokenDecimals).toString()
+        })
       } catch (err) {
         handleError(err)
       }
@@ -59,8 +68,8 @@ export const useVoteEscrowStats = () => {
 
     setLoading(true)
     exec()
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false))
+      .then(() => { return setLoading(false) })
+      .catch(() => { return setLoading(false) })
   }, [notifyError, networkId])
 
   return {

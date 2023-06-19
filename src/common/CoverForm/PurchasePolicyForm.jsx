@@ -10,6 +10,7 @@ import { BackButton } from '@/common/BackButton/BackButton'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
+import { AbnormalCoverStatus } from '@/common/CoverForm/AbnormalStatus'
 import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
 import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
 import PurchaseAmountStep from '@/common/CoverForm/Steps/PurchaseAmountStep'
@@ -50,10 +51,10 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { AbnormalCoverStatus } from '@/common/CoverForm/AbnormalStatus'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
+
   return d.getDate()
 }
 
@@ -65,7 +66,7 @@ const getCoveragePeriodLabels = (locale) => {
 
   const monthNames = getMonthNames(locale, true)
 
-  // Note: Refer `getExpiryDateInternal` in protocol
+  // @note: Refer `getExpiryDateInternal` in protocol
   // https://github.com/neptune-mutual-blue/protocol/blob/a98fcce3657d80814f2aca67a4a8a3534ff8da2d/contracts/libraries/CoverUtilV1.sol#L599-L613
   if (day >= 25) {
     return [
@@ -226,7 +227,7 @@ export const PurchasePolicyForm = ({
           className='mb-44'
         />
 
-        <BackButton className='mx-auto' onClick={() => router.back()} />
+        <BackButton className='mx-auto' onClick={() => { return router.back() }} />
       </div>
     )
   }
@@ -392,7 +393,7 @@ export const PurchasePolicyForm = ({
                 if (formSteps === 1) {
                   !isValidReferralCode && setReferralCode('')
                 }
-                setFormSteps((prev) => prev + 1)
+                setFormSteps((prev) => { return prev + 1 })
               }}
               data-testid='form-steps-button'
             >
@@ -408,7 +409,7 @@ export const PurchasePolicyForm = ({
 
             {formSteps === 0 && (
               <OutlinedButton
-                onClick={() => router.back()}
+                onClick={() => { return router.back() }}
                 className={classNames('text-[#01052D] hover:text-[#01052D] flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center ml-4 mt-2 md:mt-0 bg-E6EAEF border-none hover:bg-E6EAEF focus-visible:ring-E6EAEF ')}
               >
                 <Trans>Cancel</Trans>
@@ -418,7 +419,7 @@ export const PurchasePolicyForm = ({
             {formSteps > 0 && (
               <BackButton
                 className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase ml-4 mt-2 md:mt-0')}
-                onClick={() => setFormSteps((prev) => prev - 1)}
+                onClick={() => { return setFormSteps((prev) => { return prev - 1 }) }}
               />)}
 
           </div>

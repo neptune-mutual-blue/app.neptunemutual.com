@@ -34,7 +34,8 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
       !debouncedValue ||
       !isValidNumber(debouncedValue)
     ) {
-      if (receiveAmount !== '0') setReceiveAmount('0')
+      if (receiveAmount !== '0') { setReceiveAmount('0') }
+
       return
     }
 
@@ -74,7 +75,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
           args
         })
 
-        if (ignore) return
+        if (ignore) { return }
         setReceiveAmount(convertFromUnits(podAmount, tokenDecimals).toString())
         cleanup()
       } catch (err) {

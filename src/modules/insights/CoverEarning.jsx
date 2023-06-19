@@ -11,7 +11,7 @@ function CoverEarning ({ labels, yAxisData, loading }) {
       labels={labels}
       yAxisData={yAxisData}
       loading={loading}
-      formatTooltipLabel={val => formatCurrency(val, locale).long}
+      formatTooltipLabel={val => { return formatCurrency(val, locale).long }}
     />
   )
 }

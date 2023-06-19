@@ -11,8 +11,6 @@ export function CoveredProducts ({ products }) {
   const [showModal, setShowModal] = useState(false)
   const [selectedProductData, setSelectedProductData] = useState()
 
-  console.log(products)
-
   return (
     <Container
       className='flex flex-col py-9'
@@ -23,17 +21,19 @@ export function CoveredProducts ({ products }) {
           <Trans>Products Covered Under This Pool</Trans>
         </h4>
         <div className='grid grid-cols-1 xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2'>
-          {products.map((productData) => (
-            <Product
-              productName={productData?.productInfoDetails?.productName}
-              key={productData.productKey}
-              productKey={productData.productKey}
-              onClick={() => {
-                setSelectedProductData(productData)
-                setShowModal(true)
-              }}
-            />
-          ))}
+          {products.map((productData) => {
+            return (
+              <Product
+                productName={productData?.productInfoDetails?.productName}
+                key={productData.productKey}
+                productKey={productData.productKey}
+                onClick={() => {
+                  setSelectedProductData(productData)
+                  setShowModal(true)
+                }}
+              />
+            )
+          })}
         </div>
       </div>
       {showModal && selectedProductData && (
@@ -48,6 +48,7 @@ export function CoveredProducts ({ products }) {
 
 function Product ({ productKey, productName, onClick }) {
   const imgSrc = getCoverImgSrc({ key: productKey })
+
   return (
     <div
       className='flex flex-col items-center justify-start pb-8'

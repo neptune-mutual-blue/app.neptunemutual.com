@@ -16,6 +16,7 @@ export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
       {DateLib.toLongDateFormat(endDate, router.locale)}
     </>
   )
+
   return (
     <div className='flex items-center mb-2'>
       <p className='text-sm font-bold'>{fromNow(endDate)}</p>

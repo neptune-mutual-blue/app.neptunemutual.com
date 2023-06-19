@@ -35,7 +35,7 @@ describe('useValidateReferralCode', () => {
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
-      [mockProps.referralCode, () => jest.fn()],
+      [mockProps.referralCode, () => { return jest.fn() }],
       true
     )
 
@@ -49,7 +49,7 @@ describe('useValidateReferralCode', () => {
 
     const { result } = await renderHookWrapper(
       useValidateReferralCode,
-      [mockProps.referralCode, () => jest.fn()],
+      [mockProps.referralCode, () => { return jest.fn() }],
       true
     )
 

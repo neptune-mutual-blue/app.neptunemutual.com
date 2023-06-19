@@ -9,7 +9,7 @@ BigNumber.config({
 
 export const ZERO_BI = new BigNumber('0')
 
-export const toBN = (x) => new BigNumber(x?.toString() || '0')
+export const toBN = (x) => { return new BigNumber(x?.toString() || '0') }
 
 export const toBNSafe = (x) => {
   try {
@@ -33,6 +33,7 @@ export const isValidNumber = (x) => {
   }
 
   const y = new BigNumber(x)
+
   return BigNumber.isBigNumber(y)
 }
 
@@ -59,7 +60,7 @@ export const sumOf = (...amounts) => {
   let sum = new BigNumber('0')
 
   amounts.forEach((amount) => {
-    if (!amount || amount.toString() === 'NaN' || !hasValue(amount)) return
+    if (!amount || amount.toString() === 'NaN' || !hasValue(amount)) { return }
 
     try {
       sum = sum.plus(amount.toString())
@@ -85,6 +86,7 @@ export const sort = (amounts, selector, reverse = false) => {
     if (bigA.isGreaterThan(bigB)) {
       return reverse ? -1 : 1
     }
+
     // a must be equal to b
     return 0
   })

@@ -169,17 +169,15 @@ const select = (container, type) => {
 
 const getValues = (container, type) => {
   if (type === SELECTION.TITLE) {
-    return select(container, type).map((el) => el.textContent)
+    return select(container, type).map((el) => { return el.textContent })
   }
 
   if (type === SELECTION.TVL) {
-    return select(container, type).map((el) =>
-      parseFloat(el.textContent.slice(1))
+    return select(container, type).map((el) => { return parseFloat(el.textContent.slice(1)) }
     )
   }
 
-  return select(container, type).map((el) =>
-    parseFloat(el.textContent.slice('APR: '.length))
+  return select(container, type).map((el) => { return parseFloat(el.textContent.slice('APR: '.length)) }
   )
 }
 

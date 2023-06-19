@@ -24,14 +24,14 @@ describe('usePodStakingPools', () => {
     mockGlobals.fetch()
     const { result, act } = await renderHookWrapper(usePodStakingPools)
 
-    await act(async () => await result.handleShowMore())
+    await act(async () => { return await result.handleShowMore() })
 
     mockGlobals.fetch().unmock()
   })
 
   describe('Edge cases coverage', () => {
     test('should set hasMore to false if networkId', async () => {
-      mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+      mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
       const { result } = await renderHookWrapper(usePodStakingPools, [], true)
       expect(result.hasMore).toEqual(false)

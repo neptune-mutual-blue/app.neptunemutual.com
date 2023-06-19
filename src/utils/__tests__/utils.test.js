@@ -25,7 +25,7 @@ describe('Sort testing', () => {
     ]
 
     const result = sorter({
-      selector: (data) => data.letter,
+      selector: (data) => { return data.letter },
       datatype: SORT_DATA_TYPES.STRING,
       list: testData.slice(0)
     })
@@ -43,7 +43,7 @@ describe('Sort testing', () => {
     ]
 
     const result = sorter({
-      selector: (data) => data.number,
+      selector: (data) => { return data.number },
       datatype: SORT_DATA_TYPES.BIGNUMBER,
       list: testData.slice(0)
     })
@@ -53,7 +53,7 @@ describe('Sort testing', () => {
 })
 
 describe('Class assignment', () => {
-  const oldClassname = (...classes) => classes.filter(Boolean).join(' ')
+  const oldClassname = (...classes) => { return classes.filter(Boolean).join(' ') }
 
   test('Backward compatibility class assignment', () => {
     const classList = classNames('test1 test2', 'test3')

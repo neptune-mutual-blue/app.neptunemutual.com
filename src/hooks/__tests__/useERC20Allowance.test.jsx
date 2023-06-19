@@ -85,10 +85,12 @@ describe('useERC20Allowance', () => {
     })
 
     test('should return when error in fetchAllowance function', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        contractRead: () => Promise.reject(new Error('Error in contractRead'))
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          contractRead: () => { return Promise.reject(new Error('Error in contractRead')) }
+        }
+      })
       const { result, act } = await renderHookWrapper(useERC20Allowance, args)
 
       await act(async () => {
@@ -114,10 +116,12 @@ describe('useERC20Allowance', () => {
     })
 
     test('should return when no allowance returned from contractRead function', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        contractRead: () => Promise.resolve(null)
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          contractRead: () => { return Promise.resolve(null) }
+        }
+      })
 
       const { result, act } = await renderHookWrapper(useERC20Allowance, args)
 

@@ -32,6 +32,7 @@ export function useFetch (label) {
       } catch (e) {
         if (isAbortedRequest(e)) {
           console.log(`Aborted Request: ${label}`)
+
           return
         }
 

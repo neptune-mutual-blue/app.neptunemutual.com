@@ -65,14 +65,18 @@ export const CoverAvatar = ({
                       sizeClasses.diversifiedImg
                     )}
                     data-testid='cover-img'
-                    onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
+                    onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
                   />
                 </div>
               )
             })}
 
             {imgs.length > 3 && (
-              <p className='ml-2 text-xs opacity-40 text-01052D'>
+              <p className={classNames(
+                'text-xs opacity-40 text-01052D',
+                size === 'xs' ? 'ml-6' : 'ml-2'
+              )}
+              >
                 +{imgs.length - 3} MORE
               </p>
             )}
@@ -90,7 +94,7 @@ export const CoverAvatar = ({
               alt={imgs[0].alt}
               className={classNames('inline-block', sizeClasses.dedicatedImg)}
               data-testid='cover-img'
-              onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
+              onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
             />
           </div>
           )}

@@ -7,19 +7,25 @@ import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 describe('ResolvedReportingPage test', () => {
   const push = jest.fn()
   const initialMocks = () => {
-    mockHooksOrMethods.useRouter(() => ({
-      ...testData.router,
-      push
-    }))
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        push
+      }
+    })
     mockHooksOrMethods.useNetwork()
     mockHooksOrMethods.useResolvedReportings()
-    mockHooksOrMethods.useSortableStats(() => ({
-      getStatsByKey: () => ({
-        resolvedOn: '1686050060',
-        text: 'Coinbase (Non US)'
-      }),
-      setStatsByKey: jest.fn
-    }))
+    mockHooksOrMethods.useSortableStats(() => {
+      return {
+        getStatsByKey: () => {
+          return {
+            resolvedOn: '1686050060',
+            text: 'Coinbase (Non US)'
+          }
+        },
+        setStatsByKey: jest.fn
+      }
+    })
   }
 
   const { initialRender } = initiateTest(

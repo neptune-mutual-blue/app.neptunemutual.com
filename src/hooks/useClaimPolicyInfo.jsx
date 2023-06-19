@@ -82,7 +82,7 @@ export const useClaimPolicyInfo = ({
 
   // Update receive amount
   useEffect(() => {
-    if (!value) return
+    if (!value) { return }
 
     const cxTokenAmount = convertToUnits(value).toString()
 
@@ -113,6 +113,7 @@ export const useClaimPolicyInfo = ({
   const handleApprove = async () => {
     if (!networkId || !account || !cxTokenAddress) {
       requiresAuth()
+
       return
     }
 
@@ -208,6 +209,7 @@ export const useClaimPolicyInfo = ({
   const handleClaim = async (onTxSuccess) => {
     if (!networkId || !account || !cxTokenAddress) {
       requiresAuth()
+
       return
     }
 
@@ -328,6 +330,7 @@ export const useClaimPolicyInfo = ({
   useEffect(() => {
     if (!value && error) {
       setError('')
+
       return
     }
 
@@ -337,16 +340,19 @@ export const useClaimPolicyInfo = ({
 
     if (!account) {
       setError(t`Please connect your wallet`)
+
       return
     }
 
     if (!isValidNumber(value)) {
       setError(t`Invalid amount to claim`)
+
       return
     }
 
     if (isGreater(convertToUnits(value), balance || '0')) {
       setError(t`Insufficient Balance`)
+
       return
     }
 

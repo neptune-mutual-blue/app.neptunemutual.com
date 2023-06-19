@@ -36,7 +36,7 @@ describe('Transaction History', () => {
 
     const pendingList = LSHistory.getAllPending()
 
-    const hashListOfPending = pendingList.map(({ hash }) => hash)
+    const hashListOfPending = pendingList.map(({ hash }) => { return hash })
 
     expect(pendingList.length).toBe(1)
     expect(hashListOfPending).toContain(item.hash)
@@ -58,11 +58,11 @@ describe('Transaction History', () => {
       const listOfHistory = LSHistory.get(1)
 
       const listOfSuccessfullHistory = listOfHistory.data.filter(
-        ({ status }) => status === STATUS.SUCCESS
+        ({ status }) => { return status === STATUS.SUCCESS }
       )
 
       const hashOfHistoryList = listOfSuccessfullHistory.map(
-        ({ hash }) => hash
+        ({ hash }) => { return hash }
       )
 
       expect(hashOfHistoryList.length).toBe(1)
@@ -80,11 +80,11 @@ describe('Transaction History', () => {
       const listOfHistory = LSHistory.get(1)
 
       const listOfSuccessfullHistory = listOfHistory.data.filter(
-        ({ status }) => status === STATUS.FAILED
+        ({ status }) => { return status === STATUS.FAILED }
       )
 
       const hashOfHistoryList = listOfSuccessfullHistory.map(
-        ({ hash }) => hash
+        ({ hash }) => { return hash }
       )
 
       expect(hashOfHistoryList.length).toBe(1)
@@ -160,7 +160,7 @@ describe('Transaction History', () => {
     const failure = jest.fn(() => {})
 
     test('Should get 9 pending', () => {
-      items.forEach((item) => TransactionHistory.push(item))
+      items.forEach((item) => { return TransactionHistory.push(item) })
 
       const pending = LSHistory.getAllPending()
 

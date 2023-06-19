@@ -25,10 +25,12 @@ describe('CoverAddLiquidityPage.test', () => {
   })
 
   test('should show add liquidity form after accepting rules', async () => {
-    mockHooksOrMethods.useCoversAndProducts2(() => ({
-      ...testData.coversAndProducts2,
-      getCoverByCoverKey: () => ({ ...testData.coversAndProducts2.getCoverByCoverKey(), productStatus: 0 })
-    }))
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return {
+        ...testData.coversAndProducts2,
+        getCoverByCoverKey: () => { return { ...testData.coversAndProducts2.getCoverByCoverKey(), productStatus: 0 } }
+      }
+    })
     const { getByTestId } = render(<CoverAddLiquidityDetailsPage />)
 
     await waitFor(() => {
@@ -45,10 +47,12 @@ describe('CoverAddLiquidityPage.test', () => {
   })
 
   test('should show loading skeleton when loading ', async () => {
-    mockHooksOrMethods.useCoversAndProducts2(() => ({
-      ...testData.coversAndProducts2,
-      loading: true
-    }))
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return {
+        ...testData.coversAndProducts2,
+        loading: true
+      }
+    })
 
     const { queryByTestId } = render(<CoverAddLiquidityDetailsPage />)
 
@@ -58,10 +62,12 @@ describe('CoverAddLiquidityPage.test', () => {
   })
 
   test('should show "No Data Found" when cover data is null', async () => {
-    mockHooksOrMethods.useCoversAndProducts2(() => ({
-      ...testData.coversAndProducts2,
-      getCoverByCoverKey: () => null
-    }))
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return {
+        ...testData.coversAndProducts2,
+        getCoverByCoverKey: () => { return null }
+      }
+    })
 
     const { queryByText } = render(<CoverAddLiquidityDetailsPage />)
 

@@ -53,7 +53,7 @@ export const AbnormalCoverStatus = ({
 
       <RegularButton
         className='w-full p-4 mt-8 uppercase rounded-big'
-        onClick={() => router.push(href)}
+        onClick={() => { return router.push(href) }}
       >
         View Reporting
       </RegularButton>

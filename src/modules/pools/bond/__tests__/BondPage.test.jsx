@@ -30,7 +30,7 @@ async function mockFetch (url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async () => contracts
+      json: async () => { return contracts }
     }
   }
 
@@ -38,7 +38,7 @@ async function mockFetch (url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async () => pricing
+      json: async () => { return pricing }
     }
   }
 
@@ -46,7 +46,7 @@ async function mockFetch (url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async () => bondInfo
+      json: async () => { return bondInfo }
     }
   }
 
@@ -55,7 +55,7 @@ async function mockFetch (url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async () => pools
+        json: async () => { return pools }
       }
     }
 
@@ -63,7 +63,7 @@ async function mockFetch (url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async () => covers
+        json: async () => { return covers }
       }
     }
   }
@@ -83,8 +83,7 @@ describe('BondPage', () => {
     const Component = withProviders(BondPage, router)
     const { getByTestId } = render(<Component />)
 
-    const CoverOptionActions = await waitFor(() =>
-      getByTestId('bond-amount-input')
+    const CoverOptionActions = await waitFor(() => { return getByTestId('bond-amount-input') }
     )
 
     expect(CoverOptionActions).toBeInTheDocument()

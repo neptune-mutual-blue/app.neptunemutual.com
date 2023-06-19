@@ -65,6 +65,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
   useEffect(() => {
     if (!value && error) {
       setError('')
+
       return
     }
 
@@ -74,11 +75,13 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
 
     if (isGreater(convertToUnits(value), balance)) {
       setError(t`Exceeds maximum balance`)
+
       return
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
       setError(t`Insufficient Balance`)
+
       return
     }
 
@@ -108,6 +111,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
   const handleReport = (onTxSuccess) => {
     if (votingType === 'false-reporting') {
       handleRefute()
+
       return
     }
     handleAttest(onTxSuccess)
@@ -208,7 +212,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                 : (
                   <RegularButton
                     className='flex-auto w-full py-6 font-semibold uppercase lg:w-64 whitespace-nowrap text-EEEEEE'
-                    onClick={() => handleReport(() => setValue(''))}
+                    onClick={() => { return handleReport(() => { return setValue('') }) }}
                     disabled={
                     isError ||
                     voting ||

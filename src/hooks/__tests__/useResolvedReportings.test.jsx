@@ -41,7 +41,7 @@ describe('useResolvedReportings', () => {
   test('should not set hasMore to false if not lastpage', async () => {
     const mockData = {
       data: {
-        incidentReports: Array.from({ length: CARDS_PER_PAGE }).map((_, i) => ({ id: i }))
+        incidentReports: Array.from({ length: CARDS_PER_PAGE }).map((_, i) => { return { id: i } })
       }
     }
     mockGlobals.fetch(true, undefined, mockData)

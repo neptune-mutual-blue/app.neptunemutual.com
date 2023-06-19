@@ -22,10 +22,12 @@ import {
   PREMATURE_UNLOCK_PENALTY_FRACTION,
   WEEKS
 } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
+import { useVoteEscrowLock } from '@/src/hooks/contracts/useVoteEscrowLock'
 import {
   convertFromUnits,
   convertToUnits,
@@ -62,24 +64,32 @@ const VoteEscrow = () => {
 
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol, NPMTokenAddress } = useAppConstants()
+  const veNPMTokenSymbol = ChainConfig[networkId].veNPM.tokenSymbol
+  const veNPMTokenDecimals = ChainConfig[networkId].veNPM.tokenDecimals
+  const veNPMTokenAddress = ChainConfig[networkId].veNPM.address
   const { isMobile } = useDeviceSize()
 
   const {
     data,
-    lock,
-    unlock: unlockNPMTokens,
-    actionLoading,
+    // loading,
+    refetch: refetchLockData
+  } = useVoteEscrowData()
+  const {
+    canLock,
+    data: { npmBalance },
     loadingAllowance,
     loadingBalance,
-    canLock,
-    handleApprove,
-    hasUnlockAllowance,
-    handleApproveUnlock
-  } = useVoteEscrowData()
-
-  const canUnlock = toBN(data.veNPMBalance).isGreaterThan(0)
-
-  const allowanceExists = canLock(input || '0')
+    lock,
+    locking,
+    approving,
+    handleApprove
+  } = useVoteEscrowLock({
+    refetchLockData,
+    lockAmountInUnits: convertToUnits(input || '0', NPMTokenDecimals),
+    veNPMTokenAddress,
+    NPMTokenAddress,
+    NPMTokenSymbol
+  })
 
   const oldLockDurationBN = toBNSafe(data.unlockTimestamp).isGreaterThan(DateLib.unix())
     ? toBNSafe(data.unlockTimestamp).minus(DateLib.unix()) // to duration left
@@ -106,17 +116,19 @@ const VoteEscrow = () => {
   const votingPower = toBN(boost).multipliedBy(newLockedNpm)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
+  const canUnlock = toBN(data.veNPMBalance).isGreaterThan(0)
   if (unlock) {
     return (
       <UnlockEscrow
-        hasUnlockAllowance={hasUnlockAllowance}
-        handleApproveUnlock={handleApproveUnlock}
-        loading={actionLoading}
-        data={data}
-        unlockNPMTokens={unlockNPMTokens}
+        veNPMBalance={data.veNPMBalance}
+        veNPMTokenAddress={veNPMTokenAddress}
+        veNPMTokenSymbol={veNPMTokenSymbol}
+        veNPMTokenDecimals={veNPMTokenDecimals}
+        unlockTimestamp={data.unlockTimestamp}
         onBack={() => {
           setUnlock(false)
         }}
+        refetchLockData={refetchLockData}
       />
     )
   }
@@ -128,12 +140,12 @@ const VoteEscrow = () => {
   }
 
   const handleChange = (val) => {
-    if (typeof val === 'string') setInput(val)
+    if (typeof val === 'string') { setInput(val) }
   }
 
   const handleMax = () => {
-    if (toBN(data.npmBalance).isGreaterThan(0)) {
-      setInput(convertFromUnits(data.npmBalance, NPMTokenDecimals).toString())
+    if (toBN(npmBalance).isGreaterThan(0)) {
+      setInput(convertFromUnits(npmBalance, NPMTokenDecimals).toString())
     }
   }
 
@@ -158,29 +170,31 @@ const VoteEscrow = () => {
     loadingMessage = t`Fetching allowance...`
   }
 
-  const buttonDisabled = !!loadingMessage || !(agreed && !actionLoading && ((!extend && input) || extend))
+  const buttonDisabled = locking || !!loadingMessage || !(agreed && ((!extend && input) || extend))
 
-  const LabelComponent = () => (
-    <div className='flex items-center justify-between mt-6 mb-4'>
-      <div className='font-semibold text-md'>NPM to Lock</div>
-      <div className='flex items-center text-sm'>
-        <Checkbox
-          disabled={!canUnlock}
-          checked={extend}
-          onChange={(e) => {
-            setExtend(e.target.checked)
-            if (e.target.checked) {
-              setInput('')
-            }
-          }}
-          className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox'
-          labelClassName='ml-1'
-        >
-          Extend Only
-        </Checkbox>
+  const LabelComponent = () => {
+    return (
+      <div className='flex items-center justify-between mt-6 mb-4'>
+        <div className='font-semibold text-md'>NPM to Lock</div>
+        <div className='flex items-center text-sm'>
+          <Checkbox
+            disabled={!canUnlock}
+            checked={extend}
+            onChange={(e) => {
+              setExtend(e.target.checked)
+              if (e.target.checked) {
+                setInput('')
+              }
+            }}
+            className='w-4 h-4 m-0 border-gray-300 border-1 rounded-1' id='extend-checkbox'
+            labelClassName='ml-1'
+          >
+            Extend Only
+          </Checkbox>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <div className='max-w-[990px] mx-auto'>
@@ -208,6 +222,7 @@ const VoteEscrow = () => {
           <EscrowSummary
             className='bg-F3F5F7'
             veNPMBalance={data.veNPMBalance}
+            veNPMTokenSymbol={veNPMTokenSymbol}
             unlockTimestamp={data.unlockTimestamp}
           />
 
@@ -219,7 +234,7 @@ const VoteEscrow = () => {
             tokenAddress={NPMTokenAddress}
             tokenSymbol={NPMTokenSymbol}
             tokenDecimals={NPMTokenDecimals}
-            tokenBalance={data.npmBalance || '0'}
+            tokenBalance={npmBalance || '0'}
             inputId='npm-amount'
             inputValue={input}
             disabled={extend}
@@ -280,7 +295,7 @@ const VoteEscrow = () => {
 
             <DataLoadingIndicator message={loadingMessage} />
 
-            {allowanceExists && (
+            {canLock && (
               <RegularButton
                 disabled={buttonDisabled}
                 onClick={() => {
@@ -292,7 +307,7 @@ const VoteEscrow = () => {
               </RegularButton>
             )}
 
-            {!allowanceExists && (
+            {!canLock && (
               <RegularButton
                 disabled={buttonDisabled}
                 onClick={() => {
@@ -300,11 +315,11 @@ const VoteEscrow = () => {
                 }}
                 className='w-full p-4 font-semibold uppercase rounded-tooltip text-md'
               >
-                {actionLoading
-                  ? (
-                      t`Approving...`
-                    )
-                  : <Trans>Approve {NPMTokenSymbol}</Trans>}
+                {
+                  approving
+                    ? t`Approving...`
+                    : <Trans>Approve {NPMTokenSymbol}</Trans>
+                }
               </RegularButton>
             )}
             <KeyValueList

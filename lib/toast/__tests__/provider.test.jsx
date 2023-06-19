@@ -27,7 +27,7 @@ import { useEffect } from 'react'
  */
 const eventListener = {
   listen: (_data) => {},
-  emit: (data) => eventListener.listen(data)
+  emit: (data) => { return eventListener.listen(data) }
 }
 
 function CustomChildren () {

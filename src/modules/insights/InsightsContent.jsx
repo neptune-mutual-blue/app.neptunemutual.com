@@ -76,11 +76,13 @@ const AllDropdownOptions = {
 
 const dropdownLabels = [AllDropdownOptions.GROWTH, AllDropdownOptions.OTHER_INSIGHTS]
 
-const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
-  label: value, value: value, type: dropdownLabels.includes(value) ? 'label' : 'option'
-}))
+const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => {
+  return {
+    label: value, value: value, type: dropdownLabels.includes(value) ? 'label' : 'option'
+  }
+})
 
-const FALLBACK_SELECTION = DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TOTAL_CAPACITY)
+const FALLBACK_SELECTION = DROPDOWN_OPTIONS.find((option) => { return option.value === AllDropdownOptions.TOTAL_CAPACITY })
 
 export const InsightsContent = () => {
   const [selected, setSelected] = useLocalStorage('current-insights', FALLBACK_SELECTION)
@@ -175,8 +177,7 @@ export const InsightsContent = () => {
     if (selected.value === AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION) {
       fetchTopAccountsByProtection()
     }
-
-    /* eslint-disable-next-line */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected.value])
 
   const ReportLabels = (
@@ -187,12 +188,14 @@ export const InsightsContent = () => {
 
   const { networkId } = useNetwork()
 
-  const RoiByCoverChainIds = historicalDataByCover ? Array.from(new Set(historicalDataByCover.map(entry => entry.chainId))) : []
+  const RoiByCoverChainIds = historicalDataByCover ? Array.from(new Set(historicalDataByCover.map(entry => { return entry.chainId }))) : []
 
-  const chains = RoiByCoverChainIds.map(chainId => ({
-    label: ShortNetworkNames[chainId],
-    value: chainId
-  }))
+  const chains = RoiByCoverChainIds.map(chainId => {
+    return {
+      label: ShortNetworkNames[chainId],
+      value: chainId
+    }
+  })
 
   const [selectedChain, setSelectedChain] = useState()
 
@@ -221,8 +224,8 @@ export const InsightsContent = () => {
       case AllDropdownOptions.TOP_ACCOUNTS:
         return (
           <PreviousNext
-            onNext={() => setCurrentPage(currentPage + 1)}
-            onPrevious={() => setCurrentPage(currentPage - 1)}
+            onNext={() => { return setCurrentPage(currentPage + 1) }}
+            onPrevious={() => { return setCurrentPage(currentPage - 1) }}
             hasNext={currentPage < (Math.abs(protectionTopAccounts.length / TOP_ACCOUNTS_ROWS_PER_PAGE))}
             hasPrevious={currentPage > 1}
           />
@@ -270,9 +273,6 @@ export const InsightsContent = () => {
             <InsightsQuickInfoTable />
           </>
         )
-
-      case AllDropdownOptions.DEMAND:
-        return <TotalCapacityChart data={totalCovered} />
 
       case AllDropdownOptions.HISTORICAL_ROI:
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
@@ -339,6 +339,9 @@ export const InsightsContent = () => {
 
       case AllDropdownOptions.TOTAL_CAPACITY:
         return <TotalCapacityChart data={totalCapacity} />
+
+      case AllDropdownOptions.DEMAND:
+        return <TotalCapacityChart data={totalCovered} />
 
       case AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION:
         return <TopAccountsByProtection userData={protectionTopAccounts} loading={protectionTopAccountsLoading} page={currentPage} />

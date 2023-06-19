@@ -66,7 +66,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
         args
       })
 
-      if (!isMounted()) return
+      if (!isMounted()) { return }
       setReceiveAmount(liquidityAmount)
       cleanup()
     } catch (err) {

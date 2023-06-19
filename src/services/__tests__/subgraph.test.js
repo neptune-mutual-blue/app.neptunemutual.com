@@ -45,11 +45,12 @@ describe('getSubgraphData test', () => {
     test('Should return null when reponse is not ok', async () => {
       mockHooksOrMethods.getGraphURL()
 
-      global.fetch = jest.fn(() =>
-        Promise.resolve({
-          json: () => Promise.resolve({ data: true }),
+      global.fetch = jest.fn(() => {
+        return Promise.resolve({
+          json: () => { return Promise.resolve({ data: true }) },
           ok: false
         })
+      }
       )
 
       const data = await getSubgraphData('valid', {})
@@ -59,11 +60,12 @@ describe('getSubgraphData test', () => {
     test("Should return null when there's an error", async () => {
       mockHooksOrMethods.getGraphURL()
 
-      global.fetch = jest.fn(() =>
-        Promise.resolve({
-          json: () => Promise.resolve({ errors: true }),
+      global.fetch = jest.fn(() => {
+        return Promise.resolve({
+          json: () => { return Promise.resolve({ errors: true }) },
           ok: true
         })
+      }
       )
 
       const data = await getSubgraphData('valid', {})

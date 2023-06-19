@@ -10,7 +10,7 @@ export const ReportingInfo = ({ ipfsHash }) => {
     utils.ipfs
       .read(ipfsHash)
       .then((x) => {
-        if (ignore) return
+        if (ignore) { return }
         setData(x)
       })
       .catch(console.error)

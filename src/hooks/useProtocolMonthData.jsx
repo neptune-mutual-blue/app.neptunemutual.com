@@ -11,13 +11,13 @@ export const useProtocolMonthData = (cache = true) => {
   const { networkId } = useNetwork()
 
   const fetchData = () => {
-    if ((cache && fetched.current) || loading) return
+    if ((cache && fetched.current) || loading) { return }
 
     setLoading(true)
 
     getGroupedProtocolMonthData(networkId)
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         setData(_data)
 

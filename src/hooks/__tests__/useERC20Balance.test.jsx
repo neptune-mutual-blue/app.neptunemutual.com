@@ -54,10 +54,12 @@ describe('useERC20Balance', () => {
 
     test('returned error from contractRead function', async () => {
       mockSdk.registry.IERC20.getInstance()
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        contractRead: () => Promise.reject(new Error('Something went wrong'))
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          contractRead: () => { return Promise.reject(new Error('Something went wrong')) }
+        }
+      })
 
       const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
       await renderHookWrapper(useERC20Balance, args)
@@ -65,10 +67,12 @@ describe('useERC20Balance', () => {
     })
 
     test('returned no result from contractRead function', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        contractRead: () => Promise.resolve(null)
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          contractRead: () => { return Promise.resolve(null) }
+        }
+      })
 
       const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
       await renderHookWrapper(useERC20Balance, args)
@@ -86,10 +90,12 @@ describe('useERC20Balance', () => {
     })
 
     test('returned no result from contractRead function when refetching', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        contractRead: () => Promise.resolve(null)
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          contractRead: () => { return Promise.resolve(null) }
+        }
+      })
 
       const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']
       const { result, act } = await renderHookWrapper(useERC20Balance, args)

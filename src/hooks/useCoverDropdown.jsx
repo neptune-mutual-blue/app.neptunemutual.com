@@ -6,7 +6,7 @@ export function useCoverDropdown () {
   const { loading, getAllProducts } = useCoversAndProducts2()
 
   const covers = useMemo(() => {
-    return getAllProducts().map(x => ({ ...x, id: x.coverKey + (x.productKey || '') }))
+    return getAllProducts().map(x => { return { ...x, id: x.coverKey + (x.productKey || '') } })
   }, [getAllProducts])
 
   useEffect(() => {

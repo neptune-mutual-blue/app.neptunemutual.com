@@ -49,7 +49,7 @@ export const CurrencyInput = forwardRef(
     ref
   ) => {
     const localeConfig = useMemo(
-      () => getLocaleConfig(intlConfig),
+      () => { return getLocaleConfig(intlConfig) },
       [intlConfig]
     )
     const decimalSeparator =
@@ -139,6 +139,7 @@ export const CurrencyInput = forwardRef(
             value: ''
           })
         setStateValue(stringValue)
+
         return
       }
 
@@ -188,6 +189,7 @@ export const CurrencyInput = forwardRef(
      */
     const handleOnFocus = (event) => {
       onFocus && onFocus(event)
+
       return stateValue ? stateValue.length : 0
     }
 
@@ -206,6 +208,7 @@ export const CurrencyInput = forwardRef(
       if (valueOnly === '-' || !valueOnly) {
         setStateValue('')
         onBlur && onBlur(event)
+
         return
       }
 
@@ -370,6 +373,7 @@ export const CurrencyInput = forwardRef(
 
     if (customInput) {
       const CustomInput = customInput
+
       return <CustomInput {...inputProps} />
     }
 

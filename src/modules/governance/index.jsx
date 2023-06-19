@@ -11,10 +11,10 @@ import { AccountDetail } from '@/modules/governance/AccountDetail'
 import LiquidityGauge from '@/modules/governance/LiquidityGauge'
 import { ProposalDetailCard } from '@/modules/governance/ProposalDetailCard'
 import ProposalSkeleton from '@/modules/governance/ProposalSkeleton'
+import { EMISSION_PER_EPOCH } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useSnapshotProposalById } from '@/src/hooks/useSnapshotProposalById'
 import {
-  convertToUnits,
   sumOf,
   toBN
 } from '@/utils/bn'
@@ -28,8 +28,6 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-
-const EMISSION_PER_EPOCH = convertToUnits(150_000, 18).toString()
 
 export const GovernanceSinglePage = () => {
   const router = useRouter()
@@ -54,7 +52,7 @@ export const GovernanceSinglePage = () => {
 
     const filteredResults = getResultsByChains(getVotingResults(proposalDetail.choices, proposalDetail.scores), selectedChains)
 
-    const percentSum = sumOf(...filteredResults.map(x => x.percent))
+    const percentSum = sumOf(...filteredResults.map(x => { return x.percent }))
     const emissionOfSelectedChains = toBN(EMISSION_PER_EPOCH).multipliedBy(percentSum).toString()
 
     const distribution = filteredResults.map(result => {

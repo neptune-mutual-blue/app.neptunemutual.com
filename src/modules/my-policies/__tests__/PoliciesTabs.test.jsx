@@ -9,7 +9,7 @@ import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const props = {
   active: 'active',
-  children: () => <></>,
+  children: () => { return <></> },
   heroStatValue: '10000',
   heroStatTitle: 'Total Active Protection'
 }
@@ -50,7 +50,7 @@ describe('PoliciesTab test', () => {
   })
 
   test('should not render the herostat value when wallet is not connected', () => {
-    mockHooksOrMethods.useWeb3React(() => ({ ...testData.account, account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { ...testData.account, account: null } })
     rerenderFn()
 
     const value = formatCurrency(

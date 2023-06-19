@@ -14,6 +14,7 @@ import {
   getSnapshotApiURL,
   getTagFromTitle
 } from '@/utils/snapshot'
+import { DEFAULT_ROWS_PER_PAGE } from '@/modules/governance/proposals-table/ProposalsTable'
 
 const getProposalsQuery = (page, rowsPerPage, titleFilter = '') => {
   const skip = (page - 1) * rowsPerPage
@@ -45,7 +46,8 @@ const getProposalsQuery = (page, rowsPerPage, titleFilter = '') => {
   `
 }
 
-const getProposalsCountQuery = () => `
+const getProposalsCountQuery = () => {
+  return `
 space(
   id: "${SNAPSHOT_SPACE_ID}"
 ) {
@@ -53,17 +55,20 @@ space(
   proposalsCount
 }
 `
+}
 
 const parseProposalsData = (data, locale) => {
-  if (!data || !Array.isArray(data?.proposals)) return []
+  if (!data || !Array.isArray(data?.proposals)) { return [] }
 
   const proposals = data.proposals.map(proposal => {
-    const scoresSum = proposal.scores.reduce((acc, curr) => acc + curr, 0)
-    const scores = proposal.scores.map((score, i) => ({
-      name: proposal.choices[i],
-      value: formatCurrency(score, locale, proposal.symbol, true).short,
-      percent: ((score / scoresSum) * 100)
-    }))
+    const scoresSum = proposal.scores.reduce((acc, curr) => { return acc + curr }, 0)
+    const scores = proposal.scores.map((score, i) => {
+      return {
+        name: proposal.choices[i],
+        value: formatCurrency(score, locale, proposal.symbol, true).short,
+        percent: ((score / scoresSum) * 100)
+      }
+    })
 
     return {
       ...proposal,
@@ -79,13 +84,14 @@ const parseProposalsData = (data, locale) => {
 
 export const useSnapshotProposals = () => {
   const [data, setData] = useState([])
+  const [lastFetchedLength, setLastFetchedLength] = useState(0)
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const { locale } = useRouter()
 
   const { networkId } = useNetwork()
 
-  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = 10, titleFilter = '', fetchCount = true }) => {
+  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = DEFAULT_ROWS_PER_PAGE, titleFilter = '', fetchCount = true }) => {
     setLoading(true)
 
     const url = getSnapshotApiURL(networkId)
@@ -110,8 +116,10 @@ export const useSnapshotProposals = () => {
       if (res.ok) {
         const jsonData = await res.json()
         if (jsonData.data) {
-          setData(parseProposalsData(jsonData.data, locale))
-          if (jsonData.data.space) setTotal(jsonData.data.space.proposalsCount)
+          const latestData = parseProposalsData(jsonData.data, locale)
+          setData(prev => { return page > 1 ? [...prev, ...latestData] : latestData })
+          setLastFetchedLength(latestData.length)
+          if (jsonData.data.space) { setTotal(jsonData.data.space.proposalsCount) }
         }
       }
     } catch (error) {
@@ -127,6 +135,7 @@ export const useSnapshotProposals = () => {
   return {
     data,
     total,
+    lastFetchedLength,
     fetchProposals,
     loading
   }

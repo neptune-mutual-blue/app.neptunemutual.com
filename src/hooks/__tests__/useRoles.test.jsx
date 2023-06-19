@@ -13,7 +13,7 @@ describe('useRoles', () => {
   mockSdk.registry.Protocol.getAddress()
 
   const mockMulticallResult = [true, false, true, true]
-  mockSdk.multicall({ all: () => Promise.resolve(mockMulticallResult) })
+  mockSdk.multicall({ all: () => { return Promise.resolve(mockMulticallResult) } })
 
   test('should return correct data', async () => {
     const { result } = await renderHookWrapper(useRoles, [], true)
@@ -25,7 +25,7 @@ describe('useRoles', () => {
   })
 
   test('should return default data if no network', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(useRoles, [])
 
@@ -38,7 +38,7 @@ describe('useRoles', () => {
   })
 
   test('should call notifyError function if error raised', async () => {
-    mockSdk.multicall({ all: () => Promise.reject(new Error('Something went wrong')) })
+    mockSdk.multicall({ all: () => { return Promise.reject(new Error('Something went wrong')) } })
 
     await renderHookWrapper(useRoles, [])
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()

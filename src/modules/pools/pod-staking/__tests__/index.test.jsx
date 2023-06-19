@@ -47,10 +47,12 @@ describe('PodStaking Page test', () => {
 
     test('should render the show more button if not loading and has more', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          hasMore: true
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            hasMore: true
+          }
+        })
       })
 
       const btn = screen.getByTestId('show-more-button')
@@ -59,11 +61,13 @@ describe('PodStaking Page test', () => {
 
     test('should show the loading grid when loading', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          data: { pools: [] },
-          loading: true
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            data: { pools: [] },
+            loading: true
+          }
+        })
       })
 
       const grid = screen.getByTestId('loading-grid')
@@ -72,10 +76,12 @@ describe('PodStaking Page test', () => {
 
     test('should render the no pools container if not loading & pool data is empty', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          data: { pools: [] }
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            data: { pools: [] }
+          }
+        })
       })
 
       const grid = screen.getByTestId('no-pools-container')
@@ -87,10 +93,12 @@ describe('PodStaking Page test', () => {
 
     test('simulating clicking show more button', () => {
       rerenderFn({}, () => {
-        mockHooksOrMethods.usePodStakingPools(() => ({
-          ...testData.podStakingPools,
-          hasMore: true
-        }))
+        mockHooksOrMethods.usePodStakingPools(() => {
+          return {
+            ...testData.podStakingPools,
+            hasMore: true
+          }
+        })
       })
 
       const btn = screen.getByTestId('show-more-button')

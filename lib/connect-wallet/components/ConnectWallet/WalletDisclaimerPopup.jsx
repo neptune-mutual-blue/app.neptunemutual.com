@@ -23,11 +23,11 @@ export const WalletDisclaimerPoup = () => {
 
   const [agreements, setAgreements] = useState({})
   const acceptDisabled = useMemo(() => {
-    return Boolean(Object.values(agreements).length !== 4 || Object.values(agreements).findIndex(e => !e) !== -1)
+    return Boolean(Object.values(agreements).length !== 4 || Object.values(agreements).findIndex(e => { return !e }) !== -1)
   }, [agreements])
 
   const approved = useMemo(() => {
-    if (!walletApprovals || !account) return false
+    if (!walletApprovals || !account) { return false }
 
     return Boolean(walletApprovals.includes(account))
   }, [walletApprovals, account])
@@ -75,7 +75,7 @@ I hereby further represent and warrant that:
   }
 
   const handleChecks = (name, e) => {
-    setAgreements(_prev => ({ ..._prev, [name]: e.target.checked }))
+    setAgreements(_prev => { return { ..._prev, [name]: e.target.checked } })
   }
 
   return (
@@ -97,7 +97,7 @@ I hereby further represent and warrant that:
           <div className='flex gap-1.5'>
             <Checkbox
               checked={agreements['not-resident-of-us'] ?? false}
-              onChange={(e) => handleChecks('not-resident-of-us', e)}
+              onChange={(e) => { return handleChecks('not-resident-of-us', e) }}
               id='not-resident-of-us'
             >
               I'm not a resident of or located in the United States of America (including its territories: American Samoa, Guam, Puerto Rico, the Northern Mariana Islands and the U.S. Virgin Islands) or any other Restricted Jurisdiction (as defined in the Terms of Service).
@@ -107,7 +107,7 @@ I hereby further represent and warrant that:
           <div className='flex gap-1.5'>
             <Checkbox
               checked={agreements['not-prohibited-person'] ?? false}
-              onChange={(e) => handleChecks('not-prohibited-person', e)}
+              onChange={(e) => { return handleChecks('not-prohibited-person', e) }}
               id='not-prohibited-person'
             >
               I'm not a Prohibited Person (as defined in the Terms of Service) nor acting on behalf of a Prohibited Person.
@@ -117,7 +117,7 @@ I hereby further represent and warrant that:
           <div className='flex gap-1.5'>
             <Checkbox
               checked={agreements['understand-the-technology'] ?? false}
-              onChange={(e) => handleChecks('understand-the-technology', e)}
+              onChange={(e) => { return handleChecks('understand-the-technology', e) }}
               id='understand-the-technology'
             >
               I fully understand the technology and financial risks associated with Neptune Mutual Protocol.
@@ -127,7 +127,7 @@ I hereby further represent and warrant that:
           <div className='flex gap-1.5'>
             <Checkbox
               checked={agreements['acknowledge-the-protocol'] ?? false}
-              onChange={(e) => handleChecks('acknowledge-the-protocol', e)}
+              onChange={(e) => { return handleChecks('acknowledge-the-protocol', e) }}
               id='acknowledge-the-protocol'
             >
               I acknowledge that Neptune Mutual Protocol, App, and related software are experimental, and that the use of experimental software may result in complete loss of my funds.

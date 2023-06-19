@@ -86,7 +86,7 @@ describe('ToastMessage', () => {
     expect(closeButton.parentElement).toBeInTheDocument()
     expect(closeButton.parentElement.tagName).toEqual('BUTTON')
 
-    await waitFor(() => expect(props.onRemove).toBeCalled())
+    await waitFor(() => { return expect(props.onRemove).toBeCalled() })
   })
 
   test('Should render ToastMessage with Info Type', () => {

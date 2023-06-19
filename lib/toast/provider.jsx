@@ -32,7 +32,7 @@ export const ToastProvider = ({ children, variant }) => {
           lifetime: lifetime || DEFAULT_INTERVAL,
           title
         }
-        setData((prevState) => [...prevState, newItem])
+        setData((prevState) => { return [...prevState, newItem] })
 
         return newItem.id
       }
@@ -50,7 +50,7 @@ export const ToastProvider = ({ children, variant }) => {
           header: header,
           type: undefined
         }
-        setData((prevState) => [...prevState, newItem])
+        setData((prevState) => { return [...prevState, newItem] })
 
         return newItem.id
       }
@@ -58,32 +58,27 @@ export const ToastProvider = ({ children, variant }) => {
     [setData]
   )
   const PushError = useCallback(
-    ({ message, title = 'Error', lifetime }) =>
-      Push(message, 'Error', lifetime, title),
+    ({ message, title = 'Error', lifetime }) => { return Push(message, 'Error', lifetime, title) },
     [Push]
   )
   const PushWarning = useCallback(
-    ({ message, title = 'Warning', lifetime }) =>
-      Push(message, 'Warning', lifetime, title),
+    ({ message, title = 'Warning', lifetime }) => { return Push(message, 'Warning', lifetime, title) },
     [Push]
   )
   const PushSuccess = useCallback(
-    ({ message, title = 'Success', lifetime }) =>
-      Push(message, 'Success', lifetime, title),
+    ({ message, title = 'Success', lifetime }) => { return Push(message, 'Success', lifetime, title) },
     [Push]
   )
   const PushInfo = useCallback(
-    ({ message, title = 'Info', lifetime }) =>
-      Push(message, 'Info', lifetime, title),
+    ({ message, title = 'Info', lifetime }) => { return Push(message, 'Info', lifetime, title) },
     [Push]
   )
   const PushLoading = useCallback(
-    ({ message, title = 'Loading', lifetime }) =>
-      Push(message, 'Loading', lifetime, title),
+    ({ message, title = 'Loading', lifetime }) => { return Push(message, 'Loading', lifetime, title) },
     [Push]
   )
   const remove = useCallback(async (id) => {
-    setData((prevState) => prevState.filter((e) => e.id !== id))
+    setData((prevState) => { return prevState.filter((e) => { return e.id !== id }) })
   }, [])
 
   const hide = useCallback(async (status) => {
@@ -91,17 +86,19 @@ export const ToastProvider = ({ children, variant }) => {
   }, [])
 
   const toastFunctions = useMemo(
-    () => ({
-      pushError: PushError,
-      pushWarning: PushWarning,
-      pushSuccess: PushSuccess,
-      pushInfo: PushInfo,
-      pushLoading: PushLoading,
-      push: Push,
-      pushCustom: PushCustom,
-      remove,
-      hide
-    }),
+    () => {
+      return {
+        pushError: PushError,
+        pushWarning: PushWarning,
+        pushSuccess: PushSuccess,
+        pushInfo: PushInfo,
+        pushLoading: PushLoading,
+        push: Push,
+        pushCustom: PushCustom,
+        remove,
+        hide
+      }
+    },
     [
       Push,
       PushCustom,

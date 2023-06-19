@@ -15,6 +15,7 @@ import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { contractRead } from '@/src/services/readContract'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -23,7 +24,7 @@ import {
 import { isGreater } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
 import { t } from '@lingui/macro'
-import { registry } from '@neptunemutual/sdk'
+import sdk, { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
 export const defaultInfo = {
@@ -66,31 +67,26 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
 
     try {
-      let data
-
-      {
-        // Get data from API if wallet's not connected
-        const response = await fetch(
-          getReplacedString(VAULT_INFO_URL, {
-            networkId,
-            coverKey,
-            account: account || ADDRESS_ONE
-          }),
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            }
+      const response = await fetch(
+        getReplacedString(VAULT_INFO_URL, {
+          networkId,
+          coverKey,
+          account: account || ADDRESS_ONE
+        }),
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
           }
-        )
-
-        if (!response.ok) {
-          return
         }
+      )
 
-        data = (await response.json()).data
+      if (!response.ok) {
+        return
       }
+
+      const data = (await response.json()).data
 
       if (!data || Object.keys(data).length === 0) {
         return
@@ -126,7 +122,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
     fetchInfo()
       .then((_info) => {
-        if (ignore || !_info) return
+        if (ignore || !_info) { return }
         setInfo(_info)
       })
       .catch(console.error)
@@ -139,7 +135,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const updateInfo = useCallback(() => {
     fetchInfo()
       .then((_info) => {
-        if (!_info) return
+        if (!_info) { return }
         setInfo(_info)
       })
       .catch(console.error)
@@ -212,17 +208,100 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
   }
 
+  const updateWithdrawalWindow = async () => {
+    const handleError = (err) => {
+      notifyError(err, t`Could not update withdrawal period`)
+    }
+
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
+
+      const instance = await registry.Reassurance.getInstance(networkId, signerOrProvider)
+
+      const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.UPDATE_WITHDRWAL_WINDOW,
+          status: STATUS.PENDING
+        })
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(METHODS.UPDATE_WITHDRWAL_WINDOW, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.UPDATE_WITHDRWAL_WINDOW, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.UPDATE_WITHDRWAL_WINDOW, STATUS.FAILED)
+              .title
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.UPDATE_WITHDRWAL_WINDOW,
+                status: STATUS.SUCCESS
+              })
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.UPDATE_WITHDRWAL_WINDOW,
+                status: STATUS.FAILED
+              })
+            }
+          }
+        )
+      }
+
+      const onRetryCancel = () => {}
+      const onError = (err) => {
+        handleError(err)
+      }
+
+      const reassuranceWeightKey = sdk.utils.keyUtil.encodeKeys(
+        ['bytes32', 'bytes32'],
+        [sdk.utils.keyUtil.PROTOCOL.NS.COVER_REASSURANCE_WEIGHT, coverKey]
+      )
+
+      const reassurancePoolWeight = await contractRead({
+        instance: await registry.Store.getInstance(networkId, signerOrProvider),
+        methodName: 'getUint',
+        onError,
+        args: [reassuranceWeightKey]
+      })
+
+      await writeContract({
+        instance,
+        methodName: 'setWeight',
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args: [coverKey, reassurancePoolWeight.toString()]
+      })
+    } catch (err) {
+      handleError(err)
+    }
+  }
+
   const now = DateLib.unix()
+
   const isWithdrawalWindowOpen =
     account &&
     isGreater(now, info.withdrawalOpen) &&
     isGreater(info.withdrawalClose, now)
 
+  const isWithdrawalWindowOutdated =
+    account &&
+    isGreater(now, info.withdrawalClose)
+
   return {
     info,
 
     isWithdrawalWindowOpen: isWithdrawalWindowOpen,
+    isWithdrawalWindowOutdated: isWithdrawalWindowOutdated,
     accrueInterest,
+    updateWithdrawalWindow,
 
     refetch: updateInfo
   }

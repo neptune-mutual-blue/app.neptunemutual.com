@@ -86,6 +86,7 @@ export const getKeys = async (chainId, poolKey, account, provider) => {
       property: 'canWithdrawFromBlockHeight',
       compute: async ({ result }) => {
         const { lastDepositHeight, lockupPeriodInBlocks } = result
+
         return lastDepositHeight.add(lockupPeriodInBlocks)
       }
     }

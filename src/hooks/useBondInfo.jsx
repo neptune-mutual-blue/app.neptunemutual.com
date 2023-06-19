@@ -95,7 +95,7 @@ export const useBondInfo = () => {
     let ignore = false
 
     fetchBondInfo((_info) => {
-      if (ignore || !_info) return
+      if (ignore || !_info) { return }
       setInfo(_info)
     }).catch(console.error)
 

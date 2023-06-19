@@ -150,9 +150,11 @@ describe('ResolveIncident loading', () => {
     i18n.activate('en')
     mockHooksOrMethods.useResolveIncident()
     // mockHooksOrMethods.useCoverOrProductData(() => null)
-    mockHooksOrMethods.useWeb3React(() => ({
-      account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
-    }))
+    mockHooksOrMethods.useWeb3React(() => {
+      return {
+        account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
+      }
+    })
   }
 
   const { initialRender, rerenderFn } = initiateTest(ResolveIncident, props, initialMocks)
@@ -193,9 +195,11 @@ describe('ResolveIncident test resolve', () => {
   const initialMocks = () => {
     i18n.activate('en')
     // mockHooksOrMethods.useCoverOrProductData()
-    mockHooksOrMethods.useWeb3React(() => ({
-      account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
-    }))
+    mockHooksOrMethods.useWeb3React(() => {
+      return {
+        account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
+      }
+    })
   }
 
   const { initialRender } = initiateTest(ResolveIncident, props, initialMocks)
@@ -228,9 +232,11 @@ describe('ResolveIncident test', () => {
     i18n.activate('en')
     mockHooksOrMethods.useResolveIncident()
     // mockHooksOrMethods.useCoverOrProductData()
-    mockHooksOrMethods.useWeb3React(() => ({
-      account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
-    }))
+    mockHooksOrMethods.useWeb3React(() => {
+      return {
+        account: '0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603'
+      }
+    })
   }
 
   const { initialRender } = initiateTest(ResolveIncident, props, initialMocks)

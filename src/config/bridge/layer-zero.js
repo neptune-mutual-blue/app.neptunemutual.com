@@ -21,6 +21,10 @@ export const MAINNET_TOKENS = {
   42161: {
     address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
     decimal: 18
+  },
+  56: {
+    address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
+    decimal: 18
   }
 }
 
@@ -33,6 +37,7 @@ export const LayerZeroChainIds = {
   97: '10102',
   // mainnet
   1: '101',
+  56: '102',
   42161: '110'
 }
 
@@ -43,10 +48,12 @@ export const BRIDGE_CONTRACTS = { // Proxy
   43113: '0xFA3E2A6bCeDd965aAB297609ACc4C85bA4901E44',
   // mainnet
   1: '0x3B8f83739f71Ec2D0229ab823E8A38b8244346D5',
-  42161: '0xd197D59e64caecce9C7dC43Cf5635A4A86694623'
+  42161: '0xd197D59e64caecce9C7dC43Cf5635A4A86694623',
+  56: '0x41A11649c8F04855ADa97B46Af72BD4dd04eE070'
 }
 
 export const GAS_LIMIT_WITHOUT_APPROVAL = 350_000
+
 export const GAS_LIMIT_WITH_APPROVAL = 300_000
 
 export const ABI = [

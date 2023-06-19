@@ -16,6 +16,7 @@ export const useChainGasPrice = () => {
     try {
       const _gasPrice = await library.getGasPrice()
       setChainGasPrice(_gasPrice.toString())
+
       return _gasPrice.toString()
     } catch (e) {
       console.error(`Error in getting current chain gas Price: ${e}`)

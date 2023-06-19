@@ -48,7 +48,7 @@ export const GaugeChart = ({
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <path d='M1 0V10' stroke='#E5E5E5' stroke-width='2' />
+      <path d='M1 0V10' stroke='#E5E5E5' strokeWidth='2' />
     </svg>
   )
 
@@ -123,22 +123,24 @@ export const GaugeChart = ({
         </div>
 
         <div className='breakpoints'>
-          {breakponts.map((breakpoint, index) => (
-            <div
-              key={breakpoint}
-              style={{
-                height: `${chartRadius - strokeWidth - 8}px`,
-                transform: `rotateZ(${breakpointAngles[index]}deg)`
-              }}
-            >
-              <span
-                style={{ transform: `rotateZ(-${breakpointAngles[index]}deg)` }}
+          {breakponts.map((breakpoint, index) => {
+            return (
+              <div
+                key={breakpoint}
+                style={{
+                  height: `${chartRadius - strokeWidth - 8}px`,
+                  transform: `rotateZ(${breakpointAngles[index]}deg)`
+                }}
               >
-                {formatBreakpoint(breakpoint)}
-              </span>
-              {breakpointLine}
-            </div>
-          ))}
+                <span
+                  style={{ transform: `rotateZ(-${breakpointAngles[index]}deg)` }}
+                >
+                  {formatBreakpoint(breakpoint)}
+                </span>
+                {breakpointLine}
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

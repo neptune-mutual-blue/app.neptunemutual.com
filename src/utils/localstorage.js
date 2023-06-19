@@ -52,6 +52,7 @@ export class LocalStorage {
       return callback(value)
     } catch (e) {
       LocalStorage.set(key, defaultValue)
+
       return defaultValue
     }
   }

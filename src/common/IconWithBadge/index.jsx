@@ -1,10 +1,11 @@
 import { classNames } from '@/utils/classnames'
 
 export const getNumber = (num, offset = 0) => {
-  if ((num - offset) > 10000) return '10k+'
-  if ((num - offset) > 1000) return '1k+'
-  if ((num - offset) > 99) return '99+'
-  if ((num - offset) > 10) return '10+'
+  if ((num - offset) > 10000) { return '10k+' }
+  if ((num - offset) > 1000) { return '1k+' }
+  if ((num - offset) > 99) { return '99+' }
+  if ((num - offset) > 10) { return '10+' }
+
   return (num - offset).toString()
 }
 

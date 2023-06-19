@@ -28,10 +28,12 @@ describe('CoverPurchasePage.test', () => {
 
   test('should show purchase policy form if status is normal', async () => {
     rerenderFn({}, () => {
-      mockHooksOrMethods.useCoversAndProducts2(() => ({
-        ...testData.coversAndProducts2,
-        getCoverByCoverKey: () => ({ ...testData.coversAndProducts2.getCoverByCoverKey(), productStatus: 0 })
-      }))
+      mockHooksOrMethods.useCoversAndProducts2(() => {
+        return {
+          ...testData.coversAndProducts2,
+          getCoverByCoverKey: () => { return { ...testData.coversAndProducts2.getCoverByCoverKey(), productStatus: 0 } }
+        }
+      })
     })
 
     expect(screen.getByTestId('purchase-policy-form-container')).toBeInTheDocument()
@@ -48,10 +50,12 @@ describe('CoverPurchasePage.test', () => {
   })
 
   test('should show loading if not cover info', async () => {
-    mockHooksOrMethods.useCoversAndProducts2(() => ({
-      ...testData.coversAndProducts2,
-      loading: true
-    }))
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return {
+        ...testData.coversAndProducts2,
+        loading: true
+      }
+    })
     render(<CoverPurchaseDetailsPage />)
 
     await waitFor(() => {

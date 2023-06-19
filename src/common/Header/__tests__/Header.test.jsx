@@ -12,7 +12,7 @@ describe('Header test', () => {
     mockHooksOrMethods.useRouter({
       ...testData.router,
       events: {
-        on: jest.fn((...args) => args[1]()),
+        on: jest.fn((...args) => { return args[1]() }),
         off: jest.fn(),
         emit: jest.fn()
       }

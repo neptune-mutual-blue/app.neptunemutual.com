@@ -19,9 +19,10 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 
 const CelerApiError = ({ message, className = '' }) => {
-  if (!message) return null
+  if (!message) { return null }
 
   const splitted = message.split(': ')
+
   return (
     <div
       className={classNames(
@@ -69,11 +70,13 @@ export const CelerBridgeModule = ({
     estimation
   } = celerHookResult
 
-  const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
+  const srcChainConfig = chains.find(x => { return x.chainId === `0x${(networkId).toString(16)}` })
 
   useEffect(() => {
+    const receiveAmount = convertFromUnits(estimation?.estimated_receive_amt || '0', destinationTokenDecimal).toString()
+    const validReceiveAmount = toBNSafe(receiveAmount).isGreaterThan(0)
     const formattedReceiveAmount = formatCurrency(
-      convertFromUnits(estimation?.estimated_receive_amt || '0', destinationTokenDecimal),
+      receiveAmount,
       locale,
       tokenSymbol,
       true
@@ -82,7 +85,7 @@ export const CelerBridgeModule = ({
     const protocolFee = estimation.protocolFee
     const formattedProtocolFee = formatCurrency(protocolFee, locale, tokenSymbol, true)
 
-    const currentChainGasFee = convertFromUnits(estimation?.estimated_receive_amt || '0', destinationTokenDecimal).isGreaterThan(0)
+    const currentChainGasFee = validReceiveAmount
       ? convertFromUnits(estimation?.currentChainGas || '0', srcChainConfig.nativeCurrency.decimals).toString()
       : '0'
     const formattedCurrentChainGas = formatCurrency(currentChainGasFee, locale, srcChainConfig.nativeCurrency.symbol, true)
@@ -156,7 +159,7 @@ export const CelerBridgeModule = ({
     // eslint-disable-next-line
   }, [estimating, chainGasPrice, destinationTokenDecimal, estimation, locale, srcChainConfig, tokenSymbol, conversionRates, sendAmount])
 
-  if (selectedBridge && selectedBridge !== BRIDGE_KEYS.CELER) return <></>
+  if (selectedBridge && selectedBridge !== BRIDGE_KEYS.CELER) { return <></> }
 
   return (
     <div className='flex-grow p-4 lg:p-8 lg:max-w-450'>
@@ -168,7 +171,7 @@ export const CelerBridgeModule = ({
           tokenDecimals={sourceTokenDecimal}
           tokenSymbol={tokenSymbol}
           value={sendAmount}
-          onChange={(val) => setSendAmount(val)}
+          onChange={(val) => { return setSendAmount(val) }}
         />
 
         {/* <AddressInput
@@ -196,9 +199,8 @@ export const CelerBridgeModule = ({
             label='To'
             className='mt-2.5'
             selected={selectedNetworks.destNetwork}
-            options={filteredNetworks.filter(n => n.chainId.toString() !== networkId.toString())}
-            onChange={(val) =>
-              setSelectedNetworks((prev) => ({ ...prev, destNetwork: val }))}
+            options={filteredNetworks.filter(n => { return n.chainId.toString() !== networkId.toString() })}
+            onChange={(val) => { return setSelectedNetworks((prev) => { return { ...prev, destNetwork: val } }) }}
           />
         </div>
 

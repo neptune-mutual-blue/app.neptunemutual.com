@@ -18,7 +18,7 @@ describe('ProductsGrid', () => {
   })
 
   test('has correct title', async () => {
-    const backBtn = await waitFor(() => screen.getByText(/Back/i))
+    const backBtn = await waitFor(() => { return screen.getByText(/Back/i) })
     expect(backBtn).toBeInTheDocument()
   })
 })

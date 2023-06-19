@@ -1,90 +1,143 @@
 import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import BackIcon from '@/icons/BackIcon'
-import DateLib from '@/lib/date/DateLib'
 import EscrowSummary from '@/modules/vote-escrow/EscrowSummary'
 import KeyValueList from '@/modules/vote-escrow/KeyValueList'
 import VoteEscrowCard from '@/modules/vote-escrow/VoteEscrowCard'
 import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
 import { PREMATURE_UNLOCK_PENALTY_FRACTION } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useVoteEscrowUnlock } from '@/src/hooks/contracts/useVoteEscrowUnlock'
 import {
   convertFromUnits,
   toBN
 } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { useWeb3React } from '@web3-react/core'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 const UnlockEscrow = ({
   onBack,
-  data,
-  loading,
-  unlockNPMTokens,
-  hasUnlockAllowance,
-  handleApproveUnlock
+  veNPMBalance,
+  veNPMTokenAddress,
+  veNPMTokenSymbol,
+  veNPMTokenDecimals,
+  unlockTimestamp,
+  refetchLockData
 }) => {
-  const { active } = useWeb3React()
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
 
-  const isPrematureUnlock = toBN(data.unlockTimestamp).isGreaterThan(DateLib.unix())
+  const {
+    approving,
+    handleApprove,
+    hasAllowance,
+    loadingAllowance,
+    isPrematureUnlock,
+    unlock,
+    unlocking
+  } = useVoteEscrowUnlock({
+    refetchLockData,
+    veNPMBalance,
+    veNPMTokenSymbol,
+    veNPMTokenAddress,
+    veNPMTokenDecimals,
+    unlockTimestamp
+  })
 
   const penaltyAmount = isPrematureUnlock
-    ? toBN(data.veNPMBalance).multipliedBy(PREMATURE_UNLOCK_PENALTY_FRACTION).toString()
+    ? toBN(veNPMBalance).multipliedBy(PREMATURE_UNLOCK_PENALTY_FRACTION).toString()
     : '0'
 
-  const receiveAmount = toBN(data.veNPMBalance).minus(penaltyAmount).toString()
+  const receiveAmount = toBN(veNPMBalance).minus(penaltyAmount).toString()
 
   const formattedPenaltyAmount = formatCurrency(convertFromUnits(penaltyAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedReceiveAmount = formatCurrency(convertFromUnits(receiveAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+
+  let loadingMessage = ''
+  if (loadingAllowance) {
+    loadingMessage = t`Fetching allowance...`
+  }
 
   return (
     <VoteEscrowCard>
       <VoteEscrowTitle title='Unlock veNPM' />
       <EscrowSummary
-        veNPMBalance={data.veNPMBalance}
-        unlockTimestamp={data.unlockTimestamp}
+        veNPMBalance={veNPMBalance}
+        veNPMTokenSymbol={veNPMTokenSymbol}
+        unlockTimestamp={unlockTimestamp}
       />
 
       <div className='p-8'>
-        {!isPrematureUnlock && (
-          <div className='mb-6'>
-            <div className='mb-6 font-semibold text-center text-md text-4E7DD9'>Penalty: {formatPercent(0)}</div>
-            <RegularButton
-              className='w-full p-4 font-semibold rounded-tooltip text-md'
-              onClick={() => {
-                if (hasUnlockAllowance) {
-                  unlockNPMTokens(isPrematureUnlock, () => {
-                    onBack()
-                  })
-                } else {
-                  handleApproveUnlock()
-                }
-              }}
-            >{hasUnlockAllowance ? 'unlock npm' : 'Approve Unlock'}
-            </RegularButton>
+        <div className='mb-6'>
+          <div
+            className={classNames(
+              'font-semibold text-center text-md',
+              isPrematureUnlock ? 'text-E52E2E' : 'text-4E7DD9'
+            )}
+          >
+            {isPrematureUnlock
+              ? <Trans>Proceed with Caution</Trans>
+              : <Trans>Penalty: {formatPercent(0)}</Trans>}
           </div>
-        )}
 
-        {isPrematureUnlock && (
-          <div className='mb-6'>
-            <div className='mb-6 font-semibold text-center text-md text-E52E2E'>Proceed with Caution</div>
+          <DataLoadingIndicator message={loadingMessage} />
+
+          {/* BUTTONS */}
+          {!hasAllowance && (
             <RegularButton
-              disabled={loading || !active} className='w-full p-4 font-semibold rounded-tooltip bg-E52E2E border-E52E2E text-md' onClick={() => {
-                if (hasUnlockAllowance) {
-                  unlockNPMTokens(isPrematureUnlock, () => {
-                    onBack()
-                  })
-                } else {
-                  handleApproveUnlock()
-                }
-              }}
-            >{hasUnlockAllowance ? 'prematurely unlock your npm' : 'Approve premature unlock'}
+              disabled={!!loadingMessage || approving}
+              className={classNames(
+                'w-full p-4 font-semibold rounded-tooltip text-md',
+                isPrematureUnlock && 'bg-E52E2E border-E52E2E'
+              )}
+              onClick={handleApprove}
+            >
+              {
+                approving
+                  ? t`Approving...`
+                  : <Trans>Approve VeNPM</Trans>
+              }
             </RegularButton>
-          </div>
-        )}
+          )}
+
+          {hasAllowance && !isPrematureUnlock && (
+            <RegularButton
+              disabled={!!loadingMessage || unlocking}
+              className={classNames(
+                'w-full p-4 font-semibold rounded-tooltip text-md',
+                isPrematureUnlock && 'bg-E52E2E border-E52E2E'
+              )}
+              onClick={() => {
+                unlock(onBack)
+              }}
+            >
+              <Trans>unlock npm</Trans>
+            </RegularButton>
+          )}
+
+          {hasAllowance && isPrematureUnlock && (
+            <RegularButton
+              disabled={!!loadingMessage || unlocking}
+              className={classNames(
+                'w-full p-4 font-semibold rounded-tooltip text-md',
+                isPrematureUnlock && 'bg-E52E2E border-E52E2E'
+              )}
+              onClick={() => {
+                unlock(onBack)
+              }}
+            >
+              <Trans>prematurely unlock your npm</Trans>
+            </RegularButton>
+          )}
+
+        </div>
 
         <KeyValueList
           className='mb-6'
@@ -98,7 +151,7 @@ const UnlockEscrow = ({
               key: 'You Will Receive',
               value: formattedReceiveAmount.long
             }
-          ].filter(Boolean)}
+          ]}
         />
 
         <button

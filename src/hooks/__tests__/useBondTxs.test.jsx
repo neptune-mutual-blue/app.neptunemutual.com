@@ -31,7 +31,7 @@ describe('useBondTxs', () => {
   const { mock, restore, mockFunction } = mockGlobals.console.error()
 
   test('while fetching data w/o account', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
     mockHooksOrMethods.useNetwork()
 
     const { result } = await renderHookWrapper(useBondTxs, [mockProps])

@@ -6,10 +6,11 @@ import {
 import { GCR_POOLS_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { convertToUnits } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
 import { t } from '@lingui/macro'
 
-export const useLiquidityGaugePools = () => {
+export const useLiquidityGaugePools = ({ NPMTokenDecimals }) => {
   const { networkId } = useNetwork()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
@@ -48,7 +49,12 @@ export const useLiquidityGaugePools = () => {
           return
         }
 
-        setData(pools)
+        setData(pools.map(pool => {
+          return {
+            ...pool,
+            currentDistribution: convertToUnits(pool.currentDistribution, NPMTokenDecimals).toString()
+          }
+        }))
       } catch (err) {
         handleError(err)
       }
@@ -56,9 +62,9 @@ export const useLiquidityGaugePools = () => {
 
     setLoading(true)
     fetchPools()
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false))
-  }, [notifyError, networkId])
+      .then(() => { return setLoading(false) })
+      .catch(() => { return setLoading(false) })
+  }, [notifyError, networkId, NPMTokenDecimals])
 
   return {
     data,

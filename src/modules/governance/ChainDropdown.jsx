@@ -35,7 +35,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
 
   const changeSelection = (value) => {
     if (selected.includes(value)) {
-      onSelectionChange(selected.filter((e) => e !== value))
+      onSelectionChange(selected.filter((e) => { return e !== value }))
     } else {
       onSelectionChange([...selected, value])
     }
@@ -45,7 +45,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
     setOpen(false)
   })
 
-  const allChainSelected = options.every(chainId => selected.includes(chainId.value))
+  const allChainSelected = options.every(chainId => { return selected.includes(chainId.value) })
 
   return (
     <div className='relative'>
@@ -58,7 +58,7 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
           <div className='text-9B9B9B'>Filter Chain: </div>
           <div>
             {selected.length === 0 && 'All'}
-            {selected.length === 1 && options.find(opt => opt.value === selected[0]).label}
+            {selected.length === 1 && options.find(opt => { return opt.value === selected[0] }).label}
             {selected.length > 1 && selected.length + ' Chains'}
           </div>
           <ChevronDownIcon className='w-4 h-4' />
@@ -103,20 +103,22 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
               />
               All
             </div>
-            {options.filter(opt => opt.label.toLowerCase().includes(search.toLowerCase())).map((option) => (
-              <button
-                onClick={() => {
-                  changeSelection(option.value)
-                }} className='py-2.5 px-4 w-full flex items-center gap-1 text-sm hover:bg-EEEEEE cursor-pointer' key={option.value}
-              >
-                <Checkbox
-                  checked={selected.includes(option.value)}
-                  className='w-4 h-4 border-1 border-C2C7D0'
-                  readOnly
-                />
-                {option.label}
-              </button>
-            ))}
+            {options.filter(opt => { return opt.label.toLowerCase().includes(search.toLowerCase()) }).map((option) => {
+              return (
+                <button
+                  onClick={() => {
+                    changeSelection(option.value)
+                  }} className='py-2.5 px-4 w-full flex items-center gap-1 text-sm hover:bg-EEEEEE cursor-pointer' key={option.value}
+                >
+                  <Checkbox
+                    checked={selected.includes(option.value)}
+                    className='w-4 h-4 border-1 border-C2C7D0'
+                    readOnly
+                  />
+                  {option.label}
+                </button>
+              )
+            })}
           </div>
           <hr className='border-t-1 border-D0D5DD' />
           <div className='p-4'>

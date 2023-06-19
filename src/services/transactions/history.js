@@ -88,10 +88,11 @@ class LSHistoryClass {
    */
   isExisting (hash) {
     if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
-      return this.state[this.id].find((item) => item.hash === hash)
+      return this.state[this.id].find((item) => { return item.hash === hash })
     }
 
     this.state[this.id] = []
+
     return false
   }
 
@@ -115,7 +116,7 @@ class LSHistoryClass {
   update (item) {
     if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       const itemToUpdate = this.state[this.id].find(
-        ({ hash }) => item.hash === hash
+        ({ hash }) => { return item.hash === hash }
       )
 
       itemToUpdate.status = item.status
@@ -130,7 +131,7 @@ class LSHistoryClass {
   updateItem (item) {
     if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       const itemToUpdate = this.state[this.id].find(
-        ({ hash }) => item.hash === hash
+        ({ hash }) => { return item.hash === hash }
       )
 
       itemToUpdate.methodName = item.methodName
@@ -158,6 +159,7 @@ class LSHistoryClass {
         maxPage: Math.ceil(list.length / offset)
       }
     }
+
     return {
       data: [],
       maxPage: 1
@@ -173,7 +175,7 @@ class LSHistoryClass {
   getUnread (page = 1, offset = 5) {
     if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       const _state = this.state[this.id]
-      const list = _state.filter(_item => !_item.read)
+      const list = _state.filter(_item => { return !_item.read })
       const data = list.slice((page - 1) * offset, page * offset)
 
       return {
@@ -181,6 +183,7 @@ class LSHistoryClass {
         maxPage: Math.ceil(list.length / offset)
       }
     }
+
     return {
       data: [],
       maxPage: 1
@@ -194,15 +197,17 @@ class LSHistoryClass {
   getUnreadCount () {
     if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       const _state = this.state[this.id]
-      return _state.filter(_item => !_item.read).length
+
+      return _state.filter(_item => { return !_item.read }).length
     }
+
     return 0
   }
 
   getAllPending () {
     if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       return this.state[this.id].filter(
-        (item) => item.status === STATUS.PENDING
+        (item) => { return item.status === STATUS.PENDING }
       )
     }
 

@@ -33,15 +33,15 @@ import {
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (pool) => pool.name,
+    selector: (pool) => { return pool.name },
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.TVL]: {
-    selector: (pool) => pool.tvl,
+    selector: (pool) => { return pool.tvl },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.APR]: {
-    selector: (pool) => pool.apr,
+    selector: (pool) => { return pool.apr },
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
@@ -57,11 +57,13 @@ export const PodStakingPage = () => {
   const { getTVLById } = useAppConstants()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: data.pools.map((pool) => ({
-      ...pool,
-      tvl: getTVLById(pool.id),
-      ...getStatsByKey(pool.id)
-    })),
+    list: data.pools.map((pool) => {
+      return {
+        ...pool,
+        tvl: getTVLById(pool.id),
+        ...getStatsByKey(pool.id)
+      }
+    }),
 
     filter: (item, term) => {
       return toStringSafe(item.name).indexOf(toStringSafe(term)) > -1
@@ -69,11 +71,12 @@ export const PodStakingPage = () => {
   })
 
   const sortedPools = useMemo(
-    () =>
-      sorter({
+    () => {
+      return sorter({
         ...sorterData[sortType.value],
         list: filtered
-      }),
+      })
+    },
     [filtered, sortType.value]
   )
 
@@ -124,14 +127,16 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
     return (
       <>
         <Grid className='mb-24 mt-14' data-testid='pools-grid'>
-          {data.map((poolData) => (
-            <PodStakingCard
-              key={poolData.id}
-              data={poolData}
-              tvl={poolData.tvl}
-              getPriceByAddress={getPriceByAddress}
-            />
-          ))}
+          {data.map((poolData) => {
+            return (
+              <PodStakingCard
+                key={poolData.id}
+                data={poolData}
+                tvl={poolData.tvl}
+                getPriceByAddress={getPriceByAddress}
+              />
+            )
+          })}
         </Grid>
         {!loading && hasMore && (
           <NeutralButton

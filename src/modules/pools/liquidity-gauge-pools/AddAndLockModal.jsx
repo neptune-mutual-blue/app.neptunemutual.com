@@ -107,10 +107,12 @@ export const AddAndLockModal = ({
               ? (
                 <RegularButton
                   className={btnClass}
-                  onClick={() => handleDeposit(() => {
-                    updateStakedAndReward()
-                    setInputValue('')
-                  })}
+                  onClick={() => {
+                    return handleDeposit(() => {
+                      updateStakedAndReward()
+                      setInputValue('')
+                    })
+                  }}
                   disabled={depositing || loadingAllowance}
                 >
                   <Trans>{depositing ? 'Locking...' : 'Lock'}</Trans>

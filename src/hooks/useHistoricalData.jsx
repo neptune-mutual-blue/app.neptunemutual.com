@@ -1,6 +1,11 @@
-import { getHistoricalDataURL } from '@/src/config/constants'
+import {
+  useCallback,
+  useRef,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
-import { useState, useRef } from 'react'
+import { getHistoricalApr } from '@/src/services/api/home/charts/historical-apr'
 
 export const useHistoricalData = () => {
   const fetched = useRef(false)
@@ -9,37 +14,27 @@ export const useHistoricalData = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchHistoricalData = async () => {
-    if (fetched.current || loading) return
+  const fetchHistoricalData = useCallback(async () => {
+    if (fetched.current || loading) { return }
 
     setLoading(true)
 
     try {
-      const response = await fetch(
-        getHistoricalDataURL(networkId),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          }
-        }
-      )
+      const _data = await getHistoricalApr(networkId)
 
-      if (!response.ok) {
+      if (!_data) {
         return
       }
 
-      fetched.current = true
+      setData(_data)
 
-      const res = await response.json()
-      setData(res.data)
+      fetched.current = true
     } catch (err) {
       console.error(err)
     }
 
     setLoading(false)
-  }
+  }, [loading, networkId])
 
   return {
     fetchHistoricalData,

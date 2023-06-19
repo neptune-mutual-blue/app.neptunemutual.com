@@ -1,12 +1,20 @@
-import { useCallback, useEffect, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
+import { getNetworkId } from '@/src/config/environment'
 import { calcBondPoolTVL } from '@/src/helpers/bond'
 import { calcStakingPoolTVL } from '@/src/helpers/pool'
 import { getPricingData } from '@/src/helpers/pricing'
-import { isEqualTo, sumOf, toBN } from '@/utils/bn'
 import { getNpmPayload } from '@/src/helpers/token'
-import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import {
+  isEqualTo,
+  sumOf,
+  toBN
+} from '@/utils/bn'
 
 const getQuery = () => {
   return `
@@ -44,34 +52,34 @@ export const usePoolsTVL = (NPMTokenAddress) => {
   const fetchPoolsTVL = useSubgraphFetch('usePoolsTVL')
 
   useEffect(() => {
-    if (NPMTokenAddress) {
-      const networkId = getNetworkId()
+    if (!NPMTokenAddress) { return }
 
-      fetchPoolsTVL(networkId, getQuery())
-        .then(async ({ bondPools, pools }) => {
-          const bondsPayload = bondPools.map((bondPool) => {
-            return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress)
-          })
+    const networkId = getNetworkId()
 
-          const poolsPayload = pools.map((currentPool) => {
-            return calcStakingPoolTVL(currentPool)
-          })
-
-          const npmPayload = getNpmPayload(NPMTokenAddress)
-
-          const result = await getPricingData(networkId, [
-            ...bondsPayload,
-            ...poolsPayload,
-            ...npmPayload
-          ])
-
-          setPoolsTVL({
-            items: result.items,
-            tvl: result.total
-          })
+    fetchPoolsTVL(networkId, getQuery())
+      .then(async ({ bondPools, pools }) => {
+        const bondsPayload = bondPools.map((bondPool) => {
+          return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress)
         })
-        .catch((e) => console.error(e))
-    }
+
+        const poolsPayload = pools.map((currentPool) => {
+          return calcStakingPoolTVL(currentPool)
+        })
+
+        const npmPayload = getNpmPayload(NPMTokenAddress)
+
+        const result = await getPricingData(networkId, [
+          ...bondsPayload,
+          ...poolsPayload,
+          ...npmPayload
+        ])
+
+        setPoolsTVL({
+          items: result.items,
+          tvl: result.total
+        })
+      })
+      .catch((e) => { return console.error(e) })
   }, [NPMTokenAddress, fetchPoolsTVL])
 
   const getTVLById = useCallback(
@@ -80,10 +88,11 @@ export const usePoolsTVL = (NPMTokenAddress) => {
      * @returns {string}
      */
     (id) => {
-      const poolTVLInfo = poolsTVL.items.find((x) => x.id === id) || {}
+      const poolTVLInfo = poolsTVL.items.find((x) => { return x.id === id }) || {}
       const tokensInfo = poolTVLInfo.data || []
 
-      const tvl = sumOf(...tokensInfo.map((x) => x.price || '0')).toString()
+      const tvl = sumOf(...tokensInfo.map((x) => { return x.price || '0' })).toString()
+
       return tvl
     },
     [poolsTVL.items]

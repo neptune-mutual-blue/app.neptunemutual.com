@@ -55,6 +55,7 @@ const activateConnector = async (
 
   if (!connector) {
     console.info('Invalid Connector Name', connectorName)
+
     return
   }
 
@@ -74,7 +75,7 @@ const activateConnector = async (
           clearConnectionData()
 
           const wallet = wallets.find(
-            (_wallet) => _wallet.connectorName === connectorName
+            (_wallet) => { return _wallet.connectorName === connectorName }
           )
 
           return notifications.wrongNetwork(
@@ -111,6 +112,7 @@ const useAuth = (networkId, notify = console.log) => {
     }
 
     connector?.addListener('Web3ReactDeactivate', clearConnectionData)
+
     return () => {
       connector?.removeListener('Web3ReactDeactivate', clearConnectionData)
     }

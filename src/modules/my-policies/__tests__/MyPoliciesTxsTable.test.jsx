@@ -62,13 +62,15 @@ describe('MyPoliciesTxsTable test', () => {
 
     test('should not render block number element if blockNumber is not available', () => {
       cleanup()
-      mockHooksOrMethods.usePolicyTxs(() => ({
-        ...testData.policies,
-        data: {
-          ...testData.policies.data,
-          blockNumber: null
+      mockHooksOrMethods.usePolicyTxs(() => {
+        return {
+          ...testData.policies,
+          data: {
+            ...testData.policies.data,
+            blockNumber: null
+          }
         }
-      }))
+      })
 
       i18n.activate('en')
       render(<MyPoliciesTxsTable />)
@@ -295,7 +297,7 @@ describe('MyPoliciesTxsTable test', () => {
         mockHooksOrMethods.useAppConstants()
         mockHooksOrMethods.useCoversAndProducts2()
         const clickFn = jest.fn()
-        mockHooksOrMethods.useRegisterToken(() => ({ register: clickFn }))
+        mockHooksOrMethods.useRegisterToken(() => { return { register: clickFn } })
 
         render(<MyPoliciesTxsTable />)
 

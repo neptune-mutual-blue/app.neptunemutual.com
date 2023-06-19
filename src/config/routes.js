@@ -24,7 +24,7 @@ const LiquidityGaugePoolsTransactions = '/pools/liquidity-gauge-pools/transactio
 const LiquidityGaugePools = '/pools/liquidity-gauge-pools'
 const Bridge = '/bridge'
 
-const GovernanceProposalPage = (proposalId) => `/governance/${proposalId}`
+const GovernanceProposalPage = (proposalId) => { return `/governance/${proposalId}` }
 
 const Pools = () => {
   let url = null

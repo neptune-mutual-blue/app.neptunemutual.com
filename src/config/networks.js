@@ -19,7 +19,7 @@ const networks = {
     },
     {
       chainId: 56,
-      name: 'Binance Smart Chain',
+      name: 'BNB Smart Chain',
       Logo: ChainLogos[56]
     }
   ],

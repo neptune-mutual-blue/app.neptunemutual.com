@@ -19,8 +19,8 @@ export const PageLoader = () => {
   const [showLoader, setShowLoader] = useState(false)
 
   useEffect(() => {
-    const show = () => setShowLoader(true)
-    const hide = () => setShowLoader(false)
+    const show = () => { return setShowLoader(true) }
+    const hide = () => { return setShowLoader(false) }
 
     Router.events.on('routeChangeStart', show)
     Router.events.on('routeChangeComplete', hide)
@@ -45,7 +45,7 @@ export const PageLoader = () => {
 }
 
 export const MainLayout = ({ noHeader = false, children }) => {
-  const [isCookieOpen, setIsCookieOpen] = useState(() => getLSAcceptedCookie() === undefined)
+  const [isCookieOpen, setIsCookieOpen] = useState(() => { return getLSAcceptedCookie() === undefined })
 
   return (
     <>
@@ -58,7 +58,7 @@ export const MainLayout = ({ noHeader = false, children }) => {
 
         <CookiePolicy
           isOpen={isCookieOpen}
-          onClose={() => setIsCookieOpen(false)}
+          onClose={() => { return setIsCookieOpen(false) }}
         />
 
         {(!isCookieOpen) && <NetworkSwitchPopup />}

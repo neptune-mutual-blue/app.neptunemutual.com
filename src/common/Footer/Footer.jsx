@@ -31,21 +31,25 @@ export const Footer = () => {
 
           <div className='flex flex-wrap justify-between gap-6 lg:flex-nowrap'>
             {
-            data.map(({ title, links }, i) => (
-              <div key={i} className='min-w-205'>
-                <p className='text-sm font-semibold leading-5 text-9B9B9B'>{title}</p>
+            data.map(({ title, links }, i) => {
+              return (
+                <div key={i} className='min-w-205'>
+                  <p className='text-sm font-semibold leading-5 text-9B9B9B'>{title}</p>
 
-                <div className='mt-4 space-y-3 font-medium text-md text-364253'>
-                  {
-                    links.map(({ text, href, isExternal }, idx) => (
-                      <a className='block hover:text-4E7DD9' href={href} key={idx} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
-                        {text}
-                      </a>
-                    ))
+                  <div className='mt-4 space-y-3 font-medium text-md text-364253'>
+                    {
+                    links.map(({ text, href, isExternal }, idx) => {
+                      return (
+                        <a className='block hover:text-4E7DD9' href={href} key={idx} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
+                          {text}
+                        </a>
+                      )
+                    })
                   }
+                  </div>
                 </div>
-              </div>
-            ))
+              )
+            })
           }
           </div>
         </div>
@@ -61,11 +65,13 @@ export const Footer = () => {
           <p className='text-667085 text-md'>Neptune Mutual © 2022 </p>
           <div className='flex flex-wrap items-center gap-6'>
             {
-              socials.map(({ href, Icon, isExternal }, i) => (
-                <a href={href} key={i} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
-                  <Icon width='24' height='24' className='text-1D2939 hover:fill-4E7DD9 hover:text-4E7DD9' />
-                </a>
-              ))
+              socials.map(({ href, Icon, isExternal }, i) => {
+                return (
+                  <a href={href} key={i} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
+                    <Icon width='24' height='24' className='text-1D2939 hover:fill-4E7DD9 hover:text-4E7DD9' />
+                  </a>
+                )
+              })
             }
           </div>
         </div>

@@ -19,12 +19,14 @@ export const CoverTerms = ({ name, blockchains, about, parameters }) => {
             </p>
             <div className='flex flex-wrap gap-2 mt-2'>
               {
-                blockchains.map((chain, idx) => (
-                  <Network
-                    chainId={chain.chainId}
-                    key={idx}
-                  />
-                ))
+                blockchains.map((chain, idx) => {
+                  return (
+                    <Network
+                      chainId={chain.chainId}
+                      key={idx}
+                    />
+                  )
+                })
               }
             </div>
           </div>
@@ -36,15 +38,17 @@ export const CoverTerms = ({ name, blockchains, about, parameters }) => {
       </div>
 
       {
-        parameters?.map(({ parameter, text, list }, idx) => (
-          <DescriptionComponent
-            key={idx}
-            wrapperClass='mt-6'
-            title={parameter}
-            text={text}
-            bullets={list?.items}
-          />
-        ))
+        parameters?.map(({ parameter, text, list }, idx) => {
+          return (
+            <DescriptionComponent
+              key={idx}
+              wrapperClass='mt-6'
+              title={parameter}
+              text={text}
+              bullets={list?.items}
+            />
+          )
+        })
       }
     </div>
   )

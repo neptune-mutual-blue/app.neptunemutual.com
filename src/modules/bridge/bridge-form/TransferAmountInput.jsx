@@ -89,8 +89,7 @@ export const TransferAmountInput = ({
         />
         <button
           className='px-1 text-sm font-semibold cursor-pointer'
-          onClick={() =>
-            onValueChange(convertFromUnits(balance, tokenDecimals).toString())}
+          onClick={() => { return onValueChange(convertFromUnits(balance, tokenDecimals).toString()) }}
         >
           MAX
         </button>

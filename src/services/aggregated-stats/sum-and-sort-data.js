@@ -4,9 +4,9 @@ const getCumulativeDataObject = (data) => {
   const obj = {}
 
   data.forEach(arr => {
-    if (!Array.isArray(arr) || !arr.length) return
+    if (!Array.isArray(arr) || !arr.length) { return }
 
-    const objectKeys = Object.keys(arr[0]).filter(k => k !== 'date')
+    const objectKeys = Object.keys(arr[0]).filter(k => { return k !== 'date' })
 
     arr.forEach(val => {
       objectKeys.forEach(key => {
@@ -28,7 +28,7 @@ const getCumulativeSortedData = (data) => {
 
   const finalObject = {}
   Object.keys(obj).forEach(key => {
-    const sorted = Object.entries(obj[key]).sort(([a], [b]) => parseInt(a) - parseInt(b))
+    const sorted = Object.entries(obj[key]).sort(([a], [b]) => { return parseInt(a) - parseInt(b) })
 
     finalObject[key] = sorted.reduce((prev, curr) => {
       prev.push({

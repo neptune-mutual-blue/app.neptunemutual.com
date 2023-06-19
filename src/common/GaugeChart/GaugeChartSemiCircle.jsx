@@ -152,24 +152,26 @@ export const GaugeChartSemiCircle = ({
         </div>
 
         <div className='breakpoints'>
-          {breakponts.map((breakpoint, index) => (
-            <div
-              key={breakpoint}
-              style={{
-                height: `${chartRadius - strokeWidth - 8}px`,
-                transform: `rotateZ(${breakpointAngles[index]}deg)`
-              }}
-            >
-              {[0, 5, 10].includes(index) && (
-                <span
-                  style={{ transform: `rotateZ(-${breakpointAngles[index]}deg)` }}
-                >
-                  {formatBreakpoint(breakpoint)}
-                </span>
-              )}
-              {breakpointLine}
-            </div>
-          ))}
+          {breakponts.map((breakpoint, index) => {
+            return (
+              <div
+                key={breakpoint}
+                style={{
+                  height: `${chartRadius - strokeWidth - 8}px`,
+                  transform: `rotateZ(${breakpointAngles[index]}deg)`
+                }}
+              >
+                {[0, 5, 10].includes(index) && (
+                  <span
+                    style={{ transform: `rotateZ(-${breakpointAngles[index]}deg)` }}
+                  >
+                    {formatBreakpoint(breakpoint)}
+                  </span>
+                )}
+                {breakpointLine}
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

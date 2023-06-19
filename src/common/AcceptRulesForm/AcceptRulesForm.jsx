@@ -43,6 +43,7 @@ export const AcceptRulesForm = ({
         </a>
       </Link>
     )
+
     return (
       <Alert>
         {coverPurchasePage

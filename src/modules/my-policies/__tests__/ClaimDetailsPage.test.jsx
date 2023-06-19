@@ -8,15 +8,17 @@ import { screen } from '@testing-library/react'
 
 describe('Claim Details Page loading', () => {
   beforeEach(() => {
-    mockHooksOrMethods.useRouter(() => ({
-      ...testData.router,
-      query: {
-        coverId: 'defi',
-        productId: '1inch'
-      },
-      locale: 'en'
-    }))
-    mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, loading: true }))
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        query: {
+          coverId: 'defi',
+          productId: '1inch'
+        },
+        locale: 'en'
+      }
+    })
+    mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, loading: true } })
     mockHooksOrMethods.useActivePoliciesByCover()
     mockHooksOrMethods.useFetchReportsByKeyAndDate()
     mockHooksOrMethods.useAppConstants()
@@ -34,14 +36,16 @@ describe('Claim Details Page loading', () => {
 
 describe('Claim Details Page disabled', () => {
   beforeEach(() => {
-    mockHooksOrMethods.useRouter(() => ({
-      ...testData.router,
-      query: {
-        coverId: 'defi',
-        productId: '1inch'
-      },
-      locale: 'en'
-    }))
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        query: {
+          coverId: 'defi',
+          productId: '1inch'
+        },
+        locale: 'en'
+      }
+    })
     mockHooksOrMethods.useCoversAndProducts2()
     mockHooksOrMethods.useActivePoliciesByCover()
     mockHooksOrMethods.useFetchReportsByKeyAndDate()
@@ -62,14 +66,16 @@ describe('Claim Details Page disabled', () => {
 
 describe('Claim Details Page', () => {
   beforeEach(() => {
-    mockHooksOrMethods.useRouter(() => ({
-      ...testData.router,
-      query: {
-        coverId: 'defi',
-        productId: '1inch'
-      },
-      locale: 'en'
-    }))
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        query: {
+          coverId: 'defi',
+          productId: '1inch'
+        },
+        locale: 'en'
+      }
+    })
     const { initialRender } = initiateTest(ClaimDetailsPage, {})
 
     initialRender()

@@ -19,28 +19,30 @@ export const ModalRegular = ({
   container = document.body,
   noBlur = false,
   ...rest
-}) => (
-  <Root
-    open={isOpen}
-    {...rootProps}
-  >
-    <Portal container={container}>
-      <Overlay
-        className={classNames(
-          'fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-30',
-          !noBlur && 'backdrop-blur-md',
-          overlayClass
-        )}
-        {...overlayProps}
-      />
-      <Content
-        className={classNames(defaultContentClassNames, className)}
-        onEscapeKeyDown={disabled ? () => {} : onClose}
-        {...rest}
-      >
-        {children}
-      </Content>
+}) => {
+  return (
+    <Root
+      open={isOpen}
+      {...rootProps}
+    >
+      <Portal container={container}>
+        <Overlay
+          className={classNames(
+            'fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-30',
+            !noBlur && 'backdrop-blur-md',
+            overlayClass
+          )}
+          {...overlayProps}
+        />
+        <Content
+          className={classNames(defaultContentClassNames, className)}
+          onEscapeKeyDown={disabled ? () => {} : onClose}
+          {...rest}
+        >
+          {children}
+        </Content>
 
-    </Portal>
-  </Root>
-)
+      </Portal>
+    </Root>
+  )
+}

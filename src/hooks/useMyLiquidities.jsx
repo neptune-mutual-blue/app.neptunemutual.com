@@ -50,15 +50,17 @@ export const useMyLiquidities = (account) => {
           setData({
             myLiquidities,
             liquidityList: myLiquidities.map(
-              ({ totalPodsRemaining, cover }) => ({
-                podAmount: totalPodsRemaining || '0',
-                podAddress: cover.vaults[0].address
-              })
+              ({ totalPodsRemaining, cover }) => {
+                return {
+                  podAmount: totalPodsRemaining || '0',
+                  podAddress: cover.vaults[0].address
+                }
+              }
             )
           })
         })
-        .catch((e) => console.error(e))
-        .finally(() => setLoading(false))
+        .catch((e) => { return console.error(e) })
+        .finally(() => { return setLoading(false) })
     }
   }, [account, fetchMyLiquidities])
 

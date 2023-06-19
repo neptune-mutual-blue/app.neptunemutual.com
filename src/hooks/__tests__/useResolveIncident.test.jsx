@@ -54,8 +54,8 @@ describe('useResolveIncident', () => {
   })
 
   test('should run auth function if no network or account in resolve function', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, args)
     await act(async () => {
@@ -69,10 +69,12 @@ describe('useResolveIncident', () => {
   })
 
   test('should call notifyError if error raised in resolve function', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, [
       { ...args[0], productKey: '' }
@@ -87,8 +89,8 @@ describe('useResolveIncident', () => {
   })
 
   test('should run auth function if no network or account in emergencyResolve function', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, args)
     await act(async () => {
@@ -102,10 +104,12 @@ describe('useResolveIncident', () => {
   })
 
   test('should call notifyError if error raised in emergencyResolve function', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useResolveIncident, [
       { ...args[0], productKey: '' }

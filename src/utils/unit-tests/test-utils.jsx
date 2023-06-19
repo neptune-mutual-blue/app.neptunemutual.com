@@ -45,7 +45,7 @@ i18n.loadLocaleData({
   // zh: { plurals: zh }
 })
 
-const NoProviders = ({ children }) => <>{children}</>
+const NoProviders = ({ children }) => { return <>{children}</> }
 
 const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
   return (
@@ -113,11 +113,12 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
   }
 }
 
-const customRender = (ui, options = {}) =>
-  render(ui, {
+const customRender = (ui, options = {}) => {
+  return render(ui, {
     wrapper: options?.noProviders ? NoProviders : AllTheProviders,
     ...options
   })
+}
 
 export { act, cleanup, customRender as render, fireEvent, screen, waitFor }
 
@@ -125,6 +126,7 @@ const LocalStorage = (() => {
   let store = {
     [ACTIVE_CONNECTOR_KEY]: 'injected'
   }
+
   return {
     getItem: (key, defaultValue = '') => {
       return store[key] || defaultValue
@@ -149,6 +151,7 @@ Object.defineProperty(window, 'location', {
   },
   writable: true
 })
+
 export const mockLanguage = jest.spyOn(window.navigator, 'language', 'get')
 
 export const originalProcess = process
@@ -159,11 +162,11 @@ global.crypto = {
 }
 
 const ETHEREUM_METHODS = {
-  eth_requestAccounts: () => ['0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e']
+  eth_requestAccounts: () => { return ['0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e'] }
 }
 
 global.ethereum = {
-  enable: jest.fn(() => Promise.resolve(true)),
+  enable: jest.fn(() => { return Promise.resolve(true) }),
   send: jest.fn((method) => {
     if (method === 'eth_chainId') {
       return Promise.resolve(1)
@@ -187,7 +190,8 @@ global.ethereum = {
 
 global.scrollTo = jest.fn(() => {})
 
-export const delay = (ms = 1000) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(), ms)
+export const delay = (ms = 1000) => {
+  return new Promise((resolve) => {
+    setTimeout(() => { return resolve() }, ms)
   })
+}

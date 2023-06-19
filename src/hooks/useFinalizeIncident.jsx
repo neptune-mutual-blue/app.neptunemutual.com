@@ -26,9 +26,10 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
   const { notifyError } = useErrorNotifier()
   const { writeContract } = useTxPoster()
 
-  const finalize = async (onSuccess = (f) => f) => {
+  const finalize = async (onSuccess = (f) => { return f }) => {
     if (!networkId || !account) {
       requiresAuth()
+
       return
     }
 

@@ -14,6 +14,7 @@ export function useCookies () {
   if (context === undefined) {
     throw new Error('useCookies must be used within a CookiesProvider')
   }
+
   return context
 }
 

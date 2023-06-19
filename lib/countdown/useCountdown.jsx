@@ -17,6 +17,7 @@ export const useCountdown = ({ target, getTime }) => {
 
       if (diff < 0) {
         clearInterval(_intervalId)
+
         return
       }
 

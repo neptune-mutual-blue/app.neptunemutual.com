@@ -53,17 +53,19 @@ export const BridgeOption = ({
         <div className='hidden lg:block'>
           <div className='pb-2 mt-6 space-y-2 border-b border-B0C4DB'>
             {
-                infoArray.map((item, idx) => (
-                  <InfoKeyValue
-                    key={idx}
-                    dataKey={item.key}
-                    dataValue={item.value}
-                    bold={item.bold}
-                    loading={item.loading}
-                    info={item.info}
-                    title={item.title}
-                  />
-                ))
+                infoArray.map((item, idx) => {
+                  return (
+                    <InfoKeyValue
+                      key={idx}
+                      dataKey={item.key}
+                      dataValue={item.value}
+                      bold={item.bold}
+                      loading={item.loading}
+                      info={item.info}
+                      title={item.title}
+                    />
+                  )
+                })
               }
           </div>
           <div className='flex justify-between mt-3.5'>

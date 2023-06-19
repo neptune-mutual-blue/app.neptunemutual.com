@@ -153,7 +153,7 @@ export const StakeForm = ({
             <RegularButton
               disabled={!!isError || depositing || !!loadingMessage}
               className='p-6 font-semibold uppercase min-w-75vw sm:min-w-auto sm:w-full'
-              onClick={() => handleDeposit(onDepositSuccess)}
+              onClick={() => { return handleDeposit(onDepositSuccess) }}
             >
               {depositing ? t`Staking...` : t`Stake`}
             </RegularButton>

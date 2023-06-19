@@ -12,7 +12,7 @@ import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 const liquidityTokenDecimals = 6
 
 const mockFunction = (file, method, returnData) => {
-  jest.spyOn(file, method).mockImplementation(() => returnData)
+  jest.spyOn(file, method).mockImplementation(() => { return returnData })
 }
 
 const getChangeData = (totalCapacity) => {

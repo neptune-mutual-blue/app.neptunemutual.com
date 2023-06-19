@@ -2,7 +2,7 @@ import DownArrow from '@/icons/DownArrow'
 import { classNames } from '@/utils/classnames'
 
 export const renderHeader = (col, sortKey, sorts, handleSort, className) => {
-  const sortFn = handleSort ? () => handleSort(col.name, sortKey) : () => {}
+  const sortFn = handleSort ? () => { return handleSort(col.name, sortKey) } : () => {}
 
   const CellChild = () => {
     if (sortKey) {

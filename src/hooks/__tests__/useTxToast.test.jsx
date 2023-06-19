@@ -12,10 +12,11 @@ describe('useTxToast', () => {
     const mockProps = {
       tx: {
         hash: '0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77',
-        wait: jest.fn(() =>
-          Promise.resolve({
+        wait: jest.fn(() => {
+          return Promise.resolve({
             status: 1
           })
+        }
         )
       },
       titles: {
@@ -65,10 +66,11 @@ describe('useTxToast', () => {
     const mockProps = {
       tx: {
         hash: '0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77',
-        wait: jest.fn(() =>
-          Promise.resolve({
+        wait: jest.fn(() => {
+          return Promise.resolve({
             status: 2
           })
+        }
         )
       },
       titles: {

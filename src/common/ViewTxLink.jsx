@@ -4,7 +4,7 @@ import { Trans } from '@lingui/macro'
 
 export const ViewTxLink = ({ txLink, txHash = '' }) => {
   const handleLinkClick = () => {
-    if (!txHash) return
+    if (!txHash) { return }
 
     TransactionHistory.updateProperty(txHash, 'read', true)
   }

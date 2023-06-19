@@ -17,13 +17,14 @@ export const InsightsStats = ({ loading, statsData }) => {
   )
 }
 
-const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
-  <div className='grid flex-wrap items-start justify-between pb-6 grid-cols-analytics-stat-cards lg:flex lg:pb-10 gap-x-2 gap-y-4'>
-    <StatsCard
-      titleClass='text-999BAB lg:text-404040'
-      valueClass='uppercase'
-      title='Total Capacity'
-      value={
+const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => {
+  return (
+    <div className='grid flex-wrap items-start justify-between pb-6 grid-cols-analytics-stat-cards lg:flex lg:pb-10 gap-x-2 gap-y-4'>
+      <StatsCard
+        titleClass='text-999BAB lg:text-404040'
+        valueClass='uppercase'
+        title='Total Capacity'
+        value={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.totalCapacity || 0,
@@ -32,7 +33,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).short
       }
-      tooltip={
+        tooltip={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.totalCapacity || 0,
@@ -41,12 +42,12 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).long
       }
-    />
-    <StatsCard
-      titleClass='text-999BAB lg:text-404040'
-      valueClass='uppercase'
-      title='Covered'
-      value={
+      />
+      <StatsCard
+        titleClass='text-999BAB lg:text-404040'
+        valueClass='uppercase'
+        title='Covered'
+        value={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.totalCoveredAmount,
@@ -55,7 +56,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).short
       }
-      tooltip={
+        tooltip={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.totalCoveredAmount,
@@ -64,11 +65,11 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).long
       }
-    />
-    <StatsCard
-      titleClass='text-999BAB lg:text-404040'
-      valueClass='uppercase'
-      title='Commitment' value={
+      />
+      <StatsCard
+        titleClass='text-999BAB lg:text-404040'
+        valueClass='uppercase'
+        title='Commitment' value={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.activeCoveredAmount,
@@ -77,7 +78,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).short
       }
-      tooltip={
+        tooltip={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.activeCoveredAmount,
@@ -86,12 +87,12 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).long
       }
-    />
-    <StatsCard
-      titleClass='text-999BAB lg:text-404040'
-      valueClass='uppercase'
-      title='Cover Fee'
-      value={
+      />
+      <StatsCard
+        titleClass='text-999BAB lg:text-404040'
+        valueClass='uppercase'
+        title='Cover Fee'
+        value={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.totalCoverFee,
@@ -100,7 +101,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).short
       }
-      tooltip={
+        tooltip={
         formatCurrency(
           convertFromUnits(
             statsData?.combined?.totalCoverFee,
@@ -109,6 +110,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
           router.locale
         ).long
       }
-    />
-  </div>
-)
+      />
+    </div>
+  )
+}

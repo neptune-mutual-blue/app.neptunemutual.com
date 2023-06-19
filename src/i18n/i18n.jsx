@@ -20,11 +20,10 @@ export function LanguageProvider ({ children }) {
     dynamicActivate(locale)
       .then(() => {
         /* istanbul ignore next */
-        if (ignore) return
+        if (ignore) { return }
         setLoaded(true)
       })
-      .catch((error) =>
-        console.error('Failed to activate locale', locale, error)
+      .catch((error) => { return console.error('Failed to activate locale', locale, error) }
       )
 
     return () => {
@@ -33,18 +32,18 @@ export function LanguageProvider ({ children }) {
   }, [locale])
 
   useEffect(() => {
-    if (refresh === true) setRefresh(false)
+    if (refresh === true) { setRefresh(false) }
   }, [refresh])
 
   useEffect(() => {
-    const updateRefresh = () => setRefresh(true)
+    const updateRefresh = () => { return setRefresh(true) }
 
     // Detect network change and manually refresh
     if (window && window.addEventListener) {
       window.addEventListener('languagechange', updateRefresh)
     }
 
-    return () => window.removeEventListener('languagechange', updateRefresh)
+    return () => { return window.removeEventListener('languagechange', updateRefresh) }
   }, [])
 
   if (!loaded) {

@@ -48,6 +48,7 @@ export const CoverPurchaseDetailsPage = () => {
         }
       ]
     }
+
     return [
       { name: t`Home`, href: '/', current: false },
       {

@@ -1,3 +1,8 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
 
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
@@ -6,14 +11,13 @@ import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
+import { readFromIpfs } from '@/src/services/api/ipfs/read'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getReplacedString } from '@/utils/string'
 import {
   t,
   Trans
 } from '@lingui/macro'
-import { useEffect, useState } from 'react'
-import { readFromIpfs } from '@/utils/ipfs'
 
 const INCIDENT = 0
 const DISPUTE = 1
@@ -28,8 +32,8 @@ function HeaderReport (props) {
 
   return (
     <div className='flex flex-wrap gap-2 text-sm sm:flex-nowrap'>
-      <span role='header-type'>{type}</span>
-      <span role='address' className='overflow-hidden text-4E7DD9'>
+      <span data-testid='header-type'>{type}</span>
+      <span data-testid='address' className='overflow-hidden text-4E7DD9'>
         {createdBy && (
           <a
             href={getAddressLink(networkId, createdBy)}
@@ -42,7 +46,7 @@ function HeaderReport (props) {
         )}
       </span>
       <span
-        role='reported-at'
+        data-testid='reported-at'
         className='text-9B9B9B shrink-0'
         title={DateLib.toLongDateFormat(reportedAt, locale)}
       >
@@ -75,7 +79,7 @@ function ReportType (props) {
   return (
     <div className='my-3'>
       <span
-        role='report-type'
+        data-testid='report-type'
         className={`${
           type === INCIDENT ? 'bg-21AD8C' : 'bg-FA5C2F'
         } text-white text-xs p-0.5 px-1 rounded-1`}
@@ -113,15 +117,15 @@ function Report ({ header, content, report, children, ipfsHash }) {
       <ReportType type={report.type} />
 
       <div className='block pl-5 text-black border-l border-l-B0C4DB'>
-        <h3 role='title' className='font-semibold text-md'>
+        <h3 data-testid='title' className='font-semibold text-md'>
           {content.title}
         </h3>
-        <p role='desc' className='text-md'>
+        <p data-testid='desc' className='text-md'>
           {content.description}
         </p>
 
         {children && (
-          <div role='dispute' className='mt-8'>
+          <div data-testid='dispute' className='mt-8'>
             {children}
           </div>
         )}
@@ -163,17 +167,17 @@ export default function ReportComments ({
   const [disputeData, setDisputeData] = useState()
 
   useEffect(() => {
-    if (!reportIpfsHash && !disputeIpfsHash) return
+    if (!reportIpfsHash && !disputeIpfsHash) { return }
 
     async function fetchIpfs () {
       if (reportIpfsHash) {
         const _reportData = await readFromIpfs(reportIpfsHash)
-        if (_reportData) setReportData(_reportData)
+        if (_reportData) { setReportData(_reportData) }
       }
 
       if (disputeIpfsHash) {
         const _disputeData = await readFromIpfs(disputeIpfsHash)
-        if (_disputeData) setDisputeData(_disputeData)
+        if (_disputeData) { setDisputeData(_disputeData) }
       }
     }
 

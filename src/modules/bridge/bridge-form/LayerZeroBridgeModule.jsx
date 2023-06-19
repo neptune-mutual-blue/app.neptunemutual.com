@@ -53,7 +53,7 @@ export const LayerZeroBridgeModule = ({
 
   } = layerZeroHookResult
 
-  const srcChainConfig = chains.find(x => x.chainId === `0x${(networkId).toString(16)}`)
+  const srcChainConfig = chains.find(x => { return x.chainId === `0x${(networkId).toString(16)}` })
 
   const destinationTokenData = destChainId ? tokenData[destChainId] : {}
   const destinationTokenDecimals = destinationTokenData?.decimal || 1
@@ -141,7 +141,7 @@ export const LayerZeroBridgeModule = ({
     // eslint-disable-next-line
   }, [estimating, sendAmount, tokenSymbol, chainGasPrice, estimation, locale, srcChainConfig])
 
-  if (selectedBridge !== BRIDGE_KEYS.LAYERZERO) return <></>
+  if (selectedBridge !== BRIDGE_KEYS.LAYERZERO) { return <></> }
 
   return (
     <div className='flex-grow p-4 lg:p-8 lg:max-w-450'>
@@ -153,7 +153,7 @@ export const LayerZeroBridgeModule = ({
           tokenDecimals={sourceTokenDecimal}
           tokenSymbol={tokenSymbol}
           value={sendAmount}
-          onChange={(val) => setSendAmount(val)}
+          onChange={(val) => { return setSendAmount(val) }}
         />
 
         {/* <AddressInput
@@ -181,9 +181,8 @@ export const LayerZeroBridgeModule = ({
             label='To'
             className='mt-2.5'
             selected={selectedNetworks.destNetwork}
-            options={filteredNetworks.filter(n => n.chainId.toString() !== networkId.toString())}
-            onChange={(val) =>
-              setSelectedNetworks((prev) => ({ ...prev, destNetwork: val }))}
+            options={filteredNetworks.filter(n => { return n.chainId.toString() !== networkId.toString() })}
+            onChange={(val) => { return setSelectedNetworks((prev) => { return { ...prev, destNetwork: val } }) }}
           />
         </div>
 

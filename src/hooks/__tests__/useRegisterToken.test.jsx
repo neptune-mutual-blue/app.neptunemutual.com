@@ -53,8 +53,8 @@ describe('useRegisterToken', () => {
   })
 
   test('should return if no networkId or account', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useRegisterToken)
 

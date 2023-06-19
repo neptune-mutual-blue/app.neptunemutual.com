@@ -47,12 +47,13 @@ export const InputWithTrailingButton = ({
   useEffect(() => {
     window.addEventListener('resize', getSize)
 
-    return () => window.removeEventListener('resize', getSize)
+    return () => { return window.removeEventListener('resize', getSize) }
   }, [])
 
   useEffect(() => {
     if (inputProps.value === '') {
       setInputValue('')
+
       return
     }
 

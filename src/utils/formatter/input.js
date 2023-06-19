@@ -1,6 +1,7 @@
 export const getNumberSeparators = (locale = 'en') => {
   const thousand = Intl.NumberFormat(locale).format(11111).replace(/\d/gu, '')
   const decimal = Intl.NumberFormat(locale).format(1.1).replace(/\d/gu, '')
+
   return {
     thousand,
     decimal

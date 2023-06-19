@@ -15,7 +15,7 @@ export const useTokenSymbol = (tokenAddress) => {
 
   useEffect(() => {
     let ignore = false
-    if (!networkId || !tokenAddress || !account) return
+    if (!networkId || !tokenAddress || !account) { return }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
@@ -35,7 +35,7 @@ export const useTokenSymbol = (tokenAddress) => {
 
     const onTransactionResult = (tx) => {
       const symbol = tx
-      if (ignore) return
+      if (ignore) { return }
       setTokenSymbol(symbol)
     }
 

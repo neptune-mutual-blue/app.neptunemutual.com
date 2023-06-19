@@ -55,10 +55,12 @@ describe('AvailableCovers test', () => {
 
   test('should render the `No data found` if not loading & no available covers', async () => {
     cleanup()
-    mockHooksOrMethods.useCoversAndProducts2(() => ({
-      ...testData.coversAndProducts2,
-      getAllProducts: () => []
-    }))
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return {
+        ...testData.coversAndProducts2,
+        getAllProducts: () => { return [] }
+      }
+    })
 
     render(<AvailableCovers />)
 
@@ -67,10 +69,12 @@ describe('AvailableCovers test', () => {
   })
 
   test('should render the cards skeleton when loading', () => {
-    mockHooksOrMethods.useCoversAndProducts2(() => ({
-      ...testData.coversAndProducts2,
-      loading: true
-    }))
+    mockHooksOrMethods.useCoversAndProducts2(() => {
+      return {
+        ...testData.coversAndProducts2,
+        loading: true
+      }
+    })
 
     render(<AvailableCovers />)
 

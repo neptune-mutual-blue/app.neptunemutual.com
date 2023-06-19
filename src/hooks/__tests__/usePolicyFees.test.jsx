@@ -69,7 +69,7 @@ describe('usePolicyFees', () => {
   })
 
   test('should return default info if no networkId', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const { result } = await renderHookWrapper(usePolicyFees, args)
     assertData(result, true)

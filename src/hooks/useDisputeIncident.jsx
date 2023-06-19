@@ -18,6 +18,7 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { writeToIpfs } from '@/src/services/api/ipfs/write'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -36,7 +37,6 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { writeToIpfs } from '@/utils/ipfs.js'
 
 export const useDisputeIncident = ({
   coverKey,
@@ -179,7 +179,7 @@ export const useDisputeIncident = ({
         }
       })
 
-      if (!ipfsHash) throw new Error()
+      if (!ipfsHash) { throw new Error() }
 
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
@@ -288,8 +288,7 @@ export const useDisputeIncident = ({
           : ''
 
       // set error if entered value is invalid
-      if (_value.isGreaterThan(_balance)) err = 'Insufficient Balance'
-      else if (_minStake && _value.isLessThan(_minStake)) { err = t`Insufficient Stake` }
+      if (_value.isGreaterThan(_balance)) { err = 'Insufficient Balance' } else if (_minStake && _value.isLessThan(_minStake)) { err = t`Insufficient Stake` }
     }
 
     // set error if balance is less than minStake

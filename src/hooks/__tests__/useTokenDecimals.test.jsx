@@ -11,8 +11,8 @@ describe('useTokenDecimals', () => {
   mockHooksOrMethods.useTxPoster()
 
   test('while fetching w/o networkId, tokenAddress and account ', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
 
     const mockProps = {
       tokenAddress: ''
@@ -40,16 +40,18 @@ describe('useTokenDecimals', () => {
   test('while fetching w/ networkId, tokenAddress and account', async () => {
     mockHooksOrMethods.useWeb3React()
     mockHooksOrMethods.useNetwork()
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: (arg) => {
-        arg?.onTransactionResult?.()
-        arg?.onRetryCancel?.()
-        arg?.onError?.()
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: (arg) => {
+          arg?.onTransactionResult?.()
+          arg?.onRetryCancel?.()
+          arg?.onError?.()
 
-        return 18
+          return 18
+        }
       }
-    }))
+    })
     mockSdk.registry.IERC20.getInstance()
 
     const mockProps = {

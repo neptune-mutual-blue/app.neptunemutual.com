@@ -54,7 +54,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
   }, [approving, disputing, value])
 
   function handleStakeChange (val) {
-    if (typeof val === 'string') setValue(val)
+    if (typeof val === 'string') { setValue(val) }
   }
 
   function handleChooseMax (e) {
@@ -68,6 +68,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
     if (!canDispute) {
       // ask for approval
       handleApprove()
+
       return
     }
 
@@ -84,7 +85,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
         : [current.incident_url]
 
     const urlReports = Object.keys(incidentUrl).map(
-      (i) => incidentUrl[i]?.value
+      (i) => { return incidentUrl[i]?.value }
     )
 
     const payload = {

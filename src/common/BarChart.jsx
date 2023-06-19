@@ -67,7 +67,7 @@ export function BarChart ({ labels, yAxisData, loading, formatTooltipLabel = und
       tooltip: {
         callbacks: {
           label: (context) => {
-            if (formatTooltipLabel) return formatTooltipLabel(context.raw)
+            if (formatTooltipLabel) { return formatTooltipLabel(context.raw) }
           }
 
         }

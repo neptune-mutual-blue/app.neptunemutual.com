@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from 'react'
 // return `true` if the component is mounted
 export const useMountedState = () => {
   const mountedRef = useRef(false)
-  const isMounted = useCallback(() => mountedRef.current, [])
+  const isMounted = useCallback(() => { return mountedRef.current }, [])
 
   useEffect(() => {
     mountedRef.current = true

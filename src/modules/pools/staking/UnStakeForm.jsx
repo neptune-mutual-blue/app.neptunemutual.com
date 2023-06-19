@@ -42,7 +42,7 @@ export const UnStakeForm = ({
   }, [])
 
   useEffect(() => {
-    setModalDisabled((val) => ({ ...val, w: withdrawing }))
+    setModalDisabled((val) => { return { ...val, w: withdrawing } })
   }, [setModalDisabled, withdrawing])
 
   const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight)

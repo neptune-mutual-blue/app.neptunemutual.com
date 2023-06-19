@@ -157,7 +157,7 @@ export function ProofOfIncident ({ disabled, required }) {
                 id: `incident_url_${i}`,
                 name: 'incident_url',
                 placeholder: 'https://',
-                onChange: (/** @type {Object} */ e) => handleChange(e, i),
+                onChange: (/** @type {Object} */ e) => { return handleChange(e, i) },
                 value: value,
                 required: required,
                 disabled: disabled,

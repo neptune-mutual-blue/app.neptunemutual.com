@@ -11,18 +11,20 @@ const mockData = createMockTableData({
   fields: ['field1', 'field2']
 })
 
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    role='columnheader'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+const renderHeader = (col) => {
+  return (
+    <th
+      scope='col'
+      role='columnheader'
+      className={classNames(
+        'px-6 py-6 font-bold text-sm uppercase',
+        col.align === 'right' ? 'text-right' : 'text-left'
+      )}
+    >
+      {col.name}
+    </th>
+  )
+}
 
 const renderFirstColumnData = (row) => {
   return (

@@ -7,7 +7,7 @@ export const SeeMoreParagraph = ({ text = '' }) => {
   const [hasOverflow, setHasOverflow] = useState(false)
 
   const handleReadMore = () => {
-    setShowFullText((prev) => !prev)
+    setShowFullText((prev) => { return !prev })
   }
 
   useEffect(() => {

@@ -31,7 +31,7 @@ async function getIndividualProtocolDayData (networkId) {
     query
   )
 
-  if (!data) return
+  if (!data) { return }
 
   if (!Array.isArray(data.protocolDayDatas) || !data.protocolDayDatas.length) {
     return
@@ -70,7 +70,7 @@ async function getIndividualProtocolMonthData (networkId) {
     protocolMonthCoverFeeQuery
   )
 
-  if (!data) return
+  if (!data) { return }
 
   if (!Array.isArray(data.protocolMonthDatas) || !data.protocolMonthDatas.length) {
     return
@@ -99,14 +99,14 @@ export async function getGroupedProtocolMonthData (networkId) {
   const obj = {}
 
   result.forEach(arr => {
-    if (!Array.isArray(arr)) return
+    if (!Array.isArray(arr)) { return }
 
     arr.forEach(val => {
       obj[val.id] = sumOf(val.nonCumulativeCoverFee, obj[val.id] || '0')
     })
   })
 
-  const sorted = Object.entries(obj).sort(([a], [b]) => parseInt(a) - parseInt(b))
+  const sorted = Object.entries(obj).sort(([a], [b]) => { return parseInt(a) - parseInt(b) })
 
   return sorted.reduce((prev, curr) => {
     prev.push({

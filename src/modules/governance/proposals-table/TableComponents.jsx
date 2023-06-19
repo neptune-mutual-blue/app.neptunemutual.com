@@ -23,6 +23,7 @@ import {
   snapshotColors
 } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
+import { NeutralButton } from '@/common/Button/NeutralButton'
 
 export const WhenRenderer = ({ row, locale }) => {
   return (
@@ -38,17 +39,19 @@ export const WhenRenderer = ({ row, locale }) => {
   )
 }
 
-const StateTag = ({ tag }) => (
-  <span
-    className={
+const StateTag = ({ tag }) => {
+  return (
+    <span
+      className={
     classNames('py-0.5 px-1.5 text-xs rounded-2xl',
       tag === 'Live' ? 'text-white bg-D92D20' : 'text-344054 bg-F2F4F7'
     )
   }
-  >
-    {tag}
-  </span>
-)
+    >
+      {tag}
+    </span>
+  )
+}
 
 export const TypeRenderer = ({ row }) => {
   return (
@@ -154,7 +157,7 @@ export const ActionsRenderer = ({ row, networkId }) => {
 
 export const TablePagination = ({
   options,
-  setRowsPerPage = (val) => val,
+  setRowsPerPage = (val) => { return val },
   onPrev = () => {},
   onNext = () => {},
   hasPrev = true,
@@ -178,11 +181,11 @@ export const TablePagination = ({
           className='px-2 py-1 border cursor-pointer border-B0C4DB rounded-1 disabled:cursor-not-allowed'
           name='rows-per-page'
           id='rows-per-page'
-          onChange={e => setRowsPerPage(Number(e.target.value))}
+          onChange={e => { return setRowsPerPage(Number(e.target.value)) }}
           disabled={loading}
           defaultValue={defaultRowsPerPage}
         >
-          {options.map(_page => <option key={_page} value={_page}>{_page}</option>)}
+          {options.map(_page => { return <option key={_page} value={_page}>{_page}</option> })}
         </select>
 
         <span className='opacity-40'>
@@ -194,7 +197,7 @@ export const TablePagination = ({
         <button
           className='disabled:opacity-20 disabled:cursor-not-allowed'
           disabled={!hasPrev || loading}
-          onClick={() => onPrev()}
+          onClick={() => { return onPrev() }}
         >
           <ChevronLeftLgIcon className='w-6 h-6' />
         </button>
@@ -202,11 +205,27 @@ export const TablePagination = ({
         <button
           className='disabled:opacity-20 disabled:cursor-not-allowed'
           disabled={!hasNext || loading}
-          onClick={() => onNext()}
+          onClick={() => { return onNext() }}
         >
           <ChevronLeftLgIcon className='w-6 h-6 transform rotate-180' />
         </button>
       </div>
+    </div>
+  )
+}
+
+export const TableShowMore = ({ onClick, show, loading }) => {
+  if (!show) { return null }
+
+  return (
+    <div className='p-6 bg-white border border-t-0 border-B0C4DB rounded-b-xl'>
+      <NeutralButton
+        className='text-sm font-semibold py-2.5 px-4'
+        disabled={loading}
+        onClick={onClick}
+      >
+        Show More
+      </NeutralButton>
     </div>
   )
 }
@@ -232,40 +251,45 @@ export const TitleComponent = ({ filterOptions, filter, setFilter }) => {
 }
 
 export const TableRowsSkeleton = ({ rowCount = 10 }) => {
-  const Row = () => (
-    <tr>
-      <td className='px-6 py-4 w-60'>
-        <Skeleton className='h-4 w-18' />
-      </td>
-      <td className='px-6 py-4 w-60'>
-        <Skeleton className='h-4.5 w-9 rounded-2xl' />
-      </td>
-      <td className='px-6 py-4 space-y-1 min-w-345'>
-        <Skeleton className='w-full h-4' />
-        <Skeleton className='w-full h-4' />
-      </td>
-      <td className='px-6 py-4'>
-        <Skeleton className='h-4.5 w-20 rounded-2xl' />
-      </td>
-      <td className='px-6 py-4 space-y-2'>
-        <Skeleton className='h-4.5 w-72 rounded-2xl' />
-        <Skeleton className='h-4.5 w-72 rounded-2xl' />
-        <Skeleton className='h-4.5 w-72 rounded-2xl' />
-      </td>
-      <td className='px-6 py-4'>
-        <div className='flex items-center justify-end gap-1'>
+  const Row = () => {
+    return (
+      <tr>
+        <td className='px-6 py-4 w-60'>
           <Skeleton className='h-4 w-18' />
-          <Skeleton className='w-4 h-4 rounded-2xl' />
-        </div>
-      </td>
-    </tr>
-  )
+        </td>
+        <td className='px-6 py-4 w-60'>
+          <Skeleton className='h-4.5 w-9 rounded-2xl' />
+        </td>
+        <td className='px-6 py-4 space-y-1 min-w-345'>
+          <Skeleton className='w-full h-4' />
+          <Skeleton className='w-full h-4' />
+        </td>
+        <td className='px-6 py-4'>
+          <Skeleton className='h-4.5 w-20 rounded-2xl' />
+        </td>
+        <td className='px-6 py-4 space-y-2'>
+          <Skeleton className='h-4.5 w-72 rounded-2xl' />
+          <Skeleton className='h-4.5 w-72 rounded-2xl' />
+          <Skeleton className='h-4.5 w-72 rounded-2xl' />
+        </td>
+        <td className='px-6 py-4'>
+          <div className='flex items-center justify-end gap-1'>
+            <Skeleton className='h-4 w-18' />
+            <Skeleton className='w-4 h-4 rounded-2xl' />
+          </div>
+        </td>
+      </tr>
+    )
+  }
+
   return (
     <tbody className='border-t divide-y divide-DAE2EB border-DAE2EB'>
       {
-        Array(rowCount).fill(0).map((_a, i) => (
-          <Row key={i} />
-        ))
+        Array(rowCount).fill(0).map((_a, i) => {
+          return (
+            <Row key={i} />
+          )
+        })
       }
     </tbody>
   )

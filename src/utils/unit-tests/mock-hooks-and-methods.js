@@ -100,185 +100,220 @@ const Web3React = require('@web3-react/core')
  * @returns
  */
 const returnFunction = (d) => {
-  if (typeof d === 'function') return d
-  return jest.fn(() => d)
+  if (typeof d === 'function') { return d }
+
+  return jest.fn(() => { return d })
 }
 
 const mockHooksOrMethods = {
-  useResolveIncident: (cb = () => testData.resolveIncidentHookValues) =>
-    jest
+  useResolveIncident: (cb = () => { return testData.resolveIncidentHookValues }) => {
+    return jest
       .spyOn(ResolveIncidentHook, 'useResolveIncident')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
   useActivePoliciesByCover: (
-    cb = () => ({
-      data: { ...testData.activePoliciesByCover },
-      hasMore: false
-    })
-  ) =>
-    jest
+    cb = () => {
+      return {
+        data: { ...testData.activePoliciesByCover },
+        hasMore: false
+      }
+    }
+  ) => {
+    return jest
       .spyOn(ActivePoliciesByCoverHook, 'useActivePoliciesByCover')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
   useFetchReportsByKeyAndDate: (
-    cb = () => ({
-      data: testData.reports,
-      loading: false
-    })
-  ) =>
-    jest
+    cb = () => {
+      return {
+        data: testData.reports,
+        loading: false
+      }
+    }
+  ) => {
+    return jest
       .spyOn(FetchReportsByKeyAndDateHook, 'useFetchReportsByKeyAndDate')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
   useActiveReportings: (
-    cb = () => ({
-      data: {
-        incidentReports: testData.reporting.activeReporting
-      },
-      loading: false,
-      hasMore: true
-    })
-  ) =>
-    jest
+    cb = () => {
+      return {
+        data: {
+          incidentReports: testData.reporting.activeReporting
+        },
+        loading: false,
+        hasMore: true
+      }
+    }
+  ) => {
+    return jest
       .spyOn(ActiveReportingsHook, 'useActiveReportings')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useValidReport: (cb = () => testData.reporting.validReport) =>
-    jest
+  useValidReport: (cb = () => { return testData.reporting.validReport }) => {
+    return jest
       .spyOn(ValidReportHook, 'useValidReport')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useERC20Balance: (cb = () => testData.erc20Balance) =>
-    jest
+  useERC20Balance: (cb = () => { return testData.erc20Balance }) => {
+    return jest
       .spyOn(ERC20BalanceHook, 'useERC20Balance')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useERC20Allowance: (cb = () => testData.erc20Allowance) =>
-    jest
+  useERC20Allowance: (cb = () => { return testData.erc20Allowance }) => {
+    return jest
       .spyOn(ERC20AllowanceHook, 'useERC20Allowance')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useRegisterToken: (cb = () => testData.registerToken) =>
-    jest
+  useRegisterToken: (cb = () => { return testData.registerToken }) => {
+    return jest
       .spyOn(RegisterTokenHook, 'useRegisterToken')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  usePolicyTxs: (cb = () => testData.policies) =>
-    jest
+  usePolicyTxs: (cb = () => { return testData.policies }) => {
+    return jest
       .spyOn(PolicyTxsHook, 'usePolicyTxs')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useNetwork: (cb = () => testData.network) =>
-    jest.spyOn(NetworkHook, 'useNetwork').mockImplementation(returnFunction(cb)),
+  useNetwork: (cb = () => { return testData.network }) => { return jest.spyOn(NetworkHook, 'useNetwork').mockImplementation(returnFunction(cb)) },
 
-  useWeb3React: (cb = () => testData.account) =>
-    jest
+  useWeb3React: (cb = () => { return testData.account }) => {
+    return jest
       .spyOn(Web3React, 'useWeb3React')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useEagerConnect: (cb = () => {}) =>
-    jest
+  useEagerConnect: (cb = () => {}) => {
+    return jest
       .spyOn(EagerConnectHook, 'useEagerConnect')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  getActivePolicies: (cb = () => testData.getActivePolicies) =>
-    jest
+  getActivePolicies: (cb = () => { return testData.getActivePolicies }) => {
+    return jest
       .spyOn(GetActivePolicies, 'getActivePolicies')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  getNetworkId: (cb = () => testData.network.networkId) =>
-    jest
+  getNetworkId: (cb = () => { return testData.network.networkId }) => {
+    return jest
       .spyOn(ConfigEnvironment, 'getNetworkId')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  getGraphURL: (networkId = 80001, sendNull = false) =>
-    jest
+  getGraphURL: (networkId = 80001, sendNull = false) => {
+    return jest
       .spyOn(ConfigEnvironment, 'getGraphURL')
-      .mockImplementation(() =>
-        sendNull
+      .mockImplementation(() => {
+        return sendNull
           ? null
           : `https://api.thegraph.com/subgraphs/name/test-org/${networkId}`
-      ),
+      }
+      )
+  },
 
-  useRouter: (cb = () => testData.router) =>
-    jest.spyOn(RouterHook, 'useRouter').mockImplementation(returnFunction(cb)),
+  useRouter: (cb = () => { return testData.router }) => { return jest.spyOn(RouterHook, 'useRouter').mockImplementation(returnFunction(cb)) },
 
-  useAppConstants: (cb = () => testData.appConstants) =>
-    jest
+  useAppConstants: (cb = () => { return testData.appConstants }) => {
+    return jest
       .spyOn(AppConstantsHook, 'useAppConstants')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useProtocolDayData: (cb = () => testData.protocolDayData) =>
-    jest
+  useProtocolDayData: (cb = () => { return testData.protocolDayData }) => {
+    return jest
       .spyOn(ProtocolDayDataHook, 'useProtocolDayData')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
   useFetchHeroStats: (
-    cb = () => ({ data: testData.heroStats, loading: false })
-  ) =>
-    jest
+    cb = () => { return { data: testData.heroStats, loading: false } }
+  ) => {
+    return jest
       .spyOn(FetchHeroStatsHook, 'useFetchHeroStats')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useLiquidityFormsContext: (cb = () => testData.liquidityFormsContext) =>
-    jest
+  useLiquidityFormsContext: (cb = () => { return testData.liquidityFormsContext }) => {
+    return jest
       .spyOn(LiquidityFormsContext, 'useLiquidityFormsContext')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useCoverActiveReportings: (cb = () => testData.coverActiveReportings) =>
-    jest
+  useCoverActiveReportings: (cb = () => { return testData.coverActiveReportings }) => {
+    return jest
       .spyOn(CoverActiveReportingsHook, 'useCoverActiveReportings')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  usePagination: (cb = () => testData.pagination) =>
-    jest
+  usePagination: (cb = () => { return testData.pagination }) => {
+    return jest
       .spyOn(PaginationHook, 'usePagination')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useLiquidityTxs: (cb = () => testData.liquidityTxs) =>
-    jest
+  useLiquidityTxs: (cb = () => { return testData.liquidityTxs }) => {
+    return jest
       .spyOn(LiquidityTxsHook, 'useLiquidityTxs')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useClaimPolicyInfo: (cb = () => testData.claimPolicyInfo) =>
-    jest
+  useClaimPolicyInfo: (cb = () => { return testData.claimPolicyInfo }) => {
+    return jest
       .spyOn(ClaimPolicyInfoHook, 'useClaimPolicyInfo')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useCxTokenRowContext: (cb = () => testData.cxTokenRowContext) =>
-    jest
+  useCxTokenRowContext: (cb = () => { return testData.cxTokenRowContext }) => {
+    return jest
       .spyOn(CxTokenRowContextHook, 'useCxTokenRowContext')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useClaimTableContext: (cb = () => testData.claimTableContext) =>
-    jest
+  useClaimTableContext: (cb = () => { return testData.claimTableContext }) => {
+    return jest
       .spyOn(ClaimTableContextHook, 'useClaimTableContext')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  usePodStakingPools: (cb = () => testData.podStakingPools) =>
-    jest
+  usePodStakingPools: (cb = () => { return testData.podStakingPools }) => {
+    return jest
       .spyOn(PodStakingPoolsHook, 'usePodStakingPools')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  usePoolInfo: (cb = () => testData.poolInfo) =>
-    jest
+  usePoolInfo: (cb = () => { return testData.poolInfo }) => {
+    return jest
       .spyOn(PoolInfoHook, 'usePoolInfo')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useSortableStats: (cb = () => testData.sortableStats) =>
-    jest
+  useSortableStats: (cb = () => { return testData.sortableStats }) => {
+    return jest
       .spyOn(SortableStatsHook, 'useSortableStats')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useActivePolicies: (cb = () => testData.activePolicies) =>
-    jest
+  useActivePolicies: (cb = () => { return testData.activePolicies }) => {
+    return jest
       .spyOn(ActivePoliciesHook, 'useActivePolicies')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useExpiredPolicies: (cb = () => testData.useExpiredPolicies) =>
-    jest
+  useExpiredPolicies: (cb = () => { return testData.useExpiredPolicies }) => {
+    return jest
       .spyOn(ExpiredPoliciesHook, 'useExpiredPolicies')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
   chartMockFn: (props) => {
     const options = props?.options
@@ -286,243 +321,279 @@ const mockHooksOrMethods = {
     options?.animation?.onComplete?.({
       chart: {
         ctx: { fillText: jest.fn() },
-        getDatasetMeta: () => ({
-          data: [
-            { x: 1, y: 1 },
-            { x: 1, y: 1 }
-          ]
-        }),
+        getDatasetMeta: () => {
+          return {
+            data: [
+              { x: 1, y: 1 },
+              { x: 1, y: 1 }
+            ]
+          }
+        },
         data: { datasets: [{ data: [1] }] }
       }
     })
+
     return <div data-testid={props['data-testid']} />
   },
 
-  useToast: (cb = () => testData.toast) =>
-    jest.spyOn(ToastHook, 'useToast').mockImplementation(returnFunction(cb)),
+  useToast: (cb = () => { return testData.toast }) => { return jest.spyOn(ToastHook, 'useToast').mockImplementation(returnFunction(cb)) },
 
-  useResolvedReportings: (cb = () => testData.resolvedReportings) =>
-    jest
+  useResolvedReportings: (cb = () => { return testData.resolvedReportings }) => {
+    return jest
       .spyOn(ResolvedReportingsHook, 'useResolvedReportings')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useSearchResults: (cb = () => testData.searchResults) =>
-    jest
+  useSearchResults: (cb = () => { return testData.searchResults }) => {
+    return jest
       .spyOn(SearchResultsHook, 'useSearchResults')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useCalculateLiquidity: (cb = () => testData.calculateLiquidity) =>
-    jest
+  useCalculateLiquidity: (cb = () => { return testData.calculateLiquidity }) => {
+    return jest
       .spyOn(CalculateLiquidityHook, 'useCalculateLiquidity')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useRemoveLiquidity: (cb = () => testData.removeLiquidity) =>
-    jest
+  useRemoveLiquidity: (cb = () => { return testData.removeLiquidity }) => {
+    return jest
       .spyOn(RemoveLiquidityHook, 'useRemoveLiquidity')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useMyLiquidityInfo: (cb = () => testData.liquidityFormsContext) =>
-    jest
+  useMyLiquidityInfo: (cb = () => { return testData.liquidityFormsContext }) => {
+    return jest
       .spyOn(MyLiquidityInfoHook, 'useMyLiquidityInfo')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  usePolicyFees: (cb = () => testData.policyFees) =>
-    jest
+  usePolicyFees: (cb = () => { return testData.policyFees }) => {
+    return jest
       .spyOn(PolicyFeesHook, 'usePolicyFees')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  usePurchasePolicy: (cb = () => testData.purchasePolicy) =>
-    jest
+  usePurchasePolicy: (cb = () => { return testData.purchasePolicy }) => {
+    return jest
       .spyOn(PurchasePolicyHook, 'usePurchasePolicy')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useFetchCoverPurchasedEvent: (cb = () => testData.coverPurchased) =>
-    jest
+  useFetchCoverPurchasedEvent: (cb = () => { return testData.coverPurchased }) => {
+    return jest
       .spyOn(FetchCoverPurchasedEventHook, 'useFetchCoverPurchasedEvent')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useLocalStorage: (cb) =>
-    jest
+  useLocalStorage: (cb) => {
+    return jest
       .spyOn(LocalStorageHook, 'useLocalStorage')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
   useAuth: (
-    cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
-  ) => jest
-    .spyOn(AuthHook, 'useAuth')
-    .mockImplementation(returnFunction(cb)),
+    cb = () => { return { login: jest.fn(() => {}), logout: jest.fn(() => {}) } }
+  ) => {
+    return jest
+      .spyOn(AuthHook, 'useAuth')
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useReportIncident: (cb = () => testData.reportIncident) =>
-    jest
+  useReportIncident: (cb = () => { return testData.reportIncident }) => {
+    return jest
       .spyOn(ReportIncidentHook, 'useReportIncident')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useTokenDecimals: (cb = () => testData.tokenDecimals) =>
-    jest
+  useTokenDecimals: (cb = () => { return testData.tokenDecimals }) => {
+    return jest
       .spyOn(TokenDecimalsHook, 'useTokenDecimals')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useDisputeIncident: (cb = () => testData.disputeIncident) => {
+  useDisputeIncident: (cb = () => { return testData.disputeIncident }) => {
     jest
       .spyOn(DisputeIncidentHook, 'useDisputeIncident')
       .mockImplementation(returnFunction(cb))
   },
 
-  useFetchReport: (cb = () => testData.incidentReports) =>
-    jest
+  useFetchReport: (cb = () => { return testData.incidentReports }) => {
+    return jest
       .spyOn(FetchReportHook, 'useFetchReport')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useConsensusReportingInfo: (cb = () => testData.consensusInfo) =>
-    jest
+  useConsensusReportingInfo: (cb = () => { return testData.consensusInfo }) => {
+    return jest
       .spyOn(ConsensusReportingInfoHook, 'useConsensusReportingInfo')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useRecentVotes: (cb = () => testData.recentVotes) =>
-    jest
+  useRecentVotes: (cb = () => { return testData.recentVotes }) => {
+    return jest
       .spyOn(RecentVotesHook, 'useRecentVotes')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useUnstakeReportingStake: (cb = () => testData.unstakeReporting) =>
-    jest
+  useUnstakeReportingStake: (cb = () => { return testData.unstakeReporting }) => {
+    return jest
       .spyOn(UnstakeReportingStakeHook, 'useUnstakeReportingStake')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useRetryUntilPassed: (cb = () => testData.retryUntilPassed) =>
-    jest
+  useRetryUntilPassed: (cb = () => { return testData.retryUntilPassed }) => {
+    return jest
       .spyOn(RetryUntilPassedHook, 'useRetryUntilPassed')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useDebounce: (value = 123) =>
-    jest
+  useDebounce: (value = 123) => {
+    return jest
       .spyOn(DebounceHook, 'useDebounce')
-      .mockImplementation(returnFunction(value)),
+      .mockImplementation(returnFunction(value))
+  },
 
-  getReplacedString: (networkId = 80001, account = testData.account.account) =>
-    jest
+  getReplacedString: (networkId = 80001, account = testData.account.account) => {
+    return jest
       .spyOn(ReplacedStringFn, 'getReplacedString')
       .mockImplementation(
-        () =>
-          `https://api.npm.finance/protocol/bond/info/${networkId}/${account}`
-      ),
+        () => { return `https://api.npm.finance/protocol/bond/info/${networkId}/${account}` }
+      )
+  },
 
-  getUnstakeInfoFor: (value = testData.consensusInfo.reportingInfo) =>
-    jest
+  getUnstakeInfoFor: (value = testData.consensusInfo.reportingInfo) => {
+    return jest
       .spyOn(UnstakeInfoForFn, 'getUnstakeInfoFor')
-      .mockImplementation(returnFunction(value)),
+      .mockImplementation(returnFunction(value))
+  },
 
-  useMountedState: (cb = () => false) =>
-    jest
+  useMountedState: (cb = () => { return false }) => {
+    return jest
       .spyOn(MountedStateHook, 'useMountedState')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useBondPoolAddress: (cb = () => testData.bondPoolAddress) =>
-    jest
+  useBondPoolAddress: (cb = () => { return testData.bondPoolAddress }) => {
+    return jest
       .spyOn(BondPoolAddressHook, 'useBondPoolAddress')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useTxToast: (cb = () => testData.txToast) =>
-    jest
+  useTxToast: (cb = () => { return testData.txToast }) => {
+    return jest
       .spyOn(TxToastHook, 'useTxToast')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useTxPoster: (cb = () => testData.txPoster) =>
-    jest
+  useTxPoster: (cb = () => { return testData.txPoster }) => {
+    return jest
       .spyOn(TxPosterHook, 'useTxPoster')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useErrorNotifier: (cb = () => testData.errorNotifier) =>
-    jest
+  useErrorNotifier: (cb = () => { return testData.errorNotifier }) => {
+    return jest
       .spyOn(ErrorNotifierHook, 'useErrorNotifier')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
   utilsWeb3: {
-    getProviderOrSigner: (cb = () => testData.providerOrSigner) =>
-      jest
+    getProviderOrSigner: (cb = () => { return testData.providerOrSigner }) => {
+      return jest
         .spyOn(Web3Utils, 'getProviderOrSigner')
         .mockImplementation(returnFunction(cb))
+    }
   },
   ipfs: {
-    writeToIpfs: (cb = () => testData.writeToIpfs) =>
-      jest
+    writeToIpfs: (cb = () => { return testData.writeToIpfs }) => {
+      return jest
         .spyOn(IPFS, 'writeToIpfs')
-        .mockImplementation(returnFunction(cb)),
-    readFromIpfs: (cb = () => testData.readFromIpfs) =>
-      jest
+        .mockImplementation(returnFunction(cb))
+    },
+    readFromIpfs: (cb = () => { return testData.readFromIpfs }) => {
+      return jest
         .spyOn(IPFS, 'readFromIpfs')
         .mockImplementation(returnFunction(cb))
+    }
   },
 
-  useCoversAndProducts2: (cb = () => testData.coversAndProducts2) =>
-    jest
+  useCoversAndProducts2: (cb = () => { return testData.coversAndProducts2 }) => {
+    return jest
       .spyOn(CoversAndProducts2Hook, 'useCoversAndProducts2')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useGovernanceAddress: (cb = () => testData.governanceAddress) =>
-    jest
+  useGovernanceAddress: (cb = () => { return testData.governanceAddress }) => {
+    return jest
       .spyOn(GovernanceAddressHook, 'useGovernanceAddress')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useUnlimitedApproval: (cb = () => testData.unlimitedApproval) =>
-    jest
+  useUnlimitedApproval: (cb = () => { return testData.unlimitedApproval }) => {
+    return jest
       .spyOn(UnlimitedApprovalHook, 'useUnlimitedApproval')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useAuthValidation: (cb = () => testData.authValidation) =>
-    jest
+  useAuthValidation: (cb = () => { return testData.authValidation }) => {
+    return jest
       .spyOn(AuthValidationHook, 'useAuthValidation')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useMyLiquidities: (cb = () => testData.myLiquidities) => {
+  useMyLiquidities: (cb = () => { return testData.myLiquidities }) => {
     jest
       .spyOn(MyLiquiditiesHook, 'useMyLiquidities')
       .mockImplementation(returnFunction(cb))
   },
 
-  useCalculateTotalLiquidity: (cb = () => testData.calculateTotalLiquidity) => {
+  useCalculateTotalLiquidity: (cb = () => { return testData.calculateTotalLiquidity }) => {
     jest
       .spyOn(CalculateTotalLiquidityHook, 'useCalculateTotalLiquidity')
       .mockImplementation(returnFunction(cb))
   },
 
-  useVote: (cb = () => testData.castYourVote) =>
-    jest.spyOn(VoteHook, 'useVote').mockImplementation(returnFunction(cb)),
+  useVote: (cb = () => { return testData.castYourVote }) => { return jest.spyOn(VoteHook, 'useVote').mockImplementation(returnFunction(cb)) },
 
-  useCoverDropdown: (cb = () => testData.coverDropdown) =>
-    jest.spyOn(CoverDropdownHook, 'useCoverDropdown').mockImplementation(returnFunction(cb)),
+  useCoverDropdown: (cb = () => { return testData.coverDropdown }) => { return jest.spyOn(CoverDropdownHook, 'useCoverDropdown').mockImplementation(returnFunction(cb)) },
 
-  useBondInfo: (cb = () => testData.bondInfo) => {
+  useBondInfo: (cb = () => { return testData.bondInfo }) => {
     jest
       .spyOn(BondInfoHook, 'useBondInfo')
       .mockImplementation(returnFunction(cb))
   },
 
-  useBondTxs: (cb = () => testData.bondTxs) =>
-    jest
+  useBondTxs: (cb = () => { return testData.bondTxs }) => {
+    return jest
       .spyOn(BondTxsHook, 'useBondTxs')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  registerToken: (success = true) =>
-    jest
+  registerToken: (success = true) => {
+    return jest
       .spyOn(WalletUtils, 'registerToken')
-      .mockImplementation(() =>
-        success
+      .mockImplementation(() => {
+        return success
           ? Promise.resolve('registerToken success')
           : Promise.reject(new Error('registerToken error'))
-      ),
+      }
+      )
+  },
 
-  getSubgraphData: (cb = () => testData.defaultSubgraphData) =>
-    jest
+  getSubgraphData: (cb = () => { return testData.defaultSubgraphData }) => {
+    return jest
       .spyOn(SubgraphDataFn, 'getSubgraphData')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useStakingPoolsAddress: (cb = () => testData.stakingPoolsAddress) =>
-    jest
+  useStakingPoolsAddress: (cb = () => { return testData.stakingPoolsAddress }) => {
+    return jest
       .spyOn(StakingPoolsAddressHook, 'useStakingPoolsAddress')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useSubgraphFetch: (cb) =>
-    jest.spyOn(SubgraphFetchHook, 'useSubgraphFetch').mockReturnValue(cb),
+  useSubgraphFetch: (cb) => { return jest.spyOn(SubgraphFetchHook, 'useSubgraphFetch').mockReturnValue(cb) },
 
   TransactionHistory: {
     callback: (mockCallbackFunction = true) => {
@@ -538,41 +609,48 @@ const mockHooksOrMethods = {
           }
         )
         TransactionHistoryFile.TransactionHistory.callback = mockFunction
+
         return null
       }
       TransactionHistoryFile.TransactionHistory.callback = originalFunction
     }
   },
 
-  usePolicyAddress: (cb = () => testData.policyContractAddress) =>
-    jest
+  usePolicyAddress: (cb = () => { return testData.policyContractAddress }) => {
+    return jest
       .spyOn(PolicyAddressHook, 'usePolicyAddress')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useValidateReferralCode: (cb = () => testData.referralCodeHook) =>
-    jest
+  useValidateReferralCode: (cb = () => { return testData.referralCodeHook }) => {
+    return jest
       .spyOn(ValidateReferralCodeHook, 'useValidateReferralCode')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useCalculatePods: (cb = () => testData.calculatePods) =>
-    jest
+  useCalculatePods: (cb = () => { return testData.calculatePods }) => {
+    return jest
       .spyOn(CalculatePodsHook, 'useCalculatePods')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useProvideLiquidity: (cb = () => testData.provideLiquidity) =>
-    jest
+  useProvideLiquidity: (cb = () => { return testData.provideLiquidity }) => {
+    return jest
       .spyOn(ProvideLiquidityHook, 'useProvideLiquidity')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  useTokenStakingPools: (cb = () => testData.tokenStakingPools) =>
-    jest
+  useTokenStakingPools: (cb = () => { return testData.tokenStakingPools }) => {
+    return jest
       .spyOn(TokenStakingPoolsHook, 'useTokenStakingPools')
-      .mockImplementation(returnFunction(cb)),
+      .mockImplementation(returnFunction(cb))
+  },
 
-  getGroupedProtocolDayData: (cb = () => Promise.resolve(testData.protocolDayData.data)) =>
-    jest
+  getGroupedProtocolDayData: (cb = () => { return Promise.resolve(testData.protocolDayData.data) }) => {
+    return jest
       .spyOn(ProtocolDayDataFile, 'getGroupedProtocolDayData')
       .mockImplementation(returnFunction(cb))
+  }
 }
 
 export { mockHooksOrMethods }

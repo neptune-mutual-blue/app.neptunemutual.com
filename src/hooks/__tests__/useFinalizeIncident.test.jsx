@@ -41,8 +41,8 @@ describe('useFinalizeIncident', () => {
   })
 
   test('shoudl return if no networkId or account in finalize function', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useFinalizeIncident, args)
 
@@ -66,10 +66,12 @@ describe('useFinalizeIncident', () => {
     })
 
     test('shoudl return if error in writing to contract', async () => {
-      mockHooksOrMethods.useTxPoster(() => ({
-        ...testData.txPoster,
-        writeContract: null
-      }))
+      mockHooksOrMethods.useTxPoster(() => {
+        return {
+          ...testData.txPoster,
+          writeContract: null
+        }
+      })
 
       const { result, act } = await renderHookWrapper(
         useFinalizeIncident,

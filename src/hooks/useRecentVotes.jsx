@@ -62,7 +62,7 @@ export const useRecentVotes = ({
       getQuery(limit, page, coverKey, productKey, incidentDate)
     )
       .then((_data) => {
-        if (!_data) return
+        if (!_data) { return }
 
         const isLastPage =
           _data.votes.length === 0 || _data.votes.length < limit
@@ -71,10 +71,12 @@ export const useRecentVotes = ({
           setHasMore(false)
         }
 
-        setData((prev) => ({
-          blockNumber: _data._meta.block.number,
-          votes: [...prev.votes, ..._data.votes]
-        }))
+        setData((prev) => {
+          return {
+            blockNumber: _data._meta.block.number,
+            votes: [...prev.votes, ..._data.votes]
+          }
+        })
       })
       .catch((err) => {
         console.error(err)

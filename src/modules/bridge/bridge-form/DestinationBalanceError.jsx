@@ -23,7 +23,7 @@ export const DestinationBalanceError = ({
     true
   )
 
-  if (!transferAmount || toBNSafe(transferAmount).isLessThanOrEqualTo(balance)) return null
+  if (!transferAmount || toBNSafe(transferAmount).isLessThanOrEqualTo(balance)) { return null }
 
   return (
     <div

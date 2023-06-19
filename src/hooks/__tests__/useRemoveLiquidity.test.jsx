@@ -62,10 +62,12 @@ describe('useRemoveLiquidity', () => {
   })
 
   test('should call notifyError when error arises in handleApprove', async () => {
-    mockHooksOrMethods.useTxToast(() => ({
-      ...testData.txToast,
-      push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
-    }))
+    mockHooksOrMethods.useTxToast(() => {
+      return {
+        ...testData.txToast,
+        push: jest.fn(() => { return Promise.reject(new Error('Something went wrong')) })
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useRemoveLiquidity, args)
 
@@ -78,8 +80,8 @@ describe('useRemoveLiquidity', () => {
   })
 
   test('should return when no networkId or account in handleWithdraw', async () => {
-    mockHooksOrMethods.useNetwork(() => ({ networkId: null }))
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useNetwork(() => { return { networkId: null } })
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result, act } = await renderHookWrapper(useRemoveLiquidity, args)
 
@@ -93,10 +95,12 @@ describe('useRemoveLiquidity', () => {
   })
 
   test('should call notifyError when error in handleWithdraw', async () => {
-    mockHooksOrMethods.useTxPoster(() => ({
-      ...testData.txPoster,
-      writeContract: null
-    }))
+    mockHooksOrMethods.useTxPoster(() => {
+      return {
+        ...testData.txPoster,
+        writeContract: null
+      }
+    })
 
     const { result, act } = await renderHookWrapper(useRemoveLiquidity, args)
 

@@ -4,6 +4,7 @@ function linspace (start, end, n) {
   for (let i = 0; i < n; i++) {
     arr[i] = start + step * i
   }
+
   return arr
 }
 

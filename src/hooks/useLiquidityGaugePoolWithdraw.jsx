@@ -19,14 +19,14 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import {
-  convertToUnits,
+  convertFromUnits,
   toBN
 } from '@/utils/bn'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useLiquidityGaugePoolWithdraw = ({ stakingTokenSymbol, stakingTokenDecimals, amount, poolAddress }) => {
+export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stakingTokenDecimals, amountInUnits, poolAddress }) => {
   const { notifyError } = useErrorNotifier()
 
   const { networkId } = useNetwork()
@@ -42,6 +42,12 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenSymbol, stakingToken
   const { writeContract } = useTxPoster()
 
   const handleWithdraw = async (onSuccessCallback) => {
+    if (isExit) {
+      handleExit(onSuccessCallback)
+
+      return
+    }
+
     if (!account || !networkId) {
       return
     }
@@ -66,7 +72,7 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenSymbol, stakingToken
           hash: tx.hash,
           methodName: METHODS.GAUGE_POOL_WITHDRAW,
           status: STATUS.PENDING,
-          data: { value: amount, tokenSymbol: stakingTokenSymbol }
+          data: { value: convertFromUnits(amountInUnits, stakingTokenDecimals).toString(), tokenSymbol: stakingTokenSymbol }
         })
 
         await txToast
@@ -120,14 +126,13 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenSymbol, stakingToken
         cleanup()
       }
 
-      const args = [convertToUnits(amount, stakingTokenDecimals).toString()]
       writeContract({
         instance,
         methodName: 'withdraw',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args
+        args: [amountInUnits]
       })
     } catch (err) {
       handleError(err)
@@ -135,22 +140,116 @@ export const useLiquidityGaugePoolWithdraw = ({ stakingTokenSymbol, stakingToken
     }
   }
 
-  const canWithdraw = !toBN(amount).isZero() &&
-    convertToUnits(amount, stakingTokenDecimals).isLessThanOrEqualTo(poolStaked)
+  const handleExit = async (onSuccessCallback) => {
+    if (!account || !networkId) {
+      return
+    }
+
+    setWithdrawing(true)
+
+    const cleanup = () => {
+      update()
+      setWithdrawing(false)
+    }
+
+    const handleError = (err) => {
+      notifyError(err, t`Could not withdraw rewards`)
+    }
+
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
+      const instance = utils.contract.getContract(liquidityGaugePoolAddress, abis.LiquidityGaugePool, signerOrProvider)
+
+      const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.GAUGE_POOL_WITHDRAW,
+          status: STATUS.PENDING,
+          data: { value: convertFromUnits(amountInUnits, stakingTokenDecimals).toString(), tokenSymbol: stakingTokenSymbol }
+        })
+
+        await txToast
+          .push(
+            tx,
+            {
+              pending: getActionMessage(
+                METHODS.GAUGE_POOL_WITHDRAW,
+                STATUS.PENDING
+              ).title,
+              success: getActionMessage(
+                METHODS.GAUGE_POOL_WITHDRAW,
+                STATUS.SUCCESS
+              ).title,
+              failure: getActionMessage(
+                METHODS.GAUGE_POOL_WITHDRAW,
+                STATUS.FAILED
+              ).title
+            },
+            {
+              onTxSuccess: () => {
+                TransactionHistory.push({
+                  hash: tx.hash,
+                  methodName: METHODS.GAUGE_POOL_WITHDRAW,
+                  status: STATUS.SUCCESS
+                })
+                onSuccessCallback()
+              },
+              onTxFailure: () => {
+                TransactionHistory.push({
+                  hash: tx.hash,
+                  methodName: METHODS.GAUGE_POOL_WITHDRAW,
+                  status: STATUS.SUCCESS
+                })
+              }
+            }
+          )
+          .catch((err) => {
+            handleError(err)
+          })
+
+        cleanup()
+      }
+
+      const onRetryCancel = () => {
+        cleanup()
+      }
+
+      const onError = (err) => {
+        handleError(err)
+        cleanup()
+      }
+
+      writeContract({
+        instance,
+        methodName: 'exit',
+        onTransactionResult,
+        onRetryCancel,
+        onError
+      })
+    } catch (err) {
+      handleError(err)
+      cleanup()
+    }
+  }
+
+  const canWithdraw = !toBN(amountInUnits).isZero() &&
+    toBN(amountInUnits).isLessThanOrEqualTo(poolStaked)
 
   const error = useMemo(() => {
-    if (toBN(amount).isZero()) return ''
+    if (toBN(amountInUnits).isZero()) {
+      return ''
+    }
 
-    if (convertToUnits(amount, stakingTokenDecimals).isGreaterThan(poolStaked)) return 'Amount exceeds locked balance'
-  }, [amount, poolStaked, stakingTokenDecimals])
+    if (toBN(amountInUnits).isGreaterThan(poolStaked)) {
+      return 'Amount exceeds locked balance'
+    }
+  }, [amountInUnits, poolStaked])
 
   return {
     handleWithdraw,
-
+    handleExit,
     withdrawing,
-
     canWithdraw,
-
     error
   }
 }

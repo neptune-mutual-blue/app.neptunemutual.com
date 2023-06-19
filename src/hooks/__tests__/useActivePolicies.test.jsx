@@ -9,7 +9,7 @@ describe('useActivePolicies', () => {
   mockHooksOrMethods.getGraphURL()
 
   test('while fetching w/o account', async () => {
-    mockHooksOrMethods.useWeb3React(() => ({ account: null }))
+    mockHooksOrMethods.useWeb3React(() => { return { account: null } })
 
     const { result } = await renderHookWrapper(useActivePolicies)
 
@@ -34,7 +34,7 @@ describe('useActivePolicies', () => {
 
   test('while fetching error', async () => {
     mockHooksOrMethods.useWeb3React()
-    mockHooksOrMethods.getActivePolicies(() => [])
+    mockHooksOrMethods.getActivePolicies(() => { return [] })
 
     const { result } = await renderHookWrapper(useActivePolicies, [], true)
 

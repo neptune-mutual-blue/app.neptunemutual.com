@@ -3,10 +3,12 @@ import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../config/locales'
 
 export const parseLocale = (maybeSupportedLocale) => {
   const lowerMaybeSupportedLocale = maybeSupportedLocale.toLowerCase()
+
   return SUPPORTED_LOCALES.find(
-    (locale) =>
-      locale.toLowerCase() === lowerMaybeSupportedLocale ||
+    (locale) => {
+      return locale.toLowerCase() === lowerMaybeSupportedLocale ||
       locale.split('-')[0] === lowerMaybeSupportedLocale
+    }
   )
 }
 

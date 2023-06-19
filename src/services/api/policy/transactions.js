@@ -1,6 +1,8 @@
-import { api } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
 
+import * as api from '../config'
+
+// @note: THIS FILE IS NOT BEING USED
 export const getPolicyTransactions = async (networkId, account) => {
   try {
     const url = getReplacedString(api.USER_POLICY_TXS, { networkId, account: account.toLowerCase() })
@@ -19,7 +21,13 @@ export const getPolicyTransactions = async (networkId, account) => {
 
     const data = await response.json()
 
-    return data.data
+    const txs = data.data
+
+    if (!txs || !Array.isArray(txs)) {
+      return null
+    }
+
+    return txs
   } catch (error) {
     console.error('Could not get policy transactions', error)
   }

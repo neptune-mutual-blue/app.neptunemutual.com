@@ -24,7 +24,7 @@ describe('useNotifier', () => {
       title: 'Mock Error Title',
       message: 'Mock Error Message'
     }
-    await act(() => result.notifier(notification))
+    await act(() => { return result.notifier(notification) })
 
     expect(mockFunction).toHaveBeenCalled()
     expect(testData.toast.pushError).toHaveBeenCalled()
@@ -43,7 +43,7 @@ describe('useNotifier', () => {
       title: 'Mock Alert Title',
       message: 'Mock Alert Message'
     }
-    await act(() => result.notifier(notification))
+    await act(() => { return result.notifier(notification) })
 
     restore()
   })
