@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useRef,
   useState
 } from 'react'
@@ -15,8 +16,8 @@ export const useHistoricalRoiDataByCover = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchHistoricalDataByCover = async () => {
-    if (fetched.current || loading) { return }
+  const fetchHistoricalDataByCover = useCallback(async () => {
+    if (fetched.current) { return }
 
     setLoading(true)
 
@@ -34,7 +35,7 @@ export const useHistoricalRoiDataByCover = () => {
     }
 
     setLoading(false)
-  }
+  }, [networkId])
 
   return {
     fetchHistoricalDataByCover,

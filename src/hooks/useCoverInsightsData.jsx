@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useRef,
   useState
 } from 'react'
@@ -40,8 +41,8 @@ export const useCoverInsightsData = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchCoverSoldOrPremiumData = async (dataType) => {
-    if (fetched.current[dataType] || loading) { return }
+  const fetchCoverSoldOrPremiumData = useCallback(async (dataType) => {
+    if (fetched.current[dataType]) { return }
 
     setLoading(true)
 
@@ -78,7 +79,7 @@ export const useCoverInsightsData = () => {
     }
 
     setLoading(false)
-  }
+  }, [networkId])
 
   return {
     fetchCoverSoldOrPremiumData,
