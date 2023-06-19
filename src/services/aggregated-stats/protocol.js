@@ -1,9 +1,15 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { getFilledData } from '@/src/services/aggregated-stats/fill-data'
+import {
+  getCumulativeSortedData
+} from '@/src/services/aggregated-stats/sum-and-sort-data'
 import { getSubgraphData } from '@/src/services/subgraph'
+import {
+  convertFromUnits,
+  sumOf
+} from '@/utils/bn'
 import { getNetworkInfo } from '@/utils/network'
-import { getCumulativeSortedData } from '@/src/services/aggregated-stats/sum-and-sort-data'
-import { sumOf } from '@/utils/bn'
 
 const query = `
 {
@@ -37,7 +43,15 @@ async function getIndividualProtocolDayData (networkId) {
     return
   }
 
-  const filledData = getFilledData(data.protocolDayDatas)
+  const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
+  const filledData = getFilledData(data.protocolDayDatas.map(x => {
+    return {
+      ...x,
+      totalCapacity: convertFromUnits(x.totalCapacity, stablecoinDecimals).toString(),
+      totalLiquidity: convertFromUnits(x.totalLiquidity, stablecoinDecimals).toString(),
+      totalCovered: convertFromUnits(x.totalCovered, stablecoinDecimals).toString()
+    }
+  }))
 
   return filledData
 }

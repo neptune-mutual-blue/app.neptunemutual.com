@@ -1,6 +1,13 @@
+import {
+  useCallback,
+  useRef,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
-import { getGroupedProtocolMonthData } from '@/src/services/aggregated-stats/protocol'
-import { useState, useRef } from 'react'
+import {
+  getGroupedProtocolMonthData
+} from '@/src/services/aggregated-stats/protocol'
 
 export const useProtocolMonthData = (cache = true) => {
   const [data, setData] = useState(null)
@@ -10,8 +17,8 @@ export const useProtocolMonthData = (cache = true) => {
 
   const { networkId } = useNetwork()
 
-  const fetchData = () => {
-    if ((cache && fetched.current) || loading) { return }
+  const fetchData = useCallback(() => {
+    if ((cache && fetched.current)) { return }
 
     setLoading(true)
 
@@ -29,7 +36,7 @@ export const useProtocolMonthData = (cache = true) => {
       .finally(() => {
         setLoading(false)
       })
-  }
+  }, [cache, networkId])
 
   return {
     data,

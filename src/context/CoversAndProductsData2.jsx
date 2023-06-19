@@ -13,7 +13,10 @@ import { getProductSummary } from '@/src/services/api/home/product-summary'
 import {
   getProductSummaryWithAccount
 } from '@/src/services/api/home/product-summary-with-account'
-import { convertToUnits } from '@/utils/bn'
+import {
+  convertToUnits,
+  toBNSafe
+} from '@/utils/bn'
 import { useWeb3React } from '@web3-react/core'
 
 const CoversAndProductsDataContext = createContext({
@@ -71,7 +74,8 @@ export const CoversAndProductsProvider2 = ({ children }) => {
             commitment: convertToUnits(x.commitment, stablecoinDecimals).toString(),
             minReportingStake: convertToUnits(x.minReportingStake, npmDecimals).toString(),
             reassurance: convertToUnits(x.reassurance, stablecoinDecimals).toString(),
-            tvl: convertToUnits(x.tvl, stablecoinDecimals).toString()
+            tvl: convertToUnits(x.tvl, stablecoinDecimals).toString(),
+            leverage: toBNSafe(x.leverage).isZero() ? '1' : x.leverage
           }
         })
         .sort((a, b) => {

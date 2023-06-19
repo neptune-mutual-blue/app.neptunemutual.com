@@ -3,14 +3,15 @@ import {
   useState
 } from 'react'
 
-import {
-  ChainLogos,
-  NetworkNames
-} from '@/lib/connect-wallet/config/chains'
-import { getNetworkId } from '@/src/config/environment'
-import { getNetworkInfo } from '@/utils/network'
+import { SUBGRAPH_API_URLS } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
+import { useNetwork } from '@/src/context/Network'
 import { getSubgraphData } from '@/src/services/subgraph'
-import { toBN } from '@/utils/bn'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
+import { getNetworkInfo } from '@/utils/network'
 
 const coverFeeQuery = `
 {
@@ -27,15 +28,6 @@ const coverFeeQuery = `
   }
 }              
 `
-
-const MAIN_NETS = [
-  { chainId: 1, name: NetworkNames[1], LogoIcon: ChainLogos[1] },
-  { chainId: 42161, name: NetworkNames[42161], LogoIcon: ChainLogos[42161] }
-]
-
-const TEST_NET = [
-  { chainId: 84531, name: NetworkNames[84531], LogoIcon: ChainLogos[84531] }
-]
 
 const calculateTvlCover = (data) => {
   const {
@@ -54,41 +46,43 @@ const calculateTvlCover = (data) => {
   return tvlCover
 }
 
-async function getTVLStats ({ chainId, name, LogoIcon }) {
-  const { protocols, protocolDayDatas } = await getSubgraphData(chainId, coverFeeQuery)
+async function getTVLStats (networkId) {
+  const { protocols, protocolDayDatas } = await getSubgraphData(networkId, coverFeeQuery)
 
   const stats = {
-    name,
-    LogoIcon,
+    networkId,
     coverFee: '0',
     tvl: '0',
     capacity: '0'
   }
 
-  if (Array.isArray(protocols) && protocols.length) {
-    stats.coverFee = protocols[0].totalCoverFee
-    stats.tvl = calculateTvlCover(protocols[0])
-  }
+  const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
 
   if (Array.isArray(protocols) && protocols.length) {
-    stats.capacity = protocolDayDatas[0].totalCapacity
+    stats.coverFee = convertFromUnits(protocols[0].totalCoverFee, stablecoinDecimals).toString()
+    stats.tvl = convertFromUnits(calculateTvlCover(protocols[0]), stablecoinDecimals).toString()
+  }
+
+  if (Array.isArray(protocolDayDatas) && protocolDayDatas.length) {
+    stats.capacity = convertFromUnits(protocolDayDatas[0].totalCapacity, stablecoinDecimals).toString()
   }
 
   return stats
 }
 
-export async function getInsightsTVLData () {
-  const { isMainNet } = getNetworkInfo(getNetworkId())
+export async function getInsightsTVLData (networkId) {
+  const { isMainNet } = getNetworkInfo(networkId)
 
   const promises = []
-  if (isMainNet) {
-    MAIN_NETS.forEach(function (item) {
-      promises.push(getTVLStats(item))
-    })
-  } else {
-    TEST_NET.forEach(function (item) {
-      promises.push(getTVLStats(item))
-    })
+
+  for (const id in SUBGRAPH_API_URLS) {
+    const match = getNetworkInfo(parseInt(id)).isMainNet === isMainNet
+
+    if (!match) {
+      continue
+    }
+
+    promises.push(getTVLStats(parseInt(id)))
   }
 
   const result = await Promise.all(promises)
@@ -99,13 +93,14 @@ export async function getInsightsTVLData () {
 export const useFetchInsightsTVLStats = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
+  const { networkId } = useNetwork()
 
   useEffect(() => {
     setLoading(true);
 
     (async function () {
       try {
-        const _data = await getInsightsTVLData()
+        const _data = await getInsightsTVLData(networkId)
         setData(_data)
       } catch (error) {
         console.error(error)
@@ -113,7 +108,7 @@ export const useFetchInsightsTVLStats = () => {
         setLoading(false)
       }
     })()
-  }, [])
+  }, [networkId])
 
   return {
     data,

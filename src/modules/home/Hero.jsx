@@ -89,10 +89,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                   {
                     name: t`Capacity`,
                     amount: formatCurrency(
-                      convertFromUnits(
-                        currentCapacity,
-                        liquidityTokenDecimals
-                      ).toString(),
+                      currentCapacity,
                       router.locale
                     ).short
                   },
@@ -120,20 +117,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                     // Active Protection (or) Commitment
                     name: t`Coverage`,
                     amount: formatCurrency(
-                      convertFromUnits(
-                        heroData.covered,
-                        liquidityTokenDecimals
-                      ).toString(),
+                      heroData.covered,
                       router.locale
                     ).short
                   },
                   {
                     name: t`Cover Fee`,
                     amount: formatCurrency(
-                      convertFromUnits(
-                        heroData.coverFee,
-                        liquidityTokenDecimals
-                      ).toString(),
+                      heroData.coverFee,
                       router.locale
                     ).short
                   }
@@ -162,10 +153,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               >
                 {
                   formatCurrency(
-                    convertFromUnits(
-                      changeData?.last || '0',
-                      liquidityTokenDecimals
-                    ).toString(),
+                    changeData?.last,
                     router.locale
                   ).short
                 }

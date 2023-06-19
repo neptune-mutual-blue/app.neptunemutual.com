@@ -15,7 +15,7 @@ export const useHistoricalData = () => {
   const { networkId } = useNetwork()
 
   const fetchHistoricalData = useCallback(async () => {
-    if (fetched.current || loading) { return }
+    if (fetched.current) { return }
 
     setLoading(true)
 
@@ -34,7 +34,7 @@ export const useHistoricalData = () => {
     }
 
     setLoading(false)
-  }, [loading, networkId])
+  }, [networkId])
 
   return {
     fetchHistoricalData,

@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useRef,
   useState
 } from 'react'
@@ -15,8 +16,8 @@ export const useTopAccountsByLiquidity = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchTopAccounts = async () => {
-    if (fetched.current || loading) { return }
+  const fetchTopAccounts = useCallback(async () => {
+    if (fetched.current) { return }
 
     setLoading(true);
 
@@ -34,7 +35,7 @@ export const useTopAccountsByLiquidity = () => {
         setLoading(false)
       }
     })()
-  }
+  }, [networkId])
 
   return {
     fetchTopAccountsByLiquidity: fetchTopAccounts,

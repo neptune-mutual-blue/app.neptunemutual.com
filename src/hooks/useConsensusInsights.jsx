@@ -1,6 +1,11 @@
-import { useState, useRef } from 'react'
+import {
+  useCallback,
+  useRef,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { getSubgraphData } from '@/src/services/subgraph'
 
 const getQuery = () => {
   return `
@@ -36,16 +41,15 @@ export const useConsensusInsights = () => {
   const fetched = useRef(false)
 
   const { networkId } = useNetwork()
-  const fetchConsensusAnalytics = useSubgraphFetch('useConsensusInsights')
 
-  const fetchData = () => {
-    if (fetched.current || loading) {
+  const fetchData = useCallback(() => {
+    if (fetched.current) {
       return
     }
 
     setLoading(true)
 
-    fetchConsensusAnalytics(networkId, getQuery())
+    getSubgraphData(networkId, getQuery())
       .then((_data) => {
         if (!_data) { return }
 
@@ -59,11 +63,12 @@ export const useConsensusInsights = () => {
       })
       .catch((err) => {
         console.error(err)
+        setLoading(false)
       })
       .finally(() => {
         setLoading(false)
       })
-  }
+  }, [networkId])
 
   return {
     data: {

@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useRef,
   useState
 } from 'react'
@@ -15,8 +16,8 @@ export const useGasSummaryData = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchGasSummary = async () => {
-    if (fetched.current || loading) { return }
+  const fetchGasSummary = useCallback(async () => {
+    if (fetched.current) { return }
 
     setLoading(true)
 
@@ -35,7 +36,7 @@ export const useGasSummaryData = () => {
     }
 
     setLoading(false)
-  }
+  }, [networkId])
 
   return {
     fetchGasSummary,
