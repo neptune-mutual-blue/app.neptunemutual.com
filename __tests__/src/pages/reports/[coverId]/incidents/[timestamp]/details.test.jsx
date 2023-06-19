@@ -19,7 +19,8 @@ describe('IncidentResolvedCoverPage test', () => {
     {},
     () => {
       mockHooksOrMethods.useFetchReport(() => ({
-        data: false,
+        ...testData.fetchReport,
+        data: null,
         loading: true
       }))
     }

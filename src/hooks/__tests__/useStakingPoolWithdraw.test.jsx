@@ -15,6 +15,7 @@ describe('useStakingPoolWithdraw', () => {
   mockHooksOrMethods.useTxToast()
   mockHooksOrMethods.useTxPoster()
   mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.useRouter()
   mockSdk.registry.StakingPools.getInstance()
 
   const args = [
@@ -23,7 +24,8 @@ describe('useStakingPoolWithdraw', () => {
       poolKey:
         '0x4245430000000000000000000000000000000000000000000000000000000000',
       refetchInfo: jest.fn(),
-      tokenSymbol: 'NPM'
+      tokenSymbol: 'NPM',
+      poolInfo: testData.poolInfo.info
     }
   ]
 

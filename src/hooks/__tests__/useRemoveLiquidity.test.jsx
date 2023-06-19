@@ -14,6 +14,7 @@ describe('useRemoveLiquidity', () => {
   mockHooksOrMethods.useTxToast()
   mockHooksOrMethods.useErrorNotifier()
   mockHooksOrMethods.useTxPoster()
+  mockHooksOrMethods.useRouter()
   mockSdk.registry.Vault.getInstance()
 
   const args = [

@@ -1,5 +1,5 @@
 import { contractRead } from '@/src/services/readContract'
-import { calculateGasMargin } from '@/utils/bn'
+import * as BNUtils from '@/utils/bn'
 
 describe('contractRead test', () => {
   test('Should return nothing', async () => {
@@ -14,7 +14,8 @@ describe('contractRead test', () => {
   })
 
   test('Should return a proper result', async () => {
-    const bN = jest.spyOn({ calculateGasMargin }, 'calculateGasMargin')
+    const mockCalculateGasMargin = jest.fn()
+    jest.spyOn(BNUtils, 'calculateGasMargin').mockImplementation(mockCalculateGasMargin)
     const logger = jest.fn()
 
     const mockInstance = {
@@ -37,13 +38,13 @@ describe('contractRead test', () => {
       methodName: 'foo',
       onError: logger
     })
-    expect(bN).toHaveBeenCalled()
+    expect(mockCalculateGasMargin).toHaveBeenCalled()
     expect(contract).toBe(15)
     expect(logger).not.toBeCalled()
   })
 
   test('Should return a proper result', async () => {
-    const bN = jest.spyOn({ calculateGasMargin }, 'calculateGasMargin')
+    const bN = jest.spyOn(BNUtils, 'calculateGasMargin')
     const logger = jest.fn()
 
     const mockInstance = {
@@ -72,7 +73,7 @@ describe('contractRead test', () => {
   })
 
   test('Should return a proper result', async () => {
-    const bN = jest.spyOn({ calculateGasMargin }, 'calculateGasMargin')
+    const bN = jest.spyOn(BNUtils, 'calculateGasMargin')
 
     const contract = await contractRead({
       instance: {},

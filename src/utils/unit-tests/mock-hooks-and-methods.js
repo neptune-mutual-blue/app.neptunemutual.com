@@ -89,6 +89,7 @@ import * as TransactionHistoryFile
   from '@/src/services/transactions/transaction-history'
 import * as IPFS from '@/src/utils/ipfs'
 import * as ReplacedStringFn from '@/utils/string'
+import * as ProtocolDayDataFile from '@/src/services/aggregated-stats/protocol'
 import { testData } from '@/utils/unit-tests/test-data'
 
 const Web3React = require('@web3-react/core')
@@ -642,6 +643,12 @@ const mockHooksOrMethods = {
   useTokenStakingPools: (cb = () => { return testData.tokenStakingPools }) => {
     return jest
       .spyOn(TokenStakingPoolsHook, 'useTokenStakingPools')
+      .mockImplementation(returnFunction(cb))
+  },
+
+  getGroupedProtocolDayData: (cb = () => { return Promise.resolve(testData.protocolDayData.data) }) => {
+    return jest
+      .spyOn(ProtocolDayDataFile, 'getGroupedProtocolDayData')
       .mockImplementation(returnFunction(cb))
   }
 }
