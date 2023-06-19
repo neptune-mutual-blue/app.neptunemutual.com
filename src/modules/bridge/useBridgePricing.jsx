@@ -3,32 +3,34 @@ import {
   useState
 } from 'react'
 
-import {
-  BRIDGE_BNB_PRICING_URL,
-  BRIDGE_ETH_PRICING_URL,
-  BRIDGE_NPM_PRICING_URL
-} from '@/src/config/constants'
+import { getBnbPrice } from '@/src/services/api/bridge/pricing/bnb'
+import { getEthPrice } from '@/src/services/api/bridge/pricing/eth'
+import { getNpmPrice } from '@/src/services/api/bridge/pricing/npm'
 import { convertToUnits } from '@/utils/bn'
 
+const defaultPrices = {
+  NPM: convertToUnits('1', 18).toString(), // 18 decimals for uniswap pair
+  ETH: convertToUnits('1', 18).toString(),
+  BNB: convertToUnits('1', 18).toString()
+}
+
 export const useBridgePricing = () => {
-  const [conversionRates, setConversionRates] = useState({
-    NPM: convertToUnits('1', 18), // 18 decimals for uniswap pair
-    ETH: convertToUnits('1', 18),
-    BNB: convertToUnits('1', 18)
-  })
+  const [conversionRates, setConversionRates] = useState(defaultPrices)
 
   useEffect(() => {
-    const makeCalls = async () => {
+    const makeCalls = async function () {
       try {
-        const requests = [
-          fetch(BRIDGE_ETH_PRICING_URL),
-          fetch(BRIDGE_BNB_PRICING_URL),
-          fetch(BRIDGE_NPM_PRICING_URL)
-        ]
-        const [ethResponse, bnbResponse, npmResponse] = await Promise.all(requests)
-        const [ethData, bnbData, npmData] = await Promise.all([ethResponse.json(), bnbResponse.json(), npmResponse.json()])
+        const [ethPrice, bnbPrice, npmPrice] = await Promise.all([
+          getEthPrice(),
+          getBnbPrice(),
+          getNpmPrice()
+        ])
 
-        setConversionRates({ ETH: ethData.data || '1', BNB: bnbData.data || '1', NPM: npmData.data || '1' })
+        setConversionRates({
+          ETH: ethPrice || defaultPrices.ETH,
+          BNB: bnbPrice || defaultPrices.BNB,
+          NPM: npmPrice || defaultPrices.NPM
+        })
       } catch (e) {
         console.error('Error in fetching bridge price')
       }

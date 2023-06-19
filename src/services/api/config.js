@@ -28,11 +28,24 @@ export const TOP_ACCOUNTS_BY_LIQUIDITY = `${API_BASE_URL}home/charts/top-account
 
 export const HISTORICAL_APR = `${API_BASE_URL}home/charts/historical-apr/{networkId}`
 
+export const HISTORICAL_APR_BY_COVER = `${API_BASE_URL}home/charts/historical-apr-by-cover/{networkId}`
+
+export const PROTECTION_BY_MONTH = `${API_BASE_URL}home/charts/protection-by-month/{networkId}`
+
+export const GAS_PRICE_SUMMARY = `${API_BASE_URL}home/charts/gas-price-summary/{networkId}`
+
 export const COVER_SOLD_BY_POOL = `${API_BASE_URL}home/charts/cover-sold-by-pool/{networkId}`
 
 export const COVER_PREMIUM_BY_POOL = `${API_BASE_URL}home/charts/cover-premium-by-pool/{networkId}`
 
 export const COVER_EXPIRING_THIS_MONTH = `${API_BASE_URL}home/charts/cover-expiring-this-month/{networkId}`
+
+// GET: bridge
+export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
+
+export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
+
+export const BRIDGE_BNB_PRICING_URL = `${API_BASE_URL}bridge/pricing/bnb`
 
 // POST: policy
 export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/referral-code`

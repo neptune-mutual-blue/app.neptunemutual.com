@@ -1,6 +1,12 @@
-import { getHistoricalDataByCoverURL } from '@/src/config/constants'
+import {
+  useRef,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
-import { useState, useRef } from 'react'
+import {
+  getHistoricalAprByCover
+} from '@/src/services/api/home/charts/historical-apr-by-cover'
 
 export const useHistoricalRoiDataByCover = () => {
   const fetched = useRef(false)
@@ -15,25 +21,14 @@ export const useHistoricalRoiDataByCover = () => {
     setLoading(true)
 
     try {
-      const response = await fetch(
-        getHistoricalDataByCoverURL(networkId),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          }
-        }
-      )
+      const _data = await getHistoricalAprByCover(networkId)
 
-      if (!response.ok) {
+      if (!_data) {
         return
       }
 
+      setData(_data)
       fetched.current = true
-
-      const res = await response.json()
-      setData(res.data)
     } catch (err) {
       console.error(err)
     }

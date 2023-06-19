@@ -1,7 +1,13 @@
-import { getMonthlyProtectionDataURL } from '@/src/config/constants'
+import {
+  useRef,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
+import {
+  getProtectionByMonth
+} from '@/src/services/api/home/charts/protection-by-month'
 import { sortDates } from '@/utils/sorting'
-import { useState, useRef } from 'react'
 
 const getAggregatedDataWithLabels = (data = []) => {
   const aggregatedData = {}
@@ -77,28 +83,12 @@ export const useProtectionChartData = () => {
     setLoading(true)
 
     try {
-      const response = await fetch(
-        getMonthlyProtectionDataURL(networkId),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          }
-        }
-      )
+      const _data = await getProtectionByMonth(networkId)
 
-      if (!response.ok) {
-        return
-      }
-
-      fetched.current = true
-
-      const res = await response.json()
-
-      const { labels, data } = getAggregatedDataWithLabels(res.data)
+      const { labels, data } = getAggregatedDataWithLabels(_data)
 
       setData(data)
+      fetched.current = true
       setLabels(labels)
     } catch (err) {
       console.error(err)

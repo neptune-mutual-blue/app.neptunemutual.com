@@ -50,12 +50,6 @@ export const IPFS_HASH_URL = 'https://cloudflare-ipfs.com/ipfs/{ipfsHash}' // cl
 
 export const BRIDGE_BALANCE_URL = `${API_BASE_URL}bridge/balance/{networkId}`
 
-export const getGasSummaryDataURL = (chainId) => { return `${API_BASE_URL}home/charts/gas-price-summary/${chainId}` }
-
-export const getHistoricalDataByCoverURL = (chainId) => { return `${API_BASE_URL}home/charts/historical-apr-by-cover/${chainId}` }
-
-export const getMonthlyProtectionDataURL = (chainId) => { return `${API_BASE_URL}home/charts/protection-by-month/${chainId}` }
-
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`
 
 export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`
@@ -100,12 +94,6 @@ export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
 export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
 
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
-
-export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
-
-export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
-
-export const BRIDGE_BNB_PRICING_URL = `${API_BASE_URL}bridge/pricing/bnb`
 
 export const NetworkUrlParam = {
   56: 'bsc',
