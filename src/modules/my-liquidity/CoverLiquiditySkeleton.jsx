@@ -1,7 +1,6 @@
 import { Container } from '@/common/Container/Container'
 import { Divider } from '@/common/Divider/Divider'
 import { Skeleton } from '@/common/Skeleton/Skeleton'
-
 import { HeroSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
 
 const CoverLiquiditySkeleton = () => {
@@ -9,7 +8,7 @@ const CoverLiquiditySkeleton = () => {
     <>
       <HeroSkeleton infoOnRight />
 
-      <div className='pt-12 pb-24 border-t border-t-B0C4DB'>
+      <div className='pt-12 pb-24 border-t border-t-B0C4DB' data-testid='cover-liquidity-skeleton'>
         <Container className='grid grid-cols-3 lg:gap-32'>
           <div className='col-span-3 md:col-span-2'>
             <div className='space-y-1.5'>

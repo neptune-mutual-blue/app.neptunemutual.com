@@ -23,12 +23,19 @@ describe('useExpiredPolicies', () => {
 
   test('should return result when data received from api', async () => {
     const mockData = {
-      data: { expiredPolicies: [{ id: 1, policyName: 'my-policy' }] }
+      data: [{ id: 1, policyName: 'my-policy', amount: 500 }]
     }
+
+    const processedData = {
+      data: [{ id: 1, policyName: 'my-policy', amount: '500000000' }]
+    }
+
     mockGlobals.fetch(true, undefined, mockData)
 
+    mockHooksOrMethods.useNetwork(() => { return { networkId: 1 } })
+
     const { result } = await renderHookWrapper(useExpiredPolicies, [], true)
-    expect(result.data).toEqual(mockData.data)
+    expect(result.data).toEqual(processedData.data)
     expect(result.loading).toEqual(false)
   })
 

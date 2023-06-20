@@ -3,30 +3,6 @@ import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { screen } from '@testing-library/react'
 
-describe('Active Reporting Page Data Loading', () => {
-  beforeEach(() => {
-    mockHooksOrMethods.useRouter()
-    mockHooksOrMethods.useActiveReportings(() => {
-      return {
-        data: { incidentReports: [] },
-        loading: true,
-        hasMore: false
-      }
-    })
-    mockHooksOrMethods.useSearchResults()
-
-    const { initialRender } = initiateTest(ReportingActivePage, {})
-
-    initialRender()
-  })
-
-  test('Should render the page card skeleton', () => {
-    const cardSkeleton = screen.getByTestId('active-reportings-card-skeleton')
-
-    expect(cardSkeleton).toBeInTheDocument()
-  })
-})
-
 describe('Active Reporting Page Data Display', () => {
   const { initialRender } = initiateTest(
     ReportingActivePage,
@@ -51,6 +27,30 @@ describe('Active Reporting Page Data Display', () => {
     const hasMoreButton = screen.getByTestId('has-more-button')
 
     expect(hasMoreButton).toBeInTheDocument()
+  })
+})
+
+describe('Active Reporting Page Data Loading', () => {
+  beforeEach(() => {
+    mockHooksOrMethods.useRouter()
+    mockHooksOrMethods.useActiveReportings(() => {
+      return {
+        data: { incidentReports: [] },
+        loading: true,
+        hasMore: false
+      }
+    })
+    mockHooksOrMethods.useSearchResults()
+
+    const { initialRender } = initiateTest(ReportingActivePage, {})
+
+    initialRender()
+  })
+
+  test('Should render the page card skeleton', () => {
+    const cardSkeleton = screen.getByTestId('active-reportings-card-skeleton')
+
+    expect(cardSkeleton).toBeInTheDocument()
   })
 })
 

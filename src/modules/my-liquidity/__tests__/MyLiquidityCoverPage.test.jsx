@@ -31,7 +31,8 @@ describe('MyLiquidityTxsTable test', () => {
     rerenderFn({}, () => {
       mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, loading: true } })
     })
-    expect(screen.getByText('loading...')).toBeInTheDocument()
+    const skeleton = screen.getByTestId('cover-liquidity-skeleton')
+    expect(skeleton).toBeInTheDocument()
   })
 
   test('should render "No Data Found" when coverData is empty', () => {
