@@ -10,15 +10,14 @@ import { BurgerMenu } from '@/common/BurgerMenu/BurgerMenu'
 import CheckCircleFilledIcon from '@/icons/CheckCircleFilledIcon'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import LeftArrow from '@/icons/LeftArrow'
-import ArbitrumLogo from '@/lib/connect-wallet/components/logos/ArbitrumLogo'
-import EthLogo from '@/lib/connect-wallet/components/logos/EthLogo'
 import {
   ChainLogos,
   NetworkNames
 } from '@/lib/connect-wallet/config/chains'
 import {
   ARBITRUM_APP_URL,
-  ETHEREUM_APP_URL
+  ETHEREUM_APP_URL,
+  BINANCE_APP_URL
 } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
@@ -35,7 +34,7 @@ import { Menu } from '@headlessui/react'
 
 export const Network = ({ closeMenu = () => {} }) => {
   const { networkId } = useNetwork()
-  const { isEthereum, isArbitrum } = getNetworkInfo(networkId)
+  const { isEthereum, isArbitrum, isBinanceSmartChain } = getNetworkInfo(networkId)
   const { width } = useWindowSize()
 
   const [open, setOpen] = useState(false)
@@ -46,18 +45,25 @@ export const Network = ({ closeMenu = () => {} }) => {
         name: 'Ethereum Mainnet',
         value: 'ethereum',
         href: ETHEREUM_APP_URL,
-        Icon: EthLogo,
+        Icon: ChainLogos[1],
         active: isEthereum
       },
       {
         name: 'Arbitrum One',
         value: 'arbitrum',
         href: ARBITRUM_APP_URL,
-        Icon: ArbitrumLogo,
+        Icon: ChainLogos[42161],
         active: isArbitrum
+      },
+      {
+        name: 'BNB Smart Chain',
+        value: 'bnbsmartchain',
+        href: BINANCE_APP_URL,
+        Icon: ChainLogos[56],
+        active: isBinanceSmartChain
       }
     ]
-  }, [isEthereum, isArbitrum])
+  }, [isEthereum, isArbitrum, isBinanceSmartChain])
 
   const ref = useRef()
   useOnClickOutside(ref, () => {

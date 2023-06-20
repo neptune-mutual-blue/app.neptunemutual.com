@@ -91,6 +91,8 @@ export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
 
 export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
 
+export const BINANCE_APP_URL = 'https://bsc.hicif.com/'
+
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 
 export const NetworkUrlParam = {
