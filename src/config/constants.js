@@ -87,11 +87,11 @@ export const TEST_URL = process.env.NEXT_PUBLIC_TEST_URL || 'https://test.neptun
 
 export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
 
-export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
-
-export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
-
-export const BINANCE_APP_URL = 'https://bsc.hicif.com/'
+export const APP_URLS = {
+  1: 'https://ethereum.neptunemutual.net/',
+  42161: 'https://arbitrum.neptunemutual.net/',
+  56: 'https://bsc.neptunemutual.net/'
+}
 
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 
