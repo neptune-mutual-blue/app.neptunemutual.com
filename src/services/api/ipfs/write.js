@@ -1,9 +1,9 @@
+import * as api from '@/src/services/api/config'
 import { config } from '@neptunemutual/sdk'
-import { IPFS_REPORT_INFO_URL, IPFS_DISPUTE_INFO_URL, IPFS_GET } from '@/src/config/constants'
 
 const urls = {
-  report: IPFS_REPORT_INFO_URL,
-  dispute: IPFS_DISPUTE_INFO_URL
+  report: api.IPFS_REPORT_INFO_URL,
+  dispute: api.IPFS_DISPUTE_INFO_URL
 }
 
 const getPermalink = (type, networkId, data) => {
@@ -16,9 +16,11 @@ const getPermalink = (type, networkId, data) => {
   if (type === 'dispute') {
     return `https://${hostname}/reports/${data.coverKey}/products/${data.productKey}/incidents/${data.incidentDate.toString()}`
   }
+
+  throw new Error('Invalid data type')
 }
 
-const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
+export const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
   const url = urls[type]
 
   if (!url) { return }
@@ -51,26 +53,3 @@ const writeToIpfs = async ({ payload, account, networkId, type, data }) => {
     console.error(`Error in uploading ${type} data to ipfs: ${error}`)
   }
 }
-
-const readFromIpfs = async (hash) => {
-  const url = IPFS_GET(hash)
-
-  try {
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        siteId: process.env.NEXT_PUBLIC_SITE_ID
-      }
-    })
-
-    if (!response.ok) { return }
-
-    const data = await response.json()
-
-    if (data.data && Object.keys(data.data).length) { return data.data }
-  } catch (error) {
-    console.error(`Error in reading from ${url}: ${error}`)
-  }
-}
-
-export { writeToIpfs, readFromIpfs }

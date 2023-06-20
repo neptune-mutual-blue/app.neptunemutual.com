@@ -3,32 +3,18 @@ import { cleanup, screen } from '@/utils/unit-tests/test-utils'
 import { MyLiquidityPage } from '@/modules/my-liquidity'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { initiateTest } from '@/utils/unit-tests/helpers'
+import { testData } from '@/utils/unit-tests/test-data'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
 const props = {
-  myLiquidities: [
-    {
-      id: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9-0x68696369662d62616e6b00000000000000000000000000000000000000000000',
-      account: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9',
-      totalPodsRemaining: '500000000000000000000',
-      cover: {
-        id: '0x68696369662d62616e6b00000000000000000000000000000000000000000000',
-        coverKey:
-          '0x68696369662d62616e6b00000000000000000000000000000000000000000000',
-        vaults: [
-          {
-            tokenSymbol: 'HCF-nDAI',
-            tokenDecimals: 18,
-            address: '0x98e7786fff366aeff1a55131c92c4aa7edd68ad1'
-          }
-        ]
-      }
-    }
-  ],
+  myLiquidities: testData.myLiquidities.data.myLiquidities,
   loading: false
 }
 
 describe('MyLiquidityPage test', () => {
-  const { initialRender, rerenderFn } = initiateTest(MyLiquidityPage, props)
+  const { initialRender, rerenderFn } = initiateTest(MyLiquidityPage, props, () => {
+    mockHooksOrMethods.useCoversAndProducts2()
+  })
 
   beforeEach(() => {
     cleanup()

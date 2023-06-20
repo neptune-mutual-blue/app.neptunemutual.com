@@ -1,6 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useNetwork } from '@/src/context/Network'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
+
 import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { useNetwork } from '@/src/context/Network'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (itemsToSkip) => {
@@ -22,14 +27,9 @@ const getQuery = (itemsToSkip) => {
       stakingTokenName
       stakingTokenSymbol
       stakingTokenDecimals
-      uniStakingTokenDollarPair
       rewardToken
-      rewardTokenName
       rewardTokenSymbol
       rewardTokenDecimals
-      uniRewardTokenDollarPair
-      rewardTokenDeposit
-      maxStake
       rewardPerBlock
       lockupPeriodInBlocks
       platformFee

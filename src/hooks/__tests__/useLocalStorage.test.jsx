@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
-import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { renderHookWrapper } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 import { originalProcess } from '@/utils/unit-tests/test-utils'
 
 describe('useLocalStorage', () => {

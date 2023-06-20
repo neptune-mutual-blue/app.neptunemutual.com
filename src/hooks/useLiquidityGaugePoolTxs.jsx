@@ -3,10 +3,11 @@ import {
   useState
 } from 'react'
 
-import { LGP_TXS_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { getReplacedString } from '@/utils/string'
+import {
+  getLgpTransactions
+} from '@/src/services/api/liquidity-gauge-pools/transactions'
 import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
@@ -23,35 +24,16 @@ export const useLiquidityGaugePoolTxs = () => {
         return
       }
 
-      const handleError = (err) => {
-        notifyError(err, t`Could not get liquidity gauge pool transactions list`)
-      }
-
       try {
-        const response = await fetch(
-          getReplacedString(LGP_TXS_URL, { networkId, account: account.toLowerCase() }),
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: 'application/json'
-            }
-          }
-        )
+        const _data = await getLgpTransactions(networkId, account)
 
-        if (!response.ok) {
-          return
-        }
-
-        const _data = (await response.json()).data
-
-        if (!_data || !Array.isArray(_data)) {
+        if (!_data) {
           return
         }
 
         setData(_data)
       } catch (err) {
-        handleError(err)
+        notifyError(err, t`Could not get liquidity gauge pool transactions list`)
       }
     }
 

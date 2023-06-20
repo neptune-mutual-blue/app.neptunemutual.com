@@ -1,12 +1,21 @@
-import { PercentXStackedChart } from '@/common/PercentXStackedChart'
-import { HorizontalChartLegend } from '@/src/modules/reporting/HorizontalChartLegend'
-import { classNames } from '@/utils/classnames'
-import { formatPercent } from '@/utils/formatter/percent'
-import * as Tooltip from '@radix-ui/react-tooltip'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 import React from 'react'
+
+import { useRouter } from 'next/router'
+
+import { PercentXStackedChart } from '@/common/PercentXStackedChart'
 import { useAppConstants } from '@/src/context/AppConstants'
+import {
+  HorizontalChartLegend
+} from '@/src/modules/reporting/HorizontalChartLegend'
+import { convertFromUnits } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const VotesSummaryHorizontalChart = ({
   yesPercent,
@@ -48,11 +57,18 @@ export const VotesSummaryHorizontalChart = ({
 
 const ToolTipContent = ({ majority }) => {
   const router = useRouter()
-  const { NPMTokenSymbol } = useAppConstants()
+  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   if (!majority) {
     return null
   }
+
+  const formattedMajorityStake = formatCurrency(
+    convertFromUnits(majority.stake, NPMTokenDecimals),
+    router.locale,
+    NPMTokenSymbol,
+    true
+  )
 
   return (
     <>
@@ -84,7 +100,7 @@ const ToolTipContent = ({ majority }) => {
           </>
 
           <span className='text-sm leading-5 text-black opacity-40'>
-            <Trans>Stake:</Trans> {majority.stake} {NPMTokenSymbol}
+            <Trans>Stake:</Trans> <span title={formattedMajorityStake.long}>{formattedMajorityStake.short}</span>
           </span>
         </div>
         <Tooltip.Arrow

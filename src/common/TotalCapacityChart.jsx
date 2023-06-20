@@ -10,15 +10,11 @@ import {
   CustomHighcharts,
   HighchartsReactComponent
 } from '@/common/HighChartsReactComponent'
-import { useAppConstants } from '@/src/context/AppConstants'
-import {
-  convertFromUnits,
-  sort
-} from '@/utils/bn'
+import { sort } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 
 export const TotalCapacityChart = ({ data }) => {
-  const { liquidityTokenDecimals } = useAppConstants()
+  // const { liquidityTokenDecimals } = useAppConstants()
 
   const [chartData, setChartData] = useState([])
   const chartRef = useRef()
@@ -174,7 +170,7 @@ export const TotalCapacityChart = ({ data }) => {
         _chartData.push({
           x: date * 1000,
           y: parseFloat(
-            convertFromUnits(value, liquidityTokenDecimals).toString()
+            value
           )
         })
       })
@@ -198,7 +194,7 @@ export const TotalCapacityChart = ({ data }) => {
       ignore = true
       clearTimeout(chartDataTimeout)
     }
-  }, [data, chartData.length, liquidityTokenDecimals])
+  }, [data, chartData.length])
 
   return (
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>

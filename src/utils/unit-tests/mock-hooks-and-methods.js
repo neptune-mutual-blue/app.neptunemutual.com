@@ -64,7 +64,6 @@ import * as PolicyTxsHook from '@/src/hooks/usePolicyTxs'
 import * as PoolInfoHook from '@/src/hooks/usePoolInfo'
 import * as ProtocolDayDataHook from '@/src/hooks/useProtocolDayData'
 import * as ProvideLiquidityHook from '@/src/hooks/useProvideLiquidity'
-import * as TokenStakingPoolsHook from '@/src/hooks/useTokenStakingPools'
 import * as PurchasePolicyHook from '@/src/hooks/usePurchasePolicy'
 import * as RecentVotesHook from '@/src/hooks/useRecentVotes'
 import * as RegisterTokenHook from '@/src/hooks/useRegisterToken'
@@ -76,18 +75,21 @@ import * as RetryUntilPassedHook from '@/src/hooks/useRetryUntilPassed'
 import * as SearchResultsHook from '@/src/hooks/useSearchResults'
 import * as SubgraphFetchHook from '@/src/hooks/useSubgraphFetch'
 import * as TokenDecimalsHook from '@/src/hooks/useTokenDecimals'
+import * as TokenStakingPoolsHook from '@/src/hooks/useTokenStakingPools'
 import * as TxToastHook from '@/src/hooks/useTxToast'
 import * as UnstakeReportingStakeHook
   from '@/src/hooks/useUnstakeReportingStake'
 import * as ValidateReferralCodeHook from '@/src/hooks/useValidateReferralCode'
 import * as ValidReportHook from '@/src/hooks/useValidReport'
 import * as VoteHook from '@/src/hooks/useVote'
+import * as ProtocolDayDataFile from '@/src/services/aggregated-stats/protocol'
+import * as ReadFromIpfsAPI from '@/src/services/api/ipfs/read'
+import * as WriteToIpfsAPI from '@/src/services/api/ipfs/write'
 import * as GetActivePolicies from '@/src/services/api/policy/active'
 import * as UnstakeInfoForFn from '@/src/services/protocol/consensus/info'
 import * as SubgraphDataFn from '@/src/services/subgraph'
 import * as TransactionHistoryFile
   from '@/src/services/transactions/transaction-history'
-import * as IPFS from '@/src/utils/ipfs'
 import * as ReplacedStringFn from '@/utils/string'
 import { testData } from '@/utils/unit-tests/test-data'
 
@@ -507,12 +509,12 @@ const mockHooksOrMethods = {
   ipfs: {
     writeToIpfs: (cb = () => { return testData.writeToIpfs }) => {
       return jest
-        .spyOn(IPFS, 'writeToIpfs')
+        .spyOn(WriteToIpfsAPI, 'writeToIpfs')
         .mockImplementation(returnFunction(cb))
     },
     readFromIpfs: (cb = () => { return testData.readFromIpfs }) => {
       return jest
-        .spyOn(IPFS, 'readFromIpfs')
+        .spyOn(ReadFromIpfsAPI, 'readFromIpfs')
         .mockImplementation(returnFunction(cb))
     }
   },
@@ -642,6 +644,12 @@ const mockHooksOrMethods = {
   useTokenStakingPools: (cb = () => { return testData.tokenStakingPools }) => {
     return jest
       .spyOn(TokenStakingPoolsHook, 'useTokenStakingPools')
+      .mockImplementation(returnFunction(cb))
+  },
+
+  getGroupedProtocolDayData: (cb = () => { return Promise.resolve(testData.protocolDayData.data) }) => {
+    return jest
+      .spyOn(ProtocolDayDataFile, 'getGroupedProtocolDayData')
       .mockImplementation(returnFunction(cb))
   }
 }

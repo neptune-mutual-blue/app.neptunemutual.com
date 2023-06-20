@@ -1,16 +1,17 @@
-import { initiateTest } from '@/utils/unit-tests/helpers'
-import { screen } from '@/utils/unit-tests/test-utils'
-import { testData } from '@/utils/unit-tests/test-data'
-import { HlCalendar } from './index'
 import DateLib from '@/lib/date/DateLib'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { testData } from '@/utils/unit-tests/test-data'
+import { screen } from '@/utils/unit-tests/test-utils'
+
+import { HlCalendar } from './index'
 
 describe('HighLight Calendar', () => {
   const { initialRender, rerenderFn } = initiateTest(HlCalendar, {
     startDate: DateLib.fromUnix(
-      testData.incidentReports.data.incidentReport.incidentDate
+      testData.incidentReports.data.incidentDate
     ),
     endDate: DateLib.fromUnix(
-      testData.incidentReports.data.incidentReport.resolutionTimestamp
+      testData.incidentReports.data.resolutionTimestamp
     )
   })
 

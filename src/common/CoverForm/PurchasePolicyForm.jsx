@@ -10,6 +10,7 @@ import { BackButton } from '@/common/BackButton/BackButton'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
+import { AbnormalCoverStatus } from '@/common/CoverForm/AbnormalStatus'
 import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
 import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
 import PurchaseAmountStep from '@/common/CoverForm/Steps/PurchaseAmountStep'
@@ -50,7 +51,6 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { AbnormalCoverStatus } from '@/common/CoverForm/AbnormalStatus'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
@@ -66,7 +66,7 @@ const getCoveragePeriodLabels = (locale) => {
 
   const monthNames = getMonthNames(locale, true)
 
-  // Note: Refer `getExpiryDateInternal` in protocol
+  // @note: Refer `getExpiryDateInternal` in protocol
   // https://github.com/neptune-mutual-blue/protocol/blob/a98fcce3657d80814f2aca67a4a8a3534ff8da2d/contracts/libraries/CoverUtilV1.sol#L599-L613
   if (day >= 25) {
     return [

@@ -21,6 +21,7 @@ import { truncateAddressParam } from '@/utils/address'
 import {
   convertFromUnits,
   isGreater,
+  sumOf,
   toBN
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
@@ -58,14 +59,14 @@ export const ResolvedReportSummary = ({
   const { NPMTokenSymbol, roles } = useAppConstants()
 
   const votes = {
-    yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
-    no: convertFromUnits(no).decimalPlaces(0).toNumber()
+    yes: convertFromUnits(yes).toString(),
+    no: convertFromUnits(no).toString()
   }
 
-  const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
+  const yesPercent = toBN(votes.yes).dividedBy(sumOf(votes.yes, votes.no))
     .decimalPlaces(2)
     .toNumber()
-  const noPercent = toBN(1 - yesPercent)
+  const noPercent = toBN(1).minus(yesPercent)
     .decimalPlaces(2)
     .toNumber()
 
@@ -82,7 +83,7 @@ export const ResolvedReportSummary = ({
     voteCount: isAttestedWon
       ? incidentReport.totalAttestedCount
       : incidentReport.totalRefutedCount,
-    stake: isAttestedWon ? votes.yes : votes.no,
+    stake: isAttestedWon ? yes : no,
     percent: isAttestedWon ? yesPercent : noPercent,
     variant: isAttestedWon ? 'success' : 'failure'
   }

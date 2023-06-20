@@ -1,34 +1,32 @@
-import { useRouter } from 'next/router'
 import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
 import { initiateTest } from '@/utils/unit-tests/helpers'
 import { ReportingResolvedPage } from '@/modules/reporting/resolved/resolved'
 import { testData } from '@/utils/unit-tests/test-data'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 
-const initialMocks = () => {
-  // mockHooksOrMethods.useRouter();
-  mockHooksOrMethods.useNetwork()
-  mockHooksOrMethods.useResolvedReportings()
-  mockHooksOrMethods.useSortableStats()
-}
-
-jest.mock('next/router', () => {
-  return {
-    useRouter: jest.fn()
-  }
-})
-
 describe('ResolvedReportingPage test', () => {
   const push = jest.fn()
-  useRouter.mockImplementation(() => {
-    return {
-      push,
-      pathname: '/',
-      route: '/',
-      asPath: '/',
-      query: ''
-    }
-  })
+  const initialMocks = () => {
+    mockHooksOrMethods.useRouter(() => {
+      return {
+        ...testData.router,
+        push
+      }
+    })
+    mockHooksOrMethods.useNetwork()
+    mockHooksOrMethods.useResolvedReportings()
+    mockHooksOrMethods.useSortableStats(() => {
+      return {
+        getStatsByKey: () => {
+          return {
+            resolvedOn: '1686050060',
+            text: 'Coinbase (Non US)'
+          }
+        },
+        setStatsByKey: jest.fn
+      }
+    })
+  }
 
   const { initialRender } = initiateTest(
     ReportingResolvedPage,

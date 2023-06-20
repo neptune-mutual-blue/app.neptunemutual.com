@@ -1,15 +1,15 @@
-import { config, registry, multicall } from '@neptunemutual/sdk'
-
 import {
-  FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
-  FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
-  FALLBACK_NPM_TOKEN_DECIMALS,
-  FALLBACK_NPM_TOKEN_SYMBOL,
   GET_CONTRACTS_INFO_URL,
   NetworkUrlParam
 } from '@/src/config/constants'
-import { getReplacedString } from '@/utils/string'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { chunk } from '@/utils/arrays'
+import { getReplacedString } from '@/utils/string'
+import {
+  config,
+  multicall,
+  registry
+} from '@neptunemutual/sdk'
 
 const { Contract, Provider } = multicall
 
@@ -59,18 +59,26 @@ export const getAddressesFromApi = async (networkId) => {
 
     return {
       NPMTokenAddress: npmAddr.value,
-      NPMTokenSymbol: FALLBACK_NPM_TOKEN_SYMBOL,
-      NPMTokenDecimals: FALLBACK_NPM_TOKEN_DECIMALS,
+      NPMTokenSymbol: ChainConfig[networkId].npm.tokenSymbol,
+      NPMTokenDecimals: ChainConfig[networkId].npm.tokenDecimals,
 
       liquidityTokenAddress: stablecoinAddr.value,
-      liquidityTokenSymbol: FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
-      liquidityTokenDecimals: FALLBACK_LIQUIDITY_TOKEN_DECIMALS
+      liquidityTokenSymbol: ChainConfig[networkId].stablecoin.tokenSymbol,
+      liquidityTokenDecimals: ChainConfig[networkId].stablecoin.tokenDecimals
     }
   } catch (error) {
     console.error('could not get contract addresses from api', error)
   }
 
-  return null
+  return {
+    NPMTokenAddress: ChainConfig[networkId].npm.address,
+    NPMTokenSymbol: ChainConfig[networkId].npm.tokenSymbol,
+    NPMTokenDecimals: ChainConfig[networkId].npm.tokenDecimals,
+
+    liquidityTokenAddress: ChainConfig[networkId].stablecoin.address,
+    liquidityTokenSymbol: ChainConfig[networkId].stablecoin.tokenSymbol,
+    liquidityTokenDecimals: ChainConfig[networkId].stablecoin.tokenDecimals
+  }
 }
 
 export const getAddressesFromProvider = async (networkId, signerOrProvider) => {
@@ -97,5 +105,13 @@ export const getAddressesFromProvider = async (networkId, signerOrProvider) => {
     console.error(error)
   }
 
-  return null
+  return {
+    NPMTokenAddress: ChainConfig[networkId].npm.address,
+    NPMTokenSymbol: ChainConfig[networkId].npm.tokenSymbol,
+    NPMTokenDecimals: ChainConfig[networkId].npm.tokenDecimals,
+
+    liquidityTokenAddress: ChainConfig[networkId].stablecoin.address,
+    liquidityTokenSymbol: ChainConfig[networkId].stablecoin.tokenSymbol,
+    liquidityTokenDecimals: ChainConfig[networkId].stablecoin.tokenDecimals
+  }
 }

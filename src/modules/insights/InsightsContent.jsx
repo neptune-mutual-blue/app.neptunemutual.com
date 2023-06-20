@@ -7,7 +7,7 @@ import { BackButton } from '@/common/BackButton/BackButton'
 import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
 import PreviousNext from '@/common/PreviousNext'
 import { TotalCapacityChart } from '@/common/TotalCapacityChart'
-import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
+import { AbbreviatedNetworkNames } from '@/lib/connect-wallet/config/chains'
 import Consensus from '@/modules/insights/Consensus'
 import ConsensusDetails from '@/modules/insights/ConsensusDetails'
 import CoverEarning from '@/modules/insights/CoverEarning'
@@ -178,7 +178,6 @@ export const InsightsContent = () => {
       fetchTopAccountsByProtection()
     }
   }, [
-    selected.value,
     fetchConsensusData,
     fetchCoverEarningData,
     fetchCoverSoldOrPremiumData,
@@ -188,7 +187,8 @@ export const InsightsContent = () => {
     fetchMonthlyProtectionData,
     fetchProtocolDayData,
     fetchTopAccountsByLiquidity,
-    fetchTopAccountsByProtection
+    fetchTopAccountsByProtection,
+    selected.value
   ])
 
   const ReportLabels = (
@@ -203,7 +203,7 @@ export const InsightsContent = () => {
 
   const chains = RoiByCoverChainIds.map(chainId => {
     return {
-      label: ShortNetworkNames[chainId],
+      label: AbbreviatedNetworkNames[chainId],
       value: chainId
     }
   })
@@ -285,9 +285,6 @@ export const InsightsContent = () => {
           </>
         )
 
-      case AllDropdownOptions.DEMAND:
-        return <TotalCapacityChart data={totalCovered} />
-
       case AllDropdownOptions.HISTORICAL_ROI:
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
 
@@ -295,7 +292,8 @@ export const InsightsContent = () => {
         return (
           <HistoricalRoiByCover
             selectedChain={selectedChain}
-            loading={historicalDataByCoverLoading} data={historicalDataByCover}
+            loading={historicalDataByCoverLoading}
+            data={historicalDataByCover}
           />
         )
 
@@ -353,6 +351,9 @@ export const InsightsContent = () => {
 
       case AllDropdownOptions.TOTAL_CAPACITY:
         return <TotalCapacityChart data={totalCapacity} />
+
+      case AllDropdownOptions.DEMAND:
+        return <TotalCapacityChart data={totalCovered} />
 
       case AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION:
         return <TopAccountsByProtection userData={protectionTopAccounts} loading={protectionTopAccountsLoading} page={currentPage} />

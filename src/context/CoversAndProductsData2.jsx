@@ -3,17 +3,20 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState
 } from 'react'
 
-import {
-  PRODUCT_SUMMARY_URL,
-  PRODUCT_SUMMARY_WITH_ACCOUNT_URL
-} from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
-import { getReplacedString } from '@/utils/string'
+import { getProductSummary } from '@/src/services/api/home/product-summary'
+import {
+  getProductSummaryWithAccount
+} from '@/src/services/api/home/product-summary-with-account'
+import {
+  convertToUnits,
+  toBNSafe
+} from '@/utils/bn'
 import { useWeb3React } from '@web3-react/core'
 
 const CoversAndProductsDataContext = createContext({
@@ -52,39 +55,29 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
 
-  const url = useMemo(() => {
-    if (account) {
-      const replacements = { networkId, account }
-
-      return getReplacedString(PRODUCT_SUMMARY_WITH_ACCOUNT_URL, replacements)
-    }
-
-    const replacements = { networkId }
-
-    return getReplacedString(PRODUCT_SUMMARY_URL, replacements)
-  }, [account, networkId])
+  const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
+  const npmDecimals = ChainConfig[networkId].npm.tokenDecimals
 
   const updateData = useCallback(async function () {
     try {
-      const response = await fetch(
-        url,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
+      const _data = account ? await getProductSummaryWithAccount(networkId, account) : await getProductSummary(networkId)
+
+      setData(_data
+        .filter(x => {
+          return x.chainId.toString() === networkId.toString()
+        })
+        .map(x => {
+          return {
+            ...x,
+            availableForUnderwriting: convertToUnits(x.availableForUnderwriting, stablecoinDecimals).toString(),
+            capacity: convertToUnits(x.capacity, stablecoinDecimals).toString(),
+            commitment: convertToUnits(x.commitment, stablecoinDecimals).toString(),
+            minReportingStake: convertToUnits(x.minReportingStake, npmDecimals).toString(),
+            reassurance: convertToUnits(x.reassurance, stablecoinDecimals).toString(),
+            tvl: convertToUnits(x.tvl, stablecoinDecimals).toString(),
+            leverage: toBNSafe(x.leverage).isZero() ? '1' : x.leverage
           }
-        }
-      )
-
-      if (!response.ok) {
-        return
-      }
-
-      const res = await response.json()
-
-      setData(res.data
-        .filter(x => { return x.chainId.toString() === networkId.toString() })
+        })
         .sort((a, b) => {
           const text1 = a?.productInfoDetails?.productName || (a?.coverInfoDetails?.coverName || a?.coverInfoDetails?.projectName) || ''
           const text2 = b?.productInfoDetails?.productName || (b?.coverInfoDetails?.coverName || b?.coverInfoDetails?.projectName) || ''
@@ -95,7 +88,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
-  }, [networkId, url])
+  }, [account, networkId, npmDecimals, stablecoinDecimals])
 
   useEffect(() => {
     setLoading(true)

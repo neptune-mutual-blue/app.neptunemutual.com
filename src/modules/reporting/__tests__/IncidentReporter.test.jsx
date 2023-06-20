@@ -1,8 +1,8 @@
-import { i18n } from '@lingui/core'
-import { render } from '@/utils/unit-tests/test-utils'
 import { IncidentReporter } from '@/modules/reporting/IncidentReporter'
-import { testData } from '@/utils/unit-tests/test-data'
 import { truncateAddressParam } from '@/utils/address'
+import { testData } from '@/utils/unit-tests/test-data'
+import { render } from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 describe('IncidentReporter test', () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('IncidentReporter test', () => {
   })
 
   test('should render the Incident Reporter as green when variant is success', () => {
-    const incidentReport = testData.incidentReports.data.incidentReport
+    const incidentReport = testData.incidentReports.data
     const screen = render(
       <IncidentReporter
         variant='success'
@@ -27,7 +27,7 @@ describe('IncidentReporter test', () => {
   })
 
   test('should render the Incident Reporter as orange when variant is error', () => {
-    const incidentReport = testData.incidentReports.data.incidentReport
+    const incidentReport = testData.incidentReports.data
     const screen = render(
       <IncidentReporter
         variant='error'

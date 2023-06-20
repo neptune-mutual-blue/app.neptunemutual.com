@@ -25,6 +25,9 @@ import {
 const UnlockEscrow = ({
   onBack,
   veNPMBalance,
+  veNPMTokenAddress,
+  veNPMTokenSymbol,
+  veNPMTokenDecimals,
   unlockTimestamp,
   refetchLockData
 }) => {
@@ -41,8 +44,10 @@ const UnlockEscrow = ({
     unlocking
   } = useVoteEscrowUnlock({
     refetchLockData,
-    veNPMBalance: veNPMBalance,
-    veNPMTokenDecimals: NPMTokenDecimals,
+    veNPMBalance,
+    veNPMTokenSymbol,
+    veNPMTokenAddress,
+    veNPMTokenDecimals,
     unlockTimestamp
   })
 
@@ -65,6 +70,7 @@ const UnlockEscrow = ({
       <VoteEscrowTitle title='Unlock veNPM' />
       <EscrowSummary
         veNPMBalance={veNPMBalance}
+        veNPMTokenSymbol={veNPMTokenSymbol}
         unlockTimestamp={unlockTimestamp}
       />
 

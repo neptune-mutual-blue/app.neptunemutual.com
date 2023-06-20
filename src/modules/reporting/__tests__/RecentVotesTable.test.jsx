@@ -17,7 +17,7 @@ describe('RecentVotesTable test', () => {
     mockHooksOrMethods.useRecentVotes()
   })
 
-  const incidentReport = testData.incidentReports.data.incidentReport
+  const incidentReport = testData.incidentReports.data
 
   test('should render the recent votes table', () => {
     const screen = render(

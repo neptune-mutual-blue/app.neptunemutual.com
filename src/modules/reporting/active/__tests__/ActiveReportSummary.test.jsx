@@ -1,16 +1,16 @@
 import {
-  initiateTest
-} from '@/utils/unit-tests/helpers'
+  ActiveReportSummary
+} from '@/modules/reporting/active/ActiveReportSummary'
+import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
 import { screen } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
-import { ActiveReportSummary } from '@/modules/reporting/active/ActiveReportSummary'
-import { testData } from '@/utils/unit-tests/test-data'
-import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-import { mockGlobals } from '@/utils/unit-tests/mock-globals'
 
 const refetchReport = jest.fn()
 const refetchInfo = jest.fn()
-const incidentReport = testData.incidentReports.data.incidentReport
+const incidentReport = testData.incidentReports.data
 const info = testData.consensusInfo.info
 
 jest.mock('react-chartjs-2', () => {

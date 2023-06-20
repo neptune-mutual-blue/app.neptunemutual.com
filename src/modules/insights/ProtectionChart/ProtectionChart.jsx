@@ -50,7 +50,6 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
     return {
       label: ShortNetworkNames[chainId],
       value: chainId
-
     }
   })
 
@@ -249,7 +248,7 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
             {chains.map(chain => {
               return (
                 <div className='flex items-center gap-1' key={chain.value}>
-                  <div className={'rounded-full h-3.5 w-3.5 bg-' + ChainAnalyticsColors[chain.value]} />
+                  <div className={'rounded-full h-3.5 w-3.5 bg-' + (ChainAnalyticsColors[chain.value] || ChainAnalyticsColors.DEFAULT)} />
                   <span className='text-sm font-semibold'>{chain.label}</span>
                 </div>
               )

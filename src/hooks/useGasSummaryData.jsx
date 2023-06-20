@@ -1,6 +1,13 @@
-import { getGasSummaryDataURL } from '@/src/config/constants'
+import {
+  useCallback,
+  useRef,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
-import { useRef, useState } from 'react'
+import {
+  getGasPriceSummary
+} from '@/src/services/api/home/charts/gas-price-summary'
 
 export const useGasSummaryData = () => {
   const fetched = useRef(false)
@@ -9,37 +16,27 @@ export const useGasSummaryData = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchGasSummary = async () => {
-    if (fetched.current || loading) { return }
+  const fetchGasSummary = useCallback(async () => {
+    if (fetched.current) { return }
 
     setLoading(true)
 
     try {
-      const response = await fetch(
-        getGasSummaryDataURL(networkId),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          }
-        }
-      )
+      const _data = await getGasPriceSummary(networkId)
 
-      if (!response.ok) {
+      if (!_data) {
         return
       }
 
-      fetched.current = true
+      setData(_data)
 
-      const res = await response.json()
-      setData(res.data)
+      fetched.current = true
     } catch (err) {
       console.error(err)
     }
 
     setLoading(false)
-  }
+  }, [networkId])
 
   return {
     fetchGasSummary,

@@ -823,6 +823,7 @@ export const testData = {
       isAccrualComplete: true
     },
     stakingTokenBalance: '1000000000000000000000',
+    stablecoinTokenBalance: '100000000',
     stakingTokenBalanceLoading: false,
     updateStakingTokenBalance: jest.fn(),
     refetchInfo: jest.fn()
@@ -1177,6 +1178,131 @@ export const testData = {
         {
           date: 1660003200,
           value: '61489519602741'
+        }
+      ],
+      totalLiquidity: [
+        {
+          date: 1658102400,
+          value: '61432804000000'
+        },
+        {
+          date: 1658188800,
+          value: '61432804000000'
+        },
+        {
+          date: 1658275200,
+          value: '61434054000000'
+        },
+        {
+          date: 1658361600,
+          value: '61442554000000'
+        },
+        {
+          date: 1658448000,
+          value: '61447554000000'
+        },
+        {
+          date: 1658534400,
+          value: '61447554000000'
+        },
+        {
+          date: 1658620800,
+          value: '61447554000000'
+        },
+        {
+          date: 1658707200,
+          value: '61449554000000'
+        },
+        {
+          date: 1658793600,
+          value: '61469047602741'
+        },
+        {
+          date: 1658880000,
+          value: '61483097602741'
+        },
+        {
+          date: 1658966400,
+          value: '61483097602741'
+        },
+        {
+          date: 1659052800,
+          value: '61483597602741'
+        }
+      ],
+      totalCovered:
+      [
+        {
+          date: 1660521600,
+          value: '61509609602741'
+        },
+        {
+          date: 1660608000,
+          value: '61509609602741'
+        },
+        {
+          date: 1660694400,
+          value: '61510498602741'
+        },
+        {
+          date: 1660780800,
+          value: '61510498602741'
+        },
+        {
+          date: 1660867200,
+          value: '61510498602741'
+        },
+        {
+          date: 1660953600,
+          value: '61520498602741'
+        },
+        {
+          date: 1661040000,
+          value: '61520498602741'
+        },
+        {
+          date: 1661126400,
+          value: '61520498602741'
+        },
+        {
+          date: 1661212800,
+          value: '61521498602741'
+        },
+        {
+          date: 1661299200,
+          value: '61523698602741'
+        },
+        {
+          date: 1661385600,
+          value: '61523698602741'
+        },
+        {
+          date: 1661472000,
+          value: '61523698602741'
+        },
+        {
+          date: 1661558400,
+          value: '61523698602741'
+        },
+        {
+          date: 1661644800,
+          value: '61523898602741'
+        },
+        {
+          date: 1661731200,
+          value: '61523998602741'
+        },
+        {
+          date: 1661817600,
+          value: '61524998602741'
+        },
+        {
+          date: 1661904000,
+          value: '61524998602741'
+        },
+        {
+          date: 1661990400,
+          value: '61524998602741'
         }
       ]
     },
@@ -1633,13 +1759,59 @@ export const testData = {
     }
   },
   myLiquidities: {
-    data: { liquidityList: [], myLiquidities: {} },
+    data: {
+      liquidityList: [
+        {
+          podAmount: '2998692313680000392804',
+          podAddress: '0x54db4e981a16a7ca66a12a17764bec7234c9d47f'
+        },
+        {
+          podAmount: '960009229661491576483563',
+          podAddress: '0x09c9d6b1a9e499a423120c03e584edc020aeda6d'
+        }
+      ],
+      myLiquidities: [
+        {
+          id: '0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6-0x62696e616e636500000000000000000000000000000000000000000000000000',
+          account: '0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6',
+          totalPodsRemaining: '2998692313680000392804',
+          cover: {
+            id: '0x62696e616e636500000000000000000000000000000000000000000000000000',
+            coverKey: '0x62696e616e636500000000000000000000000000000000000000000000000000',
+            vaults: [
+              {
+                tokenSymbol: 'iUSDC-BNB',
+                tokenDecimals: 18,
+                address: '0x54db4e981a16a7ca66a12a17764bec7234c9d47f'
+              }
+            ]
+          }
+        },
+        {
+          id: '0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6-0x72616469616e742d763200000000000000000000000000000000000000000000',
+          account: '0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6',
+          totalPodsRemaining: '960009229661491576483563',
+          cover: {
+            id: '0x72616469616e742d763200000000000000000000000000000000000000000000',
+            coverKey: '0x72616469616e742d763200000000000000000000000000000000000000000000',
+            vaults: [
+              {
+                tokenSymbol: 'iUSDC-RDNT',
+                tokenDecimals: 18,
+                address: '0x09c9d6b1a9e499a423120c03e584edc020aeda6d'
+              }
+            ]
+          }
+        }
+      ]
+    },
     loading: false
   },
   calculateTotalLiquidity: 10,
   fetchReport: {
     data: { incidentReport: true },
-    loading: false
+    loading: false,
+    refetch: jest.fn()
   },
   castYourVote: {
     tokenAddress: '0xF7c352D9d6967Bd916025030E38eA58cF48029f8',

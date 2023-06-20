@@ -6,20 +6,25 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
+import {
+  ChainLogos,
+  NetworkNames
+} from '@/lib/connect-wallet/config/chains'
 import { renderHeader } from '@/src/common/Table/renderHeader'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 
-const RenderNetwork = ({ LogoIcon, name }) => {
+const RenderNetwork = ({ networkId }) => {
+  const LogoIcon = ChainLogos[networkId]
+  const networkName = NetworkNames[networkId]
+
   return (
     <td
       className='px-6 py-4'
     >
-      <div className='flex flex-row text-sm leading-5 w-54 text-01052D' title={name}>
+      <div className='flex flex-row text-sm leading-5 w-54 text-01052D' title={networkName}>
         <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
-        <span> {name} </span>
+        <span> {networkName} </span>
       </div>
     </td>
   )
@@ -27,7 +32,6 @@ const RenderNetwork = ({ LogoIcon, name }) => {
 
 const RenderCover = ({ coverFee }) => {
   const router = useRouter()
-  const { liquidityTokenDecimals } = useAppConstants()
 
   return (
     <td
@@ -35,22 +39,10 @@ const RenderCover = ({ coverFee }) => {
     >
       <span
         title={
-          formatCurrency(
-            convertFromUnits(
-              coverFee,
-              liquidityTokenDecimals
-            ).toString(),
-            router.locale
-          ).long
+          formatCurrency(coverFee, router.locale).long
         }
       >
-        {formatCurrency(
-          convertFromUnits(
-            coverFee,
-            liquidityTokenDecimals
-          ).toString(),
-          router.locale
-        ).short}
+        {formatCurrency(coverFee, router.locale).short}
       </span>
     </td>
   )
@@ -58,7 +50,6 @@ const RenderCover = ({ coverFee }) => {
 
 const RenderCapacity = ({ capacity }) => {
   const router = useRouter()
-  const { liquidityTokenDecimals } = useAppConstants()
 
   return (
     <td
@@ -66,22 +57,10 @@ const RenderCapacity = ({ capacity }) => {
     >
       <span
         title={
-          formatCurrency(
-            convertFromUnits(
-              capacity,
-              liquidityTokenDecimals
-            ).toString(),
-            router.locale
-          ).long
+          formatCurrency(capacity, router.locale).long
         }
       >
-        {formatCurrency(
-          convertFromUnits(
-            capacity,
-            liquidityTokenDecimals
-          ).toString(),
-          router.locale
-        ).short}
+        {formatCurrency(capacity, router.locale).short}
       </span>
     </td>
   )
@@ -89,7 +68,6 @@ const RenderCapacity = ({ capacity }) => {
 
 const RenderTVL = ({ tvl }) => {
   const router = useRouter()
-  const { liquidityTokenDecimals } = useAppConstants()
 
   return (
     <td
@@ -97,22 +75,10 @@ const RenderTVL = ({ tvl }) => {
     >
       <span
         title={
-          formatCurrency(
-            convertFromUnits(
-              tvl,
-              liquidityTokenDecimals
-            ).toString(),
-            router.locale
-          ).long
+          formatCurrency(tvl, router.locale).long
         }
       >
-        {formatCurrency(
-          convertFromUnits(
-            tvl,
-            liquidityTokenDecimals
-          ).toString(),
-          router.locale
-        ).short}
+        {formatCurrency(tvl, router.locale).short}
       </span>
     </td>
   )
@@ -122,7 +88,7 @@ const columns = [
     name: t`Network`,
     align: 'left',
     renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row) => { return <RenderNetwork LogoIcon={row.LogoIcon} name={row.name} /> }
+    renderData: (row) => { return <RenderNetwork networkId={row.networkId} /> }
   },
   {
     name: t`Cover Fee Earned`,

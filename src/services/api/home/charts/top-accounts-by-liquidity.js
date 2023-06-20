@@ -1,5 +1,6 @@
-import { api } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
+
+import * as api from '../../config'
 
 export const getTopAccountsByLiquidity = async (networkId) => {
   try {
@@ -19,7 +20,13 @@ export const getTopAccountsByLiquidity = async (networkId) => {
 
     const data = await response.json()
 
-    return data.data
+    const items = data.data
+
+    if (!items || !Array.isArray(items)) {
+      return null
+    }
+
+    return items
   } catch (error) {
     console.error('Could not get top accounts by liquidity', error)
   }

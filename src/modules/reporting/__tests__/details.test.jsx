@@ -15,6 +15,18 @@ jest.mock('react-chartjs-2', () => {
   }
 })
 
+const props = {
+  coverKey: '0x676d782d76310000000000000000000000000000000000000000000000000000',
+  productKey: '0x0000000000000000000000000000000000000000000000000000000000000000',
+  projectOrProductName: 'GMX',
+  reporterCommission: 1000,
+  minReportingStake: '400000000000000000000',
+  refetchCoverData: jest.fn,
+  refetchReport: jest.fn,
+  incidentReport: testData.incidentReports.data,
+  coverOrProductData: testData.coversAndProducts2.data
+}
+
 describe('ReportingDetailsPage test', () => {
   beforeEach(() => {
     i18n.activate('en')
@@ -27,15 +39,9 @@ describe('ReportingDetailsPage test', () => {
     mockGlobals.DOMRect()
   })
 
-  const refetch = jest.fn()
-
   test('should render the Reporting in breadcrumb', () => {
     render(
-      <ReportingDetailsPage
-        incidentReport={testData.incidentReports.data.incidentReport}
-        coverOrProductData={testData.coversAndProducts2.data}
-        refetchReport={refetch}
-      />
+      <ReportingDetailsPage {...props} />
     )
     const wrapper = screen.getByText(/Reporting Period/i)
     expect(wrapper).toBeInTheDocument()

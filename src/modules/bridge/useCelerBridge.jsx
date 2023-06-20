@@ -5,7 +5,9 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import * as celerConfig from '@/src/config/bridge/celer'
+import {
+  useCelerTransferConfigs
+} from '@/modules/bridge/useCelerTransferConfigs'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -23,6 +25,7 @@ import {
 import {
   convertFromUnits,
   convertToUnits,
+  toBN,
   toBNSafe
 } from '@/utils/bn'
 import { getNetworkInfo } from '@/utils/network'
@@ -38,8 +41,6 @@ const ABI = [
   { inputs: [{ internalType: 'address', name: '_receiver', type: 'address' }, { internalType: 'address', name: '_token', type: 'address' }, { internalType: 'uint256', name: '_amount', type: 'uint256' }, { internalType: 'uint64', name: '_dstChainId', type: 'uint64' }, { internalType: 'uint64', name: '_nonce', type: 'uint64' }, { internalType: 'uint32', name: '_maxSlippage', type: 'uint32' }], name: 'send', outputs: [], stateMutability: 'nonpayable', type: 'function' }
 ]
 
-const METHOD_NAME = 'send'
-
 export const useCelerBridge = ({
   srcChainId,
   destChainId,
@@ -48,28 +49,27 @@ export const useCelerBridge = ({
 }) => {
   const { networkId } = useNetwork()
 
-  const celerData = useMemo(() => {
-    const { isTestNet } = getNetworkInfo(networkId)
-    const tokenData = isTestNet ? celerConfig.TESTNET_USDC_BRIDGE_TOKENS : celerConfig.MAINNET_NPM_BRIDGE_TOKENS
-    const tokenSymbol = isTestNet ? 'USDC' : 'NPM'
-    const _networks = isTestNet ? networks.testnet : networks.mainnet
-    const filtered = _networks.filter(n => { return Object.keys(tokenData).includes(n.chainId.toString()) }) // filtered based on availability of tokens
+  const { tokenData, tokenSymbol, bridgeContractAddress } = useCelerTransferConfigs()
 
-    const bridgeContractAddress = celerConfig.BRIDGE_CONTRACTS[networkId]
+  const celerData = useMemo(() => {
+    if (!tokenData) {
+      return {
+        filteredNetworks: []
+      }
+    }
+
+    const { isTestNet } = getNetworkInfo(networkId)
+    const _networks = isTestNet ? networks.testnet : networks.mainnet
+    const filteredNetworks = _networks.filter(n => { return Object.keys(tokenData).includes(n.chainId.toString()) }) // filtered based on availability of tokens
 
     return {
-      bridgeContractAddress,
-      filteredNetworks: filtered,
-      tokenData,
-      tokenSymbol
+      filteredNetworks
     }
-  }, [networkId])
+  }, [networkId, tokenData])
 
-  const bridgeContractAddress = celerData.bridgeContractAddress
-  const tokenSymbol = celerData.tokenSymbol
-  const sourceTokenAddress = celerData.tokenData[networkId]?.address
-  const sourceTokenDecimal = celerData.tokenData[networkId]?.decimal
-  const destinationTokenDecimals = celerData.tokenData[destChainId]?.decimal
+  const sourceTokenAddress = tokenData?.[networkId]?.address
+  const sourceTokenDecimal = tokenData?.[networkId]?.decimal
+  const destinationTokenDecimals = tokenData?.[destChainId]?.decimal
 
   const sendAmountInUnits = convertToUnits(sendAmount || '0', sourceTokenDecimal).toString()
 
@@ -117,7 +117,8 @@ export const useCelerBridge = ({
         })
 
         if (!delay.isZero()) {
-          const time = `up to ${Number(delay.toString()) / (60)} minute(s)`
+          const period = toBN(delay.toString()).div(60).plus(10).toString()
+          const time = `up to ${period} minute(s)`
           setDelayPeriod(time)
         }
       } catch (err) {
@@ -299,7 +300,7 @@ export const useCelerBridge = ({
 
       await writeContract({
         instance,
-        methodName: METHOD_NAME,
+        methodName: 'send',
         args: [
           args.toAddress, // _receiver
           sourceTokenAddress, // _token
@@ -355,7 +356,7 @@ export const useCelerBridge = ({
     sourceTokenDecimal,
     destinationTokenDecimal: destinationTokenDecimals,
 
-    tokenData: celerData.tokenData,
+    tokenData,
     filteredNetworks: celerData.filteredNetworks,
 
     canApprove,

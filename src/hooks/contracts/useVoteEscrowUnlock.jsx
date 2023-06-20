@@ -5,10 +5,6 @@ import {
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import DateLib from '@/lib/date/DateLib'
-import {
-  CONTRACT_DEPLOYMENTS,
-  FALLBACK_VENPM_TOKEN_SYMBOL
-} from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -30,7 +26,14 @@ import {
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
-export const useVoteEscrowUnlock = ({ refetchLockData, veNPMBalance, veNPMTokenDecimals, unlockTimestamp }) => {
+export const useVoteEscrowUnlock = ({
+  refetchLockData,
+  veNPMBalance,
+  veNPMTokenAddress,
+  veNPMTokenSymbol,
+  veNPMTokenDecimals,
+  unlockTimestamp
+}) => {
   const { library, account } = useWeb3React()
 
   const { networkId } = useNetwork()
@@ -44,13 +47,13 @@ export const useVoteEscrowUnlock = ({ refetchLockData, veNPMBalance, veNPMTokenD
     loading: loadingAllowance,
     refetch: updateVeNPMAllowance,
     approve: approveVeNPM
-  } = useERC20Allowance(CONTRACT_DEPLOYMENTS[networkId].veNPM)
+  } = useERC20Allowance(veNPMTokenAddress)
   const [approving, setApproving] = useState(false)
   const [unlocking, setUnlocking] = useState(false)
 
   useEffect(() => {
-    updateVeNPMAllowance(CONTRACT_DEPLOYMENTS[networkId].veNPM)
-  }, [updateVeNPMAllowance, networkId])
+    updateVeNPMAllowance(veNPMTokenAddress)
+  }, [updateVeNPMAllowance, veNPMTokenAddress])
 
   const isPrematureUnlock = toBN(unlockTimestamp).isGreaterThan(DateLib.unix())
 
@@ -76,7 +79,7 @@ export const useVoteEscrowUnlock = ({ refetchLockData, veNPMBalance, veNPMTokenD
         status: STATUS.PENDING,
         data: {
           value: convertFromUnits(veNPMBalance.toString(), veNPMTokenDecimals),
-          tokenSymbol: FALLBACK_VENPM_TOKEN_SYMBOL
+          tokenSymbol: veNPMTokenSymbol
         }
       })
 
@@ -98,7 +101,7 @@ export const useVoteEscrowUnlock = ({ refetchLockData, veNPMBalance, veNPMTokenD
                 methodName: METHODS.VOTE_ESCROW_UNLOCK_APPROVE,
                 status: STATUS.SUCCESS
               })
-              updateVeNPMAllowance(CONTRACT_DEPLOYMENTS[networkId].veNPM)
+              updateVeNPMAllowance(veNPMTokenAddress)
             },
             onTxFailure: (err) => {
               TransactionHistory.push({
@@ -126,7 +129,7 @@ export const useVoteEscrowUnlock = ({ refetchLockData, veNPMBalance, veNPMTokenD
       cleanup()
     }
 
-    approveVeNPM(CONTRACT_DEPLOYMENTS[networkId].veNPM, veNPMBalance, {
+    approveVeNPM(veNPMTokenAddress, veNPMBalance, {
       onTransactionResult,
       onRetryCancel,
       onError
@@ -142,7 +145,7 @@ export const useVoteEscrowUnlock = ({ refetchLockData, veNPMBalance, veNPMTokenD
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      const instance = utils.contract.getContract(CONTRACT_DEPLOYMENTS[networkId].veNPM, abis.IVoteEscrowToken, signerOrProvider)
+      const instance = utils.contract.getContract(veNPMTokenAddress, abis.IVoteEscrowToken, signerOrProvider)
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -151,7 +154,7 @@ export const useVoteEscrowUnlock = ({ refetchLockData, veNPMBalance, veNPMTokenD
           status: STATUS.PENDING,
           data: {
             value: convertFromUnits(veNPMBalance, veNPMTokenDecimals),
-            tokenSymbol: FALLBACK_VENPM_TOKEN_SYMBOL
+            tokenSymbol: veNPMTokenSymbol
           }
         })
 

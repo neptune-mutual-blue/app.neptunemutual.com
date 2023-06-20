@@ -1,15 +1,19 @@
 import React from 'react'
-import { render, screen, act, cleanup } from '@/utils/unit-tests/test-utils'
-import { i18n } from '@lingui/core'
+
 import { HomeHero } from '@/modules/home/Hero'
 import * as ProtocolHook from '@/src/hooks/useProtocolDayData'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import { toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { testData } from '@/utils/unit-tests/test-data'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
-
-const liquidityTokenDecimals = 6
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  act,
+  cleanup,
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => { return returnData })
@@ -80,12 +84,10 @@ describe('Hero test', () => {
   test('should render correct total capacity value', () => {
     const changeData = getChangeData(testData.protocolDayData.data.totalCapacity)
     const currencyText = formatCurrency(
-      convertFromUnits(
-        changeData?.last || '0',
-        liquidityTokenDecimals
-      ).toString(),
+      changeData?.last || '0',
       'en'
     ).short
+
     const wrapper = screen.getByTestId('changedata-currency')
     expect(wrapper).toHaveTextContent(currencyText)
   })
