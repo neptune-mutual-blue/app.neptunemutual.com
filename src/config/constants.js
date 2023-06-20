@@ -1,5 +1,3 @@
-import { convertToUnits } from '@/utils/bn'
-
 export const MULTIPLIER = 10_000
 
 export const DEFAULT_GAS_LIMIT = '6000000'
@@ -138,4 +136,5 @@ export const PREMATURE_UNLOCK_PENALTY_FRACTION = 0.25
 
 export const EPOCH_DURATION = 28 * DAYS
 
-export const EMISSION_PER_EPOCH = convertToUnits(150_000, 18).toString()
+// convertToUnits(150_000, 18).toString(). the long configuration was used because use of function was failing many tests
+export const EMISSION_PER_EPOCH = '150000000000000000000000'

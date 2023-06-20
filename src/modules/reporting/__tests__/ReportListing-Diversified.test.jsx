@@ -1,4 +1,7 @@
 import ReportListing from '@/modules/reporting/ReportListing'
+import { ChainConfig } from '@/src/config/hardcoded'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
@@ -133,7 +136,16 @@ describe('ReportListing test', () => {
       const randomReporter = screen.getByText('0x88....e306')
       expect(randomReporter).toBeInTheDocument()
 
-      const randoTotallyAttestedStake = screen.getByText('4634')
+      const chainConfig = ChainConfig[1]
+
+      const formattedTotalAttestedStake = formatCurrency(
+        convertFromUnits('4634000000000000000000', chainConfig.npm.tokenDecimals),
+        'en-US',
+        chainConfig.npm.tokenSymbol,
+        true
+      )
+
+      const randoTotallyAttestedStake = screen.getByText(formattedTotalAttestedStake.long)
       expect(randoTotallyAttestedStake).toBeInTheDocument()
 
       const rows = screen.getAllByRole('cell')

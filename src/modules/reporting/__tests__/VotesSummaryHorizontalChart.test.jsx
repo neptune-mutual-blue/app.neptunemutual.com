@@ -1,10 +1,15 @@
-import { i18n } from '@lingui/core'
-import { render, screen } from '@/utils/unit-tests/test-utils'
-import { VotesSummaryHorizontalChart } from '@/modules/reporting/VotesSummaryHorizontalChart'
-import { testData } from '@/utils/unit-tests/test-data'
+import {
+  VotesSummaryHorizontalChart
+} from '@/modules/reporting/VotesSummaryHorizontalChart'
 import { convertFromUnits } from '@/utils/bn'
-import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { mockGlobals } from '@/utils/unit-tests/mock-globals'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import {
+  render,
+  screen
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
 jest.mock('react-chartjs-2', () => {
   return {
@@ -20,7 +25,7 @@ describe('VotesSummaryHorizontalChart test', () => {
     mockGlobals.resizeObserver()
     mockGlobals.DOMRect()
 
-    const incidentReport = testData.incidentReports.data.incidentReport
+    const incidentReport = testData.incidentReports.data
 
     const isAttestedWon = incidentReport.decision
     const yesPercent = '43%'

@@ -1,4 +1,4 @@
-const { FALLBACK_NPM_TOKEN_SYMBOL, FALLBACK_LIQUIDITY_TOKEN_DECIMALS, FALLBACK_LIQUIDITY_TOKEN_SYMBOL, FALLBACK_NPM_TOKEN_DECIMALS } = require('@/src/config/constants')
+const { CHAINS, ChainConfig } = require('@/src/config/hardcoded')
 const Addresses = require('@/src/services/contracts/getAddresses')
 const { contracts } = require('@/utils/unit-tests/data/mockUpdata.data')
 
@@ -34,16 +34,18 @@ describe('Addresses test', () => {
       )
 
       const result = await getAddressesFromApi(
-        process.env.NEXT_PUBLIC_FALLBACK_NETWORK
+        CHAINS.BASE_GOERLI
       )
+
+      const expectedConfig = ChainConfig[CHAINS.BASE_GOERLI]
 
       const expected = {
         NPMTokenAddress,
         liquidityTokenAddress,
-        NPMTokenDecimals: FALLBACK_NPM_TOKEN_DECIMALS,
-        NPMTokenSymbol: FALLBACK_NPM_TOKEN_SYMBOL,
-        liquidityTokenDecimals: FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
-        liquidityTokenSymbol: FALLBACK_LIQUIDITY_TOKEN_SYMBOL
+        NPMTokenDecimals: expectedConfig.npm.tokenDecimals,
+        NPMTokenSymbol: expectedConfig.npm.tokenSymbol,
+        liquidityTokenDecimals: expectedConfig.stablecoin.tokenDecimals,
+        liquidityTokenSymbol: expectedConfig.stablecoin.tokenSymbol
       }
 
       expect(result).toStrictEqual(expected)
@@ -58,19 +60,30 @@ describe('Addresses test', () => {
       }
       )
       const result = await getAddressesFromApi(
-        process.env.NEXT_PUBLIC_FALLBACK_NETWORK
+        CHAINS.BASE_GOERLI
       )
 
       expect(result).toBe(null)
     })
 
-    test('get address return null because api throws an error', async () => {
+    test('get address return fallback because api throws an error', async () => {
       global.fetch = jest.fn(() => { return Promise.reject(new Error('error')) })
       const result = await getAddressesFromApi(
-        process.env.NEXT_PUBLIC_FALLBACK_NETWORK
+        CHAINS.BASE_GOERLI
       )
 
-      expect(result).toBe(null)
+      const expectedConfig = ChainConfig[CHAINS.BASE_GOERLI]
+
+      const expected = {
+        NPMTokenAddress: expectedConfig.npm.address,
+        liquidityTokenAddress: expectedConfig.stablecoin.address,
+        NPMTokenDecimals: expectedConfig.npm.tokenDecimals,
+        NPMTokenSymbol: expectedConfig.npm.tokenSymbol,
+        liquidityTokenDecimals: expectedConfig.stablecoin.tokenDecimals,
+        liquidityTokenSymbol: expectedConfig.stablecoin.tokenSymbol
+      }
+
+      expect(result).toStrictEqual(expected)
     })
   })
 })

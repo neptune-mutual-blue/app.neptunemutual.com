@@ -10,7 +10,7 @@ import {
 } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 
-const incidentReport = testData.incidentReports.data.incidentReport
+const incidentReport = testData.incidentReports.data
 
 describe('UnstakeYourAmount test', () => {
   const props = {

@@ -1,4 +1,6 @@
 import { initiateTest } from '@/utils/unit-tests/helpers'
+import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
 import { screen } from '@testing-library/react'
 
 // const mockisDiversifiedCoversEnabled = jest.spyOn(
@@ -6,33 +8,41 @@ import { screen } from '@testing-library/react'
 //   'isDiversifiedCoversEnabled'
 // )
 
-jest.mock('@/src/modules/cover/CoverOptionsPage', () => ({
-  CoverOptionsPage: () => {
-    return <div data-testid='cover-options-page' />
+jest.mock('@/src/modules/cover/CoverOptionsPage', () => {
+  return {
+    CoverOptionsPage: () => {
+      return <div data-testid='cover-options-page' />
+    }
   }
-}))
+})
 
-jest.mock('@/modules/home/Hero', () => ({
-  HomeHero: () => {
-    return <div data-testid='home-hero' />
+jest.mock('@/modules/home/Hero', () => {
+  return {
+    HomeHero: () => {
+      return <div data-testid='home-hero' />
+    }
   }
-}))
+})
 
-jest.mock('@/common/ProductsGrid/ProductsGrid', () => ({
-  ProductsGrid: () => {
-    return <div data-testid='products-grind' />
+jest.mock('@/common/ProductsGrid/ProductsGrid', () => {
+  return {
+    ProductsGrid: () => {
+      return <div data-testid='products-grind' />
+    }
   }
-}))
+})
 
 describe('Options test', () => {
   // mockisDiversifiedCoversEnabled.mockImplementation(() => true)
   const CoverPage = require('@/src/pages/covers/[coverId]').default
 
   const { initialRender, rerenderFn } = initiateTest(CoverPage, {}, () => {
-    // mockHooksOrMethods.useCoverOrProductData()
+    // mockHooksOrMethods.useCoverOrProductData2()
   })
 
   beforeEach(() => {
+    mockHooksOrMethods.useCoversAndProducts2()
+
     initialRender()
   })
 
@@ -43,9 +53,17 @@ describe('Options test', () => {
 
   test('Should display Home Hero And Products Grind Component Diversifed Product', () => {
     rerenderFn(CoverPage, () => {
-      // mockHooksOrMethods.useCoverOrProductData(() => {
-      //   return { ...testData.coverInfo, supportsProducts: true }
-      // })
+      mockHooksOrMethods.useCoversAndProducts2(() => {
+        return {
+          ...testData.coversAndProducts2,
+          getCoverByCoverKey: () => {
+            return {
+              ...testData.coversAndProducts2.data,
+              supportsProducts: true
+            }
+          }
+        }
+      })
     })
 
     const homeHero = screen.getByTestId('home-hero')

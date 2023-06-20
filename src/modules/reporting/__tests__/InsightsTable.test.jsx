@@ -1,16 +1,14 @@
-import { i18n } from '@lingui/core'
-import { render } from '@/utils/unit-tests/test-utils'
-import { testData } from '@/utils/unit-tests/test-data'
 import { InsightsTable } from '@/modules/reporting/InsightsTable'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
-import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { testData } from '@/utils/unit-tests/test-data'
+import { render } from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
 
-const incidentReport = testData.incidentReports.data.incidentReport
+const incidentReport = testData.incidentReports.data
 
 const router = createMockRouter()
-const { NPMTokenSymbol } = mockHooksOrMethods.useAppConstants()
 
 const successinsights = [
   {
@@ -27,13 +25,13 @@ const successinsights = [
     value: formatCurrency(
       convertFromUnits(incidentReport.totalAttestedStake),
       router.locale,
-      NPMTokenSymbol,
+      'NPM',
       true
     ).short,
     htmlTooltip: formatCurrency(
       convertFromUnits(incidentReport.totalAttestedStake),
       router.locale,
-      NPMTokenSymbol,
+      'NPM',
       true
     ).long
   },
@@ -42,13 +40,13 @@ const successinsights = [
     value: formatCurrency(
       convertFromUnits(0),
       router.locale,
-      NPMTokenSymbol,
+      'NPM',
       true
     ).short,
     htmlTooltip: formatCurrency(
       convertFromUnits(0),
       router.locale,
-      NPMTokenSymbol,
+      'NPM',
       true
     ).long
   }
@@ -70,7 +68,7 @@ const errorinsights = [
       formatCurrency(
         convertFromUnits(incidentReport.totalRefutedStake),
         router.locale,
-        NPMTokenSymbol,
+        'NPM',
         true
       ).short
     }`,
@@ -78,7 +76,7 @@ const errorinsights = [
       formatCurrency(
         convertFromUnits(incidentReport.totalRefutedStake),
         router.locale,
-        NPMTokenSymbol,
+        'NPM',
         true
       ).long
     }`
@@ -88,13 +86,13 @@ const errorinsights = [
     value: formatCurrency(
       convertFromUnits(0),
       router.locale,
-      NPMTokenSymbol,
+      'NPM',
       true
     ).short,
     htmlTooltip: formatCurrency(
       convertFromUnits(0),
       router.locale,
-      NPMTokenSymbol,
+      'NPM',
       true
     ).long
   }
