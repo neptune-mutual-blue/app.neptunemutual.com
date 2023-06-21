@@ -47,7 +47,11 @@ const calculateTvlCover = (data) => {
 }
 
 async function getTVLStats (networkId) {
-  const { protocols, protocolDayDatas } = await getSubgraphData(networkId, coverFeeQuery)
+  const response = await getSubgraphData(networkId, coverFeeQuery)
+
+  if (!response) { return null }
+
+  const { protocols, protocolDayDatas } = response
 
   const stats = {
     networkId,
@@ -101,7 +105,7 @@ export const useFetchInsightsTVLStats = () => {
     (async function () {
       try {
         const _data = await getInsightsTVLData(networkId)
-        setData(_data)
+        setData(_data.filter(Boolean))
       } catch (error) {
         console.error(error)
       } finally {

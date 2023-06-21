@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { getNetworkId } from '@/src/config/environment'
 import { getNetworkStats } from '@/src/services/aggregated-stats/network-stats'
 
@@ -30,7 +34,7 @@ export const useNetworkStats = () => {
         const _data = await getNetworkStats(getNetworkId())
 
         setData({
-          individual: _data.individual.map(x => {
+          individual: _data.individual.filter(Boolean).map(x => {
             return {
               ...x,
               availableKeys: undefined,
