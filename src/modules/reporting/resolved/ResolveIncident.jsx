@@ -17,6 +17,7 @@ import {
   Trans
 } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
+import { ModalTitle } from '@/common/Modal/ModalTitle'
 
 export const ResolveIncident = ({
   refetchAll,
@@ -135,11 +136,7 @@ const EmergencyResolveModal = ({
     >
       <ModalWrapper className='max-w-lg bg-F6F7F9'>
         <Dialog.Title className='flex items-center'>
-          <img
-            className='w-10 h-10 mr-3 border rounded-full'
-            alt={logoAlt}
-            src={logoSource}
-          />
+          <ModalTitle imgSrc={logoSource} alt={logoAlt} containerClass='' />
           <div className='font-bold capitalize text-display-sm'>
             <Trans>Emergency resolution</Trans>
           </div>

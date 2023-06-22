@@ -16,9 +16,9 @@ export const InfoKeyValue = ({ dataKey, dataValue, loading = false, bold = false
         {
         info && (
           <InfoTooltip infoComponent={info} className='px-2 py-1'>
-            <button>
+            <span>
               <InfoCircleIcon />
-            </button>
+            </span>
           </InfoTooltip>
         )
       }

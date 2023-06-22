@@ -1,46 +1,19 @@
-import { useMemo } from 'react'
 
 import { classNames } from '@/utils/classnames'
+import { TripleDotsIcon } from '@/icons/TripleDotsIcon'
+import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 
-export const CoverAvatar = ({
+export const TableRowCoverAvatar = ({
   imgs = [],
-  containerClass = 'grow',
-  size = 'default'
+  containerClass = 'grow'
 }) => {
-  const sizeClasses = useMemo(() => {
-    const classes = {
-      diversifiedWrapper: 'w-14 h-14 lg:w-18 lg:h-18',
-      diversifiedImg: 'p-3.5',
-      dedicatedWrapper: 'w-14 h-14 lg:w-18 lg:h-18 p-4',
-      dedicatedImg: '',
-      ml: '-ml-7 lg:-ml-9'
-    }
-
-    if (size === 'small') {
-      classes.diversifiedWrapper = 'w-11 h-11 lg:-ml-5'
-      classes.diversifiedImg = 'p-2'
-      classes.dedicatedWrapper = 'w-10 h-10 p-2'
-      classes.ml = '-ml-5 lg:-ml-6'
-    }
-
-    if (size === 'xs') {
-      classes.diversifiedWrapper = 'w-6 h-6'
-      classes.diversifiedImg = 'p-1'
-      classes.dedicatedWrapper = 'w-6 h-6'
-      classes.dedicatedImg = 'w-4.5 h-4.5'
-      classes.ml = '-ml-2.5'
-    }
-
-    if (size === 'xxs') {
-      classes.diversifiedWrapper = 'w-5 h-5'
-      classes.diversifiedImg = 'p-1'
-      classes.dedicatedWrapper = 'w-5 h-5'
-      classes.dedicatedImg = 'w-4.5 h-4.5'
-      classes.ml = '-ml-2.5 lg:-ml-3'
-    }
-
-    return classes
-  }, [size])
+  const sizeClasses = {
+    diversifiedWrapper: 'w-7 h-7',
+    diversifiedImg: 'p-0.5',
+    dedicatedWrapper: 'w-7 h-7',
+    dedicatedImg: 'w-4.5 h-4.5',
+    ml: '-ml-2.5'
+  }
 
   if (!imgs || imgs.length < 1) {
     return null
@@ -76,14 +49,19 @@ export const CoverAvatar = ({
             })}
 
             {imgs.length > 3 && (
-              <p className={classNames(
-                'text-xs opacity-40 text-01052D',
-                size === 'xs' ? 'ml-6' : 'ml-2'
-              )}
-              >
-                +{imgs.length - 3} MORE
-              </p>
-
+              <InfoTooltip infoComponent={`${imgs.length - 3} more`} className='p-1 px-2'>
+                <div
+                  className={classNames(
+                    'z-0 bg-FEFEFF rounded-full p-0.5',
+                    sizeClasses.ml,
+                    sizeClasses.diversifiedWrapper
+                  )}
+                >
+                  <div className='flex items-center justify-center w-full h-full rounded-full bg-DEEAF6'>
+                    <TripleDotsIcon />
+                  </div>
+                </div>
+              </InfoTooltip>
             )}
           </>
           )
