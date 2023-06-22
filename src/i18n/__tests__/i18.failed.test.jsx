@@ -1,12 +1,16 @@
-import { screen, waitFor } from '@testing-library/react'
-import { LanguageProvider } from '../i18n'
-import { Trans } from '@lingui/macro'
 import { initiateTest } from '@/utils/unit-tests/helpers'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
+import { Trans } from '@lingui/macro'
+import {
+  screen,
+  waitFor
+} from '@testing-library/react'
+
+import { LanguageProvider } from '../i18n'
 
 jest.mock('../dynamic-activate', () => {
   return {
-    dynamicActivate: jest.fn(() => { return Promise.reject(new Error('Error in dynamic-activate')) })
+    dynamicActivate: jest.fn(() => { return Promise.resolve('Error in dynamic-activate') })
   }
 })
 

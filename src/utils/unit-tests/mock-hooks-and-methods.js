@@ -92,6 +92,7 @@ import * as TransactionHistoryFile
   from '@/src/services/transactions/transaction-history'
 import * as ReplacedStringFn from '@/utils/string'
 import { testData } from '@/utils/unit-tests/test-data'
+import * as EthersContract from '@ethersproject/contracts'
 
 const Web3React = require('@web3-react/core')
 
@@ -651,6 +652,27 @@ const mockHooksOrMethods = {
     return jest
       .spyOn(ProtocolDayDataFile, 'getGroupedProtocolDayData')
       .mockImplementation(returnFunction(cb))
+  },
+
+  ethersContract: (returnData) => {
+    const data = {
+      getCoverFeeInfo:
+        returnData?.getCoverFeeInfo ?? jest.fn(() => { return 'getCoverFeeInfo mock' }),
+      getExpiryDate:
+        returnData?.getExpiryDate ?? jest.fn(() => { return 'getexpirydate mock' }),
+      hasRole: returnData?.hasRole ?? jest.fn((...args) => { return args }),
+      calculateLiquidity:
+        returnData?.calculateLiquidity ?? jest.fn((...args) => { return args })
+    }
+
+    class MockContract {
+      getCoverFeeInfo = data.getCoverFeeInfo;
+      getExpiryDate = data.getExpiryDate;
+      hasRole = data.hasRole;
+      calculateLiquidity = data.calculateLiquidity;
+    }
+
+    EthersContract.Contract = MockContract
   }
 }
 
