@@ -9,11 +9,13 @@ export const getNetworkInfo = (networkId) => {
   const isMainNet = mainnetChainIds.indexOf(networkId) > -1
   const isEthereum = networkId === 1
   const isArbitrum = networkId === 42161
+  const isBinanceSmartChain = networkId === 56
 
   return {
     isEthereum,
     isMainNet,
     isTestNet: !isMainNet,
-    isArbitrum
+    isArbitrum,
+    isBinanceSmartChain
   }
 }

@@ -28,6 +28,7 @@ import {
 } from '@lingui/macro'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
+import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
 
 const WhenRenderer = ({ row }) => {
   const router = useRouter()
@@ -132,7 +133,10 @@ export const MyStakingTxsTable = () => {
 }
 
 const DetailsRenderer = ({ row }) => {
-  const imgSrc = [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
+  const imgSrc = [
+    { src: getTokenImgSrc(row.pool.stakingTokenSymbol), alt: 'staking token logo' },
+    { src: getTokenImgSrc(row.pool.rewardTokenSymbol), alt: 'reward token logo' }
+  ]
   let textToShow = <></>
 
   if (row.type === 'Deposited') {
@@ -175,20 +179,11 @@ const DetailsRenderer = ({ row }) => {
   }
 
   return (
-    <td className='max-w-sm px-6 py-6'>
+    <td className='max-w-md px-6 py-6'>
       <div className='flex items-center w-max'>
-        {imgSrc.length === 1
-          ? (<img src={imgSrc[0]} alt='npm' height={24} width={24} />)
-          : (
-            <div className='relative inline-block'>
-              <div className='flex items-center justify-center'>
-                <img src={imgSrc[1]} height={24} width={24} className='z-20' alt='rewardTokenSymbol' />
-              </div>
-              <div className='absolute top-0 z-10 flex items-center justify-center -left-4'>
-                <img src={imgSrc[0]} alt='stakingTokenSymbol' height={24} width={24} className='inline-block' />
-              </div>
-            </div>
-            )}
+        <TableRowCoverAvatar
+          imgs={imgSrc}
+        />
         <span className='pl-2 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {textToShow}
         </span>

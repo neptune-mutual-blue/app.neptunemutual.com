@@ -8,7 +8,7 @@ import { t } from '@lingui/macro'
 
 export const Footer = () => {
   return (
-    <footer className='pt-16 border-t pb-18 border-B0C4DB'>
+    <footer className='pt-16 border-t pb-18 border-B0C4DB print:hidden'>
       <Container>
         <div className='flex flex-col justify-between gap-10 lg:flex-row'>
           <div className='flex flex-col items-start justify-between gap-8'>
