@@ -137,8 +137,7 @@ const WhenRenderer = ({ row }) => {
 }
 
 const DetailsRenderer = ({ row }) => {
-  // const coverKey = row.cover.id
-  const coverKey = '0x6465666900000000000000000000000000000000000000000000000000000000'
+  const coverKey = row.cover.id
   const { liquidityTokenDecimals } = useAppConstants()
 
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()

@@ -1,47 +1,9 @@
-import { useMemo } from 'react'
-
 import { classNames } from '@/utils/classnames'
 
 export const CoverAvatar = ({
   imgs = [],
-  containerClass = 'grow',
-  size = 'default'
+  containerClass = 'grow'
 }) => {
-  const sizeClasses = useMemo(() => {
-    const classes = {
-      diversifiedWrapper: 'w-14 h-14 lg:w-18 lg:h-18',
-      diversifiedImg: 'p-3.5',
-      dedicatedWrapper: 'w-14 h-14 lg:w-18 lg:h-18 p-4',
-      dedicatedImg: '',
-      ml: '-ml-7 lg:-ml-9'
-    }
-
-    if (size === 'small') {
-      classes.diversifiedWrapper = 'w-11 h-11 lg:-ml-5'
-      classes.diversifiedImg = 'p-2'
-      classes.dedicatedWrapper = 'w-10 h-10 p-2'
-      classes.ml = '-ml-5 lg:-ml-6'
-    }
-
-    if (size === 'xs') {
-      classes.diversifiedWrapper = 'w-6 h-6'
-      classes.diversifiedImg = 'p-1'
-      classes.dedicatedWrapper = 'w-6 h-6'
-      classes.dedicatedImg = 'w-4.5 h-4.5'
-      classes.ml = '-ml-2.5'
-    }
-
-    if (size === 'xxs') {
-      classes.diversifiedWrapper = 'w-5 h-5'
-      classes.diversifiedImg = 'p-1'
-      classes.dedicatedWrapper = 'w-5 h-5'
-      classes.dedicatedImg = 'w-4.5 h-4.5'
-      classes.ml = '-ml-2.5 lg:-ml-3'
-    }
-
-    return classes
-  }, [size])
-
   if (!imgs || imgs.length < 1) {
     return null
   }
@@ -55,19 +17,15 @@ export const CoverAvatar = ({
               return (
                 <div
                   className={classNames(
-                    'inline-block max-w-full bg-FEFEFF rounded-full p-0.5',
-                    idx !== 0 && sizeClasses.ml,
-                    sizeClasses.diversifiedWrapper
+                    'inline-block max-w-full bg-FEFEFF rounded-full p-0.5 w-14 h-14 lg:w-18 lg:h-18',
+                    idx !== 0 && '-ml-7 lg:-ml-9'
                   )}
                   key={item.src}
                 >
                   <img
                     src={item.src}
                     alt={item.alt}
-                    className={classNames(
-                      'w-full h-full rounded-full bg-DEEAF6',
-                      sizeClasses.diversifiedImg
-                    )}
+                    className='w-full h-full rounded-full bg-DEEAF6 p-3.5'
                     data-testid='cover-img'
                     onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
                   />
@@ -76,11 +34,7 @@ export const CoverAvatar = ({
             })}
 
             {imgs.length > 3 && (
-              <p className={classNames(
-                'text-xs opacity-40 text-01052D',
-                size === 'xs' ? 'ml-6' : 'ml-2'
-              )}
-              >
+              <p className='text-xs opacity-40 text-01052D ml-2'>
                 +{imgs.length - 3} MORE
               </p>
 
@@ -89,15 +43,12 @@ export const CoverAvatar = ({
           )
         : (
           <div
-            className={classNames(
-              'inline-flex justify-center items-center max-w-full bg-DEEAF6 rounded-full',
-              sizeClasses.dedicatedWrapper
-            )}
+            className='inline-flex items-center justify-center max-w-full p-4 rounded-full bg-DEEAF6 w-14 h-14 lg:w-18 lg:h-18'
           >
             <img
               src={imgs[0].src}
               alt={imgs[0].alt}
-              className={classNames('inline-block', sizeClasses.dedicatedImg)}
+              className='inline-block'
               data-testid='cover-img'
               onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
             />
