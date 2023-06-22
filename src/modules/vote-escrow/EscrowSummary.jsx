@@ -36,7 +36,9 @@ const EscrowSummary = ({ veNPMBalance, veNPMTokenSymbol, unlockTimestamp, classN
         </div>
         <div>
           <div className='mb-1 text-sm font-semibold text-999BAB'>Average Lock</div>
-          <div className='text-xl' title={parseFloat(data.averageLock).toFixed(6)}>{parseFloat(data.averageLock).toFixed(2)} weeks</div>
+          <div className='text-xl' title={data.averageLock ? parseFloat(data.averageLock).toFixed(6) : 'Not Available'}>
+            {data.averageLock ? <>{parseFloat(data.averageLock).toFixed(2)} weeks</> : 'N/A'}
+          </div>
         </div>
       </div>
       <div className='flex flex-col gap-1'>
