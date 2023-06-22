@@ -672,6 +672,7 @@ const mockHooksOrMethods = {
       calculateLiquidity = data.calculateLiquidity;
     }
 
+    // eslint-disable-next-line
     EthersContract.Contract = MockContract
   }
 }
