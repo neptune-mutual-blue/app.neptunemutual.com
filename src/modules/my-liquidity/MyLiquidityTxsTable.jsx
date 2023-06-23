@@ -4,7 +4,6 @@ import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
-  TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -33,6 +32,7 @@ import {
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
+import { NeutralButton } from '@/common/Button/NeutralButton'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -110,15 +110,18 @@ export const MyLiquidityTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {(hasMore && account) && (
-          <TableShowMore
-            isLoading={loading}
-            onShowMore={() => {
-              setPage((prev) => { return prev + 1 })
-            }}
-          />
-        )}
       </TableWrapper>
+      {(hasMore && account) && (
+        <NeutralButton
+          className='mt-4'
+          disabled={loading}
+          onClick={() => {
+            setPage((prev) => { return prev + 1 })
+          }}
+        >
+          <Trans>Show More</Trans>
+        </NeutralButton>
+      )}
     </>
   )
 }

@@ -39,7 +39,7 @@ export const TableShowMore = ({ isLoading = false, onShowMore }) => {
         !isLoading && 'hover:bg-F4F8FC'
       )}
     >
-      {isLoading ? t`loading...` : t`Show More`}
+      {t`Show More`}
     </button>
   )
 }

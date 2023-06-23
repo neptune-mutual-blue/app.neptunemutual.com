@@ -123,7 +123,6 @@ export const MyPoliciesTxsTable = () => {
         >
           <Trans>Show More</Trans>
         </NeutralButton>
-
       )}
     </>
   )
