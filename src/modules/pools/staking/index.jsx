@@ -5,7 +5,6 @@ import {
 
 import Link from 'next/link'
 
-import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
@@ -27,6 +26,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { TableShowMore } from '@/common/Table/Table'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -138,13 +138,12 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
             )
           })}
         </Grid>
-        {!loading && hasMore && (
-          <NeutralButton
-            onClick={handleShowMore}
-          >
-            <Trans>Show More</Trans>
-          </NeutralButton>
-        )}
+
+        <TableShowMore
+          show={hasMore}
+          onShowMore={handleShowMore}
+          loading={loading}
+        />
       </>
     )
   }

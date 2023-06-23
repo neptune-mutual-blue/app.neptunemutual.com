@@ -36,7 +36,7 @@ export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stak
 
   const liquidityGaugePoolAddress = poolAddress
 
-  const { poolStaked, update } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
+  const { lockedByMe, update } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
@@ -233,17 +233,17 @@ export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stak
   }
 
   const canWithdraw = !toBN(amountInUnits).isZero() &&
-    toBN(amountInUnits).isLessThanOrEqualTo(poolStaked)
+    toBN(amountInUnits).isLessThanOrEqualTo(lockedByMe)
 
   const error = useMemo(() => {
     if (toBN(amountInUnits).isZero()) {
       return ''
     }
 
-    if (toBN(amountInUnits).isGreaterThan(poolStaked)) {
+    if (toBN(amountInUnits).isGreaterThan(lockedByMe)) {
       return 'Amount exceeds locked balance'
     }
-  }, [amountInUnits, poolStaked])
+  }, [amountInUnits, lockedByMe])
 
   return {
     handleWithdraw,

@@ -334,10 +334,13 @@ export const ReportingResolvedPage = () => {
                     })}
                   </tbody>
                 </Table>
-                {hasMore && (
-                  <TableShowMore isLoading={loading} onShowMore={handleShowMore} />
-                )}
               </TableWrapper>
+
+              <TableShowMore
+                show={hasMore}
+                onShowMore={handleShowMore}
+                loading={loading}
+              />
             </div>
             )
       }

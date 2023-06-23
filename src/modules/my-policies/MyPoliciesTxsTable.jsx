@@ -2,6 +2,7 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
 import {
   Table,
+  TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -25,7 +26,6 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { Routes } from '@/src/config/routes'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
-import { NeutralButton } from '@/common/Button/NeutralButton'
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
@@ -113,18 +113,14 @@ export const MyPoliciesTxsTable = () => {
               )}
         </Table>
       </TableWrapper>
-      {(hasMore && account) && (
-        <NeutralButton
-          className='mt-4'
-          disabled={loading}
-          onClick={() => {
-            setPage((prev) => { return prev + 1 })
-          }}
-        >
-          <Trans>Show More</Trans>
-        </NeutralButton>
 
-      )}
+      <TableShowMore
+        show={hasMore && account}
+        loading={loading}
+        onShowMore={() => {
+          setPage((prev) => { return prev + 1 })
+        }}
+      />
     </>
   )
 }

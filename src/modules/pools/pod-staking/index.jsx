@@ -5,7 +5,6 @@ import {
 
 import Link from 'next/link'
 
-import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
@@ -27,6 +26,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { TableShowMore } from '@/common/Table/Table'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -91,7 +91,7 @@ export const PodStakingPage = () => {
       <div className='flex justify-end'>
         <div className='items-center justify-between w-full sm:flex'>
           <Link href={Routes.PodStakingPoolsTransactions}>
-            <a className='flex justify-center font-medium sm:inline-flex text-lg text-4E7DD9 hover:underline'>
+            <a className='flex justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>
@@ -138,14 +138,13 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
             )
           })}
         </Grid>
-        {!loading && hasMore && (
-          <NeutralButton
-            onClick={handleShowMore}
-            data-testid='show-more-button'
-          >
-            <Trans>Show More</Trans>
-          </NeutralButton>
-        )}
+
+        <TableShowMore
+          show={hasMore}
+          onShowMore={handleShowMore}
+          loading={loading}
+          data-testid='show-more-button'
+        />
       </>
     )
   }

@@ -110,15 +110,15 @@ export const MyLiquidityTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {(hasMore && account) && (
-          <TableShowMore
-            isLoading={loading}
-            onShowMore={() => {
-              setPage((prev) => { return prev + 1 })
-            }}
-          />
-        )}
       </TableWrapper>
+
+      <TableShowMore
+        show={hasMore && account}
+        loading={loading}
+        onShowMore={() => {
+          setPage((prev) => { return prev + 1 })
+        }}
+      />
     </>
   )
 }
