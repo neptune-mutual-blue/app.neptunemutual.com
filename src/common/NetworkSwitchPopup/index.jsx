@@ -9,7 +9,7 @@ import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import TrendUpIcon from '@/icons/TrendUpIcon'
-import { ARBITRUM_APP_URL } from '@/src/config/constants'
+import { APP_URLS } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { getNetworkInfo } from '@/utils/network'
@@ -56,7 +56,7 @@ export const NetworkSwitchPopup = () => {
             <img src='/images/arbitrum.svg' className='mx-auto' width={80} height={80} alt='arbitrum logo image' />
             <a
               className='flex items-center justify-center w-full p-4 pl-6 mx-auto mt-6 text-white rounded-big bg-4E7DD9 md:w-max'
-              href={ARBITRUM_APP_URL}
+              href={APP_URLS[42161]}
               onClick={handleClosePopup}
             >
               <span className='font-semibold leading-5 uppercase text-md'>Switch to arbitrum</span>

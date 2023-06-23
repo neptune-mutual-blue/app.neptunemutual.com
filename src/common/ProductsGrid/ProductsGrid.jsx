@@ -133,8 +133,7 @@ export const ProductsGrid = () => {
         />
       </div>
 
-      <Grid className='grid-rows-5 gap-4 mt-14 lg:mb-24 mb-14 lg:grid-rows-4'>
-
+      <Grid className='gap-4 mt-14 lg:mb-24 mb-14'>
         <Content
           loading={loading}
           data={sortedCovers}

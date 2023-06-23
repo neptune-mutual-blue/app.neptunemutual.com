@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 
-import { CoverAvatar } from '@/common/CoverAvatar'
 import CheckCircleFilledIcon from '@/icons/CheckCircleFilledIcon'
 import { InfoKeyValue } from '@/modules/bridge/bridge-options/InfoKeyValue'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { TokenOrCoverLogo } from '@/modules/bridge/bridge-form/TokenOrCoverLogo'
 
 export const BridgeOption = ({
   type,
@@ -36,7 +36,12 @@ export const BridgeOption = ({
       )}
       >
         <div className='flex items-center gap-2'>
-          <CoverAvatar size='xs' containerClass='flex-grow-1' imgs={[{ src: logo }]} />
+          <TokenOrCoverLogo
+            src={logo}
+            alt={`${name} bridge logo`}
+            wrapperClass='!w-6 !h-6'
+            className='w-full h-full'
+          />
           <h3 className='text-md lg:text-lg'>{name}</h3>
           {
             selected

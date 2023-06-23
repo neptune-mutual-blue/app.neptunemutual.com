@@ -5,7 +5,6 @@ import {
 
 import { useRouter } from 'next/router'
 
-import { CoverAvatar } from '@/common/CoverAvatar/CoverAvatar'
 import CurrencyInput from '@/lib/react-currency-input-field'
 import {
   convertFromUnits,
@@ -15,6 +14,7 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { getPlainNumber } from '@/utils/formatter/input'
+import { TokenOrCoverLogo } from '@/modules/bridge/bridge-form/TokenOrCoverLogo'
 
 export const TransferAmountInput = ({
   balance,
@@ -71,10 +71,9 @@ export const TransferAmountInput = ({
       )}
     >
       <div className='flex items-center gap-1 p-2 text-sm font-semibold bg-EEEEEE w-max rounded-2'>
-        <CoverAvatar
-          containerClass='w-5 h-5 flex-grow-0'
-          size='xxs'
-          imgs={[{ src: '/images/tokens/npm.svg' }]}
+        <TokenOrCoverLogo
+          src='/images/tokens/npm.svg'
+          alt='NPM logo'
         />
         <p>{tokenSymbol} Token</p>
         <p className='text-4E7DD9' title={formattedBalance.long}>

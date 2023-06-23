@@ -2,6 +2,7 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
 import {
   Table,
+  TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -23,14 +24,13 @@ import { useRouter } from 'next/router'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import { CoverAvatar } from '@/common/CoverAvatar'
 import { Routes } from '@/src/config/routes'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
-import { NeutralButton } from '@/common/Button/NeutralButton'
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -113,18 +113,14 @@ export const MyPoliciesTxsTable = () => {
               )}
         </Table>
       </TableWrapper>
-      {(hasMore && account) && (
-        <NeutralButton
-          className='mt-4'
-          disabled={loading}
-          onClick={() => {
-            setPage((prev) => { return prev + 1 })
-          }}
-        >
-          <Trans>Show More</Trans>
-        </NeutralButton>
 
-      )}
+      <TableShowMore
+        show={hasMore && account}
+        loading={loading}
+        onShowMore={() => {
+          setPage((prev) => { return prev + 1 })
+        }}
+      />
     </>
   )
 }
@@ -162,13 +158,12 @@ const DetailsRenderer = ({ row }) => {
   return (
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
       <div className='flex items-center whitespace-nowrap'>
-        <CoverAvatar
+        <TableRowCoverAvatar
           imgs={[{
             src: getCoverImgSrc({ key: isDiversified ? productKey : coverKey }),
             alt: projectOrProductName
           }]}
           containerClass='grow-0'
-          size='xs'
         />
         <span className='pl-4 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'CoverPurchased'

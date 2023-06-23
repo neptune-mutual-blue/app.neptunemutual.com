@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
-import { t } from '@lingui/macro'
+import { Trans, t } from '@lingui/macro'
 import { classNames } from '@/utils/classnames'
+import { NeutralButton } from '@/common/Button/NeutralButton'
 
 export const Table = ({ children }) => {
   return (
@@ -26,21 +27,18 @@ export const TableWrapper = ({ children, className = '', ...rest }) => {
   )
 }
 
-export const TableShowMore = ({ isLoading = false, onShowMore }) => {
+export const TableShowMore = ({ show, loading = false, onShowMore, className = '', ...rest }) => {
+  if (!show) { return null }
+
   return (
-    <button
-      disabled={isLoading}
-      data-testid='table-show-more'
-      onClick={() => {
-        onShowMore()
-      }}
-      className={classNames(
-        'block w-full p-5 border-t border-DAE2EB',
-        !isLoading && 'hover:bg-F4F8FC'
-      )}
+    <NeutralButton
+      className={classNames('mt-4', className)}
+      disabled={loading}
+      onClick={onShowMore}
+      {...rest}
     >
-      {isLoading ? t`loading...` : t`Show More`}
-    </button>
+      <Trans>Show More</Trans>
+    </NeutralButton>
   )
 }
 

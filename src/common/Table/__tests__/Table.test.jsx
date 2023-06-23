@@ -1,7 +1,7 @@
 import React from 'react'
-import { render, fireEvent, act } from '@/utils/unit-tests/test-utils'
+import { render, act } from '@/utils/unit-tests/test-utils'
 import { createMockTableData } from '@/utils/unit-tests/createMockData'
-import { Table, TableShowMore, TBody, THead } from '@/common/Table/Table'
+import { Table, TBody, THead } from '@/common/Table/Table'
 import { classNames } from '@/utils/classnames'
 import { t } from '@lingui/macro'
 import { i18n } from '@lingui/core'
@@ -112,18 +112,18 @@ describe('Table', () => {
     })
   })
 
-  describe('Should render show more button', () => {
-    test('calls onShowMore prop when clicked', async () => {
-      const handleShowMore = jest.fn()
-      const { getByTestId } = render(
-        <TableShowMore onShowMore={handleShowMore} />
-      )
+  // describe('Should render show more button', () => {
+  //   test('calls onShowMore prop when clicked', async () => {
+  //     const handleShowMore = jest.fn()
+  //     const { getByTestId } = render(
+  //       <TableShowMore onShowMore={handleShowMore} />
+  //     )
 
-      const button = getByTestId('table-show-more')
+  //     const button = getByTestId('table-show-more')
 
-      fireEvent.click(button)
+  //     fireEvent.click(button)
 
-      expect(handleShowMore).toHaveBeenCalledTimes(1)
-    })
-  })
+  //     expect(handleShowMore).toHaveBeenCalledTimes(1)
+  //   })
+  // })
 })

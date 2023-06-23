@@ -1,3 +1,4 @@
+import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
@@ -74,25 +75,16 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
     limit
   })
 
-  const { transactions } = data
+  const { transactions, blockNumber } = data
+  const { networkId } = useNetwork()
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
   const columns = getColumns(sorts, handleSort)
 
-  const Title = () => {
-    return (
-      <p
-        className='font-semibold w-max text-md text-1D2939'
-      >
-        <Trans>Recent Votes</Trans>
-      </p>
-    )
-  }
-
   return (
     <>
-      <h3 className='mb-6 font-bold text-center text-lg mt-14 md:text-left'>
+      <h3 className='mb-6 text-lg font-bold text-center mt-14 md:text-left'>
         <Trans>Recent Votes</Trans>
       </h3>
 
@@ -100,7 +92,7 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
         <Table>
           <THead
             columns={columns}
-            title={<Title />}
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
           />
           <TBody
             isLoading={loading}
@@ -108,15 +100,15 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
             data={sortedData}
           />
         </Table>
-        {hasMore && (
-          <TableShowMore
-            isLoading={loading}
-            onShowMore={() => {
-              setPage((prev) => { return prev + 1 })
-            }}
-          />
-        )}
       </TableWrapper>
+
+      <TableShowMore
+        show={hasMore}
+        loading={loading}
+        onShowMore={() => {
+          setPage((prev) => { return prev + 1 })
+        }}
+      />
     </>
   )
 }

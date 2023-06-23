@@ -111,15 +111,15 @@ export const MyBondTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {(hasMore && account) && (
-          <TableShowMore
-            isLoading={loading}
-            onShowMore={() => {
-              setPage((prev) => { return prev + 1 })
-            }}
-          />
-        )}
       </TableWrapper>
+
+      <TableShowMore
+        show={hasMore && account}
+        onShowMore={() => {
+          setPage((prev) => { return prev + 1 })
+        }}
+        loading={loading}
+      />
     </>
   )
 }

@@ -154,18 +154,16 @@ export const MyTransactionsTable = () => {
               </tbody>
               )}
         </Table>
-        {
-          (page < maxPage) && (
-            <TableShowMore
-              onShowMore={() => {
-                if (page < maxPage) {
-                  getNextPage(page + 1)
-                }
-              }}
-            />
-          )
-        }
       </TableWrapper>
+
+      <TableShowMore
+        show={page < maxPage}
+        onShowMore={() => {
+          if (page < maxPage) {
+            getNextPage(page + 1)
+          }
+        }}
+      />
     </>
   )
 }

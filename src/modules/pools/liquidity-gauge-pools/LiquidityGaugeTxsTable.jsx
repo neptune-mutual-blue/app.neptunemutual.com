@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { CoverAvatar } from '@/common/CoverAvatar'
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -35,6 +34,7 @@ import {
 } from '@lingui/macro'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
+import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
 
 const WhenRenderer = ({ row }) => {
   const router = useRouter()
@@ -86,10 +86,8 @@ const DetailsRenderer = ({ row }) => {
   return (
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center gap-2 w-max'>
-        <CoverAvatar
+        <TableRowCoverAvatar
           imgs={row.imgSrc}
-          containerClass='grow-0'
-          size='xs'
         />
         <span className='text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {textToShow}

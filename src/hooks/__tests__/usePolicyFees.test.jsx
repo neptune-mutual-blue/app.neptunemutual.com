@@ -9,13 +9,13 @@ import { testData } from '@/utils/unit-tests/test-data'
 
 jest.mock('@neptunemutual/sdk')
 
+const { getCoverFeeInfoResult, getExpiryDateResult } =
+      testData.multicallProvider
+
 function assertData (result, defaultData = false) {
   if (defaultData) {
     expect(result.data).toEqual(defaultInfo)
   } else {
-    const { getCoverFeeInfoResult, getExpiryDateResult } =
-      testData.multicallProvider
-
     expect(result.data.fee).toEqual(getCoverFeeInfoResult.fee)
     expect(result.data.utilizationRatio).toEqual(
       getCoverFeeInfoResult.utilizationRatio
@@ -31,11 +31,11 @@ function assertData (result, defaultData = false) {
 }
 
 describe('usePolicyFees', () => {
-  mockSdk.multicall()
   mockHooksOrMethods.useWeb3React()
   mockHooksOrMethods.useNetwork()
   mockHooksOrMethods.useDebounce()
   mockHooksOrMethods.useErrorNotifier()
+  mockHooksOrMethods.ethersContract({ getCoverFeeInfo: () => { return getCoverFeeInfoResult }, getExpiryDate: () => { return getExpiryDateResult } })
   mockSdk.registry.PolicyContract.getAddress()
 
   const args = [

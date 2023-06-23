@@ -59,7 +59,7 @@ export const useVoteEscrowStats = () => {
 
         setData({
           averageLock: stats.averageLock,
-          totalVoteLocked: convertToUnits(stats.totalVoteLocked, NPMTokenDecimals).toString()
+          totalVoteLocked: convertToUnits(stats.totalVoteLocked || '0', NPMTokenDecimals).toString()
         })
       } catch (err) {
         handleError(err)

@@ -100,15 +100,15 @@ export const ClaimCxTokensTable = ({
               isLoading={loading}
             />
           </Table>
-          {hasMore && (
-            <TableShowMore
-              isLoading={loading}
-              onShowMore={() => {
-                setPage((prev) => { return prev + 1 })
-              }}
-            />
-          )}
         </TableWrapper>
+
+        <TableShowMore
+          show={hasMore}
+          onShowMore={() => {
+            setPage((prev) => { return prev + 1 })
+          }}
+          loading={loading}
+        />
       </ClaimTableContext.Provider>
     </>
   )

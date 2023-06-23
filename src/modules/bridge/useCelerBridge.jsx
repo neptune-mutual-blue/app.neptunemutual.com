@@ -104,7 +104,7 @@ export const useCelerBridge = ({
   }, [refetch, bridgeContractAddress])
 
   useEffect(() => {
-    if (!account || !networkId || !library) { return }
+    if (!account || !networkId || !library || !bridgeContractAddress) { return }
 
     async function getDelay () {
       try {
@@ -122,7 +122,7 @@ export const useCelerBridge = ({
           setDelayPeriod(time)
         }
       } catch (err) {
-        console.error('Error in getting delayPeriod')
+        console.error('Error in getting delayPeriod', err)
       }
     }
 

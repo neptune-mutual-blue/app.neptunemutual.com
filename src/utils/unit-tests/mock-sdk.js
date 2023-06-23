@@ -65,9 +65,14 @@ const mockSdk = {
         const mockReturn = Promise.resolve(
           returnUndefined ? undefined : returnData
         )
-        mockNeptuneMutualSDK.registry.PolicyContract.getAddress.mockResolvedValue(
-          functionUndefined ? undefined : mockReturn
-        )
+
+        if (functionUndefined) {
+          mockNeptuneMutualSDK.registry.PolicyContract.getAddress = undefined
+
+          return
+        }
+
+        mockNeptuneMutualSDK.registry.PolicyContract.getAddress.mockResolvedValue(mockReturn)
       }
     },
     ClaimsProcessor: {

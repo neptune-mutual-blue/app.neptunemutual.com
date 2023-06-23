@@ -28,6 +28,7 @@ import {
   Trans
 } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
+import { ModalTitle } from '@/common/Modal/ModalTitle'
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, projectOrProductName }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -155,11 +156,7 @@ const UnstakeModal = ({
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={unstaking}>
       <ModalWrapper className='max-w-md bg-F6F7F9'>
         <Dialog.Title className='flex items-center'>
-          <img
-            className='w-10 h-10 mr-3 border rounded-full'
-            alt={logoAlt}
-            src={logoSrc}
-          />
+          <ModalTitle imgSrc={logoSrc} alt={logoAlt} containerClass='mr-5' />
           <span className='font-bold text-display-sm'>
             <Trans>Unstake</Trans>
           </span>

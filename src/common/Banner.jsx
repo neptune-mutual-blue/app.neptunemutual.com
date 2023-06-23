@@ -2,9 +2,8 @@ import { NavContainer } from '@/common/Container/NavContainer'
 import CloseIcon from '@/icons/CloseIcon'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import {
-  ARBITRUM_APP_URL,
+  APP_URLS,
   ARBITRUM_BRIDGE_URL,
-  ETHEREUM_APP_URL,
   FAUCET_URL
 } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
@@ -46,7 +45,7 @@ export const Banner = () => {
                   Ethereum gas fees too high? {' '}
                   <a
                     className='underline'
-                    href={ARBITRUM_APP_URL}
+                    href={APP_URLS[42161]}
                   >
                     Use Neptune Mutual on Arbitrum
                   </a>
@@ -60,7 +59,7 @@ export const Banner = () => {
                   Don't have Arbitrum ETH?{' '}
                   <a
                     className='underline'
-                    href={ETHEREUM_APP_URL}
+                    href={APP_URLS[1]}
                   >
                     Use Neptune Mutual on Ethereum
                   </a>{' '}
