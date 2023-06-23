@@ -32,7 +32,7 @@ import { Menu } from '@headlessui/react'
 
 export const Network = ({ closeMenu = () => {} }) => {
   const { networkId } = useNetwork()
-  const { isEthereum, isArbitrum } = getNetworkInfo(networkId)
+  const { isEthereum, isArbitrum, isBinanceSmartChain } = getNetworkInfo(networkId)
   const { width } = useWindowSize()
 
   const [open, setOpen] = useState(false)
@@ -52,16 +52,16 @@ export const Network = ({ closeMenu = () => {} }) => {
         href: APP_URLS[42161],
         Icon: ChainLogos[42161],
         active: isArbitrum
+      },
+      {
+        name: 'BNB Smart Chain',
+        value: 'bnbsmartchain',
+        href: APP_URLS[56],
+        Icon: ChainLogos[56],
+        active: isBinanceSmartChain
       }
-      // {
-      //   name: 'BNB Smart Chain',
-      //   value: 'bnbsmartchain',
-      //   href: APP_URLS[56],
-      //   Icon: ChainLogos[56],
-      //   active: isBinanceSmartChain
-      // }
     ]
-  }, [isEthereum, isArbitrum])
+  }, [isEthereum, isArbitrum, isBinanceSmartChain])
 
   const ref = useRef()
   useOnClickOutside(ref, () => {
