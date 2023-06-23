@@ -100,15 +100,15 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
             data={sortedData}
           />
         </Table>
-        {hasMore && (
-          <TableShowMore
-            isLoading={loading}
-            onShowMore={() => {
-              setPage((prev) => { return prev + 1 })
-            }}
-          />
-        )}
       </TableWrapper>
+
+      <TableShowMore
+        show={hasMore}
+        loading={loading}
+        onShowMore={() => {
+          setPage((prev) => { return prev + 1 })
+        }}
+      />
     </>
   )
 }

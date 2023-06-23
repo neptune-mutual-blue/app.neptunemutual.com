@@ -23,7 +23,6 @@ import {
   snapshotColors
 } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
-import { NeutralButton } from '@/common/Button/NeutralButton'
 
 export const WhenRenderer = ({ row, locale }) => {
   return (
@@ -210,22 +209,6 @@ export const TablePagination = ({
           <ChevronLeftLgIcon className='w-6 h-6 transform rotate-180' />
         </button>
       </div>
-    </div>
-  )
-}
-
-export const TableShowMore = ({ onClick, show, loading }) => {
-  if (!show) { return null }
-
-  return (
-    <div className='p-6 bg-white border border-t-0 border-B0C4DB rounded-b-xl'>
-      <NeutralButton
-        className='text-sm font-semibold py-2.5 px-4'
-        disabled={loading}
-        onClick={onClick}
-      >
-        Show More
-      </NeutralButton>
     </div>
   )
 }

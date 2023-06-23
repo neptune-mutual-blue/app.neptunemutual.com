@@ -1,6 +1,6 @@
-import { TBody, THead, Table, TableWrapper } from '@/common/Table/Table'
+import { TBody, THead, Table, TableShowMore, TableWrapper } from '@/common/Table/Table'
 import { renderHeader } from '@/common/Table/renderHeader'
-import { ActionsRenderer, DetailsRenderer, ResultRenderer, TableRowsSkeleton, TableShowMore, TagRenderer, TitleComponent, TypeRenderer, WhenRenderer } from '@/modules/governance/proposals-table/TableComponents'
+import { ActionsRenderer, DetailsRenderer, ResultRenderer, TableRowsSkeleton, TagRenderer, TitleComponent, TypeRenderer, WhenRenderer } from '@/modules/governance/proposals-table/TableComponents'
 import { useNetwork } from '@/src/context/Network'
 import { useSnapshotProposals } from '@/src/hooks/useSnapshotProposals'
 import { classNames } from '@/utils/classnames'
@@ -110,8 +110,11 @@ export const ProposalsTable = () => {
           }
         </Table>
       </TableWrapper>
+
       <TableShowMore
-        onClick={() => {
+        show={showMore}
+        loading={loading}
+        onShowMore={() => {
           fetchProposals({
             page: page + 1,
             rowsPerPage,
@@ -119,8 +122,6 @@ export const ProposalsTable = () => {
           })
           setPage(_page => { return _page + 1 })
         }}
-        show={showMore}
-        loading={loading}
       />
     </div>
   )
