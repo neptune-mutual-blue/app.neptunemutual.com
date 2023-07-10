@@ -8,6 +8,7 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
+import { ProductsGridSkeleton } from '@/modules/home/ProductsGridSkeleton'
 
 export default function CoverPage () {
   const router = useRouter()
@@ -35,7 +36,11 @@ export default function CoverPage () {
 function Content ({ loading, coverData, coverKey, productKey }) {
   if (loading) {
     return (
-      <HomeHeroSkeleton data-testid='hero-skeleton' />
+      <>
+        <HomeHeroSkeleton data-testid='hero-skeleton' />
+
+        <ProductsGridSkeleton />
+      </>
     )
   }
 
