@@ -16,7 +16,7 @@ export default function HomePage () {
           <img className='object-cover max-w-full overflow-hidden h-96 rounded-xl' src='/nft-banner.webp' alt='avatars coming soon' />
 
           <a href='https://nft.neptunemutual.com' target='_blank' rel='noreferrer'>
-            <RegularButton className='absolute bottom-13 whitespace-nowrap left-[50%] translate-x-[-50%] flex gap-2.5 items-center text-sm text-white py-2.5 px-4'>
+            <RegularButton className='absolute bottom-13 whitespace-nowrap left-[50%] translate-x-[-50%] flex gap-2.5 items-center text-sm text-white py-2.5 px-4 font-bold'>
               Launch NFT Portal
               <ArrowNarrowRight />
             </RegularButton>

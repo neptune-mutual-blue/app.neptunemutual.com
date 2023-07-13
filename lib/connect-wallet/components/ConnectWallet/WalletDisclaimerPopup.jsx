@@ -17,6 +17,26 @@ import { verifyMessage } from '@ethersproject/wallet'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
 
+const aggrements = [
+  {
+    text: 'I\'m not a resident of or located in the United States of America (including its territories: American Samoa, Guam, Puerto Rico, the Northern Mariana Islands and the U.S. Virgin Islands) or any other Restricted Jurisdiction (as defined in the Terms of Service).',
+    id: 'not-resident-of-us'
+  },
+  {
+    text: 'I\'m not a Prohibited Person (as defined in the Terms of Service) nor acting on behalf of a Prohibited Person.',
+    id: 'not-prohibited-person'
+  },
+  {
+    text: 'I fully understand the technology and financial risks associated with Neptune Mutual Protocol.',
+    id: 'understand-the-technology'
+  },
+  {
+    text: 'I acknowledge that Neptune Mutual Protocol, App, and related software are experimental, and that the use of experimental software may result in complete loss of my funds.',
+    id: 'acknowledge-the-protocol'
+
+  }
+]
+
 export const WalletDisclaimerPoup = () => {
   const [walletApprovals, setWalletApprovals] = useLocalStorage('wallet-disclaimer-approvals', [])
   const { account, library } = useWeb3React()
@@ -94,45 +114,21 @@ I hereby further represent and warrant that:
         </div>
 
         <div className='flex flex-col mt-4 text-sm leading-5 gap-y-4 text-404040'>
-          <div className='flex gap-1.5'>
-            <Checkbox
-              checked={agreements['not-resident-of-us'] ?? false}
-              onChange={(e) => { return handleChecks('not-resident-of-us', e) }}
-              id='not-resident-of-us'
-            >
-              I'm not a resident of or located in the United States of America (including its territories: American Samoa, Guam, Puerto Rico, the Northern Mariana Islands and the U.S. Virgin Islands) or any other Restricted Jurisdiction (as defined in the Terms of Service).
-            </Checkbox>
-          </div>
-
-          <div className='flex gap-1.5'>
-            <Checkbox
-              checked={agreements['not-prohibited-person'] ?? false}
-              onChange={(e) => { return handleChecks('not-prohibited-person', e) }}
-              id='not-prohibited-person'
-            >
-              I'm not a Prohibited Person (as defined in the Terms of Service) nor acting on behalf of a Prohibited Person.
-            </Checkbox>
-          </div>
-
-          <div className='flex gap-1.5'>
-            <Checkbox
-              checked={agreements['understand-the-technology'] ?? false}
-              onChange={(e) => { return handleChecks('understand-the-technology', e) }}
-              id='understand-the-technology'
-            >
-              I fully understand the technology and financial risks associated with Neptune Mutual Protocol.
-            </Checkbox>
-          </div>
-
-          <div className='flex gap-1.5'>
-            <Checkbox
-              checked={agreements['acknowledge-the-protocol'] ?? false}
-              onChange={(e) => { return handleChecks('acknowledge-the-protocol', e) }}
-              id='acknowledge-the-protocol'
-            >
-              I acknowledge that Neptune Mutual Protocol, App, and related software are experimental, and that the use of experimental software may result in complete loss of my funds.
-            </Checkbox>
-          </div>
+          {
+            aggrements.map(({ id, text }, idx) => {
+              return (
+                <div className='flex gap-1.5' key={idx}>
+                  <Checkbox
+                    checked={agreements[id] ?? false}
+                    onChange={(e) => { return handleChecks(id, e) }}
+                    id={id}
+                  >
+                    {text}
+                  </Checkbox>
+                </div>
+              )
+            })
+          }
         </div>
 
         <hr className='h-px my-6 text-F6F7F9' />

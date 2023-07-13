@@ -1,3 +1,16 @@
+const customVariableToColor = (cssVar) => {
+  return ({ opacityVariable, opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return `rgba(var(${cssVar}), ${opacityValue})`
+    }
+    if (opacityVariable !== undefined) {
+      return `rgba(var(${cssVar}), var(${opacityVariable}, 1))`
+    }
+
+    return `rgb(var(${cssVar}))`
+  }
+}
+
 module.exports = {
   content: ['./lib/**/*.{js,ts,jsx,tsx}', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -222,7 +235,7 @@ module.exports = {
         F6F7F9: '#F6F7F9',
         F4F8FC: '#F4F8FC',
         FA5C2F: '#FA5C2F',
-        primary: 'rgb(var(--color-primary) / var(--tw-bg-opacity))',
+        primary: customVariableToColor('--color-primary'),
         B2C4DC: '#B2C4DC',
         D92D20: '#D92D20',
         F2F4F7: '#F2F4F7'
