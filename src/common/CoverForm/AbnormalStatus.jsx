@@ -7,7 +7,6 @@ import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 export const AbnormalCoverStatus = ({
   status,
@@ -18,8 +17,6 @@ export const AbnormalCoverStatus = ({
   name,
   className = ''
 }) => {
-  const router = useRouter()
-
   const href = Routes.ViewReport(coverKey, productKey, activeIncidentDate)
   const statusLink = (
     <Link href={href}>
@@ -53,7 +50,7 @@ export const AbnormalCoverStatus = ({
 
       <RegularButton
         className='w-full p-4 mt-8 uppercase rounded-big'
-        onClick={() => { return router.push(href) }}
+        link={href}
       >
         View Reporting
       </RegularButton>
