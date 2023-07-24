@@ -8,7 +8,7 @@ export const OutlinedButton = ({ onClick, children, className, ...rest }) => {
       type='button'
       onClick={onClick}
       className={classNames(
-        'text-4E7DD9 py-3 px-4 border hover:bg-4E7DD9 hover:bg-opacity-10 focus:outline-none focus-visible:ring-2 uppercase text-md tracking-2',
+        'text-primary py-3 px-4 border hover:bg-primary hover:bg-opacity-10 focus:outline-none focus-visible:ring-2 uppercase text-md tracking-2',
         buttonColor,
         className
       )}
@@ -28,7 +28,7 @@ export const OutlinedButtonCancel = ({ onClick, children, className }) => {
       onClick={onClick}
       className={classNames(
         buttonColor,
-        'text-4E7DD9 py-1 px-4 border focus:outline-none focus-visible:ring-2 uppercase tracking-wide hover:opacity-80',
+        'text-4E7DD9 py-1 px-4 border focus:outline-none focus-visible:ring-2 uppercase tracking-wide hover:opacity-95',
         className
       )}
     >

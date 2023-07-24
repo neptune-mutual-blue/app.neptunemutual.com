@@ -410,7 +410,7 @@ export const PurchasePolicyForm = ({
             {formSteps === 0 && (
               <OutlinedButton
                 onClick={() => { return router.back() }}
-                className={classNames('text-[#01052D] hover:text-[#01052D] flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center ml-4 mt-2 md:mt-0 bg-E6EAEF border-none hover:bg-E6EAEF focus-visible:ring-E6EAEF ')}
+                className={classNames('text-[#01052D] hover:text-[#01052D] flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center ml-4 mt-2 md:mt-0 !bg-E6EAEF border-none focus-visible:ring-E6EAEF ')}
               >
                 <Trans>Cancel</Trans>
               </OutlinedButton>

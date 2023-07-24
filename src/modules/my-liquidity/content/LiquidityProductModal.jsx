@@ -1,3 +1,5 @@
+import { OutlinedButton } from '@/common/Button/OutlinedButton'
+import { RegularButton } from '@/common/Button/RegularButton'
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
@@ -75,13 +77,13 @@ export function LiquidityProductModal ({ productData, setShowModal }) {
         </div>
 
         <div className='flex justify-end pt-6 border-t border-t-B0C4DB'>
-          <button
+          <OutlinedButton
             onClick={onClose}
-            className='hidden p-3 mr-6 text-sm font-medium leading-6 tracking-wider border rounded md:text-xs lg:text-md md:inline-block md:font-semibold border-4E7DD9 text-4E7DD9'
+            className='hidden p-3 mr-6 text-sm font-medium leading-6 tracking-wider border rounded md:text-xs lg:text-md md:inline-block md:font-semibold'
             data-testid='close-button'
           >
             CLOSE
-          </button>
+          </OutlinedButton>
           <DownloadButton onClick={onDownload} />
         </div>
       </div>
@@ -91,8 +93,8 @@ export function LiquidityProductModal ({ productData, setShowModal }) {
 
 function DownloadButton ({ onClick }) {
   return (
-    <button
-      className='inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 tracking-wide text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75 bg-primary'
+    <RegularButton
+      className='inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 tracking-wide uppercase rounded outline-none md:w-auto'
       onClick={onClick}
       data-testid='download-button'
     >
@@ -115,6 +117,6 @@ function DownloadButton ({ onClick }) {
       <span className='text-sm font-medium md:hidden'>
         Download Cover Terms
       </span>
-    </button>
+    </RegularButton>
   )
 }
