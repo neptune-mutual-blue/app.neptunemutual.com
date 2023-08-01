@@ -46,6 +46,8 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const IPFS_HASH_URL = 'https://cloudflare-ipfs.com/ipfs/{ipfsHash}' // cloudflare works with cidv1 hashes like `bafkreihdaejkl4z2utvdsm7aulv5kmhjvnkpwyoosuqkz73xlkwoq2qiqa`
 
+export const NPM_IPFS_HASH_URL = 'https://ipfs.neptunemutual.net/ipfs/{ipfsHash}'
+
 export const BRIDGE_BALANCE_URL = `${API_BASE_URL}bridge/balance/{networkId}`
 
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`
