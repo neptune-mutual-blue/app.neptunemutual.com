@@ -9,7 +9,7 @@ import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
-import { IPFS_HASH_URL } from '@/src/config/constants'
+import { NPM_IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { readFromIpfs } from '@/src/services/api/ipfs/read'
 import { fromNow } from '@/utils/formatter/relative-time'
@@ -56,7 +56,7 @@ function HeaderReport (props) {
       {/* Link to ipfs */}
       <span className='inline-flex items-start justify-center'>
         <a
-          href={getReplacedString(IPFS_HASH_URL, { ipfsHash })}
+          href={getReplacedString(NPM_IPFS_HASH_URL, { ipfsHash })}
           target='_blank'
           rel='noreferrer noopener nofollow'
           className='p-1 -mt-1 text-black'
