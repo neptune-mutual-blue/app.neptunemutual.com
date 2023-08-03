@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { Badge } from '@/common/Badge/Badge'
@@ -8,6 +9,7 @@ import {
 } from '@/common/CardStatusBadge'
 import PreviousNext from '@/common/PreviousNext'
 import { MULTIPLIER } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import {
@@ -55,6 +57,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const status = identifyStatus(report.status)
 
   const totalStake = sumOf(totalAttested, totalRefuted)
+  const href = Routes.ViewReport(coverKey, productKey, coverOrProductData?.activeIncidentDate)
 
   const attestedPercentage = toBN(totalAttested)
     .dividedBy(totalStake)
@@ -159,10 +162,14 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
         </div>
 
         {status !== E_CARD_STATUS.NORMAL && (
-          <CardStatusBadge
-            className='mt-3 lg:mt-0 rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
-            status={status}
-          />
+          <Link href={href}>
+            <a>
+              <CardStatusBadge
+                className='mt-3 lg:mt-0 rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
+                status={status}
+              />
+            </a>
+          </Link>
         )}
 
       </div>
