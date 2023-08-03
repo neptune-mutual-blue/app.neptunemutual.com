@@ -4,7 +4,7 @@ import { classNames } from '@/utils/classnames'
 export function PoolDescription ({
   description = '', stakedBalance, mobile = false
 }) {
-  if (toBN(stakedBalance).isZero()) {
+  if (!toBN(stakedBalance).isZero()) {
     return null
   }
 
