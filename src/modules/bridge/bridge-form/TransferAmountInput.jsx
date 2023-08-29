@@ -15,6 +15,8 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { getPlainNumber } from '@/utils/formatter/input'
 import { TokenOrCoverLogo } from '@/modules/bridge/bridge-form/TokenOrCoverLogo'
+import { NPMSwapLink } from '@/common/TokenBalance'
+import { useAppConstants } from '@/src/context/AppConstants'
 
 export const TransferAmountInput = ({
   balance,
@@ -31,6 +33,8 @@ export const TransferAmountInput = ({
     tokenSymbol,
     true
   )
+
+  const { NPMTokenAddress } = useAppConstants()
 
   const [inputValue, setInputValue] = useState(value ?? '')
 
@@ -70,20 +74,9 @@ export const TransferAmountInput = ({
         className
       )}
     >
-      <div className='flex items-center gap-1 p-2 text-sm font-semibold bg-EEEEEE w-max rounded-2'>
-        <TokenOrCoverLogo
-          src='/images/tokens/npm.svg'
-          alt='NPM logo'
-        />
-        <p>{tokenSymbol} Token</p>
-        <p className='text-4E7DD9' title={formattedBalance.long}>
-          Balance: {formattedBalance.short}
-        </p>
-      </div>
-
-      <div className='flex gap-1 mt-2.5'>
+      <div className='flex gap-1'>
         <CurrencyInput
-          className='flex-grow text-xl bg-transparent outline-none min-w-120'
+          className='flex-grow bg-transparent outline-none text-display-xs min-w-120'
           {...inputFieldProps}
         />
         <button
@@ -97,6 +90,19 @@ export const TransferAmountInput = ({
       {error.message && (
         <p className='text-sm text-E52E2E mt-2.5'>{error.message}</p>
       )}
+
+      <div className='flex items-center gap-1 text-sm font-semibold w-max mt-2.5'>
+        <TokenOrCoverLogo
+          src='/images/tokens/npm.svg'
+          alt='NPM logo'
+        />
+        <p>{tokenSymbol} Token</p>
+        <p className='text-4E7DD9' title={formattedBalance.long}>
+          Balance: {formattedBalance.short}
+        </p>
+
+        <NPMSwapLink tokenAddress={NPMTokenAddress} className='text-xs' />
+      </div>
     </div>
   )
 }
