@@ -18,7 +18,7 @@ import {
 import { useWeb3React } from '@web3-react/core'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useMemo } from 'react'
-import { FAUCET_URL, getSwapLink } from '@/src/config/constants'
+import { FAUCET_URL, getSushiswapLink, getUniswapLink } from '@/src/config/constants'
 import { getNetworkInfo } from '@/utils/network'
 
 export const TokenBalance = ({
@@ -141,9 +141,12 @@ export const NPMSwapLink = ({ tokenAddress, className = '' }) => {
 
     if (NPMTokenAddress.toLowerCase() !== tokenAddress.toLowerCase()) { return '' }
 
-    if (getNetworkInfo(networkId).isTestNet) { return FAUCET_URL }
+    const { isTestNet, isEthereum } = getNetworkInfo(networkId)
+    if (isTestNet) { return FAUCET_URL }
 
-    return getSwapLink(tokenAddress)
+    if (isEthereum) { return getUniswapLink(tokenAddress) }
+
+    return getSushiswapLink(tokenAddress, networkId)
   }, [NPMTokenAddress, tokenAddress, networkId])
 
   return (
