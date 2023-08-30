@@ -16,10 +16,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useMemo } from 'react'
-import { FAUCET_URL, getSushiswapLink, getUniswapLink } from '@/src/config/constants'
-import { getNetworkInfo } from '@/utils/network'
+import { NPMSwapLink } from '@/common/NPMSwapLink'
 
 export const TokenBalance = ({
   tokenAddress,
@@ -129,36 +126,5 @@ export const TokenBalance = ({
         </button>
       </div>
     </div>
-  )
-}
-
-export const NPMSwapLink = ({ tokenAddress, className = '' }) => {
-  const { networkId } = useNetwork()
-  const { NPMTokenAddress } = useAppConstants()
-
-  const npmSwapLink = useMemo(() => {
-    if (!NPMTokenAddress || !tokenAddress || !networkId) { return '' }
-
-    if (NPMTokenAddress.toLowerCase() !== tokenAddress.toLowerCase()) { return '' }
-
-    const { isTestNet, isEthereum } = getNetworkInfo(networkId)
-    if (isTestNet) { return FAUCET_URL }
-
-    if (isEthereum) { return getUniswapLink(tokenAddress) }
-
-    return getSushiswapLink(tokenAddress, networkId)
-  }, [NPMTokenAddress, tokenAddress, networkId])
-
-  return (
-    npmSwapLink && (
-      <a
-        href={npmSwapLink}
-        target='_blank'
-        rel='noreferrer'
-        className={classNames('ml-2 font-semibold underline text-md text-4E7DD9 h-max w-max', className)}
-      >
-        Get NPM
-      </a>
-    )
   )
 }
