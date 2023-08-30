@@ -16,6 +16,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { NPMSwapLink } from '@/common/NPMSwapLink'
 
 export const TokenBalance = ({
   tokenAddress,
@@ -70,9 +71,17 @@ export const TokenBalance = ({
           >
             <Trans>Balance:</Trans>{' '}
             {formattedTokenAmount.short}
+
+            <NPMSwapLink tokenAddress={tokenAddress} />
           </p>
         )}
-        {children}
+        <div className='flex'>
+          <div className='grow'>
+            {children}
+          </div>
+
+          {!balance && <NPMSwapLink tokenAddress={tokenAddress} />}
+        </div>
       </div>
       <div className='flex items-center justify-end w-full xs:w-fit'>
         <button
