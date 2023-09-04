@@ -68,13 +68,11 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   const receiptNo = event.policyId
 
   const daysCovered = toBN(event.expiresOn)
-    .minus(event.createdAtTimestamp)
+    .minus(event.blockTimestamp)
     .dividedBy(24 * 60 * 60)
     .toString()
 
-  const duration = Math.ceil(
-    parseFloat(toBN(daysCovered).dividedBy(30).toString())
-  )
+  const duration = event.coverDuration
 
   const rate = toBN(event.fee)
     .multipliedBy(365)
@@ -85,7 +83,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     )
     .toString()
 
-  const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(event.createdAtTimestamp, coverOrProductData.coverageLag)))
+  const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(event.blockTimestamp, coverOrProductData.coverageLag)))
 
   const onBehalfOfData = [
     {
