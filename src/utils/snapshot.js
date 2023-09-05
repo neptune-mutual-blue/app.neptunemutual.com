@@ -129,14 +129,13 @@ export const getVotingResults = (choices = [], scores = []) => {
   const totalScore = sumOf(...scores).toString()
   const results = choices.map((choice, i) => {
     const { chainId, key } = parseChoice(choice)
+    const score = toBNSafe(scores[i])
 
     return {
       key,
       chainId,
       name: choice,
-      percent: toBNSafe(scores[i])
-        .dividedBy(totalScore)
-        .toNumber(),
+      percent: score.isGreaterThan(0) ? score.dividedBy(totalScore).toPrecision(2) : '0',
       color: getColorByIndex(i, choices.length)
     }
   })
@@ -156,4 +155,13 @@ export const getAsOfDate = (start, end) => {
   }
 
   return date
+}
+
+export const parseEmptyScores = (data) => {
+  const { choices, scores } = data
+
+  return {
+    ...data,
+    scores: choices.map((_, i) => { return scores[i] || 0 })
+  }
 }
