@@ -63,7 +63,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   const onBehalfOf = event.onBehalfOf
 
   const date = new Date(
-    parseInt(event.createdAtTimestamp) * 1000
+    parseInt(event.blockTimestamp) * 1000
   ).toUTCString()
   const receiptNo = event.policyId
 
