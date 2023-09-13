@@ -18,6 +18,8 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import AddCircleIcon from '@/icons/AddCircleIcon'
+import { useNPMSwapLink } from '@/common/NPMSwapLink'
 
 const PurchaseAmountStep = ({
   setValue,
@@ -54,6 +56,8 @@ const PurchaseAmountStep = ({
     setShowModal(true)
   }
 
+  const npmSwapLink = useNPMSwapLink()
+
   return (
     <>
       <p className='font-bold text-center text-display-xs text-01052D'>
@@ -86,13 +90,26 @@ const PurchaseAmountStep = ({
       {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}
 
       <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available: {formatCurrency(availableLiquidity, router.locale).short}</div>
-      <button
-        className='flex items-center gap-2 p-1 pr-0 mx-auto mt-8 text-primary'
-        onClick={handleShowCoverTerms}
-      >
-        <StandardTermsConditionsIcon />
-        <p className='text-sm'>View Cover Parameters</p>
-      </button>
+
+      <div className='flex items-center justify-center gap-6 mt-8'>
+        <button
+          className='flex items-center p-1 pr-0 text-sm font-semibold text-primary'
+          onClick={handleShowCoverTerms}
+        >
+          <StandardTermsConditionsIcon />
+          <p className='text-sm'>View Cover Parameters</p>
+        </button>
+
+        <a
+          className='flex p-1 pr-0 items-center text-sm font-semibold uppercase text-primary gap-0.5'
+          href={npmSwapLink}
+          target='_blank'
+          rel='noreferrer'
+        >
+          <AddCircleIcon width='24' height='24' />
+          Get NPM
+        </a>
+      </div>
 
       {showModal && (
         <CoverTermsModal

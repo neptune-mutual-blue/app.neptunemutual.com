@@ -5,22 +5,28 @@ import { classNames } from '@/utils/classnames'
 import { getNetworkInfo } from '@/utils/network'
 import { useMemo } from 'react'
 
-export const NPMSwapLink = ({ tokenAddress, className = '' }) => {
+export const useNPMSwapLink = (props) => {
   const { networkId } = useNetwork()
   const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants()
 
   const npmSwapLink = useMemo(() => {
-    if (!NPMTokenAddress || !tokenAddress || !networkId) { return '' }
+    if (!NPMTokenAddress || !networkId) { return '' }
 
-    if (NPMTokenAddress.toLowerCase() !== tokenAddress.toLowerCase()) { return '' }
+    if (props?.tokenAddress && NPMTokenAddress.toLowerCase() !== props?.tokenAddress.toLowerCase()) { return '' }
 
     const { isTestNet, isEthereum } = getNetworkInfo(networkId)
     if (isTestNet) { return FAUCET_URL }
 
-    if (isEthereum) { return getUniswapLink(tokenAddress) }
+    if (isEthereum) { return getUniswapLink(NPMTokenAddress) }
 
-    return getSushiswapLink(liquidityTokenAddress, tokenAddress, networkId)
-  }, [NPMTokenAddress, tokenAddress, networkId, liquidityTokenAddress])
+    return getSushiswapLink(liquidityTokenAddress, NPMTokenAddress, networkId)
+  }, [NPMTokenAddress, props?.tokenAddress, networkId, liquidityTokenAddress])
+
+  return npmSwapLink
+}
+
+export const NPMSwapLink = ({ tokenAddress, className = '' }) => {
+  const npmSwapLink = useNPMSwapLink({ tokenAddress })
 
   return (
     npmSwapLink && (
