@@ -68,7 +68,7 @@ export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{c
 
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  80001: 'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
+  80001: 'https://test.atlasswap.com/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   42161: 'https://app.uniswap.org/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   84531: 'https://app.uniswap.org/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   43113: 'https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}'
@@ -80,8 +80,8 @@ export const SUBGRAPH_API_URLS = {
   56: process.env.NEXT_PUBLIC_BSC_SUBGRAPH_URL,
   42161: process.env.NEXT_PUBLIC_ARBITRUM_SUBGRAPH_URL,
   // testnet
-  // 80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
   // 43113: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
+  80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
   84531: process.env.NEXT_PUBLIC_BASE_GOERLI_SUBGRAPH_URL
 }
 
@@ -142,3 +142,7 @@ export const EPOCH_DURATION = 28 * DAYS
 
 // convertToUnits(150_000, 18).toString(). the long configuration was used because use of function was failing many tests
 export const EMISSION_PER_EPOCH = '150000000000000000000000'
+
+export const getUniswapLink = (address) => { return `https://app.uniswap.org/#/swap?inputCurrency=USDC&outputCurrency=${address}` }
+
+export const getSushiswapLink = (usdc, address, networkId) => { return `https://www.sushi.com/swap?token0=${usdc}&token1=${address}&chainId=${networkId}` }

@@ -13,6 +13,8 @@ export const USER_EXPIRED_POLICIES = `${API_BASE_URL}policy/expired/{networkId}/
 
 export const USER_POLICY_TXS = `${API_BASE_URL}policy/transactions/{networkId}/{account}`
 
+export const POLICY_RECEIPT_URL = `${API_BASE_URL}/policy/receipt/{networkId}/{txHash}`
+
 // GET: home
 export const PRODUCT_SUMMARY_URL = `${API_BASE_URL}home/product-summary/{networkId}`
 

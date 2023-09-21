@@ -1,7 +1,11 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import DateLib from '@/lib/date/DateLib'
 import { useNetwork } from '@/src/context/Network'
-import { getSubgraphData } from '@/src/services/subgraph'
-import { useEffect, useState } from 'react'
+import { getPolicyReceipt } from '@/src/services/api/policy/receipt'
 
 export const storePurchaseEvent = (event, from) => {
   const txHash = event.transactionHash
@@ -42,37 +46,10 @@ export const storePurchaseEvent = (event, from) => {
   return txHash
 }
 
-const getQuery = (id) => {
-  return `
-  {
-    coverPurchasedEvent (
-      id: "${id}"
-    ) {
-      id
-      coverKey
-      productKey
-      onBehalfOf
-      cxToken
-      fee
-      platformFee
-      amountToCover
-      expiresOn
-      referralCode
-      policyId
-      createdAtTimestamp
+const getEventFromApi = async (networkId, txHash) => {
+  const data = await getPolicyReceipt(networkId, txHash)
 
-      transaction {
-        from
-      }
-    }
-  }
-`
-}
-
-const getEventFromSubgraph = async (networkId, txHash) => {
-  const data = await getSubgraphData(networkId, getQuery(txHash))
-
-  return data.coverPurchasedEvent
+  return data
 }
 
 const getEventFromStorage = async (txHash) => {
@@ -93,7 +70,7 @@ const getEventFromStorage = async (txHash) => {
 const getEvent = async (networkId, txHash) => {
   return getEventFromStorage(txHash).then((data) => {
     if (!data) {
-      return getEventFromSubgraph(networkId, txHash)
+      return getEventFromApi(networkId, txHash)
     }
 
     return data
