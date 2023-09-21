@@ -68,7 +68,7 @@ export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{c
 
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  80001: 'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
+  80001: 'https://test.atlasswap.com/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   42161: 'https://app.uniswap.org/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   84531: 'https://app.uniswap.org/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   43113: 'https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}'
