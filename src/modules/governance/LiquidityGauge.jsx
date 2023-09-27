@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from 'react'
@@ -13,7 +14,7 @@ import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, toBNSafe } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getAsOfDate } from '@/utils/snapshot'
@@ -46,9 +47,23 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
     }
   }, [handleResize])
 
-  useEffect(() => {
+  const { allZeros, data } = useMemo(() => {
     if (results.length > 0) {
       setHoveredName(results[0]?.name)
+    }
+
+    const allZeros = !results.find(s => { return toBNSafe(s.percent).isGreaterThan(0) })
+    const equalDistribution = 100 / results.length
+
+    return {
+      data: results.map(s => {
+        return {
+          ...s,
+          percent: Number(s.percent) * 100,
+          y: allZeros ? equalDistribution : Number(s.percent) * 100
+        }
+      }),
+      allZeros
     }
   }, [results])
 
@@ -66,7 +81,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
         innerSize: '60%',
         dataLabels: {
           distance: 20,
-          format: '<b>{point.name}</b>: {point.y:.1f} %',
+          format: allZeros ? '<b>{point.name}</b>: 0%' : '<b>{point.name}</b>: {point.y:.1f} %',
           connectorColor: 'black'
         },
         showInLegend: false,
@@ -76,13 +91,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
     series: [{
       name: 'pie',
       colorByPoint: true,
-      data: results.map(item => {
-        return {
-          name: item.name,
-          y: item.percent * 100,
-          color: item.color
-        }
-      }),
+      data,
       dataLabels: {
         enabled: !mobile,
         connectorWidth: mobile ? 0 : 1,

@@ -4,7 +4,7 @@ import {
 } from 'react'
 
 import { useNetwork } from '@/src/context/Network'
-import { getSnapshotApiURL } from '@/utils/snapshot'
+import { getSnapshotApiURL, parseEmptyScores } from '@/utils/snapshot'
 
 const getQuery = (id) => {
   return `{
@@ -55,8 +55,9 @@ export const useSnapshotProposalById = (id, locale) => {
 
         if (res.ok) {
           const data = await res.json()
-
-          setData(data?.data?.proposal || null)
+          if (data?.data?.proposal) {
+            setData(parseEmptyScores(data.data.proposal))
+          }
         }
       } catch (error) {
         console.error(error)
