@@ -57,7 +57,9 @@ function Complete ({ txHash, onClose, amountInDollars }) {
   const { networkId } = useNetwork()
   const { isTestNet, isBinanceSmartChain } = getNetworkInfo(networkId)
   const nftLink = isTestNet ? 'https://nft.hicif.com' : 'https://nft.neptunemutual.net'
-  const points = parseInt((POLICY_POINTS_PER_DOLLAR * amountInDollars).toString())
+
+  const value = Number(POLICY_POINTS_PER_DOLLAR * amountInDollars)
+  const points = value >= 1 ? parseInt(value.toString()) : value.toFixed(2)
 
   return (
     <div className='flex flex-col items-center'>
@@ -69,8 +71,8 @@ function Complete ({ txHash, onClose, amountInDollars }) {
       <div className='p-8 pt-3 pb-7'>
         <img src='/images/nft-image.png' alt='image showing different NFT characters' />
 
-        <div className='relative px-8 py-4 mx-auto text-center text-white w-max bg-4E7DD9 -mt-11 rounded-2xl shadow-points-btn'>
-          <p className='text-sm uppercase'>Congratulations! you've just earned</p>
+        <div className='relative px-8 py-4 mx-auto text-center text-white w-max bg-primary -mt-11 rounded-2xl shadow-points-btn'>
+          <p className='text-sm capitalize'>Congratulations! you've just earned</p>
           <p className='mt-1 font-bold text-display-sm'>{points} pts</p>
         </div>
 
