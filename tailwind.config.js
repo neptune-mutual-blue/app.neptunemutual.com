@@ -83,7 +83,8 @@ module.exports = {
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
         coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)',
         lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        'cover-dropdown': '0px 4px 11px rgba(0, 0, 0, 0.06)'
+        'cover-dropdown': '0px 4px 11px rgba(0, 0, 0, 0.06)',
+        'points-btn': '0px 4px 28px 0px rgba(44, 141, 255, 0.50)'
       },
       flex: {
         2: '2 2 0%'
