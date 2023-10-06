@@ -43,6 +43,8 @@ import {
   Trans
 } from '@lingui/macro'
 
+import SuccessModal from '@/common/LiquidityForms/SuccessModal'
+
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
   const [npmValue, setNPMValue] = useState('')
@@ -51,6 +53,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   const [lqErrorMsg, setLqErrorMsg] = useState('')
   const { networkId } = useNetwork()
   const { isMainNet } = getNetworkInfo(networkId)
+
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const {
     liquidityTokenAddress,
@@ -380,6 +384,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             className='w-full p-6 font-semibold uppercase'
             onClick={() => {
               handleProvide(() => {
+                setIsSuccess(true)
                 setNPMValue('')
                 setLqValue('')
               })
@@ -401,6 +406,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       <div className='flex justify-center mt-12 md:justify-start'>
         <BackButton onClick={() => { return router.back() }} />
       </div>
+
+      <SuccessModal
+        open={isSuccess}
+        close={() => { return setIsSuccess(false) }}
+        amountInDollars={Number(lqValue || '0')}
+      />
     </div>
   )
 }

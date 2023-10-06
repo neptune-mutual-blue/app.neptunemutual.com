@@ -424,7 +424,7 @@ export const PurchasePolicyForm = ({
 
           </div>
         )}
-        <PurchasePolicyModal isOpen={purchaseWaiting || Boolean(txHash)} txHash={txHash} />
+        <PurchasePolicyModal isOpen={purchaseWaiting || Boolean(txHash)} txHash={txHash} amount={Number(value || '0')} />
       </div>
 
     </div>
