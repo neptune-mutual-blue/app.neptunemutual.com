@@ -60,13 +60,15 @@ space(
 const parseProposalsData = (data, locale) => {
   if (!data || !Array.isArray(data?.proposals)) { return [] }
 
-  const proposals = data.proposals.map(proposal => {
+  const proposals = data.proposals.map((proposal) => {
     const scoresSum = proposal.scores.reduce((acc, curr) => { return acc + curr }, 0)
-    const scores = proposal.scores.map((score, i) => {
+    const scores = proposal.choices.map((choice, i) => {
+      const score = proposal.scores[i] || 0
+
       return {
-        name: proposal.choices[i],
-        value: formatCurrency(score, locale, proposal.symbol, true).short,
-        percent: ((score / scoresSum) * 100)
+        name: choice,
+        value: score ? formatCurrency(score, locale, proposal.symbol, true).short : `0 ${proposal.symbol}`,
+        percent: ((score / scoresSum) * 100) || 0
       }
     })
 

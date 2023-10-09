@@ -146,3 +146,7 @@ export const EMISSION_PER_EPOCH = '150000000000000000000000'
 export const getUniswapLink = (address) => { return `https://app.uniswap.org/#/swap?inputCurrency=USDC&outputCurrency=${address}` }
 
 export const getSushiswapLink = (usdc, address, networkId) => { return `https://www.sushi.com/swap?token0=${usdc}&token1=${address}&chainId=${networkId}` }
+
+export const LIQUIDITY_POINTS_PER_DOLLAR = 0.0375
+
+export const POLICY_POINTS_PER_DOLLAR = 0.00625
