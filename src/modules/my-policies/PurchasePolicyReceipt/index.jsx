@@ -164,7 +164,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
       <div className='px-4 pt-4 m-auto sm:px-10 md:px-10 lg:max-w-5xl pb-52'>
         <div className='flex flex-col text-center cursor-pointer sm:flex-row mt-9'>
 
-          <Link href={Routes.Home} replace>
+          <Link legacyBehavior href={Routes.Home} replace>
             <a className='sm:w-auto'>
               <picture>
                 <img

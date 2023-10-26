@@ -19,7 +19,7 @@ export const AbnormalCoverStatus = ({
 }) => {
   const href = Routes.ViewReport(coverKey, productKey, activeIncidentDate)
   const statusLink = (
-    <Link href={href}>
+    <Link legacyBehavior href={href}>
       <a className='font-medium underline hover:no-underline'>
         {status}
       </a>

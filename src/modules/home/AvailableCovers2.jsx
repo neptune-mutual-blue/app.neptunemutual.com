@@ -166,7 +166,7 @@ export const AvailableCovers = () => {
         id='cover-products'
         className='flex flex-wrap items-center justify-between'
       >
-        <Link href='#cover-products'>
+        <Link legacyBehavior href='#cover-products'>
           <a>
             <h1 className='mb-3 font-bold xl:mb-0 text-display-xs lg:text-display-sm'>
               <Trans>Cover Products</Trans>

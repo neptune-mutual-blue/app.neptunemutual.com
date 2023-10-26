@@ -10,7 +10,7 @@ export const RegularButton = forwardRef(
 
     if (link) {
       return (
-        <Link href={link}>
+        <Link legacyBehavior href={link}>
           <a
             className={classNames(
               buttonColor,

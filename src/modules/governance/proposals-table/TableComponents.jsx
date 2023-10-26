@@ -126,7 +126,7 @@ export const ActionsRenderer = ({ row, networkId }) => {
       <div className='text-sm text-right text-01052D'>
         {
           row.tag === 'gce' && (
-            <Link href={setGaugeUrl}>
+            <Link legacyBehavior href={setGaugeUrl}>
               <a className='flex items-center justify-end gap-1'>
                 <Trans>Set Gauge</Trans>
                 <PieChartIcon />

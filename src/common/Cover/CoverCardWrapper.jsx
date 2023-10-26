@@ -16,7 +16,7 @@ export const CoverCardWrapper = ({
   }
 
   return (
-    <Link href={Routes.ViewCover(coverKey)} key={coverKey} scroll={!coverData.supportsProducts}>
+    <Link legacyBehavior href={Routes.ViewCover(coverKey)} key={coverKey} scroll={!coverData.supportsProducts}>
       <a
         className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
         data-testid='cover-link'

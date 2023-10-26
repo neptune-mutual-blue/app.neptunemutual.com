@@ -40,7 +40,7 @@ export const IncreaseYourBoost = ({ boost }) => {
 
         {
           (parseFloat(boostFraction) < BOOST_MAX) && (
-            <Link href={Routes.VoteEscrow}>
+            <Link legacyBehavior href={Routes.VoteEscrow}>
               <a
                 className='border-primary bg-primary focus-visible:ring-primary text-EEEEEE border  tracking-2 focus:outline-none focus-visible:ring-2  flex-auto rounded-tooltip py-3 px-4 font-semibold !text-sm uppercase z-auto relative'
               >

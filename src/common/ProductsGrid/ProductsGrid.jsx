@@ -104,6 +104,7 @@ export const ProductsGrid = () => {
       <div className='flex flex-wrap items-center justify-between gap-6 md:flex-nowrap'>
         <div className='flex items-center'>
           <Link
+            legacyBehavior
             href={{
               pathname: Routes.Home,
               query: {

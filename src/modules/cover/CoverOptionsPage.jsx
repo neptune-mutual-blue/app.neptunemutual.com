@@ -79,6 +79,7 @@ export const CoverOptionsPage = ({
             {Object.keys(coverActions).map((actionKey) => {
               return (
                 <Link
+                  legacyBehavior
                   key={actionKey}
                   href={coverActions[actionKey].getHref(coverKey, productKey)}
                 >

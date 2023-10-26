@@ -17,7 +17,7 @@ export const PoliciesActivePage = ({ data, loading }) => {
   return (
     <Container className='py-16' data-testid='main-container'>
       <div className='flex justify-end'>
-        <Link href={Routes.PolicyTransactions}>
+        <Link legacyBehavior href={Routes.PolicyTransactions}>
           <a className='text-lg font-medium text-4E7DD9 hover:underline'>
             <Trans>Transaction List</Trans>
           </a>

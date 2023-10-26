@@ -88,7 +88,7 @@ export const LiquidityGaugePoolsPage = () => {
     <Container className='pt-7 md:pt-16 pb-36' data-testid='liquidity-gauge-pools-page-container'>
       <div className='flex justify-end mb-7 md:mb-14'>
         <div className='items-start justify-between w-full md:items-center sm:flex'>
-          <Link href={Routes.LiquidityGaugePoolsTransactions}>
+          <Link legacyBehavior href={Routes.LiquidityGaugePoolsTransactions}>
             <a className='flex justify-start mb-6 text-lg font-medium md:mb-0 md:justify-center sm:inline-flex text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>

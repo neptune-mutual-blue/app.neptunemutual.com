@@ -81,7 +81,7 @@ export const CoverReportingRules = ({
             resolutionSources={resolutionSources || []}
             reportingPeriod={reportingPeriod}
           >
-            {/* <Link href="#">
+            {/* <Link legacyBehavior href="#">
               <a className="block mt-3 text-4E7DD9 hover:underline">
                 <Trans>Neptune Mutual Reporters</Trans>
               </a>

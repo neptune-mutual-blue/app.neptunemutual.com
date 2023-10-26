@@ -147,6 +147,7 @@ export const Header = () => {
           <nav className='flex justify-between max-w-full mx-auto' aria-label='Top'>
             <div className='flex items-center justify-between py-0 xl:basis-full h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none'>
               <Link
+                legacyBehavior
                 href={Routes.Home}
                 locale={router.locale || router.defaultLocale}
               >
@@ -161,6 +162,7 @@ export const Header = () => {
                 if (link.href) {
                   return (
                     <Link
+                      legacyBehavior
                       key={link.name}
                       href={link.href}
                       locale={router.locale}
@@ -342,6 +344,7 @@ export const MenuModal = ({
                   {navigation.map((link) => {
                     return (
                       <Link
+                        legacyBehavior
                         key={link.name}
                         href={link.href}
                         locale={router.locale}

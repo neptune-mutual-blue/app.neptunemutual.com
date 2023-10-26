@@ -16,7 +16,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
         data-testid='main-container'
       >
         <Container>
-          <h1 className='mb-10 font-bold text-center capitalize text-lg md:text-display-sm sm:mb-12'>
+          <h1 className='mb-10 text-lg font-bold text-center capitalize md:text-display-sm sm:mb-12'>
             <Trans>Didn&#x2019;t find what you were looking for?</Trans>
           </h1>
           <Grid>
@@ -25,6 +25,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
               .map((actionKey, i) => {
                 return (
                   <Link
+                    legacyBehavior
                     key={i}
                     href={coverActions[actionKey].getHref(coverKey, productKey)}
                   >

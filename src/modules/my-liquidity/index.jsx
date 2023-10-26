@@ -17,7 +17,7 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
     <Container className='py-16' data-testid='page-container'>
       <div className='flex justify-end'>
-        <Link href={Routes.LiquidityTransactions}>
+        <Link legacyBehavior href={Routes.LiquidityTransactions}>
           <a className='text-lg font-medium text-4E7DD9 hover:underline'>
             <Trans>Transaction List</Trans>
           </a>
@@ -73,7 +73,7 @@ function MyLiquidities ({ data, loading }) {
         const isDiversified = coverData?.supportsProducts
 
         return (
-          <Link href={Routes.MyCoverLiquidity(coverKey)} key={x.id}>
+          <Link legacyBehavior href={Routes.MyCoverLiquidity(coverKey)} key={x.id}>
             <a
               className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
               data-testid='liquidity-cover-card'

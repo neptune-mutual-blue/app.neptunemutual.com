@@ -99,6 +99,7 @@ export const PolicyCardFooter = ({
       {/* Link */}
       {isClaimable && withinClaimPeriod && !isPolicyExpired && (
         <Link
+          legacyBehavior
           href={Routes.ClaimPolicy(coverKey, productKey, incidentDate)}
         >
           <a

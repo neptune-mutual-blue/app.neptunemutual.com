@@ -288,7 +288,7 @@ const BondPage = () => {
             <Trans>Get LP tokens</Trans>
           </a>
 
-          <Link href={Routes.BondTransactions}>
+          <Link legacyBehavior href={Routes.BondTransactions}>
             <a className='inline-block text-lg font-medium text-4E7DD9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>

@@ -137,6 +137,7 @@ function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
 
             return (
               <Link
+                legacyBehavior
                 href={Routes.ViewReport(
                   report.coverKey,
                   report.productKey,

@@ -83,7 +83,7 @@ function Complete ({ txHash, onClose, amountInDollars }) {
         </p>
 
         <div className='flex items-center justify-center gap-6 mt-8 center'>
-          <Link href={Routes.ViewPolicyReceipt(txHash)}>
+          <Link legacyBehavior href={Routes.ViewPolicyReceipt(txHash)}>
             <a target='_blank' onClick={onClose} className='font-semibold text-4E7DD9'>
               VIEW POLICY RECEIPT
             </a>

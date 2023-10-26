@@ -37,7 +37,7 @@ const Crumb = ({ page, isLast }) => {
   }
 
   return (
-    <Link href={page.href}>
+    <Link legacyBehavior href={page.href}>
       <a
         className={classNames(
           'ml-1 hover:underline capitalize',

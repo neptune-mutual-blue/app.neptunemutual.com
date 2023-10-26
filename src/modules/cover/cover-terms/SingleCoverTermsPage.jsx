@@ -48,7 +48,7 @@ export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
 
   return (
     <div>
-      <Link href={Routes.Home} replace>
+      <Link legacyBehavior href={Routes.Home} replace>
         <a className='block w-max'>
           <picture>
             <img
