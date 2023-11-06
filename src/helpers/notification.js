@@ -576,7 +576,7 @@ const actionMessages = {
       }
     }
 
-    return { title: t`Could not remove liquidity`, description: displayValue(_data) }
+    return { title: t`Removing liquidity`, description: displayValue(_data) }
   },
   [METHODS.LIQUIDITY_INFO]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
