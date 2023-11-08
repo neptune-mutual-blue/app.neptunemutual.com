@@ -1,10 +1,16 @@
-import { useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { config, multicall } from '@neptunemutual/sdk'
+import {
+  useEffect,
+  useState
+} from 'react'
 
-import { sumOf } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
+import { sumOf } from '@/utils/bn'
+import {
+  config,
+  multicall
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
   const [myTotalLiquidity, setMyTotalLiquidity] = useState('0')
@@ -12,6 +18,8 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
   const { networkId } = useNetwork()
 
   useEffect(() => {
+    if (liquidityList.length === 0) { return }
+
     let ignore = false
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)
