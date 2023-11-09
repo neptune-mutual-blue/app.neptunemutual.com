@@ -156,7 +156,6 @@ export const CoverDropdown = ({
               return (
                 <Listbox.Option
                   key={optionIdx}
-                  id='reporting-dropdown'
                   className={({ active }) => {
                     return classNames(
                       'select-none relative px-1 cursor-pointer disabled:cursor-not-allowed',
@@ -168,7 +167,9 @@ export const CoverDropdown = ({
                 >
                   {({ selected: _selected, active }) => {
                     return (
-                      <Option active={active} option={option} _selected={_selected} index={optionIdx} />
+                      <>
+                        <Option active={active} option={option} _selected={_selected} index={optionIdx} />
+                      </>
                     )
                   }}
                 </Listbox.Option>
