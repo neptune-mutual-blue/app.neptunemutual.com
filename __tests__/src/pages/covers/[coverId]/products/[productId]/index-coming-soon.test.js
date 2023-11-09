@@ -23,7 +23,7 @@ describe('Options test', () => {
   test('Should display No Data Found', () => {
     rerenderFn({}, () => {
       mockHooksOrMethods.useCoversAndProducts2(() => {
-        return { ...testData.coversAndProducts2, loading: false, getProduct: () => undefined }
+        return { ...testData.coversAndProducts2, loading: false, getProduct: () => { return undefined } }
       })
     })
     const noDataFound = screen.getByText('No Data Found')

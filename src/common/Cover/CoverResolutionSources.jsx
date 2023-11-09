@@ -20,15 +20,19 @@ export const CoverResolutionSources = ({ children, resolutionSources = [], repor
           <div className='flex flex-col md:block sm:items-end'>
             {resolutionSources.map(source => {
               return (
-                <Link key={source.uri} href={source.uri}>
-                  <a
+                (
+                  <Link
+                    key={source.uri}
+                    href={source.uri}
                     target='_blank'
                     className='block mt-3 capitalize text-4E7DD9 hover:underline sm:mt-0 md:mt-3'
-                    rel='nofollow'
+                    rel='nofollow noreferrer'
                   >
+
                     {source.text}
-                  </a>
-                </Link>
+
+                  </Link>
+                )
               )
             })}
           </div>

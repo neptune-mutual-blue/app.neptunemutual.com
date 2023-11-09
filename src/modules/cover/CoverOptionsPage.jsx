@@ -78,11 +78,10 @@ export const CoverOptionsPage = ({
           <div className='container grid grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14'>
             {Object.keys(coverActions).map((actionKey) => {
               return (
-                <Link
-                  key={actionKey}
-                  href={coverActions[actionKey].getHref(coverKey, productKey)}
-                >
-                  <a
+                (
+                  <Link
+                    key={actionKey}
+                    href={coverActions[actionKey].getHref(coverKey, productKey)}
                     data-testid='cover-option-actions'
                     className={classNames(
                       'rounded-2xl md:rounded-3xl group py-10 md:py-12 h-full w-full transition duration-300 ease-out',
@@ -90,8 +89,8 @@ export const CoverOptionsPage = ({
                       'focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',
                       'border-B0C4DB border-0.5 box-border bg-white lg:bg-transparent lg:border-none'
                     )}
-
                   >
+
                     <OptionActionCard
                       title={renderTitleTranslation(
                         coverActions[actionKey].title
@@ -101,8 +100,9 @@ export const CoverOptionsPage = ({
                       )}
                       imgSrc={coverActions[actionKey].imgSrc}
                     />
-                  </a>
-                </Link>
+
+                  </Link>
+                )
               )
             })}
           </div>

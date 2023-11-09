@@ -204,10 +204,13 @@ const VoteEscrow = () => {
           <p className='text-sm'>Get boosted voting power and boosted gauge emissions</p>
         </div>
         <div className='flex flex-wrap gap-4'>
-          <Link href={Routes.LiquidityGaugePools}>
-            <a className='text-4E7DD9 text-sm font-semibold p-2.5 flex-grow text-center md:text-left md:flex-grow-0 border-1 border-4E7DD9 rounded-tooltip'>
-              View Liquidity Gauge
-            </a>
+          <Link
+            href={Routes.LiquidityGaugePools}
+            className='text-4E7DD9 text-sm font-semibold p-2.5 flex-grow text-center md:text-left md:flex-grow-0 border-1 border-4E7DD9 rounded-tooltip'
+          >
+
+            View Liquidity Gauge
+
           </Link>
           <a
             target='_blank' href={submitUrl} rel='noreferrer'

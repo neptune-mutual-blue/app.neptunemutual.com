@@ -17,11 +17,14 @@ export const ProductCardWrapper = ({
   }
 
   return (
-    <Link href={Routes.ViewProduct(coverKey, productKey)} key={coverKey}>
-      <a
+    (
+      <Link
+        href={Routes.ViewProduct(coverKey, productKey)}
+        key={coverKey}
         className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
         data-testid='cover-link'
       >
+
         <ProductCard
           productKey={productKey}
           productData={productData}
@@ -29,7 +32,8 @@ export const ProductCardWrapper = ({
           progressBgColor={progressBgColor}
           {...rest}
         />
-      </a>
-    </Link>
+
+      </Link>
+    )
   )
 }

@@ -13,6 +13,7 @@ import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import {
   useLiquidityFormsContext
 } from '@/common/LiquidityForms/LiquidityFormsContext'
+import SuccessModal from '@/common/LiquidityForms/SuccessModal'
 import {
   ReceiveAmountInput
 } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
@@ -29,7 +30,6 @@ import { useNetwork } from '@/src/context/Network'
 import { useCalculatePods } from '@/src/hooks/useCalculatePods'
 import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
 import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
-import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
@@ -38,12 +38,11 @@ import {
   toBN
 } from '@/utils/bn'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { getNetworkInfo } from '@/utils/network'
 import {
   t,
   Trans
 } from '@lingui/macro'
-
-import SuccessModal from '@/common/LiquidityForms/SuccessModal'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -187,8 +186,11 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     const productKey = activeReportings[0].productKey
 
     const statusLink = (
-      <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
-        <a className='font-medium underline hover:no-underline'>{status}</a>
+      <Link
+        href={Routes.ViewReport(coverKey, productKey, incidentDate)}
+        className='font-medium underline hover:no-underline'
+      >
+        {status}
       </Link>
     )
 

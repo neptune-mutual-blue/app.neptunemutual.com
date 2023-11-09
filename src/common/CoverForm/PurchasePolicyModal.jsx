@@ -1,18 +1,22 @@
+import {
+  useEffect,
+  useRef
+} from 'react'
+
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { Loader } from '@/common/Loader/Loader'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
-import { Routes } from '@/src/config/routes'
-import { Trans } from '@lingui/macro'
-import Link from 'next/link'
-import { useNetwork } from '@/src/context/Network'
-import { getNetworkInfo } from '@/utils/network'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { classNames } from '@/utils/classnames'
+import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import { POLICY_POINTS_PER_DOLLAR } from '@/src/config/constants'
-import { useEffect, useRef } from 'react'
+import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
+import { classNames } from '@/utils/classnames'
+import { getNetworkInfo } from '@/utils/network'
+import { Trans } from '@lingui/macro'
 
 /**
  * @param {{ isOpen: boolean, txHash: string, amount: number }} prop
@@ -83,10 +87,15 @@ function Complete ({ txHash, onClose, amountInDollars }) {
         </p>
 
         <div className='flex items-center justify-center gap-6 mt-8 center'>
-          <Link href={Routes.ViewPolicyReceipt(txHash)}>
-            <a target='_blank' onClick={onClose} className='font-semibold text-4E7DD9'>
-              VIEW POLICY RECEIPT
-            </a>
+          <Link
+            href={Routes.ViewPolicyReceipt(txHash)}
+            target='_blank'
+            onClick={onClose}
+            className='font-semibold text-4E7DD9' rel='noreferrer'
+          >
+
+            VIEW POLICY RECEIPT
+
           </Link>
 
           <a href={nftLink} className='flex items-center gap-1 text-sm font-semibold' target='_blank' rel='noreferrer'>

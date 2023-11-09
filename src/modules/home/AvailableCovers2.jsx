@@ -167,11 +167,11 @@ export const AvailableCovers = () => {
         className='flex flex-wrap items-center justify-between'
       >
         <Link href='#cover-products'>
-          <a>
-            <h1 className='mb-3 font-bold xl:mb-0 text-display-xs lg:text-display-sm'>
-              <Trans>Cover Products</Trans>
-            </h1>
-          </a>
+
+          <h1 className='mb-3 font-bold xl:mb-0 text-display-xs lg:text-display-sm'>
+            <Trans>Cover Products</Trans>
+          </h1>
+
         </Link>
         <div className='flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto'>
           <SearchAndSortBar

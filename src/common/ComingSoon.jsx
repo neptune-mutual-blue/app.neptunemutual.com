@@ -21,15 +21,17 @@ export function ComingSoon () {
             for you.
           </Trans>
         </p>
-        <Link href={Routes.Home} replace>
-          <a
-            className={classNames(
-              'uppercase py-5 px-16 font-bold leading-8 text-EEEEEE border  rounded-lg  focus:outline-none focus-visible:ring-2 ',
-              linkColor
-            )}
-          >
-            <Trans>Take me back to homepage</Trans>
-          </a>
+        <Link
+          href={Routes.Home}
+          replace
+          className={classNames(
+            'uppercase py-5 px-16 font-bold leading-8 text-EEEEEE border  rounded-lg  focus:outline-none focus-visible:ring-2 ',
+            linkColor
+          )}
+        >
+
+          <Trans>Take me back to homepage</Trans>
+
         </Link>
       </Container>
     </div>

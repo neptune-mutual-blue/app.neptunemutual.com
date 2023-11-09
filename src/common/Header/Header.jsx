@@ -149,10 +149,11 @@ export const Header = () => {
               <Link
                 href={Routes.Home}
                 locale={router.locale || router.defaultLocale}
+                className='sm:w-48'
               >
-                <a className='sm:w-48'>
-                  <HeaderLogo />
-                </a>
+
+                <HeaderLogo />
+
               </Link>
             </div>
 
@@ -160,12 +161,11 @@ export const Header = () => {
               {navigation.map((link) => {
                 if (link.href) {
                   return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      locale={router.locale}
-                    >
-                      <a
+                    (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        locale={router.locale}
                         className={classNames(
                           'relative text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap outline-none',
                           link.active
@@ -174,9 +174,11 @@ export const Header = () => {
                           !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-primary before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
                         )}
                       >
+
                         {link.name}
-                      </a>
-                    </Link>
+
+                      </Link>
+                    )
                   )
                 }
 
@@ -341,12 +343,11 @@ export const MenuModal = ({
                 <div className='flex flex-col justify-start mb-auto overflow-y-auto'>
                   {navigation.map((link) => {
                     return (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        locale={router.locale}
-                      >
-                        <a
+                      (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          locale={router.locale}
                           className={classNames(
                             'text-display-sm leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
                             router.pathname === link.href
@@ -354,9 +355,11 @@ export const MenuModal = ({
                               : 'border-transparent text-white'
                           )}
                         >
+
                           {link.mobileName || link.name}
-                        </a>
-                      </Link>
+
+                        </Link>
+                      )
                     )
                   })}
                 </div>

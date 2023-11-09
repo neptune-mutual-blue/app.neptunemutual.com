@@ -37,16 +37,19 @@ const Crumb = ({ page, isLast }) => {
   }
 
   return (
-    <Link href={page.href}>
-      <a
+    (
+      <Link
+        href={page.href}
         className={classNames(
           'ml-1 hover:underline capitalize',
           !isLast && 'text-4E7DD9'
         )}
         aria-current={page.current ? 'page' : undefined}
       >
+
         {page.name}
-      </a>
-    </Link>
+
+      </Link>
+    )
   )
 }
