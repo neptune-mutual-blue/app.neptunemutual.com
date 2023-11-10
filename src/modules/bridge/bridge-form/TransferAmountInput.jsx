@@ -82,6 +82,7 @@ export const TransferAmountInput = ({
       </div>
 
       <div className='flex gap-1 mt-2.5'>
+        {/* @ts-ignore */}
         <CurrencyInput
           className='flex-grow text-xl bg-transparent outline-none min-w-120'
           {...inputFieldProps}

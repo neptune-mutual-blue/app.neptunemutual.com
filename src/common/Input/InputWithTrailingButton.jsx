@@ -13,7 +13,7 @@ import { getPlainNumber } from '@/utils/formatter/input'
 /**
  *
  * @param {object} param
- * @param {React.ComponentProps<'input'> & { allowNegativeValue: boolean }} param.inputProps
+ * @param {React.ComponentProps<'input'> & { allowNegativeValue: boolean, 'data-testid'?: string }} param.inputProps
  * @param {React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement> & { buttonClassName?: string }} param.buttonProps
  * @param {string} param.unit
  * @param {string} [param.unitClass]
@@ -85,6 +85,7 @@ export const InputWithTrailingButton = ({
 
   return (
     <div className='relative w-full text-lg text-black'>
+      {/* @ts-ignore */}
       <CurrencyInput
         {...inputFieldProps}
         className={classNames(

@@ -31,6 +31,7 @@ export const InfoTooltip = ({
   disabled = false
 }) => {
   return (
+    // @ts-ignore
     <Tooltip.Root delayDuration={delayDuration}>
       <Tooltip.Trigger asChild={!disabled} disabled={disabled}>
         {children}

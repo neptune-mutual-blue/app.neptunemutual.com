@@ -19,7 +19,7 @@ const headers = [
   }
 ]
 
-export const PoliciesTabs = ({ active, children, heroStatValue, heroStatTitle }) => {
+export const PoliciesTabs = ({ active, children = null, heroStatValue = '', heroStatTitle = '' }) => {
   return (
     <>
       <Hero className='min-h-[312px] flex flex-col justify-between'>

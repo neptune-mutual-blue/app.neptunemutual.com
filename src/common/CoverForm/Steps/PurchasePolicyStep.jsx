@@ -328,6 +328,7 @@ export default PurchasePolicyStep
 
 const CxUsdToolTip = ({ liquidityTokenSymbol, projectOrProductName }) => {
   return (
+    // @ts-ignore
     <Tooltip.Root>
       <Tooltip.Trigger className='p-0.5'>
         <span className='sr-only'>Info</span>

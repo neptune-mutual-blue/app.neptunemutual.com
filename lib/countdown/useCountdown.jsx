@@ -43,7 +43,7 @@ export const useCountdown = ({ target, getTime }) => {
 
     return () => {
       ignore = true
-      clearInterval(intervalId)
+      clearInterval(Number(intervalId))
     }
   }, [getTime, target])
 

@@ -1,6 +1,6 @@
 import { classNames } from '@/utils/classnames'
 
-export const Tab = ({ children, active, className }) => {
+export const Tab = ({ children, active, className = '' }) => {
   return (
     <div
       data-testid='tab-container'

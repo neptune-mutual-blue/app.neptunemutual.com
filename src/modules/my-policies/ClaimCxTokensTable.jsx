@@ -96,6 +96,7 @@ export const ClaimCxTokensTable = ({
               columns={columns}
               data={activePolicies}
               extraData={{ coverKey, incidentDate, claimPlatformFee }}
+              // @ts-ignore
               RowWrapper={CxTokenRowProvider}
               isLoading={loading}
             />

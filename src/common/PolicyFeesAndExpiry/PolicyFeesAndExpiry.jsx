@@ -104,6 +104,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
  */
 const CoveragePeriodTooltip = ({ startsAt, endsAt }) => {
   return (
+    // @ts-ignore
     <Tooltip.Root>
       <Tooltip.Trigger className='pl-0.5'>
         <span className='sr-only'>Info</span>

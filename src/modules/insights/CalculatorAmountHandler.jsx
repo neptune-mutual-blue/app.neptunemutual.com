@@ -16,8 +16,9 @@ import { getPlainNumber } from '@/utils/formatter/input'
  * @param {React.ComponentProps<'input'> & { allowNegativeValue?: boolean }} param.inputProps
  * @param {React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement> & { buttonClassName?: string }} param.buttonProps
  * @param {string} param.unit
+ * @param {string} [param.unitClass]
  * @param {string} [param.error]
- * @param {number} param.decimalLimit
+ * @param {number} [param.decimalLimit]
  * @returns
  */
 export const CalculatorAmountHandler = ({
@@ -51,7 +52,7 @@ export const CalculatorAmountHandler = ({
   }, [])
 
   useEffect(() => {
-    if (!inputProps.value || inputProps.value.match(/^\d+(\.\d+)?$/)) { setInputValue(inputProps.value) }
+    if (!inputProps.value || inputProps.value.toString().match(/^\d+(\.\d+)?$/)) { setInputValue(inputProps.value) }
   }, [inputProps.value])
 
   const inputFieldProps = {
@@ -76,8 +77,9 @@ export const CalculatorAmountHandler = ({
   }
 
   return (
-    <div className='relative w-full text-black text-lg'>
+    <div className='relative w-full text-lg text-black'>
       <div className='relative w-full'>
+        {/* @ts-ignore */}
         <CurrencyInput
           {...inputFieldProps}
           className={classNames(

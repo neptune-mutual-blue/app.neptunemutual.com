@@ -15,8 +15,12 @@ export const PercentDoughnutChart = ({ data }) => {
               /* "mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend" */
             ],
             plugins: {
-              legend: false,
-              tooltip: false
+              legend: {
+                display: false
+              },
+              tooltip: {
+                enabled: false
+              }
             }
           }}
           data-testid='percent-doughnut-chart'

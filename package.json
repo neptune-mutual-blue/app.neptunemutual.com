@@ -67,5 +67,8 @@
   "volta": {
     "node": "16.13.1",
     "yarn": "1.22.19"
+  },
+  "resolutions": {
+    "@types/react": "^18.0.2"
   }
 }

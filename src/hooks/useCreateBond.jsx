@@ -313,7 +313,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           unlockPeriodFormatted: fromNow(unlockTimestamp).replace('in ', ''),
           unlock: unlockTimestamp.toString(),
           unlockMonth: unlockTImeFormatted.split('/')[0],
-          unlockMonthformatted: getMonthNames()[unlockTImeFormatted.split('/')[0] - 1],
+          unlockMonthformatted: getMonthNames()[Number(unlockTImeFormatted.split('/')[0]) - 1],
           unlockYear: unlockTImeFormatted.split('/')[2],
           tx: tx.hash
         }

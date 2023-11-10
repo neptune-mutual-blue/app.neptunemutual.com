@@ -185,6 +185,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               tokenAddress={NPMTokenAddress}
               tokenSymbol={NPMTokenSymbol}
               tokenDecimals={NPMTokenDecimals}
+              tokenBalance='0'
+              inputId='withdraw-npm-input'
               data-testid='npm-input'
             >
               {isGreater(myStake, '0') && (
@@ -223,8 +225,9 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             tokenBalance={balance}
             tokenSymbol={vaultTokenSymbol}
             tokenAddress={vaultTokenAddress}
-            tokenDecimals={vaultTokenDecimals}
+            tokenDecimals={Number(vaultTokenDecimals)}
             data-testid='pod-input'
+            inputId='pod-amount-input'
           />
           {podErrorMsg && (
             <p className='text-FA5C2F' data-testid='pod-error'>
@@ -309,13 +312,13 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               }}
               className='w-full p-6 font-semibold uppercase'
               disabled={
-              approving ||
+              Boolean(approving ||
               npmErrorMsg ||
               podErrorMsg ||
               receiveAmountLoading ||
               !podValue ||
               loadingAllowance ||
-              !isAccrualComplete
+              !isAccrualComplete)
             }
               data-testid='approve-button'
             >
@@ -332,13 +335,13 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               }}
               className='w-full p-6 font-semibold uppercase'
               disabled={
-              withdrawing ||
+              Boolean(withdrawing ||
               npmErrorMsg ||
               podErrorMsg ||
               receiveAmountLoading ||
               !podValue ||
               loadingAllowance ||
-              !isAccrualComplete
+              !isAccrualComplete)
             }
               data-testid='withdraw-button'
             >

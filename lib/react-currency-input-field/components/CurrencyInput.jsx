@@ -9,7 +9,25 @@ import {
   getSuffix
 } from './utils'
 
-/** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement>>} */
+/**
+ * @typedef {Object} CurrencyInputProps
+ * @property {boolean} [allowDecimals=true]
+ * @property {boolean} [allowNegativeValue=true]
+ * @property {() => React.JSX.Element} [customInput]
+ * @property {number} [decimalsLimit]
+ * @property {(value: string, name: string, values: {float: number, formatted: string, value: string}) => void} [onValueChange]
+ * @property {number} [fixedDecimalLength]
+ * @property {number} [decimalScale]
+ * @property {string} [suffix]
+ * @property {{  currencySymbol: string, groupSeparator: string, decimalSeparator: string, prefix: string, suffix: string}} [intlConfig]
+ * @property {boolean} [disableGroupSeparators]
+ * @property {boolean} [disableAbbreviations]
+ * @property {string} [decimalSeparator]
+ * @property {string} [groupSeparator]
+ * @property {(rawValue: string) => string} [transformRawValue]
+ */
+
+/** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & CurrencyInputProps>} */
 export const CurrencyInput = forwardRef(
   (
     {
@@ -94,6 +112,7 @@ export const CurrencyInput = forwardRef(
     const [stateValue, setStateValue] = useState(formattedStateValue)
     const [dirty, setDirty] = useState(false)
     const [cursor, setCursor] = useState(0)
+
     const inputRef = useRef(ref ?? null)
 
     if (_decimalSeparator && isNumber(_decimalSeparator)) {
@@ -263,13 +282,13 @@ export const CurrencyInput = forwardRef(
               : cleanValue({ value: stateValue, ...cleanValueOptions })
           ) || 0
         const newValue =
-          key === 'ArrowUp' ? currentValue + step : currentValue - step
+          key === 'ArrowUp' ? currentValue + Number(step) : currentValue - Number(step)
 
-        if (min !== undefined && newValue < min) {
+        if (min !== undefined && newValue < Number(min)) {
           return
         }
 
-        if (max !== undefined && newValue > max) {
+        if (max !== undefined && newValue > Number(max)) {
           return
         }
 
@@ -308,7 +327,7 @@ export const CurrencyInput = forwardRef(
           selectionStart &&
           selectionStart > stateValue.length - suffix.length
         ) {
-          if (inputRef && typeof inputRef === 'object' && inputRef.current) {
+          if (inputRef && typeof inputRef === 'object' && inputRef.current instanceof HTMLInputElement) {
             const newCursor = stateValue.length - suffix.length
             inputRef.current.setSelectionRange(newCursor, newCursor)
           }
@@ -326,7 +345,7 @@ export const CurrencyInput = forwardRef(
         stateValue !== '-' &&
         inputRef &&
         typeof inputRef === 'object' &&
-        inputRef.current
+        inputRef.current instanceof HTMLInputElement
       ) {
         inputRef.current.setSelectionRange(cursor, cursor)
       }
@@ -367,7 +386,7 @@ export const CurrencyInput = forwardRef(
       placeholder,
       disabled,
       value: getRenderValue(),
-      ref: inputRef,
+      ref: inputRef instanceof HTMLInputElement ? inputRef : null,
       ...props
     }
 
@@ -378,6 +397,7 @@ export const CurrencyInput = forwardRef(
     }
 
     return (
+      // @ts-ignore
       <input autoComplete='off' {...inputProps} />
     )
   }

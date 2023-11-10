@@ -12,13 +12,13 @@ export const useRetryUntilPassed = (callback, interval = 1000) => {
 
       if (callback() === true) {
         setPassed(true)
-        clearInterval(intervalId)
+        clearInterval(Number(intervalId))
       }
     }, interval)
 
     return () => {
       ignore = true
-      clearInterval(intervalId)
+      clearInterval(Number(intervalId))
     }
   }, [callback, interval])
 

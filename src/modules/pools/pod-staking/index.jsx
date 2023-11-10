@@ -103,7 +103,7 @@ export const PodStakingPage = () => {
             sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
             containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
             searchClass='w-full md:w-64 rounded-lg'
-            searchAndSortOptions={options}
+            optionsProp={options}
             sortType={sortType}
             setSortType={setSortType}
           />

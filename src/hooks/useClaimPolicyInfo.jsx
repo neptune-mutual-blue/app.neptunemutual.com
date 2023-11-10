@@ -242,7 +242,7 @@ export const useClaimPolicyInfo = ({
           productName: safeParseBytes32String(productKey),
           cost: receiveAmount,
           costCurrency: liquidityTokenDecimals,
-          costFormatted: formatCurrency(receiveAmount, router.locale, liquidityTokenDecimals, true),
+          costFormatted: formatCurrency(receiveAmount, router.locale, cxTokenSymbol, true),
           account,
           tx,
           claim: value,

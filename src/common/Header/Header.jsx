@@ -110,6 +110,7 @@ export const Header = () => {
 
   const TransactionOverviewTooltip = ({ children, hide }) => {
     return (
+      // @ts-ignore
       <Tooltip.Root delayDuration={200}>
         <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
         <Tooltip.Content

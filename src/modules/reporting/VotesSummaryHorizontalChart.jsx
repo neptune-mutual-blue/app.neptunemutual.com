@@ -43,6 +43,7 @@ export const VotesSummaryHorizontalChart = ({
 
   return (
     <>
+      {/* @ts-ignore */}
       <Tooltip.Root delayDuration={100} open={showTooltip}>
         <Tooltip.Trigger className='w-full'>
           <PercentXStackedChart data={data} />

@@ -190,12 +190,12 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                     className='w-full py-6 font-semibold uppercase lg:w-64 whitespace-nowrap text-EEEEEE'
                     onClick={handleApprove}
                     disabled={
-                    isError ||
+                    Boolean(isError ||
                     approving ||
                     !value ||
                     error ||
                     loadingBalance ||
-                    loadingAllowance
+                    loadingAllowance)
                   }
                   >
                     {approving
@@ -214,11 +214,11 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                     className='flex-auto w-full py-6 font-semibold uppercase lg:w-64 whitespace-nowrap text-EEEEEE'
                     onClick={() => { return handleReport(() => { return setValue('') }) }}
                     disabled={
-                    isError ||
+                    Boolean(isError ||
                     voting ||
                     error ||
                     loadingBalance ||
-                    loadingAllowance
+                    loadingAllowance)
                   }
                   >
                     {voting ? t`Reporting...` : 'Report'}

@@ -45,12 +45,13 @@ export const BondInfoCard = ({
             alt={t`NPM Logo`}
             className='w-10 h-10'
           />
-          <h3 className='flex items-center mt-1 font-semibold text-lg'>
+          <h3 className='flex items-center mt-1 text-lg font-semibold'>
             <div>
               <Trans>Bond Info</Trans>
             </div>
 
             {/* Tooltip */}
+            {/* @ts-ignore */}
             <Tooltip.Root>
               <Tooltip.Trigger className='block p-1'>
                 <span className='sr-only'>Info</span>

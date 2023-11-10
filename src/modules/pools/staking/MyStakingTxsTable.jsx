@@ -262,6 +262,7 @@ const ActionsRenderer = ({ row }) => {
     <td className='px-6 py-6 min-w-120'>
       <div className='flex items-center justify-center gap-6'>
         {/* Tooltip */}
+        {/* @ts-ignore */}
         <Tooltip.Root>
           <Tooltip.Trigger className='p-1 mr-4 text-01052D'>
             <span className='sr-only'>

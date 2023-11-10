@@ -193,10 +193,10 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
             liquidityTokenSymbol,
             true
           ).short,
-          cost: receiveAmount * -1,
+          cost: Number(receiveAmount) * -1,
           costCurrency: liquidityTokenSymbol,
           costFormatted: formatCurrency(
-            convertFromUnits(receiveAmount * -1, liquidityTokenDecimals),
+            convertFromUnits(Number(receiveAmount) * -1, liquidityTokenDecimals),
             router.locale,
             liquidityTokenSymbol,
             true

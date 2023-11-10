@@ -17,7 +17,7 @@ export const ScrollToTopButton = () => {
   const scrollViewportToTop = () => {
     window.scrollTo({
       top: 0,
-      behaviour: 'smooth'
+      behavior: 'smooth'
     })
   }
   useEffect(() => {

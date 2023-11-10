@@ -1,6 +1,6 @@
 import { classNames } from '@/utils/classnames'
 
-export const Label = ({ children, className, htmlFor }) => {
+export const Label = ({ children, className, htmlFor = '' }) => {
   return (
     <label
       className={classNames(
