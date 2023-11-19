@@ -30,6 +30,7 @@ import {
 export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake }) {
   const max = DateLib.toDateTimeLocal()
 
+  /** @type {React.MutableRefObject<HTMLFormElement | null>} */
   const form = useRef()
 
   const [value, setValue] = useState('')
@@ -111,6 +112,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
 
     if (canReport) {
       // process form and submit report
+      if (!(form.current instanceof HTMLFormElement)) { return }
 
       const { current } = form
 
@@ -124,7 +126,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
       )
 
       const payload = {
-        title: current?.title?.value,
+        title: current?.incident_title?.value,
         observed: DateLib.toUnix(new Date(current?.incident_date?.value)),
         proofOfIncident: urlReports,
         description: current?.description?.value,
@@ -157,7 +159,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
             label={t`Title`}
             inputProps={{
               id: 'incident_title',
-              name: 'title',
+              name: 'incident_title',
               placeholder: t`Enter Incident Title`,
               required: canReport,
               disabled: approving || reporting,

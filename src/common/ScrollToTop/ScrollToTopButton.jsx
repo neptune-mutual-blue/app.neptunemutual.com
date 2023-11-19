@@ -1,6 +1,10 @@
+import React, {
+  useEffect,
+  useState
+} from 'react'
+
 import ScrollToTopArrow from '@/icons/ScrollToTopArrow'
 import { classNames } from '@/utils/classnames'
-import React, { useEffect, useState } from 'react'
 
 export const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false)
@@ -17,7 +21,7 @@ export const ScrollToTopButton = () => {
   const scrollViewportToTop = () => {
     window.scrollTo({
       top: 0,
-      behaviour: 'smooth'
+      behavior: 'smooth'
     })
   }
   useEffect(() => {

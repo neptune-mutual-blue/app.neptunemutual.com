@@ -179,7 +179,7 @@ export const ClaimCoverModal = ({
             ? (
               <RegularButton
                 className='w-full p-6 font-semibold uppercase'
-                disabled={!value || approving || error || loadingMessage}
+                disabled={!value || approving || !!error || !!loadingMessage}
                 onClick={() => {
                   handleApprove()
                 }}
@@ -190,7 +190,7 @@ export const ClaimCoverModal = ({
               )
             : (
               <RegularButton
-                disabled={!canClaim || claiming || error || loadingMessage}
+                disabled={!canClaim || claiming || !!error || !!loadingMessage}
                 className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleClaim(() => {

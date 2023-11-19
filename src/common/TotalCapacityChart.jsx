@@ -17,6 +17,8 @@ export const TotalCapacityChart = ({ data }) => {
   // const { liquidityTokenDecimals } = useAppConstants()
 
   const [chartData, setChartData] = useState([])
+
+  /** @type {React.MutableRefObject<{ chart: Highcharts.Chart; container: React.RefObject<HTMLDivElement>; } | null>} */
   const chartRef = useRef()
   const router = useRouter()
 

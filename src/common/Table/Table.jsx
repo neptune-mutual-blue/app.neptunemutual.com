@@ -1,7 +1,11 @@
 import React, { Fragment } from 'react'
-import { Trans, t } from '@lingui/macro'
-import { classNames } from '@/utils/classnames'
+
 import { NeutralButton } from '@/common/Button/NeutralButton'
+import { classNames } from '@/utils/classnames'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const Table = ({ children }) => {
   return (
@@ -91,14 +95,27 @@ export const THead = ({
 }
 
 // RowWrapper can probably only be a "Context Provider"
-export const TBody = ({
-  columns = [],
-  data = [],
-  isLoading = false,
-  extraData = {},
-  RowWrapper = Fragment,
-  onRowClick = undefined
-}) => {
+/**
+ *
+ * @param {Object} props
+ * @param {boolean} [props.isLoading] loading
+ * @param {Function} [props.onRowClick] handle event
+ * @param {Array<{renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} [props.columns]
+ * @param {any} [props.data]
+ * @param {any} [props.extraData]
+ * @param {React.FC} [props.RowWrapper] wrapper for each row - used for context provider
+ * @returns
+ */
+export const TBody = (props) => {
+  const {
+    columns = [],
+    data = [],
+    isLoading = false,
+    extraData = {},
+    RowWrapper = Fragment,
+    onRowClick = undefined
+  } = props
+
   return (
     <tbody className='divide-y divide-DAE2EB' data-testid='app-table-body'>
       {data.length === 0 && (

@@ -1,4 +1,7 @@
-import { Chart as ChartJS, ArcElement } from 'chart.js'
+import {
+  ArcElement,
+  Chart as ChartJS
+} from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 
 ChartJS.register(ArcElement)
@@ -15,8 +18,12 @@ export const PercentDoughnutChart = ({ data }) => {
               /* "mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend" */
             ],
             plugins: {
-              legend: false,
-              tooltip: false
+              legend: {
+                display: false
+              },
+              tooltip: {
+                enabled: false
+              }
             }
           }}
           data-testid='percent-doughnut-chart'

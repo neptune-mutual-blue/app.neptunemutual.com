@@ -7,16 +7,16 @@ import { t } from '@lingui/macro'
 export const TokenAmountInput = ({
   tokenAddress,
   tokenSymbol,
-  labelText,
+  labelText = '',
   handleChooseMax,
   inputValue,
-  inputId,
+  inputId = '',
   onChange,
-  tokenBalance,
+  tokenBalance = null,
   tokenDecimals = 18,
   error = false,
   disabled,
-  children,
+  children = null,
   buttonClassName = '',
   ...rest
 }) => {

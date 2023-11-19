@@ -3,18 +3,14 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import {
   useLiquidityFormsContext
 } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
-import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
@@ -23,12 +19,7 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import {
-  convertFromUnits,
-  convertToUnits
-} from '@/utils/bn'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { formatCurrency } from '@/utils/formatter/currency'
+import { convertToUnits } from '@/utils/bn'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
@@ -38,8 +29,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [withdrawing, setWithdrawing] = useState(false)
   const { library, account } = useWeb3React()
   const { networkId } = useNetwork()
-  const router = useRouter()
-  const { NPMTokenSymbol, liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
+  const { NPMTokenSymbol } = useAppConstants()
   const {
     info: { vault: vaultTokenAddress, vaultTokenSymbol },
     refetchInfo,
@@ -59,12 +49,6 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   useEffect(() => {
     updateAllowance(vaultTokenAddress)
   }, [vaultTokenAddress, updateAllowance])
-
-  const { receiveAmount } =
-    useCalculateLiquidity({
-      coverKey,
-      podAmount: value
-    })
 
   const handleApprove = async () => {
     setApproving(true)
@@ -163,56 +147,13 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       )
 
       const onTransactionResult = async (tx) => {
-        const logData = {
-          network: NetworkNames[networkId],
-          networkId,
-          account,
-          coverKey,
-          coverName: safeParseBytes32String(coverKey),
-          stake: npmValue,
-          stakeCurrency: NPMTokenSymbol,
-          stakeFormatted: formatCurrency(
-            npmValue,
-            router.locale,
-            NPMTokenSymbol,
-            true
-          ).short,
-          pot: value,
-          potCurrency: vaultTokenSymbol,
-          potFormatted: formatCurrency(
-            value,
-            router.locale,
-            vaultTokenSymbol,
-            true
-          ).short,
-          liquidity: receiveAmount,
-          liquidityCurrency: liquidityTokenSymbol,
-          liquidityFormatted: formatCurrency(
-            convertFromUnits(receiveAmount, liquidityTokenDecimals),
-            router.locale,
-            liquidityTokenSymbol,
-            true
-          ).short,
-          cost: receiveAmount * -1,
-          costCurrency: liquidityTokenSymbol,
-          costFormatted: formatCurrency(
-            convertFromUnits(receiveAmount * -1, liquidityTokenDecimals),
-            router.locale,
-            liquidityTokenSymbol,
-            true
-          ).short,
-          exit,
-          tx: tx.hash
-        }
-
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.LIQUIDITY_REMOVE,
           status: STATUS.PENDING,
           data: {
             value: npmValue,
-            tokenSymbol: NPMTokenSymbol,
-            logData
+            tokenSymbol: NPMTokenSymbol
           }
         })
 

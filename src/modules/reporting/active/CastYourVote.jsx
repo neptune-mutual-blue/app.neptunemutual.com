@@ -193,7 +193,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                     isError ||
                     approving ||
                     !value ||
-                    error ||
+                    !!error ||
                     loadingBalance ||
                     loadingAllowance
                   }
@@ -216,7 +216,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                     disabled={
                     isError ||
                     voting ||
-                    error ||
+                    !!error ||
                     loadingBalance ||
                     loadingAllowance
                   }

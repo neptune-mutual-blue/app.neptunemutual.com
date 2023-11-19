@@ -21,7 +21,6 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useRemoveLiquidity } from '@/src/hooks/useRemoveLiquidity'
-import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
@@ -34,6 +33,7 @@ import {
 import { formatAmount } from '@/utils/formatter'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { getNetworkInfo } from '@/utils/network'
 import {
   t,
   Trans
@@ -310,8 +310,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               className='w-full p-6 font-semibold uppercase'
               disabled={
               approving ||
-              npmErrorMsg ||
-              podErrorMsg ||
+              !!npmErrorMsg ||
+              !!podErrorMsg ||
               receiveAmountLoading ||
               !podValue ||
               loadingAllowance ||
@@ -333,8 +333,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               className='w-full p-6 font-semibold uppercase'
               disabled={
               withdrawing ||
-              npmErrorMsg ||
-              podErrorMsg ||
+              !!npmErrorMsg ||
+              !!podErrorMsg ||
               receiveAmountLoading ||
               !podValue ||
               loadingAllowance ||

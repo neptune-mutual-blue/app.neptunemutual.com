@@ -9,6 +9,7 @@ import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { TableShowMore } from '@/common/Table/Table'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -26,7 +27,6 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-import { TableShowMore } from '@/common/Table/Table'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -103,7 +103,7 @@ export const PodStakingPage = () => {
             sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
             containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
             searchClass='w-full md:w-64 rounded-lg'
-            searchAndSortOptions={options}
+            optionsProp={options}
             sortType={sortType}
             setSortType={setSortType}
           />
