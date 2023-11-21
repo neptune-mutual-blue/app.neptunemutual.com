@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 
 import { CoverTermsModal } from '@/common/CoverForm/CoverTermsModal'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import { useNPMSwapLink } from '@/common/NPMSwapLink'
+import AddCircleIcon from '@/icons/AddCircleIcon'
 import StandardTermsConditionsIcon from '@/icons/StandardTermsConditionsIcon'
 import {
   MAX_PROPOSAL_AMOUNT,
@@ -18,8 +20,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-import AddCircleIcon from '@/icons/AddCircleIcon'
-import { useNPMSwapLink } from '@/common/NPMSwapLink'
+import { useLingui } from '@lingui/react'
 
 const PurchaseAmountStep = ({
   setValue,
@@ -57,6 +58,8 @@ const PurchaseAmountStep = ({
   }
 
   const npmSwapLink = useNPMSwapLink()
+
+  useLingui()
 
   return (
     <>

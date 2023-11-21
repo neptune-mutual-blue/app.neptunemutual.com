@@ -21,6 +21,9 @@ import {
   THead
 } from '@/common/Table/Table'
 import DateLib from '@/lib/date/DateLib'
+import {
+  ResolvedTableSkeleton
+} from '@/modules/reporting/resolved/ResolvedTableSkeleton'
 import { ResolvedTBodyRow } from '@/modules/reporting/resolved/ResolvedTBodyRow'
 import { ReportStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
@@ -33,14 +36,15 @@ import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { getUtcFormatString } from '@/utils/formatter/relative-time'
 import {
-  sorter, SORT_DATA_TYPES,
-  SORT_TYPES
+  SORT_DATA_TYPES,
+  SORT_TYPES,
+  sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
 import {
-  t
+  t,
+  Trans
 } from '@lingui/macro'
-import { ResolvedTableSkeleton } from '@/modules/reporting/resolved/ResolvedTableSkeleton'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -306,7 +310,7 @@ export const ReportingResolvedPage = () => {
                     {resolvedReportsWithData.length === 0 && (
                       <tr className='text-center'>
                         <td className='px-0 py-6' colSpan={columns.length}>
-                          {loading ? t`loading...` : t`No data found`}
+                          {loading ? <Trans>loading...</Trans> : <Trans>No data found</Trans>}
                         </td>
                       </tr>
                     )}

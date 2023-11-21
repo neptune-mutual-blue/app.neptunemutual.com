@@ -1,12 +1,16 @@
+import { useRouter } from 'next/router'
+
 import { PercentDoughnutChart } from '@/common/PercentDoughnutChart'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { classNames } from '@/utils/classnames'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import { useLingui } from '@lingui/react'
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
   const router = useRouter()
+
+  useLingui()
 
   const yesData = {
     // labels: ["Red", "Blue"],

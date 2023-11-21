@@ -5,6 +5,7 @@ import {
 
 import { useRouter } from 'next/router'
 
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableShowMore,
@@ -18,18 +19,14 @@ import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { useNetwork } from '@/src/context/Network'
 import { getActionMessage } from '@/src/helpers/notification'
+import { useSortData } from '@/src/hooks/useSortData'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { fromNow } from '@/utils/formatter/relative-time'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { renderHeader } from '@/common/Table/renderHeader'
-import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
@@ -39,25 +36,29 @@ const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 export const getColumns = (sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: t`when`,
+      name: 'when',
+      renderTitle: <Trans>when</Trans>,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: t`details`,
+      name: 'details',
+      renderTitle: <Trans>details</Trans>,
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
-      name: t`amount`,
+      name: 'amount',
+      renderTitle: <Trans>amount</Trans>,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
       name: '',
+      renderTitle: '',
       align: 'right',
       renderHeader,
       renderData: renderActions

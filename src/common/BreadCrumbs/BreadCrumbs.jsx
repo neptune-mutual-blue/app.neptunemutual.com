@@ -8,7 +8,7 @@ export const BreadCrumbs = ({ pages, ...rest }) => {
       <ol className='flex flex-wrap items-center text-xs leading-5 gap-x-1 gap-y-2 sm:text-sm text-5F5F5F'>
         {pages.map((page, idx) => {
           return (
-            <li key={page.name + idx}>
+            <li key={idx}>
               <div className='flex items-center'>
                 {idx !== 0 && (
                   <svg

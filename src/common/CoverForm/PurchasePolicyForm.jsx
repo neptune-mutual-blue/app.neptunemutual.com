@@ -50,6 +50,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 const getMonthEnd = (month, fullYear) => {
@@ -160,6 +161,8 @@ export const PurchasePolicyForm = ({
 
   const { account } = useWeb3React()
 
+  useLingui()
+
   const handleChange = (val) => {
     if (typeof val === 'string') {
       setValue(val)
@@ -194,11 +197,11 @@ export const PurchasePolicyForm = ({
 
   let loadingMessage = ''
   if (updatingFee) {
-    loadingMessage = t`Fetching fees...`
+    loadingMessage = <Trans>Fetching fees...</Trans>
   } else if (updatingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = <Trans>Fetching allowance...</Trans>
   } else if (updatingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = <Trans>Fetching balance...</Trans>
   }
 
   if (requiresWhitelist && !isUserWhitelisted) {

@@ -3,15 +3,14 @@ import { useRouter } from 'next/router'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { PurchasePolicyForm } from '@/common/CoverForm/PurchasePolicyForm'
+import {
+  PurchasePageSkeleton
+} from '@/modules/cover/purchase/PurchasePageSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { PurchasePageSkeleton } from '@/modules/cover/purchase/PurchasePageSkeleton'
+import { Trans } from '@lingui/macro'
 
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter()
@@ -31,33 +30,41 @@ export const CoverPurchaseDetailsPage = () => {
   ) => {
     if (isDiversified) {
       return [
-        { name: t`Home`, href: '/', current: false },
         {
-          name: coverOrProductData?.coverInfoDetails?.coverName || t`loading...`,
+          name: <Trans>Home</Trans>,
+          href: '/',
+          current: false
+        },
+        {
+          name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
           href: Routes.ViewCover(coverKey),
           current: true
         },
         {
-          name: coverOrProductData?.productInfoDetails?.productName || t`loading...`,
+          name: coverOrProductData?.productInfoDetails?.productName || <Trans>loading...</Trans>,
           href: Routes.ViewProduct(coverKey, productKey),
           current: true
         },
         {
-          name: t`Purchase Policy`,
+          name: <Trans>Purchase Policy</Trans>,
           current: true
         }
       ]
     }
 
     return [
-      { name: t`Home`, href: '/', current: false },
       {
-        name: coverOrProductData?.coverInfoDetails?.coverName || t`loading...`,
+        name: <Trans>Home</Trans>,
+        href: '/',
+        current: false
+      },
+      {
+        name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
         href: Routes.ViewCover(coverKey),
         current: true
       },
       {
-        name: t`Purchase Policy`,
+        name: <Trans>Purchase Policy</Trans>,
         current: true
       }
     ]

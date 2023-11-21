@@ -5,10 +5,7 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { MyTransactionsTable } from '@/modules/transactions/MyTransactionsTable'
 import { Routes } from '@/src/config/routes'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 export default function Home () {
   return (
@@ -20,11 +17,11 @@ export default function Home () {
           <BreadCrumbs
             pages={[
               {
-                name: t`Home`,
+                name: <Trans>Home</Trans>,
                 href: Routes.Home,
                 current: false
               },
-              { name: t`My Transactions`, href: '#', current: true }
+              { name: <Trans>My Transactions</Trans>, href: '#', current: true }
             ]}
           />
 

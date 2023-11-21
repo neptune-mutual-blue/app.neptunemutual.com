@@ -43,6 +43,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -180,6 +181,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance
 
+  useLingui()
+
   if (activeReportings.length > 0) {
     const status = activeReportings[0].status
     const incidentDate = activeReportings[0].incidentDate
@@ -214,13 +217,13 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
   let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = t`Calculating tokens...`
+    loadingMessage = <Trans>Calculating tokens...</Trans>
   } else if (npmBalanceLoading) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = <Trans>Fetching balance...</Trans>
   } else if (npmAllowanceLoading) {
-    loadingMessage = t`Fetching ${NPMTokenSymbol} allowance...`
+    loadingMessage = <Trans>Fetching {NPMTokenSymbol} allowance...</Trans>
   } else if (lqAllowanceLoading) {
-    loadingMessage = t`Fetching ${liquidityTokenSymbol} allowance...`
+    loadingMessage = <Trans>Fetching {liquidityTokenSymbol} allowance...</Trans>
   }
 
   const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false
@@ -232,7 +235,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       {!isStakeDisabled && (
         <div className='mb-16'>
           <TokenAmountInput
-            labelText={t`Enter your ${NPMTokenSymbol} stake`}
+            labelText={<Trans>Enter your ${NPMTokenSymbol} stake</Trans>}
             onChange={handleNPMChange}
             handleChooseMax={handleMaxNPM}
             error={Boolean(npmErrorMsg)}
@@ -247,7 +250,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             {isGreater(minStakeToAddLiquidity, myStake) && (
               <TokenAmountWithPrefix
                 amountInUnits={minStakeToAddLiquidity}
-                prefix={t`Minimum Stake:` + ' '}
+                prefix={<><Trans>Minimum Stake:</Trans>{' '}</>}
                 symbol={NPMTokenSymbol}
                 decimals={npmTokenDecimals}
               />
@@ -255,7 +258,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             {isGreater(myStake, '0') && (
               <TokenAmountWithPrefix
                 amountInUnits={myStake}
-                prefix={`${t`Your Stake`}: `}
+                prefix={<><Trans>Your Stake:</Trans>{' '}</>}
                 symbol={NPMTokenSymbol}
                 decimals={npmTokenDecimals}
               />
@@ -270,7 +273,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
       <div className='mb-16'>
         <TokenAmountInput
-          labelText={t`Enter Amount you wish to provide`}
+          labelText={<Trans>Enter Amount you wish to provide</Trans>}
           onChange={handleLqChange}
           handleChooseMax={handleMaxLq}
           error={isError}
@@ -290,7 +293,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
       <div className='mb-16'>
         <ReceiveAmountInput
-          labelText={t`You will receive`}
+          labelText={<Trans>You will receive</Trans>}
           tokenSymbol={vaultTokenSymbol}
           inputValue={receiveAmount}
         />
@@ -336,11 +339,11 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             >
               {lqApproving
                 ? (
-                    t`Approving...`
+                  <Trans>Approving...</Trans>
                   )
                 : (
                   <>
-                    <Trans>Approve</Trans> {liquidityTokenSymbol || t`Liquidity`}
+                    <Trans>Approve</Trans> {liquidityTokenSymbol || <Trans>Liquidity</Trans>}
                   </>
                   )}
             </RegularButton>
@@ -360,11 +363,11 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
               >
                 {npmApproving
                   ? (
-                      t`Approving...`
+                    <Trans>Approving...</Trans>
                     )
                   : (
                     <>
-                      <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
+                      <Trans>Approve</Trans> {NPMTokenSymbol || <Trans>Stake</Trans>}
                     </>
                     )}
               </RegularButton>
@@ -394,7 +397,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
           >
             {providing
               ? (
-                  t`Providing Liquidity...`
+                <Trans>Providing Liquidity...</Trans>
                 )
               : (
                 <>

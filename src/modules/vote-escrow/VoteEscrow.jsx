@@ -43,10 +43,7 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getSpaceLink } from '@/utils/snapshot'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 const VOTE_ESCROW_MIN_WEEKS = 1
 const VOTE_ESCROW_MAX_WEEKS = 208
@@ -165,9 +162,9 @@ const VoteEscrow = () => {
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = <Trans>Fetching balance...</Trans>
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = <Trans>Fetching allowance...</Trans>
   }
 
   const buttonDisabled = locking || !!loadingMessage || !(agreed && ((!extend && input) || extend))
@@ -320,8 +317,8 @@ const VoteEscrow = () => {
               >
                 {
                   approving
-                    ? t`Approving...`
-                    : <Trans>Approve {NPMTokenSymbol}</Trans>
+                    ? <Trans>Approving...</Trans>
+                    : <><Trans>Approve</Trans> {NPMTokenSymbol}</>
                 }
               </RegularButton>
             )}

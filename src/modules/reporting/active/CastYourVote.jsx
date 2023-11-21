@@ -31,8 +31,8 @@ import {
 export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, minReportingStake }) => {
   const options = useMemo(() => {
     return [
-      { label: t`Incident Occurred`, value: 'incident-occurred' },
-      { label: t`False Reporting`, value: 'false-reporting' }
+      { label: <Trans>Incident Occurred</Trans>, value: 'incident-occurred' },
+      { label: <Trans>False Reporting</Trans>, value: 'false-reporting' }
     ]
   }, [])
 
@@ -119,9 +119,9 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = <Trans>Fetching balance...</Trans>
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = <Trans>Fetching allowance...</Trans>
   }
 
   return (
@@ -200,7 +200,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                   >
                     {approving
                       ? (
-                          t`Approving...`
+                        <Trans>Approving...</Trans>
                         )
                       : (
                         <>

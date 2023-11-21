@@ -17,7 +17,7 @@ export const renderHeader = (col, sortKey, sorts, handleSort, className) => {
           <span
             className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
           >
-            {col.name}
+            {col.renderHeader}
           </span>
           <DownArrow className={classNames(
             'transform',

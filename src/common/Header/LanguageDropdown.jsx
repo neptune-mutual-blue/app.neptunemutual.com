@@ -24,6 +24,7 @@ import {
   Transition
 } from '@headlessui/react'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const LANGUAGES = Object.values(languageKey)
 const LANGUAGE_KEYS = Object.keys(languageKey)
@@ -80,6 +81,8 @@ export const LanguageDropdown = (props) => {
   const handleSearchLanguage = (e) => {
     setSearchValue(e.target.value)
   }
+
+  useLingui()
 
   return (
     <div className='relative flex items-center mt-3 cursor-pointer'>

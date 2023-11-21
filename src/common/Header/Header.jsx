@@ -40,6 +40,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import {
   Content,
   Overlay,
@@ -131,6 +132,8 @@ export const Header = () => {
     )
   }
 
+  useLingui()
+
   return (
     <>
       <div className='bg-black text-EEEEEE'>
@@ -198,7 +201,6 @@ export const Header = () => {
                         onClick={onOpen}
                         title={t`Connect wallet`}
                       >
-                        <span className='sr-only'>{t`Connect wallet`}</span>
                         <Trans>Connect wallet</Trans>
                       </button>
                     )
@@ -209,7 +211,7 @@ export const Header = () => {
                           onClick={handleToggleAccountPopup}
                           title={t`account details`}
                         >
-                          <span className='sr-only'>{t`account details`}</span>
+                          <span className='sr-only'><Trans>account details</Trans></span>
                           <AccountBalanceWalletIcon width='24' height='24' />
                           <span className='pl-2'>{truncateAddress(account)}</span>
                         </button>
@@ -254,7 +256,7 @@ export const Header = () => {
                     onClick={() => { return setIsTxDetailsPopupOpen((val) => { return !val }) }}
                     data-testid='transaction-modal-button'
                   >
-                    <span className='sr-only'>{t`transaction overview button`}</span>
+                    <span className='sr-only'><Trans>transaction overview button</Trans></span>
                     <IconWithBadge number={unread}>
                       <BellIcon className='text-white' />
                     </IconWithBadge>
@@ -372,7 +374,6 @@ export const MenuModal = ({
                           onClick={onOpen}
                           title={t`Connect wallet`}
                         >
-                          <span className='sr-only'>{t`Connect wallet`}</span>
                           Connect wallet
                         </button>
                       )
@@ -385,7 +386,7 @@ export const MenuModal = ({
                             title={t`account details`}
                           >
                             <span className='sr-only'>
-                              {t`account details`}
+                              <Trans>account details</Trans>
                             </span>
                             <AccountBalanceWalletIcon width='24' height='24' />
                             <span className='pl-2'>

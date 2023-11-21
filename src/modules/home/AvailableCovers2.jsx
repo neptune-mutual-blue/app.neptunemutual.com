@@ -188,7 +188,7 @@ export const AvailableCovers = () => {
 
           <div className='w-full md:w-auto md:ml-2'>
             <Select
-              prefix={t`View:` + ' '}
+              prefix={<><Trans>View:</Trans>{' '}</>}
               options={viewOptions}
               selected={selectedViewOption}
               setSelected={handleViewFilterChange}

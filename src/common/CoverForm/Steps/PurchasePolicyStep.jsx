@@ -29,6 +29,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
 const PurchasePolicyStep = ({
@@ -93,6 +94,8 @@ const PurchasePolicyStep = ({
 
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
 
+  useLingui()
+
   return (
     <div>
       <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
@@ -152,7 +155,7 @@ const PurchasePolicyStep = ({
             >
               {approving
                 ? (
-                    t`Approving...`
+                  <Trans>Approving...</Trans>
                   )
                 : (
                   <>
@@ -182,7 +185,7 @@ const PurchasePolicyStep = ({
                 })
               }}
             >
-              {purchasing ? t`Purchasing...` : t`Purchase Policy`}
+              {purchasing ? <Trans>Purchasing...</Trans> : <Trans>Purchase Policy</Trans>}
             </RegularButton>
             )}
       </div>

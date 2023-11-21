@@ -8,14 +8,7 @@ import { OptionActionCard } from '@/common/Option/OptionActionCard'
 import { actions as coverActions } from '@/src/config/cover/actions'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
-import {
-  renderDescriptionTranslation,
-  renderTitleTranslation
-} from '@/utils/translations'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 const getBreadCrumbs = (
   isDiversified,
@@ -25,14 +18,18 @@ const getBreadCrumbs = (
 ) => {
   if (isDiversified) {
     return [
-      { name: t`Home`, href: '/', current: false },
       {
-        name: coverOrProductData?.coverInfoDetails?.coverName || t`loading...`,
+        name: <Trans>Home</Trans>,
+        href: '/',
+        current: false
+      },
+      {
+        name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
         href: Routes.ViewCover(coverKey),
         current: true
       },
       {
-        name: coverOrProductData?.productInfoDetails?.productName || t`loading...`,
+        name: coverOrProductData?.productInfoDetails?.productName || <Trans>loading...</Trans>,
         href: Routes.ViewProduct(coverKey, productKey),
         current: true
       }
@@ -40,9 +37,13 @@ const getBreadCrumbs = (
   }
 
   return [
-    { name: t`Home`, href: '/', current: false },
     {
-      name: coverOrProductData?.coverInfoDetails?.coverName || t`loading...`,
+      name: <Trans>Home</Trans>,
+      href: '/',
+      current: false
+    },
+    {
+      name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
       href: Routes.ViewCover(coverKey),
       current: true
     }
@@ -92,12 +93,9 @@ export const CoverOptionsPage = ({
                   >
 
                     <OptionActionCard
-                      title={renderTitleTranslation(
-                        coverActions[actionKey].title
-                      )}
-                      description={renderDescriptionTranslation(
-                        coverActions[actionKey].description
-                      )}
+                      title={coverActions[actionKey].title}
+                      titleAlt={coverActions[actionKey].titleAlt}
+                      description={coverActions[actionKey].description}
                       imgSrc={coverActions[actionKey].imgSrc}
                     />
 

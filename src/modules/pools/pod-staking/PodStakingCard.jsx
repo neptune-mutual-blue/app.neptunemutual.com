@@ -40,6 +40,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { config } from '@neptunemutual/sdk'
 
 // data from subgraph
@@ -97,6 +98,8 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
     rewardPerBlock: info.rewardPerBlock,
     rewardTokenPrice: getPriceByAddress(info.rewardToken)
   })
+
+  useLingui()
 
   // Used for sorting purpose only
   useEffect(() => {

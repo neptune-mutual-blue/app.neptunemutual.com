@@ -16,6 +16,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const AddAndLockModal = ({
   modalTitle,
@@ -62,6 +63,9 @@ export const AddAndLockModal = ({
   })
 
   const isPoolStaked = toBN(poolStaked).isGreaterThan(0)
+
+  useLingui()
+
   const inputLabel = t`Enter Amount You Wish to ${
     !isPoolStaked ? 'Lock' : 'Add'
   }`

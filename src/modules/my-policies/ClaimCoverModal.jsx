@@ -37,6 +37,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const ClaimCoverModal = ({
@@ -106,6 +107,8 @@ export const ClaimCoverModal = ({
     loadingMessage = t`Fetching allowance...`
   }
 
+  useLingui()
+
   return (
     <ModalRegular
       isOpen={isOpen}
@@ -132,7 +135,7 @@ export const ClaimCoverModal = ({
             tokenDecimals={tokenDecimals}
             tokenSymbol={tokenSymbol}
             tokenBalance={balance}
-            labelText={t`Enter your ${tokenSymbol}`}
+            labelText={<Trans>Enter your ${tokenSymbol}</Trans>}
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id='bond-amount'

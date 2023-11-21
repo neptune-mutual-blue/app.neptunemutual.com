@@ -2,12 +2,16 @@ const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 const { i18n } = require('./i18n.config')
 const http = require('./http')
 
-/** @type {import('next').NextConfig} */
+/** @type {(phase) => import('next').NextConfig} */
 const nextConfig = (phase) => {
   return {
     reactStrictMode: true,
     output: 'standalone',
-    experimental: {},
+    experimental: {
+      swcPlugins: [
+        ['@lingui/swc-plugin', {}]
+      ]
+    },
     eslint: {
       dirs: ['http', 'lib', 'src']
     },
@@ -18,15 +22,15 @@ const nextConfig = (phase) => {
 
       return http.headers.production
     },
-    i18n,
-    webpack: (config) => {
-      config.module.rules.push({
-        test: /\.po/,
-        use: ['@lingui/loader']
-      })
+    i18n
+    // webpack: (config) => {
+    //   config.module.rules.push({
+    //     test: /\.po/,
+    //     use: ['@lingui/loader']
+    //   })
 
-      return config
-    }
+    //   return config
+    // }
   }
 }
 

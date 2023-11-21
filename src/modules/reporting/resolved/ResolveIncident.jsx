@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalTitle } from '@/common/Modal/ModalTitle'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Radio } from '@/common/Radio/Radio'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -12,12 +13,8 @@ import {
 } from '@/src/helpers/cover'
 import { useResolveIncident } from '@/src/hooks/useResolveIncident'
 import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { ModalTitle } from '@/common/Modal/ModalTitle'
 
 export const ResolveIncident = ({
   refetchAll,
@@ -49,7 +46,7 @@ export const ResolveIncident = ({
   return (
     <div className='flex flex-col items-center'>
       {incidentReport.resolved && (
-        <CountDownTimer title={t`Resolving in`} target={resolvableTill} />
+        <CountDownTimer title={<Trans>Resolving in</Trans>} target={resolvableTill} />
       )}
 
       <div className='flex flex-wrap justify-center w-auto gap-10 mb-16'>
@@ -64,7 +61,7 @@ export const ResolveIncident = ({
             }}
             data-testid='resolve'
           >
-            {resolving ? t`Resolving...` : t`Resolve`}
+            {resolving ? <Trans>Resolving...</Trans> : <Trans>Resolve</Trans>}
           </RegularButton>
         )}
 
@@ -92,13 +89,13 @@ export const ResolveIncident = ({
 
 const options = [
   {
-    label: t`Incident Occurred`,
+    label: <Trans>Incident Occurred</Trans>,
     id: 'decision-1',
     value: 'true'
   },
   {
 
-    label: t`False reporting`,
+    label: <Trans>False reporting</Trans>,
     id: 'decision-2',
     value: 'false'
   }
@@ -169,8 +166,8 @@ const EmergencyResolveModal = ({
             className='w-full px-10 py-4 mt-12 font-semibold uppercase'
           >
             {emergencyResolving
-              ? t`Emergency resolving...`
-              : t`Emergency resolve`}
+              ? <Trans>Emergency resolving...</Trans>
+              : <Trans>Emergency resolve</Trans>}
           </RegularButton>
         </form>
 

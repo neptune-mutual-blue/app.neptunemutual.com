@@ -16,6 +16,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const BondInfoCard = ({
@@ -35,6 +36,8 @@ export const BondInfoCard = ({
   const onClose = () => {
     setIsOpen(false)
   }
+
+  useLingui()
 
   return (
     <OutlinedCard className='p-10 bg-DEEAF6'>

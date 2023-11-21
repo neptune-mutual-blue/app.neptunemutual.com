@@ -12,6 +12,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
@@ -34,6 +35,8 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
 
 function MyLiquidities ({ data, loading }) {
   const { loading: isSummaryLoading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+
+  useLingui()
 
   if (loading || isSummaryLoading) {
     return (

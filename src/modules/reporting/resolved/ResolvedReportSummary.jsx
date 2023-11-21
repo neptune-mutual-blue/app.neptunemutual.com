@@ -276,7 +276,7 @@ export const ResolvedReportSummary = ({
                   })
                 }}
               >
-                {finalizing ? t`Finalizing...` : t`Finalize`}
+                {finalizing ? <Trans>Finalizing...</Trans> : <Trans>Finalize</Trans>}
               </button>
 
               <br />
@@ -294,7 +294,7 @@ export const ResolvedReportSummary = ({
                   })
                 }}
               >
-                {capitalizing ? t`Capitalizing...` : t`Capitalize`}
+                {capitalizing ? <Trans>Capitalizing...</Trans> : <Trans>Capitalize</Trans>}
               </button>
             </>
           )}
