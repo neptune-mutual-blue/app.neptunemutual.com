@@ -91,7 +91,7 @@ export const GovernanceSinglePage = () => {
             current: false
           },
           {
-            name: <Trans>{proposalDetail.title}</Trans>,
+            name: proposalDetail.title,
             href: '#',
             current: true
           }

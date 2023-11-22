@@ -119,7 +119,7 @@ export const AddAndLockModal = ({
                   }}
                   disabled={depositing || loadingAllowance}
                 >
-                  <Trans>{depositing ? 'Locking...' : 'Lock'}</Trans>
+                  {depositing ? <Trans>Locking...</Trans> : <Trans>Lock</Trans>}
                 </RegularButton>
                 )
               : (
@@ -128,7 +128,7 @@ export const AddAndLockModal = ({
                   disabled={!canApprove || approving || loadingAllowance}
                   onClick={handleApprove}
                 >
-                  <Trans>{approving ? 'Approving...' : 'Approve'}</Trans>
+                  {approving ? <Trans>Approving...</Trans> : <Trans>Approve</Trans>}
                 </RegularButton>
                 )
           }

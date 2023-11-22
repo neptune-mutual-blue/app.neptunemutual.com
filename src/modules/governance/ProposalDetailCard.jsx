@@ -39,7 +39,7 @@ export const ProposalDetailCard = ({
       <div className='flex flex-row gap-2'>
         <div className={`flex flex-row gap-1 ${state !== 'active' ? 'bg-[#EFF8FF] text-[#175CD3]' : 'bg-[#D92D20] text-white'} py-0.5 px-2 text-xs rounded-full font-medium items-center justify-center`}>
           {state !== 'active' && <CheckCircleIcon height={12} width={12} />}
-          <Trans>{state !== 'active' ? 'Complete' : 'Live'}</Trans>
+          {state !== 'active' ? <Trans>Complete</Trans> : <Trans>Live</Trans>}
         </div>
 
         {category && (
