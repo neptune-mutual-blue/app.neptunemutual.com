@@ -33,7 +33,7 @@ export const ProposalDetailCard = ({
   return (
     <GovernanceCard className='flex flex-col gap-6 p-4 md:p-8'>
       <h1 className='text-xl font-semibold'>
-        <Trans>{title}</Trans>
+        {title}
       </h1>
 
       <div className='flex flex-row gap-2'>
