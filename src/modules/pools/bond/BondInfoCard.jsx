@@ -48,7 +48,7 @@ export const BondInfoCard = ({
             alt={t`NPM Logo`}
             className='w-10 h-10'
           />
-          <h3 className='flex items-center mt-1 font-semibold text-lg'>
+          <h3 className='flex items-center mt-1 text-lg font-semibold'>
             <div>
               <Trans>Bond Info</Trans>
             </div>
@@ -113,10 +113,7 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
         <div className='flex flex-col p-6 text-xs leading-6 text-white bg-black gap-y-1 max-w-60 md:max-w-sm bg-opacity-90 z-60 rounded-1 shadow-tx-overview rounded-xl'>
           <h3 className='font-bold text-EEEEEE'>What is Bond?</h3>
           <p className='mt-2 text-AABDCB'>
-            <Trans>
-              {`The bond feature provides you NPM tokens at a discounted value for
-              a vesting period of ${vestingPeriodInterval}.`}
-            </Trans>
+            <Trans>The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}.</Trans>
           </p>
         </div>
         <Tooltip.Arrow offset={16} className='fill-black' />

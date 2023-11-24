@@ -20,7 +20,7 @@ describe('Options test', () => {
       require('@/src/pages/covers/[coverId]/products/[productId]').default
     const { initialRender } = initiateTest(Index, {}, () => {
       mockHooksOrMethods.useRouter()
-      mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, getProduct: (...args) => { return (true) }, loading: false } })
+      mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, getProduct: () => { return (true) }, loading: false } })
     })
     initialRender()
   })
