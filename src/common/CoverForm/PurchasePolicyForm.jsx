@@ -173,7 +173,7 @@ export const PurchasePolicyForm = ({
 
   function referralCodeChange (e) {
     setIsReferralCodeCheckPending(true)
-    setReferralCode(e.target.value)
+    setReferralCode(e.target.value.toUpperCase())
   }
 
   const coverPeriodLabels = getCoveragePeriodLabels(router.locale)
