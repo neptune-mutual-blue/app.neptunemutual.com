@@ -8,6 +8,7 @@ import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalTitle } from '@/common/Modal/ModalTitle'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import DateLib from '@/lib/date/DateLib'
 import { classNames } from '@/lib/toast/utils'
@@ -23,12 +24,8 @@ import {
   convertFromUnits,
   isGreater
 } from '@/utils/bn'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
-import { ModalTitle } from '@/common/Modal/ModalTitle'
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, projectOrProductName }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -99,20 +96,20 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
     <div className='flex flex-col items-center pt-4'>
       <span className={classNames('font-semibold', !isClaimableNow && 'mb-4')}>
         <Trans>Result:</Trans>{' '}
-        {incidentReport.decision ? t`Incident Occurred` : t`False Reporting`}{' '}
-        {incidentReport.emergencyResolved && <>({t`Emergency Resolved`})</>}
+        {incidentReport.decision ? <Trans>Incident Occurred</Trans> : <Trans>False Reporting</Trans>}{' '}
+        {incidentReport.emergencyResolved && <Trans>Emergency Resolved</Trans>}
       </span>
 
       {isClaimableNow && (
         <CountDownTimer
-          title={t`Claim ends in`}
+          title={<Trans>Claim ends in</Trans>}
           target={incidentReport.claimExpiresAt}
         />
       )}
 
       {notClaimableYet && (
         <CountDownTimer
-          title={t`Claim begins in`}
+          title={<Trans>Claim begins in</Trans>}
           target={incidentReport.claimBeginsFrom}
         />
       )}
@@ -174,7 +171,7 @@ const UnstakeModal = ({
           className='w-full px-10 py-4 font-semibold uppercase'
           onClick={unstake}
         >
-          {unstaking ? t`Unstaking...` : t`Unstake`}
+          {unstaking ? <Trans>Unstaking...</Trans> : <Trans>Unstake</Trans>}
         </RegularButton>
 
         <ModalCloseButton

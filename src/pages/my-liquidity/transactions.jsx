@@ -9,10 +9,7 @@ import { Routes } from '@/src/config/routes'
 import {
   MyLiquidityTxsTable
 } from '@/src/modules/my-liquidity/MyLiquidityTxsTable'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -37,12 +34,12 @@ export default function MyLiquidityTxs ({ disabled }) {
           <BreadCrumbs
             pages={[
               {
-                name: t`My Liquidity`,
+                name: <Trans>My Liquidity</Trans>,
                 href: Routes.MyLiquidity,
                 current: false
               },
               {
-                name: t`Transaction List`,
+                name: <Trans>Transaction List</Trans>,
                 href: Routes.LiquidityTransactions,
                 current: true
               }

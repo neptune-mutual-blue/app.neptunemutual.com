@@ -1,7 +1,7 @@
 import { actions } from '@/src/config/cover/actions'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
-import { t } from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
@@ -19,7 +19,7 @@ const getNavigationLinks = (pathname = '') => {
   /**
    *
    * @typedef Link
-   * @prop {string} name
+   * @prop {JSX.Element} name
    * @prop {string} [mobileName]
    * @prop {string} [href]
    * @prop {string} [activeWhenStartsWith]
@@ -31,43 +31,43 @@ const getNavigationLinks = (pathname = '') => {
   /** @type {Link[]} */
   let links = [
     poolLink && {
-      name: t`Pool`,
+      name: <Trans>Pool</Trans>,
       href: poolLink,
       activeWhenStartsWith: '/pools'
     },
     reportingEnabled && {
-      name: t`Reporting`,
+      name: <Trans>Reporting</Trans>,
       href: Routes.ActiveReports,
       activeWhenStartsWith: '/reports'
     },
     governanceEnabled && {
-      name: t`Governance`,
+      name: <Trans>Governance</Trans>,
       href: Routes.Governance,
       activeWhenStartsWith: Routes.Governance
     },
     voteEscrowEnabled && {
-      name: t`Vote Escrow`,
+      name: <Trans>Vote Escrow</Trans>,
       href: Routes.VoteEscrow,
       activeWhenStartsWith: Routes.VoteEscrow
     },
     bridgeEnabled && {
-      name: t`Bridge`,
+      name: <Trans>Bridge</Trans>,
       href: Routes.Bridge,
       activeWhenStartsWith: '/bridge'
     },
     {
-      name: t`My Account`,
+      name: <Trans>My Account</Trans>,
       items: [
         policyEnabled && {
-          name: t`Policies`,
-          mobileName: t`My Policies`,
+          name: <Trans>Policies</Trans>,
+          mobileName: <Trans>My Policies</Trans>,
           href: Routes.MyActivePolicies,
           activeWhenStartsWith: '/my-policies',
           imgSrc: actions.purchase.imgSrc
         },
         liquidityEnabled && {
-          name: t`Liquidity`,
-          mobileName: t`My Liquidity`,
+          name: <Trans>Liquidity</Trans>,
+          mobileName: <Trans>My Liquidity</Trans>,
           href: Routes.MyLiquidity,
           activeWhenStartsWith: '/my-liquidity',
           imgSrc: actions['add-liquidity'].imgSrc
@@ -93,8 +93,6 @@ const getNavigationLinks = (pathname = '') => {
 
     return updated
   })
-
-  // links.unshift({ name: t`Home`, href: '/', active: pathname === '/' })
 
   return links
 }

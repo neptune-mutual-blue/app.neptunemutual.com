@@ -1,3 +1,8 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Label } from '@/common/Label/Label'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
@@ -10,8 +15,7 @@ import {
   isGreater,
   isValidNumber
 } from '@/utils/bn'
-import { t, Trans } from '@lingui/macro'
-import { useEffect, useState } from 'react'
+import { Trans } from '@lingui/macro'
 
 export const UnStakeForm = ({
   info,
@@ -69,7 +73,7 @@ export const UnStakeForm = ({
         inputId='withdraw-amount'
         inputValue={inputValue}
         handleChooseMax={handleChooseMax}
-        labelText={t`Amount you wish to withdraw`}
+        labelText={<Trans>Amount you wish to withdraw</Trans>}
         onChange={handleChange}
         tokenSymbol={stakingTokenSymbol}
         tokenAddress={stakingTokenAddress}
@@ -112,7 +116,7 @@ export const UnStakeForm = ({
           })
         }}
       >
-        {withdrawing ? t`Withdrawing...` : t`Unstake`}
+        {withdrawing ? <Trans>Withdrawing...</Trans> : <Trans>Unstake</Trans>}
       </RegularButton>
     </div>
   )

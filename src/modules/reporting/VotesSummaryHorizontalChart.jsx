@@ -15,6 +15,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const VotesSummaryHorizontalChart = ({
@@ -23,6 +24,8 @@ export const VotesSummaryHorizontalChart = ({
   showTooltip,
   majority
 }) => {
+  useLingui()
+
   const data = {
     labels: [t`votes`],
     datasets: [

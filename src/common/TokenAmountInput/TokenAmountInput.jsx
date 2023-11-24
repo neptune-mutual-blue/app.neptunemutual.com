@@ -3,6 +3,7 @@ import { Label } from '@/common/Label/Label'
 import { TokenBalance } from '@/common/TokenBalance'
 import { classNames } from '@/utils/classnames'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const TokenAmountInput = ({
   tokenAddress,
@@ -20,6 +21,8 @@ export const TokenAmountInput = ({
   buttonClassName = '',
   ...rest
 }) => {
+  useLingui()
+
   return (
     <div className={classNames(disabled && 'opacity-40 cursor-not-allowed')}>
       {labelText && (

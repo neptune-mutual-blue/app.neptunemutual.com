@@ -9,6 +9,7 @@ import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { TableShowMore } from '@/common/Table/Table'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
@@ -27,10 +28,7 @@ import {
   sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
-import {
-  t
-} from '@lingui/macro'
-import { TableShowMore } from '@/common/Table/Table'
+import { t } from '@lingui/macro'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -136,15 +134,17 @@ function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
             const coverOrProductData = isDiversified ? getProduct(report.coverKey, report.productKey) : getCoverByCoverKey(report.coverKey)
 
             return (
-              <Link
-                href={Routes.ViewReport(
-                  report.coverKey,
-                  report.productKey,
-                  report.incidentDate
-                )}
-                key={report.id}
-              >
-                <a className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'>
+              (
+                <Link
+                  href={Routes.ViewReport(
+                    report.coverKey,
+                    report.productKey,
+                    report.incidentDate
+                  )}
+                  key={report.id}
+                  className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
+                >
+
                   {loading
                     ? <CardSkeleton numberOfCards={1} />
                     : <ActiveReportingCard
@@ -154,8 +154,9 @@ function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
                         incidentDate={report.incidentDate}
                         coverOrProductData={coverOrProductData}
                       />}
-                </a>
-              </Link>
+
+                </Link>
+              )
             )
           })}
         </Grid>

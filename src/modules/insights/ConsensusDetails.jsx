@@ -162,14 +162,16 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
         </div>
 
         {status !== E_CARD_STATUS.NORMAL && (
-          <Link href={href}>
-            <a>
+          (
+            <Link href={href}>
+
               <CardStatusBadge
                 className='mt-3 lg:mt-0 rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
                 status={status}
               />
-            </a>
-          </Link>
+
+            </Link>
+          )
         )}
 
       </div>

@@ -1,12 +1,17 @@
+import Link from 'next/link'
+
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
-import { E_CARD_STATUS, identifyStatus, Badge } from '@/common/CardStatusBadge'
+import {
+  Badge,
+  E_CARD_STATUS,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
-import Link from 'next/link'
 
 export const AbnormalCoverStatus = ({
   status,
@@ -19,11 +24,13 @@ export const AbnormalCoverStatus = ({
 }) => {
   const href = Routes.ViewReport(coverKey, productKey, activeIncidentDate)
   const statusLink = (
-    <Link href={href}>
-      <a className='font-medium underline hover:no-underline'>
+    (
+      <Link href={href} className='font-medium underline hover:no-underline'>
+
         {status}
-      </a>
-    </Link>
+
+      </Link>
+    )
   )
 
   const badgeStatus = E_CARD_STATUS[identifyStatus(status)]

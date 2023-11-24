@@ -11,7 +11,7 @@ import {
 import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -48,7 +48,7 @@ export default function MyPoliciesActive ({ disabled }) {
       <Seo />
       <PoliciesTabs
         active='active'
-        heroStatTitle={t`Total Active Protection`}
+        heroStatTitle={<Trans>Total Active Protection</Trans>}
         heroStatValue={heroStatValue}
       >
 

@@ -1,4 +1,4 @@
 module.exports = ({
-  Trans: jest.fn(({ children }) => children),
-  t: jest.fn((x) => x)
+  Trans: jest.fn(({ children }) => { return children }),
+  t: jest.fn((x) => { return x })
 })

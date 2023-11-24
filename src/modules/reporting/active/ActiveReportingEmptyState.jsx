@@ -10,6 +10,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter()
@@ -28,6 +29,8 @@ export const ActiveReportingEmptyState = () => {
     const productKey = isValidProduct(selected.productKey) ? selected.productKey : ''
     router.push(actions.report.getHref(coverKey, productKey))
   }
+
+  useLingui()
 
   if (loading) {
     return (

@@ -21,7 +21,6 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useRemoveLiquidity } from '@/src/hooks/useRemoveLiquidity'
-import { getNetworkInfo } from '@/utils/network'
 import {
   convertFromUnits,
   convertToUnits,
@@ -34,10 +33,12 @@ import {
 import { formatAmount } from '@/utils/formatter'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { getNetworkInfo } from '@/utils/network'
 import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const router = useRouter()
@@ -167,6 +168,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
   const isStakeDisabled = isEqualTo(minStakeToAddLiquidity, 0) && isMainNet
 
+  useLingui()
+
   return (
     <>
       <div
@@ -176,7 +179,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         {!isStakeDisabled && (
           <div className='flex flex-col mt-6'>
             <TokenAmountInput
-              labelText={t`Enter ${NPMTokenSymbol} Amount`}
+              labelText={<Trans>Enter ${NPMTokenSymbol} Amount</Trans>}
               disabled={isExit}
               handleChooseMax={handleChooseNpmMax}
               inputValue={npmValue}
@@ -214,7 +217,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
         <div className='mt-6'>
           <TokenAmountInput
-            labelText={t`Enter your POD`}
+            labelText={<Trans>Enter your POD</Trans>}
             disabled={isExit}
             handleChooseMax={handleChoosePodMax}
             inputValue={podValue}
@@ -235,7 +238,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
         <div className='mt-6 modal-unlock'>
           <ReceiveAmountInput
-            labelText={t`You will receive`}
+            labelText={<Trans>You will receive</Trans>}
             tokenSymbol={liquidityTokenSymbol}
             inputValue={formatAmount(
               convertFromUnits(

@@ -217,7 +217,7 @@ export const ReceiveAndUnlockModal = ({
                 }}
                 disabled={!canWithdraw || withdrawing}
               >
-                <Trans>{withdrawing ? 'Unlocking...' : 'Unlock'}</Trans>
+                {withdrawing ? <Trans>Unlocking...</Trans> : <Trans>Unlock</Trans>}
               </RegularButton>
             )
           }
@@ -233,7 +233,7 @@ export const ReceiveAndUnlockModal = ({
                   })
                 }}
               >
-                <Trans>{withdrawingRewards ? 'Receiving...' : 'Receive'}</Trans>
+                {withdrawingRewards ? <Trans>Receiving...</Trans> : <Trans>Receive</Trans>}
               </RegularButton>
             )
           }

@@ -98,16 +98,17 @@ export const PolicyCardFooter = ({
 
       {/* Link */}
       {isClaimable && withinClaimPeriod && !isPolicyExpired && (
-        <Link
-          href={Routes.ClaimPolicy(coverKey, productKey, incidentDate)}
-        >
-          <a
+        (
+          <Link
+            href={Routes.ClaimPolicy(coverKey, productKey, incidentDate)}
             className='flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4 bg-primary'
             data-testid='claim-link'
           >
+
             <Trans>Claim</Trans>
-          </a>
-        </Link>
+
+          </Link>
+        )
       )}
     </>
   )

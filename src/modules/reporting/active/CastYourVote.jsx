@@ -31,8 +31,8 @@ import {
 export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, minReportingStake }) => {
   const options = useMemo(() => {
     return [
-      { label: t`Incident Occurred`, value: 'incident-occurred' },
-      { label: t`False Reporting`, value: 'false-reporting' }
+      { label: <Trans>Incident Occurred</Trans>, value: 'incident-occurred' },
+      { label: <Trans>False Reporting</Trans>, value: 'false-reporting' }
     ]
   }, [])
 
@@ -119,9 +119,9 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = <Trans>Fetching balance...</Trans>
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = <Trans>Fetching allowance...</Trans>
   }
 
   return (
@@ -131,21 +131,21 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
       </h3>
       <div className='flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row'>
         {
-          options.map((option, idx) => {
-            return (
-              <RadioReport
-                key={idx}
-                label={option.label}
-                id={idPrefix + 'camp-' + idx}
-                name={idPrefix + 'camp'}
-                value={option.value}
-                checked={votingType === option.value}
-                onChange={handleRadioChange}
-                disabled={approving || voting}
-              />
-            )
-          })
-        }
+        options.map((option, idx) => {
+          return (
+            <RadioReport
+              key={idx}
+              label={option.label}
+              id={idPrefix + 'camp-' + idx}
+              name={idPrefix + 'camp'}
+              value={option.value}
+              checked={votingType === option.value}
+              onChange={handleRadioChange}
+              disabled={approving || voting}
+            />
+          )
+        })
+      }
       </div>
       {!isFirstDispute && (
         <>
@@ -190,17 +190,17 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                     className='w-full py-6 font-semibold uppercase lg:w-64 whitespace-nowrap text-EEEEEE'
                     onClick={handleApprove}
                     disabled={
-                    isError ||
-                    approving ||
-                    !value ||
-                    error ||
-                    loadingBalance ||
-                    loadingAllowance
-                  }
+                  isError ||
+                  approving ||
+                  !value ||
+                  error ||
+                  loadingBalance ||
+                  loadingAllowance
+                }
                   >
                     {approving
                       ? (
-                          t`Approving...`
+                        <Trans>Approving...</Trans>
                         )
                       : (
                         <>
@@ -214,12 +214,12 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                     className='flex-auto w-full py-6 font-semibold uppercase lg:w-64 whitespace-nowrap text-EEEEEE'
                     onClick={() => { return handleReport(() => { return setValue('') }) }}
                     disabled={
-                    isError ||
-                    voting ||
-                    error ||
-                    loadingBalance ||
-                    loadingAllowance
-                  }
+                  isError ||
+                  voting ||
+                  error ||
+                  loadingBalance ||
+                  loadingAllowance
+                }
                   >
                     {voting ? t`Reporting...` : 'Report'}
                   </RegularButton>
@@ -251,10 +251,10 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
               incidentReport.incidentDate
             )}
             passHref
+            legacyBehavior
           >
             <RegularButton
               className='flex-auto w-full py-6 mt-4 font-semibold uppercase lg:w-64 mb-11 sm:mb-0 whitespace-nowrap text-EEEEEE'
-
             >
               <Trans>Add Dispute</Trans>
             </RegularButton>

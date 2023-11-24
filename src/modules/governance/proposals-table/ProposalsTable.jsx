@@ -1,41 +1,66 @@
-import { TBody, THead, Table, TableShowMore, TableWrapper } from '@/common/Table/Table'
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
+
 import { renderHeader } from '@/common/Table/renderHeader'
-import { ActionsRenderer, DetailsRenderer, ResultRenderer, TableRowsSkeleton, TagRenderer, TitleComponent, TypeRenderer, WhenRenderer } from '@/modules/governance/proposals-table/TableComponents'
+import {
+  Table,
+  TableShowMore,
+  TableWrapper,
+  TBody,
+  THead
+} from '@/common/Table/Table'
+import {
+  ActionsRenderer,
+  DetailsRenderer,
+  ResultRenderer,
+  TableRowsSkeleton,
+  TagRenderer,
+  TitleComponent,
+  TypeRenderer,
+  WhenRenderer
+} from '@/modules/governance/proposals-table/TableComponents'
 import { useNetwork } from '@/src/context/Network'
 import { useSnapshotProposals } from '@/src/hooks/useSnapshotProposals'
 import { classNames } from '@/utils/classnames'
-import { t } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const getColumns = () => {
   return [
     {
-      name: t`when`,
+      name: 'when',
+      renderTitle: <Trans>when</Trans>,
       align: 'left',
       renderHeader,
       renderData: (row, { locale }) => { return <WhenRenderer row={row} locale={locale} /> }
     },
     {
-      name: t``,
+      name: '',
+      renderTitle: '',
       align: 'center',
       renderHeader,
       renderData: (row) => { return <TypeRenderer row={row} /> }
     },
     {
-      name: t`details`,
+      name: '',
+      renderTitle: '',
       align: 'left',
       renderHeader,
       renderData: (row) => { return <DetailsRenderer row={row} /> }
     },
     {
-      name: t``,
+      name: '',
+      renderTitle: '',
       align: 'center',
       renderHeader,
       renderData: (row) => { return <TagRenderer row={row} /> }
     },
     {
       name: 'Result',
+      renderTitle: <Trans>Result</Trans>,
       align: 'right',
       renderHeader,
       renderData: (row) => { return <ResultRenderer row={row} /> }
@@ -43,6 +68,7 @@ export const getColumns = () => {
     {
       name: 'Actions',
       align: 'right',
+      renderTitle: <Trans>Actions</Trans>,
       renderHeader,
       renderData: (row, { networkId }) => { return <ActionsRenderer row={row} networkId={networkId} /> }
     }

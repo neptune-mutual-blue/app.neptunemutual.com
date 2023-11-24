@@ -36,6 +36,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 export const CalculatorCard = () => {
@@ -114,6 +115,8 @@ export const CalculatorCard = () => {
   }
 
   const buttonClass = 'block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-opacity-100 bg-primary'
+
+  useLingui()
 
   return (
     <>

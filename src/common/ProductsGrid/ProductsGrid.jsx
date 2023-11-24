@@ -111,11 +111,12 @@ export const ProductsGrid = () => {
               }
             }}
             scroll={false}
+            className='inline-flex items-center px-4 py-3 mr-6 tracking-wide text-black uppercase border-none rounded-lg bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
           >
-            <a className='inline-flex items-center px-4 py-3 mr-6 tracking-wide text-black uppercase border-none rounded-lg bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'>
-              <LeftArrow />
-              <Trans>Back</Trans>
-            </a>
+
+            <LeftArrow />
+            <Trans>Back</Trans>
+
           </Link>
           <h1 className='font-bold text-display-xs lg:text-display-sm'>
             {coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.productName || ''}

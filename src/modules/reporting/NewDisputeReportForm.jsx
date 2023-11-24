@@ -23,6 +23,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
   const form = useRef(null)
@@ -97,6 +98,8 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
     handleDispute(payload)
   }
 
+  useLingui()
+
   return (
     <Container className='pt-12 bg-white border-t pb-44 border-t-B0C4DB max-w-none md:bg-transparent'>
       <form
@@ -111,7 +114,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
         </h2>
 
         <InputField
-          label={t`Title`}
+          label={<Trans>Title</Trans>}
           className='my-12'
           inputProps={{
             id: 'dispute_title',
@@ -132,7 +135,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
         <div className='relative'>
           <InputDescription
             className='mt-12'
-            label={t`Description`}
+            label={<Trans>Description</Trans>}
             inputProps={{
               id: 'description',
               name: 'description',
@@ -151,7 +154,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
           <TokenAmountInput
             inputId='stake-amount'
             inputValue={value}
-            labelText={t`Enter your stake`}
+            labelText={<Trans>Enter your stake</Trans>}
             tokenBalance={balance}
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}

@@ -19,10 +19,7 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
 import { fromNow } from '@/utils/formatter/relative-time'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
@@ -46,25 +43,29 @@ const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 export const getColumns = (sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: t`when`,
+      name: 'when',
+      renderTitle: <Trans>when</Trans>,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: t`details`,
+      name: 'details',
+      renderTitle: <Trans>details</Trans>,
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
-      name: t`amount`,
+      name: 'amount',
+      renderTitle: <Trans>amount</Trans>,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
       name: '',
+      renderTitle: '',
       align: 'right',
       renderHeader,
       renderData: renderActions

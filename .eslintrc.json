@@ -1,21 +1,9 @@
 {
-  "extends": [
-    "standard",
-    "standard-jsx",
-    "next/core-web-vitals"
-  ],
-  "plugins": [
-    "unused-imports"
-  ],
+  "extends": ["standard", "standard-jsx", "next/core-web-vitals"],
+  "plugins": ["unused-imports"],
   "rules": {
-    "arrow-body-style": [
-      "error",
-      "always"
-    ],
-    "curly": [
-      "error",
-      "all"
-    ],
+    "arrow-body-style": ["error", "always"],
+    "curly": ["error", "all"],
     "padding-line-between-statements": [
       "error",
       {

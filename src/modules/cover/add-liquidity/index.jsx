@@ -25,6 +25,9 @@ import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
 import {
   StandardTermsConditionsLink
 } from '@/common/StandardTermsConditionsLink'
+import {
+  LiquiditySectionSkeleton
+} from '@/modules/cover/add-liquidity/LiquiditySectionSkeleton'
 import { CoveredProducts } from '@/modules/my-liquidity/content/CoveredProducts'
 import { DiversifiedCoverRules } from '@/modules/my-liquidity/content/rules'
 import { CoverStatus } from '@/src/config/constants'
@@ -33,11 +36,7 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { LiquiditySectionSkeleton } from '@/modules/cover/add-liquidity/LiquiditySectionSkeleton'
+import { Trans } from '@lingui/macro'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -87,13 +86,17 @@ export const CoverAddLiquidityDetailsPage = () => {
         <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: t`Home`, href: '/', current: false },
+              {
+                name: <Trans>Home</Trans>,
+                href: '/',
+                current: false
+              },
               {
                 name: coverData?.coverInfoDetails?.coverName,
                 href: Routes.ViewCover(coverKey),
                 current: false
               },
-              { name: t`Provide Liquidity`, current: true }
+              { name: <Trans>Provide Liquidity</Trans>, current: true }
             ]}
           />
           <div className='flex'>

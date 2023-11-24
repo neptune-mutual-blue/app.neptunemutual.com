@@ -1,8 +1,5 @@
 import { RegularButton } from '@/common/Button/RegularButton'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 export const CommonBridgeActions = ({
   approving,
@@ -23,7 +20,7 @@ export const CommonBridgeActions = ({
         >
           {bridging
             ? (
-                t`Confirming...`
+              <Trans>Confirming...</Trans>
               )
             : (
               <>
@@ -40,7 +37,7 @@ export const CommonBridgeActions = ({
         >
           {approving
             ? (
-                t`Approving...`
+              <Trans>Approving...</Trans>
               )
             : (
               <>

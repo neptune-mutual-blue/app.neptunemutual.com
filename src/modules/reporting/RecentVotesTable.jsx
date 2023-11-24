@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -19,8 +21,7 @@ import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import { Trans } from '@lingui/macro'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -39,25 +40,29 @@ const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 export const getColumns = (sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: t`when`,
+      name: 'when',
+      renderTitle: <Trans>when</Trans>,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: t`Account`,
+      name: 'Account',
+      renderTitle: <Trans>Account</Trans>,
       align: 'left',
       renderHeader,
       renderData: renderAccount
     },
     {
-      name: t`Weight`,
+      name: 'Weight',
+      renderTitle: <Trans>Weight</Trans>,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
       name: '',
+      renderTitle: '',
       align: 'right',
       renderHeader,
       renderData: renderActions

@@ -26,6 +26,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake }) {
   const max = DateLib.toDateTimeLocal()
@@ -138,6 +139,8 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
     }
   }
 
+  useLingui()
+
   return (
     <Container className='pt-12 pb-24 bg-white max-w-none md:bg-transparent'>
       <form
@@ -154,7 +157,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         <div className='flex flex-col md:flex-row'>
           <InputField
             className='lg:flex-grow md:mr-12'
-            label={t`Title`}
+            label={<Trans>Title</Trans>}
             inputProps={{
               id: 'incident_title',
               name: 'title',
@@ -168,7 +171,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
 
           <InputField
             className='mb-6 lg:flex-shrink'
-            label={t`Observed Date & Time`}
+            label={<Trans>Observed Date & Time</Trans>}
             inputProps={{
               max: max,
               id: 'incident_date',
@@ -193,7 +196,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         <div className='relative'>
           <InputDescription
             className='mt-12'
-            label={t`Description`}
+            label={<Trans>Description</Trans>}
             inputProps={{
               id: 'description',
               name: 'description',
@@ -212,7 +215,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
           <TokenAmountInput
             inputId='stake-amount'
             inputValue={value}
-            labelText={t`Enter your stake`}
+            labelText={<Trans>Enter your stake</Trans>}
             tokenBalance={balance}
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}
