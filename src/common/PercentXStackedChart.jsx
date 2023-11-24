@@ -1,9 +1,9 @@
 import {
+  BarElement,
+  CategoryScale,
   Chart as ChartJS,
   defaults,
-  CategoryScale,
   LinearScale,
-  BarElement,
   Title
 } from 'chart.js'
 import { each } from 'chart.js/helpers'

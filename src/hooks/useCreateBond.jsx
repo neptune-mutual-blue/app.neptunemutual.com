@@ -5,10 +5,7 @@ import {
 
 import { useRouter } from 'next/router'
 
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import DateLib from '@/lib/date/DateLib'
-import { getMonthNames } from '@/lib/dates'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -31,11 +28,9 @@ import {
   isEqualTo,
   isGreater,
   isGreaterOrEqual,
-  isValidNumber,
-  sumOf
+  isValidNumber
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { fromNow } from '@/utils/formatter/relative-time'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
@@ -50,7 +45,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
 
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
-  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
+  const { NPMTokenSymbol } = useAppConstants()
   const bondContractAddress = useBondPoolAddress()
   const {
     allowance,
@@ -68,9 +63,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const { writeContract, contractRead } = useTxPoster()
   const { notifyError } = useErrorNotifier()
   const router = useRouter()
-
-  const unlockTimestamp = sumOf(DateLib.unix(), info.vestingTerm)
-  const unlockTImeFormatted = DateLib.toDateFormat(unlockTimestamp, router.locale)
 
   useEffect(() => {
     updateAllowance(bondContractAddress)
@@ -296,28 +288,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       )
 
       const onTransactionResult = async (tx) => {
-        const logData = {
-          network: NetworkNames[networkId],
-          networkId,
-          account,
-          sales: value,
-          salesCurrency: info.lpTokenSymbol,
-          salesFormatted: formatCurrency(value, router.locale, info.lpTokenSymbol, true).short,
-          bond: value,
-          bondCurrency: info.lpTokenSymbol,
-          bondFormatted: formatCurrency(value, router.locale, info.lpTokenSymbol, true).short,
-          allocation: receiveAmount,
-          allocationCurrency: NPMTokenSymbol,
-          allocationFormatted: formatCurrency(convertFromUnits(receiveAmount, NPMTokenDecimals)).short,
-          unlockPeriod: unlockTimestamp.toString(),
-          unlockPeriodFormatted: fromNow(unlockTimestamp).replace('in ', ''),
-          unlock: unlockTimestamp.toString(),
-          unlockMonth: unlockTImeFormatted.split('/')[0],
-          unlockMonthformatted: getMonthNames()[unlockTImeFormatted.split('/')[0] - 1],
-          unlockYear: unlockTImeFormatted.split('/')[2],
-          tx: tx.hash
-        }
-
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.BOND_CREATE,
@@ -325,8 +295,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           data: {
             value,
             receiveAmount,
-            tokenSymbol: NPMTokenSymbol,
-            logData
+            tokenSymbol: NPMTokenSymbol
           }
         })
 

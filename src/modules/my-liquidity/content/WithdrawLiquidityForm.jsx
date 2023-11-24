@@ -313,8 +313,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               className='w-full p-6 font-semibold uppercase'
               disabled={
               approving ||
-              npmErrorMsg ||
-              podErrorMsg ||
+              !!npmErrorMsg ||
+              !!podErrorMsg ||
               receiveAmountLoading ||
               !podValue ||
               loadingAllowance ||
@@ -336,8 +336,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               className='w-full p-6 font-semibold uppercase'
               disabled={
               withdrawing ||
-              npmErrorMsg ||
-              podErrorMsg ||
+              !!npmErrorMsg ||
+              !!podErrorMsg ||
               receiveAmountLoading ||
               !podValue ||
               loadingAllowance ||

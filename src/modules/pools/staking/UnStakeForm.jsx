@@ -28,14 +28,12 @@ export const UnStakeForm = ({
 }) => {
   const blockHeight = useBlockHeight()
 
-  const [inputValue, setInputValue] = useState()
+  const [inputValue, setInputValue] = useState('')
 
   const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
-    tokenAddress: info.stakingToken,
     tokenSymbol: stakingTokenSymbol,
     poolKey,
-    poolInfo: info,
     refetchInfo
   })
 

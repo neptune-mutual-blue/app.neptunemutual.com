@@ -137,7 +137,6 @@ export const CalculatorCard = () => {
         <InputLabel label='Amount you wish to cover' />
         <CalculatorAmountHandler
           error={error}
-          value={amount}
           buttonProps={{
             children: t`Max`,
             onClick: () => {},

@@ -59,7 +59,7 @@ export const useClaimPolicyInfo = ({
   const [receiveAmount, setReceiveAmount] = useState('0')
   const [error, setError] = useState('')
 
-  const { liquidityTokenDecimals } = useAppConstants()
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
   const { account, library } = useWeb3React()
   const { networkId } = useNetwork()
   const claimsProcessorAddress = useClaimsProcessorAddress()
@@ -242,7 +242,7 @@ export const useClaimPolicyInfo = ({
           productName: safeParseBytes32String(productKey),
           cost: receiveAmount,
           costCurrency: liquidityTokenDecimals,
-          costFormatted: formatCurrency(receiveAmount, router.locale, liquidityTokenDecimals, true),
+          costFormatted: formatCurrency(receiveAmount, router.locale, liquidityTokenSymbol, true),
           account,
           tx,
           claim: value,
