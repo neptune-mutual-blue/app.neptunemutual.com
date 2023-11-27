@@ -21,7 +21,7 @@ export const renderHeader = (col, sortKey, sorts, handleSort, className) => {
           </span>
           <DownArrow className={classNames(
             'transform',
-            sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
+            sorts[col.id] && (sorts[col.id].type === 'asc' ? 'rotate-180' : 'rotate-0')
           )}
           />
         </button>
