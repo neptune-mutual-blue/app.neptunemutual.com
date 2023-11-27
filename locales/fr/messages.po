@@ -56,7 +56,7 @@ msgstr "Accepter"
 msgid "account"
 msgstr ""
 
-#: src/common/Header/AccountDetailsModal.jsx:52
+#: src/common/Header/AccountDetailsModal.jsx:51
 #: src/modules/governance/AccountDetail.jsx:60
 #: src/modules/reporting/RecentVotesTable.jsx:55
 msgid "Account"
@@ -148,7 +148,7 @@ msgstr "Montant disponible à réclamer"
 msgid "Amount you wish to stake"
 msgstr "Montant que vous souhaitez miser"
 
-#: src/modules/pools/staking/UnStakeForm.jsx:76
+#: src/modules/pools/staking/UnStakeForm.jsx:74
 msgid "Amount you wish to withdraw"
 msgstr "Montant que vous souhaitez retirer"
 
@@ -160,7 +160,6 @@ msgstr "Frais de couverture:"
 
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:162
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:346
-#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:370
 #: src/modules/bridge/CommonBridgeActions.jsx:44
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
 #: src/modules/my-policies/ClaimCoverModal.jsx:191
@@ -169,13 +168,21 @@ msgstr "Frais de couverture:"
 #: src/modules/pools/staking/StakeForm.jsx:147
 #: src/modules/reporting/active/CastYourVote.jsx:207
 #: src/modules/reporting/NewDisputeReportForm.jsx:198
-#: src/modules/reporting/NewIncidentReportForm.jsx:267
+#: src/modules/reporting/NewIncidentReportForm.jsx:269
 #: src/modules/vote-escrow/VoteEscrow.jsx:321
 msgid "Approve"
 msgstr "Approuver"
 
 #: src/modules/governance/AccountDetail.jsx:123
 msgid "Approve {depositTokenSymbol}"
+msgstr ""
+
+#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:370
+msgid "Approve {NPMTokenSymbol}"
+msgstr ""
+
+#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:370
+msgid "Approve Stake"
 msgstr ""
 
 #: src/modules/vote-escrow/UnlockEscrow.jsx:102
@@ -251,7 +258,7 @@ msgstr ""
 #: src/modules/pools/staking/StakeForm.jsx:143
 #: src/modules/reporting/active/CastYourVote.jsx:203
 #: src/modules/reporting/NewDisputeReportForm.jsx:198
-#: src/modules/reporting/NewIncidentReportForm.jsx:267
+#: src/modules/reporting/NewIncidentReportForm.jsx:269
 #: src/modules/vote-escrow/UnlockEscrow.jsx:101
 #: src/modules/vote-escrow/VoteEscrow.jsx:320
 msgid "Approving..."
@@ -340,9 +347,9 @@ msgstr "Obligations"
 msgid "Bridge"
 msgstr ""
 
-#: src/modules/insights/CalculatorCard.jsx:177
+#: src/modules/insights/CalculatorCard.jsx:176
+#: src/modules/insights/CalculatorCard.jsx:179
 #: src/modules/insights/CalculatorCard.jsx:180
-#: src/modules/insights/CalculatorCard.jsx:181
 msgid "Calculate policy fee"
 msgstr ""
 
@@ -495,12 +502,12 @@ msgid "Close:"
 msgstr "Fermer:"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:227
-#: src/modules/pools/staking/HarvestForm.jsx:86
+#: src/modules/pools/staking/HarvestForm.jsx:85
 #: src/modules/pools/staking/StakingCard.jsx:236
 msgid "Collect"
 msgstr "Collecter"
 
-#: src/modules/pools/staking/HarvestForm.jsx:86
+#: src/modules/pools/staking/HarvestForm.jsx:85
 msgid "Collecting..."
 msgstr "Collecte en cours..."
 
@@ -525,7 +532,7 @@ msgstr ""
 msgid "Connect wallet"
 msgstr "Connecter le portefeuille"
 
-#: src/common/Header/AccountDetailsModal.jsx:67
+#: src/common/Header/AccountDetailsModal.jsx:66
 msgid "Connected with"
 msgstr "Connecté avec"
 
@@ -592,11 +599,11 @@ msgstr "Impossible d'approuver {tokenSymbol}"
 msgid "Could not approve {tokenSymbol} tokens"
 msgstr "Impossible d'approuver {tokenSymbol} jetons"
 
-#: src/hooks/useRemoveLiquidity.jsx:75
+#: src/hooks/useRemoveLiquidity.jsx:59
 msgid "Could not approve {vaultTokenSymbol} tokens"
 msgstr "Impossible d'approuver les jetons {vaultTokenSymbol}"
 
-#: src/hooks/useCreateBond.jsx:213
+#: src/hooks/useCreateBond.jsx:205
 msgid "Could not approve LP tokens"
 msgstr "Impossible d'approuver les jetons LP"
 
@@ -621,7 +628,7 @@ msgstr "Impossible de calculer la liquidité"
 msgid "Could not calculate pods"
 msgstr "Impossible de calculer les \"pods\""
 
-#: src/hooks/useCreateBond.jsx:104
+#: src/hooks/useCreateBond.jsx:96
 msgid "Could not calculate tokens"
 msgstr "Impossible de calculer les jetons"
 
@@ -641,7 +648,7 @@ msgid "Could not claim policy"
 msgstr "Impossible de réclamer la politique"
 
 #: src/helpers/notification.js:399
-#: src/hooks/useCreateBond.jsx:289
+#: src/hooks/useCreateBond.jsx:281
 msgid "Could not create bond"
 msgstr ""
 "Impossible de créer l'obligation financière\n"
@@ -736,7 +743,7 @@ msgid "Could not refute"
 msgstr "Impossible de réfuter"
 
 #: src/helpers/notification.js:574
-#: src/hooks/useRemoveLiquidity.jsx:154
+#: src/hooks/useRemoveLiquidity.jsx:138
 msgid "Could not remove liquidity"
 msgstr "Impossible de supprimer la liquidité"
 
@@ -767,7 +774,7 @@ msgstr ""
 msgid "Could not unlock NPM"
 msgstr ""
 
-#: src/hooks/useUnstakeReportingStake.jsx:60
+#: src/hooks/useUnstakeReportingStake.jsx:51
 msgid "Could not unstake {NPMTokenSymbol}"
 msgstr "Impossible de \"unstake\" {NPMTokenSymbol}"
 
@@ -776,11 +783,11 @@ msgid "Could not unstake {symbol}"
 msgstr "Impossible de retirer la mise (\"stake\") {symbol}"
 
 #: src/helpers/notification.js:125
-#: src/hooks/useStakingPoolWithdraw.jsx:60
+#: src/hooks/useStakingPoolWithdraw.jsx:46
 msgid "Could not unstake {tokenSymbol}"
 msgstr "Impossible de retirer la mise (\"stake\") {tokenSymbol}"
 
-#: src/hooks/useUnstakeReportingStake.jsx:193
+#: src/hooks/useUnstakeReportingStake.jsx:162
 msgid "Could not unstake & claim {NPMTokenSymbol}"
 msgstr "Impossible de \"unstake\" et de réclamer {NPMTokenSymbol}"
 
@@ -793,7 +800,7 @@ msgstr "Impossible de retirer la mise (\"stake\") & de réclamer {symbol}"
 msgid "Could not update withdrawal period"
 msgstr ""
 
-#: src/modules/pools/staking/UnStakeForm.jsx:92
+#: src/modules/pools/staking/UnStakeForm.jsx:90
 msgid "Could not withdraw during lockup period"
 msgstr "Impossible de retirer pendant la période de verrouillage"
 
@@ -801,7 +808,7 @@ msgstr "Impossible de retirer pendant la période de verrouillage"
 #: src/hooks/useLiquidityGaugePoolWithdraw.jsx:63
 #: src/hooks/useLiquidityGaugePoolWithdraw.jsx:156
 #: src/hooks/useLiquidityGaugePoolWithdrawRewards.jsx:45
-#: src/hooks/useStakingPoolWithdraw.jsx:211
+#: src/hooks/useStakingPoolWithdraw.jsx:178
 msgid "Could not withdraw rewards"
 msgstr "Impossible de retirer les récompenses"
 
@@ -882,7 +889,7 @@ msgid "Dedicated Pool"
 msgstr "Pool dédié"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:138
-#: src/modules/reporting/NewIncidentReportForm.jsx:199
+#: src/modules/reporting/NewIncidentReportForm.jsx:201
 msgid "Description"
 msgstr "Libellé"
 
@@ -900,7 +907,7 @@ msgstr "détails"
 msgid "Didn’t find what you were looking for?"
 msgstr "Vous n'avez pas trouvé ce que vous cherchiez ?"
 
-#: src/common/Header/AccountDetailsModal.jsx:77
+#: src/common/Header/AccountDetailsModal.jsx:76
 msgid "Disconnect"
 msgstr "Déconnecter"
 
@@ -995,7 +1002,7 @@ msgstr ""
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:89
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:229
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:47
-#: src/modules/insights/CalculatorCard.jsx:152
+#: src/modules/insights/CalculatorCard.jsx:151
 msgid "Enter Amount"
 msgstr "Entrez le montant"
 
@@ -1017,7 +1024,7 @@ msgstr ""
 msgid "Enter Dispute Title"
 msgstr "Saisir le titre du litige"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:164
+#: src/modules/reporting/NewIncidentReportForm.jsx:166
 msgid "Enter Incident Title"
 msgstr "Entrez le titre de l'incident"
 
@@ -1025,7 +1032,7 @@ msgstr "Entrez le titre de l'incident"
 msgid "Enter the dispute title."
 msgstr "Entrez le titre du litige."
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:169
+#: src/modules/reporting/NewIncidentReportForm.jsx:171
 msgid "Enter the incident title."
 msgstr "Entrez le titre de l'incident."
 
@@ -1046,7 +1053,7 @@ msgid "Enter your POD"
 msgstr "Entrez votre POD"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:157
-#: src/modules/reporting/NewIncidentReportForm.jsx:218
+#: src/modules/reporting/NewIncidentReportForm.jsx:220
 msgid "Enter your stake"
 msgstr "Entrez votre mise (\"stake\")"
 
@@ -1070,7 +1077,7 @@ msgstr ""
 msgid "Exceeds maximum balance"
 msgstr "Dépassement du solde maximum"
 
-#: src/hooks/useCreateBond.jsx:185
+#: src/hooks/useCreateBond.jsx:177
 msgid "Exceeds maximum bond {maxBond}"
 msgstr ""
 
@@ -1136,7 +1143,7 @@ msgstr "Récupération de l'allocation de {NPMTokenSymbol}..."
 #: src/modules/pools/bond/index.jsx:191
 #: src/modules/pools/staking/StakeForm.jsx:79
 #: src/modules/reporting/active/CastYourVote.jsx:124
-#: src/modules/reporting/NewIncidentReportForm.jsx:252
+#: src/modules/reporting/NewIncidentReportForm.jsx:254
 #: src/modules/vote-escrow/UnlockEscrow.jsx:62
 #: src/modules/vote-escrow/VoteEscrow.jsx:167
 msgid "Fetching allowance..."
@@ -1149,7 +1156,7 @@ msgstr "Récupération de l'allocation..."
 #: src/modules/pools/bond/index.jsx:189
 #: src/modules/pools/staking/StakeForm.jsx:77
 #: src/modules/reporting/active/CastYourVote.jsx:122
-#: src/modules/reporting/NewIncidentReportForm.jsx:256
+#: src/modules/reporting/NewIncidentReportForm.jsx:258
 #: src/modules/vote-escrow/VoteEscrow.jsx:165
 msgid "Fetching balance..."
 msgstr "Récupération du solde..."
@@ -1243,7 +1250,7 @@ msgstr "J'ai lu, compris et j'accepte les termes des règles de couverture"
 msgid "I Want to"
 msgstr "J'aimerais"
 
-#: src/common/Header/AccountDetailsModal.jsx:115
+#: src/common/Header/AccountDetailsModal.jsx:114
 msgid "If you do not want to keep approving for each transaction, enable this option."
 msgstr "Si vous ne voulez pas continuer à approuver pour chaque transaction, activez cette case."
 
@@ -1290,25 +1297,25 @@ msgid "Insights"
 msgstr "Aperçus"
 
 #: src/hooks/useClaimPolicyInfo.jsx:354
-#: src/hooks/useCreateBond.jsx:165
+#: src/hooks/useCreateBond.jsx:157
 #: src/hooks/useDisputeIncident.jsx:295
 #: src/hooks/usePurchasePolicy.jsx:117
 #: src/hooks/useStakingPoolDeposit.jsx:343
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:123
 #: src/modules/reporting/active/CastYourVote.jsx:83
 #: src/modules/reporting/NewDisputeReportForm.jsx:182
-#: src/modules/reporting/NewIncidentReportForm.jsx:243
+#: src/modules/reporting/NewIncidentReportForm.jsx:245
 msgid "Insufficient Balance"
 msgstr "Solde insuffisant"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:117
 #: src/hooks/useDisputeIncident.jsx:291
 #: src/modules/reporting/NewDisputeReportForm.jsx:175
-#: src/modules/reporting/NewIncidentReportForm.jsx:236
+#: src/modules/reporting/NewIncidentReportForm.jsx:238
 msgid "Insufficient Stake"
 msgstr "Pas assez de mise (\"stake\")"
 
-#: src/hooks/useCreateBond.jsx:159
+#: src/hooks/useCreateBond.jsx:151
 msgid "Invalid amount to bond"
 msgstr "Montant de l'obligation invalide"
 
@@ -1383,7 +1390,7 @@ msgstr ""
 #: src/common/BarChart.jsx:79
 #: src/common/CoverDropdown/index.jsx:124
 #: src/common/Table/__tests__/Table.test.jsx:110
-#: src/common/Table/Table.jsx:108
+#: src/common/Table/Table.jsx:119
 #: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:28
 #: src/modules/cover/cover-terms/SingleCoverTermsPage.jsx:28
 #: src/modules/cover/CoverOptionsPage.jsx:28
@@ -1455,7 +1462,7 @@ msgstr "Prix du marché"
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:79
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:219
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:38
-#: src/modules/insights/CalculatorCard.jsx:145
+#: src/modules/insights/CalculatorCard.jsx:144
 msgid "Max"
 msgstr "Max"
 
@@ -1512,7 +1519,7 @@ msgstr ""
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:204
 #: src/modules/reporting/active/CastYourVote.jsx:173
 #: src/modules/reporting/NewDisputeReportForm.jsx:168
-#: src/modules/reporting/NewIncidentReportForm.jsx:229
+#: src/modules/reporting/NewIncidentReportForm.jsx:231
 msgid "Minimum Stake:"
 msgstr "Mise (\"stake\") minimum:"
 
@@ -1588,7 +1595,7 @@ msgstr "Aucun <0>POD \"staking pools\" trouvé.</0>"
 msgid "No <0>staking pools found.</0>"
 msgstr "Aucun <0> \"staking pools\" trouvé.</0>"
 
-#: src/common/Table/Table.jsx:108
+#: src/common/Table/Table.jsx:119
 #: src/modules/my-liquidity/index.jsx:61
 #: src/modules/my-policies/active/PoliciesEmptyState.jsx:45
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:80
@@ -1656,7 +1663,7 @@ msgstr ""
 msgid "NPM Logo"
 msgstr "Logo du NPM"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:174
+#: src/modules/reporting/NewIncidentReportForm.jsx:176
 msgid "Observed Date & Time"
 msgstr "Date et heure observées"
 
@@ -1690,7 +1697,7 @@ msgstr "Veuillez connecter votre portefeuille..."
 msgid "Please do not exit this page while transaction is in progress"
 msgstr "Veuillez ne pas quitter cette page pendant que la transaction est en cours"
 
-#: src/hooks/useCreateBond.jsx:171
+#: src/hooks/useCreateBond.jsx:163
 msgid "Please specify a value"
 msgstr "Veuillez spécifier une valeur"
 
@@ -1771,7 +1778,7 @@ msgid "Protection"
 msgstr "Protection"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:144
-#: src/modules/reporting/NewIncidentReportForm.jsx:205
+#: src/modules/reporting/NewIncidentReportForm.jsx:207
 msgid "Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident."
 msgstr "Fournissez une brève explication de l'incident ainsi que vos propres recherches ou commentaires concernant la validité de l'incident."
 
@@ -1879,7 +1886,7 @@ msgstr "Liquidité supprimée avec succès"
 msgid "Removing liquidity"
 msgstr ""
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:265
+#: src/modules/reporting/NewIncidentReportForm.jsx:267
 msgid "Report"
 msgstr "Signaler"
 
@@ -1887,7 +1894,7 @@ msgstr "Signaler"
 msgid "Report an incident"
 msgstr "Signaler un incident"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:155
+#: src/modules/reporting/NewIncidentReportForm.jsx:157
 msgid "Report an Incident"
 msgstr "Signaler un incident"
 
@@ -1946,7 +1953,7 @@ msgid "Reporting Period"
 msgstr "Période de signalisation"
 
 #: src/modules/reporting/active/CastYourVote.jsx:224
-#: src/modules/reporting/NewIncidentReportForm.jsx:265
+#: src/modules/reporting/NewIncidentReportForm.jsx:267
 msgid "Reporting..."
 msgstr "Signalisation en cours..."
 
@@ -2066,10 +2073,8 @@ msgstr ""
 msgid "Sort by:"
 msgstr "Trier par:"
 
-#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:370
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:236
 #: src/modules/pools/staking/StakeForm.jsx:158
-#: src/modules/pools/staking/StakingCard.jsx:202
 #: src/modules/pools/staking/StakingCard.jsx:247
 #: src/modules/reporting/active/CastYourVote.jsx:156
 msgid "Stake"
@@ -2080,6 +2085,7 @@ msgid "Stake {stakingTokenName}"
 msgstr "Mise (\"stake\") {stakingTokenName}"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:171
+#: src/modules/pools/staking/StakingCard.jsx:202
 msgid "Stake {stakingTokenSymbol}"
 msgstr "Mise (\"stake\") {stakingTokenSymbol}"
 
@@ -2148,7 +2154,7 @@ msgstr "La fonctionnalité des obligations vous fournit des jetons à valeur ré
 msgid "The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”"
 msgstr ""
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:187
+#: src/modules/reporting/NewIncidentReportForm.jsx:189
 msgid "The date and time you observed the incident."
 msgstr "La date et l'heure auxquelles vous avez observé l'incident."
 
@@ -2177,7 +2183,7 @@ msgid "Timestamp"
 msgstr "Horodatage"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:117
-#: src/modules/reporting/NewIncidentReportForm.jsx:160
+#: src/modules/reporting/NewIncidentReportForm.jsx:162
 msgid "Title"
 msgstr "Titre de la page"
 
@@ -2277,7 +2283,7 @@ msgstr "TVL (Groupe)"
 msgid "Unable to copy token address"
 msgstr "Impossible de copier l'adresse du jeton"
 
-#: src/common/Header/AccountDetailsModal.jsx:107
+#: src/common/Header/AccountDetailsModal.jsx:106
 msgid "Unlimited Approvals"
 msgstr "Approbations illimitées"
 
@@ -2314,19 +2320,16 @@ msgstr ""
 msgid "Unlocking..."
 msgstr ""
 
-#: src/modules/pools/staking/UnStakeForm.jsx:99
+#: src/modules/pools/staking/UnStakeForm.jsx:97
 msgid "Unlocks At Block"
 msgstr "Déblocage au bloc"
 
-#: src/modules/pools/staking/UnStakeForm.jsx:119
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:158
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:174
+#: src/modules/pools/staking/UnStakeForm.jsx:117
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:121
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:156
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:172
 msgid "Unstake"
 msgstr "Retirer la mise (\"unstake\")"
-
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:123
-msgid "UNSTAKE"
-msgstr "RETIRER LA MISE (\"UNSTAKE\")"
 
 #: src/helpers/notification.js:476
 msgid "Unstaked {symbol} Successfully"
@@ -2352,7 +2355,7 @@ msgstr "\"Unstaking\" {tokenSymbol}"
 msgid "Unstaking & claiming {symbol}"
 msgstr "\"Unstaking\" et réclamation {symbol}"
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:174
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:172
 msgid "Unstaking..."
 msgstr "\"Unstaking\"..."
 
@@ -2412,7 +2415,7 @@ msgstr "période de \"vesting\""
 msgid "View More"
 msgstr "Voir plus"
 
-#: src/common/Header/AccountDetailsModal.jsx:98
+#: src/common/Header/AccountDetailsModal.jsx:97
 msgid "View on Explorer"
 msgstr "Voir sur l'explorateur"
 
@@ -2490,7 +2493,7 @@ msgid "Withdrawing rewards"
 msgstr "Retirer les récompenses"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:348
-#: src/modules/pools/staking/UnStakeForm.jsx:119
+#: src/modules/pools/staking/UnStakeForm.jsx:117
 msgid "Withdrawing..."
 msgstr "Retrait..."
 
@@ -2511,7 +2514,7 @@ msgid "You are not whitelisted"
 msgstr "Vous n'êtes pas dans la liste blanche"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:128
-#: src/modules/pools/staking/HarvestForm.jsx:49
+#: src/modules/pools/staking/HarvestForm.jsx:48
 #: src/modules/pools/staking/StakingCard.jsx:124
 msgid "You Earned"
 msgstr "Vous avez gagné"
@@ -2525,7 +2528,7 @@ msgstr "Vous paierez"
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:241
 #: src/modules/my-policies/ClaimCoverModal.jsx:155
 #: src/modules/pools/bond/index.jsx:215
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:164
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:162
 msgid "You will receive"
 msgstr "Vous allez recevoir"
 
@@ -2559,9 +2562,9 @@ msgstr ""
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:196
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:113
-#: src/modules/pools/staking/HarvestForm.jsx:46
+#: src/modules/pools/staking/HarvestForm.jsx:45
 #: src/modules/pools/staking/StakingCard.jsx:109
-#: src/modules/pools/staking/UnStakeForm.jsx:83
+#: src/modules/pools/staking/UnStakeForm.jsx:81
 #: src/modules/reporting/active/ActiveReportSummary.jsx:177
 #: src/modules/reporting/active/ActiveReportSummary.jsx:226
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:148
