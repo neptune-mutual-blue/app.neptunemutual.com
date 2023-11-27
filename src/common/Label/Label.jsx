@@ -1,6 +1,12 @@
 import { classNames } from '@/utils/classnames'
 
-export const Label = ({ children, className, htmlFor }) => {
+/**
+ *
+ * @type {React.FC<React.ComponentProps<"label">>} props
+ */
+export const Label = (props) => {
+  const { children, className, htmlFor } = props
+
   return (
     <label
       className={classNames(

@@ -367,7 +367,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
                     )
                   : (
                     <>
-                      <Trans>Approve</Trans> {NPMTokenSymbol || <Trans>Stake</Trans>}
+                      {NPMTokenSymbol ? <Trans>Approve {NPMTokenSymbol}</Trans> : <Trans>Approve Stake</Trans>}
                     </>
                     )}
               </RegularButton>

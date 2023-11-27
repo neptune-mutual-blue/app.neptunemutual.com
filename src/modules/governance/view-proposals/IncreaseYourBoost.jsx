@@ -39,7 +39,7 @@ export const IncreaseYourBoost = ({ boost }) => {
         </div>
 
         {
-          (parseFloat(boostFraction) < BOOST_MAX) && (
+          (boostFraction < BOOST_MAX) && (
             (
               <Link
                 href={Routes.VoteEscrow}
