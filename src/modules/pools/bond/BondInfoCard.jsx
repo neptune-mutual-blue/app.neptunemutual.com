@@ -114,8 +114,8 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
           <h3 className='font-bold text-EEEEEE'>What is Bond?</h3>
           <p className='mt-2 text-AABDCB'>
             <Trans>
-              {`The bond feature provides you NPM tokens at a discounted value for
-              a vesting period of ${vestingPeriodInterval}.`}
+              The bond feature provides you NPM tokens at a discounted value for
+              a vesting period of {vestingPeriodInterval}.
             </Trans>
           </p>
         </div>

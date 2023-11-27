@@ -2,12 +2,17 @@ import Link from 'next/link'
 
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
-import { actions as coverActions } from '@/src/config/cover/actions'
+import { getActions } from '@/src/config/cover/actions'
 import { Trans } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 import { CoverActionCard } from './CoverActionCard'
 
 export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
+  const { i18n } = useLingui()
+
+  const coverActions = getActions(i18n)
+
   return (
     <>
       {/* Cover Actions */}

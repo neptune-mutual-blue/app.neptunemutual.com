@@ -29,6 +29,7 @@ import {
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -48,13 +49,6 @@ const sorterData = {
   }
 }
 
-const sortOptions = [
-  { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-  { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-  { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE }
-]
-const defaultSortOption = sortOptions[2]
-
 export const ReportingActivePage = () => {
   const {
     data: { incidentReports },
@@ -62,6 +56,15 @@ export const ReportingActivePage = () => {
     hasMore,
     handleShowMore
   } = useActiveReportings()
+
+  const { i18n } = useLingui()
+
+  const sortOptions = [
+    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t(i18n)`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: t(i18n)`Incident date`, value: SORT_TYPES.INCIDENT_DATE }
+  ]
+  const defaultSortOption = sortOptions[2]
 
   const [sortType, setSortType] = useState(defaultSortOption)
 

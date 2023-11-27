@@ -32,7 +32,11 @@ import { useSortData } from '@/src/hooks/useSortData'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
@@ -44,32 +48,32 @@ const renderAmount = (row) => { return <CxTokenAmountRenderer row={row} /> }
 
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => {
+export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: 'when',
-      renderTitle: <Trans>when</Trans>,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: 'details',
-      renderTitle: <Trans>details</Trans>,
+      id: 'details',
+      name: t(i18n)`details`,
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
-      name: 'amount',
-      renderTitle: <Trans>amount</Trans>,
+      id: 'amount',
+      name: t(i18n)`amount`,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
+      id: 'actions',
       name: '',
-      renderTitle: '',
       align: 'right',
       renderHeader,
       renderData: renderActions
@@ -91,7 +95,9 @@ export const MyPoliciesTxsTable = () => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
-  const columns = getColumns(sorts, handleSort)
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n, sorts, handleSort)
 
   return (
     <>

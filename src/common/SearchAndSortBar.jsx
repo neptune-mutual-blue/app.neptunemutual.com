@@ -27,10 +27,10 @@ export const SearchAndSortBar = ({
   optionsProp = null,
   loading = false
 }) => {
-  const options = optionsProp ?? DEFAULT_SORT_OPTIONS
-  const [selected, setSelected] = useState(options[0])
+  const { i18n } = useLingui()
 
-  useLingui()
+  const options = optionsProp ?? DEFAULT_SORT_OPTIONS(i18n)
+  const [selected, setSelected] = useState(options[0])
 
   useEffect(() => {
     setSelected(options[0])

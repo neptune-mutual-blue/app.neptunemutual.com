@@ -26,6 +26,7 @@ import {
   sorter
 } from '@/utils/sorting'
 import { Trans } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const homeViewSelectionKey = 'view'
 
@@ -48,7 +49,9 @@ const sorterData = {
 }
 
 export const ProductsGrid = () => {
-  const [sortType, setSortType] = useState(DEFAULT_SORT)
+  const { i18n } = useLingui()
+
+  const [sortType, setSortType] = useState(DEFAULT_SORT(i18n))
 
   const router = useRouter()
   const { coverId } = router.query

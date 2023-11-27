@@ -45,6 +45,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -63,13 +64,6 @@ const sorterData = {
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
-
-const options = [
-  { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-  { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE },
-  { name: t`Resolved date`, value: SORT_TYPES.RESOLVED_DATE }
-]
-const defaultSelectedOption = options[2]
 
 const renderCover = (row) => {
   return (
@@ -178,38 +172,45 @@ const renderTotalRefutedStake = (row) => {
   )
 }
 
-const columns = [
-  {
-    name: t`cover`,
-    align: 'left',
-    renderHeader,
-    renderData: renderCover
-  },
-  {
-    name: t`total attested stake`,
-    align: 'left',
-    renderHeader,
-    renderData: renderTotalAttestedStake
-  },
-  {
-    name: t`total refuted stake`,
-    align: 'left',
-    renderHeader,
-    renderData: renderTotalRefutedStake
-  },
-  {
-    name: t`date and time`,
-    align: 'left',
-    renderHeader,
-    renderData: renderDateAndTime
-  },
-  {
-    name: t`status`,
-    align: 'right',
-    renderHeader,
-    renderData: renderStatus
-  }
-]
+const getColumns = (i18n) => {
+  return [
+    {
+      id: 'cover',
+      name: t(i18n)`cover`,
+      align: 'left',
+      renderHeader,
+      renderData: renderCover
+    },
+    {
+      id: 'total attested stake',
+      name: t(i18n)`total attested stake`,
+      align: 'left',
+      renderHeader,
+      renderData: renderTotalAttestedStake
+    },
+    {
+      id: 'total refuted stake',
+      name: t(i18n)`total refuted stake`,
+      align: 'left',
+      renderHeader,
+      renderData: renderTotalRefutedStake
+    },
+    {
+      id: 'date and time',
+      name: t(i18n)`date and time`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDateAndTime
+    },
+    {
+      id: 'status',
+      name: t(i18n)`status`,
+      align: 'right',
+      renderHeader,
+      renderData: renderStatus
+    }
+  ]
+}
 
 const getUrl = (reportId) => {
   const keysArray = reportId.split('-')
@@ -228,6 +229,15 @@ export const ReportingResolvedPage = () => {
     hasMore,
     handleShowMore
   } = useResolvedReportings()
+
+  const { i18n } = useLingui()
+
+  const options = [
+    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t(i18n)`Incident date`, value: SORT_TYPES.INCIDENT_DATE },
+    { name: t(i18n)`Resolved date`, value: SORT_TYPES.RESOLVED_DATE }
+  ]
+  const defaultSelectedOption = options[2]
 
   const [sortType, setSortType] = useState(defaultSelectedOption)
   const { getStatsByKey } = useSortableStats()
@@ -272,6 +282,8 @@ export const ReportingResolvedPage = () => {
       }
     })
   }, [getCoverByCoverKey, getProduct, sortedResolvedReports])
+
+  const columns = getColumns(i18n)
 
   return (
     <Container className='pt-16 pb-36'>
