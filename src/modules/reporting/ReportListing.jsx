@@ -32,6 +32,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  *
@@ -82,33 +83,40 @@ function renderHeader (col) {
   )
 }
 
-const columns = [
-  {
-    name: t`reporter`,
-    align: 'left',
-    renderHeader
-  },
-  {
-    name: t`date and time`,
-    align: 'left',
-    renderHeader
-  },
-  {
-    name: t`total attested stake`,
-    align: 'right',
-    renderHeader
-  },
-  {
-    name: t`total refuted stake`,
-    align: 'right',
-    renderHeader
-  },
-  {
-    name: t`status`,
-    align: 'right',
-    renderHeader
-  }
-]
+const getColumns = (i18n) => {
+  return [
+    {
+      id: 'reporter',
+      name: t(i18n)`reporter`,
+      align: 'left',
+      renderHeader
+    },
+    {
+      id: 'date and time',
+      name: t(i18n)`date and time`,
+      align: 'left',
+      renderHeader
+    },
+    {
+      id: 'total attested stake',
+      name: t(i18n)`total attested stake`,
+      align: 'right',
+      renderHeader
+    },
+    {
+      id: 'total refuted stake',
+      name: t(i18n)`total refuted stake`,
+      align: 'right',
+      renderHeader
+    },
+    {
+      id: 'status',
+      name: t(i18n)`status`,
+      align: 'right',
+      renderHeader
+    }
+  ]
+}
 
 /**
  *
@@ -130,6 +138,10 @@ const ReportListing = (props) => {
   const isDiversified = isValidProduct(productKey)
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
+
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n)
 
   useEffect(() => {
     if (!coverKey) {

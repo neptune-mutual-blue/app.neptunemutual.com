@@ -25,7 +25,11 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
@@ -33,32 +37,32 @@ const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 const renderAmount = (row) => { return <AmountRenderer row={row} /> }
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => {
+export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: 'when',
-      renderTitle: <Trans>when</Trans>,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: 'details',
-      renderTitle: <Trans>details</Trans>,
+      id: 'details',
+      name: t(i18n)`details`,
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
-      name: 'amount',
-      renderTitle: <Trans>amount</Trans>,
+      id: 'amount',
+      name: t(i18n)`amount`,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
+      id: 'actions',
       name: '',
-      renderTitle: '',
       align: 'right',
       renderHeader,
       renderData: renderActions
@@ -85,7 +89,9 @@ export const MyTransactionsTable = () => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: listOfTransactions })
 
-  const columns = getColumns(sorts, handleSort)
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n, sorts, handleSort)
 
   useEffect(() => {
     if (!networkId || !account) {

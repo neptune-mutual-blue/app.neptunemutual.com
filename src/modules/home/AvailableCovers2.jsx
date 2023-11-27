@@ -25,6 +25,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -44,31 +45,9 @@ const sorterData = {
   }
 }
 
-const viewOptions = [
-  { name: t`All`, value: SORT_TYPES.ALL },
-  { name: t`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
-  { name: t`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL }
-]
-const defaultViewOption = viewOptions[0]
-
 const ViewQueryParam = 'view'
 const SortQueryParam = 'sort'
 const SearchQueryParam = 'search'
-
-const sortOptions = DEFAULT_SORT_OPTIONS
-const defaultSortOption = DEFAULT_SORT_OPTIONS[2]
-
-const getSelectedSortOption = (query) => {
-  const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
-
-  return sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
-}
-
-const getSelectedViewOption = (query) => {
-  const selectedView = typeof query[ViewQueryParam] === 'string' ? query[ViewQueryParam] : defaultViewOption.value
-
-  return viewOptions.find((item) => { return item.value === selectedView }) || defaultViewOption
-}
 
 export const AvailableCovers = () => {
   const { query, replace } = useRouter()
@@ -80,6 +59,30 @@ export const AvailableCovers = () => {
     getCoverByCoverKey,
     getProduct
   } = useCoversAndProducts2()
+
+  const { i18n } = useLingui()
+
+  const viewOptions = [
+    { name: t(i18n)`All`, value: SORT_TYPES.ALL },
+    { name: t(i18n)`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
+    { name: t(i18n)`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL }
+  ]
+
+  const defaultViewOption = viewOptions[0]
+
+  const getSelectedViewOption = (query) => {
+    const selectedView = typeof query[ViewQueryParam] === 'string' ? query[ViewQueryParam] : defaultViewOption.value
+
+    return viewOptions.find((item) => { return item.value === selectedView }) || defaultViewOption
+  }
+  const sortOptions = DEFAULT_SORT_OPTIONS(i18n)
+  const defaultSortOption = sortOptions[2]
+
+  const getSelectedSortOption = (query) => {
+    const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
+
+    return sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
+  }
 
   const searchTerm = typeof query[SearchQueryParam] === 'string' ? query[SearchQueryParam] : ''
   const selectedSortOption = getSelectedSortOption(query)

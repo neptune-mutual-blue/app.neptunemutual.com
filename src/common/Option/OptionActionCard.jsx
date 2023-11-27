@@ -1,8 +1,8 @@
-export const OptionActionCard = ({ title, titleAlt, description, imgSrc }) => {
+export const OptionActionCard = ({ title, description, imgSrc }) => {
   return (
     <>
       <div className='flex items-center justify-center mx-auto rounded-full bg-DEEAF6 lg:bg-white group-hover:bg-DEEAF6 group-focus:bg-DEEAF6 w-18 h-18 md:w-32 md:h-32 lg:w-40 lg:h-40'>
-        <img src={imgSrc} alt={titleAlt} />
+        <img src={imgSrc} alt={title} />
       </div>
       <h4 className='mt-4 font-semibold text-center text-xs md:text-lg lg:text-display-xs lg:px-2 md:mt-6 lg:mt-14'>
         {title}

@@ -154,8 +154,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     requiredStake
   ])
 
-  const { i18n } = useLingui()
-
   const handleMaxNPM = () => {
     if (!npmBalance) {
       return
@@ -182,6 +180,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   }
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance
+
+  const { i18n } = useLingui()
 
   if (activeReportings.length > 0) {
     const status = activeReportings[0].status
@@ -221,9 +221,9 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   } else if (npmBalanceLoading) {
     loadingMessage = t(i18n)`Fetching balance...`
   } else if (npmAllowanceLoading) {
-    loadingMessage = t(i18n)`Fetching {NPMTokenSymbol} allowance...`
+    loadingMessage = t(i18n)`Fetching ${NPMTokenSymbol} allowance...`
   } else if (lqAllowanceLoading) {
-    loadingMessage = t(i18n)`Fetching {liquidityTokenSymbol} allowance...`
+    loadingMessage = t(i18n)`Fetching ${liquidityTokenSymbol} allowance...`
   }
 
   const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false

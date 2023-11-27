@@ -1,9 +1,9 @@
-import { actions } from '@/src/config/cover/actions'
+import { getActions } from '@/src/config/cover/actions'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { Trans } from '@lingui/macro'
 
-const getNavigationLinks = (pathname = '') => {
+const getNavigationLinks = (pathname = '', i18n) => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
@@ -15,6 +15,8 @@ const getNavigationLinks = (pathname = '') => {
   const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
 
   const poolLink = Routes.Pools()
+
+  const actions = getActions(i18n)
 
   /**
    *
@@ -97,9 +99,9 @@ const getNavigationLinks = (pathname = '') => {
   return links
 }
 
-const getFlattenedNavLinks = () => {
+const getFlattenedNavLinks = (i18n) => {
   const _links = []
-  const links = getNavigationLinks()
+  const links = getNavigationLinks('', i18n)
   links.map((link) => {
     if (link.href) { _links.push(link) }
     if (link.items) { link.items.map(item => { return _links.push(item) }) }

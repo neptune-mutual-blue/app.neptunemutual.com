@@ -13,6 +13,7 @@ import {
 import { renderHeader } from '@/src/common/Table/renderHeader'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const RenderNetwork = ({ networkId }) => {
   const LogoIcon = ChainLogos[networkId]
@@ -83,34 +84,44 @@ const RenderTVL = ({ tvl }) => {
     </td>
   )
 }
-const columns = [
-  {
-    name: t`Network`,
-    align: 'left',
-    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row) => { return <RenderNetwork networkId={row.networkId} /> }
-  },
-  {
-    name: t`Cover Fee Earned`,
-    align: 'left',
-    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row) => { return <RenderCover coverFee={row.coverFee} /> }
-  },
-  {
-    name: t`TVL`,
-    align: 'right',
-    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row) => { return <RenderTVL tvl={row.tvl} /> }
-  },
-  {
-    name: t`Capacity`,
-    align: 'right',
-    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row) => { return <RenderCapacity capacity={row.capacity} /> }
-  }
-]
+
+const getColumns = (i18n) => {
+  return [
+    {
+      id: 'Network',
+      name: t(i18n)`Network`,
+      align: 'left',
+      renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+      renderData: (row) => { return <RenderNetwork networkId={row.networkId} /> }
+    },
+    {
+      id: 'Cover Fee Earned',
+      name: t(i18n)`Cover Fee Earned`,
+      align: 'left',
+      renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+      renderData: (row) => { return <RenderCover coverFee={row.coverFee} /> }
+    },
+    {
+      id: 'TVL',
+      name: t(i18n)`TVL`,
+      align: 'right',
+      renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+      renderData: (row) => { return <RenderTVL tvl={row.tvl} /> }
+    },
+    {
+      id: 'Capacity',
+      name: t(i18n)`Capacity`,
+      align: 'right',
+      renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+      renderData: (row) => { return <RenderCapacity capacity={row.capacity} /> }
+    }
+  ]
+}
 
 export const InsightsTVLTable = ({ data, loading }) => {
+  const { i18n } = useLingui()
+  const columns = getColumns(i18n)
+
   return (
     <div>
       <hr className='border-t-0.5 border-t-B0C4DB' />

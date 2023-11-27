@@ -100,14 +100,14 @@ export const ClaimCoverModal = ({
 
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
+  const { i18n } = useLingui()
+
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = t(i18n)`Fetching balance...`
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = t(i18n)`Fetching allowance...`
   }
-
-  useLingui()
 
   return (
     <ModalRegular
@@ -135,7 +135,7 @@ export const ClaimCoverModal = ({
             tokenDecimals={tokenDecimals}
             tokenSymbol={tokenSymbol}
             tokenBalance={balance}
-            labelText={<Trans>Enter your ${tokenSymbol}</Trans>}
+            labelText={<Trans>Enter your {tokenSymbol}</Trans>}
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id='bond-amount'

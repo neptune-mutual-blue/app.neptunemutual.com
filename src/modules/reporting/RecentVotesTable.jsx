@@ -21,7 +21,11 @@ import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { Trans } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -37,32 +41,32 @@ const renderAmount = (row) => { return <AmountRenderer row={row} /> }
 
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => {
+export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: 'when',
-      renderTitle: <Trans>when</Trans>,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: 'Account',
-      renderTitle: <Trans>Account</Trans>,
+      id: 'Account',
+      name: t(i18n)`Account`,
       align: 'left',
       renderHeader,
       renderData: renderAccount
     },
     {
-      name: 'Weight',
-      renderTitle: <Trans>Weight</Trans>,
+      id: 'Weight',
+      name: t(i18n)`Weight`,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
+      id: 'actions',
       name: '',
-      renderTitle: '',
       align: 'right',
       renderHeader,
       renderData: renderActions
@@ -85,7 +89,9 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
-  const columns = getColumns(sorts, handleSort)
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n, sorts, handleSort)
 
   return (
     <>

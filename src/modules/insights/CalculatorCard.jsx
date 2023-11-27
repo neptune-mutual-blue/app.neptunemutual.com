@@ -74,16 +74,19 @@ export const CalculatorCard = () => {
     let error = ''
 
     if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
+      const maxProposalThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
       error = t`Maximum proposal threshold is ${
-        formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+        maxProposalThreshold
       }`
     } else if (isGreater(availableLiquidity, 0) && isGreaterOrEqual(val, availableLiquidity)) {
+      const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
       error = t`Maximum protection available is ${
-        formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
+        maxProtection
       }`
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
+      const minProposal = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
       error = t`Minimum proposal threshold is ${
-        formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+        minProposal
       }`
     }
 

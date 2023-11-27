@@ -64,9 +64,9 @@ export const AddAndLockModal = ({
 
   const isPoolStaked = toBN(poolStaked).isGreaterThan(0)
 
-  useLingui()
+  const { i18n } = useLingui()
 
-  const inputLabel = t`Enter Amount You Wish to ${
+  const inputLabel = t(i18n)`Enter Amount You Wish to ${
     !isPoolStaked ? 'Lock' : 'Add'
   }`
 

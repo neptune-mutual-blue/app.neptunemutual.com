@@ -151,11 +151,13 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
     isValidNumber(podValue) &&
     isGreaterOrEqual(allowance, convertToUnits(podValue || '0'))
 
+  const { i18n } = useLingui()
+
   let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = t`Calculating tokens...`
+    loadingMessage = t(i18n)`Calculating tokens...`
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = t(i18n)`Fetching allowance...`
   }
 
   const handleExit = (ev) => {
@@ -168,8 +170,6 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
   const isStakeDisabled = isEqualTo(minStakeToAddLiquidity, 0) && isMainNet
 
-  useLingui()
-
   return (
     <>
       <div
@@ -179,7 +179,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         {!isStakeDisabled && (
           <div className='flex flex-col mt-6'>
             <TokenAmountInput
-              labelText={<Trans>Enter ${NPMTokenSymbol} Amount</Trans>}
+              labelText={<Trans>Enter {NPMTokenSymbol} Amount</Trans>}
               disabled={isExit}
               handleChooseMax={handleChooseNpmMax}
               inputValue={npmValue}

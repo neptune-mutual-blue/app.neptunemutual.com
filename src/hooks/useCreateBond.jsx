@@ -166,14 +166,16 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     }
 
     if (isGreater(receiveAmount, info.maxBond)) {
+      const maxBond = formatCurrency(
+        convertFromUnits(info.maxBond).toString(),
+        router.locale,
+        NPMTokenSymbol,
+        true
+      ).long
+
       setError(
         t`Exceeds maximum bond ${
-          formatCurrency(
-            convertFromUnits(info.maxBond).toString(),
-            router.locale,
-            NPMTokenSymbol,
-            true
-          ).long
+          maxBond
         }`
       )
 
