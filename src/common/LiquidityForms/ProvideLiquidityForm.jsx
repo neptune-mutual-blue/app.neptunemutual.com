@@ -181,7 +181,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance
 
-  useLingui()
+  const { i18n } = useLingui()
 
   if (activeReportings.length > 0) {
     const status = activeReportings[0].status
@@ -217,13 +217,13 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
   let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = <Trans>Calculating tokens...</Trans>
+    loadingMessage = t(i18n)`Calculating tokens...`
   } else if (npmBalanceLoading) {
-    loadingMessage = <Trans>Fetching balance...</Trans>
+    loadingMessage = t(i18n)`Fetching balance...`
   } else if (npmAllowanceLoading) {
-    loadingMessage = <Trans>Fetching {NPMTokenSymbol} allowance...</Trans>
+    loadingMessage = t(i18n)`Fetching ${NPMTokenSymbol} allowance...`
   } else if (lqAllowanceLoading) {
-    loadingMessage = <Trans>Fetching {liquidityTokenSymbol} allowance...</Trans>
+    loadingMessage = t(i18n)`Fetching ${liquidityTokenSymbol} allowance...`
   }
 
   const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false
@@ -235,7 +235,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       {!isStakeDisabled && (
         <div className='mb-16'>
           <TokenAmountInput
-            labelText={<Trans>Enter your ${NPMTokenSymbol} stake</Trans>}
+            labelText={<Trans>Enter your {NPMTokenSymbol} stake</Trans>}
             onChange={handleNPMChange}
             handleChooseMax={handleMaxNPM}
             error={Boolean(npmErrorMsg)}
@@ -367,7 +367,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
                     )
                   : (
                     <>
-                      <Trans>Approve</Trans> {NPMTokenSymbol || <Trans>Stake</Trans>}
+                      {NPMTokenSymbol ? <Trans>Approve {NPMTokenSymbol}</Trans> : <Trans>Approve Stake</Trans>}
                     </>
                     )}
               </RegularButton>

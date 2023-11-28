@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
 
 const defaultState = {
   hours: 0,
@@ -37,7 +40,7 @@ export const useCountdown = ({ target, getTime }) => {
       })
     }
 
-    const intervalId = setInterval(() => {
+    const intervalId = window.setInterval(() => {
       updateState(intervalId)
     }, 1000)
 

@@ -6,6 +6,9 @@ import '../styles/globals.css'
 import { useEffect } from 'react'
 
 import ErrorBoundary from '@/common/ErrorBoundary'
+import {
+  WalletDisclaimerPoup
+} from '@/lib/connect-wallet/components/ConnectWallet/WalletDisclaimerPopup'
 import { getLibrary } from '@/lib/connect-wallet/utils/web3'
 import { ToastProvider } from '@/lib/toast/provider'
 import { DEFAULT_VARIANT } from '@/src/config/toast'
@@ -33,6 +36,8 @@ const Wrappers = ({ children, noHeader }) => {
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
                   <MainLayout noHeader={noHeader}>{children}</MainLayout>
+
+                  <WalletDisclaimerPoup />
                 </TxPosterProvider>
               </ToastProvider>
             </UnlimitedApprovalProvider>

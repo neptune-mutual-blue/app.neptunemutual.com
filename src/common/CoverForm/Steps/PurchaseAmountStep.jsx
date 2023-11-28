@@ -45,11 +45,14 @@ const PurchaseAmountStep = ({
     setValue(val)
 
     if (isGreaterOrEqual(val, availableLiquidity)) {
-      setError(t`Maximum protection available is ${formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long}` + '. Choose a amount less than available.')
+      const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
+      setError(t`Maximum protection available is ${maxProtection}` + '. Choose a amount less than available.')
     } else if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
-      setError(t`Maximum proposal threshold is ${formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long}`)
+      const maxThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      setError(t`Maximum proposal threshold is ${maxThreshold}`)
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
-      setError(t`Minimum proposal threshold is ${formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long}`)
+      const minThreshold = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      setError(t`Minimum proposal threshold is ${minThreshold}`)
     }
   }
 

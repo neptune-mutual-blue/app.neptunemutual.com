@@ -30,6 +30,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -44,11 +45,6 @@ const sorterData = {
     datatype: SORT_DATA_TYPES.STRING
   }
 }
-
-const options = [
-  { name: t`TVL`, value: SORT_TYPES.TVL },
-  { name: t`Emissions`, value: SORT_TYPES.EMISSIONS }
-]
 
 export const LiquidityGaugePoolsPage = () => {
   const [sortType, setSortType] = useState({
@@ -83,6 +79,13 @@ export const LiquidityGaugePoolsPage = () => {
     },
     [filtered, sortType.value]
   )
+
+  const { i18n } = useLingui()
+
+  const options = [
+    { name: t(i18n)`TVL`, value: SORT_TYPES.TVL },
+    { name: t(i18n)`Emissions`, value: SORT_TYPES.EMISSIONS }
+  ]
 
   return (
     <Container className='pt-7 md:pt-16 pb-36' data-testid='liquidity-gauge-pools-page-container'>

@@ -1,10 +1,12 @@
+import { useRouter } from 'next/router'
+
 import ArrowRight from '@/icons/ArrowRight'
-import { actions } from '@/src/config/cover/actions'
+import { getActions } from '@/src/config/cover/actions'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { isValidProduct } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
+import { useLingui } from '@lingui/react'
 
 export const PolicyCalculation = ({
   feeData,
@@ -23,6 +25,10 @@ export const PolicyCalculation = ({
     true
   ).short
   const coverRate = Number(feeData?.rate || '0') / 100
+
+  const { i18n } = useLingui()
+
+  const actions = getActions(i18n)
 
   const handleBuyCover = () => {
     const link = actions.purchase.getHref(

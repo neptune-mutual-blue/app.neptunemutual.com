@@ -115,12 +115,10 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
       )}
 
       <RegularButton
-        className='w-full px-10 py-4 mb-16 font-semibold md:w-80'
-        onClick={() => {
-          setIsOpen(true)
-        }}
+        className='w-full px-10 py-4 mb-16 font-semibold uppercase md:w-80'
+        onClick={() => { setIsOpen(true) }}
       >
-        <Trans>UNSTAKE</Trans>
+        <Trans>Unstake</Trans>
       </RegularButton>
 
       <UnstakeModal

@@ -93,9 +93,11 @@ export const Header = () => {
     setIsOpen(false)
   }
 
+  const { i18n } = useLingui()
+
   const navigation = useMemo(
-    () => { return getNavigationLinks(router.pathname) },
-    [router.pathname]
+    () => { return getNavigationLinks(router.pathname, i18n) },
+    [router.pathname, i18n]
   )
 
   const handleToggleAccountPopup = () => {
@@ -285,7 +287,7 @@ export const Header = () => {
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}
-          navigation={getFlattenedNavLinks()}
+          navigation={getFlattenedNavLinks(i18n)}
           network={<Network closeMenu={onClose} />}
           networkId={networkId}
           notifier={notifier}

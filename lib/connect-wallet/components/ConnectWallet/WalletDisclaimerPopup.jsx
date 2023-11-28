@@ -133,10 +133,10 @@ I hereby further represent and warrant that:
 
         <hr className='h-px my-6 text-F6F7F9' />
 
-        <div className='flex justify-end gap-4'>
-          <OutlinedButton className='text-sm font-semibold leading-6 rounded-big' onClick={handleDisAgree}>Cancel</OutlinedButton>
+        <div className='flex flex-wrap-reverse justify-end gap-4'>
+          <OutlinedButton className='w-full text-sm font-semibold leading-6 sm:w-auto rounded-big' onClick={handleDisAgree}>Cancel</OutlinedButton>
           <RegularButton
-            className='rounded-big py-2.5 px-4 text-sm leading-6 font-semibold'
+            className='w-full sm:w-auto rounded-big py-2.5 px-4 text-sm leading-6 font-semibold'
             onClick={handleAgree}
             disabled={acceptDisabled}
           >Agree & Login

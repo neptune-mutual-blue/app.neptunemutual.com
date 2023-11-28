@@ -18,13 +18,17 @@ export const SORT_TYPES = {
   DEDICATED_POOL: 'dedicated'
 }
 
-export const DEFAULT_SORT_OPTIONS = [
-  { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-  { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-  { name: t`Liquidity`, value: SORT_TYPES.LIQUIDITY }
-]
+export const DEFAULT_SORT_OPTIONS = (i18n) => {
+  return [
+    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t(i18n)`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: t(i18n)`Liquidity`, value: SORT_TYPES.LIQUIDITY }
+  ]
+}
 
-export const DEFAULT_SORT = DEFAULT_SORT_OPTIONS[0]
+export const DEFAULT_SORT = (i18n) => {
+  return DEFAULT_SORT_OPTIONS(i18n)[0]
+}
 
 export const SORT_DATA_TYPES = {
   BIGNUMBER: 'BIGNUMBER',

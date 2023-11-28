@@ -64,11 +64,9 @@ export const AddAndLockModal = ({
 
   const isPoolStaked = toBN(poolStaked).isGreaterThan(0)
 
-  useLingui()
+  const { i18n } = useLingui()
 
-  const inputLabel = t`Enter Amount You Wish to ${
-    !isPoolStaked ? 'Lock' : 'Add'
-  }`
+  const inputLabel = isPoolStaked ? t(i18n)`Enter Amount You Wish to Add` : t(i18n)`Enter Amount You Wish to Lock`
 
   const btnClass = 'w-full p-3 mt-6 font-semibold uppercase sm:min-w-auto sm:w-full'
   const closeModal = (approving || depositing) ? () => {} : onClose

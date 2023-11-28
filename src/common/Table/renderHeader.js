@@ -17,11 +17,11 @@ export const renderHeader = (col, sortKey, sorts, handleSort, className) => {
           <span
             className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
           >
-            {col.renderHeader}
+            {col.name}
           </span>
           <DownArrow className={classNames(
             'transform',
-            sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
+            sorts[col.id] && (sorts[col.id].type === 'asc' ? 'rotate-180' : 'rotate-0')
           )}
           />
         </button>

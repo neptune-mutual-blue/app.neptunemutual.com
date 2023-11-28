@@ -5,10 +5,11 @@ import { BackButton } from '@/common/BackButton/BackButton'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { OptionActionCard } from '@/common/Option/OptionActionCard'
-import { actions as coverActions } from '@/src/config/cover/actions'
+import { getActions } from '@/src/config/cover/actions'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const getBreadCrumbs = (
   isDiversified,
@@ -58,6 +59,10 @@ export const CoverOptionsPage = ({
 }) => {
   const router = useRouter()
 
+  const { i18n } = useLingui()
+
+  const coverActions = getActions(i18n)
+
   return (
     <>
       <Container className='pt-5 md:pt-9'>
@@ -94,7 +99,6 @@ export const CoverOptionsPage = ({
 
                     <OptionActionCard
                       title={coverActions[actionKey].title}
-                      titleAlt={coverActions[actionKey].titleAlt}
                       description={coverActions[actionKey].description}
                       imgSrc={coverActions[actionKey].imgSrc}
                     />

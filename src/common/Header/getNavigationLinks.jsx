@@ -1,9 +1,15 @@
-import { actions } from '@/src/config/cover/actions'
+import { getActions } from '@/src/config/cover/actions'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
-import { Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 
-const getNavigationLinks = (pathname = '') => {
+/**
+ *
+ * @param {string} pathname
+ * @param {import('@lingui/core').I18n} i18n
+ * @returns
+ */
+const getNavigationLinks = (pathname, i18n) => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
@@ -16,10 +22,12 @@ const getNavigationLinks = (pathname = '') => {
 
   const poolLink = Routes.Pools()
 
+  const actions = getActions(i18n)
+
   /**
    *
    * @typedef Link
-   * @prop {JSX.Element} name
+   * @prop {string} name
    * @prop {string} [mobileName]
    * @prop {string} [href]
    * @prop {string} [activeWhenStartsWith]
@@ -31,43 +39,43 @@ const getNavigationLinks = (pathname = '') => {
   /** @type {Link[]} */
   let links = [
     poolLink && {
-      name: <Trans>Pool</Trans>,
+      name: t(i18n)`Pool`,
       href: poolLink,
       activeWhenStartsWith: '/pools'
     },
     reportingEnabled && {
-      name: <Trans>Reporting</Trans>,
+      name: t(i18n)`Reporting`,
       href: Routes.ActiveReports,
       activeWhenStartsWith: '/reports'
     },
     governanceEnabled && {
-      name: <Trans>Governance</Trans>,
+      name: t(i18n)`Governance`,
       href: Routes.Governance,
       activeWhenStartsWith: Routes.Governance
     },
     voteEscrowEnabled && {
-      name: <Trans>Vote Escrow</Trans>,
+      name: t(i18n)`Vote Escrow`,
       href: Routes.VoteEscrow,
       activeWhenStartsWith: Routes.VoteEscrow
     },
     bridgeEnabled && {
-      name: <Trans>Bridge</Trans>,
+      name: t(i18n)`Bridge`,
       href: Routes.Bridge,
       activeWhenStartsWith: '/bridge'
     },
     {
-      name: <Trans>My Account</Trans>,
+      name: t(i18n)`My Account`,
       items: [
         policyEnabled && {
-          name: <Trans>Policies</Trans>,
-          mobileName: <Trans>My Policies</Trans>,
+          name: t(i18n)`Policies`,
+          mobileName: t(i18n)`My Policies`,
           href: Routes.MyActivePolicies,
           activeWhenStartsWith: '/my-policies',
           imgSrc: actions.purchase.imgSrc
         },
         liquidityEnabled && {
-          name: <Trans>Liquidity</Trans>,
-          mobileName: <Trans>My Liquidity</Trans>,
+          name: t(i18n)`Liquidity`,
+          mobileName: t(i18n)`My Liquidity`,
           href: Routes.MyLiquidity,
           activeWhenStartsWith: '/my-liquidity',
           imgSrc: actions['add-liquidity'].imgSrc
@@ -97,9 +105,9 @@ const getNavigationLinks = (pathname = '') => {
   return links
 }
 
-const getFlattenedNavLinks = () => {
+const getFlattenedNavLinks = (i18n) => {
   const _links = []
-  const links = getNavigationLinks()
+  const links = getNavigationLinks('', i18n)
   links.map((link) => {
     if (link.href) { _links.push(link) }
     if (link.items) { link.items.map(item => { return _links.push(item) }) }

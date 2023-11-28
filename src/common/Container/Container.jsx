@@ -1,17 +1,12 @@
 import { classNames } from '@/utils/classnames'
 
 /**
- * @typedef {Object} ContainerProps
- * @property {string} [className]
- * @property {JSX.Element | JSX.Element[]} children
- */
-
-/**
  *
- * @param {ContainerProps & React.HTMLAttributes<HTMLDivElement>} props
- * @returns
+ * @type {React.FC<React.ComponentProps<"div">>} props
  */
-export const Container = ({ children, className, ...rest }) => {
+export const Container = (props) => {
+  const { children, className, ...rest } = props
+
   return (
     <div
       className={classNames(

@@ -25,6 +25,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
@@ -131,38 +132,45 @@ const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
   )
 }
 
-const columns = [
-  {
-    name: t`cover`,
-    align: 'left',
-    renderHeader,
-    renderData: renderCover
-  },
-  {
-    name: t`status`,
-    align: 'left',
-    renderHeader,
-    renderData: renderStatus
-  },
-  {
-    name: t`attested`,
-    align: 'left',
-    renderHeader,
-    renderData: renderAttestedStake
-  },
-  {
-    name: t`refuted`,
-    align: 'left',
-    renderHeader,
-    renderData: renderRefutedStake
-  },
-  {
-    name: t`protection`,
-    align: 'right',
-    renderHeader,
-    renderData: renderProtection
-  }
-]
+const getColumns = (i18n) => {
+  return [
+    {
+      id: 'cover',
+      name: t(i18n)`cover`,
+      align: 'left',
+      renderHeader,
+      renderData: renderCover
+    },
+    {
+      id: 'status',
+      name: t(i18n)`status`,
+      align: 'left',
+      renderHeader,
+      renderData: renderStatus
+    },
+    {
+      id: 'attested',
+      name: t(i18n)`attested`,
+      align: 'left',
+      renderHeader,
+      renderData: renderAttestedStake
+    },
+    {
+      id: 'refuted',
+      name: t(i18n)`refuted`,
+      align: 'left',
+      renderHeader,
+      renderData: renderRefutedStake
+    },
+    {
+      id: 'protection',
+      name: t(i18n)`protection`,
+      align: 'right',
+      renderHeader,
+      renderData: renderProtection
+    }
+  ]
+}
 
 function Consensus ({ data, loading, setConsensusIndex }) {
   const router = useRouter()
@@ -184,6 +192,10 @@ function Consensus ({ data, loading, setConsensusIndex }) {
       projectOrProductName
     }
   })
+
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n)
 
   if (dataLoading) {
     return (

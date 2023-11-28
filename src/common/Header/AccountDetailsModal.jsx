@@ -31,9 +31,11 @@ export const AccountDetailsModal = ({
   const [connectorName, setConnectorName] = useState(ConnectorNames.Injected)
 
   useEffect(() => {
-    if (process.browser) {
-      setConnectorName(window.localStorage.getItem(ACTIVE_CONNECTOR_KEY))
+    if (typeof window === 'undefined') {
+      return
     }
+
+    setConnectorName(window.localStorage.getItem(ACTIVE_CONNECTOR_KEY))
   }, [])
 
   const wallet = wallets.find((x) => { return x.connectorName === connectorName })
@@ -45,10 +47,7 @@ export const AccountDetailsModal = ({
       overlayClass='backdrop-blur-md'
     >
       <ModalWrapper className='max-w-lg transition-all bg-F6F7F9'>
-        <Dialog.Title
-          as='h3'
-          className='font-bold leading-9 text-black text-display-sm'
-        >
+        <Dialog.Title className='font-bold leading-9 text-black text-display-sm'>
           <Trans>Account</Trans>
         </Dialog.Title>
 
