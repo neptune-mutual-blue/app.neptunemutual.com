@@ -63,7 +63,7 @@ const getNavigationLinks = (pathname, i18n) => {
       href: Routes.Bridge,
       activeWhenStartsWith: '/bridge'
     },
-    {
+    (policyEnabled || liquidityEnabled) && {
       name: t(i18n)`My Account`,
       items: [
         policyEnabled && {
