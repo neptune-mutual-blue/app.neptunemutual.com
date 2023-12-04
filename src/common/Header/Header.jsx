@@ -428,6 +428,10 @@ export const MenuModal = ({
 }
 
 const DropdownLinks = ({ name, isActive, items = [] }) => {
+  const validItems = items.filter(item => { return item.active })
+
+  if (validItems.length === 0) { return <></> }
+
   return (
     <Menu as='div' className='relative'>
       {

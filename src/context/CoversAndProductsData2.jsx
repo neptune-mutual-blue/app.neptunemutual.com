@@ -55,8 +55,8 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
 
-  const stablecoinDecimals = ChainConfig[networkId].stablecoin.tokenDecimals
-  const npmDecimals = ChainConfig[networkId].npm.tokenDecimals
+  const stablecoinDecimals = ChainConfig[networkId]?.stablecoin.tokenDecimals ?? 6
+  const npmDecimals = ChainConfig[networkId]?.npm.tokenDecimals ?? 18
 
   const updateData = useCallback(async function () {
     try {
