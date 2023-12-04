@@ -32,7 +32,6 @@ export const TokenAmountInput = ({
       )}
 
       <InputWithTrailingButton
-        decimalLimit={tokenDecimals}
         error={error}
         buttonProps={{
           children: t`Max`,
@@ -48,6 +47,7 @@ export const TokenAmountInput = ({
           value: inputValue,
           onChange: onChange,
           allowNegativeValue: false,
+          decimalsLimit: tokenDecimals,
           ...rest
         }}
       />

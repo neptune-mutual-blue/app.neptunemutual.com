@@ -73,7 +73,6 @@ const PurchaseAmountStep = ({
         <Trans>Don&apos;t worry, you&apos;re not required to make a purchase just yet.</Trans>
       </p>
       <InputWithTrailingButton
-        decimalLimit={liquidityTokenDecimals}
         error={!!error}
         buttonProps={{
           children: t`Max`,
@@ -90,6 +89,7 @@ const PurchaseAmountStep = ({
           value: value,
           onChange: handleChange,
           allowNegativeValue: false,
+          decimalsLimit: liquidityTokenDecimals,
           'data-testid': 'input-field'
         }}
       />

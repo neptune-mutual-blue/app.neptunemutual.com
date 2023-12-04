@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useRef,
   useState
@@ -13,12 +14,11 @@ import { getPlainNumber } from '@/utils/formatter/input'
 /**
  *
  * @param {object} param
- * @param {React.ComponentProps<'input'> & { allowNegativeValue: boolean }} param.inputProps
+ * @param {React.ComponentProps<'input'> & { allowNegativeValue?: boolean, decimalsLimit?: number }} param.inputProps
  * @param {React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement> & { buttonClassName?: string }} param.buttonProps
  * @param {string} param.unit
  * @param {string} [param.unitClass]
  * @param {boolean} [param.error]
- * @param {number} param.decimalLimit
  * @returns
  */
 export const InputWithTrailingButton = ({
@@ -26,29 +26,29 @@ export const InputWithTrailingButton = ({
   unit,
   unitClass = '',
   buttonProps: { buttonClassName, ...buttonProps },
-  error,
-  decimalLimit
+  error
 }) => {
   const ref = useRef(null)
   const [width, setWidth] = useState()
+  // state for storing the value of `CurrencyInput` since only plain number is stored in `inputProps.value`
   const [inputValue, setInputValue] = useState(inputProps.value ?? '')
   const { locale } = useRouter()
 
-  const getSize = () => {
+  // callback function to get width of the unit & max button, and update `width` state
+  const getSize = useCallback(() => {
     const newWidth = ref?.current?.clientWidth
     setWidth(newWidth)
-  }
+  }, [ref])
 
   useEffect(() => {
     getSize()
-  }, [unit, buttonProps.children])
+  }, [unit, buttonProps.children, getSize])
 
-  // Update 'width' when the window resizes
   useEffect(() => {
     window.addEventListener('resize', getSize)
 
     return () => { return window.removeEventListener('resize', getSize) }
-  }, [])
+  }, [getSize])
 
   useEffect(() => {
     if (inputProps.value === '') {
@@ -57,7 +57,8 @@ export const InputWithTrailingButton = ({
       return
     }
 
-    if (typeof inputProps.value === 'string' && inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/)) {
+    // only update `inputValue` if `inputProps.value` prop is a valid numeric string i.e `43` or `546.43`
+    if (typeof inputProps.value === 'string' && inputProps.value.match(/^\d+(\.\d+)?$/)) {
       setInputValue(inputProps.value)
     }
   }, [inputProps.value])
@@ -70,12 +71,16 @@ export const InputWithTrailingButton = ({
       locale: locale
     },
     autoComplete: 'off',
-    decimalsLimit: typeof decimalLimit === 'number' ? decimalLimit : 25,
     ...inputProps,
+    decimalsLimit: inputProps.decimalsLimit || 25,
     onChange: null,
     value: inputValue,
+    // change handler function passed as prop to the `CurrencyInput` component
     onValueChange: (val) => {
+      // get plain number from formatted numbers i.e 5,200.43 --> 5200.43
       const plainNumber = getPlainNumber(val ?? '', locale)
+
+      // pass plain number to `inputProps`'s `onChange` handler if it doesn't end in a dot(`.`)
       if (!plainNumber.match(/^\d+\.$/)) {
         inputProps.onChange(plainNumber)
       }

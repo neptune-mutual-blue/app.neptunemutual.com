@@ -213,7 +213,6 @@ const PurchasePolicyStep = ({
         <p className='mt-8 mb-4 text-lg font-semibold uppercase'>Amount you wish to cover</p>
         <div className={classNames(!editForm && 'opacity-40')}>
           <InputWithTrailingButton
-            decimalLimit={liquidityTokenDecimals}
             error={!!error}
             buttonProps={{
               children: t`Max`,
@@ -229,7 +228,8 @@ const PurchasePolicyStep = ({
               placeholder: t`Enter Amount`,
               value: value,
               onChange: handleChange,
-              allowNegativeValue: false
+              allowNegativeValue: false,
+              decimalsLimit: liquidityTokenDecimals
             }}
           />
         </div>
