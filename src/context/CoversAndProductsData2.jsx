@@ -62,6 +62,8 @@ export const CoversAndProductsProvider2 = ({ children }) => {
     try {
       const _data = account ? await getProductSummaryWithAccount(networkId, account) : await getProductSummary(networkId)
 
+      if (!_data) { return }
+
       setData(_data
         .filter(x => {
           return x.chainId.toString() === networkId.toString()
