@@ -47,6 +47,8 @@ export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`
 
 export const BRIDGE_NPM_PRICING_URL = `${API_BASE_URL}bridge/pricing/npm`
 
+export const BRIDGE_MATIC_PRICING_URL = `${API_BASE_URL}bridge/pricing/matic`
+
 export const BRIDGE_BNB_PRICING_URL = `${API_BASE_URL}bridge/pricing/bnb`
 
 // POST: policy
