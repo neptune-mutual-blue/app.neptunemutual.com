@@ -1,11 +1,14 @@
+import { useEffect } from 'react'
+
 import { RegularButton } from '@/common/Button/RegularButton'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { useStakingPoolWithdrawRewards } from '@/src/hooks/useStakingPoolWithdraw'
+import {
+  useStakingPoolWithdrawRewards
+} from '@/src/hooks/useStakingPoolWithdraw'
 import { convertFromUnits } from '@/utils/bn'
-import { t, Trans } from '@lingui/macro'
-import { useEffect } from 'react'
+import { Trans } from '@lingui/macro'
 
 export const HarvestForm = ({
   info,
@@ -25,7 +28,6 @@ export const HarvestForm = ({
   const { handleWithdrawRewards, withdrawingRewards } =
     useStakingPoolWithdrawRewards({
       poolKey,
-      poolInfo: info,
       refetchInfo,
       rewardTokenSymbol,
       rewardAmount: convertFromUnits(rewardAmount, rewardTokenDecimals).toString()
@@ -80,7 +82,7 @@ export const HarvestForm = ({
           })
         }}
       >
-        {withdrawingRewards ? t`Collecting...` : t`Collect`}
+        {withdrawingRewards ? <Trans>Collecting...</Trans> : <Trans>Collect</Trans>}
       </RegularButton>
     </div>
   )

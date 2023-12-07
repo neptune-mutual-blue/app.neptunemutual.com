@@ -1,21 +1,45 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "target": "es2016",
     "jsx": "preserve",
     "resolveJsonModule": true,
     "checkJs": true,
     "baseUrl": ".",
     "paths": {
-      "@/lib/*": ["lib/*"],
-      "@/locales/*": ["locales/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/icons/*": ["src/icons/*"],
-      "@/common/*": ["src/common/*"],
-      "@/modules/*": ["src/modules/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/src/*": ["src/*"]
+      "@/lib/*": [
+        "lib/*"
+      ],
+      "@/locales/*": [
+        "locales/*"
+      ],
+      "@/utils/*": [
+        "src/utils/*"
+      ],
+      "@/icons/*": [
+        "src/icons/*"
+      ],
+      "@/common/*": [
+        "src/common/*"
+      ],
+      "@/modules/*": [
+        "src/modules/*"
+      ],
+      "@/pages/*": [
+        "src/pages/*"
+      ],
+      "@/src/*": [
+        "src/*"
+      ]
     }
   },
-  "exclude": ["node_modules", "**/node_modules/*", "out"]
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*",
+    "out"
+  ]
 }

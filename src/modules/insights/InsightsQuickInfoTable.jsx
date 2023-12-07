@@ -30,6 +30,7 @@ import {
   sorter
 } from '@/utils/sorting'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const RenderProductName = ({ coverKey, productKey, data }) => {
   const isDiversified = isValidProduct(productKey)
@@ -63,7 +64,7 @@ const RenderUtilizationRatio = ({ ratio, locale }) => {
       className='px-6 py-2.5 text-sm leading-5 text-01052D'
     >
       <div
-        className='inline-block px-2 py-2 text-sm text-21AD8C bg-EAF7F8 rounded-lg'
+        className='inline-block px-2 py-2 text-sm rounded-lg text-21AD8C bg-EAF7F8'
         title={formatPercent(ratio, locale)}
       >
         {formatPercent(ratio, locale)}
@@ -96,26 +97,31 @@ const RenderCapacity = ({ capacity, locale, liquidityTokenDecimals }) => {
   )
 }
 
-const columns = [
-  {
-    name: t`Cover`,
-    align: 'left',
-    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row) => { return <RenderProductName data={row} productKey={row.productKey} coverKey={row.coverKey} /> }
-  },
-  {
-    name: t`Utilization Ratio`,
-    align: 'left',
-    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row, { locale }) => { return <RenderUtilizationRatio ratio={row.utilizationRatio} locale={locale} /> }
-  },
-  {
-    name: t`Capacity`,
-    align: 'right',
-    renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-    renderData: (row, { locale, liquidityTokenDecimals }) => { return <RenderCapacity capacity={row.capacity} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} /> }
-  }
-]
+const getColumns = (i18n) => {
+  return [
+    {
+      id: 'cover',
+      name: t(i18n)`Cover`,
+      align: 'left',
+      renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+      renderData: (row) => { return <RenderProductName data={row} productKey={row.productKey} coverKey={row.coverKey} /> }
+    },
+    {
+      id: 'utilization ratio',
+      name: t(i18n)`Utilization Ratio`,
+      align: 'left',
+      renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+      renderData: (row, { locale }) => { return <RenderUtilizationRatio ratio={row.utilizationRatio} locale={locale} /> }
+    },
+    {
+      id: 'capacity',
+      name: t(i18n)`Capacity`,
+      align: 'right',
+      renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
+      renderData: (row, { locale, liquidityTokenDecimals }) => { return <RenderCapacity capacity={row.capacity} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} /> }
+    }
+  ]
+}
 
 const ROWS_PER_PAGE = 3
 
@@ -147,6 +153,10 @@ export const InsightsQuickInfoTable = () => {
   const { liquidityTokenDecimals } = useAppConstants()
 
   const paginatedData = topCovers.slice((page - 1) * ROWS_PER_PAGE, (page - 1) * ROWS_PER_PAGE + ROWS_PER_PAGE)
+
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n)
 
   return (
     <div>

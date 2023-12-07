@@ -1,21 +1,9 @@
 {
-  "extends": [
-    "standard",
-    "standard-jsx",
-    "next/core-web-vitals"
-  ],
-  "plugins": [
-    "unused-imports"
-  ],
+  "extends": ["standard", "standard-jsx", "next/core-web-vitals"],
+  "plugins": ["unused-imports", "lingui"],
   "rules": {
-    "arrow-body-style": [
-      "error",
-      "always"
-    ],
-    "curly": [
-      "error",
-      "all"
-    ],
+    "arrow-body-style": ["error", "always"],
+    "curly": ["error", "all"],
     "padding-line-between-statements": [
       "error",
       {
@@ -31,6 +19,11 @@
     ],
     "@next/next/no-img-element": 0,
     "unused-imports/no-unused-imports": "error",
+    "lingui/t-call-in-function": 2,
+    "lingui/no-single-variables-to-translate": 2,
+    "lingui/no-expression-in-message": 2,
+    "lingui/no-single-tag-to-translate": 2,
+    "lingui/no-trans-inside-trans": 2,
     "unused-imports/no-unused-vars": [
       "warn",
       {

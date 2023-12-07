@@ -1,26 +1,17 @@
 import { useState } from 'react'
 
-import { useRouter } from 'next/router'
-
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { getActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import {
-  convertFromUnits,
-  convertToUnits
-} from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
+import { convertToUnits } from '@/utils/bn'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
@@ -28,7 +19,6 @@ import { useWeb3React } from '@web3-react/core'
 export const useStakingPoolWithdraw = ({
   value,
   poolKey,
-  poolInfo,
   tokenSymbol,
   refetchInfo
 }) => {
@@ -36,14 +26,10 @@ export const useStakingPoolWithdraw = ({
 
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
-  const router = useRouter()
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
-
-  const stakingTokenDecimals = useTokenDecimals(poolInfo?.stakingToken)
-  const stakingTokenSymbol = useTokenSymbol(poolInfo?.stakingToken)
 
   const handleWithdraw = async (onTxSuccess) => {
     if (!account || !networkId) {
@@ -69,32 +55,13 @@ export const useStakingPoolWithdraw = ({
       )
 
       const onTransactionResult = async (tx) => {
-        const logData = {
-          network: NetworkNames[networkId],
-          networkId,
-          sales: 'N/A',
-          salesCurrency: 'N/A',
-          salesFormatted: 'N/A',
-          account,
-          tx: tx.hash,
-          poolKey,
-          poolName: poolInfo.name,
-          withdrawal: value,
-          withdrawalCurrency: tokenSymbol,
-          withdrawalFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
-          stake: convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(),
-          stakeCurrency: stakingTokenSymbol,
-          stakeFormatted: formatCurrency(convertFromUnits(poolInfo?.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
-        }
-
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.UNSTAKING_DEPOSIT,
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol,
-            logData
+            tokenSymbol
           }
         })
 

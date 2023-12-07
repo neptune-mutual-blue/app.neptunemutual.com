@@ -9,6 +9,7 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
+import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
@@ -26,9 +27,9 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
-import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
 
 const WhenRenderer = ({ row }) => {
   const router = useRouter()
@@ -51,27 +52,31 @@ const renderAmount = (row) => { return <PoolAmountRenderer row={row} /> }
 
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => {
+export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: t`when`,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'createdAtTimestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: t`details`,
+      id: 'details',
+      name: t(i18n)`details`,
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
-      name: t`amount`,
+      id: 'amount',
+      name: t(i18n)`amount`,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
+      id: 'actions',
       name: '',
       align: 'right',
       renderHeader,
@@ -91,7 +96,9 @@ export const MyStakingTxsTable = () => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
-  const columns = getColumns(sorts, handleSort)
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n, sorts, handleSort)
 
   return (
     <>

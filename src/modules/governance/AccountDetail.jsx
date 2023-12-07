@@ -16,10 +16,7 @@ import {
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 export const AccountDetail = ({ title, selectedChain, distribution, amountToDeposit }) => {
@@ -50,9 +47,9 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = <Trans>Fetching balance...</Trans>
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = <Trans>Fetching allowance...</Trans>
   }
 
   return (
@@ -121,7 +118,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
           >
             {approving
               ? (
-                  t`Approving...`
+                <Trans>Approving...</Trans>
                 )
               : <Trans>Approve {depositTokenSymbol}</Trans>}
           </RegularButton>
@@ -135,7 +132,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
           >
             {isSettingGauge
               ? (
-                  t`Setting Gauge...`
+                <Trans>Setting Gauge...</Trans>
                 )
               : <Trans>Set Gauge On {ShortNetworkNames[selectedChain]}</Trans>}
 

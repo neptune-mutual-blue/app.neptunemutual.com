@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -19,8 +21,11 @@ import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -36,27 +41,31 @@ const renderAmount = (row) => { return <AmountRenderer row={row} /> }
 
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => {
+export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: t`when`,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: t`Account`,
+      id: 'Account',
+      name: t(i18n)`Account`,
       align: 'left',
       renderHeader,
       renderData: renderAccount
     },
     {
-      name: t`Weight`,
+      id: 'Weight',
+      name: t(i18n)`Weight`,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
+      id: 'actions',
       name: '',
       align: 'right',
       renderHeader,
@@ -80,7 +89,9 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
-  const columns = getColumns(sorts, handleSort)
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n, sorts, handleSort)
 
   return (
     <>

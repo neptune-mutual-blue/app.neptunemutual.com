@@ -19,7 +19,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { classNames } from '@/utils/classnames'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { t } from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 export function TransactionList ({
@@ -136,7 +136,7 @@ export function TransactionList ({
         </div>
         <div className={`grow text-center pt-10 md:pt-6 -ml-8 md:ml-0 ${page >= maxPage ? 'hidden' : ''}`}>
           <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
-            {t`View More`}
+            <Trans>View More</Trans>
           </a>
         </div>
       </div>
@@ -178,8 +178,8 @@ function NotificationsList ({ data, activeTab }) {
     <div className='block p-4 text-center whitespace-nowrap'>
       {
         activeTab === 'unread'
-          ? t`No unread notifications`
-          : t`No transaction history to show`
+          ? <Trans>No unread notifications</Trans>
+          : <Trans>No transaction history to show</Trans>
         }
     </div>
   )
@@ -233,7 +233,7 @@ function Notification ({
         rel='noreferrer'
         onClick={handleLinkClick}
       >
-        {t`View Tx`} &gt;
+        <Trans>View Tx</Trans> &gt;
       </a>
 
       {!read && (

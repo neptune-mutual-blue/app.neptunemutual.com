@@ -36,6 +36,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 export const CalculatorCard = () => {
@@ -73,16 +74,19 @@ export const CalculatorCard = () => {
     let error = ''
 
     if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
+      const maxProposalThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
       error = t`Maximum proposal threshold is ${
-        formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+        maxProposalThreshold
       }`
     } else if (isGreater(availableLiquidity, 0) && isGreaterOrEqual(val, availableLiquidity)) {
+      const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
       error = t`Maximum protection available is ${
-        formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
+        maxProtection
       }`
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
+      const minProposal = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
       error = t`Minimum proposal threshold is ${
-        formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+        minProposal
       }`
     }
 
@@ -115,6 +119,8 @@ export const CalculatorCard = () => {
 
   const buttonClass = 'block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-opacity-100 bg-primary'
 
+  useLingui()
+
   return (
     <>
       <div className='pb-4 lg:pb-6'>
@@ -134,7 +140,6 @@ export const CalculatorCard = () => {
         <InputLabel label='Amount you wish to cover' />
         <CalculatorAmountHandler
           error={error}
-          value={amount}
           buttonProps={{
             children: t`Max`,
             onClick: () => {},

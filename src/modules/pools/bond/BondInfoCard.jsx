@@ -16,6 +16,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const BondInfoCard = ({
@@ -36,16 +37,18 @@ export const BondInfoCard = ({
     setIsOpen(false)
   }
 
+  const { i18n } = useLingui()
+
   return (
     <OutlinedCard className='p-10 bg-DEEAF6'>
       <div className='flex items-start justify-between'>
         <div>
           <img
             src='/images/tokens/npm.svg'
-            alt={t`NPM Logo`}
+            alt={t(i18n)`NPM Logo`}
             className='w-10 h-10'
           />
-          <h3 className='flex items-center mt-1 font-semibold text-lg'>
+          <h3 className='flex items-center mt-1 text-lg font-semibold'>
             <div>
               <Trans>Bond Info</Trans>
             </div>
@@ -90,7 +93,7 @@ export const BondInfoCard = ({
           <ClaimBondModal
             isOpen={isOpen}
             onClose={onClose}
-            modalTitle={t`Claim Bond`}
+            modalTitle={t(i18n)`Claim Bond`}
             unlockDate={info.unlockDate}
             claimable={info.claimable}
             refetchBondInfo={refetchBondInfo}
@@ -111,8 +114,8 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
           <h3 className='font-bold text-EEEEEE'>What is Bond?</h3>
           <p className='mt-2 text-AABDCB'>
             <Trans>
-              {`The bond feature provides you NPM tokens at a discounted value for
-              a vesting period of ${vestingPeriodInterval}.`}
+              The bond feature provides you NPM tokens at a discounted value for
+              a vesting period of {vestingPeriodInterval}.
             </Trans>
           </p>
         </div>

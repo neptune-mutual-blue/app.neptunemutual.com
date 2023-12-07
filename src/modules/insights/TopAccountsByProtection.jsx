@@ -11,6 +11,7 @@ import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const renderAccount = (row, { page }, rowIndex) => {
   const trueRowIndex = (rowIndex + 1) + ((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE)
@@ -66,31 +67,39 @@ const renderProtection = (row, { locale }) => {
   )
 }
 
-const columns = [
-  {
-    name: t`account`,
-    align: 'left',
-    renderHeader,
-    renderData: renderAccount
-  },
-  {
-    name: t`policies`,
-    align: 'right',
-    renderHeader,
-    renderData: renderPolicies
-  },
-  {
-    name: t`protection`,
-    align: 'right',
-    renderHeader,
-    renderData: renderProtection
-  }
-]
+const getColumns = (i18n) => {
+  return [
+    {
+      id: 'account',
+      name: t(i18n)`account`,
+      align: 'left',
+      renderHeader,
+      renderData: renderAccount
+    },
+    {
+      id: 'policies',
+      name: t(i18n)`policies`,
+      align: 'right',
+      renderHeader,
+      renderData: renderPolicies
+    },
+    {
+      id: 'protection',
+      name: t(i18n)`protection`,
+      align: 'right',
+      renderHeader,
+      renderData: renderProtection
+    }
+  ]
+}
 
 export const TopAccountsByProtection = ({ userData = [], page = 1, loading }) => {
   const { locale } = useRouter()
 
   const paginatedData = userData.slice((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE, (page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE + TOP_ACCOUNTS_ROWS_PER_PAGE)
+
+  const { i18n } = useLingui()
+  const columns = getColumns(i18n)
 
   return (
     <TableWrapper className='mt-0'>

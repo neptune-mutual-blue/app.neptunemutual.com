@@ -7,10 +7,7 @@ import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { MyBondTxsTable } from '@/src/modules/pools/bond/MyBondTxsTable'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -34,14 +31,14 @@ export default function MyBondTxs ({ disabled }) {
         <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: t`Pool`, href: Routes.Pools(), current: false },
+              { name: <Trans>Pool</Trans>, href: Routes.Pools(), current: false },
               {
-                name: t`Bond`,
+                name: <Trans>Bond</Trans>,
                 href: Routes.BondPool,
                 current: false
               },
               {
-                name: t`Transaction List`,
+                name: <Trans>Transaction List</Trans>,
                 href: Routes.BondPoolTransactions,
                 current: true
               }

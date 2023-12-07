@@ -46,18 +46,18 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
 
   return (
     <div>
-      <Link href={Routes.Home} replace>
-        <a className='block w-max'>
-          <picture>
-            <img
-              loading='lazy'
-              alt={t`Neptune Mutual`}
-              srcSet='/logos/neptune-mutual-full-beta.svg'
-              className='w-full text-black h-9'
-              data-testid='header-logo'
-            />
-          </picture>
-        </a>
+      <Link href={Routes.Home} replace className='block w-max'>
+
+        <picture>
+          <img
+            loading='lazy'
+            alt={t`Neptune Mutual`}
+            srcSet='/logos/neptune-mutual-full-beta.svg'
+            className='w-full text-black h-9'
+            data-testid='header-logo'
+          />
+        </picture>
+
       </Link>
 
       <Divider className='border !border-black' />

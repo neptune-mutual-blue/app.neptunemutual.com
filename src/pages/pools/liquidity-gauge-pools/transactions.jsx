@@ -9,10 +9,7 @@ import {
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -36,14 +33,14 @@ export default function MyLiquidityGaugePoolsTxs ({ disabled }) {
         <Container className='px-2 py-20'>
           <BreadCrumbs
             pages={[
-              { name: t`Pool`, href: Routes.Pools(), current: false },
+              { name: <Trans>Pool</Trans>, href: Routes.Pools(), current: false },
               {
-                name: t`Liquidity Gauge Pools`,
+                name: <Trans>Liquidity Gauge Pools</Trans>,
                 href: Routes.LiquidityGaugePools,
                 current: false
               },
               {
-                name: t`Transaction List`,
+                name: <Trans>Transaction List</Trans>,
                 href: Routes.LiquidityGaugePoolsTransactions,
                 current: true
               }

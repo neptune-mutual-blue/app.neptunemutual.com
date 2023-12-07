@@ -30,6 +30,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -44,11 +45,6 @@ const sorterData = {
     datatype: SORT_DATA_TYPES.STRING
   }
 }
-
-const options = [
-  { name: t`TVL`, value: SORT_TYPES.TVL },
-  { name: t`Emissions`, value: SORT_TYPES.EMISSIONS }
-]
 
 export const LiquidityGaugePoolsPage = () => {
   const [sortType, setSortType] = useState({
@@ -84,14 +80,24 @@ export const LiquidityGaugePoolsPage = () => {
     [filtered, sortType.value]
   )
 
+  const { i18n } = useLingui()
+
+  const options = [
+    { name: t(i18n)`TVL`, value: SORT_TYPES.TVL },
+    { name: t(i18n)`Emissions`, value: SORT_TYPES.EMISSIONS }
+  ]
+
   return (
     <Container className='pt-7 md:pt-16 pb-36' data-testid='liquidity-gauge-pools-page-container'>
       <div className='flex justify-end mb-7 md:mb-14'>
         <div className='items-start justify-between w-full md:items-center sm:flex'>
-          <Link href={Routes.LiquidityGaugePoolsTransactions}>
-            <a className='flex justify-start mb-6 text-lg font-medium md:mb-0 md:justify-center sm:inline-flex text-4E7DD9 hover:underline'>
-              <Trans>Transaction List</Trans>
-            </a>
+          <Link
+            href={Routes.LiquidityGaugePoolsTransactions}
+            className='flex justify-start mb-6 text-lg font-medium md:mb-0 md:justify-center sm:inline-flex text-4E7DD9 hover:underline'
+          >
+
+            <Trans>Transaction List</Trans>
+
           </Link>
           <SearchAndSortBar
             searchValue={searchValue}

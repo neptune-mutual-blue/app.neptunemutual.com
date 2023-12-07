@@ -9,6 +9,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const PoliciesEmptyState = () => {
   const router = useRouter()
@@ -30,6 +31,8 @@ export const PoliciesEmptyState = () => {
       )
     )
   }
+
+  useLingui()
 
   return (
     <div>

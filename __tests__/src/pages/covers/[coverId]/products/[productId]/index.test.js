@@ -3,11 +3,13 @@ import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { testData } from '@/utils/unit-tests/test-data'
 import { screen } from '@testing-library/react'
 
-jest.mock('@/src/modules/cover/CoverOptionsPage', () => ({
-  CoverOptionsPage: () => {
-    return <div data-testid='cover-options-page' />
+jest.mock('@/src/modules/cover/CoverOptionsPage', () => {
+  return {
+    CoverOptionsPage: () => {
+      return <div data-testid='cover-options-page' />
+    }
   }
-}))
+})
 
 describe('Options test', () => {
   const OLD_ENV = process.env
@@ -18,7 +20,7 @@ describe('Options test', () => {
       require('@/src/pages/covers/[coverId]/products/[productId]').default
     const { initialRender } = initiateTest(Index, {}, () => {
       mockHooksOrMethods.useRouter()
-      mockHooksOrMethods.useCoversAndProducts2(() => ({ ...testData.coversAndProducts2, getProduct: (...args) => (true), loading: false }))
+      mockHooksOrMethods.useCoversAndProducts2(() => { return { ...testData.coversAndProducts2, getProduct: () => { return (true) }, loading: false } })
     })
     initialRender()
   })

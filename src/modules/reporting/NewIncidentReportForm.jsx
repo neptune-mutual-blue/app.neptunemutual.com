@@ -26,10 +26,12 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake }) {
   const max = DateLib.toDateTimeLocal()
 
+  /** @type {React.MutableRefObject<HTMLFormElement | null>} */
   const form = useRef()
 
   const [value, setValue] = useState('')
@@ -111,6 +113,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
 
     if (canReport) {
       // process form and submit report
+      if (!(form.current instanceof HTMLFormElement)) { return }
 
       const { current } = form
 
@@ -124,7 +127,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
       )
 
       const payload = {
-        title: current?.title?.value,
+        title: current?.incident_title?.value,
         observed: DateLib.toUnix(new Date(current?.incident_date?.value)),
         proofOfIncident: urlReports,
         description: current?.description?.value,
@@ -137,6 +140,8 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
       handleApprove()
     }
   }
+
+  useLingui()
 
   return (
     <Container className='pt-12 pb-24 bg-white max-w-none md:bg-transparent'>
@@ -154,10 +159,10 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         <div className='flex flex-col md:flex-row'>
           <InputField
             className='lg:flex-grow md:mr-12'
-            label={t`Title`}
+            label={<Trans>Title</Trans>}
             inputProps={{
               id: 'incident_title',
-              name: 'title',
+              name: 'incident_title',
               placeholder: t`Enter Incident Title`,
               required: canReport,
               disabled: approving || reporting,
@@ -168,7 +173,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
 
           <InputField
             className='mb-6 lg:flex-shrink'
-            label={t`Observed Date & Time`}
+            label={<Trans>Observed Date & Time</Trans>}
             inputProps={{
               max: max,
               id: 'incident_date',
@@ -193,7 +198,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         <div className='relative'>
           <InputDescription
             className='mt-12'
-            label={t`Description`}
+            label={<Trans>Description</Trans>}
             inputProps={{
               id: 'description',
               name: 'description',
@@ -212,7 +217,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
           <TokenAmountInput
             inputId='stake-amount'
             inputValue={value}
-            labelText={t`Enter your stake`}
+            labelText={<Trans>Enter your stake</Trans>}
             tokenBalance={balance}
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}

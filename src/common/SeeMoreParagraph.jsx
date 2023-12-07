@@ -1,6 +1,10 @@
+import React, {
+  useEffect,
+  useState
+} from 'react'
+
 import { classNames } from '@/utils/classnames'
-import React, { useEffect, useState } from 'react'
-import { t } from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 export const SeeMoreParagraph = ({ text = '' }) => {
   const [showFullText, setShowFullText] = useState(false)
@@ -27,7 +31,7 @@ export const SeeMoreParagraph = ({ text = '' }) => {
             className='mt-4 ml-4 underline capitalize cursor-pointer w-fit opacity-40 hover:no-underline'
             data-testid='button'
           >
-            {showFullText ? t`See less` : t`See more`}
+            {showFullText ? <Trans>See less</Trans> : <Trans>See more</Trans>}
           </span>
         )}
       </p>

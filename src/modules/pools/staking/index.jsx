@@ -9,6 +9,7 @@ import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { TableShowMore } from '@/common/Table/Table'
 import { StakingCard } from '@/modules/pools/staking/StakingCard'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
@@ -26,7 +27,6 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-import { TableShowMore } from '@/common/Table/Table'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -90,10 +90,13 @@ export const StakingPage = () => {
     <Container className='pt-16 pb-36' data-testid='pod-staking-page-container'>
       <div className='flex justify-end'>
         <div className='items-center justify-between w-full sm:flex'>
-          <Link href={Routes.StakingPoolsTransactions}>
-            <a className='flex justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'>
-              <Trans>Transaction List</Trans>
-            </a>
+          <Link
+            href={Routes.StakingPoolsTransactions}
+            className='flex justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'
+          >
+
+            <Trans>Transaction List</Trans>
+
           </Link>
           <SearchAndSortBar
             searchValue={searchValue}
@@ -103,7 +106,7 @@ export const StakingPage = () => {
             sortClass='w-full md:w-48 lg:w-64 rounded-lg'
             containerClass='flex-col md:flex-row min-w-fit md:min-w-sm'
             searchClass='w-full md:w-64 rounded-lg'
-            searchAndSortOptions={options}
+            optionsProp={options}
             sortType={sortType}
             setSortType={setSortType}
           />

@@ -1,29 +1,19 @@
+const nextConfigFactory = require('./next.config')
+
+const nextConfig = nextConfigFactory()
+
 module.exports = {
-  locales: [
-    'en',
-    // "es",
-    'fr',
-    'ja',
-    'zh'
-    // "de",
-    // "id",
-    // "it",
-    // "ko",
-    // "ru",
-    // "el",
-    // "tr",
-    // "vi",
-  ],
+  locales: nextConfig.i18n.locales,
   catalogs: [
     {
       path: '<rootDir>/locales/{locale}/messages',
       include: ['<rootDir>/src', '<rootDir>/lib']
     }
   ],
+  sourceLocale: nextConfig.i18n.defaultLocale,
   fallbackLocales: {
-    default: 'en'
+    default: nextConfig.i18n.defaultLocale
   },
-  sourceLocale: 'en',
   format: 'po',
   formatOptions: { origins: true, lineNumbers: true }
 }

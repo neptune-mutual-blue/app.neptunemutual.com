@@ -17,10 +17,7 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 const UnlockEscrow = ({
   onBack,
@@ -62,7 +59,7 @@ const UnlockEscrow = ({
 
   let loadingMessage = ''
   if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = <Trans>Fetching allowance...</Trans>
   }
 
   return (
@@ -101,7 +98,7 @@ const UnlockEscrow = ({
             >
               {
                 approving
-                  ? t`Approving...`
+                  ? <Trans>Approving...</Trans>
                   : <Trans>Approve VeNPM</Trans>
               }
             </RegularButton>

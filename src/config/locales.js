@@ -1,19 +1,3 @@
-import {
-  en,
-  es,
-  fr,
-  ja,
-  zh,
-  de,
-  id,
-  it,
-  ko,
-  ru,
-  el,
-  tr,
-  vi
-} from 'make-plural/plurals'
-
 export const DEFAULT_LOCALE = 'en'
 
 export const languageKey = {
@@ -46,22 +30,6 @@ export const localesKey = {
   // "Turkish - Türkçe": "tr",
   // "Greek - Ελληνικά": "el",
   // "Vietnamese - Tiếng Việt": "vi",
-}
-
-export const plurals = {
-  en: en,
-  es: es,
-  fr: fr,
-  ja: ja,
-  zh: zh,
-  de: de,
-  id: id,
-  it: it,
-  ko: ko,
-  ru: ru,
-  el: el,
-  tr: tr,
-  vi: vi
 }
 
 export const SUPPORTED_LOCALES = Object.keys(languageKey)

@@ -38,6 +38,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 const BondPage = () => {
@@ -178,6 +179,8 @@ const BondPage = () => {
     setValue(convertFromUnits(balance, lpTokenDecimals).toString())
   }
 
+  useLingui()
+
   const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || '0').toString()
   let loadingMessage = ''
   if (receiveAmountLoading) {
@@ -194,7 +197,7 @@ const BondPage = () => {
     >
       <div className='max-w-lg col-span-2'>
         <TokenAmountInput
-          labelText={t`Enter your amount`}
+          labelText={<Trans>Enter your amount</Trans>}
           inputValue={value}
           tokenBalance={balance}
           tokenSymbol={lpTokenSymbol}
@@ -209,7 +212,7 @@ const BondPage = () => {
         {error && <p className='px-3 text-FA5C2F'>{error}</p>}
         <div className='mt-16 receive'>
           <ReceiveAmountInput
-            labelText={t`You will receive`}
+            labelText={<Trans>You will receive</Trans>}
             tokenSymbol={NPMTokenSymbol}
             inputValue={convertFromUnits(receiveAmount).toString()}
             data-testid='receive-amount-input'
@@ -288,10 +291,13 @@ const BondPage = () => {
             <Trans>Get LP tokens</Trans>
           </a>
 
-          <Link href={Routes.BondTransactions}>
-            <a className='inline-block text-lg font-medium text-4E7DD9 hover:underline'>
-              <Trans>Transaction List</Trans>
-            </a>
+          <Link
+            href={Routes.BondTransactions}
+            className='inline-block text-lg font-medium text-4E7DD9 hover:underline'
+          >
+
+            <Trans>Transaction List</Trans>
+
           </Link>
         </div>
         <BondInfoCard

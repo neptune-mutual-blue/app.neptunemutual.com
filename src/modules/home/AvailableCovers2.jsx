@@ -25,6 +25,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -44,31 +45,9 @@ const sorterData = {
   }
 }
 
-const viewOptions = [
-  { name: t`All`, value: SORT_TYPES.ALL },
-  { name: t`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
-  { name: t`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL }
-]
-const defaultViewOption = viewOptions[0]
-
 const ViewQueryParam = 'view'
 const SortQueryParam = 'sort'
 const SearchQueryParam = 'search'
-
-const sortOptions = DEFAULT_SORT_OPTIONS
-const defaultSortOption = DEFAULT_SORT_OPTIONS[2]
-
-const getSelectedSortOption = (query) => {
-  const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
-
-  return sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
-}
-
-const getSelectedViewOption = (query) => {
-  const selectedView = typeof query[ViewQueryParam] === 'string' ? query[ViewQueryParam] : defaultViewOption.value
-
-  return viewOptions.find((item) => { return item.value === selectedView }) || defaultViewOption
-}
 
 export const AvailableCovers = () => {
   const { query, replace } = useRouter()
@@ -80,6 +59,30 @@ export const AvailableCovers = () => {
     getCoverByCoverKey,
     getProduct
   } = useCoversAndProducts2()
+
+  const { i18n } = useLingui()
+
+  const viewOptions = [
+    { name: t(i18n)`All`, value: SORT_TYPES.ALL },
+    { name: t(i18n)`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
+    { name: t(i18n)`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL }
+  ]
+
+  const defaultViewOption = viewOptions[0]
+
+  const getSelectedViewOption = (query) => {
+    const selectedView = typeof query[ViewQueryParam] === 'string' ? query[ViewQueryParam] : defaultViewOption.value
+
+    return viewOptions.find((item) => { return item.value === selectedView }) || defaultViewOption
+  }
+  const sortOptions = DEFAULT_SORT_OPTIONS(i18n)
+  const defaultSortOption = sortOptions[2]
+
+  const getSelectedSortOption = (query) => {
+    const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
+
+    return sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
+  }
 
   const searchTerm = typeof query[SearchQueryParam] === 'string' ? query[SearchQueryParam] : ''
   const selectedSortOption = getSelectedSortOption(query)
@@ -167,11 +170,11 @@ export const AvailableCovers = () => {
         className='flex flex-wrap items-center justify-between'
       >
         <Link href='#cover-products'>
-          <a>
-            <h1 className='mb-3 font-bold xl:mb-0 text-display-xs lg:text-display-sm'>
-              <Trans>Cover Products</Trans>
-            </h1>
-          </a>
+
+          <h1 className='mb-3 font-bold xl:mb-0 text-display-xs lg:text-display-sm'>
+            <Trans>Cover Products</Trans>
+          </h1>
+
         </Link>
         <div className='flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto'>
           <SearchAndSortBar
@@ -188,7 +191,7 @@ export const AvailableCovers = () => {
 
           <div className='w-full md:w-auto md:ml-2'>
             <Select
-              prefix={t`View:` + ' '}
+              prefix={<><Trans>View:</Trans>{' '}</>}
               options={viewOptions}
               selected={selectedViewOption}
               setSelected={handleViewFilterChange}

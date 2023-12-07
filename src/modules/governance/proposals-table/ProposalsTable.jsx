@@ -1,47 +1,71 @@
-import { TBody, THead, Table, TableShowMore, TableWrapper } from '@/common/Table/Table'
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
+
 import { renderHeader } from '@/common/Table/renderHeader'
-import { ActionsRenderer, DetailsRenderer, ResultRenderer, TableRowsSkeleton, TagRenderer, TitleComponent, TypeRenderer, WhenRenderer } from '@/modules/governance/proposals-table/TableComponents'
+import {
+  Table,
+  TableShowMore,
+  TableWrapper,
+  TBody,
+  THead
+} from '@/common/Table/Table'
+import {
+  ActionsRenderer,
+  DetailsRenderer,
+  ResultRenderer,
+  TableRowsSkeleton,
+  TagRenderer,
+  TitleComponent,
+  TypeRenderer,
+  WhenRenderer
+} from '@/modules/governance/proposals-table/TableComponents'
 import { useNetwork } from '@/src/context/Network'
 import { useSnapshotProposals } from '@/src/hooks/useSnapshotProposals'
 import { classNames } from '@/utils/classnames'
 import { t } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useLingui } from '@lingui/react'
 
-export const getColumns = () => {
+export const getColumns = (i18n) => {
   return [
     {
-      name: t`when`,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader,
       renderData: (row, { locale }) => { return <WhenRenderer row={row} locale={locale} /> }
     },
     {
-      name: t``,
+      id: 'type',
+      name: '',
       align: 'center',
       renderHeader,
       renderData: (row) => { return <TypeRenderer row={row} /> }
     },
     {
-      name: t`details`,
+      id: 'details',
+      name: t(i18n)`details`,
       align: 'left',
       renderHeader,
       renderData: (row) => { return <DetailsRenderer row={row} /> }
     },
     {
-      name: t``,
+      id: 'tags',
+      name: '',
       align: 'center',
       renderHeader,
       renderData: (row) => { return <TagRenderer row={row} /> }
     },
     {
-      name: 'Result',
+      id: 'result',
+      name: t(i18n)`Result`,
       align: 'right',
       renderHeader,
       renderData: (row) => { return <ResultRenderer row={row} /> }
     },
     {
-      name: 'Actions',
+      id: 'actions',
+      name: t(i18n)`Actions`,
       align: 'right',
       renderHeader,
       renderData: (row, { networkId }) => { return <ActionsRenderer row={row} networkId={networkId} /> }
@@ -49,14 +73,16 @@ export const getColumns = () => {
   ]
 }
 
-const filterOptions = [
-  { name: t`All`, value: 'all' },
-  { name: t`Gauge Controller Emission (GCE)`, value: '[gce' },
-  { name: t`Neptune Improvement Proposal (NIP)`, value: '[nip' },
-  { name: t`Gauge Controller Listing (GCL)`, value: '[gcl' },
-  { name: t`Liquidity Rewards (LR)`, value: '[lr' },
-  { name: t`Grants`, value: '[grant' }
-]
+const getFilterOptions = (i18n) => {
+  return [
+    { name: t(i18n)`All`, value: 'all' },
+    { name: t(i18n)`Gauge Controller Emission (GCE)`, value: '[gce' },
+    { name: t(i18n)`Neptune Improvement Proposal (NIP)`, value: '[nip' },
+    { name: t(i18n)`Gauge Controller Listing (GCL)`, value: '[gcl' },
+    { name: t(i18n)`Liquidity Rewards (LR)`, value: '[lr' },
+    { name: t(i18n)`Grants`, value: '[grant' }
+  ]
+}
 
 const rowsPerPageOptions = [5, 10, 15, 30, 50, 100]
 
@@ -69,6 +95,10 @@ const getFilterString = item => {
 export const ProposalsTable = () => {
   const { locale } = useRouter()
   const { networkId } = useNetwork()
+
+  const { i18n } = useLingui()
+
+  const filterOptions = getFilterOptions(i18n)
 
   const [filter, setFilter] = useState(filterOptions[0])
 
@@ -94,12 +124,12 @@ export const ProposalsTable = () => {
         className={classNames('mt-0', showMore ? 'rounded-none' : 'rounded-t-none')}
       >
         <Table>
-          <THead theadClass='rounded-t-none bg-F9FAFA' columns={getColumns()} />
+          <THead theadClass='rounded-t-none bg-F9FAFA' columns={getColumns(i18n)} />
           {
             !loading
               ? (
                 <TBody
-                  columns={getColumns()}
+                  columns={getColumns(i18n)}
                   data={data}
                   extraData={{ locale, networkId }}
                 />

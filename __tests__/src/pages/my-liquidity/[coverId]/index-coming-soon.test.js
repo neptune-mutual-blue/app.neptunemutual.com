@@ -2,9 +2,11 @@ import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'
 import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 
-jest.mock('@/common/ComingSoon', () => ({
-  ComingSoon: () => <div data-testid='coming-soon' />
-}))
+jest.mock('@/common/ComingSoon', () => {
+  return {
+    ComingSoon: () => { return <div data-testid='coming-soon' /> }
+  }
+})
 
 describe('MyLiquidityCover test', () => {
   const OLD_ENV = process.env

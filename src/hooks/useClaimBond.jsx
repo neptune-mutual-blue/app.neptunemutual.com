@@ -65,10 +65,11 @@ export const useClaimBond = ({ claimable }) => {
           tx: tx.hash,
           allocation: claimable,
           allocationCurrency: NPMTokenSymbol,
-          allocationFormatted: formatCurrency(formatAmount(
-            convertFromUnits(claimable).toString(),
-            router.locale
-          )).short
+          allocationFormatted: formatCurrency(
+            formatAmount(
+              convertFromUnits(claimable).toString(),
+              router.locale
+            )).short
         }
 
         TransactionHistory.push({

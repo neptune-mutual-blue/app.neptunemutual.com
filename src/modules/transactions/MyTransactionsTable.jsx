@@ -5,6 +5,7 @@ import {
 
 import { useRouter } from 'next/router'
 
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableShowMore,
@@ -18,6 +19,7 @@ import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { useNetwork } from '@/src/context/Network'
 import { getActionMessage } from '@/src/helpers/notification'
+import { useSortData } from '@/src/hooks/useSortData'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
@@ -27,36 +29,39 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
-import { renderHeader } from '@/common/Table/renderHeader'
-import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 const renderAmount = (row) => { return <AmountRenderer row={row} /> }
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => {
+export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: t`when`,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: t`details`,
+      id: 'details',
+      name: t(i18n)`details`,
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
-      name: t`amount`,
+      id: 'amount',
+      name: t(i18n)`amount`,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
+      id: 'actions',
       name: '',
       align: 'right',
       renderHeader,
@@ -84,7 +89,9 @@ export const MyTransactionsTable = () => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: listOfTransactions })
 
-  const columns = getColumns(sorts, handleSort)
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n, sorts, handleSort)
 
   useEffect(() => {
     if (!networkId || !account) {

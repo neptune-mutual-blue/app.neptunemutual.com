@@ -199,7 +199,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       </div>
 
       <StakingCardTitle text={poolName} />
-      <StakingCardSubTitle text={t`Stake ${stakingTokenSymbol}`} />
+      <StakingCardSubTitle text={<Trans>Stake {stakingTokenSymbol}</Trans>} />
 
       <hr className='mt-4 mb-5 border-t border-B0C4DB' />
 

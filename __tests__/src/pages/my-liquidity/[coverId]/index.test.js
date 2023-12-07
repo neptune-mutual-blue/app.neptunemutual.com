@@ -2,11 +2,13 @@ import { initiateTest } from '@/utils/unit-tests/helpers'
 import { screen } from '@testing-library/react'
 import MyLiquidityCover from '@/pages/my-liquidity/[coverId]/index'
 
-jest.mock('@/src/modules/my-liquidity/details', () => ({
-  ProvideLiquidityToCover: () => {
-    return <div data-testid='provide-liquidity-to-cover' />
+jest.mock('@/src/modules/my-liquidity/details', () => {
+  return {
+    ProvideLiquidityToCover: () => {
+      return <div data-testid='provide-liquidity-to-cover' />
+    }
   }
-}))
+})
 
 describe('MyLiquidityCover test', () => {
   const { initialRender } = initiateTest(MyLiquidityCover)

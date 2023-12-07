@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 
 import { CoverTermsModal } from '@/common/CoverForm/CoverTermsModal'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import { useNPMSwapLink } from '@/common/NPMSwapLink'
+import AddCircleIcon from '@/icons/AddCircleIcon'
 import StandardTermsConditionsIcon from '@/icons/StandardTermsConditionsIcon'
 import {
   MAX_PROPOSAL_AMOUNT,
@@ -18,8 +20,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-import AddCircleIcon from '@/icons/AddCircleIcon'
-import { useNPMSwapLink } from '@/common/NPMSwapLink'
+import { useLingui } from '@lingui/react'
 
 const PurchaseAmountStep = ({
   setValue,
@@ -44,11 +45,14 @@ const PurchaseAmountStep = ({
     setValue(val)
 
     if (isGreaterOrEqual(val, availableLiquidity)) {
-      setError(t`Maximum protection available is ${formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long}` + '. Choose a amount less than available.')
+      const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
+      setError(t`Maximum protection available is ${maxProtection}` + '. Choose a amount less than available.')
     } else if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
-      setError(t`Maximum proposal threshold is ${formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long}`)
+      const maxThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      setError(t`Maximum proposal threshold is ${maxThreshold}`)
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
-      setError(t`Minimum proposal threshold is ${formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long}`)
+      const minThreshold = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      setError(t`Minimum proposal threshold is ${minThreshold}`)
     }
   }
 
@@ -57,6 +61,8 @@ const PurchaseAmountStep = ({
   }
 
   const npmSwapLink = useNPMSwapLink()
+
+  useLingui()
 
   return (
     <>

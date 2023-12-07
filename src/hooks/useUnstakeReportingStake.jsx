@@ -1,8 +1,5 @@
 import { useState } from 'react'
 
-import { useRouter } from 'next/router'
-
-import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -16,9 +13,6 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { convertFromUnits } from '@/utils/bn'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import {
   registry,
@@ -29,11 +23,8 @@ import { useWeb3React } from '@web3-react/core'
 export const useUnstakeReportingStake = ({
   coverKey,
   productKey,
-  incidentDate,
-  incidentStatus,
-  willReceive
+  incidentDate
 }) => {
-  const router = useRouter()
   const { account, library } = useWeb3React()
   const { networkId } = useNetwork()
 
@@ -43,7 +34,7 @@ export const useUnstakeReportingStake = ({
   const { notifyError } = useErrorNotifier()
   const [unstaking, setUnstaking] = useState(false)
 
-  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
+  const { NPMTokenSymbol } = useAppConstants()
 
   const unstake = async (onTxSuccess = () => {}) => {
     if (!networkId || !account) {
@@ -68,34 +59,12 @@ export const useUnstakeReportingStake = ({
       )
 
       const onTransactionResult = async (tx) => {
-        const logData = {
-          network: NetworkNames[networkId],
-          networkId,
-          coverKey,
-          coverName: safeParseBytes32String(coverKey),
-          productKey,
-          productName: safeParseBytes32String(productKey),
-          details: {
-            sales: 'N/A',
-            salesCurrency: 'N/A',
-            salesFormatted: 'N/A',
-            account,
-            tx: tx.hash,
-            stake: convertFromUnits(willReceive, NPMTokenDecimals).decimalPlaces(2).toString(),
-            stakeCurrency: NPMTokenSymbol,
-            stakeFormatted: formatCurrency(convertFromUnits(willReceive, NPMTokenDecimals).toString(), router.locale, NPMTokenSymbol, true).short,
-            camp: incidentStatus === 'Claimable' ? 'yes' : 'no',
-            withClaim: 'no'
-          }
-        }
-
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.REPORTING_UNSTAKE,
           status: STATUS.PENDING,
           data: {
-            tokenSymbol: NPMTokenSymbol,
-            logData
+            tokenSymbol: NPMTokenSymbol
           }
         })
 

@@ -22,6 +22,9 @@ import {
   StandardTermsConditionsLink
 } from '@/common/StandardTermsConditionsLink'
 import { CoveredProducts } from '@/modules/my-liquidity/content/CoveredProducts'
+import {
+  CoverLiquiditySkeleton
+} from '@/modules/my-liquidity/CoverLiquiditySkeleton'
 import { CoverStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -29,11 +32,7 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { CoverLiquiditySkeleton } from '@/modules/my-liquidity/CoverLiquiditySkeleton'
+import { Trans } from '@lingui/macro'
 
 export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
@@ -74,7 +73,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
             data-testid='breadcrumbs'
             pages={[
               {
-                name: t`My Liquidity`,
+                name: <Trans>My Liquidity</Trans>,
                 href: Routes.MyLiquidity,
                 current: false
               },
@@ -105,7 +104,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
                 )}
 
             {/* My Liquidity */}
-            <HeroStat title={t`My Liquidity`} data-testid='herostat'>
+            <HeroStat title={<Trans>My Liquidity</Trans>} data-testid='herostat'>
               {
                 formatCurrency(
                   convertFromUnits(myLiquidity, liquidityTokenDecimals),

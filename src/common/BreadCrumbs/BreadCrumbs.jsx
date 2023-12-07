@@ -8,7 +8,7 @@ export const BreadCrumbs = ({ pages, ...rest }) => {
       <ol className='flex flex-wrap items-center text-xs leading-5 gap-x-1 gap-y-2 sm:text-sm text-5F5F5F'>
         {pages.map((page, idx) => {
           return (
-            <li key={page.name + idx}>
+            <li key={idx}>
               <div className='flex items-center'>
                 {idx !== 0 && (
                   <svg
@@ -37,16 +37,19 @@ const Crumb = ({ page, isLast }) => {
   }
 
   return (
-    <Link href={page.href}>
-      <a
+    (
+      <Link
+        href={page.href}
         className={classNames(
           'ml-1 hover:underline capitalize',
           !isLast && 'text-4E7DD9'
         )}
         aria-current={page.current ? 'page' : undefined}
       >
+
         {page.name}
-      </a>
-    </Link>
+
+      </Link>
+    )
   )
 }

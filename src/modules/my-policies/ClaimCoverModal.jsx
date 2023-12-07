@@ -37,6 +37,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const ClaimCoverModal = ({
@@ -99,11 +100,13 @@ export const ClaimCoverModal = ({
 
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
+  const { i18n } = useLingui()
+
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = t(i18n)`Fetching balance...`
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = t(i18n)`Fetching allowance...`
   }
 
   return (
@@ -132,7 +135,7 @@ export const ClaimCoverModal = ({
             tokenDecimals={tokenDecimals}
             tokenSymbol={tokenSymbol}
             tokenBalance={balance}
-            labelText={t`Enter your ${tokenSymbol}`}
+            labelText={<Trans>Enter your {tokenSymbol}</Trans>}
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id='bond-amount'
@@ -179,7 +182,7 @@ export const ClaimCoverModal = ({
             ? (
               <RegularButton
                 className='w-full p-6 font-semibold uppercase'
-                disabled={!value || approving || error || loadingMessage}
+                disabled={!value || approving || !!error || !!loadingMessage}
                 onClick={() => {
                   handleApprove()
                 }}
@@ -190,7 +193,7 @@ export const ClaimCoverModal = ({
               )
             : (
               <RegularButton
-                disabled={!canClaim || claiming || error || loadingMessage}
+                disabled={!canClaim || claiming || !!error || !!loadingMessage}
                 className='w-full p-6 font-semibold uppercase'
                 onClick={() => {
                   handleClaim(() => {

@@ -120,19 +120,22 @@ export const usePurchasePolicy = ({
     }
 
     if (isGreaterOrEqual(value || 0, availableLiquidity || 0)) {
+      const maxProtection = formatCurrency(availableLiquidity, router.locale).short
       setError(
         t`Maximum protection available is ${
-          formatCurrency(availableLiquidity, router.locale).short
-        }` + '. Choose a amount less than available.'
+          maxProtection
+        }. Choose a amount less than available.`
       )
 
       return
     }
 
     if (isGreater(convertToUnits(MIN_PROPOSAL_AMOUNT, liquidityTokenDecimals), convertToUnits(value, liquidityTokenDecimals) || 0)) {
+      const minProposal = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+
       setError(
-        t`Minimum propsal amount should be greater than ${
-          formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+        t`Minimum proposal amount should be greater than ${
+          minProposal
         }`
       )
 
@@ -140,9 +143,11 @@ export const usePurchasePolicy = ({
     }
 
     if (isGreater(convertToUnits(value, liquidityTokenDecimals) || 0, convertToUnits(MAX_PROPOSAL_AMOUNT, liquidityTokenDecimals))) {
+      const maxProposal = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+
       setError(
-        t`Maximum propsal amount should be less than ${
-          formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+        t`Maximum proposal amount should be less than ${
+          maxProposal
         }`
       )
 
@@ -165,6 +170,8 @@ export const usePurchasePolicy = ({
       notifyError(err, t`Could not approve ${liquidityTokenSymbol}`)
     }
 
+    const feeFormatted = convertFromUnits(feeAmount, liquidityTokenDecimals)
+
     try {
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -172,7 +179,7 @@ export const usePurchasePolicy = ({
           methodName: METHODS.POLICY_APPROVE,
           status: STATUS.PENDING,
           data: {
-            value,
+            value: feeFormatted,
             tokenSymbol: liquidityTokenSymbol
           }
         })
@@ -181,15 +188,15 @@ export const usePurchasePolicy = ({
           tx,
           {
             pending: getActionMessage(METHODS.POLICY_APPROVE, STATUS.PENDING, {
-              value,
+              value: feeFormatted,
               tokenSymbol: liquidityTokenSymbol
             }).title,
             success: getActionMessage(METHODS.POLICY_APPROVE, STATUS.SUCCESS, {
-              value,
+              value: feeFormatted,
               tokenSymbol: liquidityTokenSymbol
             }).title,
             failure: getActionMessage(METHODS.POLICY_APPROVE, STATUS.FAILED, {
-              value,
+              value: feeFormatted,
               tokenSymbol: liquidityTokenSymbol
             }).title
           },

@@ -16,11 +16,15 @@ export const CoverCardWrapper = ({
   }
 
   return (
-    <Link href={Routes.ViewCover(coverKey)} key={coverKey} scroll={!coverData.supportsProducts}>
-      <a
+    (
+      <Link
+        href={Routes.ViewCover(coverKey)}
+        key={coverKey}
+        scroll={!coverData.supportsProducts}
         className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
         data-testid='cover-link'
       >
+
         <CoverCard
           coverKey={coverKey}
           coverData={coverData}
@@ -28,7 +32,8 @@ export const CoverCardWrapper = ({
           progressBgColor={progressBgColor}
           {...rest}
         />
-      </a>
-    </Link>
+
+      </Link>
+    )
   )
 }

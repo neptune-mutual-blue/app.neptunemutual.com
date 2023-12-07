@@ -742,55 +742,61 @@ const actionMessages = {
     return { title: t`Setting gauge`, description: displayValue(_data) }
   },
   [METHODS.GAUGE_POOL_TOKEN_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol
+
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${_data.tokenSymbol} successfully`,
+        title: t`Approved ${tokenSymbol} successfully`,
         description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not approve ${_data.tokenSymbol}`,
+        title: t`Could not approve ${tokenSymbol}`,
         description: displayValue(_data)
       }
     }
 
-    return { title: t`Approving ${_data.tokenSymbol} token`, description: displayValue(_data) }
+    return { title: t`Approving ${tokenSymbol} token`, description: displayValue(_data) }
   },
   [METHODS.GAUGE_POOL_DEPOSIT]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol
+
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Locked ${_data.tokenSymbol} successfully`,
+        title: t`Locked ${tokenSymbol} successfully`,
         description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not lock ${_data.tokenSymbol}`,
+        title: t`Could not lock ${tokenSymbol}`,
         description: displayValue(_data)
       }
     }
 
-    return { title: t`Locking ${_data.tokenSymbol} token`, description: displayValue(_data) }
+    return { title: t`Locking ${tokenSymbol} token`, description: displayValue(_data) }
   },
   [METHODS.GAUGE_POOL_WITHDRAW]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol
+
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Unlocked ${_data.tokenSymbol} successfully`,
+        title: t`Unlocked ${tokenSymbol} successfully`,
         description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not unlock ${_data.tokenSymbol}`,
+        title: t`Could not unlock ${tokenSymbol}`,
         description: displayValue(_data)
       }
     }
 
-    return { title: t`Unlocking ${_data.tokenSymbol} token`, description: displayValue(_data) }
+    return { title: t`Unlocking ${tokenSymbol} token`, description: displayValue(_data) }
   },
   [METHODS.GAUGE_POOL_WITHDRAW_REWARDS]: (status, _data) => {
     if (status === STATUS.SUCCESS) {

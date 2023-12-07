@@ -12,10 +12,7 @@ import { useClaimBond } from '@/src/hooks/useClaimBond'
 import { convertFromUnits } from '@/utils/bn'
 import { formatAmount } from '@/utils/formatter'
 import { fromNow } from '@/utils/formatter/relative-time'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const ClaimBondModal = ({
@@ -75,7 +72,7 @@ export const ClaimBondModal = ({
           }}
           className='w-full p-6 mt-8 font-semibold uppercase'
         >
-          {claiming ? t`Claiming...` : t`Claim Now`}
+          {claiming ? <Trans>Claiming...</Trans> : <Trans>Claim Now</Trans>}
         </RegularButton>
       </ModalWrapper>
     </ModalRegular>

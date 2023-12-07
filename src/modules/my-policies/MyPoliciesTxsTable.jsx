@@ -1,5 +1,7 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
-import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
+import { useRouter } from 'next/router'
+
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
   TableShowMore,
@@ -7,30 +9,36 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
+import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { useWeb3React } from '@web3-react/core'
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { convertFromUnits } from '@/utils/bn'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { fromNow } from '@/utils/formatter/relative-time'
-import DateLib from '@/lib/date/DateLib'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { useNetwork } from '@/src/context/Network'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { usePagination } from '@/src/hooks/usePagination'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import { Routes } from '@/src/config/routes'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
-import { LastSynced } from '@/common/LastSynced'
-import { renderHeader } from '@/common/Table/renderHeader'
-import { useSortData } from '@/src/hooks/useSortData'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import DateLib from '@/lib/date/DateLib'
+import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
-import { TableRowCoverAvatar } from '@/common/TableRowCoverAvatar'
+import { useNetwork } from '@/src/context/Network'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import { usePagination } from '@/src/hooks/usePagination'
+import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
+import { useRegisterToken } from '@/src/hooks/useRegisterToken'
+import { useSortData } from '@/src/hooks/useSortData'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useLingui } from '@lingui/react'
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { useWeb3React } from '@web3-react/core'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -40,27 +48,31 @@ const renderAmount = (row) => { return <CxTokenAmountRenderer row={row} /> }
 
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
-export const getColumns = (sorts = {}, handleSort = () => {}) => {
+export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
-      name: t`when`,
+      id: 'when',
+      name: t(i18n)`when`,
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
-      name: t`details`,
+      id: 'details',
+      name: t(i18n)`details`,
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
-      name: t`amount`,
+      id: 'amount',
+      name: t(i18n)`amount`,
       align: 'right',
       renderHeader,
       renderData: renderAmount
     },
     {
+      id: 'actions',
       name: '',
       align: 'right',
       renderHeader,
@@ -83,7 +95,9 @@ export const MyPoliciesTxsTable = () => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
-  const columns = getColumns(sorts, handleSort)
+  const { i18n } = useLingui()
+
+  const columns = getColumns(i18n, sorts, handleSort)
 
   return (
     <>

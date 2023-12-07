@@ -3,13 +3,14 @@ import { useRouter } from 'next/router'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { CoverDropdown } from '@/common/CoverDropdown'
 import { Label } from '@/common/Label/Label'
-import { actions } from '@/src/config/cover/actions'
+import { getActions } from '@/src/config/cover/actions'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
 import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter()
@@ -20,6 +21,10 @@ export const ActiveReportingEmptyState = () => {
     selected,
     setSelected
   } = useCoverDropdown()
+
+  const { i18n } = useLingui()
+
+  const actions = getActions(i18n)
 
   const handleAddReport = () => {
     if (!selected) { return }

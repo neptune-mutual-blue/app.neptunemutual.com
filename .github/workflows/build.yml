@@ -1,4 +1,4 @@
-name: Build
+name: Lint and Build
 
 on:
   push:
@@ -12,18 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Read .nvmrc
-        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
-        id: nvm
+      - name: Setup Volta
+        uses: volta-cli/action@v4
 
-      - name: Setup Nodejs with yarn caching (.nvmrc)
-        uses: actions/setup-node@v2
-        with:
-          node-version: "${{ steps.nvm.outputs.NVMRC }}"
-          cache: yarn
+      - name: Check versions
+        run: node -v && npm -v && yarn -v
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile

@@ -23,8 +23,7 @@ export function LanguageProvider ({ children }) {
         if (ignore) { return }
         setLoaded(true)
       })
-      .catch((error) => { return console.error('Failed to activate locale', locale, error) }
-      )
+      .catch((error) => { return console.error('Failed to activate locale', locale, error) })
 
     return () => {
       ignore = true

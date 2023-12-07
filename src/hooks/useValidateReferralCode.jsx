@@ -47,6 +47,7 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
         // if it's empty we set true immediately
         setErrorMessage('')
         setIsValid(true)
+        setIsReferralCodeCheckPending(false)
 
         return
       }
@@ -55,6 +56,7 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
       if (!isValidReferralCode(trimmedValue)) {
         setErrorMessage(t`Incorrect Cashback Code`)
         setIsValid(false)
+        setIsReferralCodeCheckPending(false)
 
         return
       }

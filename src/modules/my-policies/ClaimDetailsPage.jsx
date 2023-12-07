@@ -22,10 +22,7 @@ import {
 } from '@/src/modules/my-policies/ClaimCxTokensTable'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 
 export const ClaimDetailsPage = ({
   disabled,
@@ -82,7 +79,7 @@ export const ClaimDetailsPage = ({
           <BreadCrumbs
             pages={[
               {
-                name: t`My Policies`,
+                name: <Trans>My Policies</Trans>,
                 href: Routes.MyActivePolicies,
                 current: false
               },
@@ -93,7 +90,7 @@ export const ClaimDetailsPage = ({
                   : Routes.ViewProduct(coverKey, productKey),
                 current: false
               },
-              { name: t`Claim`, href: '#', current: true }
+              { name: <Trans>Claim</Trans>, href: '#', current: true }
             ]}
           />
 
@@ -103,7 +100,7 @@ export const ClaimDetailsPage = ({
             </HeroTitle>
 
             {/* My Active Protection */}
-            <HeroStat title={t`My Active Protection`}>
+            <HeroStat title={<Trans>My Active Protection</Trans>}>
               <>
                 {
                     formatCurrency(

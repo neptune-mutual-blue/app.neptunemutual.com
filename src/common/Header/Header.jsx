@@ -40,6 +40,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import {
   Content,
   Overlay,
@@ -92,9 +93,11 @@ export const Header = () => {
     setIsOpen(false)
   }
 
+  const { i18n } = useLingui()
+
   const navigation = useMemo(
-    () => { return getNavigationLinks(router.pathname) },
-    [router.pathname]
+    () => { return getNavigationLinks(router.pathname, i18n) },
+    [router.pathname, i18n]
   )
 
   const handleToggleAccountPopup = () => {
@@ -131,6 +134,8 @@ export const Header = () => {
     )
   }
 
+  useLingui()
+
   return (
     <>
       <div className='bg-black text-EEEEEE'>
@@ -149,10 +154,11 @@ export const Header = () => {
               <Link
                 href={Routes.Home}
                 locale={router.locale || router.defaultLocale}
+                className='sm:w-48'
               >
-                <a className='sm:w-48'>
-                  <HeaderLogo />
-                </a>
+
+                <HeaderLogo />
+
               </Link>
             </div>
 
@@ -160,12 +166,11 @@ export const Header = () => {
               {navigation.map((link) => {
                 if (link.href) {
                   return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      locale={router.locale}
-                    >
-                      <a
+                    (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        locale={router.locale}
                         className={classNames(
                           'relative text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap outline-none',
                           link.active
@@ -174,9 +179,11 @@ export const Header = () => {
                           !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-primary before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
                         )}
                       >
+
                         {link.name}
-                      </a>
-                    </Link>
+
+                      </Link>
+                    )
                   )
                 }
 
@@ -196,7 +203,6 @@ export const Header = () => {
                         onClick={onOpen}
                         title={t`Connect wallet`}
                       >
-                        <span className='sr-only'>{t`Connect wallet`}</span>
                         <Trans>Connect wallet</Trans>
                       </button>
                     )
@@ -207,7 +213,7 @@ export const Header = () => {
                           onClick={handleToggleAccountPopup}
                           title={t`account details`}
                         >
-                          <span className='sr-only'>{t`account details`}</span>
+                          <span className='sr-only'><Trans>account details</Trans></span>
                           <AccountBalanceWalletIcon width='24' height='24' />
                           <span className='pl-2'>{truncateAddress(account)}</span>
                         </button>
@@ -252,7 +258,7 @@ export const Header = () => {
                     onClick={() => { return setIsTxDetailsPopupOpen((val) => { return !val }) }}
                     data-testid='transaction-modal-button'
                   >
-                    <span className='sr-only'>{t`transaction overview button`}</span>
+                    <span className='sr-only'><Trans>transaction overview button</Trans></span>
                     <IconWithBadge number={unread}>
                       <BellIcon className='text-white' />
                     </IconWithBadge>
@@ -281,7 +287,7 @@ export const Header = () => {
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}
-          navigation={getFlattenedNavLinks()}
+          navigation={getFlattenedNavLinks(i18n)}
           network={<Network closeMenu={onClose} />}
           networkId={networkId}
           notifier={notifier}
@@ -341,12 +347,11 @@ export const MenuModal = ({
                 <div className='flex flex-col justify-start mb-auto overflow-y-auto'>
                   {navigation.map((link) => {
                     return (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        locale={router.locale}
-                      >
-                        <a
+                      (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          locale={router.locale}
                           className={classNames(
                             'text-display-sm leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
                             router.pathname === link.href
@@ -354,9 +359,11 @@ export const MenuModal = ({
                               : 'border-transparent text-white'
                           )}
                         >
+
                           {link.mobileName || link.name}
-                        </a>
-                      </Link>
+
+                        </Link>
+                      )
                     )
                   })}
                 </div>
@@ -369,7 +376,6 @@ export const MenuModal = ({
                           onClick={onOpen}
                           title={t`Connect wallet`}
                         >
-                          <span className='sr-only'>{t`Connect wallet`}</span>
                           Connect wallet
                         </button>
                       )
@@ -382,7 +388,7 @@ export const MenuModal = ({
                             title={t`account details`}
                           >
                             <span className='sr-only'>
-                              {t`account details`}
+                              <Trans>account details</Trans>
                             </span>
                             <AccountBalanceWalletIcon width='24' height='24' />
                             <span className='pl-2'>

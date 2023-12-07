@@ -4,7 +4,10 @@ import { RegularInput } from '@/common/Input/RegularInput'
 import { Label } from '@/common/Label/Label'
 import DeleteIcon from '@/icons/delete-icon'
 import { classNames } from '@/utils/classnames'
-import { t } from '@lingui/macro'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 /**
  *
@@ -136,7 +139,7 @@ export function ProofOfIncident ({ disabled, required }) {
   return (
     <>
       <InputField
-        label={t`Proof of incident`}
+        label={<Trans>Proof of incident</Trans>}
         inputProps={{
           id: 'incident_url',
           name: 'incident_url',
@@ -195,7 +198,7 @@ export function ProofOfIncident ({ disabled, required }) {
           'disabled:opacity-40 disabled:cursor-not-allowed'
         )}
       >
-        + {t`Add new link`}
+        + <Trans>Add new link</Trans>
       </button>
     </>
   )

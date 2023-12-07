@@ -1,5 +1,9 @@
 import { useRouter } from 'next/router'
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../config/locales'
+
+import {
+  DEFAULT_LOCALE,
+  SUPPORTED_LOCALES
+} from '../config/locales'
 
 export const parseLocale = (maybeSupportedLocale) => {
   const lowerMaybeSupportedLocale = maybeSupportedLocale.toLowerCase()
@@ -13,7 +17,7 @@ export const parseLocale = (maybeSupportedLocale) => {
 }
 
 export const navigatorLocale = () => {
-  if (!process.browser || !window || !navigator || !navigator.language) { return undefined }
+  if (typeof window === 'undefined' || !window || !navigator || !navigator.language) { return undefined }
 
   const [language, region] = navigator.language.split('-')
 
