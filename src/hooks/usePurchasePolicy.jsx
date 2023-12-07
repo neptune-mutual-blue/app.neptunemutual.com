@@ -170,6 +170,8 @@ export const usePurchasePolicy = ({
       notifyError(err, t`Could not approve ${liquidityTokenSymbol}`)
     }
 
+    const feeFormatted = convertFromUnits(feeAmount, liquidityTokenDecimals)
+
     try {
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -177,7 +179,7 @@ export const usePurchasePolicy = ({
           methodName: METHODS.POLICY_APPROVE,
           status: STATUS.PENDING,
           data: {
-            value,
+            value: feeFormatted,
             tokenSymbol: liquidityTokenSymbol
           }
         })
@@ -186,15 +188,15 @@ export const usePurchasePolicy = ({
           tx,
           {
             pending: getActionMessage(METHODS.POLICY_APPROVE, STATUS.PENDING, {
-              value,
+              value: feeFormatted,
               tokenSymbol: liquidityTokenSymbol
             }).title,
             success: getActionMessage(METHODS.POLICY_APPROVE, STATUS.SUCCESS, {
-              value,
+              value: feeFormatted,
               tokenSymbol: liquidityTokenSymbol
             }).title,
             failure: getActionMessage(METHODS.POLICY_APPROVE, STATUS.FAILED, {
-              value,
+              value: feeFormatted,
               tokenSymbol: liquidityTokenSymbol
             }).title
           },
