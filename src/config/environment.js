@@ -15,7 +15,7 @@ export const isFeatureEnabled = (feature) => {
   let bridgeOnly = false
 
   try {
-    config.store.getStoreAddressFromEnvironment(Number(process.env.NEXT_PUBLIC_FALLBACK_NETWORK))
+    config.store.getStoreAddressFromEnvironment(getNetworkId())
   } catch (err) {
     bridgeOnly = true
   }
