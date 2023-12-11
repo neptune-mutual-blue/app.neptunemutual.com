@@ -1,4 +1,5 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { detectChainId } from '@/utils/dns'
 
 export const getNetworkId = () => {
@@ -11,8 +12,11 @@ export const getNetworkId = () => {
 export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
 export const isFeatureEnabled = (feature) => {
-  const str =
-    process.env.NEXT_PUBLIC_FEATURES ||
+  const bridgeOnly = !ChainConfig[Number(process.env.NEXT_PUBLIC_FALLBACK_NETWORK)]
+
+  const str = bridgeOnly
+    ? 'bridge-layerzero'
+    : process.env.NEXT_PUBLIC_FEATURES ||
     'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
   const features = str.split(',').map((x) => { return x.trim() })
 
