@@ -1,6 +1,6 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
-import { ChainConfig } from '@/src/config/hardcoded'
 import { detectChainId } from '@/utils/dns'
+import { config } from '@neptunemutual/sdk'
 
 export const getNetworkId = () => {
   const host = window.location.host
@@ -12,7 +12,13 @@ export const getNetworkId = () => {
 export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
 export const isFeatureEnabled = (feature) => {
-  const bridgeOnly = !ChainConfig[Number(process.env.NEXT_PUBLIC_FALLBACK_NETWORK)]
+  let bridgeOnly = false
+
+  try {
+    config.store.getStoreAddressFromEnvironment(Number(process.env.NEXT_PUBLIC_FALLBACK_NETWORK))
+  } catch (err) {
+    bridgeOnly = true
+  }
 
   const str = bridgeOnly
     ? 'bridge-layerzero'
