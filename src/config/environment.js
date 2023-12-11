@@ -1,5 +1,6 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
 import { detectChainId } from '@/utils/dns'
+import { config } from '@neptunemutual/sdk'
 
 export const getNetworkId = () => {
   const host = window.location.host
@@ -11,8 +12,17 @@ export const getNetworkId = () => {
 export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
 export const isFeatureEnabled = (feature) => {
-  const str =
-    process.env.NEXT_PUBLIC_FEATURES ||
+  let bridgeOnly = false
+
+  try {
+    config.store.getStoreAddressFromEnvironment(getNetworkId())
+  } catch (err) {
+    bridgeOnly = true
+  }
+
+  const str = bridgeOnly
+    ? 'bridge-layerzero'
+    : process.env.NEXT_PUBLIC_FEATURES ||
     'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
   const features = str.split(',').map((x) => { return x.trim() })
 

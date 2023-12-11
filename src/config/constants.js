@@ -92,7 +92,8 @@ export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
 export const APP_URLS = {
   1: 'https://ethereum.neptunemutual.net/',
   42161: 'https://arbitrum.neptunemutual.net/',
-  56: 'https://bsc.neptunemutual.net/'
+  56: 'https://bsc.neptunemutual.net/',
+  137: 'https://polygon.neptunemutual.net/'
 }
 
 export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
