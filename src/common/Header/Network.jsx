@@ -14,25 +14,23 @@ import {
   ChainLogos,
   NetworkNames
 } from '@/lib/connect-wallet/config/chains'
-import {
-  APP_URLS
-} from '@/src/config/constants'
+import { APP_URLS } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
-import { getNetworkInfo } from '@/utils/network'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
 import { classNames } from '@/utils/classnames'
+import { getNetworkInfo } from '@/utils/network'
+import { Menu } from '@headlessui/react'
 import {
   Content,
   Overlay,
   Portal,
   Root
 } from '@radix-ui/react-dialog'
-import { Menu } from '@headlessui/react'
 
 export const Network = ({ closeMenu = () => {} }) => {
   const { networkId } = useNetwork()
-  const { isEthereum, isArbitrum, isBinanceSmartChain } = getNetworkInfo(networkId)
+  const { isEthereum, isArbitrum, isBinanceSmartChain, isPolygon } = getNetworkInfo(networkId)
   const { width } = useWindowSize()
 
   const [open, setOpen] = useState(false)
@@ -59,9 +57,16 @@ export const Network = ({ closeMenu = () => {} }) => {
         href: APP_URLS[56],
         Icon: ChainLogos[56],
         active: isBinanceSmartChain
+      },
+      {
+        name: 'Polygon',
+        value: 'polygon',
+        href: APP_URLS[137],
+        Icon: ChainLogos[137],
+        active: isPolygon
       }
     ]
-  }, [isEthereum, isArbitrum, isBinanceSmartChain])
+  }, [isEthereum, isArbitrum, isBinanceSmartChain, isPolygon])
 
   const ref = useRef()
   useOnClickOutside(ref, () => {
