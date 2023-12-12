@@ -11,22 +11,36 @@ export const getNetworkId = () => {
 
 export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
-export const isFeatureEnabled = (feature) => {
-  let bridgeOnly = false
+const STORE_NOT_REQUIRED_FEATURES = ['bridge-layerzero']
+const DEFAULT_FEATURES = 'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
 
-  try {
-    config.store.getStoreAddressFromEnvironment(getNetworkId())
-  } catch (err) {
-    bridgeOnly = true
-  }
+export const isFeatureEnabledServer = (feature) => {
+  const str = process.env.NEXT_PUBLIC_FEATURES || DEFAULT_FEATURES
 
-  const str = bridgeOnly
-    ? 'bridge-layerzero'
-    : process.env.NEXT_PUBLIC_FEATURES ||
-    'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
   const features = str.split(',').map((x) => { return x.trim() })
 
-  return features.indexOf(feature) > -1
+  return features.includes(feature)
+}
+
+export const isFeatureEnabled = (feature) => {
+  let store
+
+  try {
+    store = config.store.getStoreAddressFromEnvironment(getNetworkId())
+  } catch (err) {
+    // swallow
+  }
+
+  const str = process.env.NEXT_PUBLIC_FEATURES ||
+    DEFAULT_FEATURES
+
+  let features = str.split(',').map((x) => { return x.trim() })
+
+  if (!store) {
+    features = features.filter((f) => { return STORE_NOT_REQUIRED_FEATURES.includes(f) })
+  }
+
+  return features.includes(feature)
 }
 
 export const mainnetChainIds = [1, 10, 56, 137, 42161, 43114]

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabled } from '@/src/config/environment'
+import { isFeatureEnabledServer } from '@/src/config/environment'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useActivePolicies } from '@/src/hooks/useActivePolicies'
 import {
@@ -17,7 +17,7 @@ import { Trans } from '@lingui/macro'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('policy')
+      disabled: !isFeatureEnabledServer('policy')
     }
   }
 }

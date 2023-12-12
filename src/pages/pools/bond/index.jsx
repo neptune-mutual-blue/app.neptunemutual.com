@@ -1,6 +1,6 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabled } from '@/src/config/environment'
+import { isFeatureEnabledServer } from '@/src/config/environment'
 import BondPage from '@/src/modules/pools/bond'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 
@@ -8,7 +8,7 @@ import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('bond')
+      disabled: !isFeatureEnabledServer('bond')
     }
   }
 }
