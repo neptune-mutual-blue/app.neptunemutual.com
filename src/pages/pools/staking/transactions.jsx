@@ -5,7 +5,7 @@ import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
-import { isFeatureEnabled } from '@/src/config/environment'
+import { isFeatureEnabledServer } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { Trans } from '@lingui/macro'
 
@@ -13,7 +13,7 @@ import { Trans } from '@lingui/macro'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('staking-pool')
+      disabled: !isFeatureEnabledServer('staking-pool')
     }
   }
 }

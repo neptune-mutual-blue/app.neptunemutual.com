@@ -4,7 +4,7 @@ import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabled } from '@/src/config/environment'
+import { isFeatureEnabledServer } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { MyBondTxsTable } from '@/src/modules/pools/bond/MyBondTxsTable'
 import { Trans } from '@lingui/macro'
@@ -13,7 +13,7 @@ import { Trans } from '@lingui/macro'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('bond')
+      disabled: !isFeatureEnabledServer('bond')
     }
   }
 }
