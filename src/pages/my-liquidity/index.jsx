@@ -7,7 +7,7 @@ import { HeroStat } from '@/common/HeroStat'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { MyLiquidityPage } from '@/modules/my-liquidity'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { useAppConstants } from '@/src/context/AppConstants'
 import {
   useCalculateTotalLiquidity
@@ -22,7 +22,7 @@ import { useWeb3React } from '@web3-react/core'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('liquidity')
+      disabled: !isFeatureEnabled('liquidity')
     }
   }
 }

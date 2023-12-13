@@ -2,13 +2,13 @@ import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Seo } from '@/common/Seo'
 import { GovernanceModule } from '@/modules/governance/GovernanceModule'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 
 /* istanbul ignore next */
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('governance')
+      disabled: !isFeatureEnabled('governance')
     }
   }
 }

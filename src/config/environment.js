@@ -11,36 +11,36 @@ export const getNetworkId = () => {
 
 export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
-const STORE_NOT_REQUIRED_FEATURES = ['bridge-layerzero']
-const DEFAULT_FEATURES = 'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
+const isStoreAvailable = () => {
+  if (typeof window === 'undefined') {
+    throw new Error('window is not defined')
+  }
 
-export const isFeatureEnabledServer = (feature) => {
-  const str = process.env.NEXT_PUBLIC_FEATURES || DEFAULT_FEATURES
+  try {
+    const store = config.store.getStoreAddressFromEnvironment(getNetworkId())
 
-  const features = str.split(',').map((x) => { return x.trim() })
+    if (store) {
+      return true
+    }
+  } catch (err) { /* swallow */ }
 
-  return features.includes(feature)
+  return false
 }
 
 export const isFeatureEnabled = (feature) => {
-  let store
-
-  try {
-    store = config.store.getStoreAddressFromEnvironment(getNetworkId())
-  } catch (err) {
-    // swallow
+  if (typeof window !== 'undefined') {
+    // If the feature requires `store`, then check if the store is available
+    if (!['bridge-celer', 'bridge-layerzero'].includes(feature) && !isStoreAvailable()) {
+      return false
+    }
   }
 
-  const str = process.env.NEXT_PUBLIC_FEATURES ||
-    DEFAULT_FEATURES
+  const str =
+    process.env.NEXT_PUBLIC_FEATURES ||
+    'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
+  const features = str.split(',').map((x) => { return x.trim() })
 
-  let features = str.split(',').map((x) => { return x.trim() })
-
-  if (!store) {
-    features = features.filter((f) => { return STORE_NOT_REQUIRED_FEATURES.includes(f) })
-  }
-
-  return features.includes(feature)
+  return features.indexOf(feature) > -1
 }
 
 export const mainnetChainIds = [1, 10, 56, 137, 42161, 43114]

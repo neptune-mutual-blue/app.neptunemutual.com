@@ -1,6 +1,6 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 import { StakingPage } from '@/src/modules/pools/staking'
@@ -9,7 +9,7 @@ import { StakingPage } from '@/src/modules/pools/staking'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('staking-pool')
+      disabled: !isFeatureEnabled('staking-pool')
     }
   }
 }
