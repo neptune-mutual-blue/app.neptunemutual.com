@@ -1,6 +1,6 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { ReportingTabs } from '@/src/modules/reporting/ReportingTabs'
 import {
@@ -11,7 +11,7 @@ import {
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('reporting')
+      disabled: !isFeatureEnabled('reporting')
     }
   }
 }

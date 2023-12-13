@@ -1,6 +1,6 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import {
   PoliciesExpiredPage
 } from '@/src/modules/my-policies/expired/PoliciesExpiredPage'
@@ -10,7 +10,7 @@ import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('policy')
+      disabled: !isFeatureEnabled('policy')
     }
   }
 }

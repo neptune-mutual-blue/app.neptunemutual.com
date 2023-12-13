@@ -1,7 +1,7 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { LiquidityGaugePoolsPage } from '@/modules/pools/liquidity-gauge-pools'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 
@@ -9,7 +9,7 @@ import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('liquidity-gauge-pools')
+      disabled: !isFeatureEnabled('liquidity-gauge-pools')
     }
   }
 }

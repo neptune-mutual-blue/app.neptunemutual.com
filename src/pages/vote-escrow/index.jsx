@@ -4,13 +4,13 @@ import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Seo } from '@/common/Seo'
 import VoteEscrow from '@/modules/vote-escrow/VoteEscrow'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 
 /* istanbul ignore next */
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('vote-escrow')
+      disabled: !isFeatureEnabled('vote-escrow')
     }
   }
 }

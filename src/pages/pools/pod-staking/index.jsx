@@ -1,6 +1,6 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PodStakingPage } from '@/src/modules/pools/pod-staking'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
@@ -9,7 +9,7 @@ import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('pod-staking-pool')
+      disabled: !isFeatureEnabled('pod-staking-pool')
     }
   }
 }

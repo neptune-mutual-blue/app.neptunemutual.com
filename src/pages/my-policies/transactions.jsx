@@ -4,7 +4,7 @@ import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
-import { isFeatureEnabledServer } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import {
   MyPoliciesTxsTable
@@ -15,7 +15,7 @@ import { Trans } from '@lingui/macro'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabledServer('policy')
+      disabled: !isFeatureEnabled('policy')
     }
   }
 }
