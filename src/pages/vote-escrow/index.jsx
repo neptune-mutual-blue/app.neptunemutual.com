@@ -1,10 +1,10 @@
 import React from 'react'
 
+import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Seo } from '@/common/Seo'
 import VoteEscrow from '@/modules/vote-escrow/VoteEscrow'
 import { isFeatureEnabled } from '@/src/config/environment'
-import { ComingSoon } from '@/common/ComingSoon'
 
 /* istanbul ignore next */
 export function getStaticProps () {

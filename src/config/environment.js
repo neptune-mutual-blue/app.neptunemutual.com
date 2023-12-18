@@ -1,5 +1,6 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
 import { detectChainId } from '@/utils/dns'
+import { config } from '@neptunemutual/sdk'
 
 export const getNetworkId = () => {
   const host = window.location.host
@@ -10,7 +11,30 @@ export const getNetworkId = () => {
 
 export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
+const isStoreAvailable = () => {
+  if (typeof window === 'undefined') {
+    throw new Error('window is not defined')
+  }
+
+  try {
+    const store = config.store.getStoreAddressFromEnvironment(getNetworkId())
+
+    if (store) {
+      return true
+    }
+  } catch (err) { /* swallow */ }
+
+  return false
+}
+
 export const isFeatureEnabled = (feature) => {
+  if (typeof window !== 'undefined') {
+    // If the feature requires `store`, then check if the store is available
+    if (!['bridge-celer', 'bridge-layerzero'].includes(feature) && !isStoreAvailable()) {
+      return false
+    }
+  }
+
   const str =
     process.env.NEXT_PUBLIC_FEATURES ||
     'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'

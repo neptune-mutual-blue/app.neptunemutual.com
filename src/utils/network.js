@@ -10,12 +10,14 @@ export const getNetworkInfo = (networkId) => {
   const isEthereum = networkId === 1
   const isArbitrum = networkId === 42161
   const isBinanceSmartChain = networkId === 56
+  const isPolygon = networkId === 137
 
   return {
     isEthereum,
     isMainNet,
     isTestNet: !isMainNet,
     isArbitrum,
-    isBinanceSmartChain
+    isBinanceSmartChain,
+    isPolygon
   }
 }

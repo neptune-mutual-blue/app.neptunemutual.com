@@ -1914,15 +1914,6 @@
     date-fns "^2.29.3"
     pofile "^1.1.4"
 
-"@lingui/loader@4.5.0":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@lingui/loader/-/loader-4.5.0.tgz#0ee6ede996c4f2b7c4820b90c73a44bf1d02ba33"
-  integrity sha512-g7lS6/TXvOuNoEyoaqTplMYUBYJ1AASs+ioRIbzUCwXS7s2lETg+mRNmDyVM4INiHZdTPQfYsZta4cqoD5QGdQ==
-  dependencies:
-    "@babel/runtime" "^7.20.13"
-    "@lingui/cli" "4.5.0"
-    "@lingui/conf" "4.5.0"
-
 "@lingui/macro@4.5.0":
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@lingui/macro/-/macro-4.5.0.tgz#4e779f4652200b7ecc6f3364fda840ae365fb996"
@@ -3520,13 +3511,6 @@ cosmiconfig@^8.0.0:
     parse-json "^5.2.0"
     path-type "^4.0.0"
 
-cross-env@7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.3.tgz#865264b29677dc015ba8418918965dd232fc54cf"
-  integrity sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==
-  dependencies:
-    cross-spawn "^7.0.1"
-
 cross-fetch@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
@@ -3534,7 +3518,7 @@ cross-fetch@^3.1.5:
   dependencies:
     node-fetch "2.6.7"
 
-cross-spawn@^7.0.1, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
+cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
   integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
@@ -5782,11 +5766,6 @@ make-dir@^3.0.0:
   integrity sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==
   dependencies:
     semver "^6.0.0"
-
-make-plural@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/make-plural/-/make-plural-7.1.0.tgz#8a0381ff8c9be4f074e0acdc42ec97639c2344f9"
-  integrity sha512-PKkwVlAxYVo98NrbclaQIT4F5Oy+X58PZM5r2IwUSCe3syya6PXkIRCn2XCdz7p58Scgpp50PBeHmepXVDG3hg==
 
 makeerror@1.0.12:
   version "1.0.12"
