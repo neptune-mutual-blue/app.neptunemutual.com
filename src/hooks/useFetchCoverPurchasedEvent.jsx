@@ -4,46 +4,62 @@ import {
 } from 'react'
 
 import DateLib from '@/lib/date/DateLib'
+import { getNetworkId } from '@/src/config/environment'
 import { useNetwork } from '@/src/context/Network'
 import { getPolicyReceipt } from '@/src/services/api/policy/receipt'
+import { toBN } from '@/utils/bn'
+import { Interface } from '@ethersproject/abi'
+import sdk from '@neptunemutual/sdk'
 
-export const storePurchaseEvent = (event, from) => {
-  const txHash = event.transactionHash
+export const storePurchaseEvent = (receipt) => {
+  const iface = new Interface(sdk.config.abis.IPolicy)
 
-  const {
-    args: { coverKey, productKey, onBehalfOf, amountToCover, referralCode },
-    cxToken,
-    fee,
-    platformFee,
-    expiresOn,
-    policyId
-  } = event.args
+  for (let i = 0; i < receipt.logs.length; i++) {
+    const log = receipt.logs[i]
 
-  const value = {
-    event: {
-      id: txHash,
-      coverKey: coverKey.toString(),
-      productKey: productKey.toString(),
-      onBehalfOf: onBehalfOf.toString(),
-      cxToken: cxToken.toString(),
-      fee: fee.toString(),
-      platformFee: platformFee.toString(),
-      amountToCover: amountToCover.toString(),
-      expiresOn: expiresOn.toString(),
-      referralCode: referralCode.toString(),
-      policyId: policyId.toString(),
-      createdAtTimestamp: DateLib.unix(),
+    if (!log.topics.includes(iface.getEventTopic('CoverPurchased'))) {
+      continue
+    }
 
-      transaction: {
-        from
-      }
-    },
-    expiry: DateLib.toUnix(DateLib.addMinutes(new Date(), 5))
+    const parsed = iface.parseLog(log)
+
+    if (parsed.name !== 'CoverPurchased') {
+      return
+    }
+
+    // Should be same as backend
+    const data = {
+      id: receipt.transactionHash,
+      transactionHash: receipt.transactionHash,
+      address: receipt.to,
+      blockTimestamp: DateLib.unix(),
+      blockNumber: receipt.blockNumber.toString(),
+      transactionSender: receipt.from,
+      chainId: getNetworkId().toString(),
+      transactionStablecoinAmount: toBN(parsed.args.fee).minus(parsed.args.platformFee).toString(),
+      transactionNpmAmount: null,
+      gasPrice: receipt.effectiveGasPrice.toString(),
+      eventName: 'CoverPurchased',
+      couponCode: parsed.args.args.referralCode,
+      ck: parsed.args.args.coverKey,
+      pk: parsed.args.args.productKey,
+      onBehalfOf: parsed.args.args.onBehalfOf,
+      coverKey: parsed.args.args.coverKey,
+      productKey: parsed.args.args.productKey,
+      coverDuration: parsed.args.args.coverDuration.toString(),
+      amountToCover: parsed.args.args.amountToCover.toString(),
+      referralCode: parsed.args.args.referralCode,
+      cxToken: parsed.args.cxToken,
+      fee: parsed.args.fee.toString(),
+      platformFee: parsed.args.platformFee.toString(),
+      expiresOn: parsed.args.expiresOn.toString(),
+      policyId: parsed.args.policyId.toString()
+    }
+
+    localStorage.setItem(receipt.transactionHash, JSON.stringify(data))
+
+    return
   }
-
-  localStorage.setItem(txHash, JSON.stringify(value))
-
-  return txHash
 }
 
 const getEventFromApi = async (networkId, txHash) => {
@@ -57,24 +73,25 @@ const getEventFromStorage = async (txHash) => {
     const str = localStorage.getItem(txHash)
     const data = JSON.parse(str)
 
-    if (data.expiry < DateLib.unix()) {
+    // Delete after 30 minutes
+    if (!data.blockTimestamp || data.blockTimestamp + 30 * 60 < DateLib.unix()) {
       localStorage.removeItem(txHash)
     }
 
-    return data.event
+    return data
   } catch (error) {}
 
   return null
 }
 
 const getEvent = async (networkId, txHash) => {
-  return getEventFromStorage(txHash).then((data) => {
-    if (!data) {
-      return getEventFromApi(networkId, txHash)
-    }
+  const data = getEventFromStorage(txHash)
 
+  if (data) {
     return data
-  })
+  }
+
+  return getEventFromApi(networkId, txHash)
 }
 
 export const useFetchCoverPurchasedEvent = ({ txHash }) => {

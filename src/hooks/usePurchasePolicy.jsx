@@ -332,17 +332,12 @@ export const usePurchasePolicy = ({
               })
 
               tx.wait(1)
-              // Delay as subgraph takes time to index
+                // Delay as subgraph takes time to index
                 .then((receipt) => { return delay(receipt) })
                 .then(async (receipt) => {
                   if (receipt) {
-                    const events = receipt.events
-                    const event = events.find(
-                      (x) => { return x.event === 'CoverPurchased' }
-                    )
-                    const txHash = storePurchaseEvent(event, receipt.from)
-
-                    setTxHash(txHash)
+                    storePurchaseEvent(receipt)
+                    setTxHash(receipt.transactionHash)
                   }
                 })
 
