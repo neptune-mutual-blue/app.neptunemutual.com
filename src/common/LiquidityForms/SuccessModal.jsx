@@ -1,3 +1,8 @@
+import {
+  useEffect,
+  useRef
+} from 'react'
+
 import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
@@ -7,12 +12,11 @@ import { LIQUIDITY_POINTS_PER_DOLLAR } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { getNetworkInfo } from '@/utils/network'
 import { Trans } from '@lingui/macro'
-import { useEffect, useRef } from 'react'
 
 const SuccessModal = ({ open, close, amountInDollars }) => {
   const { networkId } = useNetwork()
   const { isTestNet, isBinanceSmartChain } = getNetworkInfo(networkId)
-  const nftLink = isTestNet ? 'https://nft.hicif.com' : 'https://nft.neptunemutual.net'
+  const nftLink = isTestNet ? 'https://test.nft.neptunemutual.com' : 'https://nft.neptunemutual.com'
 
   const finalAmount = useRef(amountInDollars)
 

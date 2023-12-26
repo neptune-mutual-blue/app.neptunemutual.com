@@ -36,5 +36,10 @@
         "LayerZero",
         "nosniff",
         "okxwallet"
-    ]
+    ],
+    "[javascript][javascriptreact]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit"
+        }
+    }
 }

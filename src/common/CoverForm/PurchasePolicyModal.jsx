@@ -60,7 +60,7 @@ export const PurchasePolicyModal = ({
 function Complete ({ txHash, onClose, amountInDollars }) {
   const { networkId } = useNetwork()
   const { isTestNet, isBinanceSmartChain } = getNetworkInfo(networkId)
-  const nftLink = isTestNet ? 'https://nft.hicif.com' : 'https://nft.neptunemutual.net'
+  const nftLink = isTestNet ? 'https://test.nft.neptunemutual.com' : 'https://nft.neptunemutual.com'
 
   const value = Number(POLICY_POINTS_PER_DOLLAR * amountInDollars)
   const points = value >= 1 ? parseInt(value.toString()) : value.toFixed(2)
