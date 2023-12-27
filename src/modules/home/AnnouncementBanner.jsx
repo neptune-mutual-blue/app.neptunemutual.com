@@ -2,10 +2,10 @@ import { RegularButton } from '@/common/Button/RegularButton'
 import ArrowNarrowRight from '@/icons/ArrowNarrowRight'
 
 export default function AnnouncementBanner () {
-  const imageSrc = '/nft-banner.webp'
-  const imageAlt = 'avatars coming soon'
-  const linkHref = 'https://nft.neptunemutual.com'
-  const btnText = 'Launch NFT Portal'
+  const imageSrc = '/new-year-banner.webp'
+  const imageAlt = 'New year rewards'
+  const linkHref = 'https://community.neptunemutual.com/t/enjoy-110-cashback-this-new-year/279'
+  const btnText = 'Learn More'
 
   return (
     <div
