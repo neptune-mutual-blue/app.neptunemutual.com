@@ -34,7 +34,8 @@ const PurchaseAmountStep = ({
   productKey,
   projectOrProductName,
   parameters,
-  imgSrc
+  imgSrc,
+  isPurchaseDisabled
 }) => {
   const router = useRouter()
   const [error, setError] = useState('')
@@ -78,14 +79,14 @@ const PurchaseAmountStep = ({
         buttonProps={{
           children: t`Max`,
           onClick: () => {},
-          disabled: approving || purchasing,
+          disabled: approving || purchasing || isPurchaseDisabled,
           buttonClassName: 'hidden'
         }}
         unit={liquidityTokenSymbol}
         unitClass='!text-black font-semibold'
         inputProps={{
           id: 'cover-amount',
-          disabled: approving || purchasing,
+          disabled: approving || purchasing || isPurchaseDisabled,
           placeholder: t`Enter Amount`,
           value: value,
           onChange: handleChange,

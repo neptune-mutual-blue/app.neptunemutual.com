@@ -52,6 +52,7 @@ import {
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
+import { usePolicyDisabledStatus } from '@/src/hooks/usePolicyDisabledStatus'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
@@ -126,6 +127,11 @@ export const PurchasePolicyForm = ({
     value,
     liquidityTokenDecimals,
     coverMonth,
+    coverKey,
+    productKey
+  })
+
+  const isPurchaseDisabled = usePolicyDisabledStatus({
     coverKey,
     productKey
   })
@@ -264,6 +270,7 @@ export const PurchasePolicyForm = ({
             projectOrProductName={projectOrProductName}
             parameters={parameters}
             imgSrc={imgSrc}
+            isPurchaseDisabled={isPurchaseDisabled}
           />)}
         {formSteps === 1 && (
           <CoveragePeriodStep
@@ -383,10 +390,18 @@ export const PurchasePolicyForm = ({
           </Alert>
         )}
 
+        {
+          isPurchaseDisabled && (
+            <div className='p-3 bg-opacity-50 border-l-4 mt-7 pl-7 bg-940000 border-940000'>
+              <p className='text-white'>You cannot purchase this policy.</p>
+            </div>
+          )
+        }
+
         {formSteps < 3 && (
           <div className='flex flex-wrap justify-end mt-12 xs:flex-row-reverse sm:justify-start'>
             <button
-              disabled={!canProceed}
+              disabled={!canProceed || isPurchaseDisabled}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 'disabled:cursor-not-allowed disabled:opacity-50',
