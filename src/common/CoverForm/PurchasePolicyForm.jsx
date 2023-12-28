@@ -38,6 +38,7 @@ import {
   isValidProduct
 } from '@/src/helpers/cover'
 import { useNotifier } from '@/src/hooks/useNotifier'
+import { usePolicyDisabledStatus } from '@/src/hooks/usePolicyDisabledStatus'
 import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
@@ -126,6 +127,11 @@ export const PurchasePolicyForm = ({
     value,
     liquidityTokenDecimals,
     coverMonth,
+    coverKey,
+    productKey
+  })
+
+  const isPurchaseDisabled = usePolicyDisabledStatus({
     coverKey,
     productKey
   })
@@ -264,6 +270,7 @@ export const PurchasePolicyForm = ({
             projectOrProductName={projectOrProductName}
             parameters={parameters}
             imgSrc={imgSrc}
+            isPurchaseDisabled={isPurchaseDisabled}
           />)}
         {formSteps === 1 && (
           <CoveragePeriodStep
@@ -292,6 +299,7 @@ export const PurchasePolicyForm = ({
             <Checkbox
               name='terms_parameters_exclusions'
               id='terms_parameters_exclusions'
+              checked={rulesAccepted}
               onChange={() => { setRulesAccepted(!rulesAccepted) }}
               data-testid='accept-rules'
             >
@@ -383,10 +391,20 @@ export const PurchasePolicyForm = ({
           </Alert>
         )}
 
+        {
+          isPurchaseDisabled && (
+            <Alert>
+              <Trans>
+                You cannot purchase this policy, since the cover is disabled
+              </Trans>
+            </Alert>
+          )
+        }
+
         {formSteps < 3 && (
           <div className='flex flex-wrap justify-end mt-12 xs:flex-row-reverse sm:justify-start'>
             <button
-              disabled={!canProceed}
+              disabled={!canProceed || isPurchaseDisabled}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 'disabled:cursor-not-allowed disabled:opacity-50',

@@ -34,7 +34,8 @@ const PurchaseAmountStep = ({
   productKey,
   projectOrProductName,
   parameters,
-  imgSrc
+  imgSrc,
+  isPurchaseDisabled
 }) => {
   const router = useRouter()
   const [error, setError] = useState('')
@@ -92,6 +93,7 @@ const PurchaseAmountStep = ({
           allowNegativeValue: false,
           'data-testid': 'input-field'
         }}
+        disabled={isPurchaseDisabled}
       />
       {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}
 
