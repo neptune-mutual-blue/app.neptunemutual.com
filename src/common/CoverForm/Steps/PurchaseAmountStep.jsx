@@ -79,20 +79,21 @@ const PurchaseAmountStep = ({
         buttonProps={{
           children: t`Max`,
           onClick: () => {},
-          disabled: approving || purchasing || isPurchaseDisabled,
+          disabled: approving || purchasing,
           buttonClassName: 'hidden'
         }}
         unit={liquidityTokenSymbol}
         unitClass='!text-black font-semibold'
         inputProps={{
           id: 'cover-amount',
-          disabled: approving || purchasing || isPurchaseDisabled,
+          disabled: approving || purchasing,
           placeholder: t`Enter Amount`,
           value: value,
           onChange: handleChange,
           allowNegativeValue: false,
           'data-testid': 'input-field'
         }}
+        disabled={isPurchaseDisabled}
       />
       {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}
 

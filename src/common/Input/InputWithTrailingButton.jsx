@@ -20,6 +20,7 @@ import { getPlainNumber } from '@/utils/formatter/input'
  * @param {string} [param.unitClass]
  * @param {boolean} [param.error]
  * @param {number} param.decimalLimit
+ * @param {boolean} param.disabled
  * @returns
  */
 export const InputWithTrailingButton = ({
@@ -28,7 +29,8 @@ export const InputWithTrailingButton = ({
   unitClass = '',
   buttonProps: { buttonClassName, ...buttonProps },
   error,
-  decimalLimit
+  decimalLimit,
+  disabled
 }) => {
   const ref = useRef(null)
   const [width, setWidth] = useState()
@@ -69,13 +71,13 @@ export const InputWithTrailingButton = ({
   const inputFieldProps = {
     id: inputProps.id,
     placeholder: inputProps.placeholder,
-    disabled: inputProps.disabled,
     intlConfig: {
       locale: locale
     },
     autoComplete: 'off',
     decimalsLimit: typeof decimalLimit === 'number' ? decimalLimit : 25,
     ...inputProps,
+    disabled: inputProps.disabled || disabled,
     onChange: null,
     value: inputValue,
     onValueChange: (val) => {
@@ -91,7 +93,7 @@ export const InputWithTrailingButton = ({
   }
 
   return (
-    <div className='relative w-full text-lg text-black'>
+    <div className={classNames('relative w-full text-lg text-black', disabled && 'opacity-40 cursor-not-allowed')}>
       <CurrencyInput
         {...inputFieldProps}
         className={classNames(
@@ -115,9 +117,10 @@ export const InputWithTrailingButton = ({
           className={classNames(
             'px-6 m-px font-medium uppercase tracking-wide rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4E7DD9',
             buttonClassName,
-            buttonProps.disabled ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
+            (buttonProps.disabled || disabled) ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
           )}
           {...buttonProps}
+          disabled={buttonProps.disabled || disabled}
         />
       </div>
     </div>
