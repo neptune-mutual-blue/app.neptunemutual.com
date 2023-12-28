@@ -392,9 +392,11 @@ export const PurchasePolicyForm = ({
 
         {
           isPurchaseDisabled && (
-            <div className='p-3 bg-opacity-50 border-l-4 mt-7 pl-7 bg-940000 border-940000'>
-              <p className='text-white'>You cannot purchase this policy.</p>
-            </div>
+            <Alert>
+              <Trans>
+                You cannot purchase this policy, since the cover is disabled
+              </Trans>
+            </Alert>
           )
         }
 
