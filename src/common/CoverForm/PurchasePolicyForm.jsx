@@ -38,6 +38,7 @@ import {
   isValidProduct
 } from '@/src/helpers/cover'
 import { useNotifier } from '@/src/hooks/useNotifier'
+import { usePolicyDisabledStatus } from '@/src/hooks/usePolicyDisabledStatus'
 import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
@@ -52,7 +53,6 @@ import {
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
-import { usePolicyDisabledStatus } from '@/src/hooks/usePolicyDisabledStatus'
 
 const getMonthEnd = (month, fullYear) => {
   const d = new Date(fullYear, month + 1, 0)
@@ -299,6 +299,7 @@ export const PurchasePolicyForm = ({
             <Checkbox
               name='terms_parameters_exclusions'
               id='terms_parameters_exclusions'
+              checked={rulesAccepted}
               onChange={() => { setRulesAccepted(!rulesAccepted) }}
               data-testid='accept-rules'
             >
