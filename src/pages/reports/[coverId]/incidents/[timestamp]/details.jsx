@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { ComingSoon } from '@/common/ComingSoon'
@@ -9,7 +10,6 @@ import { isFeatureEnabled } from '@/src/config/environment'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
-import { ReportingDetailsPage } from '@/src/modules/reporting/details'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
 
@@ -46,6 +46,10 @@ export default function IncidentResolvedCoverPage () {
   )
 }
 
+const DynamicReportingDetailPage = dynamic(() => { return import('@/src/modules/reporting/details').then((mod) => { return mod.ReportingDetailsPage }) }, {
+  loading: () => { return <ReportDetailsSkeleton /> }
+})
+
 function Content ({ loading, incidentReportData, refetch, coverKey, productKey }) {
   const isDiversified = isValidProduct(productKey)
   const {
@@ -72,7 +76,7 @@ function Content ({ loading, incidentReportData, refetch, coverKey, productKey }
   }
 
   return (
-    <ReportingDetailsPage
+    <DynamicReportingDetailPage
       coverKey={coverKey}
       productKey={productKey}
       incidentReport={incidentReportData}

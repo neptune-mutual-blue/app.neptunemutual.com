@@ -103,7 +103,7 @@ msgstr "Added {tokenAmountWithSymbol} to {projectName} Cover"
 msgid "Added Liquidity Successfully"
 msgstr "Added Liquidity Successfully"
 
-#: src/common/LiquidityForms/SuccessModal.jsx:35
+#: src/common/LiquidityForms/SuccessModal.jsx:39
 msgid "Added Liquidity Successfully!"
 msgstr "Added Liquidity Successfully!"
 
@@ -157,7 +157,7 @@ msgstr "Annual Cover fee:"
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
 #: src/modules/my-policies/ClaimCoverModal.jsx:191
 #: src/modules/pools/bond/index.jsx:252
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:131
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:129
 #: src/modules/pools/staking/StakeForm.jsx:147
 #: src/modules/reporting/active/CastYourVote.jsx:207
 #: src/modules/reporting/NewDisputeReportForm.jsx:198
@@ -247,7 +247,7 @@ msgstr "Approving veNPM for unlock"
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
 #: src/modules/my-policies/ClaimCoverModal.jsx:191
 #: src/modules/pools/bond/index.jsx:248
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:131
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:129
 #: src/modules/pools/staking/StakeForm.jsx:143
 #: src/modules/reporting/active/CastYourVote.jsx:203
 #: src/modules/reporting/NewDisputeReportForm.jsx:198
@@ -335,7 +335,7 @@ msgstr "Bond Price"
 msgid "Bonding..."
 msgstr "Bonding..."
 
-#: src/common/Header/getNavigationLinks.jsx:56
+#: src/common/Header/getNavigationLinks.jsx:62
 #: src/modules/bridge/CommonBridgeActions.jsx:27
 msgid "Bridge"
 msgstr "Bridge"
@@ -352,7 +352,7 @@ msgstr "Calculate policy fee"
 msgid "Calculating tokens..."
 msgstr "Calculating tokens..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:418
+#: src/common/CoverForm/PurchasePolicyForm.jsx:436
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -717,8 +717,8 @@ msgid "Could not provide liquidity"
 msgstr "Could not provide liquidity"
 
 #: src/helpers/notification.js:353
-#: src/hooks/usePurchasePolicy.jsx:251
-#: src/hooks/usePurchasePolicy.jsx:322
+#: src/hooks/usePurchasePolicy.jsx:253
+#: src/hooks/usePurchasePolicy.jsx:324
 msgid "Could not purchase policy"
 msgstr "Could not purchase policy"
 
@@ -931,7 +931,7 @@ msgstr "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 msgid "Don't have Arbitrum ETH? <0>Use Neptune Mutual on Ethereum</0> or <1>Bridge ETH and USDC to Arbitrum</1>"
 msgstr "Don't have Arbitrum ETH? <0>Use Neptune Mutual on Ethereum</0> or <1>Bridge ETH and USDC to Arbitrum</1>"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:73
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:74
 msgid "Don't worry, you're not required to make a purchase just yet."
 msgstr "Don't worry, you're not required to make a purchase just yet."
 
@@ -988,7 +988,7 @@ msgstr "End"
 msgid "Enter {NPMTokenSymbol} Amount"
 msgstr "Enter {NPMTokenSymbol} Amount"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:89
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:90
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:229
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:47
 #: src/modules/insights/CalculatorCard.jsx:151
@@ -996,15 +996,19 @@ msgid "Enter Amount"
 msgstr "Enter Amount"
 
 #: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:69
-msgid "Enter Amount You Wish to {0}"
-msgstr "Enter Amount You Wish to {0}"
+msgid "Enter Amount You Wish to Add"
+msgstr "Enter Amount You Wish to Add"
+
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:69
+msgid "Enter Amount You Wish to Lock"
+msgstr "Enter Amount You Wish to Lock"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:276
 msgid "Enter Amount you wish to provide"
 msgstr "Enter Amount you wish to provide"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:340
 #: src/common/CoverForm/PurchasePolicyForm.jsx:348
+#: src/common/CoverForm/PurchasePolicyForm.jsx:356
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:303
 msgid "Enter Cashback Code"
 msgstr "Enter Cashback Code"
@@ -1125,7 +1129,7 @@ msgstr "Fetching {liquidityTokenSymbol} allowance..."
 msgid "Fetching {NPMTokenSymbol} allowance..."
 msgstr "Fetching {NPMTokenSymbol} allowance..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:202
+#: src/common/CoverForm/PurchasePolicyForm.jsx:208
 #: src/modules/governance/AccountDetail.jsx:52
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:160
 #: src/modules/my-policies/ClaimCoverModal.jsx:109
@@ -1138,7 +1142,7 @@ msgstr "Fetching {NPMTokenSymbol} allowance..."
 msgid "Fetching allowance..."
 msgstr "Fetching allowance..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:204
+#: src/common/CoverForm/PurchasePolicyForm.jsx:210
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:222
 #: src/modules/governance/AccountDetail.jsx:50
 #: src/modules/my-policies/ClaimCoverModal.jsx:107
@@ -1150,7 +1154,7 @@ msgstr "Fetching allowance..."
 msgid "Fetching balance..."
 msgstr "Fetching balance..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:200
+#: src/common/CoverForm/PurchasePolicyForm.jsx:206
 msgid "Fetching fees..."
 msgstr "Fetching fees..."
 
@@ -1186,7 +1190,7 @@ msgstr "Gauge set successfully"
 msgid "Get LP tokens"
 msgstr "Get LP tokens"
 
-#: src/common/Header/getNavigationLinks.jsx:46
+#: src/common/Header/getNavigationLinks.jsx:52
 #: src/modules/governance/index.jsx:89
 msgid "Governance"
 msgstr "Governance"
@@ -1216,7 +1220,7 @@ msgstr "High Boost"
 msgid "Home"
 msgstr "Home"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:70
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:71
 msgid "How Much Protection Do You Require?"
 msgstr "How Much Protection Do You Require?"
 
@@ -1224,7 +1228,7 @@ msgstr "How Much Protection Do You Require?"
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 msgstr "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:298
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions."
 msgstr "I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions."
 
@@ -1273,7 +1277,7 @@ msgstr "Incident Occurred"
 msgid "Incident Reporters"
 msgstr "Incident Reporters"
 
-#: src/hooks/useValidateReferralCode.jsx:56
+#: src/hooks/useValidateReferralCode.jsx:57
 msgid "Incorrect Cashback Code"
 msgstr "Incorrect Cashback Code"
 
@@ -1320,7 +1324,7 @@ msgstr "Invalid amount to cover"
 msgid "Invalid amount to stake"
 msgstr "Invalid amount to stake"
 
-#: src/hooks/useValidateReferralCode.jsx:73
+#: src/hooks/useValidateReferralCode.jsx:75
 msgid "Invalid Cashback Code"
 msgstr "Invalid Cashback Code"
 
@@ -1340,7 +1344,7 @@ msgstr "Latest version of the Standard Terms and Conditions will apply."
 #: src/common/Cover/CoverCard.jsx:175
 #: src/common/Cover/ProductCard.jsx:176
 #: src/common/Cover/ProductCard.jsx:226
-#: src/common/Header/getNavigationLinks.jsx:71
+#: src/common/Header/getNavigationLinks.jsx:77
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:346
 #: src/modules/insights/TopAccountsByLiquidity.jsx:88
 #: src/utils/sorting.js:25
@@ -1405,7 +1409,7 @@ msgstr "Live"
 msgid "loading..."
 msgstr "loading..."
 
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:122
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:120
 msgid "Lock"
 msgstr "Lock"
 
@@ -1429,7 +1433,7 @@ msgstr "Locking {tokenSymbol} token"
 msgid "Locking NPM"
 msgstr "Locking NPM"
 
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:122
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:120
 msgid "Locking..."
 msgstr "Locking..."
 
@@ -1448,7 +1452,7 @@ msgstr "Low Boost"
 msgid "Market Price"
 msgstr "Market Price"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:79
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:80
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:219
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:38
 #: src/modules/insights/CalculatorCard.jsx:144
@@ -1475,11 +1479,11 @@ msgstr "Maximum proposal amount should be less than {maxProposal}"
 msgid "Maximum proposal threshold is {maxProposalThreshold}"
 msgstr "Maximum proposal threshold is {maxProposalThreshold}"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:52
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:53
 msgid "Maximum proposal threshold is {maxThreshold}"
 msgstr "Maximum proposal threshold is {maxThreshold}"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:49
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:50
 #: src/modules/insights/CalculatorCard.jsx:83
 msgid "Maximum protection available is {maxProtection}"
 msgstr "Maximum protection available is {maxProtection}"
@@ -1500,7 +1504,7 @@ msgstr "Minimum proposal amount should be greater than {minProposal}"
 msgid "Minimum proposal threshold is {minProposal}"
 msgstr "Minimum proposal threshold is {minProposal}"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:55
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:56
 msgid "Minimum proposal threshold is {minThreshold}"
 msgstr "Minimum proposal threshold is {minThreshold}"
 
@@ -1512,7 +1516,7 @@ msgstr "Minimum proposal threshold is {minThreshold}"
 msgid "Minimum Stake:"
 msgstr "Minimum Stake:"
 
-#: src/common/Header/getNavigationLinks.jsx:61
+#: src/common/Header/getNavigationLinks.jsx:67
 msgid "My Account"
 msgstr "My Account"
 
@@ -1521,7 +1525,7 @@ msgid "My Active Protection"
 msgstr "My Active Protection"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:110
-#: src/common/Header/getNavigationLinks.jsx:72
+#: src/common/Header/getNavigationLinks.jsx:78
 #: src/modules/my-liquidity/details.jsx:76
 #: src/modules/my-liquidity/details.jsx:107
 #: src/pages/my-liquidity/index.jsx:61
@@ -1529,7 +1533,7 @@ msgstr "My Active Protection"
 msgid "My Liquidity"
 msgstr "My Liquidity"
 
-#: src/common/Header/getNavigationLinks.jsx:65
+#: src/common/Header/getNavigationLinks.jsx:71
 #: src/modules/my-policies/ClaimDetailsPage.jsx:82
 #: src/modules/my-policies/ClaimDetailsPage.jsx:99
 #: src/modules/my-policies/PoliciesTabs.jsx:28
@@ -1563,7 +1567,7 @@ msgstr "Network"
 
 #: lib/hl-calendar/index.jsx:70
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:92
-#: src/common/CoverForm/PurchasePolicyForm.jsx:405
+#: src/common/CoverForm/PurchasePolicyForm.jsx:423
 msgid "Next"
 msgstr "Next"
 
@@ -1594,8 +1598,8 @@ msgstr "No <0>staking pools found.</0>"
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:50
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:82
 #: src/modules/reporting/resolved/resolved.jsx:325
-#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:69
-#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:67
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:73
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:73
 msgid "No data found"
 msgstr "No data found"
 
@@ -1611,7 +1615,7 @@ msgstr "No data found"
 #: src/modules/reporting/new/index.jsx:62
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:36
 #: src/modules/reporting/ReportListing.jsx:181
-#: src/pages/covers/[coverId]/index.jsx:50
+#: src/pages/covers/[coverId]/index.jsx:54
 #: src/pages/covers/[coverId]/products/[productId]/index.jsx:45
 msgid "No Data Found"
 msgstr "No Data Found"
@@ -1704,7 +1708,7 @@ msgstr "POD Staking"
 msgid "policies"
 msgstr "policies"
 
-#: src/common/Header/getNavigationLinks.jsx:64
+#: src/common/Header/getNavigationLinks.jsx:70
 msgid "Policies"
 msgstr "Policies"
 
@@ -1712,7 +1716,7 @@ msgstr "Policies"
 msgid "policy"
 msgstr "policy"
 
-#: src/common/Header/getNavigationLinks.jsx:36
+#: src/common/Header/getNavigationLinks.jsx:42
 #: src/pages/pools/bond/transactions.jsx:34
 #: src/pages/pools/liquidity-gauge-pools/transactions.jsx:36
 #: src/pages/pools/pod-staking/transactions.jsx:35
@@ -1791,7 +1795,7 @@ msgstr "Provided Liquidity Successfully"
 msgid "Providing Liquidity..."
 msgstr "Providing Liquidity..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:410
+#: src/common/CoverForm/PurchasePolicyForm.jsx:428
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
 #: src/config/cover/actions.js:10
 #: src/modules/cover/purchase/index.jsx:49
@@ -1809,12 +1813,12 @@ msgid "Purchased Policy"
 msgstr "Purchased Policy"
 
 #: src/helpers/notification.js:346
-#: src/hooks/usePurchasePolicy.jsx:321
+#: src/hooks/usePurchasePolicy.jsx:323
 msgid "Purchased Policy Successfully"
 msgstr "Purchased Policy Successfully"
 
 #: src/helpers/notification.js:358
-#: src/hooks/usePurchasePolicy.jsx:320
+#: src/hooks/usePurchasePolicy.jsx:322
 msgid "Purchasing Policy"
 msgstr "Purchasing Policy"
 
@@ -1916,7 +1920,7 @@ msgstr "Reported On:"
 msgid "reporter"
 msgstr "reporter"
 
-#: src/common/Header/getNavigationLinks.jsx:41
+#: src/common/Header/getNavigationLinks.jsx:47
 #: src/common/HomeCard/HomeMainCard.jsx:33
 #: src/modules/reporting/ReportingHero.jsx:37
 #: src/modules/reporting/ReportingHero.jsx:45
@@ -2417,7 +2421,7 @@ msgstr "View Proposal"
 msgid "View Proposals"
 msgstr "View Proposals"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:409
+#: src/common/CoverForm/PurchasePolicyForm.jsx:427
 msgid "View Quotation"
 msgstr "View Quotation"
 
@@ -2433,7 +2437,7 @@ msgstr "View Tx"
 msgid "View:"
 msgstr "View:"
 
-#: src/common/Header/getNavigationLinks.jsx:51
+#: src/common/Header/getNavigationLinks.jsx:57
 msgid "Vote Escrow"
 msgstr "Vote Escrow"
 
@@ -2498,9 +2502,13 @@ msgstr "Withdrawn reward of {tokenAmountWithSymbol} from {0} Pool"
 msgid "Withdrawn rewards successfully"
 msgstr "Withdrawn rewards successfully"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:210
+#: src/common/CoverForm/PurchasePolicyForm.jsx:216
 msgid "You are not whitelisted"
 msgstr "You are not whitelisted"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:397
+msgid "You cannot purchase this policy, since the cover is disabled"
+msgstr "You cannot purchase this policy, since the cover is disabled"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:128
 #: src/modules/pools/staking/HarvestForm.jsx:48
