@@ -1,14 +1,18 @@
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
-import { HomeHero } from '@/modules/home/Hero'
 import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
+import { ProductsGridSkeleton } from '@/modules/home/ProductsGridSkeleton'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
-import { ProductsGridSkeleton } from '@/modules/home/ProductsGridSkeleton'
+
+const DynamicHomeHero = dynamic(() => { return import('@/modules/home/Hero').then((mod) => { return mod.HomeHero }) }, {
+  loading: () => { return <HomeHeroSkeleton data-testid='hero-skeleton' /> }
+})
 
 export default function CoverPage () {
   const router = useRouter()
@@ -57,7 +61,7 @@ function Content ({ loading, coverData, coverKey, productKey }) {
   return (isDiversified
     ? (
       <div className='min-h-screen'>
-        <HomeHero />
+        <DynamicHomeHero />
         <ProductsGrid />
       </div>
       )

@@ -42,7 +42,7 @@ const SuccessModal = ({ open, close, amountInDollars }) => {
           </div>
 
           <div className='p-8 pt-3 pb-7'>
-            <img src='/images/nft-image.png' alt='image showing different NFT characters' />
+            <img src='/images/nft-image.webp' alt='image showing different NFT characters' />
 
             <div className='relative px-8 py-4 mx-auto text-center text-white w-max bg-primary -mt-11 rounded-2xl shadow-points-btn'>
               <p className='text-sm capitalize'>Congratulations! you've just earned</p>

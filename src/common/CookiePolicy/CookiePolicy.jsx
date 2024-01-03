@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { OutlinedButton } from '@/common/Button/OutlinedButton'
+import { RegularButton } from '@/common/Button/RegularButton'
 import { useCookies } from '@/src/context/Cookie'
 import { LocalStorage } from '@/utils/localstorage'
 import {
@@ -7,8 +9,6 @@ import {
   Transition
 } from '@headlessui/react'
 import { Trans } from '@lingui/macro'
-import { RegularButton } from '@/common/Button/RegularButton'
-import { OutlinedButton } from '@/common/Button/OutlinedButton'
 
 /**
  * @returns {boolean}
@@ -68,13 +68,13 @@ export function CookiePolicy ({ isOpen, onClose }) {
               </p>
               <div className='flex w-full text-sm whitespace-nowrap md:w-auto'>
                 <OutlinedButton
-                  className='flex-grow px-6 py-4 mr-4 tracking-wide uppercase bg-opacity-50 border border-solid text-primary md:py-2 rounded-1 min-w-60 md:mr-2 hover:bg-opacity-10 hover:bg-primary'
+                  className='flex-grow px-6 py-4 mr-4 tracking-wide uppercase font-medium bg-opacity-50 border border-solid text-primary md:py-2 rounded-1 min-w-60 md:mr-2 hover:bg-opacity-10 hover:bg-primary'
                   onClick={handleDecline}
                 >
                   <Trans>Decline</Trans>
                 </OutlinedButton>
                 <RegularButton
-                  className='flex-grow px-6 py-4 tracking-wide text-white uppercase border border-solid md:py-2 !rounded-1 min-w-60'
+                  className='flex-grow px-6 py-4 tracking-wide text-white uppercase font-medium border border-solid md:py-2 !rounded-1 min-w-60'
                   onClick={handleAccepted}
                 >
                   <Trans>Accept</Trans>

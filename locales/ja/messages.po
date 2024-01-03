@@ -103,7 +103,7 @@ msgstr ""
 msgid "Added Liquidity Successfully"
 msgstr "流動性が追加されました"
 
-#: src/common/LiquidityForms/SuccessModal.jsx:35
+#: src/common/LiquidityForms/SuccessModal.jsx:39
 msgid "Added Liquidity Successfully!"
 msgstr ""
 
@@ -157,7 +157,7 @@ msgstr "年間保障料金："
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
 #: src/modules/my-policies/ClaimCoverModal.jsx:191
 #: src/modules/pools/bond/index.jsx:252
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:131
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:129
 #: src/modules/pools/staking/StakeForm.jsx:147
 #: src/modules/reporting/active/CastYourVote.jsx:207
 #: src/modules/reporting/NewDisputeReportForm.jsx:198
@@ -247,7 +247,7 @@ msgstr ""
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
 #: src/modules/my-policies/ClaimCoverModal.jsx:191
 #: src/modules/pools/bond/index.jsx:248
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:131
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:129
 #: src/modules/pools/staking/StakeForm.jsx:143
 #: src/modules/reporting/active/CastYourVote.jsx:203
 #: src/modules/reporting/NewDisputeReportForm.jsx:198
@@ -335,7 +335,7 @@ msgstr "ボンド価格"
 msgid "Bonding..."
 msgstr "ボンド発行中。。。"
 
-#: src/common/Header/getNavigationLinks.jsx:56
+#: src/common/Header/getNavigationLinks.jsx:62
 #: src/modules/bridge/CommonBridgeActions.jsx:27
 msgid "Bridge"
 msgstr ""
@@ -352,7 +352,7 @@ msgstr ""
 msgid "Calculating tokens..."
 msgstr "トークンを計算中..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:418
+#: src/common/CoverForm/PurchasePolicyForm.jsx:436
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -720,8 +720,8 @@ msgid "Could not provide liquidity"
 msgstr "流動性を提供できませんでした"
 
 #: src/helpers/notification.js:353
-#: src/hooks/usePurchasePolicy.jsx:251
-#: src/hooks/usePurchasePolicy.jsx:322
+#: src/hooks/usePurchasePolicy.jsx:253
+#: src/hooks/usePurchasePolicy.jsx:324
 msgid "Could not purchase policy"
 msgstr "ポリシーを購入できませんでした"
 
@@ -934,7 +934,7 @@ msgstr "総合型資金プールは {0}倍のレバレッジ係数と{1}の資�
 msgid "Don't have Arbitrum ETH? <0>Use Neptune Mutual on Ethereum</0> or <1>Bridge ETH and USDC to Arbitrum</1>"
 msgstr ""
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:73
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:74
 msgid "Don't worry, you're not required to make a purchase just yet."
 msgstr "ご心配なく。まだカバーを購入する必要がございません。"
 
@@ -991,7 +991,7 @@ msgstr ""
 msgid "Enter {NPMTokenSymbol} Amount"
 msgstr ""
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:89
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:90
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:229
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:47
 #: src/modules/insights/CalculatorCard.jsx:151
@@ -999,15 +999,19 @@ msgid "Enter Amount"
 msgstr "金額を入力してください"
 
 #: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:69
-msgid "Enter Amount You Wish to {0}"
+msgid "Enter Amount You Wish to Add"
+msgstr ""
+
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:69
+msgid "Enter Amount You Wish to Lock"
 msgstr ""
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:276
 msgid "Enter Amount you wish to provide"
 msgstr "提供したい金額を入力してください"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:340
 #: src/common/CoverForm/PurchasePolicyForm.jsx:348
+#: src/common/CoverForm/PurchasePolicyForm.jsx:356
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:303
 msgid "Enter Cashback Code"
 msgstr ""
@@ -1128,7 +1132,7 @@ msgstr "{liquidityTokenSymbol}手当を取得しています..."
 msgid "Fetching {NPMTokenSymbol} allowance..."
 msgstr "{NPMTokenSymbol}手当を取得しています..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:202
+#: src/common/CoverForm/PurchasePolicyForm.jsx:208
 #: src/modules/governance/AccountDetail.jsx:52
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:160
 #: src/modules/my-policies/ClaimCoverModal.jsx:109
@@ -1141,7 +1145,7 @@ msgstr "{NPMTokenSymbol}手当を取得しています..."
 msgid "Fetching allowance..."
 msgstr "手当を取得しています..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:204
+#: src/common/CoverForm/PurchasePolicyForm.jsx:210
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:222
 #: src/modules/governance/AccountDetail.jsx:50
 #: src/modules/my-policies/ClaimCoverModal.jsx:107
@@ -1153,7 +1157,7 @@ msgstr "手当を取得しています..."
 msgid "Fetching balance..."
 msgstr "残高を取得しています..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:200
+#: src/common/CoverForm/PurchasePolicyForm.jsx:206
 msgid "Fetching fees..."
 msgstr "料金を取得しています..."
 
@@ -1189,7 +1193,7 @@ msgstr ""
 msgid "Get LP tokens"
 msgstr "LPトークンを取得します"
 
-#: src/common/Header/getNavigationLinks.jsx:46
+#: src/common/Header/getNavigationLinks.jsx:52
 #: src/modules/governance/index.jsx:89
 msgid "Governance"
 msgstr ""
@@ -1219,7 +1223,7 @@ msgstr ""
 msgid "Home"
 msgstr "ホーム"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:70
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:71
 msgid "How Much Protection Do You Require?"
 msgstr "どの程度の保障が必要ですか?"
 
@@ -1227,7 +1231,7 @@ msgstr "どの程度の保障が必要ですか?"
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 msgstr "私はこの資金プール及びNeptune Mutual プロトコルに関するすべてのリスク、カバーの諸条件、除外事項及び基準除外事項を読み、評価し、理解し且つ同意します。"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:298
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions."
 msgstr ""
 
@@ -1276,7 +1280,7 @@ msgstr "インシデントが発生しました"
 msgid "Incident Reporters"
 msgstr "インシデント通報者"
 
-#: src/hooks/useValidateReferralCode.jsx:56
+#: src/hooks/useValidateReferralCode.jsx:57
 msgid "Incorrect Cashback Code"
 msgstr ""
 
@@ -1323,7 +1327,7 @@ msgstr "カバーする金額が無効です"
 msgid "Invalid amount to stake"
 msgstr "ステークする金額が無効です"
 
-#: src/hooks/useValidateReferralCode.jsx:73
+#: src/hooks/useValidateReferralCode.jsx:75
 msgid "Invalid Cashback Code"
 msgstr ""
 
@@ -1343,7 +1347,7 @@ msgstr ""
 #: src/common/Cover/CoverCard.jsx:175
 #: src/common/Cover/ProductCard.jsx:176
 #: src/common/Cover/ProductCard.jsx:226
-#: src/common/Header/getNavigationLinks.jsx:71
+#: src/common/Header/getNavigationLinks.jsx:77
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:346
 #: src/modules/insights/TopAccountsByLiquidity.jsx:88
 #: src/utils/sorting.js:25
@@ -1408,7 +1412,7 @@ msgstr ""
 msgid "loading..."
 msgstr "読み込み中..."
 
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:122
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:120
 msgid "Lock"
 msgstr ""
 
@@ -1432,7 +1436,7 @@ msgstr ""
 msgid "Locking NPM"
 msgstr ""
 
-#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:122
+#: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:120
 msgid "Locking..."
 msgstr ""
 
@@ -1451,7 +1455,7 @@ msgstr ""
 msgid "Market Price"
 msgstr "市場価格"
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:79
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:80
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:219
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:38
 #: src/modules/insights/CalculatorCard.jsx:144
@@ -1478,11 +1482,11 @@ msgstr ""
 msgid "Maximum proposal threshold is {maxProposalThreshold}"
 msgstr ""
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:52
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:53
 msgid "Maximum proposal threshold is {maxThreshold}"
 msgstr ""
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:49
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:50
 #: src/modules/insights/CalculatorCard.jsx:83
 msgid "Maximum protection available is {maxProtection}"
 msgstr ""
@@ -1503,7 +1507,7 @@ msgstr ""
 msgid "Minimum proposal threshold is {minProposal}"
 msgstr ""
 
-#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:55
+#: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:56
 msgid "Minimum proposal threshold is {minThreshold}"
 msgstr ""
 
@@ -1515,7 +1519,7 @@ msgstr ""
 msgid "Minimum Stake:"
 msgstr "最小ステーク:"
 
-#: src/common/Header/getNavigationLinks.jsx:61
+#: src/common/Header/getNavigationLinks.jsx:67
 msgid "My Account"
 msgstr ""
 
@@ -1524,7 +1528,7 @@ msgid "My Active Protection"
 msgstr "私の有効保障"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:110
-#: src/common/Header/getNavigationLinks.jsx:72
+#: src/common/Header/getNavigationLinks.jsx:78
 #: src/modules/my-liquidity/details.jsx:76
 #: src/modules/my-liquidity/details.jsx:107
 #: src/pages/my-liquidity/index.jsx:61
@@ -1532,7 +1536,7 @@ msgstr "私の有効保障"
 msgid "My Liquidity"
 msgstr "私の流動性"
 
-#: src/common/Header/getNavigationLinks.jsx:65
+#: src/common/Header/getNavigationLinks.jsx:71
 #: src/modules/my-policies/ClaimDetailsPage.jsx:82
 #: src/modules/my-policies/ClaimDetailsPage.jsx:99
 #: src/modules/my-policies/PoliciesTabs.jsx:28
@@ -1566,7 +1570,7 @@ msgstr ""
 
 #: lib/hl-calendar/index.jsx:70
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:92
-#: src/common/CoverForm/PurchasePolicyForm.jsx:405
+#: src/common/CoverForm/PurchasePolicyForm.jsx:423
 msgid "Next"
 msgstr "次へ"
 
@@ -1597,8 +1601,8 @@ msgstr "<0>ステーキングプールが見つかりません。</0>"
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:50
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:82
 #: src/modules/reporting/resolved/resolved.jsx:325
-#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:69
-#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:67
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:73
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:73
 msgid "No data found"
 msgstr "データが見つかりません"
 
@@ -1614,7 +1618,7 @@ msgstr "データが見つかりません"
 #: src/modules/reporting/new/index.jsx:62
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:36
 #: src/modules/reporting/ReportListing.jsx:181
-#: src/pages/covers/[coverId]/index.jsx:50
+#: src/pages/covers/[coverId]/index.jsx:54
 #: src/pages/covers/[coverId]/products/[productId]/index.jsx:45
 msgid "No Data Found"
 msgstr ""
@@ -1712,7 +1716,7 @@ msgstr "POD ステーキング"
 msgid "policies"
 msgstr ""
 
-#: src/common/Header/getNavigationLinks.jsx:64
+#: src/common/Header/getNavigationLinks.jsx:70
 msgid "Policies"
 msgstr ""
 
@@ -1720,7 +1724,7 @@ msgstr ""
 msgid "policy"
 msgstr "ポリシー"
 
-#: src/common/Header/getNavigationLinks.jsx:36
+#: src/common/Header/getNavigationLinks.jsx:42
 #: src/pages/pools/bond/transactions.jsx:34
 #: src/pages/pools/liquidity-gauge-pools/transactions.jsx:36
 #: src/pages/pools/pod-staking/transactions.jsx:35
@@ -1801,7 +1805,7 @@ msgstr "流動性を提供しました"
 msgid "Providing Liquidity..."
 msgstr "流動性提供中"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:410
+#: src/common/CoverForm/PurchasePolicyForm.jsx:428
 #: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
 #: src/config/cover/actions.js:10
 #: src/modules/cover/purchase/index.jsx:49
@@ -1819,12 +1823,12 @@ msgid "Purchased Policy"
 msgstr "購入した保障金額"
 
 #: src/helpers/notification.js:346
-#: src/hooks/usePurchasePolicy.jsx:321
+#: src/hooks/usePurchasePolicy.jsx:323
 msgid "Purchased Policy Successfully"
 msgstr "ポリシーを購入しました"
 
 #: src/helpers/notification.js:358
-#: src/hooks/usePurchasePolicy.jsx:320
+#: src/hooks/usePurchasePolicy.jsx:322
 msgid "Purchasing Policy"
 msgstr "ポリシー購入中"
 
@@ -1926,7 +1930,7 @@ msgstr "通報された日："
 msgid "reporter"
 msgstr "通報者"
 
-#: src/common/Header/getNavigationLinks.jsx:41
+#: src/common/Header/getNavigationLinks.jsx:47
 #: src/common/HomeCard/HomeMainCard.jsx:33
 #: src/modules/reporting/ReportingHero.jsx:37
 #: src/modules/reporting/ReportingHero.jsx:45
@@ -2427,7 +2431,7 @@ msgstr ""
 msgid "View Proposals"
 msgstr ""
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:409
+#: src/common/CoverForm/PurchasePolicyForm.jsx:427
 msgid "View Quotation"
 msgstr "見積もりを見る"
 
@@ -2443,7 +2447,7 @@ msgstr "Tx を見る"
 msgid "View:"
 msgstr "表示："
 
-#: src/common/Header/getNavigationLinks.jsx:51
+#: src/common/Header/getNavigationLinks.jsx:57
 msgid "Vote Escrow"
 msgstr ""
 
@@ -2508,9 +2512,13 @@ msgstr ""
 msgid "Withdrawn rewards successfully"
 msgstr "報酬を回収しました"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:210
+#: src/common/CoverForm/PurchasePolicyForm.jsx:216
 msgid "You are not whitelisted"
 msgstr "ホワイトリストに登録されていません"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:397
+msgid "You cannot purchase this policy, since the cover is disabled"
+msgstr ""
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:128
 #: src/modules/pools/staking/HarvestForm.jsx:48
