@@ -1,11 +1,7 @@
-import { RegularButton } from '@/common/Button/RegularButton'
-import ArrowNarrowRight from '@/icons/ArrowNarrowRight'
-
 export default function AnnouncementBanner () {
-  const imageSrc = '/new-year-banner.webp'
+  const imageSrc = '/new-year-banner.jpg'
   const imageAlt = 'New year rewards'
   const linkHref = 'https://community.neptunemutual.com/t/enjoy-110-cashback-this-new-year/279'
-  const btnText = 'Learn More'
 
   return (
     <div
@@ -13,13 +9,9 @@ export default function AnnouncementBanner () {
       data-testid='announcement-banner'
     >
       <div className='relative'>
-        <img className='object-cover max-w-full overflow-hidden h-96 rounded-xl' src={imageSrc} alt={imageAlt} />
 
         <a href={linkHref} target='_blank' rel='noreferrer'>
-          <RegularButton className='absolute bottom-13 whitespace-nowrap left-[50%] translate-x-[-50%] flex gap-2.5 items-center text-sm text-white py-2.5 px-4 font-bold'>
-            {btnText}
-            <ArrowNarrowRight />
-          </RegularButton>
+          <img className='object-cover h-64 max-w-full overflow-hidden sm:h-96 rounded-xl' src={imageSrc} alt={imageAlt} />
         </a>
       </div>
 
