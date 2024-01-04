@@ -11,7 +11,7 @@ export default function AnnouncementBanner () {
       <div className='relative'>
 
         <a href={linkHref} target='_blank' rel='noreferrer'>
-          <img className='object-cover max-w-full overflow-hidden h-96 rounded-xl' src={imageSrc} alt={imageAlt} />
+          <img className='object-cover h-64 max-w-full overflow-hidden sm:h-96 rounded-xl' src={imageSrc} alt={imageAlt} />
         </a>
       </div>
 
