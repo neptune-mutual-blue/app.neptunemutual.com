@@ -35,7 +35,7 @@ export const LiquidityResolutionSources = ({
   const coverKey = safeFormatBytes32String(coverId)
 
   const {
-    info: { myStake, myPodBalance }
+    info: { myStake, myPodBalance, isAccrualComplete }
   } = useLiquidityFormsContext()
 
   const imgSrc = getCoverImgSrc({ key: coverKey })
@@ -73,7 +73,7 @@ export const LiquidityResolutionSources = ({
           </DedicatedLiquidityResolutionSources>
           )}
       <div className='flex justify-end'>
-        {isWithdrawalWindowOpen && (
+        {isWithdrawalWindowOpen && !isAccrualComplete && (
           <button
             className='mt-4 mr-2 text-sm tracking-wide uppercase text-4E7DD9 hover:underline disabled:hover:no-underline'
             onClick={accrueInterest}
