@@ -6,6 +6,7 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const StatBeforeLocked = ({
   label,
@@ -58,23 +59,25 @@ export function LiquidityGaugePoolStats ({
 
   const hasLockedAmount = toBN(lockedByMe).isGreaterThan(0)
 
+  const { i18n } = useLingui()
+
   const stats = [
     hasLockedAmount && {
-      label: t`Your Locked Balance`,
+      label: t(i18n)`Your Locked Balance`,
       value: formattedBalance.short,
       tooltip: formattedBalance.long
     },
     hasLockedAmount && {
-      label: t`Emission Received`,
+      label: t(i18n)`Emission Received`,
       value: formattedReward.short,
       tooltip: formattedReward.long
     },
     {
-      label: t`Lockup Period`,
-      value: t`${lockupPeriodInBlocks} Blocks`
+      label: t(i18n)`Lockup Period`,
+      value: t(i18n)`${lockupPeriodInBlocks} Blocks`
     },
     {
-      label: t`TVL`,
+      label: t(i18n)`TVL`,
       value: formattedTvl.short,
       tooltip: formattedTvl.long
     }

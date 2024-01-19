@@ -12,7 +12,7 @@ import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { useToast } from '@/lib/toast/context'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
@@ -199,6 +199,8 @@ function Notification ({
   read = false
 }) {
   const txLink = getTxLink(networkId, { hash })
+
+  const { getActionMessage } = useActionMessage()
 
   const { title, description } = getActionMessage(
     methodName,

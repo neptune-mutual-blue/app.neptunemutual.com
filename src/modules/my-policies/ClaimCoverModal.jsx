@@ -121,7 +121,7 @@ export const ClaimCoverModal = ({
           className='flex items-center w-full font-bold text-display-sm'
           data-testid='dialog-title'
         >
-          <img src={imgSrc} alt={t`policy`} height={48} width={48} />
+          <img src={imgSrc} alt={t(i18n)`policy`} height={48} width={48} />
           <span className='pl-3'>{modalTitle}</span>
         </Dialog.Title>
         <ModalCloseButton
@@ -188,7 +188,7 @@ export const ClaimCoverModal = ({
                 }}
                 data-testid='approve-button'
               >
-                {approving ? t`Approving...` : t`Approve`}
+                {approving ? t(i18n)`Approving...` : t`Approve`}
               </RegularButton>
               )
             : (
@@ -202,7 +202,7 @@ export const ClaimCoverModal = ({
                 }}
                 data-testid='claim-button'
               >
-                {claiming ? t`Claiming...` : t`Claim`}
+                {claiming ? t(i18n)`Claiming...` : t`Claim`}
               </RegularButton>
               )}
         </div>

@@ -67,6 +67,13 @@ const renderLiquidity = (row, { locale }) => {
   )
 }
 
+/**
+ * Returns an array of column objects for the proposals table.
+ * Each object represents a column and contains properties such as id, name, alignment, and render functions.
+ *
+ * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
+ * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
+ */
 const getColumns = (i18n) => {
   return [
     {

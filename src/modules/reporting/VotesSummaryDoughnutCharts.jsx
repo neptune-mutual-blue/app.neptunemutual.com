@@ -10,13 +10,13 @@ import { useLingui } from '@lingui/react'
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
   const router = useRouter()
 
-  useLingui()
+  const { i18n } = useLingui()
 
   const yesData = {
     // labels: ["Red", "Blue"],
     datasets: [
       {
-        label: t`# of Votes`,
+        label: t(i18n)`# of Votes`,
         data: [noPercent, yesPercent],
         backgroundColor: ['#DEEAF6', '#0FB88F'],
         borderColor: ['#DEEAF6', '#0FB88F'],
@@ -28,7 +28,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
     // labels: ["Red", "Blue"],
     datasets: [
       {
-        label: t`# of Votes`,
+        label: t(i18n)`# of Votes`,
         data: [noPercent, yesPercent],
         backgroundColor: ['#FA5C2F', '#DEEAF6'],
         borderColor: ['#FA5C2F', '#DEEAF6'],
@@ -45,7 +45,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
       >
         <div className='relative max-w-fit'>
           <DoughnutChartInsight
-            title={t`Incident Occurred`}
+            title={t(i18n)`Incident Occurred`}
             percent={formatPercent(yesPercent, router.locale)}
             amountStaked={votes.yes}
             variant='success'
@@ -55,7 +55,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 
         <div className='relative max-w-fit'>
           <DoughnutChartInsight
-            title={t`False Reporting`}
+            title={t(i18n)`False Reporting`}
             percent={formatPercent(noPercent, router.locale)}
             amountStaked={votes.no}
             variant='error'

@@ -8,7 +8,7 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
@@ -25,6 +25,7 @@ import {
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingTokenDecimals, stakingTokenSymbol, amount, poolAddress }) => {
   const { notifyError } = useErrorNotifier()
@@ -49,6 +50,10 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingToken
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   useEffect(() => {
     updateAllowance(liquidityGaugePoolAddress)
   }, [updateAllowance, liquidityGaugePoolAddress])
@@ -60,7 +65,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingToken
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${stakingTokenSymbol}`)
+      notifyError(err, t(i18n)`Could not approve ${stakingTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -145,7 +150,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingToken
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not lock ${stakingTokenSymbol}`)
+      notifyError(err, t(i18n)`Could not lock ${stakingTokenSymbol}`)
     }
 
     try {

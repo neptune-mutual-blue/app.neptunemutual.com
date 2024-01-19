@@ -8,7 +8,7 @@ import {
 } from '@headlessui/react'
 
 export const Select = ({
-  prefix = '',
+  prefix = <></>,
   options,
   selected,
   setSelected,

@@ -73,6 +73,8 @@ const BondPage = () => {
     handleBond
   } = useCreateBond({ info: { ...info, lpTokenSymbol }, value, refetchBondInfo })
 
+  const { i18n } = useLingui()
+
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm)
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress),
@@ -81,7 +83,7 @@ const BondPage = () => {
 
   const leftHalf = [
     {
-      title: t`Bond Price`,
+      title: t(i18n)`Bond Price`,
       value: formatCurrency(
         getDiscountedPrice(
           info.discountRate,
@@ -97,7 +99,7 @@ const BondPage = () => {
       valueClasses: 'text-display-xs text-4E7DD9 mt-1'
     },
     {
-      title: t`Maximum Bond`,
+      title: t(i18n)`Maximum Bond`,
       value: `${
         formatCurrency(
           convertFromUnits(info.maxBond, NPMTokenDecimals).toString(),
@@ -121,7 +123,7 @@ const BondPage = () => {
 
   const rightHalf = [
     {
-      title: t`Market Price`,
+      title: t(i18n)`Market Price`,
       value: formatCurrency(
         convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
         router.locale,
@@ -139,7 +141,7 @@ const BondPage = () => {
 
   if (account) {
     rightHalf.push({
-      title: t`Your Bond`,
+      title: t(i18n)`Your Bond`,
       value: claimable
         ? `${
             formatCurrency(
@@ -184,11 +186,11 @@ const BondPage = () => {
   const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || '0').toString()
   let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = t`Calculating tokens...`
+    loadingMessage = t(i18n)`Calculating tokens...`
   } else if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = t(i18n)`Fetching balance...`
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = t(i18n)`Fetching allowance...`
   }
 
   return (
@@ -245,7 +247,7 @@ const BondPage = () => {
               >
                 {approving
                   ? (
-                      t`Approving...`
+                      t(i18n)`Approving...`
                     )
                   : (
                     <>
@@ -266,7 +268,7 @@ const BondPage = () => {
               >
                 {bonding
                   ? (
-                      t`Bonding...`
+                      t(i18n)`Bonding...`
                     )
                   : (
                     <>

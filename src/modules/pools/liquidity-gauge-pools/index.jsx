@@ -47,8 +47,10 @@ const sorterData = {
 }
 
 export const LiquidityGaugePoolsPage = () => {
+  const { i18n } = useLingui()
+
   const [sortType, setSortType] = useState({
-    name: t`TVL`,
+    name: t(i18n)`TVL`,
     value: SORT_TYPES.TVL
   })
 
@@ -79,8 +81,6 @@ export const LiquidityGaugePoolsPage = () => {
     },
     [filtered, sortType.value]
   )
-
-  const { i18n } = useLingui()
 
   const options = [
     { name: t(i18n)`TVL`, value: SORT_TYPES.TVL },
@@ -134,6 +134,8 @@ function Content ({
   // hasMore,
   // handleShowMore
 }) {
+  const { i18n } = useLingui()
+
   if (data.length) {
     return (
       <LiquidityGaugePoolsList pools={data} />
@@ -163,7 +165,7 @@ function Content ({
     >
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t`No data found`}
+        alt={t(i18n)`No data found`}
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>

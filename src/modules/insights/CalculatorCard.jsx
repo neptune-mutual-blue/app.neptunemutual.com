@@ -119,7 +119,7 @@ export const CalculatorCard = () => {
 
   const buttonClass = 'block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-opacity-100 bg-primary'
 
-  useLingui()
+  const { i18n } = useLingui()
 
   return (
     <>
@@ -141,14 +141,14 @@ export const CalculatorCard = () => {
         <CalculatorAmountHandler
           error={error}
           buttonProps={{
-            children: t`Max`,
+            children: t(i18n)`Max`,
             onClick: () => {},
             buttonClassName: 'hidden'
           }}
           unit={liquidityTokenSymbol}
           inputProps={{
             id: 'cover-amount',
-            placeholder: t`Enter Amount`,
+            placeholder: t(i18n)`Enter Amount`,
             value: amount,
             disabled: resultLoading,
             onChange: handleChange,
@@ -173,10 +173,10 @@ export const CalculatorCard = () => {
                   type='button'
                   disabled={!amount || !coverMonth || resultLoading || !selectedCover || Boolean(error)}
                   className={buttonClass}
-                  title={t`Calculate policy fee`}
+                  title={t(i18n)`Calculate policy fee`}
                   onClick={calculatePolicyFee}
                 >
-                  <span className='sr-only'>{t`Calculate policy fee`}</span>
+                  <span className='sr-only'>{t(i18n)`Calculate policy fee`}</span>
                   <Trans>Calculate policy fee</Trans>
                 </button>
                 )

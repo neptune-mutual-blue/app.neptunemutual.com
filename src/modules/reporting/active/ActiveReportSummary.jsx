@@ -34,6 +34,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const ActiveReportSummary = ({
   coverKey,
@@ -53,6 +54,8 @@ export const ActiveReportSummary = ({
   const startDate = DateLib.fromUnix(incidentReport.incidentDate)
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp)
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
+
+  const { i18n } = useLingui()
 
   const isAfterResolution = useRetryUntilPassed(() => {
     const _now = DateLib.unix()
@@ -150,16 +153,16 @@ export const ActiveReportSummary = ({
           <InsightsTable
             insights={[
               {
-                title: t`Incident Occurred`,
+                title: t(i18n)`Incident Occurred`,
                 value: formatPercent(yesPercent, router.locale),
                 variant: 'success'
               },
               {
-                title: t`User Votes:`,
+                title: t(i18n)`User Votes:`,
                 value: incidentReport.totalAttestedCount
               },
               {
-                title: t`Stake:`,
+                title: t(i18n)`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
@@ -174,7 +177,7 @@ export const ActiveReportSummary = ({
                 ).long
               },
               {
-                title: t`Your Stake`,
+                title: t(i18n)`Your Stake`,
                 value: formatCurrency(
                   convertFromUnits(myYes),
                   router.locale,
@@ -195,16 +198,16 @@ export const ActiveReportSummary = ({
           <InsightsTable
             insights={[
               {
-                title: t`False Reporting`,
+                title: t(i18n)`False Reporting`,
                 value: formatPercent(noPercent, router.locale),
                 variant: 'error'
               },
               {
-                title: t`User Votes:`,
+                title: t(i18n)`User Votes:`,
                 value: incidentReport.totalRefutedCount
               },
               {
-                title: t`Stake:`,
+                title: t(i18n)`Stake:`,
                 value: `${
                   formatCurrency(
                     convertFromUnits(incidentReport.totalRefutedStake),
@@ -223,7 +226,7 @@ export const ActiveReportSummary = ({
                 }`
               },
               {
-                title: t`Your Stake`,
+                title: t(i18n)`Your Stake`,
                 value: formatCurrency(
                   convertFromUnits(myNo),
                   router.locale,

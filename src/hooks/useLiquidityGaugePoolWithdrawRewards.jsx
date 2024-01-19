@@ -4,7 +4,7 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
@@ -16,6 +16,7 @@ import { convertFromUnits } from '@/utils/bn'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount, rewardTokenSymbol, rewardTokenDecimals }) => {
   const { notifyError } = useErrorNotifier()
@@ -30,6 +31,10 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   const handleWithdrawRewards = async (onSuccessCallback) => {
     if (!account || !networkId) {
       return
@@ -42,7 +47,7 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not withdraw rewards`)
+      notifyError(err, t(i18n)`Could not withdraw rewards`)
     }
 
     try {

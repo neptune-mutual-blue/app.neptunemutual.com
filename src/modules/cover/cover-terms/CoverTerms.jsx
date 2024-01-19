@@ -4,11 +4,11 @@ import {
 import { Network } from '@/modules/cover/cover-terms/Network'
 import { Trans } from '@lingui/macro'
 
-export const CoverTerms = ({ name, blockchains, about, parameters }) => {
+export const CoverTerms = ({ name: coverName, blockchains, about, parameters }) => {
   return (
     <div>
       <h1 className='mt-12 text-000000 text-display-md'>
-        <Trans>{name} Cover Terms</Trans>
+        <Trans>{coverName} Cover Terms</Trans>
       </h1>
 
       {

@@ -4,6 +4,12 @@ import {
   Trans
 } from '@lingui/macro'
 
+/**
+ * Returns an object containing actions for a given cover.
+ *
+ * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
+ * @returns {Object} An object containing actions for a given cover. Each action is an object itself with properties like title, description, imgSrc, getHref, and action.
+ */
 export const getActions = (i18n) => {
   return {
     purchase: {

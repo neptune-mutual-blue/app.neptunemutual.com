@@ -11,7 +11,7 @@ import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import {
   useClaimsProcessorAddress
 } from '@/src/hooks/contracts/useClaimsProcessorAddress'
@@ -41,6 +41,7 @@ import { formatPercent } from '@/utils/formatter/percent'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useClaimPolicyInfo = ({
   value,
@@ -75,6 +76,10 @@ export const useClaimPolicyInfo = ({
   const { writeContract } = useTxPoster()
   const { requiresAuth } = useAuthValidation()
   const { notifyError } = useErrorNotifier()
+
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
     updateAllowance(claimsProcessorAddress)
@@ -122,7 +127,7 @@ export const useClaimPolicyInfo = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${tokenSymbol} tokens`)
+      notifyError(err, t(i18n)`Could not approve ${tokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -221,7 +226,7 @@ export const useClaimPolicyInfo = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not claim policy`)
+      notifyError(err, t(i18n)`Could not claim policy`)
     }
 
     try {
@@ -270,9 +275,9 @@ export const useClaimPolicyInfo = ({
         await txToast.push(
           tx,
           {
-            pending: t`Claiming policy`,
-            success: t`Claimed policy successfully`,
-            failure: t`Could not claim policy`
+            pending: t(i18n)`Claiming policy`,
+            success: t(i18n)`Claimed policy successfully`,
+            failure: t(i18n)`Could not claim policy`
           },
           {
             onTxSuccess: () => {
@@ -339,19 +344,19 @@ export const useClaimPolicyInfo = ({
     }
 
     if (!account) {
-      setError(t`Please connect your wallet`)
+      setError(t(i18n)`Please connect your wallet`)
 
       return
     }
 
     if (!isValidNumber(value)) {
-      setError(t`Invalid amount to claim`)
+      setError(t(i18n)`Invalid amount to claim`)
 
       return
     }
 
     if (isGreater(convertToUnits(value), balance || '0')) {
-      setError(t`Insufficient Balance`)
+      setError(t(i18n)`Insufficient Balance`)
 
       return
     }
@@ -359,7 +364,7 @@ export const useClaimPolicyInfo = ({
     if (error) {
       setError('')
     }
-  }, [account, balance, error, value])
+  }, [account, balance, error, value, i18n])
 
   const canClaim =
     value &&

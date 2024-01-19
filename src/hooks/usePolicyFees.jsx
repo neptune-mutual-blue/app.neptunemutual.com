@@ -21,6 +21,7 @@ import {
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const defaultInfo = {
   fee: '0',
@@ -47,6 +48,8 @@ export const usePolicyFees = ({
   const [loading, setLoading] = useState(false)
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
   useEffect(() => {
     let ignore = false
 
@@ -71,7 +74,7 @@ export const usePolicyFees = ({
       }
 
       const handleError = (err) => {
-        notifyError(err, t`Could not get fees`)
+        notifyError(err, t(i18n)`Could not get fees`)
       }
 
       try {
@@ -143,7 +146,8 @@ export const usePolicyFees = ({
     liquidityTokenDecimals,
     networkId,
     notifyError,
-    productKey
+    productKey,
+    i18n
   ])
 
   return {

@@ -141,7 +141,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
     }
   }
 
-  useLingui()
+  const { i18n } = useLingui()
 
   return (
     <Container className='pt-12 pb-24 bg-white max-w-none md:bg-transparent'>
@@ -163,12 +163,12 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
             inputProps={{
               id: 'incident_title',
               name: 'incident_title',
-              placeholder: t`Enter Incident Title`,
+              placeholder: t(i18n)`Enter Incident Title`,
               required: canReport,
               disabled: approving || reporting,
               type: 'text'
             }}
-            desc={t`Enter the incident title.`}
+            desc={t(i18n)`Enter the incident title.`}
           />
 
           <InputField
@@ -186,7 +186,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
               onFocus: handleObserveDateTimeBlurFocus,
               className: classNames(isDateNoHasValue && 'text-9B9B9B', isInActive && 'inactive')
             }}
-            desc={t`The date and time you observed the incident.`}
+            desc={t(i18n)`The date and time you observed the incident.`}
           />
         </div>
 
@@ -204,7 +204,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
               name: 'description',
               className:
                 'block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:outline-none focus:ring-4E7DD9 focus:border-4E7DD9 border-B0C4DB',
-              placeholder: t`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
+              placeholder: t(i18n)`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
               rows: 5,
               maxLength: 300,
               required: canReport,
@@ -251,11 +251,11 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         <div className='mt-10'>
           <div className='max-w-xs pr-8' data-testid='loaders'>
             {loadingAllowance && (
-              <DataLoadingIndicator message={t`Fetching allowance...`} />
+              <DataLoadingIndicator message={t(i18n)`Fetching allowance...`} />
             )}
 
             {loadingBalance && (
-              <DataLoadingIndicator message={t`Fetching balance...`} />
+              <DataLoadingIndicator message={t(i18n)`Fetching balance...`} />
             )}
           </div>
 
@@ -264,9 +264,9 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
             className='w-full py-6 font-semibold uppercase px-14 xs:px-24 md:w-auto'
             type='submit'
           >
-            {canReport && (reporting ? t`Reporting...` : t`Report`)}
+            {canReport && (reporting ? t(i18n)`Reporting...` : t`Report`)}
             {!canReport &&
-              (approving ? t`Approving...` : `${t`Approve`} ${tokenSymbol}`)}
+              (approving ? t(i18n)`Approving...` : `${t`Approve`} ${tokenSymbol}`)}
           </RegularButton>
         </div>
       </form>

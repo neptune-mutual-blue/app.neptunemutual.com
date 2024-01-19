@@ -10,7 +10,7 @@ import { ChainConfig } from '@/src/config/hardcoded'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
@@ -25,6 +25,7 @@ import { getEpochFromTitle } from '@/utils/snapshot'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
   const [approving, setApproving] = useState(false)
@@ -51,6 +52,10 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
   const { writeContract } = useTxPoster()
   const txToast = useTxToast()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   const gcrContractAddress = ChainConfig[networkId].gaugeControllerRegistry
 
   useEffect(() => {
@@ -64,7 +69,7 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${NPMTokenSymbol}`)
+      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {

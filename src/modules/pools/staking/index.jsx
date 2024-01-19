@@ -27,6 +27,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -47,8 +48,10 @@ const sorterData = {
 }
 
 export const StakingPage = () => {
+  const { i18n } = useLingui()
+
   const [sortType, setSortType] = useState({
-    name: t`A-Z`,
+    name: t(i18n)`A-Z`,
     value: SORT_TYPES.ALPHABETIC
   })
 
@@ -81,9 +84,9 @@ export const StakingPage = () => {
   )
 
   const options = [
-    { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t`TVL`, value: SORT_TYPES.TVL },
-    { name: t`APR`, value: SORT_TYPES.APR }
+    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t(i18n)`TVL`, value: SORT_TYPES.TVL },
+    { name: t(i18n)`APR`, value: SORT_TYPES.APR }
   ]
 
   return (
@@ -125,6 +128,7 @@ export const StakingPage = () => {
 
 function Content ({ data, loading, hasMore, handleShowMore }) {
   const { getPriceByAddress } = useAppConstants()
+  const { i18n } = useLingui()
 
   if (data.length) {
     return (
@@ -166,7 +170,7 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
     >
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t`No data found`}
+        alt={t(i18n)`No data found`}
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>

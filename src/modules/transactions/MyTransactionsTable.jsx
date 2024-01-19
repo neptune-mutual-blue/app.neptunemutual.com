@@ -18,7 +18,7 @@ import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { useNetwork } from '@/src/context/Network'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useSortData } from '@/src/hooks/useSortData'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
@@ -37,6 +37,15 @@ const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 const renderAmount = (row) => { return <AmountRenderer row={row} /> }
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
+/**
+ * Returns an array of column objects for the table.
+ * Each object represents a column and contains properties such as id, name, alignment, and render functions.
+ *
+ * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
+ * @param {Object} sorts - An object representing the current sort settings.
+ * @param {Function} handleSort - A function to handle sorting events.
+ * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
+ */
 export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {
@@ -192,6 +201,8 @@ const WhenRenderer = ({ row }) => {
 const DetailsRenderer = ({ row }) => {
   const { locale } = useRouter()
 
+  const { getActionMessage } = useActionMessage()
+
   const { title } = getActionMessage(
     row.methodName,
     row.status,
@@ -211,6 +222,7 @@ const DetailsRenderer = ({ row }) => {
 
 const AmountRenderer = ({ row }) => {
   const { locale } = useRouter()
+  const { getActionMessage } = useActionMessage()
 
   const { description } = getActionMessage(
     row.methodName,

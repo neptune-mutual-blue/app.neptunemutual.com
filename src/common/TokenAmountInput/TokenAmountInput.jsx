@@ -8,7 +8,7 @@ import { useLingui } from '@lingui/react'
 export const TokenAmountInput = ({
   tokenAddress,
   tokenSymbol,
-  labelText = '',
+  labelText = <></>,
   handleChooseMax,
   inputValue,
   inputId = '',
@@ -21,7 +21,7 @@ export const TokenAmountInput = ({
   buttonClassName = '',
   ...rest
 }) => {
-  useLingui()
+  const { i18n } = useLingui()
 
   return (
     <div className={classNames(disabled && 'opacity-40 cursor-not-allowed')}>
@@ -35,7 +35,7 @@ export const TokenAmountInput = ({
         decimalLimit={tokenDecimals}
         error={error}
         buttonProps={{
-          children: t`Max`,
+          children: t(i18n)`Max`,
           onClick: handleChooseMax,
           disabled: disabled,
           buttonClassName
@@ -44,7 +44,7 @@ export const TokenAmountInput = ({
         inputProps={{
           id: inputId,
           disabled: disabled,
-          placeholder: t`Enter Amount`,
+          placeholder: t(i18n)`Enter Amount`,
           value: inputValue,
           onChange: onChange,
           allowNegativeValue: false,

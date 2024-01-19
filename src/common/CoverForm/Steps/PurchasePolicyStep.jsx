@@ -94,7 +94,7 @@ const PurchasePolicyStep = ({
 
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
 
-  useLingui()
+  const { i18n } = useLingui()
 
   return (
     <div>
@@ -216,7 +216,7 @@ const PurchasePolicyStep = ({
             decimalLimit={liquidityTokenDecimals}
             error={!!error}
             buttonProps={{
-              children: t`Max`,
+              children: t(i18n)`Max`,
               onClick: () => {},
               disabled: approving || purchasing || !editForm,
               buttonClassName: 'hidden'
@@ -226,7 +226,7 @@ const PurchasePolicyStep = ({
             inputProps={{
               id: 'cover-amount',
               disabled: approving || purchasing || !editForm,
-              placeholder: t`Enter Amount`,
+              placeholder: t(i18n)`Enter Amount`,
               value: value,
               onChange: handleChange,
               allowNegativeValue: false
@@ -300,7 +300,7 @@ const PurchasePolicyStep = ({
                     className='leading-none disabled:cursor-not-allowed !text-md !pr-14 focus-visible:ring-0 !h-3 text-center'
                     error={!!referralCodeErrorMessage}
                     id='referral_code'
-                    placeholder={t`Enter Cashback Code`}
+                    placeholder={t(i18n)`Enter Cashback Code`}
                     value={referralCode}
                     onChange={referralCodeChange}
                     disabled={approving}

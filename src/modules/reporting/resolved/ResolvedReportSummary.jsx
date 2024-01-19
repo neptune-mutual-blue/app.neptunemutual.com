@@ -32,6 +32,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const ResolvedReportSummary = ({
   incidentReport,
@@ -88,6 +89,8 @@ export const ResolvedReportSummary = ({
     variant: isAttestedWon ? 'success' : 'failure'
   }
 
+  const { i18n } = useLingui()
+
   return (
     <>
       <OutlinedCard className='bg-white md:flex'>
@@ -121,16 +124,16 @@ export const ResolvedReportSummary = ({
           <InsightsTable
             insights={[
               {
-                title: t`Incident Occurred`,
+                title: t(i18n)`Incident Occurred`,
                 value: formatPercent(yesPercent, router.locale),
                 variant: 'success'
               },
               {
-                title: t`User Votes:`,
+                title: t(i18n)`User Votes:`,
                 value: incidentReport.totalAttestedCount
               },
               {
-                title: t`Stake:`,
+                title: t(i18n)`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
@@ -145,7 +148,7 @@ export const ResolvedReportSummary = ({
                 ).long
               },
               {
-                title: t`Your Stake`,
+                title: t(i18n)`Your Stake`,
                 value: formatCurrency(
                   convertFromUnits(myYes),
                   router.locale,
@@ -166,16 +169,16 @@ export const ResolvedReportSummary = ({
           <InsightsTable
             insights={[
               {
-                title: t`False Reporting`,
+                title: t(i18n)`False Reporting`,
                 value: formatPercent(noPercent, router.locale),
                 variant: 'error'
               },
               {
-                title: t`User Votes:`,
+                title: t(i18n)`User Votes:`,
                 value: incidentReport.totalRefutedCount
               },
               {
-                title: t`Stake:`,
+                title: t(i18n)`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
                   router.locale,
@@ -190,7 +193,7 @@ export const ResolvedReportSummary = ({
                 ).long
               },
               {
-                title: t`Your Stake`,
+                title: t(i18n)`Your Stake`,
                 value: formatCurrency(
                   convertFromUnits(myNo),
                   router.locale,
