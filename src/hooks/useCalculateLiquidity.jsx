@@ -11,6 +11,7 @@ import { useTxPoster } from '@/src/context/TxPoster'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useMountedState } from '@/src/hooks/useMountedState'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
+import { useLingui } from '@lingui/react'
 
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const isMounted = useMountedState()
@@ -23,6 +24,8 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const { contractRead } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
   const calculateLiquidity = useCallback(async () => {
     if (
       !networkId ||
@@ -34,7 +37,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not calculate liquidity`)
+      notifyError(err, t(i18n)`Could not calculate liquidity`)
     }
 
     setLoading(true)
@@ -81,7 +84,8 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     isMounted,
     library,
     networkId,
-    notifyError
+    notifyError,
+    i18n
   ])
 
   useEffect(() => {

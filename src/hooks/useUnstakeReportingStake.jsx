@@ -4,7 +4,7 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
@@ -19,6 +19,7 @@ import {
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useUnstakeReportingStake = ({
   coverKey,
@@ -36,6 +37,10 @@ export const useUnstakeReportingStake = ({
 
   const { NPMTokenSymbol } = useAppConstants()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   const unstake = async (onTxSuccess = () => {}) => {
     if (!networkId || !account) {
       requiresAuth()
@@ -48,7 +53,7 @@ export const useUnstakeReportingStake = ({
       setUnstaking(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not unstake ${NPMTokenSymbol}`)
+      notifyError(err, t(i18n)`Could not unstake ${NPMTokenSymbol}`)
     }
 
     try {
@@ -159,7 +164,7 @@ export const useUnstakeReportingStake = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not unstake & claim ${NPMTokenSymbol}`)
+      notifyError(err, t(i18n)`Could not unstake & claim ${NPMTokenSymbol}`)
     }
 
     try {

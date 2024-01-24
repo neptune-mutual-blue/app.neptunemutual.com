@@ -8,11 +8,12 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 /**
  *
  * @param {Object} props
- * @param {string} props.label
+ * @param {import('react').ReactNode} props.label
  * @param {string} props.id
  * @returns
  */
@@ -28,7 +29,7 @@ function InputHeader ({ label, id }) {
  *
  * @param {Object} props
  * @param {string} props.desc
- * @param {string} [props.label]
+ * @param {import('react').ReactNode} [props.label]
  * @param {React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error?:boolean}} props.inputProps
  * @param {string} [props.className]
  * @param {string} [props.error]
@@ -51,7 +52,7 @@ export function InputField ({ label, inputProps, desc, className = '', error }) 
 /**
  *
  * @param {Object} props
- * @param {string} props.label
+ * @param {import('react').ReactNode} props.label
  * @param {{id?: string, name?: string, disabled: boolean, required: boolean, className?: string, placeholder?: string, rows?: number, maxLength?: number }} props.inputProps
  * @param {string} [props.className]
  * @returns
@@ -136,6 +137,8 @@ export function ProofOfIncident ({ disabled, required }) {
     setFields(newFields)
   }
 
+  const { i18n } = useLingui()
+
   return (
     <>
       <InputField
@@ -148,7 +151,7 @@ export function ProofOfIncident ({ disabled, required }) {
           disabled: disabled,
           type: 'url'
         }}
-        desc={t`Provide a URL confirming the nature of the incident.`}
+        desc={t(i18n)`Provide a URL confirming the nature of the incident.`}
       />
 
       {fields.map((value, i) => {
@@ -166,7 +169,7 @@ export function ProofOfIncident ({ disabled, required }) {
                 disabled: disabled,
                 type: 'url'
               }}
-              desc={t`Provide a URL confirming the nature of the incident.`}
+              desc={t(i18n)`Provide a URL confirming the nature of the incident.`}
             />
 
             <button

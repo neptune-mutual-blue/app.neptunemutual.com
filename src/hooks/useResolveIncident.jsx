@@ -13,7 +13,8 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
+import { useLingui } from '@lingui/react'
 
 export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const { account, library } = useWeb3React()
@@ -26,6 +27,10 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
 
   const [resolving, setResolving] = useState(false)
   const [emergencyResolving, setEmergencyResolving] = useState(false)
+
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
 
   const resolve = async (onSuccess = (f) => { return f }) => {
     if (!networkId || !account) {
@@ -40,7 +45,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
       setResolving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not resolve incident`)
+      notifyError(err, t(i18n)`Could not resolve incident`)
     }
 
     try {
@@ -135,7 +140,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not emergency resolve incident`)
+      notifyError(err, t(i18n)`Could not emergency resolve incident`)
     }
 
     try {

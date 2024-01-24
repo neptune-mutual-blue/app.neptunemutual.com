@@ -56,6 +56,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
   const [isSuccess, setIsSuccess] = useState(false)
 
+  const { i18n } = useLingui()
+
   const {
     liquidityTokenAddress,
     NPMTokenAddress,
@@ -114,12 +116,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       npmValue &&
       isGreater(requiredStake, convertToUnits(npmValue, npmTokenDecimals))
     ) {
-      setNpmErrorMsg(t`Insufficient Stake`)
+      setNpmErrorMsg(t(i18n)`Insufficient Stake`)
     } else if (
       npmValue &&
       isGreater(convertToUnits(npmValue, npmTokenDecimals), npmBalance)
     ) {
-      setNpmErrorMsg(t`Exceeds maximum balance`)
+      setNpmErrorMsg(t(i18n)`Exceeds maximum balance`)
     } else {
       setNpmErrorMsg('')
     }
@@ -131,16 +133,16 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
         myStablecoinBalance
       )
     ) {
-      setLqErrorMsg(t`Exceeds maximum balance`)
+      setLqErrorMsg(t(i18n)`Exceeds maximum balance`)
     } else if (
       lqValue &&
       isEqualTo(convertToUnits(lqValue, liquidityTokenDecimals), 0)
     ) {
-      setLqErrorMsg(t`Please specify an amount`)
+      setLqErrorMsg(t(i18n)`Please specify an amount`)
     } else if (lqValue && isGreater(MIN_LIQUIDITY, lqValue)) {
-      setLqErrorMsg(t`Liquidity is below threshold`)
+      setLqErrorMsg(t(i18n)`Liquidity is below threshold`)
     } else if (lqValue && isGreater(lqValue, MAX_LIQUIDITY)) {
-      setLqErrorMsg(t`Liquidity is above threshold`)
+      setLqErrorMsg(t(i18n)`Liquidity is above threshold`)
     } else {
       setLqErrorMsg('')
     }
@@ -151,7 +153,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     npmBalance,
     npmTokenDecimals,
     npmValue,
-    requiredStake
+    requiredStake,
+    i18n
   ])
 
   const handleMaxNPM = () => {
@@ -180,8 +183,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   }
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance
-
-  const { i18n } = useLingui()
 
   if (activeReportings.length > 0) {
     const status = activeReportings[0].status

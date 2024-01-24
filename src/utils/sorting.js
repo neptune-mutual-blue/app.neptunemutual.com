@@ -18,6 +18,11 @@ export const SORT_TYPES = {
   DEDICATED_POOL: 'dedicated'
 }
 
+/**
+ *
+ * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
+ * @returns {Array<{name: string, value: string}>} An array of column objects.
+ */
 export const DEFAULT_SORT_OPTIONS = (i18n) => {
   return [
     { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },

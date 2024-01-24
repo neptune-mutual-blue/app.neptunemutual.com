@@ -7,7 +7,7 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
@@ -42,6 +42,8 @@ export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMToken
   } = useERC20Allowance(NPMTokenAddress)
   const [approving, setApproving] = useState(false)
   const [locking, setLocking] = useState(false)
+
+  const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
     updateAllowance(veNPMTokenAddress)

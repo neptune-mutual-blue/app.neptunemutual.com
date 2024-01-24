@@ -13,6 +13,7 @@ import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 const DELAY_BETWEEN_CHECKS = 2000 // Milliseconds
 const TIMES_TO_CHECK = 10
@@ -28,6 +29,8 @@ export const useERC20Allowance = (tokenAddress) => {
   const { writeContract, contractRead } = useTxPoster()
   const { getApprovalAmount } = useUnlimitedApproval()
   const { requiresAuth } = useAuthValidation()
+
+  const { i18n } = useLingui()
 
   const fetchAllowance = useCallback(
     async (spender, { onTransactionResult, onError, cleanup }) => {
@@ -104,7 +107,7 @@ export const useERC20Allowance = (tokenAddress) => {
       }
 
       const handleError = (err) => {
-        notifyError(err, t`Could not get allowance`)
+        notifyError(err, t(i18n)`Could not get allowance`)
       }
 
       const onTransactionResult = (_allowance) => {
@@ -125,7 +128,7 @@ export const useERC20Allowance = (tokenAddress) => {
         cleanup
       })
     },
-    [fetchAllowance, notifyError]
+    [fetchAllowance, notifyError, i18n]
   )
 
   // Check until allowance is updated, in an infinite loop

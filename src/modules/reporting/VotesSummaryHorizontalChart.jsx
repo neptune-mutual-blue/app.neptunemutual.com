@@ -24,10 +24,10 @@ export const VotesSummaryHorizontalChart = ({
   showTooltip,
   majority
 }) => {
-  useLingui()
+  const { i18n } = useLingui()
 
   const data = {
-    labels: [t`votes`],
+    labels: [t(i18n)`votes`],
     datasets: [
       {
         data: [yesPercent],
@@ -62,6 +62,8 @@ const ToolTipContent = ({ majority }) => {
   const router = useRouter()
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
+  const { i18n } = useLingui()
+
   if (!majority) {
     return null
   }
@@ -93,8 +95,8 @@ const ToolTipContent = ({ majority }) => {
               )}
             >
               {majority.variant === 'success'
-                ? t`Incident Occurred`
-                : t`False Reporting`}
+                ? t(i18n)`Incident Occurred`
+                : t(i18n)`False Reporting`}
             </span>
             <span className='py-1 text-sm leading-5 text-black'>
               {majority.voteCount} (

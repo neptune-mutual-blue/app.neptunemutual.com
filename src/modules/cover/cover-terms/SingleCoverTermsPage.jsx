@@ -11,6 +11,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
   useEffect(() => {
@@ -21,6 +22,8 @@ export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
       window.close()
     }, 500)
   }, [coverOrProductData])
+
+  const { i18n } = useLingui()
 
   if (loading) {
     return (
@@ -53,7 +56,7 @@ export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
         <picture>
           <img
             loading='lazy'
-            alt={t`Neptune Mutual`}
+            alt={t(i18n)`Neptune Mutual`}
             srcSet='/logos/neptune-mutual-full-beta.svg'
             className='w-full text-black h-9'
             data-testid='header-logo'

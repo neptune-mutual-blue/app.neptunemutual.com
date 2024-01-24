@@ -99,7 +99,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
     rewardTokenPrice: getPriceByAddress(info.rewardToken)
   })
 
-  useLingui()
+  const { i18n } = useLingui()
 
   // Used for sorting purpose only
   useEffect(() => {
@@ -110,7 +110,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   if (hasStaked) {
     stats.push({
-      title: t`Your Stake`,
+      title: t(i18n)`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
         router.locale,
@@ -125,7 +125,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       ).long
     })
     stats.push({
-      title: t`You Earned`,
+      title: t(i18n)`You Earned`,
       value: formatCurrency(
         convertFromUnits(rewardAmount),
         router.locale,
@@ -142,13 +142,13 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   }
 
   stats.push({
-    title: t`Lockup Period`,
+    title: t(i18n)`Lockup Period`,
     value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
   })
 
   stats.push(
     {
-      title: t`TVL`,
+      title: t(i18n)`TVL`,
       value: formatCurrency(
         convertFromUnits(tvl, liquidityTokenDecimals),
         router.locale,
@@ -192,7 +192,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       </div>
 
       <StakingCardTitle text={poolName} />
-      <StakingCardSubTitle text={t`Stake ${stakingTokenName}`} />
+      <StakingCardSubTitle text={t(i18n)`Stake ${stakingTokenName}`} />
 
       <hr className='mt-4 mb-5 border-t border-B0C4DB' />
 

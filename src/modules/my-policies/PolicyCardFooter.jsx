@@ -12,6 +12,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -34,10 +35,12 @@ export const PolicyCardFooter = ({
     router.locale
   )
 
+  const { i18n } = useLingui()
+
   const stats = []
   if (withinClaimPeriod) {
     stats.push({
-      title: t`Claim Before`,
+      title: t(i18n)`Claim Before`,
       tooltipText: DateLib.toLongDateFormat(
         claimExpiresAt,
         router.locale
@@ -47,7 +50,7 @@ export const PolicyCardFooter = ({
     })
   } else if (beforeResolutionDeadline) {
     stats.push({
-      title: t`Resolution By`,
+      title: t(i18n)`Resolution By`,
       tooltipText: DateLib.toLongDateFormat(
         claimBeginsFrom,
         router.locale
@@ -56,13 +59,13 @@ export const PolicyCardFooter = ({
     })
   } else if (isPolicyExpired) {
     stats.push({
-      title: t`Expired On`,
+      title: t(i18n)`Expired On`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
       value: fromNow(validityEndsAt)
     })
   } else {
     stats.push({
-      title: t`Expires In`,
+      title: t(i18n)`Expires In`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
       value: fromNow(validityEndsAt)
     })
@@ -89,7 +92,7 @@ export const PolicyCardFooter = ({
         })}
 
         <Stat
-          title={t`Purchased Policy`}
+          title={t(i18n)`Purchased Policy`}
           tooltip={formattedAmountToCover.long}
           value={formattedAmountToCover.short}
           right

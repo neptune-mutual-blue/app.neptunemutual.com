@@ -10,7 +10,7 @@ import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useBondPoolAddress } from '@/src/hooks/contracts/useBondPoolAddress'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
@@ -34,6 +34,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT)
@@ -64,6 +65,10 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const { notifyError } = useErrorNotifier()
   const router = useRouter()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   useEffect(() => {
     updateAllowance(bondContractAddress)
   }, [bondContractAddress, updateAllowance])
@@ -93,7 +98,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         setReceiveAmountLoading(false)
       }
       const handleError = (err) => {
-        notifyError(err, t`Could not calculate tokens`)
+        notifyError(err, t(i18n)`Could not calculate tokens`)
       }
 
       try {
@@ -134,7 +139,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     return () => {
       ignore = true
     }
-  }, [networkId, debouncedValue, notifyError, account, library, contractRead])
+  }, [networkId, debouncedValue, notifyError, account, library, contractRead, i18n])
 
   useEffect(() => {
     if (!value && error) {
@@ -148,19 +153,19 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     }
 
     if (!isValidNumber(value)) {
-      setError(t`Invalid amount to bond`)
+      setError(t(i18n)`Invalid amount to bond`)
 
       return
     }
 
     if (isGreater(convertToUnits(value), balance)) {
-      setError(t`Insufficient Balance`)
+      setError(t(i18n)`Insufficient Balance`)
 
       return
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
-      setError(t`Please specify a value`)
+      setError(t(i18n)`Please specify a value`)
 
       return
     }
@@ -192,7 +197,8 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     receiveAmount,
     router.locale,
     value,
-    NPMTokenSymbol
+    NPMTokenSymbol,
+    i18n
   ])
 
   const handleApprove = async () => {
@@ -202,7 +208,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve LP tokens`)
+      notifyError(err, t(i18n)`Could not approve LP tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -278,7 +284,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       refetchBondInfo()
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not create bond`)
+      notifyError(err, t(i18n)`Could not create bond`)
     }
 
     try {

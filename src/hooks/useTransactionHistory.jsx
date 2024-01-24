@@ -5,7 +5,7 @@ import {
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
@@ -31,6 +31,8 @@ export function useTransactionHistory () {
   const txToast = useTxToast()
 
   const init = useRef(true)
+
+  const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
     LSHistory.init()
@@ -81,7 +83,7 @@ export function useTransactionHistory () {
         }
       }
     })()
-  }, [account, library, networkId, txToast])
+  }, [account, library, networkId, txToast, getActionMessage])
 
   return null
 }

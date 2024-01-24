@@ -47,7 +47,7 @@ export const ActiveReportingEmptyState = () => {
     >
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t`No data found`}
+        alt={t(i18n)`No data found`}
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>

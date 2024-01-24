@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
@@ -15,6 +15,7 @@ import { convertToUnits } from '@/utils/bn'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -31,6 +32,10 @@ export const useStakingPoolWithdraw = ({
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   const handleWithdraw = async (onTxSuccess) => {
     if (!account || !networkId) {
       return
@@ -43,7 +48,7 @@ export const useStakingPoolWithdraw = ({
       setWithdrawing(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not unstake ${tokenSymbol}`)
+      notifyError(err, t(i18n)`Could not unstake ${tokenSymbol}`)
     }
 
     try {
@@ -163,6 +168,10 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   const handleWithdrawRewards = async (onTxSuccess) => {
     if (!account || !networkId) {
       return
@@ -175,7 +184,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
       setWithdrawingRewards(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not withdraw rewards`)
+      notifyError(err, t(i18n)`Could not withdraw rewards`)
     }
 
     try {

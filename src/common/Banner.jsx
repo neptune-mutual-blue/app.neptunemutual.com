@@ -14,11 +14,14 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const Banner = () => {
   const { networkId } = useNetwork()
   const { isMainNet, isEthereum, isArbitrum } = getNetworkInfo(networkId)
   const [show, setShow] = useLocalStorage('showAnnouncement', true)
+
+  const { i18n } = useLingui()
 
   if (!networkId) {
     return null
@@ -98,7 +101,7 @@ export const Banner = () => {
             aria-label='Close'
             onClick={handleClose}
             className={classNames('block p-1 ml-auto')}
-            title={t`close`}
+            title={t(i18n)`close`}
             data-testid='close-banner'
           >
             <CloseIcon className='w-5 h-5' />

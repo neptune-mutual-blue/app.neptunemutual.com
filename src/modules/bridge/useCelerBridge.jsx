@@ -11,7 +11,7 @@ import {
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
@@ -82,6 +82,8 @@ export const useCelerBridge = ({
   const { allowance, approve, refetch } = useERC20Allowance(sourceTokenAddress)
 
   const { library, account } = useWeb3React()
+
+  const { getActionMessage } = useActionMessage()
 
   const {
     balanceError,
