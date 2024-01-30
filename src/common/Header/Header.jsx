@@ -134,8 +134,6 @@ export const Header = () => {
     )
   }
 
-  useLingui()
-
   return (
     <>
       <div className='bg-black text-EEEEEE'>
@@ -201,7 +199,7 @@ export const Header = () => {
                       <button
                         className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-primary'
                         onClick={onOpen}
-                        title={t`Connect wallet`}
+                        title={t(i18n)`Connect wallet`}
                       >
                         <Trans>Connect wallet</Trans>
                       </button>
@@ -211,7 +209,7 @@ export const Header = () => {
                         <button
                           className='relative flex items-center px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
                           onClick={handleToggleAccountPopup}
-                          title={t`account details`}
+                          title={t(i18n)`account details`}
                         >
                           <span className='sr-only'><Trans>account details</Trans></span>
                           <AccountBalanceWalletIcon width='24' height='24' />
@@ -317,6 +315,8 @@ export const MenuModal = ({
 }) => {
   const router = useRouter()
 
+  const { i18n } = useLingui()
+
   useEffect(() => {
     const handleRouteNavigate = () => {
       onClose()
@@ -374,7 +374,7 @@ export const MenuModal = ({
                         <button
                           className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
                           onClick={onOpen}
-                          title={t`Connect wallet`}
+                          title={t(i18n)`Connect wallet`}
                         >
                           Connect wallet
                         </button>
@@ -385,7 +385,7 @@ export const MenuModal = ({
                             aria-label='Account Details'
                             className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
                             onClick={handleToggleAccountPopup}
-                            title={t`account details`}
+                            title={t(i18n)`account details`}
                           >
                             <span className='sr-only'>
                               <Trans>account details</Trans>

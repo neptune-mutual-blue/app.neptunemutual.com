@@ -9,12 +9,15 @@ import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { convertToUnits } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const useLiquidityGaugePools = ({ NPMTokenDecimals }) => {
   const { networkId } = useNetwork()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const { notifyError } = useErrorNotifier()
+
+  const { i18n } = useLingui()
 
   useEffect(() => {
     async function fetchPools () {
@@ -23,7 +26,7 @@ export const useLiquidityGaugePools = ({ NPMTokenDecimals }) => {
       }
 
       const handleError = (err) => {
-        notifyError(err, t`Could not get liquidity gauge pools`)
+        notifyError(err, t(i18n)`Could not get liquidity gauge pools`)
       }
 
       try {
@@ -64,7 +67,7 @@ export const useLiquidityGaugePools = ({ NPMTokenDecimals }) => {
     fetchPools()
       .then(() => { return setLoading(false) })
       .catch(() => { return setLoading(false) })
-  }, [notifyError, networkId, NPMTokenDecimals])
+  }, [notifyError, networkId, NPMTokenDecimals, i18n])
 
   return {
     data,

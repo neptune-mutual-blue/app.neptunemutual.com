@@ -41,19 +41,21 @@ const PurchaseAmountStep = ({
   const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
 
+  const { i18n } = useLingui()
+
   function handleChange (val) {
     setError('')
     setValue(val)
 
     if (isGreaterOrEqual(val, availableLiquidity)) {
       const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
-      setError(t`Maximum protection available is ${maxProtection}` + '. Choose a amount less than available.')
+      setError(t(i18n)`Maximum protection available is ${maxProtection}` + '. Choose a amount less than available.')
     } else if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
       const maxThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      setError(t`Maximum proposal threshold is ${maxThreshold}`)
+      setError(t(i18n)`Maximum proposal threshold is ${maxThreshold}`)
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
       const minThreshold = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      setError(t`Minimum proposal threshold is ${minThreshold}`)
+      setError(t(i18n)`Minimum proposal threshold is ${minThreshold}`)
     }
   }
 
@@ -62,8 +64,6 @@ const PurchaseAmountStep = ({
   }
 
   const npmSwapLink = useNPMSwapLink()
-
-  useLingui()
 
   return (
     <>
@@ -77,7 +77,7 @@ const PurchaseAmountStep = ({
         decimalLimit={liquidityTokenDecimals}
         error={!!error}
         buttonProps={{
-          children: t`Max`,
+          children: t(i18n)`Max`,
           onClick: () => {},
           disabled: approving || purchasing,
           buttonClassName: 'hidden'
@@ -87,7 +87,7 @@ const PurchaseAmountStep = ({
         inputProps={{
           id: 'cover-amount',
           disabled: approving || purchasing,
-          placeholder: t`Enter Amount`,
+          placeholder: t(i18n)`Enter Amount`,
           value: value,
           onChange: handleChange,
           allowNegativeValue: false,

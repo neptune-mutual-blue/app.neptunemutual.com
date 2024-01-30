@@ -17,6 +17,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const StakeForm = ({
   info,
@@ -54,6 +55,8 @@ export const StakeForm = ({
   })
   const router = useRouter()
 
+  const { i18n } = useLingui()
+
   useEffect(() => {
     setModalDisabled(approving || depositing)
   }, [approving, depositing, setModalDisabled])
@@ -74,9 +77,9 @@ export const StakeForm = ({
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`
+    loadingMessage = t(i18n)`Fetching balance...`
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`
+    loadingMessage = t(i18n)`Fetching allowance...`
   }
 
   return (
@@ -140,7 +143,7 @@ export const StakeForm = ({
             >
               {approving
                 ? (
-                    t`Approving...`
+                    t(i18n)`Approving...`
                   )
                 : (
                   <>
@@ -155,7 +158,7 @@ export const StakeForm = ({
               className='p-6 font-semibold uppercase min-w-75vw sm:min-w-auto sm:w-full'
               onClick={() => { return handleDeposit(onDepositSuccess) }}
             >
-              {depositing ? t`Staking...` : t`Stake`}
+              {depositing ? t(i18n)`Staking...` : t`Stake`}
             </RegularButton>
             )}
       </div>

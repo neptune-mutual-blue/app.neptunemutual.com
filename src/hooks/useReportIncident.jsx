@@ -12,7 +12,7 @@ import { getMonthNames } from '@/lib/dates'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import {
   useGovernanceAddress
 } from '@/src/hooks/contracts/useGovernanceAddress'
@@ -37,6 +37,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter()
@@ -63,6 +64,10 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   useEffect(() => {
     updateAllowance(governanceContractAddress)
   }, [governanceContractAddress, updateAllowance])
@@ -75,7 +80,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -274,7 +279,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         }
       )
     } catch (err) {
-      notifyError(err, t`Could not report incident`)
+      notifyError(err, t(i18n)`Could not report incident`)
       cleanup()
     }
   }

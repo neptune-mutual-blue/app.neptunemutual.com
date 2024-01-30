@@ -40,6 +40,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { config } from '@neptunemutual/sdk'
+import { useLingui } from '@lingui/react'
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -61,6 +62,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false)
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false)
   const router = useRouter()
+
+  const { i18n } = useLingui()
 
   function onStakeModalOpen () {
     setIsStakeModalOpen(true)
@@ -106,7 +109,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   if (hasStaked) {
     stats.push({
-      title: t`Your Stake`,
+      title: t(i18n)`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
         router.locale,
@@ -121,7 +124,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       ).long
     })
     stats.push({
-      title: t`You Earned`,
+      title: t(i18n)`You Earned`,
       value: formatCurrency(
         convertFromUnits(rewardAmount),
         router.locale,
@@ -138,13 +141,13 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   }
 
   stats.push({
-    title: t`Lockup Period`,
+    title: t(i18n)`Lockup Period`,
     value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
   })
 
   stats.push(
     {
-      title: t`TVL`,
+      title: t(i18n)`TVL`,
       value: formatCurrency(
         convertFromUnits(tvl, liquidityTokenDecimals),
         router.locale,

@@ -12,7 +12,7 @@ import {
 } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { contractRead } from '@/src/services/readContract'
@@ -26,6 +26,7 @@ import { getReplacedString } from '@/utils/string'
 import { t } from '@lingui/macro'
 import sdk, { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const defaultInfo = {
   withdrawalOpen: '0',
@@ -57,13 +58,17 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   const fetchInfo = useCallback(async () => {
     if (!networkId || !coverKey) {
       return
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not get vault info`)
+      notifyError(err, t(i18n)`Could not get vault info`)
     }
 
     try {
@@ -115,7 +120,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err)
     }
-  }, [account, coverKey, networkId, notifyError])
+  }, [account, coverKey, networkId, notifyError, i18n])
 
   useEffect(() => {
     let ignore = false
@@ -143,7 +148,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const accrueInterest = async () => {
     const handleError = (err) => {
-      notifyError(err, t`Could not accrue interest`)
+      notifyError(err, t(i18n)`Could not accrue interest`)
     }
 
     try {
@@ -210,7 +215,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const updateWithdrawalWindow = async () => {
     const handleError = (err) => {
-      notifyError(err, t`Could not update withdrawal period`)
+      notifyError(err, t(i18n)`Could not update withdrawal period`)
     }
 
     try {

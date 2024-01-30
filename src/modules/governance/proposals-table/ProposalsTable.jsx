@@ -26,6 +26,13 @@ import { classNames } from '@/utils/classnames'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
+/**
+ * Returns an array of column objects for the proposals table.
+ * Each object represents a column and contains properties such as id, name, alignment, and render functions.
+ *
+ * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
+ * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
+ */
 export const getColumns = (i18n) => {
   return [
     {
@@ -73,6 +80,13 @@ export const getColumns = (i18n) => {
   ]
 }
 
+/**
+ * Returns an array of column objects for the proposals table.
+ * Each object represents a column and contains properties such as id, name, alignment, and render functions.
+ *
+ * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
+ * @returns {Array.<{name: string, value: string}>} An array of column objects.
+ */
 const getFilterOptions = (i18n) => {
   return [
     { name: t(i18n)`All`, value: 'all' },

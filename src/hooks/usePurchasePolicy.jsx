@@ -15,7 +15,7 @@ import {
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { usePolicyAddress } from '@/src/hooks/contracts/usePolicyAddress'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
@@ -43,6 +43,7 @@ import {
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -86,6 +87,10 @@ export const usePurchasePolicy = ({
   const currentMonthIndex = now.getUTCMonth()
   const year = now.getUTCFullYear()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   useEffect(() => {
     updateAllowance(policyContractAddress)
   }, [policyContractAddress, updateAllowance])
@@ -102,19 +107,19 @@ export const usePurchasePolicy = ({
     }
 
     if (!account) {
-      setError(t`Please connect your wallet`)
+      setError(t(i18n)`Please connect your wallet`)
 
       return
     }
 
     if (!isValidNumber(value)) {
-      setError(t`Invalid amount to cover`)
+      setError(t(i18n)`Invalid amount to cover`)
 
       return
     }
 
     if (isGreater(feeAmount || '0', balance || '0')) {
-      setError(t`Insufficient Balance`)
+      setError(t(i18n)`Insufficient Balance`)
 
       return
     }
@@ -157,7 +162,7 @@ export const usePurchasePolicy = ({
     if (error) {
       setError('')
     }
-  }, [account, availableLiquidity, balance, error, feeAmount, liquidityTokenDecimals, liquidityTokenSymbol, router.locale, value])
+  }, [account, availableLiquidity, balance, error, feeAmount, liquidityTokenDecimals, liquidityTokenSymbol, router.locale, value, i18n])
 
   const handleApprove = async () => {
     setApproving(true)
@@ -167,7 +172,7 @@ export const usePurchasePolicy = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${liquidityTokenSymbol}`)
+      notifyError(err, t(i18n)`Could not approve ${liquidityTokenSymbol}`)
     }
 
     const feeFormatted = convertFromUnits(feeAmount, liquidityTokenDecimals)
@@ -250,7 +255,7 @@ export const usePurchasePolicy = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not purchase policy`)
+      notifyError(err, t(i18n)`Could not purchase policy`)
     }
 
     try {
@@ -319,9 +324,9 @@ export const usePurchasePolicy = ({
         await txToast.push(
           tx,
           {
-            pending: t`Purchasing Policy`,
-            success: t`Purchased Policy Successfully`,
-            failure: t`Could not purchase policy`
+            pending: t(i18n)`Purchasing Policy`,
+            success: t(i18n)`Purchased Policy Successfully`,
+            failure: t(i18n)`Could not purchase policy`
           },
           {
             onTxSuccess: () => {

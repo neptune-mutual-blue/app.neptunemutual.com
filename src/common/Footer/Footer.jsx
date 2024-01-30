@@ -5,8 +5,11 @@ import {
 } from '@/common/Footer/data'
 import DiscordIcon from '@/icons/DiscordIcon'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const Footer = () => {
+  const { i18n } = useLingui()
+
   return (
     <footer className='pt-16 border-t pb-18 border-B0C4DB print:hidden'>
       <Container>
@@ -14,7 +17,7 @@ export const Footer = () => {
           <div className='flex flex-col items-start justify-between gap-8'>
             <img
               loading='lazy'
-              alt={t`Neptune Mutual`}
+              alt={t(i18n)`Neptune Mutual`}
               srcSet='/logos/neptune-mutual-full.svg'
               className='h-8.5 w-max'
               data-testid='footer-logo'

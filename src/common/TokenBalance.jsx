@@ -17,6 +17,7 @@ import {
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { NPMSwapLink } from '@/common/NPMSwapLink'
+import { useLingui } from '@lingui/react'
 
 export const TokenBalance = ({
   tokenAddress,
@@ -32,20 +33,22 @@ export const TokenBalance = ({
   const toast = useToast()
   const router = useRouter()
 
+  const { i18n } = useLingui()
+
   const handleCopy = async (e) => {
     e && e.preventDefault()
     try {
       await navigator.clipboard.writeText(tokenAddress)
       toast.pushSuccess({
-        title: t`Success`,
-        message: t`Token address copied Successfully`,
+        title: t(i18n)`Success`,
+        message: t(i18n)`Token address copied Successfully`,
         lifetime: SHORT_TOAST_TIME
       })
     } catch (err) {
       // console.error(err);
       toast.pushError({
-        title: t`Error`,
-        message: t`Unable to copy token address`,
+        title: t(i18n)`Error`,
+        message: t(i18n)`Unable to copy token address`,
         lifetime: SHORT_TOAST_TIME
       })
     }

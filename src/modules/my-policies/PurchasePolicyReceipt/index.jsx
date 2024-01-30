@@ -27,6 +27,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
@@ -41,6 +42,8 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+
+  const { i18n } = useLingui()
 
   if (dataLoading || eventLoading) {
     return (
@@ -169,7 +172,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
             <picture>
               <img
                 loading='lazy'
-                alt={t`Neptune Mutual`}
+                alt={t(i18n)`Neptune Mutual`}
                 srcSet='/logos/neptune-mutual-full-beta.svg'
                 className='w-full text-black h-9'
                 data-testid='header-logo'

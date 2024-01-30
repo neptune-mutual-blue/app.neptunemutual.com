@@ -27,6 +27,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, minReportingStake }) => {
   const options = useMemo(() => {
@@ -39,6 +40,8 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
   const [votingType, setVotingType] = useState(options[0].value)
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
+
+  const { i18n } = useLingui()
 
   const {
     balance,
@@ -74,13 +77,13 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
     }
 
     if (isGreater(convertToUnits(value), balance)) {
-      setError(t`Exceeds maximum balance`)
+      setError(t(i18n)`Exceeds maximum balance`)
 
       return
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
-      setError(t`Insufficient Balance`)
+      setError(t(i18n)`Insufficient Balance`)
 
       return
     }
@@ -88,7 +91,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
     if (error) {
       setError('')
     }
-  }, [balance, error, value])
+  }, [balance, error, value, i18n])
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value)
@@ -221,7 +224,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                   loadingAllowance
                 }
                   >
-                    {voting ? t`Reporting...` : 'Report'}
+                    {voting ? t(i18n)`Reporting...` : 'Report'}
                   </RegularButton>
                   )}
               <DataLoadingIndicator message={loadingMessage} />

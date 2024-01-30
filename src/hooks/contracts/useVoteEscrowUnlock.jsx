@@ -8,7 +8,7 @@ import DateLib from '@/lib/date/DateLib'
 import { abis } from '@/src/config/contracts/abis'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
@@ -50,6 +50,8 @@ export const useVoteEscrowUnlock = ({
   } = useERC20Allowance(veNPMTokenAddress)
   const [approving, setApproving] = useState(false)
   const [unlocking, setUnlocking] = useState(false)
+
+  const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
     updateVeNPMAllowance(veNPMTokenAddress)

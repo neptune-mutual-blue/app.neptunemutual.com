@@ -82,7 +82,7 @@ export const LanguageDropdown = (props) => {
     setSearchValue(e.target.value)
   }
 
-  useLingui()
+  const { i18n } = useLingui()
 
   return (
     <div className='relative flex items-center mt-3 cursor-pointer'>
@@ -123,7 +123,7 @@ export const LanguageDropdown = (props) => {
                       <input
                         autoComplete='off'
                         className='w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px]'
-                        placeholder={t`Search Language`}
+                        placeholder={t(i18n)`Search Language`}
                         onChange={handleSearchLanguage}
                       />
                     </div>

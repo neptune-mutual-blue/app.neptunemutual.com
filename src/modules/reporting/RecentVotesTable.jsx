@@ -41,6 +41,15 @@ const renderAmount = (row) => { return <AmountRenderer row={row} /> }
 
 const renderActions = (row) => { return <ActionsRenderer row={row} /> }
 
+/**
+ * Returns an array of column objects for the proposals table.
+ * Each object represents a column and contains properties such as id, name, alignment, and render functions.
+ *
+ * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
+ * @param {Object} sorts - An object representing the current sort settings.
+ * @param {Function} handleSort - A function to handle sorting events.
+ * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
+ */
 export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
   return [
     {

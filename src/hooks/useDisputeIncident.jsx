@@ -10,7 +10,7 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import {
   useGovernanceAddress
 } from '@/src/hooks/contracts/useGovernanceAddress'
@@ -37,6 +37,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useDisputeIncident = ({
   coverKey,
@@ -64,6 +65,10 @@ export const useDisputeIncident = ({
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   useEffect(() => {
     updateAllowance(governanceContractAddress)
   }, [governanceContractAddress, updateAllowance])
@@ -75,7 +80,7 @@ export const useDisputeIncident = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -268,7 +273,7 @@ export const useDisputeIncident = ({
         }
       )
     } catch (err) {
-      notifyError(err, t`Could not dispute`)
+      notifyError(err, t(i18n)`Could not dispute`)
     } finally {
       cleanup()
     }
@@ -284,15 +289,15 @@ export const useDisputeIncident = ({
       err =
         !isValidNumber(value) ||
         isGreater(convertToUnits(value || '0'), balance)
-          ? t`Error`
+          ? t(i18n)`Error`
           : ''
 
       // set error if entered value is invalid
-      if (_value.isGreaterThan(_balance)) { err = 'Insufficient Balance' } else if (_minStake && _value.isLessThan(_minStake)) { err = t`Insufficient Stake` }
+      if (_value.isGreaterThan(_balance)) { err = 'Insufficient Balance' } else if (_minStake && _value.isLessThan(_minStake)) { err = t(i18n)`Insufficient Stake` }
     }
 
     // set error if balance is less than minStake
-    if (_minStake && _balance.isLessThan(_minStake)) { err = t`Insufficient Balance` }
+    if (_minStake && _balance.isLessThan(_minStake)) { err = t(i18n)`Insufficient Balance` }
 
     return err
   }

@@ -12,6 +12,7 @@ import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
+import { useLingui } from '@lingui/react'
 
 export const useCalculatePods = ({ coverKey, value, podAddress }) => {
   const { library, account } = useWeb3React()
@@ -24,6 +25,8 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
   const { notifyError } = useErrorNotifier()
   const { liquidityTokenDecimals } = useAppConstants()
   const tokenDecimals = useTokenDecimals(podAddress)
+
+  const { i18n } = useLingui()
 
   useEffect(() => {
     let ignore = false
@@ -40,7 +43,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not calculate pods`)
+      notifyError(err, t(i18n)`Could not calculate pods`)
     }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)
@@ -99,7 +102,8 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     notifyError,
     tokenDecimals,
     receiveAmount,
-    contractRead
+    contractRead,
+    i18n
   ])
 
   return {

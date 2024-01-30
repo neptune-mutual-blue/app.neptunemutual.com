@@ -98,7 +98,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
     handleDispute(payload)
   }
 
-  useLingui()
+  const { i18n } = useLingui()
 
   return (
     <Container className='pt-12 bg-white border-t pb-44 border-t-B0C4DB max-w-none md:bg-transparent'>
@@ -119,12 +119,12 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
           inputProps={{
             id: 'dispute_title',
             name: 'title',
-            placeholder: t`Enter Dispute Title`,
+            placeholder: t(i18n)`Enter Dispute Title`,
             type: 'text',
             required: canDispute,
             disabled: approving || disputing
           }}
-          desc={t`Enter the dispute title.`}
+          desc={t(i18n)`Enter the dispute title.`}
         />
 
         <ProofOfIncident
@@ -141,7 +141,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
               name: 'description',
               className:
                 'block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:outline-none focus:ring-4E7DD9 focus:border-4E7DD9 border-B0C4DB',
-              placeholder: t`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
+              placeholder: t(i18n)`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
               rows: 5,
               maxLength: 300,
               required: canDispute,
@@ -193,9 +193,9 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
             className='w-full py-6 font-semibold uppercase px-14 xs:px-24 md:w-auto'
             type='submit'
           >
-            {canDispute && (disputing ? t`Disputing...` : t`Dispute`)}
+            {canDispute && (disputing ? t(i18n)`Disputing...` : t`Dispute`)}
             {!canDispute &&
-              (approving ? t`Approving...` : `${t`Approve`} ${tokenSymbol}`)}
+              (approving ? t(i18n)`Approving...` : `${t`Approve`} ${tokenSymbol}`)}
           </RegularButton>
         </div>
       </form>

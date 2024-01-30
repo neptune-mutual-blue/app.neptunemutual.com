@@ -167,7 +167,7 @@ export const PurchasePolicyForm = ({
 
   const { account } = useWeb3React()
 
-  useLingui()
+  const { i18n } = useLingui()
 
   const handleChange = (val) => {
     if (typeof val === 'string') {
@@ -353,7 +353,7 @@ export const PurchasePolicyForm = ({
                 className='leading-none disabled:cursor-not-allowed !text-md !pr-14 focus-visible:ring-0 text-center'
                 error={!!referralCodeErrorMessage}
                 id='referral_code'
-                placeholder={t`Enter Cashback Code`}
+                placeholder={t(i18n)`Enter Cashback Code`}
                 value={referralCode}
                 onChange={referralCodeChange}
                 disabled={approving}

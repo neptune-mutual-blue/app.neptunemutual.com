@@ -26,6 +26,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const { data: heroData } = useFetchHeroStats()
@@ -59,6 +60,8 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
     }
   }, [totalCapacity])
 
+  const { i18n } = useLingui()
+
   return (
     <Hero big>
       {Boolean(breadcrumbs.length) && (
@@ -87,14 +90,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
-                    name: t`Capacity`,
+                    name: t(i18n)`Capacity`,
                     amount: formatCurrency(
                       currentCapacity,
                       router.locale
                     ).short
                   },
                   {
-                    name: t`TVL (Pool)`,
+                    name: t(i18n)`TVL (Pool)`,
                     amount: formatCurrency(
                       convertFromUnits(
                         poolsTvl,
@@ -115,14 +118,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                 items={[
                   {
                     // Active Protection (or) Commitment
-                    name: t`Coverage`,
+                    name: t(i18n)`Coverage`,
                     amount: formatCurrency(
                       heroData.covered,
                       router.locale
                     ).short
                   },
                   {
-                    name: t`Cover Fee`,
+                    name: t(i18n)`Cover Fee`,
                     amount: formatCurrency(
                       heroData.coverFee,
                       router.locale

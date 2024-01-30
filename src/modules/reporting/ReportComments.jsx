@@ -18,6 +18,7 @@ import {
   t,
   Trans
 } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const INCIDENT = 0
 const DISPUTE = 1
@@ -184,12 +185,14 @@ export default function ReportComments ({
     fetchIpfs()
   }, [reportIpfsHash, disputeIpfsHash])
 
+  const { i18n } = useLingui()
+
   return (
     <OutlinedCard className='p-6 mt-8 bg-white'>
       {reportData && (
         <Report
           header={{
-            type: t`Reported by`,
+            type: t(i18n)`Reported by`,
             createdBy: reportData?.createdBy,
             reportedAt: reportIpfsDataTimeStamp
           }}
@@ -205,7 +208,7 @@ export default function ReportComments ({
           {disputeData && (
             <Report
               header={{
-                type: t`Disputed by`,
+                type: t(i18n)`Disputed by`,
                 createdBy: disputeData?.createdBy,
                 reportedAt: disputeIpfsDataTimeStamp
               }}

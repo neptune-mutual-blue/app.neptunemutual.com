@@ -13,7 +13,8 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
+import { useLingui } from '@lingui/react'
 
 export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
   const [finalizing, setFinalizing] = useState(false)
@@ -25,6 +26,10 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
   const { writeContract } = useTxPoster()
+
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
 
   const finalize = async (onSuccess = (f) => { return f }) => {
     if (!networkId || !account) {
@@ -39,7 +44,7 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not finalize incident`)
+      notifyError(err, t(i18n)`Could not finalize incident`)
     }
 
     try {

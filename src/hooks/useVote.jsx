@@ -22,7 +22,8 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
+import { useLingui } from '@lingui/react'
 
 export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
   const [approving, setApproving] = useState(false)
@@ -47,6 +48,10 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
   } = useERC20Balance(NPMTokenAddress)
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   useEffect(() => {
     updateAllowance(governanceAddress)
   }, [governanceAddress, updateAllowance])
@@ -57,7 +62,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -144,7 +149,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       setVoting(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not attest`)
+      notifyError(err, t(i18n)`Could not attest`)
     }
 
     try {
@@ -253,7 +258,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       updateAllowance(governanceAddress)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not refute`)
+      notifyError(err, t(i18n)`Could not refute`)
     }
 
     try {

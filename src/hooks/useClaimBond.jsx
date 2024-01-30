@@ -7,7 +7,7 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { getActionMessage } from '@/src/helpers/notification'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { METHODS } from '@/src/services/transactions/const'
@@ -21,6 +21,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { useLingui } from '@lingui/react'
 
 export const useClaimBond = ({ claimable }) => {
   const [claiming, setClaiming] = useState(false)
@@ -33,6 +34,10 @@ export const useClaimBond = ({ claimable }) => {
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
+  const { getActionMessage } = useActionMessage()
+
   const handleClaim = async (onTxSuccess) => {
     if (!account || !networkId) {
       return
@@ -43,7 +48,7 @@ export const useClaimBond = ({ claimable }) => {
       setClaiming(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not claim bond`)
+      notifyError(err, t(i18n)`Could not claim bond`)
     }
 
     try {

@@ -90,6 +90,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
     npmValue: npmValue || '0'
   })
 
+  const { i18n } = useLingui()
+
   const unStakableAmount = toBN(myStake)
     .minus(minStakeToAddLiquidity)
     .toString()
@@ -112,19 +114,19 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
       npmValue &&
       isGreater(convertToUnits(npmValue), unStakableAmount)
     ) {
-      setNpmErrorMsg(t`Cannot go below minimum stake`)
+      setNpmErrorMsg(t(i18n)`Cannot go below minimum stake`)
     } else {
       setNpmErrorMsg('')
     }
 
     if (podValue && isGreater(convertToUnits(podValue), balance)) {
-      setPodErrorMsg(t`Exceeds maximum balance`)
+      setPodErrorMsg(t(i18n)`Exceeds maximum balance`)
     } else if (podValue && isEqualTo(convertToUnits(podValue), 0)) {
-      setPodErrorMsg(t`Insufficient Balance`)
+      setPodErrorMsg(t(i18n)`Insufficient Balance`)
     } else {
       setPodErrorMsg('')
     }
-  }, [balance, npmValue, podValue, unStakableAmount, isExit])
+  }, [balance, npmValue, podValue, unStakableAmount, isExit, i18n])
 
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(unStakableAmount).toString())
@@ -150,8 +152,6 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
     podValue &&
     isValidNumber(podValue) &&
     isGreaterOrEqual(allowance, convertToUnits(podValue || '0'))
-
-  const { i18n } = useLingui()
 
   let loadingMessage = ''
   if (receiveAmountLoading) {
@@ -193,7 +193,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               {isGreater(myStake, '0') && (
                 <TokenAmountWithPrefix
                   amountInUnits={myStake}
-                  prefix={`${t`Your Stake`}: `}
+                  prefix={`${t(i18n)`Your Stake`}: `}
                   symbol={NPMTokenSymbol}
                   decimals={NPMTokenDecimals}
                   data-testid='my-stake-prefix'
@@ -201,7 +201,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               )}
               <TokenAmountWithPrefix
                 amountInUnits={minStakeToAddLiquidity}
-                prefix={t`Minimum Stake:` + ' '}
+                prefix={t(i18n)`Minimum Stake:` + ' '}
                 symbol={NPMTokenSymbol}
                 decimals={NPMTokenDecimals}
                 data-testid='minimum-stake-prefix'
@@ -322,7 +322,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             }
               data-testid='approve-button'
             >
-              {approving ? t`Approving...` : t`Approve`}
+              {approving ? t(i18n)`Approving...` : t`Approve`}
             </RegularButton>
             )
           : (
@@ -345,7 +345,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             }
               data-testid='withdraw-button'
             >
-              {withdrawing ? t`Withdrawing...` : t`Withdraw`}
+              {withdrawing ? t(i18n)`Withdrawing...` : t`Withdraw`}
             </RegularButton>
             )}
       </div>

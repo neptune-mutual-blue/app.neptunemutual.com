@@ -5,6 +5,7 @@ import { config, registry, utils, multicall } from '@neptunemutual/sdk'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useLingui } from '@lingui/react'
 
 export const useRoles = () => {
   const [roles, setRoles] = useState({
@@ -17,6 +18,8 @@ export const useRoles = () => {
   const { networkId } = useNetwork()
   const { notifyError } = useErrorNotifier()
 
+  const { i18n } = useLingui()
+
   useEffect(() => {
     let ignore = false
     if (!networkId || !account) {
@@ -27,7 +30,7 @@ export const useRoles = () => {
 
     async function exec () {
       const handleError = (err) => {
-        notifyError(err, t`Could not get roles`)
+        notifyError(err, t(i18n)`Could not get roles`)
       }
 
       try {
@@ -91,7 +94,7 @@ export const useRoles = () => {
     return () => {
       ignore = true
     }
-  }, [account, library, networkId, notifyError])
+  }, [account, library, networkId, notifyError, i18n])
 
   return roles
 }
