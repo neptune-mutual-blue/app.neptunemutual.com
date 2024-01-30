@@ -16,7 +16,7 @@ export default function AnnouncementBanner () {
     },
     56: {
       image: '/images/banners/BSC-Banner-Desktop.webp',
-      link: 'https://www.sushi.com/pool/137%3A0x0e3eaef09dfe55824a3cda7146a387af261d7824'
+      link: ''
     }
   }
 
@@ -28,7 +28,7 @@ export default function AnnouncementBanner () {
       data-testid='announcement-banner'
     >
       <div className='relative'>
-        <a href={data[networkId].link} target='_blank' rel='noreferrer'>
+        <a href={data[networkId].link || undefined} target='_blank' rel='noreferrer'>
           <img
             className='object-cover object-center h-64 max-w-full overflow-hidden sm:h-96 rounded-xl'
             src={data[networkId].image}
