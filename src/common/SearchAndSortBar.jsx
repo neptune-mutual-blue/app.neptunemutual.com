@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState
-} from 'react'
+import { useState } from 'react'
 
 import { Select } from '@/common/Select'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
@@ -31,10 +28,6 @@ export const SearchAndSortBar = ({
 
   const options = optionsProp ?? DEFAULT_SORT_OPTIONS(i18n)
   const [selected, setSelected] = useState(options[0])
-
-  useEffect(() => {
-    setSelected(options[0])
-  }, [options])
 
   return (
     <div
