@@ -1,4 +1,7 @@
-import { Fragment } from 'react'
+import {
+  Fragment,
+  useMemo
+} from 'react'
 
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
@@ -18,7 +21,7 @@ import { Trans } from '@lingui/macro'
  * @param {Object} props
  * @param {any} props.selected
  * @param {boolean} props.loading
- * @param {any[]} props.covers
+ * @param {any[]} props.coversOrProducts
  * @param {(selected: any) => any} props.setSelected
  * @param {string} [props.className]
  * @param {React.ReactElement | (({selected, name, image, open}) => React.ReactElement)} [props.renderButton]
@@ -31,7 +34,7 @@ import { Trans } from '@lingui/macro'
 export const CoverDropdown = ({
   selected,
   setSelected,
-  covers,
+  coversOrProducts,
   loading,
   className = '',
   buttonClass = '',
@@ -52,6 +55,12 @@ export const CoverDropdown = ({
   const handleSelect = (val) => {
     setSelected(val)
   }
+
+  const filteredByDisabled = useMemo(() => {
+    return coversOrProducts.filter((cover) => {
+      return !(cover?.policyStatus[0].disabled)
+    })
+  }, [coversOrProducts])
 
   const Button = ({ open }) => {
     if (renderButton) {
@@ -152,7 +161,7 @@ export const CoverDropdown = ({
           )}
           >
 
-            {covers.map((option, optionIdx) => {
+            {filteredByDisabled.map((option, optionIdx) => {
               return (
                 <Listbox.Option
                   key={optionIdx}

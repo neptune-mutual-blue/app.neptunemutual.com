@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ProductCard } from '@/common/Cover/ProductCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
+import { classNames } from '@/utils/classnames'
 
 export const ProductCardWrapper = ({
   coverKey,
@@ -21,7 +22,11 @@ export const ProductCardWrapper = ({
       <Link
         href={Routes.ViewProduct(coverKey, productKey)}
         key={coverKey}
-        className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
+        className={classNames(
+          'rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',
+          productData?.policyStatus[0].disabled && 'opacity-40'
+
+        )}
         data-testid='cover-link'
       >
 

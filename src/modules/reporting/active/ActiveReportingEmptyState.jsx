@@ -62,7 +62,7 @@ export const ActiveReportingEmptyState = () => {
         </Label>
         <CoverDropdown
           loading={loading}
-          covers={covers}
+          coversOrProducts={covers}
           selected={selected}
           setSelected={setSelected}
         />

@@ -115,6 +115,7 @@ export const CoverPurchaseDetailsPage = () => {
                 coverageLag={coverOrProductData?.coverageLag}
                 projectOrProductName={projectOrProductName}
                 parameters={parameters}
+                policyStatus={coverOrProductData?.policyStatus}
               />
             </div>
           </div>
