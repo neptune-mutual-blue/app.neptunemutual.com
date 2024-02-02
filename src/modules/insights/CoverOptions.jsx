@@ -13,7 +13,7 @@ export const CoverOptions = ({
     <div>
       <CoverDropdown
         loading={loading}
-        covers={covers}
+        coversOrProducts={covers}
         selected={selected}
         setSelected={setSelected}
         className=''

@@ -57,7 +57,7 @@ export const PoliciesEmptyState = () => {
       <div className='w-full mx-auto mt-16 md:w-524px'>
         <CoverDropdown
           loading={loading}
-          covers={covers}
+          coversOrProducts={covers}
           selected={selected}
           setSelected={setSelected}
         />
