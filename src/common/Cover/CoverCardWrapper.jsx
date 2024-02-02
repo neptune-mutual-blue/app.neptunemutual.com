@@ -4,6 +4,7 @@ import { CoverCard } from '@/common/Cover/CoverCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
+import { getPolicyStatus } from '@/utils/policy-status'
 
 export const CoverCardWrapper = ({
   coverKey,
@@ -16,6 +17,8 @@ export const CoverCardWrapper = ({
     return <CardSkeleton numberOfCards={1} {...rest} />
   }
 
+  const { disabled } = getPolicyStatus(coverData)
+
   return (
     (
       <Link
@@ -24,7 +27,7 @@ export const CoverCardWrapper = ({
         scroll={!coverData.supportsProducts}
         className={classNames(
           'rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',
-          coverData?.policyStatus[0].disabled && 'opacity-40'
+          disabled && 'opacity-40'
         )}
         data-testid='cover-link'
       >
