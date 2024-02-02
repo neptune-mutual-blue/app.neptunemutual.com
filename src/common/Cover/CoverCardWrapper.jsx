@@ -3,12 +3,14 @@ import Link from 'next/link'
 import { CoverCard } from '@/common/Cover/CoverCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
+import { classNames } from '@/utils/classnames'
 
 export const CoverCardWrapper = ({
   coverKey,
   coverData,
   progressFgColor = undefined,
   progressBgColor = undefined,
+  policyStatus,
   ...rest
 }) => {
   if (!coverData) {
@@ -21,7 +23,10 @@ export const CoverCardWrapper = ({
         href={Routes.ViewCover(coverKey)}
         key={coverKey}
         scroll={!coverData.supportsProducts}
-        className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
+        className={classNames(
+          'rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',
+          policyStatus[0].disabled && 'opacity-40'
+        )}
         data-testid='cover-link'
       >
 

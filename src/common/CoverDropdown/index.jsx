@@ -1,4 +1,7 @@
-import { Fragment } from 'react'
+import {
+  Fragment,
+  useMemo
+} from 'react'
 
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
@@ -52,6 +55,12 @@ export const CoverDropdown = ({
   const handleSelect = (val) => {
     setSelected(val)
   }
+
+  const filterCoversByDisabled = useMemo(() => {
+    return covers.filter((cover) => {
+      return !(cover?.policyStatus[0].disabled)
+    })
+  }, [covers])
 
   const Button = ({ open }) => {
     if (renderButton) {
@@ -152,7 +161,7 @@ export const CoverDropdown = ({
           )}
           >
 
-            {covers.map((option, optionIdx) => {
+            {filterCoversByDisabled.map((option, optionIdx) => {
               return (
                 <Listbox.Option
                   key={optionIdx}

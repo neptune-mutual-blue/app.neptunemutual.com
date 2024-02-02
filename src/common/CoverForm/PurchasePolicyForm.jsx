@@ -95,7 +95,8 @@ export const PurchasePolicyForm = ({
   isUserWhitelisted,
   requiresWhitelist,
   activeIncidentDate,
-  productStatus
+  productStatus,
+  policyStatus
 }) => {
   const router = useRouter()
   const { notifier } = useNotifier()
@@ -392,11 +393,18 @@ export const PurchasePolicyForm = ({
         )}
 
         {
-          isPurchaseDisabled && (
+          policyStatus[0]?.disabled && (
             <Alert>
-              <Trans>
-                You cannot purchase this policy, since the cover is disabled
-              </Trans>
+              <p>
+                <Trans>
+                  Policy purchases on this product are disabled.
+                </Trans>
+              </p>
+              <p>
+                <Trans>
+                  Reason: {policyStatus[0]?.reason}
+                </Trans>
+              </p>
             </Alert>
           )
         }

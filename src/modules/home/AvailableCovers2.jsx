@@ -249,6 +249,7 @@ function Content ({
             coverKey={c.coverKey}
             productKey={c.productKey}
             productData={getProduct(c.coverKey, c.productKey)}
+            policyStatus={c.policyStatus}
           />
         )
       }
@@ -259,6 +260,7 @@ function Content ({
           coverKey={c.coverKey}
           className='min-h-301'
           coverData={getCoverByCoverKey(c.coverKey)}
+          policyStatus={c.policyStatus}
         />
       )
     })

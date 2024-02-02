@@ -168,13 +168,14 @@ function Content ({
 
   return (
     <>
-      {data.map(({ coverKey, productKey }) => {
+      {data.map(({ coverKey, productKey, policyStatus }) => {
         return (
           <ProductCardWrapper
             key={coverKey + productKey}
             coverKey={coverKey}
             productKey={productKey}
             productData={getProduct(coverKey, productKey)}
+            policyStatus={policyStatus}
           />
         )
       })}

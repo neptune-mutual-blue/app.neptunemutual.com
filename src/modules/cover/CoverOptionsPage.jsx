@@ -93,7 +93,8 @@ export const CoverOptionsPage = ({
                       'rounded-2xl md:rounded-3xl group py-10 md:py-12 h-full w-full transition duration-300 ease-out',
                       'hover:border-B0C4DB hover:ease-in hover:border-0.5 hover:border-solid  hover:shadow-option  hover:box-border hover:rounded-3xl  hover:bg-white',
                       'focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',
-                      'border-B0C4DB border-0.5 box-border bg-white lg:bg-transparent lg:border-none'
+                      'border-B0C4DB border-0.5 box-border bg-white lg:bg-transparent lg:border-none',
+                      (actionKey === 'purchase' && coverOrProductData.policyStatus[0].disabled) && 'opacity-40'
                     )}
                   >
 
