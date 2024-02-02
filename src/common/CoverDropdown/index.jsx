@@ -21,7 +21,7 @@ import { Trans } from '@lingui/macro'
  * @param {Object} props
  * @param {any} props.selected
  * @param {boolean} props.loading
- * @param {any[]} props.covers
+ * @param {any[]} props.coversOrProducts
  * @param {(selected: any) => any} props.setSelected
  * @param {string} [props.className]
  * @param {React.ReactElement | (({selected, name, image, open}) => React.ReactElement)} [props.renderButton]
@@ -34,7 +34,7 @@ import { Trans } from '@lingui/macro'
 export const CoverDropdown = ({
   selected,
   setSelected,
-  covers,
+  coversOrProducts,
   loading,
   className = '',
   buttonClass = '',
@@ -56,11 +56,11 @@ export const CoverDropdown = ({
     setSelected(val)
   }
 
-  const filterCoversByDisabled = useMemo(() => {
-    return covers.filter((cover) => {
+  const filteredByDisabled = useMemo(() => {
+    return coversOrProducts.filter((cover) => {
       return !(cover?.policyStatus[0].disabled)
     })
-  }, [covers])
+  }, [coversOrProducts])
 
   const Button = ({ open }) => {
     if (renderButton) {
@@ -161,7 +161,7 @@ export const CoverDropdown = ({
           )}
           >
 
-            {filterCoversByDisabled.map((option, optionIdx) => {
+            {filteredByDisabled.map((option, optionIdx) => {
               return (
                 <Listbox.Option
                   key={optionIdx}

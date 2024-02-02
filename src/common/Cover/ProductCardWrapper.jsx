@@ -11,7 +11,6 @@ export const ProductCardWrapper = ({
   productData,
   progressFgColor = undefined,
   progressBgColor = undefined,
-  policyStatus,
   ...rest
 }) => {
   if (!productData) {
@@ -25,7 +24,7 @@ export const ProductCardWrapper = ({
         key={coverKey}
         className={classNames(
           'rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',
-          policyStatus[0].disabled && 'opacity-40'
+          productData?.policyStatus[0].disabled && 'opacity-40'
 
         )}
         data-testid='cover-link'
