@@ -176,7 +176,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
       </div>
 
-      <div className='grid flex-wrap items-start my-6 grid-cols-analytics-stat-cards lg:flex gap-x-6 gap-y-10 lg:my-10'>
+      <div className='flex flex-wrap items-start my-6 gap-x-6 gap-y-10 lg:my-10'>
         <StatsCard
           titleClass='text-999BAB'
           title='Liquidity' value={liquidityText.short}

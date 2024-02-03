@@ -145,7 +145,7 @@ export const Header = () => {
         </NavContainer>
       </div>
 
-      <header className='sticky z-40 bg-black -top-px text-EEEEEE'>
+      <header className='sticky z-40 bg-black -top-px text-EEEEEE print:hidden'>
         <NavContainer>
           <nav className='flex justify-between max-w-full mx-auto' aria-label='Top'>
             <div className='flex items-center justify-between py-0 xl:basis-full h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none'>

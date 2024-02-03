@@ -26,7 +26,7 @@ import { Web3ReactProvider } from '@web3-react/core'
 
 import { LanguageProvider } from '../i18n'
 
-const Wrappers = ({ children, noHeader }) => {
+const Wrappers = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider>
@@ -35,7 +35,7 @@ const Wrappers = ({ children, noHeader }) => {
             <UnlimitedApprovalProvider>
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
-                  <MainLayout noHeader={noHeader}>{children}</MainLayout>
+                  <MainLayout>{children}</MainLayout>
 
                   <WalletDisclaimerPoup />
                 </TxPosterProvider>
@@ -62,7 +62,7 @@ function MyApp ({ Component, pageProps }) {
       <CookiesProvider>
         <ErrorBoundary>
           <LanguageProvider>
-            <Wrappers noHeader={pageProps.noHeader}>
+            <Wrappers>
               <Component {...pageProps} />
             </Wrappers>
           </LanguageProvider>

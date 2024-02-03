@@ -10,15 +10,6 @@ import {
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
-/* istanbul ignore next */
-export const getServerSideProps = async () => {
-  return {
-    props: {
-      noHeader: true
-    }
-  }
-}
-
 export default function CoverTermsPage () {
   const router = useRouter()
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
