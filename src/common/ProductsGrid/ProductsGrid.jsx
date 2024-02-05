@@ -53,7 +53,11 @@ const sorterData = {
 export const ProductsGrid = () => {
   const { i18n } = useLingui()
 
-  const [sortType, setSortType] = useState(DEFAULT_SORT(i18n))
+  const selectedType = useMemo(() => {
+    return DEFAULT_SORT(i18n)
+  }, [i18n])
+
+  const [sortType, setSortType] = useState(selectedType)
 
   const router = useRouter()
   const { coverId } = router.query

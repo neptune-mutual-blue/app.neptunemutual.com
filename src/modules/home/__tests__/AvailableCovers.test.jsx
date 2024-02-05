@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { AvailableCovers } from '@/modules/home/AvailableCovers2'
+import { AvailableCovers } from '@/modules/home/AvailableCovers'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { mockHooksOrMethods } from '@/utils/unit-tests/mock-hooks-and-methods'

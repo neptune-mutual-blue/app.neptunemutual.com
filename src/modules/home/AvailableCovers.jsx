@@ -55,6 +55,8 @@ const SortQueryParam = 'sort'
 const SearchQueryParam = 'search'
 
 export const AvailableCovers = () => {
+  const [showDisabled, setShowDisabled] = useState(false)
+
   const { query, replace } = useRouter()
   const {
     loading: coversLoading,
@@ -80,7 +82,9 @@ export const AvailableCovers = () => {
 
     return viewOptions.find((item) => { return item.value === selectedView }) || defaultViewOption
   }
-  const sortOptions = DEFAULT_SORT_OPTIONS(i18n)
+  const sortOptions = useMemo(() => {
+    return DEFAULT_SORT_OPTIONS(i18n)
+  }, [i18n])
   const defaultSortOption = sortOptions[2]
 
   const getSelectedSortOption = (query) => {
@@ -92,8 +96,6 @@ export const AvailableCovers = () => {
   const searchTerm = typeof query[SearchQueryParam] === 'string' ? query[SearchQueryParam] : ''
   const selectedSortOption = getSelectedSortOption(query)
   const selectedViewOption = getSelectedViewOption(query)
-
-  const [showDisabled, setShowDisabled] = useState(false)
 
   const list = useMemo(() => {
     if (selectedViewOption.value === SORT_TYPES.DEDICATED_POOL) {
