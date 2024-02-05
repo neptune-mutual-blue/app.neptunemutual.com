@@ -7,6 +7,7 @@ import {
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { Container } from '@/common/Container/Container'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
 import { Grid } from '@/common/Grid/Grid'
@@ -18,6 +19,7 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { getPolicyStatus } from '@/utils/policy-status'
 import { scrollElementIntoView } from '@/utils/scroll'
 import {
   DEFAULT_SORT,
@@ -73,6 +75,8 @@ export const ProductsGrid = () => {
     }
   })
 
+  const [showDisabled, setShowDisabled] = useState(false)
+
   const sortedCovers = useMemo(
     () => {
       return sorter({
@@ -93,6 +97,15 @@ export const ProductsGrid = () => {
 
     [filtered, sortType.value]
   )
+
+  // filtering sortedCovers based on the showDisabled state
+  const filteredSortedCovers = useMemo(() => {
+    return sortedCovers.filter((item) => {
+      const { disabled } = getPolicyStatus(item)
+
+      return showDisabled ? true : !disabled
+    })
+  }, [sortedCovers, showDisabled])
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value)
@@ -140,11 +153,18 @@ export const ProductsGrid = () => {
       <Grid className='gap-4 mt-14 lg:mb-24 mb-14'>
         <Content
           loading={loading}
-          data={sortedCovers}
+          data={filteredSortedCovers}
           getProduct={getProduct}
         />
       </Grid>
 
+      <Checkbox
+        id='view-disabled-products'
+        checked={showDisabled}
+        onChange={() => { return setShowDisabled(!showDisabled) }}
+      >
+        View disabled products
+      </Checkbox>
     </Container>
   )
 }

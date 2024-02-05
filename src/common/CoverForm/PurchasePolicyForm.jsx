@@ -393,7 +393,7 @@ export const PurchasePolicyForm = ({
         )}
 
         {
-          policyStatus[0]?.disabled && (
+          policyStatus.disabled && (
             <Alert>
               <p>
                 <Trans>
@@ -402,7 +402,7 @@ export const PurchasePolicyForm = ({
               </p>
               <p>
                 <Trans>
-                  Reason: {policyStatus[0]?.reason}
+                  Reason: {policyStatus.reason}
                 </Trans>
               </p>
             </Alert>

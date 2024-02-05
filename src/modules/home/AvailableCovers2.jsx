@@ -1,8 +1,12 @@
-import { useMemo } from 'react'
+import {
+  useMemo,
+  useState
+} from 'react'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { Container } from '@/common/Container/Container'
 import { CoverCardWrapper } from '@/common/Cover/CoverCardWrapper'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
@@ -14,6 +18,7 @@ import FilterIcon from '@/icons/FilterIcon'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
+import { getPolicyStatus } from '@/utils/policy-status'
 import {
   DEFAULT_SORT_OPTIONS,
   SORT_DATA_TYPES,
@@ -88,6 +93,8 @@ export const AvailableCovers = () => {
   const selectedSortOption = getSelectedSortOption(query)
   const selectedViewOption = getSelectedViewOption(query)
 
+  const [showDisabled, setShowDisabled] = useState(false)
+
   const list = useMemo(() => {
     if (selectedViewOption.value === SORT_TYPES.DEDICATED_POOL) {
       return getDedicatedCovers()
@@ -129,6 +136,15 @@ export const AvailableCovers = () => {
     },
     [filtered, selectedSortOption.value]
   )
+
+  // filtering sortedCovers based on the showDisabled state
+  const filteredSortedCovers = useMemo(() => {
+    return sortedCovers.filter((item) => {
+      const { disabled } = getPolicyStatus(item)
+
+      return showDisabled ? true : !disabled
+    })
+  }, [sortedCovers, showDisabled])
 
   const handleViewFilterChange = (option) => {
     const newUrl = { query: { ...query } }
@@ -208,7 +224,7 @@ export const AvailableCovers = () => {
         data-testid='body'
       >
         <Content
-          sortedCoversOrProducts={sortedCovers}
+          sortedCoversOrProducts={filteredSortedCovers}
           loading={coversLoading}
           selectedViewOption={selectedViewOption}
           getProduct={getProduct}
@@ -216,6 +232,14 @@ export const AvailableCovers = () => {
         />
 
       </Grid>
+
+      <Checkbox
+        id='view-disabled-products'
+        checked={showDisabled}
+        onChange={() => { return setShowDisabled(!showDisabled) }}
+      >
+        View disabled products
+      </Checkbox>
     </Container>
   )
 }
