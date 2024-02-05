@@ -9,11 +9,10 @@ import {
   CookiePolicy,
   getLSAcceptedCookie
 } from '@/common/CookiePolicy'
-
+import { Footer } from '@/common/Footer/Footer'
 import { Header } from '@/common/Header/Header'
 import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
 import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
-import { Footer } from '@/common/Footer/Footer'
 
 export const PageLoader = () => {
   const [showLoader, setShowLoader] = useState(false)
@@ -44,14 +43,14 @@ export const PageLoader = () => {
   )
 }
 
-export const MainLayout = ({ noHeader = false, children }) => {
+export const MainLayout = ({ children }) => {
   const [isCookieOpen, setIsCookieOpen] = useState(() => { return getLSAcceptedCookie() === undefined })
 
   return (
     <>
       <PageLoader />
 
-      {!noHeader && <Header />}
+      <Header />
 
       <div className='relative sm:static'>
         {children}

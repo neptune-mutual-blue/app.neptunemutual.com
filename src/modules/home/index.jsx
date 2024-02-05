@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 
 import { BridgeModule } from '@/modules/bridge/BridgeModule'
 import AnnouncementBanner from '@/modules/home/AnnouncementBanner'
-import { AvailableCovers } from '@/modules/home/AvailableCovers2'
+import { AvailableCovers } from '@/modules/home/AvailableCovers'
 import InsightsSkeleton from '@/modules/insights/InsightsSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { ChainConfig } from '@/src/config/hardcoded'

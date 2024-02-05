@@ -8,6 +8,7 @@ import { OptionActionCard } from '@/common/Option/OptionActionCard'
 import { getActions } from '@/src/config/cover/actions'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
+import { getPolicyStatus } from '@/utils/policy-status'
 import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
@@ -63,6 +64,8 @@ export const CoverOptionsPage = ({
 
   const coverActions = getActions(i18n)
 
+  const { disabled } = getPolicyStatus(coverOrProductData)
+
   return (
     <>
       <Container className='pt-5 md:pt-9'>
@@ -94,7 +97,7 @@ export const CoverOptionsPage = ({
                       'hover:border-B0C4DB hover:ease-in hover:border-0.5 hover:border-solid  hover:shadow-option  hover:box-border hover:rounded-3xl  hover:bg-white',
                       'focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',
                       'border-B0C4DB border-0.5 box-border bg-white lg:bg-transparent lg:border-none',
-                      (actionKey === 'purchase' && coverOrProductData.policyStatus[0].disabled) && 'opacity-40'
+                      (actionKey === 'purchase' && disabled) && 'opacity-40'
                     )}
                   >
 

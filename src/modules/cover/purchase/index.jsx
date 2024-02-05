@@ -10,6 +10,7 @@ import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { getPolicyStatus } from '@/utils/policy-status'
 import { Trans } from '@lingui/macro'
 
 export const CoverPurchaseDetailsPage = () => {
@@ -115,7 +116,7 @@ export const CoverPurchaseDetailsPage = () => {
                 coverageLag={coverOrProductData?.coverageLag}
                 projectOrProductName={projectOrProductName}
                 parameters={parameters}
-                policyStatus={coverOrProductData?.policyStatus}
+                policyStatus={getPolicyStatus(coverOrProductData)}
               />
             </div>
           </div>

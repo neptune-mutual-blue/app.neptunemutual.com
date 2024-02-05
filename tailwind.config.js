@@ -289,8 +289,7 @@ module.exports = {
         'analytics-card': 'auto 1fr'
       },
       gridTemplateColumns: {
-        'auto-1fr': 'auto 1fr',
-        'analytics-stat-cards': '1fr 1fr 1fr'
+        'auto-1fr': 'auto 1fr'
       }
     }
   },

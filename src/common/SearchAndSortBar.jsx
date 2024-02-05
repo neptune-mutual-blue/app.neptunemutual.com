@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -29,11 +30,24 @@ export const SearchAndSortBar = ({
 }) => {
   const { i18n } = useLingui()
 
-  const options = optionsProp ?? DEFAULT_SORT_OPTIONS(i18n)
+  const options = useMemo(() => {
+    return optionsProp ?? DEFAULT_SORT_OPTIONS(i18n)
+  }, [i18n, optionsProp])
+
   const [selected, setSelected] = useState(options[0])
 
   useEffect(() => {
-    setSelected(options[0])
+    setSelected(prev => {
+      const exist = options.find(o => {
+        return o.name === prev.name && o.value === prev.value
+      })
+
+      if (!exist) {
+        return options[0]
+      }
+
+      return prev
+    })
   }, [options])
 
   return (

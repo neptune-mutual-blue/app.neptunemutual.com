@@ -32,12 +32,3 @@ export default function CoverPage () {
     </main>
   )
 }
-
-/* istanbul ignore next */
-export const getServerSideProps = async () => {
-  return {
-    props: {
-      noHeader: true
-    }
-  }
-}

@@ -154,12 +154,12 @@ export const Network = ({ closeMenu = () => {} }) => {
                   </Menu.Button>
 
                   <Menu.Items
-                    className='absolute right-0 hidden py-6 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
+                    className='absolute right-0 hidden py-4 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
                     tabIndex={-1}
                   >
 
-                    <div className='space-y-2 text-000000'>
-                      <p className='px-6 text-sm font-semibold leading-6'>
+                    <div className='space-y-1 text-000000'>
+                      <p className='px-4 text-sm font-semibold leading-6'>
                         Switch Network
                       </p>
                       {
@@ -171,7 +171,7 @@ export const Network = ({ closeMenu = () => {} }) => {
                               return (
                                 <a
                                   className={classNames(
-                                    'flex items-center gap-1.5 justify-between px-6',
+                                    'flex items-center gap-1.5 justify-between px-4 py-1.5',
                                     activeState && 'bg-344054 bg-opacity-20'
                                   )}
                                   href={href}

@@ -10,6 +10,7 @@ import {
   isValidProduct
 } from '@/src/helpers/cover'
 import { classNames } from '@/utils/classnames'
+import { getPolicyStatus } from '@/utils/policy-status'
 import {
   Listbox,
   Transition
@@ -56,9 +57,11 @@ export const CoverDropdown = ({
     setSelected(val)
   }
 
-  const filteredByDisabled = useMemo(() => {
+  const filteredData = useMemo(() => {
     return coversOrProducts.filter((cover) => {
-      return !(cover?.policyStatus[0].disabled)
+      const { disabled } = getPolicyStatus(cover)
+
+      return !disabled
     })
   }, [coversOrProducts])
 
@@ -161,7 +164,7 @@ export const CoverDropdown = ({
           )}
           >
 
-            {filteredByDisabled.map((option, optionIdx) => {
+            {filteredData.map((option, optionIdx) => {
               return (
                 <Listbox.Option
                   key={optionIdx}

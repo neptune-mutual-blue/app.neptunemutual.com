@@ -16,8 +16,9 @@ export const InsightsStats = ({ loading, statsData }) => {
 
 const StatDisplay = ({ router, statsData }) => {
   return (
-    <div className='grid flex-wrap items-start justify-between pb-6 grid-cols-analytics-stat-cards lg:flex lg:pb-10 gap-x-2 gap-y-4'>
+    <div className='flex flex-wrap items-start justify-between pb-6 lg:pb-10 gap-x-2 gap-y-4'>
       <StatsCard
+        className='min-w-120'
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
         title='Total Capacity'
@@ -35,6 +36,7 @@ const StatDisplay = ({ router, statsData }) => {
       }
       />
       <StatsCard
+        className='min-w-120'
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
         title='Covered'
@@ -52,6 +54,7 @@ const StatDisplay = ({ router, statsData }) => {
       }
       />
       <StatsCard
+        className='min-w-120'
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
         title='Commitment' value={
@@ -68,6 +71,7 @@ const StatDisplay = ({ router, statsData }) => {
       }
       />
       <StatsCard
+        className='min-w-120'
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
         title='Cover Fee'

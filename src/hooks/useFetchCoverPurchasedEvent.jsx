@@ -68,7 +68,7 @@ const getEventFromApi = async (networkId, txHash) => {
   return data
 }
 
-const getEventFromStorage = async (txHash) => {
+const getEventFromStorage = (txHash) => {
   try {
     const str = localStorage.getItem(txHash)
     const data = JSON.parse(str)

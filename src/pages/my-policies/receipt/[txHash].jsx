@@ -17,12 +17,3 @@ export default function PurchasePolicyReceiptPage () {
     </main>
   )
 }
-
-/* istanbul ignore next */
-export const getServerSideProps = async () => {
-  return {
-    props: {
-      noHeader: true
-    }
-  }
-}
