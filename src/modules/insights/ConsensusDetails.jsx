@@ -7,6 +7,7 @@ import {
   E_CARD_STATUS,
   identifyStatus
 } from '@/common/CardStatusBadge'
+import { Loading } from '@/common/Loading'
 import PreviousNext from '@/common/PreviousNext'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
@@ -23,7 +24,6 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { Trans } from '@lingui/macro'
 
 import { StatsCard } from './StatsCard'
 
@@ -35,11 +35,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
   if (dataLoading) {
-    return (
-      <p>
-        <Trans>loading...</Trans>
-      </p>
-    )
+    return <Loading />
   }
 
   const coverKey = report.coverKey

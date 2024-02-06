@@ -20,6 +20,7 @@ import * as lzConfig from '@/src/config/bridge/layer-zero'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { networks } from '@/src/config/networks'
 import { useNetwork } from '@/src/context/Network'
+import { useMountedState } from '@/src/hooks/useMountedState'
 import { getNetworkInfo } from '@/utils/network'
 import { useWeb3React } from '@web3-react/core'
 
@@ -28,6 +29,7 @@ const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
 const DEFAULT_BRIDGE = isLayerZeroBridgeEnabled ? BRIDGE_KEYS.LAYERZERO : BRIDGE_KEYS.CELER
 
 const BridgeModule = () => {
+  const isMounted = useMountedState()
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
 
@@ -110,6 +112,10 @@ const BridgeModule = () => {
     // used for avoiding unnecessary re-renders
     setSelectedNetworks(prev => { return { ...prev, destNetwork: firstDestOption } })
   }, [networkId, selectedBridge, celerHookResult.tokenData])
+
+  if (!isMounted()) {
+    return null
+  }
 
   return (
     <Container className='pt-20 pb-72'>

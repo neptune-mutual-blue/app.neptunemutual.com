@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { PurchasePolicyForm } from '@/common/CoverForm/PurchasePolicyForm'
+import { NoDataFound } from '@/common/Loading'
 import {
   PurchasePageSkeleton
 } from '@/modules/cover/purchase/PurchasePageSkeleton'
@@ -78,9 +79,7 @@ export const CoverPurchaseDetailsPage = () => {
   }
   if (!coverOrProductData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

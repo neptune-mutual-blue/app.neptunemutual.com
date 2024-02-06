@@ -45,12 +45,20 @@ export function LanguageProvider ({ children }) {
     return () => { return window.removeEventListener('languagechange', updateRefresh) }
   }, [])
 
-  if (!loaded) {
+  if (loaded) {
+    console.log('Locale %s loaded.', i18n.locale)
+  }
+
+  if (!i18n.locale) {
     // only log in browser
     if (typeof window !== 'undefined') {
       console.log('Could not fetch locale')
     }
 
+    return null
+  }
+
+  if (!loaded) {
     // prevent the app from rendering with placeholder text before the locale is loaded
     return null
   }

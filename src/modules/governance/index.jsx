@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
+import { NoDataFound } from '@/common/Loading'
 import { AccountDetail } from '@/modules/governance/AccountDetail'
 import LiquidityGauge from '@/modules/governance/LiquidityGauge'
 import { ProposalDetailCard } from '@/modules/governance/ProposalDetailCard'
@@ -74,9 +75,7 @@ export const GovernanceSinglePage = () => {
 
   if (!proposalDetail) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

@@ -3,6 +3,10 @@ import { detectChainId } from '@/utils/dns'
 import { config } from '@neptunemutual/sdk'
 
 export const getNetworkId = () => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
   const host = window.location.host
   const chainId = detectChainId(host)
 

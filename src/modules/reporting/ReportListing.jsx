@@ -11,6 +11,10 @@ import {
 } from '@/common/CardStatusBadge'
 import { Container } from '@/common/Container/Container'
 import {
+  Loading,
+  NoDataFound
+} from '@/common/Loading'
+import {
   Table,
   TableWrapper,
   THead
@@ -28,10 +32,7 @@ import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 /**
@@ -176,17 +177,13 @@ const ReportListing = (props) => {
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <Loading />
     )
   }
 
   if (!coverOrProductData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

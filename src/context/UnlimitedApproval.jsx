@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useEffect,
   useState
 } from 'react'
 
@@ -10,7 +11,7 @@ import {
 import { MaxUint256 } from '@ethersproject/constants'
 
 const UnlimitedApprovalContext = React.createContext({
-  unlimitedApproval: false,
+  unlimitedApproval: true,
   /**
    * @param {boolean} _value
    * @returns {any}
@@ -44,8 +45,10 @@ export const UnlimitedApprovalProvider = ({ children }) => {
      * @param {(value: boolean) => void}
      */
     setUnlimitedApproval
-  ] = useState(() => {
-    return LocalStorage.get(
+  ] = useState(true)
+
+  useEffect(() => {
+    const val = LocalStorage.get(
       KEYS.UNLIMITED_APPROVAL,
       (value) => {
         const result = JSON.parse(value)
@@ -58,8 +61,9 @@ export const UnlimitedApprovalProvider = ({ children }) => {
       },
       true
     )
-  }
-  )
+
+    setUnlimitedApproval(val)
+  }, [])
 
   const _setUnlimitedApproval = useCallback(
     /**

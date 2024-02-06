@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
+import { NoDataFound } from '@/common/Loading'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
 import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
@@ -8,7 +9,6 @@ import { ProductsGridSkeleton } from '@/modules/home/ProductsGridSkeleton'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Trans } from '@lingui/macro'
 
 const DynamicHomeHero = dynamic(() => { return import('@/modules/home/Hero').then((mod) => { return mod.HomeHero }) }, {
   loading: () => { return <HomeHeroSkeleton data-testid='hero-skeleton' /> }
@@ -50,9 +50,7 @@ function Content ({ loading, coverData, coverKey, productKey }) {
 
   if (!coverData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

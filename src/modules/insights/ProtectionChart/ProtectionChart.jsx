@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/router'
 import { Bar } from 'react-chartjs-2'
 
+import { Loading } from '@/common/Loading'
 import {
   ChainAnalyticsColors,
   ShortNetworkNames
@@ -29,7 +30,6 @@ import {
 } from '@/modules/insights/ProtectionChart/utils'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 ChartJS.register(
   CategoryScale,
@@ -225,7 +225,7 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
       loading
         ? (
           <div className='flex items-center justify-center h-full overflow-y-auto'>
-            <Trans>loading...</Trans>
+            <Loading />
           </div>
           )
         : (
