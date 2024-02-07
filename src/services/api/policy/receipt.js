@@ -3,6 +3,10 @@ import { getReplacedString } from '@/utils/string'
 import * as api from '../config'
 
 export const getPolicyReceipt = async (networkId, txHash) => {
+  if (!txHash || !networkId) {
+    return null
+  }
+
   try {
     const url = getReplacedString(api.POLICY_RECEIPT_URL, { networkId, txHash: txHash.toLowerCase().slice(2) })
 
@@ -26,7 +30,7 @@ export const getPolicyReceipt = async (networkId, txHash) => {
       return null
     }
   } catch (error) {
-    console.error('Could not get active policies', error)
+    console.error('Could not get policy receipt', error)
   }
 
   return null

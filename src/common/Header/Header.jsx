@@ -135,7 +135,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className='bg-black text-EEEEEE'>
+      <div className='bg-black text-EEEEEE print:hidden'>
         <Banner />
         <NavContainer>
           <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:pr-18 xl:flex'>
