@@ -3,6 +3,10 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 
 import { Divider } from '@/common/Divider/Divider'
+import {
+  Loading,
+  NoDataFound
+} from '@/common/Loading'
 import { CoverTerms } from '@/modules/cover/cover-terms/CoverTerms'
 import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 import { Routes } from '@/src/config/routes'
@@ -27,17 +31,13 @@ export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
 
   if (loading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <Loading />
     )
   }
 
   if (!coverOrProductData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

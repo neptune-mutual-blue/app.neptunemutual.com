@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { CoverDropdown } from '@/common/CoverDropdown'
 import { Label } from '@/common/Label/Label'
+import { Loading } from '@/common/Loading'
 import { getActions } from '@/src/config/cover/actions'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
@@ -36,7 +37,7 @@ export const ActiveReportingEmptyState = () => {
 
   if (loading) {
     return (
-      <Trans>loading...</Trans>
+      <Loading />
     )
   }
 

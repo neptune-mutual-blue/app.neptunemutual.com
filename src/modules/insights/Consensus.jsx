@@ -6,6 +6,7 @@ import {
   E_CARD_STATUS,
   identifyStatus
 } from '@/common/CardStatusBadge'
+import { Loading } from '@/common/Loading'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
@@ -21,10 +22,7 @@ import {
 } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 const renderStatus = (row) => {
@@ -205,11 +203,7 @@ function Consensus ({ data, loading, setConsensusIndex }) {
   const columns = getColumns(i18n)
 
   if (dataLoading) {
-    return (
-      <p>
-        <Trans>loading...</Trans>
-      </p>
-    )
+    return <Loading />
   }
 
   return (

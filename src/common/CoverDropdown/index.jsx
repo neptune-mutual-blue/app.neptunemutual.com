@@ -4,6 +4,7 @@ import {
 } from 'react'
 
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
+import { Loading } from '@/common/Loading'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import {
   getCoverImgSrc,
@@ -15,7 +16,6 @@ import {
   Listbox,
   Transition
 } from '@headlessui/react'
-import { Trans } from '@lingui/macro'
 
 /**
  *
@@ -133,7 +133,7 @@ export const CoverDropdown = ({
   }
 
   if (loading) {
-    return <p><Trans>loading...</Trans></p>
+    return <Loading />
   }
 
   return (

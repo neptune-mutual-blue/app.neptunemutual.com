@@ -11,6 +11,7 @@ import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { Container } from '@/common/Container/Container'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
 import { Grid } from '@/common/Grid/Grid'
+import { NoDataFound } from '@/common/Loading'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import LeftArrow from '@/icons/LeftArrow'
@@ -184,9 +185,7 @@ function Content ({
 
   if (data.length === 0) {
     return (
-      <p data-testid='no-data' className='min-h-301'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

@@ -7,6 +7,10 @@ import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroStat } from '@/common/HeroStat'
 import { HeroTitle } from '@/common/HeroTitle'
+import {
+  Loading,
+  NoDataFound
+} from '@/common/Loading'
 import { Seo } from '@/common/Seo'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -53,16 +57,12 @@ export const ClaimDetailsPage = ({
 
   if (dataLoading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
+      <Loading />
     )
   }
   if (!coverOrProductData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 
