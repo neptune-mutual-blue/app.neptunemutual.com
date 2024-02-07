@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import { ComingSoon } from '@/common/ComingSoon'
+import { NoDataFound } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
 import {
   ReportDetailsSkeleton
@@ -11,7 +12,6 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Trans } from '@lingui/macro'
 
 const disabled = !isFeatureEnabled('reporting')
 
@@ -69,9 +69,7 @@ function Content ({ loading, incidentReportData, refetch, coverKey, productKey }
 
   if (!incidentReportData || !coverOrProductData) {
     return (
-      <p className='text-center'>
-        <Trans>No data found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react'
 
 import { NeutralButton } from '@/common/Button/NeutralButton'
+import {
+  Loading,
+  NoDataFound
+} from '@/common/Loading'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
@@ -116,7 +120,7 @@ export const TBody = ({
       {data.length === 0 && (
         <tr className='w-full text-center'>
           <td className='p-6' colSpan={columns.length}>
-            {isLoading ? <Trans>loading...</Trans> : <Trans>No data found</Trans>}
+            {isLoading ? <Loading /> : <NoDataFound />}
           </td>
         </tr>
       )}

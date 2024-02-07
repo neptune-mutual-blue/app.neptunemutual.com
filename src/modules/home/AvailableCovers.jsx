@@ -11,6 +11,7 @@ import { Container } from '@/common/Container/Container'
 import { CoverCardWrapper } from '@/common/Cover/CoverCardWrapper'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
 import { Grid } from '@/common/Grid/Grid'
+import { NoDataFound } from '@/common/Loading'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { Select } from '@/common/Select'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
@@ -260,7 +261,7 @@ function Content ({
   }
 
   if (sortedCoversOrProducts.length === 0) {
-    return <p data-testid='no-data' className='min-h-301'>No data found</p>
+    return <NoDataFound />
   }
 
   return (

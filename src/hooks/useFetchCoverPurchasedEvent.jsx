@@ -96,7 +96,7 @@ const getEvent = async (networkId, txHash) => {
 
 export const useFetchCoverPurchasedEvent = ({ txHash }) => {
   const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const { networkId } = useNetwork()
 
   useEffect(() => {
@@ -108,6 +108,7 @@ export const useFetchCoverPurchasedEvent = ({ txHash }) => {
         setLoading(false)
       })
       .catch((error) => {
+        setLoading(false)
         console.error(error)
       })
   }, [networkId, txHash])

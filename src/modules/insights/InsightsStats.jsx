@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router'
 
+import { Loading } from '@/common/Loading'
 import { StatsCard } from '@/src/modules/insights/StatsCard'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
 
 export const InsightsStats = ({ loading, statsData }) => {
   const router = useRouter()
 
   return (
     <div>
-      {loading ? <Trans>loading...</Trans> : <StatDisplay router={router} statsData={statsData} />}
+      {loading ? <Loading /> : <StatDisplay router={router} statsData={statsData} />}
     </div>
   )
 }

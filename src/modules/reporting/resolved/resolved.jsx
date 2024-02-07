@@ -12,6 +12,10 @@ import {
   identifyStatus
 } from '@/common/CardStatusBadge'
 import { Container } from '@/common/Container/Container'
+import {
+  Loading,
+  NoDataFound
+} from '@/common/Loading'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -41,10 +45,7 @@ import {
   sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 /**
@@ -329,7 +330,7 @@ export const ReportingResolvedPage = () => {
                     {resolvedReportsWithData.length === 0 && (
                       <tr className='text-center'>
                         <td className='px-0 py-6' colSpan={columns.length}>
-                          {loading ? <Trans>loading...</Trans> : <Trans>No data found</Trans>}
+                          {loading ? <Loading /> : <NoDataFound />}
                         </td>
                       </tr>
                     )}

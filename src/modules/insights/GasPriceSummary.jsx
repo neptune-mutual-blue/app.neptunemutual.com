@@ -1,10 +1,10 @@
 import { GaugeChart } from '@/common/GaugeChart/GaugeChart'
+import { Loading } from '@/common/Loading'
 import MaxIcon from '@/icons/MaxIcon'
 import MinIcon from '@/icons/MinIcon'
 import SumIcon from '@/icons/SumIcon'
 import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import { formatEther } from '@/utils/formatEther'
-import { Trans } from '@lingui/macro'
 
 const maxValues = {
   1: [50, 100, 250, 500, 1000, 2500, 5000, 10000],
@@ -17,7 +17,7 @@ export const GasPriceSummary = ({ data, loading }) => {
   return (
     <div className='flex flex-wrap justify-center gap-8'>
       {loading && (
-        <div className='italic text-center'><Trans>loading...</Trans></div>
+        <Loading />
       )}
       {!loading && (
         <>

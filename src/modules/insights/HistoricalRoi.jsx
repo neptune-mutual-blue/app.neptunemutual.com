@@ -1,12 +1,12 @@
 import { useRef } from 'react'
 
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
+import { Loading } from '@/common/Loading'
 import {
   ChainAnalyticsColors,
   ShortNetworkNames
 } from '@/lib/connect-wallet/config/chains'
 import { hexToRgba } from '@/utils/hex-to-rgba'
-import { Trans } from '@lingui/macro'
 
 export const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
@@ -154,7 +154,7 @@ export const HistoricalRoi = ({ loading, data }) => {
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>
       {loading && (
         <div className='flex items-center justify-center h-full overflow-y-auto'>
-          <Trans>loading...</Trans>
+          <Loading />
         </div>
       )}
       {!loading && (

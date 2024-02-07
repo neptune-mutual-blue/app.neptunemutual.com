@@ -5,7 +5,9 @@ import {
 
 import { useRouter } from 'next/router'
 
+import { NoDataFound } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
+import { NewReportSkeleton } from '@/modules/reporting/new/NewReportSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
@@ -19,8 +21,6 @@ import {
   NewIncidentReportForm
 } from '@/src/modules/reporting/NewIncidentReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
-import { Trans } from '@lingui/macro'
-import { NewReportSkeleton } from '@/modules/reporting/new/NewReportSkeleton'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
   const [accepted, setAccepted] = useState(false)
@@ -58,9 +58,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
 
   if (!coverOrProductData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

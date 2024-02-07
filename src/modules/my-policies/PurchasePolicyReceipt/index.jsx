@@ -3,6 +3,10 @@ import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
+import {
+  Loading,
+  NoDataFound
+} from '@/common/Loading'
 import DateLib from '@/lib/date/DateLib'
 import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 import {
@@ -23,10 +27,7 @@ import {
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
+import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
@@ -47,19 +48,12 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
   if (dataLoading || eventLoading) {
     return (
-      <p className='text-center'>
-        <Trans>loading...</Trans>
-      </p>
-
+      <Loading />
     )
   }
 
   if (!txHash || !event) {
-    return (
-      <p data-testid='no-data' className='min-h-301'>
-        <Trans>No Data Found</Trans>
-      </p>
-    )
+    return <NoDataFound />
   }
 
   const purchaser = event.onBehalfOf

@@ -17,6 +17,7 @@ import {
 import {
   LiquidityResolutionSources
 } from '@/common/LiquidityResolutionSources/LiquidityResolutionSources'
+import { NoDataFound } from '@/common/Loading'
 import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
 import {
   StandardTermsConditionsLink
@@ -49,9 +50,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   }
   if (!coverData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 

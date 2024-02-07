@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useState
 } from 'react'
@@ -8,6 +9,10 @@ import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
 
 import { useActiveLocale } from '../hooks/useActiveLocale'
+
+const DefaultI18n = ({ children }) => {
+  return <span>{children}</span>
+}
 
 export function LanguageProvider ({ children }) {
   const locale = useActiveLocale()
@@ -30,30 +35,36 @@ export function LanguageProvider ({ children }) {
     }
   }, [locale])
 
-  useEffect(() => {
-    if (refresh === true) { setRefresh(false) }
-  }, [refresh])
+  const updateRefresh = useCallback(() => { return setRefresh(r => { return !r }) }, [])
 
   useEffect(() => {
-    const updateRefresh = () => { return setRefresh(true) }
-
     // Detect network change and manually refresh
     if (window && window.addEventListener) {
       window.addEventListener('languagechange', updateRefresh)
     }
 
     return () => { return window.removeEventListener('languagechange', updateRefresh) }
+  }, [updateRefresh])
+
+  useEffect(() => { console.log('refreshing...') }, [refresh])
+
+  useEffect(() => {
+    console.log('Locale %s loaded.', i18n.locale)
   }, [])
 
-  if (!loaded) {
+  if (!i18n.locale) {
     // only log in browser
     if (typeof window !== 'undefined') {
       console.log('Could not fetch locale')
     }
 
+    return null
+  }
+
+  if (!loaded) {
     // prevent the app from rendering with placeholder text before the locale is loaded
     return null
   }
 
-  return <I18nProvider i18n={i18n}>{children}</I18nProvider>
+  return <I18nProvider i18n={i18n} defaultComponent={DefaultI18n}>{children}</I18nProvider>
 }

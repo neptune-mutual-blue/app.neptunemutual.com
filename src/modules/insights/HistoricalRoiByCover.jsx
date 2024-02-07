@@ -4,9 +4,9 @@ import React, {
 } from 'react'
 
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
+import { Loading } from '@/common/Loading'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
-import { Trans } from '@lingui/macro'
 
 const colors = {
   'popular-defi-apps': '#4E7DD9',
@@ -221,7 +221,7 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>
       {loading && (
         <div className='flex items-center justify-center h-full overflow-y-auto'>
-          <Trans>loading...</Trans>
+          <Loading />
         </div>
       )}
 

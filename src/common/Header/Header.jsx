@@ -61,7 +61,6 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false)
-  const [container, setContainer] = useState(null)
 
   const [unread, setUnread] = useState(0)
 
@@ -136,7 +135,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className='bg-black text-EEEEEE'>
+      <div className='bg-black text-EEEEEE print:hidden'>
         <Banner />
         <NavContainer>
           <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:pr-18 xl:flex'>
@@ -242,7 +241,7 @@ export const Header = () => {
                 </ConnectWallet>
               </div>
 
-              <div className='relative flex ml-3' ref={setContainer}>
+              <div className='relative flex ml-3'>
                 <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
                   <button
                     aria-label='Transactions'
@@ -278,7 +277,6 @@ export const Header = () => {
             <TransactionList
               isOpen={isTxDetailsPopupOpen}
               onClose={setIsTxDetailsPopupOpen}
-              container={container}
             />
           </nav>
         </NavContainer>

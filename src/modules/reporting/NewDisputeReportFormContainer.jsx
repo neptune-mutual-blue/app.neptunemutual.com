@@ -1,5 +1,6 @@
 import { Alert } from '@/common/Alert/Alert'
 import { Container } from '@/common/Container/Container'
+import { NoDataFound } from '@/common/Loading'
 import DateLib from '@/lib/date/DateLib'
 import { DisputeFormSkeleton } from '@/modules/reporting/DisputeFormSkeleton'
 import { HeroSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
@@ -32,9 +33,7 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
 
   if (!coverOrProductData) {
     return (
-      <p className='text-center'>
-        <Trans>No Data Found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 
@@ -78,9 +77,7 @@ function DisputeForm ({ coverKey, productKey, timestamp, minReportingStake }) {
 
   if (!incidentReportData) {
     return (
-      <p className='text-center'>
-        <Trans>No data found</Trans>
-      </p>
+      <NoDataFound />
     )
   }
 
