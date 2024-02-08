@@ -1,7 +1,4 @@
-import {
-  Fragment,
-  useMemo
-} from 'react'
+import { Fragment } from 'react'
 
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
 import { Loading } from '@/common/Loading'
@@ -11,7 +8,6 @@ import {
   isValidProduct
 } from '@/src/helpers/cover'
 import { classNames } from '@/utils/classnames'
-import { getPolicyStatus } from '@/utils/policy-status'
 import {
   Listbox,
   Transition
@@ -56,14 +52,6 @@ export const CoverDropdown = ({
   const handleSelect = (val) => {
     setSelected(val)
   }
-
-  const filteredData = useMemo(() => {
-    return coversOrProducts.filter((cover) => {
-      const { disabled } = getPolicyStatus(cover)
-
-      return !disabled
-    })
-  }, [coversOrProducts])
 
   const Button = ({ open }) => {
     if (renderButton) {
@@ -164,7 +152,7 @@ export const CoverDropdown = ({
           )}
           >
 
-            {filteredData.map((option, optionIdx) => {
+            {coversOrProducts.map((option, optionIdx) => {
               return (
                 <Listbox.Option
                   key={optionIdx}
