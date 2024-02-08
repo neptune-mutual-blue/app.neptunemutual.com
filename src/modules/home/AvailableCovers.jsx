@@ -142,10 +142,12 @@ export const AvailableCovers = () => {
 
   // filtering sortedCovers based on the showDisabled state
   const filteredSortedCovers = useMemo(() => {
-    return sortedCovers.filter((item) => {
-      const { disabled } = getPolicyStatus(item)
+    if (showDisabled) {
+      return sortedCovers
+    }
 
-      return showDisabled ? true : !disabled
+    return sortedCovers.filter((item) => {
+      return !getPolicyStatus(item).disabled
     })
   }, [sortedCovers, showDisabled])
 
