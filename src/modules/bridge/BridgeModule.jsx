@@ -103,7 +103,7 @@ const BridgeModule = () => {
       return
     }
 
-    const firstDestOption = filtered.filter(n => { return n.chainId.toString() !== networkId.toString() })[0]
+    const firstDestOption = filtered.filter(n => { return n.chainId.toString() !== (networkId || '').toString() })[0]
 
     if (!firstDestOption) {
       return

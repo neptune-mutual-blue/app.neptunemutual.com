@@ -36,7 +36,7 @@ export const ViewProposals = () => {
 
   const boost = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
 
-  const veNPMTokenSymbol = ChainConfig[networkId].veNPM.tokenSymbol
+  const veNPMTokenSymbol = ChainConfig[networkId || 1].veNPM.tokenSymbol
   const votingPower = toBNSafe(boost).multipliedBy(data.lockedNPMBalance)
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
   const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), router.locale, veNPMTokenSymbol, true)
