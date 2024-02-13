@@ -7,9 +7,7 @@ export const useRegisterToken = () => {
   const register = (address, symbol, decimals = 18) => {
     if (!account) { return }
 
-    const url = new URL(window.location.href)
-    url.pathname = typeof symbol === 'string' ? `/images/tokens/${symbol.toLowerCase()}.svg` : '/'
-    const image = symbol ? url.href : undefined
+    const image = (symbol && typeof symbol === 'string') ? `https://cdn.neptunemutual.net/images/currencies/icons/default/${symbol.toLowerCase()}.svg` : undefined
 
     registerToken(address, symbol, decimals, image)
       .then(console.log)
