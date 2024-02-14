@@ -37,13 +37,21 @@ export const useCoverActiveReportings = ({ coverKey }) => {
   )
 
   useEffect(() => {
-    if (coverKey) {
-      setLoading(true)
-      fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
-        .then(({ incidentReports }) => { return setData(incidentReports) })
-        .catch((e) => { return console.error(e) })
-        .finally(() => { return setLoading(false) })
+    if (!coverKey || !getNetworkId()) {
+      return
     }
+
+    setLoading(true)
+    fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
+      .then((result) => {
+        if (!result) {
+          return
+        }
+
+        return setData(result.incidentReports)
+      })
+      .catch((e) => { return console.error(e) })
+      .finally(() => { return setLoading(false) })
   }, [coverKey, fetchCoverActiveReportings])
 
   return {
