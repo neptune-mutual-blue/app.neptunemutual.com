@@ -61,7 +61,7 @@ export const CoverProfileInfo = ({
       </div>
       <div className='p-3' />
       <div>
-        <div className='flex flex-wrap-reverse items-center gap-x-4 gap-y-1'>
+        <div className='flex flex-wrap-reverse items-center mb-2 gap-x-4 gap-y-1'>
           <ProjectName name={projectName} />
           <Card
             coverKey={coverKey}

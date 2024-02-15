@@ -40,6 +40,7 @@ const PurchasePolicyStep = ({
   canPurchase,
   error,
   approving,
+  updatingAllowance,
   coverMonth,
   updatingFee,
   updatingBalance,
@@ -144,6 +145,7 @@ const PurchasePolicyStep = ({
               !value ||
               !coverMonth ||
               updatingFee ||
+              updatingAllowance ||
               updatingBalance ||
               isReferralCodeCheckPending ||
               editForm
@@ -195,7 +197,18 @@ const PurchasePolicyStep = ({
       <div className='w-full px-2 py-6 mt-8 rounded-lg md:px-8 bg-F3F5F7'>
         <div className='flex flex-col items-center justify-between md:flex-row'>
           <p className='font-bold text-display-xs'>Coverage Information</p>
-          {!editForm && <OutlinedButton disabled={approving} className={classNames('rounded-md !py-1 mt-3 md:mt-0', approving && 'opacity-60 cursor-not-allowed')} onClick={!approving && handleEditForm}>Edit</OutlinedButton>}
+          {!editForm && (
+            <OutlinedButton
+              disabled={approving} className={classNames('rounded-md !py-1 mt-3 md:mt-0', approving && 'opacity-60 cursor-not-allowed')} onClick={() => {
+                if (approving) {
+                  return
+                }
+
+                handleEditForm()
+              }}
+            >Edit
+            </OutlinedButton>
+          )}
           {editForm && (
             <div className='flex mt-3 md:mt-0'>
               <OutlinedButtonCancel className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButtonCancel>

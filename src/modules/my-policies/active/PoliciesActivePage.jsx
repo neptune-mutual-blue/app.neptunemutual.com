@@ -54,7 +54,7 @@ function ActivePolicies ({ data, loading }) {
 
           return (
             <PolicyCard
-              key={policyInfo.id}
+              key={policyInfo.cxToken}
               policyInfo={policyInfo}
               coverOrProductData={isDiversified ? getProduct(policyInfo.coverKey, policyInfo.productKey) : getCoverByCoverKey(policyInfo.coverKey)}
             />

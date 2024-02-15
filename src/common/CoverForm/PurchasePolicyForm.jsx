@@ -318,6 +318,7 @@ export const PurchasePolicyForm = ({
             feeData={feeData}
             value={value}
             approving={approving}
+            updatingAllowance={updatingAllowance}
             canPurchase={canPurchase}
             coverMonth={coverMonth}
             coverageLag={coverageLag}

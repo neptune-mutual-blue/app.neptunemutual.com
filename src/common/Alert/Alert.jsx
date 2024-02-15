@@ -29,15 +29,15 @@ export const Alert = ({ children, info = undefined, className = '', closable = f
         </div>
         <div className='flex-1 ml-3'>{children}</div>
         {closable
-          ? <button
+          ? (
+            <button
               type='button'
               className='p-1 ml-1'
               onClick={() => { return setShow(false) }}
             >
-            <CloseIcon className='w-4 h-4' aria-hidden='true' />
-
-            {/* eslint-disable-next-line react/jsx-closing-tag-location */}
-          </button>
+              <CloseIcon className='w-4 h-4' aria-hidden='true' />
+            </button>
+            )
           : null}
       </div>
     </div>
