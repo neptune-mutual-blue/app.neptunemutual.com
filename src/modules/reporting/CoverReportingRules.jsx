@@ -60,7 +60,7 @@ export const CoverReportingRules = ({
                     </div>
                   )}
 
-                  <Alert closable>
+                  <Alert info closable>
                     <Trans>
                       If you just came to know about a recent incident of{' '}
                       {projectOrProductName}, carefully read the cover rules
@@ -81,6 +81,7 @@ export const CoverReportingRules = ({
             resolutionSources={resolutionSources || []}
             reportingPeriod={reportingPeriod}
           >
+            {undefined}
             {/* <Link href="#">
               <a className="block mt-3 text-4E7DD9 hover:underline">
                 <Trans>Neptune Mutual Reporters</Trans>
