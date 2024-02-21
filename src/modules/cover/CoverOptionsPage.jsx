@@ -9,8 +9,6 @@ import { getActions } from '@/src/config/cover/actions'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { getPolicyStatus } from '@/utils/policy-status'
-import { Trans } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const getBreadCrumbs = (
   isDiversified,
@@ -21,17 +19,17 @@ const getBreadCrumbs = (
   if (isDiversified) {
     return [
       {
-        name: <Trans>Home</Trans>,
+        name: 'Home',
         href: '/',
         current: false
       },
       {
-        name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
+        name: coverOrProductData?.coverInfoDetails?.coverName || 'loading...',
         href: Routes.ViewCover(coverKey),
         current: true
       },
       {
-        name: coverOrProductData?.productInfoDetails?.productName || <Trans>loading...</Trans>,
+        name: coverOrProductData?.productInfoDetails?.productName || 'loading...',
         href: Routes.ViewProduct(coverKey, productKey),
         current: true
       }
@@ -40,12 +38,12 @@ const getBreadCrumbs = (
 
   return [
     {
-      name: <Trans>Home</Trans>,
+      name: 'Home',
       href: '/',
       current: false
     },
     {
-      name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
+      name: coverOrProductData?.coverInfoDetails?.coverName || 'loading...',
       href: Routes.ViewCover(coverKey),
       current: true
     }
@@ -60,9 +58,7 @@ export const CoverOptionsPage = ({
 }) => {
   const router = useRouter()
 
-  const { i18n } = useLingui()
-
-  const coverActions = getActions(i18n)
+  const coverActions = getActions()
 
   const { disabled } = getPolicyStatus(coverOrProductData)
 
@@ -82,7 +78,7 @@ export const CoverOptionsPage = ({
       <div className='min-h-screen py-6 md:px-2 lg:px-8 pt-7 lg:pt-28' data-testid='cover-options-page'>
         <Container className='pb-16'>
           <h2 className='mb-4 text-lg font-bold text-center md:text-display-xs lg:text-display-sm md:mb-6 lg:mb-12'>
-            <Trans>I Want to</Trans>
+            I Want to
           </h2>
           <div className='container grid grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14'>
             {Object.keys(coverActions).map((actionKey) => {

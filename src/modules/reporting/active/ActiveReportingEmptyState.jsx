@@ -7,11 +7,6 @@ import { Loading } from '@/common/Loading'
 import { getActions } from '@/src/config/cover/actions'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter()
@@ -23,9 +18,7 @@ export const ActiveReportingEmptyState = () => {
     setSelected
   } = useCoverDropdown()
 
-  const { i18n } = useLingui()
-
-  const actions = getActions(i18n)
+  const actions = getActions()
 
   const handleAddReport = () => {
     if (!selected) { return }
@@ -48,18 +41,18 @@ export const ActiveReportingEmptyState = () => {
     >
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t(i18n)`No data found`}
+        alt='No data found'
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
-        <Trans>
-          No known incident found for any cover product. If you believe a cover
-          incident has occurred, earn rewards by reporting the incident.
-        </Trans>
+
+        No known incident found for any cover product. If you believe a cover
+        incident has occurred, earn rewards by reporting the incident.
+
       </p>
       <div className='flex flex-col w-full max-w-lg mt-16 mb-4'>
         <Label htmlFor='reporting-dropdown' className='sr-only'>
-          <Trans>select a cover</Trans>
+          select a cover
         </Label>
         <CoverDropdown
           loading={loading}
@@ -72,7 +65,7 @@ export const ActiveReportingEmptyState = () => {
           onClick={handleAddReport}
           data-testid='report-button'
         >
-          <Trans>Report an incident</Trans>
+          Report an incident
         </RegularButton>
       </div>
     </div>

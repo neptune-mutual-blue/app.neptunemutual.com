@@ -1,5 +1,4 @@
 import { getBlockLink } from '@/lib/connect-wallet/utils/explorer'
-import { Trans } from '@lingui/macro'
 
 export const LastSynced = ({ blockNumber, networkId }) => {
   if (!blockNumber || !networkId) {
@@ -11,7 +10,7 @@ export const LastSynced = ({ blockNumber, networkId }) => {
       className='font-semibold w-max text-md text-1D2939'
       data-testid='block-number'
     >
-      <Trans>Last Synced:</Trans>{' '}
+      Last Synced:{' '}
       <a
         href={getBlockLink(networkId, blockNumber)}
         target='_blank'

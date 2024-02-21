@@ -25,7 +25,6 @@ import {
   getTagFromTitle,
   getVotingResults
 } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
 
 export const GovernanceSinglePage = () => {
   const router = useRouter()
@@ -85,7 +84,7 @@ export const GovernanceSinglePage = () => {
         data-testid='breadcrumbs'
         pages={[
           {
-            name: <Trans>Governance</Trans>,
+            name: 'Governance',
             href: Routes.Governance,
             current: false
           },

@@ -6,7 +6,6 @@ import React, {
 
 import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import CopyIcon from '@/icons/CopyIcon'
-import { Trans } from '@lingui/macro'
 
 export const CopyAddressComponent = ({ account, ...rest }) => {
   const { iconOnly, iconClassName } = rest
@@ -40,7 +39,7 @@ export const CopyAddressComponent = ({ account, ...rest }) => {
             <CopyIcon className={iconClassName || 'w-4 h-4 text-999BAB'} />
             {!iconOnly && (
               <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-                <Trans>Copy Address</Trans>
+                Copy Address
               </span>
             )}
           </>
@@ -50,7 +49,7 @@ export const CopyAddressComponent = ({ account, ...rest }) => {
             <CheckCircleIcon className={iconClassName || 'w-4 h-4 text-999BAB'} />
             {!iconOnly && (
               <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-                <Trans>Copied</Trans>
+                Copied
               </span>
             )}
           </>

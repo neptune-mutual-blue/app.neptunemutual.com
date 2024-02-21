@@ -12,8 +12,6 @@ import {
 } from '@/lib/connect-wallet/config/chains'
 import { renderHeader } from '@/src/common/Table/renderHeader'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const RenderNetwork = ({ networkId }) => {
   const LogoIcon = ChainLogos[networkId]
@@ -89,35 +87,34 @@ const RenderTVL = ({ tvl }) => {
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-const getColumns = (i18n) => {
+const getColumns = () => {
   return [
     {
       id: 'Network',
-      name: t(i18n)`Network`,
+      name: 'Network',
       align: 'left',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
       renderData: (row) => { return <RenderNetwork networkId={row.networkId} /> }
     },
     {
       id: 'Cover Fee Earned',
-      name: t(i18n)`Cover Fee Earned`,
+      name: 'Cover Fee Earned',
       align: 'left',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
       renderData: (row) => { return <RenderCover coverFee={row.coverFee} /> }
     },
     {
       id: 'TVL',
-      name: t(i18n)`TVL`,
+      name: 'TVL',
       align: 'right',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
       renderData: (row) => { return <RenderTVL tvl={row.tvl} /> }
     },
     {
       id: 'Capacity',
-      name: t(i18n)`Capacity`,
+      name: 'Capacity',
       align: 'right',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
       renderData: (row) => { return <RenderCapacity capacity={row.capacity} /> }
@@ -126,8 +123,7 @@ const getColumns = (i18n) => {
 }
 
 export const InsightsTVLTable = ({ data, loading }) => {
-  const { i18n } = useLingui()
-  const columns = getColumns(i18n)
+  const columns = getColumns()
 
   return (
     <div>

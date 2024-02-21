@@ -10,8 +10,6 @@ import {
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const renderAccount = (row, { page }, rowIndex) => {
   const trueRowIndex = (rowIndex + 1) + ((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE)
@@ -71,28 +69,27 @@ const renderProtection = (row, { locale }) => {
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-const getColumns = (i18n) => {
+const getColumns = () => {
   return [
     {
       id: 'account',
-      name: t(i18n)`account`,
+      name: 'account',
       align: 'left',
       renderHeader,
       renderData: renderAccount
     },
     {
       id: 'policies',
-      name: t(i18n)`policies`,
+      name: 'policies',
       align: 'right',
       renderHeader,
       renderData: renderPolicies
     },
     {
       id: 'protection',
-      name: t(i18n)`protection`,
+      name: 'protection',
       align: 'right',
       renderHeader,
       renderData: renderProtection
@@ -105,8 +102,7 @@ export const TopAccountsByProtection = ({ userData = [], page = 1, loading }) =>
 
   const paginatedData = userData.slice((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE, (page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE + TOP_ACCOUNTS_ROWS_PER_PAGE)
 
-  const { i18n } = useLingui()
-  const columns = getColumns(i18n)
+  const columns = getColumns()
 
   return (
     <TableWrapper className='mt-0'>

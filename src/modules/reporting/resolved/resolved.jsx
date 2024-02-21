@@ -45,8 +45,6 @@ import {
   sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -177,42 +175,41 @@ const renderTotalRefutedStake = (row) => {
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-const getColumns = (i18n) => {
+const getColumns = () => {
   return [
     {
       id: 'cover',
-      name: t(i18n)`cover`,
+      name: 'cover',
       align: 'left',
       renderHeader,
       renderData: renderCover
     },
     {
       id: 'total attested stake',
-      name: t(i18n)`total attested stake`,
+      name: 'total attested stake',
       align: 'left',
       renderHeader,
       renderData: renderTotalAttestedStake
     },
     {
       id: 'total refuted stake',
-      name: t(i18n)`total refuted stake`,
+      name: 'total refuted stake',
       align: 'left',
       renderHeader,
       renderData: renderTotalRefutedStake
     },
     {
       id: 'date and time',
-      name: t(i18n)`date and time`,
+      name: 'date and time',
       align: 'left',
       renderHeader,
       renderData: renderDateAndTime
     },
     {
       id: 'status',
-      name: t(i18n)`status`,
+      name: 'status',
       align: 'right',
       renderHeader,
       renderData: renderStatus
@@ -238,12 +235,10 @@ export const ReportingResolvedPage = () => {
     handleShowMore
   } = useResolvedReportings()
 
-  const { i18n } = useLingui()
-
   const options = [
-    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t(i18n)`Incident date`, value: SORT_TYPES.INCIDENT_DATE },
-    { name: t(i18n)`Resolved date`, value: SORT_TYPES.RESOLVED_DATE }
+    { name: 'A-Z', value: SORT_TYPES.ALPHABETIC },
+    { name: 'Incident date', value: SORT_TYPES.INCIDENT_DATE },
+    { name: 'Resolved date', value: SORT_TYPES.RESOLVED_DATE }
   ]
   const defaultSelectedOption = options[2]
 
@@ -291,7 +286,7 @@ export const ReportingResolvedPage = () => {
     })
   }, [getCoverByCoverKey, getProduct, sortedResolvedReports])
 
-  const columns = getColumns(i18n)
+  const columns = getColumns()
 
   return (
     <Container className='pt-16 pb-36'>

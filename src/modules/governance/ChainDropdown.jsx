@@ -14,7 +14,6 @@ import SearchIcon from '@/icons/SearchIcon'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
 import { getProposalLink } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
 
 const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' }) => {
   const [open, setOpen] = useState(false)
@@ -70,8 +69,8 @@ const ChainDropdown = ({ options, selected, onSelectionChange, state = 'active' 
           target='_blank'
           rel='noreferrer noopener nofollow'
         >
-          {state === 'active' && (<Trans>Submit Your Vote</Trans>)}
-          {state !== 'active' && (<Trans>View Proposal</Trans>)}
+          {state === 'active' && 'Submit Your Vote'}
+          {state !== 'active' && 'View Proposal'}
           <ExternalLinkIcon />
         </a>
       </div>

@@ -28,8 +28,6 @@ import {
   SORT_TYPES,
   sorter
 } from '@/utils/sorting'
-import { Trans } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const homeViewSelectionKey = 'view'
 
@@ -52,11 +50,9 @@ const sorterData = {
 }
 
 export const ProductsGrid = () => {
-  const { i18n } = useLingui()
-
   const selectedType = useMemo(() => {
-    return DEFAULT_SORT(i18n)
-  }, [i18n])
+    return DEFAULT_SORT()
+  }, [])
 
   const [sortType, setSortType] = useState(selectedType)
 
@@ -136,7 +132,7 @@ export const ProductsGrid = () => {
           >
 
             <LeftArrow />
-            <Trans>Back</Trans>
+            Back
 
           </Link>
           <h1 className='font-bold text-display-xs lg:text-display-sm'>

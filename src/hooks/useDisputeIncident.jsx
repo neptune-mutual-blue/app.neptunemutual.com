@@ -34,10 +34,8 @@ import {
 } from '@/utils/bn'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useDisputeIncident = ({
   coverKey,
@@ -65,8 +63,6 @@ export const useDisputeIncident = ({
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
@@ -80,7 +76,7 @@ export const useDisputeIncident = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, `Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -273,7 +269,7 @@ export const useDisputeIncident = ({
         }
       )
     } catch (err) {
-      notifyError(err, t(i18n)`Could not dispute`)
+      notifyError(err, 'Could not dispute')
     } finally {
       cleanup()
     }
@@ -289,15 +285,15 @@ export const useDisputeIncident = ({
       err =
         !isValidNumber(value) ||
         isGreater(convertToUnits(value || '0'), balance)
-          ? t(i18n)`Error`
+          ? 'Error'
           : ''
 
       // set error if entered value is invalid
-      if (_value.isGreaterThan(_balance)) { err = 'Insufficient Balance' } else if (_minStake && _value.isLessThan(_minStake)) { err = t(i18n)`Insufficient Stake` }
+      if (_value.isGreaterThan(_balance)) { err = 'Insufficient Balance' } else if (_minStake && _value.isLessThan(_minStake)) { err = 'Insufficient Stake' }
     }
 
     // set error if balance is less than minStake
-    if (_minStake && _balance.isLessThan(_minStake)) { err = t(i18n)`Insufficient Balance` }
+    if (_minStake && _balance.isLessThan(_minStake)) { err = 'Insufficient Balance' }
 
     return err
   }

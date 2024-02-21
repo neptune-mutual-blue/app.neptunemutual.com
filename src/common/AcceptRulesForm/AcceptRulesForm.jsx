@@ -8,7 +8,6 @@ import { Checkbox } from '@/common/Checkbox/Checkbox'
 import LeftArrow from '@/icons/LeftArrow'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 import { config } from '@neptunemutual/sdk'
 
 export const AcceptRulesForm = ({
@@ -53,14 +52,10 @@ export const AcceptRulesForm = ({
       <Alert>
         {coverPurchasePage
           ? (
-            <Trans>
-              Cannot purchase policy, since the cover status is {statusLink}
-            </Trans>
+              `Cannot purchase policy, since the cover status is ${statusLink}`
             )
           : (
-            <Trans>
-              Cannot add liquidity, since the cover status is {statusLink}
-            </Trans>
+              `Cannot add liquidity, since the cover status is ${statusLink}`
             )}
       </Alert>
     )
@@ -89,8 +84,7 @@ export const AcceptRulesForm = ({
             'flex items-center text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide bg-primary'
           )}
         >
-          <Trans>Next</Trans>
-
+          Next
           <LeftArrow variant='right' />
         </button>
       </form>

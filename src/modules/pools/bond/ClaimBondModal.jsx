@@ -12,7 +12,6 @@ import { useClaimBond } from '@/src/hooks/useClaimBond'
 import { convertFromUnits } from '@/utils/bn'
 import { formatAmount } from '@/utils/formatter'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const ClaimBondModal = ({
@@ -39,7 +38,7 @@ export const ClaimBondModal = ({
         />
         <div className='mt-6'>
           <Label htmlFor='claimable-bond' className='mb-4 font-semibold'>
-            <Trans>Amount available to claim</Trans>
+            Amount available to claim
           </Label>
           <DisabledInput
             value={formatAmount(
@@ -51,7 +50,7 @@ export const ClaimBondModal = ({
         </div>
         <div className='mt-8 modal-unlock'>
           <Label className='mb-3' htmlFor='modal-unlock-on'>
-            <Trans>Unlock Date</Trans>
+            Unlock Date
           </Label>
           <p
             id='modal-unlock-on'
@@ -72,7 +71,7 @@ export const ClaimBondModal = ({
           }}
           className='w-full p-6 mt-8 font-semibold uppercase'
         >
-          {claiming ? <Trans>Claiming...</Trans> : <Trans>Claim Now</Trans>}
+          {claiming ? 'Claiming...' : 'Claim Now'}
         </RegularButton>
       </ModalWrapper>
     </ModalRegular>

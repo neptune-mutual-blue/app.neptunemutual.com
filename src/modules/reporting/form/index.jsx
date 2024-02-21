@@ -4,11 +4,6 @@ import { RegularInput } from '@/common/Input/RegularInput'
 import { Label } from '@/common/Label/Label'
 import DeleteIcon from '@/icons/delete-icon'
 import { classNames } from '@/utils/classnames'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 /**
  *
@@ -137,12 +132,10 @@ export function ProofOfIncident ({ disabled, required }) {
     setFields(newFields)
   }
 
-  const { i18n } = useLingui()
-
   return (
     <>
       <InputField
-        label={<Trans>Proof of incident</Trans>}
+        label='Proof of incident'
         inputProps={{
           id: 'incident_url',
           name: 'incident_url',
@@ -151,7 +144,7 @@ export function ProofOfIncident ({ disabled, required }) {
           disabled: disabled,
           type: 'url'
         }}
-        desc={t(i18n)`Provide a URL confirming the nature of the incident.`}
+        desc='Provide a URL confirming the nature of the incident.'
       />
 
       {fields.map((value, i) => {
@@ -169,7 +162,7 @@ export function ProofOfIncident ({ disabled, required }) {
                 disabled: disabled,
                 type: 'url'
               }}
-              desc={t(i18n)`Provide a URL confirming the nature of the incident.`}
+              desc='Provide a URL confirming the nature of the incident.'
             />
 
             <button
@@ -201,7 +194,7 @@ export function ProofOfIncident ({ disabled, required }) {
           'disabled:opacity-40 disabled:cursor-not-allowed'
         )}
       >
-        + <Trans>Add new link</Trans>
+        + Add new link
       </button>
     </>
   )

@@ -47,11 +47,6 @@ import {
   isGreater
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 const getMonthEnd = (month, fullYear) => {
@@ -168,8 +163,6 @@ export const PurchasePolicyForm = ({
 
   const { account } = useWeb3React()
 
-  const { i18n } = useLingui()
-
   const handleChange = (val) => {
     if (typeof val === 'string') {
       setValue(val)
@@ -204,17 +197,17 @@ export const PurchasePolicyForm = ({
 
   let loadingMessage = ''
   if (updatingFee) {
-    loadingMessage = <Trans>Fetching fees...</Trans>
+    loadingMessage = 'Fetching fees...'
   } else if (updatingAllowance) {
-    loadingMessage = <Trans>Fetching allowance...</Trans>
+    loadingMessage = 'Fetching allowance...'
   } else if (updatingBalance) {
-    loadingMessage = <Trans>Fetching balance...</Trans>
+    loadingMessage = 'Fetching balance...'
   }
 
   if (requiresWhitelist && !isUserWhitelisted) {
     return (
       <Alert>
-        <Trans>You are not whitelisted</Trans>
+        You are not whitelisted
       </Alert>
     )
   }
@@ -304,9 +297,9 @@ export const PurchasePolicyForm = ({
               onChange={() => { setRulesAccepted(!rulesAccepted) }}
               data-testid='accept-rules'
             >
-              <Trans>
-                I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions.
-              </Trans>
+
+              I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions.
+
             </Checkbox>
 
           </>
@@ -347,7 +340,7 @@ export const PurchasePolicyForm = ({
         {showReferral && formSteps === 1 && (
           <div className='mt-14'>
             <Label htmlFor='incident_title' className='mb-2 text-center'>
-              <Trans>Enter Cashback Code</Trans>
+              Enter Cashback Code
             </Label>
 
             <div className='relative'>
@@ -355,7 +348,7 @@ export const PurchasePolicyForm = ({
                 className='leading-none disabled:cursor-not-allowed !text-md !pr-14 focus-visible:ring-0 text-center'
                 error={!!referralCodeErrorMessage}
                 id='referral_code'
-                placeholder={t(i18n)`Enter Cashback Code`}
+                placeholder='Enter Cashback Code'
                 value={referralCode}
                 onChange={referralCodeChange}
                 disabled={approving}
@@ -397,14 +390,14 @@ export const PurchasePolicyForm = ({
           policyStatus.disabled && (
             <Alert>
               <p>
-                <Trans>
-                  Policy purchases on this product are disabled.
-                </Trans>
+
+                Policy purchases on this product are disabled.
+
               </p>
               <p>
-                <Trans>
-                  Reason: {policyStatus.reason}
-                </Trans>
+
+                Reason: {policyStatus.reason}
+
               </p>
             </Alert>
           )
@@ -429,12 +422,12 @@ export const PurchasePolicyForm = ({
             >
               {formSteps === 0 && (
                 <>
-                  <Trans>Next</Trans>
+                  Next
                   <LeftArrow variant='right' />
                 </>
               )}
-              {formSteps === 1 && <Trans>View Quotation</Trans>}
-              {formSteps === 2 && <Trans>Purchase Policy</Trans>}
+              {formSteps === 1 && 'View Quotation'}
+              {formSteps === 2 && 'Purchase Policy'}
             </button>
 
             {formSteps === 0 && (
@@ -442,7 +435,7 @@ export const PurchasePolicyForm = ({
                 onClick={() => { return router.back() }}
                 className={classNames('text-[#01052D] hover:text-[#01052D] flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center ml-4 mt-2 md:mt-0 !bg-E6EAEF border-none focus-visible:ring-E6EAEF ')}
               >
-                <Trans>Cancel</Trans>
+                Cancel
               </OutlinedButton>
             )}
 

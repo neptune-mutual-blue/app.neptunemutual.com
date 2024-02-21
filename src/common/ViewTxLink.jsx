@@ -1,6 +1,7 @@
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { TransactionHistory } from '@/src/services/transactions/transaction-history'
-import { Trans } from '@lingui/macro'
+import {
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
 
 export const ViewTxLink = ({ txLink, txHash = '' }) => {
   const handleLinkClick = () => {
@@ -18,9 +19,7 @@ export const ViewTxLink = ({ txLink, txHash = '' }) => {
       data-testid='view-tx-link'
       onClick={handleLinkClick}
     >
-      <span className='inline-block'>
-        <Trans>View transaction</Trans>
-      </span>
+      <span className='inline-block'>View transaction</span>
       <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
     </a>
   )

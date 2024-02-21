@@ -16,7 +16,6 @@ import {
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 export const AccountDetail = ({ title, selectedChain, distribution, amountToDeposit }) => {
@@ -47,9 +46,9 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = <Trans>Fetching balance...</Trans>
+    loadingMessage = 'Fetching balance...'
   } else if (loadingAllowance) {
-    loadingMessage = <Trans>Fetching allowance...</Trans>
+    loadingMessage = 'Fetching allowance...'
   }
 
   return (
@@ -57,7 +56,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
       <div className='p-6 bg-F3F5F7 rounded-2'>
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-1'>
-            <h4 className='text-sm font-semibold text-999BAB'><Trans>Account</Trans></h4>
+            <h4 className='text-sm font-semibold text-999BAB'>Account</h4>
             <p className='break-words'>
               {account || 'N/A'}
             </p>
@@ -66,7 +65,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
           <div className='flex flex-col gap-4 sm:gap-8 sm:flex-row'>
             <div className='flex flex-col gap-1'>
               <h4 className='text-sm font-semibold text-999BAB'>
-                <Trans>Current Network</Trans>
+                Current Network
               </h4>
               <p className={classNames(
                 'text-xl',
@@ -77,7 +76,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
             </div>
             <div className='flex flex-col gap-1'>
               <h4 className='text-sm font-semibold text-999BAB'>
-                <Trans>Balance</Trans>
+                Balance
               </h4>
               <p className={classNames(
                 'text-xl',
@@ -94,7 +93,7 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
             </div>
             <div className='flex flex-col gap-1'>
               <h4 className='text-sm font-semibold text-999BAB'>
-                <Trans>Required</Trans>
+                Required
               </h4>
               <p className='text-xl'>{formatCurrency(
                 convertFromUnits(amountToDeposit, depositTokenDecimals),
@@ -118,9 +117,9 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
           >
             {approving
               ? (
-                <Trans>Approving...</Trans>
+                  'Approving...'
                 )
-              : <Trans>Approve {depositTokenSymbol}</Trans>}
+              : <>Approve {depositTokenSymbol}</>}
           </RegularButton>
         )}
 
@@ -132,10 +131,9 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
           >
             {isSettingGauge
               ? (
-                <Trans>Setting Gauge...</Trans>
+                  'Setting Gauge...'
                 )
-              : <Trans>Set Gauge On {ShortNetworkNames[selectedChain]}</Trans>}
-
+              : <>Set Gauge On {ShortNetworkNames[selectedChain]}</>}
           </RegularButton>
         )}
       </div>

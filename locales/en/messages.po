@@ -152,7 +152,7 @@ msgstr "Amount you wish to withdraw"
 msgid "Annual Cover fee:"
 msgstr "Annual Cover fee:"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:162
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:164
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:347
 #: src/modules/bridge/CommonBridgeActions.jsx:44
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
@@ -240,7 +240,7 @@ msgstr "Approving NPM"
 msgid "Approving veNPM for unlock"
 msgstr "Approving veNPM for unlock"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:158
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:160
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:343
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:367
 #: src/modules/bridge/CommonBridgeActions.jsx:40
@@ -353,7 +353,7 @@ msgstr "Calculate policy fee"
 msgid "Calculating tokens..."
 msgstr "Calculating tokens..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:444
+#: src/common/CoverForm/PurchasePolicyForm.jsx:445
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -408,7 +408,7 @@ msgstr "Capitalizing..."
 msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
 msgstr "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:295
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:308
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:87
 msgid "Cashback Code"
 msgstr "Cashback Code"
@@ -665,7 +665,7 @@ msgstr "Could not extend lock period"
 msgid "Could not finalize incident"
 msgstr "Could not finalize incident"
 
-#: src/hooks/useERC20Allowance.jsx:110
+#: src/hooks/useERC20Allowance.jsx:112
 msgid "Could not get allowance"
 msgstr "Could not get allowance"
 
@@ -824,7 +824,7 @@ msgstr "Cover Fee"
 msgid "Cover Fee Earned"
 msgstr "Cover Fee Earned"
 
-#: src/modules/home/AvailableCovers.jsx:194
+#: src/modules/home/AvailableCovers.jsx:196
 msgid "Cover Products"
 msgstr "Cover Products"
 
@@ -990,7 +990,7 @@ msgid "Enter {NPMTokenSymbol} Amount"
 msgstr "Enter {NPMTokenSymbol} Amount"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:90
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:229
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:242
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:47
 #: src/modules/insights/CalculatorCard.jsx:151
 msgid "Enter Amount"
@@ -1008,9 +1008,9 @@ msgstr "Enter Amount You Wish to Lock"
 msgid "Enter Amount you wish to provide"
 msgstr "Enter Amount you wish to provide"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:349
-#: src/common/CoverForm/PurchasePolicyForm.jsx:357
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:303
+#: src/common/CoverForm/PurchasePolicyForm.jsx:350
+#: src/common/CoverForm/PurchasePolicyForm.jsx:358
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:316
 msgid "Enter Cashback Code"
 msgstr "Enter Cashback Code"
 
@@ -1440,7 +1440,7 @@ msgid "Market Price"
 msgstr "Market Price"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:80
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:219
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:232
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:38
 #: src/modules/insights/CalculatorCard.jsx:144
 msgid "Max"
@@ -1553,7 +1553,7 @@ msgstr "Network"
 
 #: lib/hl-calendar/index.jsx:70
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:92
-#: src/common/CoverForm/PurchasePolicyForm.jsx:431
+#: src/common/CoverForm/PurchasePolicyForm.jsx:432
 msgid "Next"
 msgstr "Next"
 
@@ -1684,7 +1684,7 @@ msgstr "Policies"
 msgid "policy"
 msgstr "policy"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:399
+#: src/common/CoverForm/PurchasePolicyForm.jsx:400
 msgid "Policy purchases on this product are disabled."
 msgstr "Policy purchases on this product are disabled."
 
@@ -1767,8 +1767,8 @@ msgstr "Provided Liquidity Successfully"
 msgid "Providing Liquidity..."
 msgstr "Providing Liquidity..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:436
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
+#: src/common/CoverForm/PurchasePolicyForm.jsx:437
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:190
 #: src/config/cover/actions.js:16
 #: src/modules/cover/purchase/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:69
@@ -1794,11 +1794,11 @@ msgstr "Purchased Policy Successfully"
 msgid "Purchasing Policy"
 msgstr "Purchasing Policy"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:190
 msgid "Purchasing..."
 msgstr "Purchasing..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:404
+#: src/common/CoverForm/PurchasePolicyForm.jsx:405
 msgid "Reason: {0}"
 msgstr "Reason: {0}"
 
@@ -2119,7 +2119,7 @@ msgstr "Take me back to homepage"
 msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
 msgstr "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:348
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:361
 msgid "The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”"
 msgstr "The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”"
 
@@ -2397,7 +2397,7 @@ msgstr "View Proposal"
 msgid "View Proposals"
 msgstr "View Proposals"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:435
+#: src/common/CoverForm/PurchasePolicyForm.jsx:436
 msgid "View Quotation"
 msgstr "View Quotation"
 
@@ -2409,7 +2409,7 @@ msgstr "View transaction"
 msgid "View Tx"
 msgstr "View Tx"
 
-#: src/modules/home/AvailableCovers.jsx:213
+#: src/modules/home/AvailableCovers.jsx:215
 msgid "View:"
 msgstr "View:"
 
@@ -2488,7 +2488,7 @@ msgstr "You are not whitelisted"
 msgid "You Earned"
 msgstr "You Earned"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:101
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:102
 #: src/common/CoverForm/Steps/QuotationStep.jsx:18
 msgid "You Will Pay"
 msgstr "You Will Pay"
@@ -2501,11 +2501,11 @@ msgstr "You Will Pay"
 msgid "You will receive"
 msgstr "You will receive"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:343
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:356
 msgid "You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction."
 msgstr "You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction."
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:125
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:126
 msgid "You will Receive:"
 msgstr "You will Receive:"
 
@@ -2513,7 +2513,7 @@ msgstr "You will Receive:"
 msgid "You’re on {0} Network. Get <0>Test Tokens</0>."
 msgstr "You’re on {0} Network. Get <0>Test Tokens</0>."
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:133
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:134
 msgid "Your balance is not enough to pay the fee. Please reload your wallet."
 msgstr "Your balance is not enough to pay the fee. Please reload your wallet."
 

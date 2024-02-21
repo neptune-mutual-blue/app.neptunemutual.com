@@ -1,6 +1,5 @@
 import LeftArrow from '@/icons/LeftArrow'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const BackButton = ({ onClick, className = '' }) => {
   return (
@@ -13,7 +12,7 @@ export const BackButton = ({ onClick, className = '' }) => {
       )}
     >
       <LeftArrow />
-      <Trans>Back</Trans>
+      Back
     </button>
   )
 }

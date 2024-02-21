@@ -11,11 +11,6 @@ import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const VotesSummaryHorizontalChart = ({
@@ -24,10 +19,8 @@ export const VotesSummaryHorizontalChart = ({
   showTooltip,
   majority
 }) => {
-  const { i18n } = useLingui()
-
   const data = {
-    labels: [t(i18n)`votes`],
+    labels: ['votes'],
     datasets: [
       {
         data: [yesPercent],
@@ -62,8 +55,6 @@ const ToolTipContent = ({ majority }) => {
   const router = useRouter()
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
-  const { i18n } = useLingui()
-
   if (!majority) {
     return null
   }
@@ -95,8 +86,8 @@ const ToolTipContent = ({ majority }) => {
               )}
             >
               {majority.variant === 'success'
-                ? t(i18n)`Incident Occurred`
-                : t(i18n)`False Reporting`}
+                ? 'Incident Occurred'
+                : 'False Reporting'}
             </span>
             <span className='py-1 text-sm leading-5 text-black'>
               {majority.voteCount} (
@@ -105,7 +96,7 @@ const ToolTipContent = ({ majority }) => {
           </>
 
           <span className='text-sm leading-5 text-black opacity-40'>
-            <Trans>Stake:</Trans> <span title={formattedMajorityStake.long}>{formattedMajorityStake.short}</span>
+            Stake: <span title={formattedMajorityStake.long}>{formattedMajorityStake.short}</span>
           </span>
         </div>
         <Tooltip.Arrow

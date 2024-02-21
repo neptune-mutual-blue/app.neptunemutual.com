@@ -16,7 +16,6 @@ import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { classNames } from '@/utils/classnames'
 import { getNetworkInfo } from '@/utils/network'
-import { Trans } from '@lingui/macro'
 
 /**
  * @param {{ isOpen: boolean, txHash: string, amount: number }} prop
@@ -69,7 +68,7 @@ function Complete ({ txHash, onClose, amountInDollars }) {
     <div className='flex flex-col items-center'>
       <div className='flex gap-2.5 justify-center items-center p-8 bg-01052D text-white w-full'>
         <SuccessIcon className='w-8 h-8 text-21AD8C' aria-hidden='true' />
-        <h4 className='font-semibold text-display-xs'><Trans>Cover Purchased Successfully!</Trans></h4>
+        <h4 className='font-semibold text-display-xs'>Cover Purchased Successfully!</h4>
       </div>
 
       <div className='p-8 pt-3 pb-7'>
@@ -113,10 +112,10 @@ function Loading () {
     <div className='flex flex-col items-center'>
       <Loader className='w-18 h-18 text-4E7DD9' />
       <h4 className='font-bold leading-9 text-center mt-7 text-display-sm'>
-        <Trans>Transaction in progress</Trans>
+        Transaction in progress
       </h4>
       <p className='mt-4 leading-6 text-center text-md md:w-72'>
-        <Trans>Please do not exit this page while transaction is in progress</Trans>
+        Please do not exit this page while transaction is in progress
       </p>
     </div>
   )

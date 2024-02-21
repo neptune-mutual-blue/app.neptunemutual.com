@@ -25,7 +25,6 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { Trans } from '@lingui/macro'
 
 export const CoverCard = ({
   coverKey,
@@ -92,7 +91,7 @@ export const CoverCard = ({
         className='mt-1 text-xs uppercase opacity-40 lg:text-sm text-01052D lg:mt-2'
         data-testid='cover-fee'
       >
-        <Trans>Annual Cover fee:</Trans>{' '}
+        Annual Cover fee:{' '}
         {formatPercent(
           toBN(coverData.floor).dividedBy(MULTIPLIER),
           router.locale
@@ -110,7 +109,7 @@ export const CoverCard = ({
       {/* Stats */}
       <div className='flex justify-between px-1 text-xs lg:text-sm'>
         <span className='text-xs uppercase lg:text-sm'>
-          <Trans>Utilization ratio</Trans>
+          Utilization ratio
         </span>
         <span
           className='text-xs font-semibold text-right lg:text-sm '
@@ -125,15 +124,15 @@ export const CoverCard = ({
           <div>
             <p>
               <b>
-                <Trans>Utilization ratio:</Trans>{' '}
+                Utilization ratio:{' '}
                 {formatPercent(utilization, router.locale)}
               </b>
             </p>
             <p>
-              <Trans>Protection</Trans>: {protectionLong}
+              Protection: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {capacityLong}
+              Liquidity: {capacityLong}
             </p>
           </div>
         }
@@ -152,7 +151,7 @@ export const CoverCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Protection</Trans>: {protectionLong}
+              Protection: {protectionLong}
             </div>
           }
         >
@@ -172,7 +171,7 @@ export const CoverCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Liquidity</Trans>: {capacityLong}
+              Liquidity: {capacityLong}
             </div>
           }
         >

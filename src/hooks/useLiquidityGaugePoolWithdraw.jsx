@@ -22,10 +22,8 @@ import {
   convertFromUnits,
   toBN
 } from '@/utils/bn'
-import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stakingTokenDecimals, amountInUnits, poolAddress }) => {
   const { notifyError } = useErrorNotifier()
@@ -41,8 +39,6 @@ export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stak
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
-
-  const { i18n } = useLingui()
 
   const { getActionMessage } = useActionMessage()
 
@@ -65,7 +61,7 @@ export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stak
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not withdraw rewards`)
+      notifyError(err, 'Could not withdraw rewards')
     }
 
     try {
@@ -158,7 +154,7 @@ export const useLiquidityGaugePoolWithdraw = ({ isExit, stakingTokenSymbol, stak
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not withdraw rewards`)
+      notifyError(err, 'Could not withdraw rewards')
     }
 
     try {

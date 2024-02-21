@@ -18,7 +18,6 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { Trans } from '@lingui/macro'
 
 export const MyLiquidityCoverCard = ({
   coverKey,
@@ -32,7 +31,7 @@ export const MyLiquidityCoverCard = ({
   const { info } = useMyLiquidityInfo({ coverKey })
 
   const isDiversified = coverData?.supportsProducts
-  const projectName = coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
+  const projectName = coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.projectName
 
   const reassurancePercent = toBN(info.totalReassurance)
     .dividedBy(sumOf(info.totalLiquidity, info.totalReassurance))
@@ -86,7 +85,7 @@ export const MyLiquidityCoverCard = ({
       {/* Stats */}
       <div className='flex justify-between px-1 text-sm'>
         <span className='uppercase'>
-          <Trans>Reassurance Ratio</Trans>
+          Reassurance Ratio
         </span>
         <span className='font-semibold text-right' data-testid='assurance'>
           {formatPercent(reassurancePercent, router.locale)}
@@ -107,7 +106,7 @@ export const MyLiquidityCoverCard = ({
         }
       >
         <span data-testid='liquidity'>
-          <Trans>My Liquidity</Trans>:{' '}
+          My Liquidity:{' '}
           {
             formatCurrency(
               convertFromUnits(totalPODs || '0', tokenDecimal),

@@ -5,7 +5,6 @@ import {
 } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
 
 const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityTokenDecimals, liquidityTokenSymbol, referralCode }) => {
   const { fee } = feeData
@@ -15,7 +14,7 @@ const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityToken
 
   return (
     <div className='mb-6'>
-      <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
+      <p className='text-lg text-center text-999BAB'>You Will Pay</p>
       <p
         className='mt-1 mb-8 font-bold text-center text-display-md text-4E7DD9'
         title={

@@ -28,11 +28,6 @@ import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const ResolvedReportSummary = ({
   incidentReport,
@@ -89,15 +84,13 @@ export const ResolvedReportSummary = ({
     variant: isAttestedWon ? 'success' : 'failure'
   }
 
-  const { i18n } = useLingui()
-
   return (
     <>
       <OutlinedCard className='bg-white md:flex'>
         {/* Left half */}
         <div className='flex-1 p-10 md:border-r border-B0C4DB'>
           <h2 className='mb-6 font-bold text-center text-display-xs lg:text-left'>
-            <Trans>Report Summary</Trans>
+            Report Summary
           </h2>
 
           <VotesSummaryHorizontalChart
@@ -119,21 +112,21 @@ export const ResolvedReportSummary = ({
         {/* Right half */}
         <div className='p-10'>
           <h3 className='mb-4 text-lg font-bold'>
-            <Trans>Insights</Trans>
+            Insights
           </h3>
           <InsightsTable
             insights={[
               {
-                title: t(i18n)`Incident Occurred`,
+                title: 'Incident Occurred',
                 value: formatPercent(yesPercent, router.locale),
                 variant: 'success'
               },
               {
-                title: t(i18n)`User Votes:`,
+                title: 'User Votes:',
                 value: incidentReport.totalAttestedCount
               },
               {
-                title: t(i18n)`Stake:`,
+                title: 'Stake:',
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
@@ -148,7 +141,7 @@ export const ResolvedReportSummary = ({
                 ).long
               },
               {
-                title: t(i18n)`Your Stake`,
+                title: 'Your Stake',
                 value: formatCurrency(
                   convertFromUnits(myYes),
                   router.locale,
@@ -169,16 +162,16 @@ export const ResolvedReportSummary = ({
           <InsightsTable
             insights={[
               {
-                title: t(i18n)`False Reporting`,
+                title: 'False Reporting',
                 value: formatPercent(noPercent, router.locale),
                 variant: 'error'
               },
               {
-                title: t(i18n)`User Votes:`,
+                title: 'User Votes:',
                 value: incidentReport.totalRefutedCount
               },
               {
-                title: t(i18n)`Stake:`,
+                title: 'Stake:',
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
                   router.locale,
@@ -193,7 +186,7 @@ export const ResolvedReportSummary = ({
                 ).long
               },
               {
-                title: t(i18n)`Your Stake`,
+                title: 'Your Stake',
                 value: formatCurrency(
                   convertFromUnits(myNo),
                   router.locale,
@@ -212,7 +205,7 @@ export const ResolvedReportSummary = ({
 
           <hr className='mt-6 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
-            <Trans>Incident Reporters</Trans>
+            Incident Reporters
           </h3>
           <IncidentReporter
             variant='success'
@@ -229,7 +222,7 @@ export const ResolvedReportSummary = ({
 
           <hr className='mt-8 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
-            <Trans>Reporting Period</Trans>
+            Reporting Period
           </h3>
           <ReportingPeriodStatus
             resolutionTimestamp={incidentReport.resolutionTimestamp}
@@ -279,7 +272,7 @@ export const ResolvedReportSummary = ({
                   })
                 }}
               >
-                {finalizing ? <Trans>Finalizing...</Trans> : <Trans>Finalize</Trans>}
+                {finalizing ? 'Finalizing...' : 'Finalize'}
               </button>
 
               <br />
@@ -297,7 +290,7 @@ export const ResolvedReportSummary = ({
                   })
                 }}
               >
-                {capitalizing ? <Trans>Capitalizing...</Trans> : <Trans>Capitalize</Trans>}
+                {capitalizing ? 'Capitalizing...' : 'Capitalize'}
               </button>
             </>
           )}

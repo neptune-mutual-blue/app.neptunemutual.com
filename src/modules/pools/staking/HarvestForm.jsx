@@ -8,7 +8,6 @@ import {
   useStakingPoolWithdrawRewards
 } from '@/src/hooks/useStakingPoolWithdraw'
 import { convertFromUnits } from '@/utils/bn'
-import { Trans } from '@lingui/macro'
 
 export const HarvestForm = ({
   info,
@@ -42,10 +41,10 @@ export const HarvestForm = ({
     <div className='px-12'>
       <div className='flex justify-between px-1 mt-6 mb-3 font-semibold text-md'>
         <span className='capitalize'>
-          <Trans>Your Stake</Trans>
+          Your Stake
         </span>
         <span className='text-right'>
-          <Trans>You Earned</Trans>
+          You Earned
         </span>
       </div>
       <div className='flex justify-between px-1 text-lg'>
@@ -82,7 +81,7 @@ export const HarvestForm = ({
           })
         }}
       >
-        {withdrawingRewards ? <Trans>Collecting...</Trans> : <Trans>Collect</Trans>}
+        {withdrawingRewards ? 'Collecting...' : 'Collect'}
       </RegularButton>
     </div>
   )

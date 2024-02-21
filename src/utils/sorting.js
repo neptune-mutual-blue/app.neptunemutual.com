@@ -1,7 +1,6 @@
 import { getMonthNames } from '@/lib/dates'
 import { toBNSafe } from '@/utils/bn'
 import { toStringSafe } from '@/utils/string'
-import { t } from '@lingui/macro'
 
 // Don't translate these
 export const SORT_TYPES = {
@@ -20,19 +19,18 @@ export const SORT_TYPES = {
 
 /**
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{name: string, value: string}>} An array of column objects.
  */
-export const DEFAULT_SORT_OPTIONS = (i18n) => {
+export const DEFAULT_SORT_OPTIONS = () => {
   return [
-    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t(i18n)`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-    { name: t(i18n)`Liquidity`, value: SORT_TYPES.LIQUIDITY }
+    { name: 'A-Z', value: SORT_TYPES.ALPHABETIC },
+    { name: 'Utilization ratio', value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: 'Liquidity', value: SORT_TYPES.LIQUIDITY }
   ]
 }
 
-export const DEFAULT_SORT = (i18n) => {
-  return DEFAULT_SORT_OPTIONS(i18n)[0]
+export const DEFAULT_SORT = () => {
+  return DEFAULT_SORT_OPTIONS()[0]
 }
 
 export const SORT_DATA_TYPES = {

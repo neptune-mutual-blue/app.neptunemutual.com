@@ -1,6 +1,5 @@
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const HomeMainCard = ({ heroData, className = '' }) => {
   return (
@@ -12,13 +11,13 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
     >
       <div className='flex flex-col items-center justify-between w-full lg:py-4 border-r-0.5 border-E8E8ED'>
         <h4 className='mb-2 leading-5 lg:mb-0 text-xs lg:text-md text-9B9B9B'>
-          <Trans>Available</Trans>
+          Available
         </h4>
         <InfoTooltip
           infoComponent={
             <div>
-              <p>{heroData?.currentNetwork?.dedicatedCoverCount} <Trans>Dedicated covers</Trans></p>
-              <p>{heroData?.currentNetwork?.productCount} <Trans>Products</Trans></p>
+              <p>{heroData?.currentNetwork?.dedicatedCoverCount} Dedicated covers</p>
+              <p>{heroData?.currentNetwork?.productCount} Products</p>
             </div>
           }
         >
@@ -30,7 +29,7 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
 
       <div className='flex flex-col items-center justify-between w-full'>
         <h4 className='mb-2 lg:mb-0 text-xs lg:text-md text-9B9B9B'>
-          <Trans>Reporting</Trans>
+          Reporting
         </h4>
         <h4 className='font-bold leading-5 text-md lg:text-display-xs text-4E7DD9'>
           {heroData.reportingCovers}

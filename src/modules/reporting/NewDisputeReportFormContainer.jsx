@@ -12,7 +12,6 @@ import {
 } from '@/src/modules/reporting/NewDisputeReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
 import { isGreater } from '@/utils/bn'
-import { Trans } from '@lingui/macro'
 
 export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp }) {
   const isDiversified = isValidProduct(productKey)
@@ -96,7 +95,7 @@ function DisputeForm ({ coverKey, productKey, timestamp, minReportingStake }) {
       : (
         <Container className='py-16'>
           <Alert>
-            <Trans>Not applicable for disputing</Trans>
+            Not applicable for disputing
           </Alert>
         </Container>
         )

@@ -22,10 +22,8 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { convertFromUnits } from '@/utils/bn'
 import { getEpochFromTitle } from '@/utils/snapshot'
-import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
   const [approving, setApproving] = useState(false)
@@ -52,8 +50,6 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
   const { writeContract } = useTxPoster()
   const txToast = useTxToast()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   const gcrContractAddress = ChainConfig[networkId].gaugeControllerRegistry
@@ -69,7 +65,7 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol}`)
+      notifyError(err, `Could not approve ${NPMTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {

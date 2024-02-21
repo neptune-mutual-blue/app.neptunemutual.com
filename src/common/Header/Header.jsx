@@ -15,7 +15,6 @@ import {
   getFlattenedNavLinks,
   getNavigationLinks
 } from '@/common/Header/getNavigationLinks'
-import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
 import { Network } from '@/common/Header/Network'
 import { HeaderLogo } from '@/common/HeaderLogo'
 import { IconWithBadge } from '@/common/IconWithBadge'
@@ -36,11 +35,6 @@ import {
 import { truncateAddress } from '@/utils/address'
 import { classNames } from '@/utils/classnames'
 import { Menu } from '@headlessui/react'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import {
   Content,
   Overlay,
@@ -94,11 +88,9 @@ export const Header = () => {
     setIsOpen(false)
   }
 
-  const { i18n } = useLingui()
-
   const navigation = useMemo(
-    () => { return getNavigationLinks(router.pathname, i18n) },
-    [router.pathname, i18n]
+    () => { return getNavigationLinks(router.pathname) },
+    [router.pathname]
   )
 
   const handleToggleAccountPopup = () => {
@@ -141,7 +133,7 @@ export const Header = () => {
         <Banner />
         <NavContainer>
           <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:pr-18 xl:flex'>
-            <LanguageDropdown />
+            {/* <LanguageDropdown /> */}
           </div>
         </NavContainer>
       </div>
@@ -200,9 +192,9 @@ export const Header = () => {
                       <button
                         className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-primary'
                         onClick={onOpen}
-                        title={t(i18n)`Connect wallet`}
+                        title='Connect wallet'
                       >
-                        <Trans>Connect wallet</Trans>
+                        Connect wallet
                       </button>
                     )
                     if (active) {
@@ -210,9 +202,9 @@ export const Header = () => {
                         <button
                           className='relative flex items-center px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
                           onClick={handleToggleAccountPopup}
-                          title={t(i18n)`account details`}
+                          title='account details'
                         >
-                          <span className='sr-only'><Trans>account details</Trans></span>
+                          <span className='sr-only'>account details</span>
                           <AccountBalanceWalletIcon width='24' height='24' />
                           <span className='pl-2'>{truncateAddress(account)}</span>
                         </button>
@@ -257,7 +249,7 @@ export const Header = () => {
                     onClick={() => { return setIsTxDetailsPopupOpen((val) => { return !val }) }}
                     data-testid='transaction-modal-button'
                   >
-                    <span className='sr-only'><Trans>transaction overview button</Trans></span>
+                    <span className='sr-only'>transaction overview button</span>
                     <IconWithBadge number={unread}>
                       <BellIcon className='text-white' />
                     </IconWithBadge>
@@ -286,7 +278,7 @@ export const Header = () => {
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}
-          navigation={getFlattenedNavLinks(i18n)}
+          navigation={getFlattenedNavLinks()}
           network={<Network closeMenu={onClose} />}
           networkId={networkId}
           notifier={notifier}
@@ -316,8 +308,6 @@ export const MenuModal = ({
 }) => {
   const router = useRouter()
 
-  const { i18n } = useLingui()
-
   useEffect(() => {
     const handleRouteNavigate = () => {
       onClose()
@@ -342,7 +332,7 @@ export const MenuModal = ({
                 <BurgerMenu isOpen onToggle={onClose} />
               </div>
               <div className='w-full sm:px-16'>
-                <LanguageDropdown onOverlay />
+                {/* <LanguageDropdown onOverlay /> */}
               </div>
               <div className='flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl'>
                 <div className='flex flex-col justify-start mb-auto overflow-y-auto'>
@@ -375,7 +365,7 @@ export const MenuModal = ({
                         <button
                           className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
                           onClick={onOpen}
-                          title={t(i18n)`Connect wallet`}
+                          title='Connect wallet'
                         >
                           Connect wallet
                         </button>
@@ -386,10 +376,10 @@ export const MenuModal = ({
                             aria-label='Account Details'
                             className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
                             onClick={handleToggleAccountPopup}
-                            title={t(i18n)`account details`}
+                            title='account details'
                           >
                             <span className='sr-only'>
-                              <Trans>account details</Trans>
+                              account details
                             </span>
                             <AccountBalanceWalletIcon width='24' height='24' />
                             <span className='pl-2'>

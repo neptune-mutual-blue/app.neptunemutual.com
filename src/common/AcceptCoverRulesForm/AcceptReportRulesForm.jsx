@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const AcceptReportRulesForm = ({ onAccept, children }) => {
   const [checked, setChecked] = useState(false)
@@ -31,9 +30,7 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
           onChange={handleChange}
           data-testid='accept-report-rules-check-box'
         >
-          <Trans>
-            I have read, understood, and agree to the terms of cover rules
-          </Trans>
+          I have read, understood, and agree to the terms of cover rules
         </Checkbox>
         <br />
         {children}
@@ -46,7 +43,7 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
           )}
           type='submit'
         >
-          <Trans>REPORT AN INCIDENT</Trans>
+          REPORT AN INCIDENT
         </RegularButton>
       </form>
     </>

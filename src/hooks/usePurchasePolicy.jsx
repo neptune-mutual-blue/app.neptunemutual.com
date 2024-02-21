@@ -37,13 +37,11 @@ import {
 import { delay } from '@/utils/delay'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
 import {
   registry,
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -87,8 +85,6 @@ export const usePurchasePolicy = ({
   const currentMonthIndex = now.getUTCMonth()
   const year = now.getUTCFullYear()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
@@ -107,19 +103,19 @@ export const usePurchasePolicy = ({
     }
 
     if (!account) {
-      setError(t(i18n)`Please connect your wallet`)
+      setError('Please connect your wallet')
 
       return
     }
 
     if (!isValidNumber(value)) {
-      setError(t(i18n)`Invalid amount to cover`)
+      setError('Invalid amount to cover')
 
       return
     }
 
     if (isGreater(feeAmount || '0', balance || '0')) {
-      setError(t(i18n)`Insufficient Balance`)
+      setError('Insufficient Balance')
 
       return
     }
@@ -127,7 +123,7 @@ export const usePurchasePolicy = ({
     if (isGreaterOrEqual(value || 0, availableLiquidity || 0)) {
       const maxProtection = formatCurrency(availableLiquidity, router.locale).short
       setError(
-        t`Maximum protection available is ${
+        `Maximum protection available is ${
           maxProtection
         }. Choose a amount less than available.`
       )
@@ -139,7 +135,7 @@ export const usePurchasePolicy = ({
       const minProposal = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
 
       setError(
-        t`Minimum proposal amount should be greater than ${
+        `Minimum proposal amount should be greater than ${
           minProposal
         }`
       )
@@ -151,7 +147,7 @@ export const usePurchasePolicy = ({
       const maxProposal = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
 
       setError(
-        t`Maximum proposal amount should be less than ${
+        `Maximum proposal amount should be less than ${
           maxProposal
         }`
       )
@@ -162,7 +158,7 @@ export const usePurchasePolicy = ({
     if (error) {
       setError('')
     }
-  }, [account, availableLiquidity, balance, error, feeAmount, liquidityTokenDecimals, liquidityTokenSymbol, router.locale, value, i18n])
+  }, [account, availableLiquidity, balance, error, feeAmount, liquidityTokenDecimals, liquidityTokenSymbol, router.locale, value])
 
   const handleApprove = async () => {
     setApproving(true)
@@ -172,7 +168,7 @@ export const usePurchasePolicy = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${liquidityTokenSymbol}`)
+      notifyError(err, `Could not approve ${liquidityTokenSymbol}`)
     }
 
     const feeFormatted = convertFromUnits(feeAmount, liquidityTokenDecimals)
@@ -255,7 +251,7 @@ export const usePurchasePolicy = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not purchase policy`)
+      notifyError(err, 'Could not purchase policy')
     }
 
     try {
@@ -324,9 +320,9 @@ export const usePurchasePolicy = ({
         await txToast.push(
           tx,
           {
-            pending: t(i18n)`Purchasing Policy`,
-            success: t(i18n)`Purchased Policy Successfully`,
-            failure: t(i18n)`Could not purchase policy`
+            pending: 'Purchasing Policy',
+            success: 'Purchased Policy Successfully',
+            failure: 'Could not purchase policy'
           },
           {
             onTxSuccess: () => {

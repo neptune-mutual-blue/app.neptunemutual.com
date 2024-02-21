@@ -13,11 +13,6 @@ import { useStakingPoolDeposit } from '@/src/hooks/useStakingPoolDeposit'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const StakeForm = ({
   info,
@@ -55,8 +50,6 @@ export const StakeForm = ({
   })
   const router = useRouter()
 
-  const { i18n } = useLingui()
-
   useEffect(() => {
     setModalDisabled(approving || depositing)
   }, [approving, depositing, setModalDisabled])
@@ -77,16 +70,16 @@ export const StakeForm = ({
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t(i18n)`Fetching balance...`
+    loadingMessage = 'Fetching balance...'
   } else if (loadingAllowance) {
-    loadingMessage = t(i18n)`Fetching allowance...`
+    loadingMessage = 'Fetching allowance...'
   }
 
   return (
     <>
       <div className='mt-6'>
         <TokenAmountInput
-          labelText={<Trans>Amount you wish to stake</Trans>}
+          labelText='Amount you wish to stake'
           tokenBalance={balance}
           tokenSymbol={stakingTokenSymbol}
           tokenAddress={tokenAddress}
@@ -97,7 +90,7 @@ export const StakeForm = ({
           onChange={handleChange}
         >
           <p>
-            <Trans>Maximum Limit:</Trans>{' '}
+            Maximum Limit:{' '}
             <span
               title={`${
                 formatCurrency(
@@ -125,7 +118,7 @@ export const StakeForm = ({
       </div>
       <div className='mt-4 xs:mt-8 modal-unlock'>
         <Label className='mb-3' htmlFor='modal-unlock-on'>
-          <Trans>Lockup Period</Trans>
+          Lockup Period
         </Label>
         <p id='modal-unlock-on' className='text-lg font-medium text-7398C0'>
           {explainInterval(lockupPeriod)}
@@ -143,11 +136,11 @@ export const StakeForm = ({
             >
               {approving
                 ? (
-                    t(i18n)`Approving...`
+                    'Approving...'
                   )
                 : (
                   <>
-                    <Trans>Approve</Trans> {stakingTokenSymbol}
+                    Approve {stakingTokenSymbol}
                   </>
                   )}
             </RegularButton>
@@ -158,7 +151,7 @@ export const StakeForm = ({
               className='p-6 font-semibold uppercase min-w-75vw sm:min-w-auto sm:w-full'
               onClick={() => { return handleDeposit(onDepositSuccess) }}
             >
-              {depositing ? t(i18n)`Staking...` : t`Stake`}
+              {depositing ? 'Staking...' : 'Stake'}
             </RegularButton>
             )}
       </div>

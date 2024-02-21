@@ -1,9 +1,9 @@
-import DateLib from '@/lib/date/DateLib'
-import { Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import * as Tooltip from '@radix-ui/react-tooltip'
+
+import DateLib from '@/lib/date/DateLib'
 import InfoIcon from '@/lib/toast/components/icons/InfoIcon'
 import { fromNow } from '@/utils/formatter/relative-time'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
   const router = useRouter()
@@ -28,10 +28,10 @@ export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
           <div className='max-w-md p-2 text-xs text-white bg-black rounded'>
             {isPast
               ? (
-                <Trans>This report concluded on {longDate}</Trans>
+                `This report concluded on ${longDate}`
                 )
               : (
-                <Trans>This report will be concluded on {longDate}</Trans>
+                `This report will be concluded on ${longDate}`
                 )}
           </div>
           <Tooltip.Arrow offset={16} className='fill-black' />

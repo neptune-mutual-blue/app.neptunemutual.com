@@ -17,7 +17,6 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { Trans } from '@lingui/macro'
 
 const UnlockEscrow = ({
   onBack,
@@ -59,7 +58,7 @@ const UnlockEscrow = ({
 
   let loadingMessage = ''
   if (loadingAllowance) {
-    loadingMessage = <Trans>Fetching allowance...</Trans>
+    loadingMessage = 'Fetching allowance...'
   }
 
   return (
@@ -80,8 +79,8 @@ const UnlockEscrow = ({
             )}
           >
             {isPrematureUnlock
-              ? <Trans>Proceed with Caution</Trans>
-              : <Trans>Penalty: {formatPercent(0)}</Trans>}
+              ? 'Proceed with Caution'
+              : <>Penalty: {formatPercent(0)}</>}
           </div>
 
           <DataLoadingIndicator message={loadingMessage} />
@@ -98,8 +97,8 @@ const UnlockEscrow = ({
             >
               {
                 approving
-                  ? <Trans>Approving...</Trans>
-                  : <Trans>Approve VeNPM</Trans>
+                  ? 'Approving...'
+                  : 'Approve VeNPM'
               }
             </RegularButton>
           )}
@@ -115,7 +114,7 @@ const UnlockEscrow = ({
                 unlock(onBack)
               }}
             >
-              <Trans>unlock npm</Trans>
+              unlock npm
             </RegularButton>
           )}
 
@@ -130,7 +129,7 @@ const UnlockEscrow = ({
                 unlock(onBack)
               }}
             >
-              <Trans>prematurely unlock your npm</Trans>
+              prematurely unlock your npm
             </RegularButton>
           )}
 

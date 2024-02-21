@@ -23,11 +23,6 @@ import {
   sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -48,11 +43,9 @@ const sorterData = {
 }
 
 export const PodStakingPage = () => {
-  const { i18n } = useLingui()
-
   const [sortType, setSortType] = useState({
-    // name: t(i18n)`A-Z`,
-    name: t(i18n)({ message: 'A-Z', comment: 'Name of the sort option' }),
+    // name: `A-Z`,
+    name: 'A-Z',
     value: SORT_TYPES.ALPHABETIC
   })
 
@@ -85,9 +78,9 @@ export const PodStakingPage = () => {
   )
 
   const options = [
-    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t(i18n)`TVL`, value: SORT_TYPES.TVL },
-    { name: t(i18n)`APR`, value: SORT_TYPES.APR }
+    { name: 'A-Z', value: SORT_TYPES.ALPHABETIC },
+    { name: 'TVL', value: SORT_TYPES.TVL },
+    { name: 'APR', value: SORT_TYPES.APR }
   ]
 
   return (
@@ -98,9 +91,7 @@ export const PodStakingPage = () => {
             href={Routes.PodStakingPoolsTransactions}
             className='flex justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'
           >
-
-            <Trans>Transaction List</Trans>
-
+            Transaction List
           </Link>
           <SearchAndSortBar
             searchValue={searchValue}
@@ -129,7 +120,6 @@ export const PodStakingPage = () => {
 
 function Content ({ data, loading, hasMore, handleShowMore }) {
   const { getPriceByAddress } = useAppConstants()
-  const { i18n } = useLingui()
 
   if (data.length) {
     return (
@@ -172,13 +162,11 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
     >
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t(i18n)`No data found`}
+        alt='No data found'
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
-        <Trans>
-          No <span className='whitespace-nowrap'>POD staking pools found.</span>
-        </Trans>
+        No <span className='whitespace-nowrap'>POD staking pools found.</span>
       </p>
     </div>
   )

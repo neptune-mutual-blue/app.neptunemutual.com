@@ -5,12 +5,16 @@ import {
 
 import { useRouter } from 'next/router'
 
-import { Badge } from '@/common/Badge/Badge'
+import { Badge } from '@/common/CardStatusBadge'
 import { DoubleImage } from '@/common/DoubleImage'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import AddIcon from '@/icons/AddIcon'
 import { PoolCardStat } from '@/modules/pools/staking/PoolCardStat'
+import {
+  StakingCardSubTitle
+} from '@/modules/pools/staking/StakingCardSubTitle'
+import { StakingCardTitle } from '@/modules/pools/staking/StakingCardTitle'
 import { PoolTypes } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
@@ -22,10 +26,6 @@ import {
 } from '@/src/modules/pools/staking/CollectRewardModal'
 import { StakeModal } from '@/src/modules/pools/staking/StakeModal'
 import { StakingCardCTA } from '@/src/modules/pools/staking/StakingCardCTA'
-import {
-  StakingCardSubTitle
-} from '@/src/modules/pools/staking/StakingCardSubTitle'
-import { StakingCardTitle } from '@/src/modules/pools/staking/StakingCardTitle'
 import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
 import {
   convertFromUnits,
@@ -35,12 +35,7 @@ import {
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
 import { config } from '@neptunemutual/sdk'
-import { useLingui } from '@lingui/react'
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -62,8 +57,6 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false)
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false)
   const router = useRouter()
-
-  const { i18n } = useLingui()
 
   function onStakeModalOpen () {
     setIsStakeModalOpen(true)
@@ -109,7 +102,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   if (hasStaked) {
     stats.push({
-      title: t(i18n)`Your Stake`,
+      title: 'Your Stake',
       value: formatCurrency(
         convertFromUnits(stakedAmount),
         router.locale,
@@ -124,7 +117,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       ).long
     })
     stats.push({
-      title: t(i18n)`You Earned`,
+      title: 'You Earned',
       value: formatCurrency(
         convertFromUnits(rewardAmount),
         router.locale,
@@ -141,13 +134,13 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   }
 
   stats.push({
-    title: t(i18n)`Lockup Period`,
+    title: 'Lockup Period',
     value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
   })
 
   stats.push(
     {
-      title: t(i18n)`TVL`,
+      title: 'TVL',
       value: formatCurrency(
         convertFromUnits(tvl, liquidityTokenDecimals),
         router.locale,
@@ -177,7 +170,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       </div>
 
       <h3>
-        <Trans>Earn</Trans> {rewardTokenSymbol}
+        Earn {rewardTokenSymbol}
       </h3>
     </div>
   )
@@ -197,12 +190,12 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         </div>
 
         <Badge className='text-21AD8C' data-testid='apr-badge'>
-          <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
+          APR: {formatPercent(apr, router.locale)}
         </Badge>
       </div>
 
       <StakingCardTitle text={poolName} />
-      <StakingCardSubTitle text={<Trans>Stake {stakingTokenSymbol}</Trans>} />
+      <StakingCardSubTitle text={`Stake ${stakingTokenSymbol}`} />
 
       <hr className='mt-4 mb-5 border-t border-B0C4DB' />
 
@@ -236,7 +229,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
                   onCollectModalOpen()
                 }}
               >
-                <Trans>Collect</Trans>
+                Collect
               </StakingCardCTA>
             </div>
             )
@@ -247,7 +240,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
                 onStakeModalOpen()
               }}
             >
-              <Trans>Stake</Trans>
+              Stake
             </StakingCardCTA>
             )}
       </div>

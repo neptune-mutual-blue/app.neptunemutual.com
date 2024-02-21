@@ -37,7 +37,6 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Trans } from '@lingui/macro'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -86,7 +85,7 @@ export const CoverAddLiquidityDetailsPage = () => {
           <BreadCrumbs
             pages={[
               {
-                name: <Trans>Home</Trans>,
+                name: 'Home',
                 href: '/',
                 current: false
               },
@@ -95,7 +94,7 @@ export const CoverAddLiquidityDetailsPage = () => {
                 href: Routes.ViewCover(coverKey),
                 current: false
               },
-              { name: <Trans>Provide Liquidity</Trans>, current: true }
+              { name: 'Provide Liquidity', current: true }
             ]}
           />
           <div className='flex'>
@@ -156,11 +155,9 @@ export const CoverAddLiquidityDetailsPage = () => {
                           activeIncidentDate={activeIncidentDate}
                           productStatus={productStatus}
                         >
-                          <Trans>
-                            I have read, evaluated, understood, agreed to, and
-                            accepted all risks, cover terms, exclusions, standard
-                            exclusions of this pool and the Neptune Mutual protocol.
-                          </Trans>
+                          I have read, evaluated, understood, agreed to, and
+                          accepted all risks, cover terms, exclusions, standard
+                          exclusions of this pool and the Neptune Mutual protocol.
                         </AcceptRulesForm>
                       </>
                       )
@@ -173,10 +170,10 @@ export const CoverAddLiquidityDetailsPage = () => {
                           activeIncidentDate={activeIncidentDate}
                           productStatus={productStatus}
                         >
-                          <Trans>
-                            I have read, understood, and agree to the terms of cover
-                            rules
-                          </Trans>
+
+                          I have read, understood, and agree to the terms of cover
+                          rules
+
                         </AcceptRulesForm>
                       </>
                       )}

@@ -13,7 +13,6 @@ import {
 } from '@/src/helpers/cover'
 import { useResolveIncident } from '@/src/hooks/useResolveIncident'
 import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
-import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const ResolveIncident = ({
@@ -46,7 +45,7 @@ export const ResolveIncident = ({
   return (
     <div className='flex flex-col items-center'>
       {incidentReport.resolved && (
-        <CountDownTimer title={<Trans>Resolving in</Trans>} target={resolvableTill} />
+        <CountDownTimer title='Resolving in' target={resolvableTill} />
       )}
 
       <div className='flex flex-wrap justify-center w-auto gap-10 mb-16'>
@@ -61,7 +60,7 @@ export const ResolveIncident = ({
             }}
             data-testid='resolve'
           >
-            {resolving ? <Trans>Resolving...</Trans> : <Trans>Resolve</Trans>}
+            {resolving ? 'Resolving...' : 'Resolve'}
           </RegularButton>
         )}
 
@@ -70,7 +69,7 @@ export const ResolveIncident = ({
           className='w-full px-10 py-4 font-semibold uppercase md:w-80'
           onClick={() => { return setIsOpen(true) }}
         >
-          <Trans>Emergency resolve</Trans>
+          Emergency resolve
         </RegularButton>
 
         <EmergencyResolveModal
@@ -89,13 +88,13 @@ export const ResolveIncident = ({
 
 const options = [
   {
-    label: <Trans>Incident Occurred</Trans>,
+    label: 'Incident Occurred',
     id: 'decision-1',
     value: 'true'
   },
   {
 
-    label: <Trans>False reporting</Trans>,
+    label: 'False reporting',
     id: 'decision-2',
     value: 'false'
   }
@@ -135,12 +134,12 @@ const EmergencyResolveModal = ({
         <Dialog.Title className='flex items-center'>
           <ModalTitle imgSrc={logoSource} alt={logoAlt} containerClass='' />
           <div className='font-bold capitalize text-display-sm'>
-            <Trans>Emergency resolution</Trans>
+            Emergency resolution
           </div>
         </Dialog.Title>
         <form autoComplete='off' onSubmit={handleSubmit}>
           <div className='mt-8 mb-6 font-semibold uppercase'>
-            <Trans>Select your decision</Trans>
+            Select your decision
           </div>
           <div className='flex flex-col gap-4 my-4 sm:flex-row sm:justify-between'>
             {options.map(option => {
@@ -166,8 +165,8 @@ const EmergencyResolveModal = ({
             className='w-full px-10 py-4 mt-12 font-semibold uppercase'
           >
             {emergencyResolving
-              ? <Trans>Emergency resolving...</Trans>
-              : <Trans>Emergency resolve</Trans>}
+              ? 'Emergency resolving...'
+              : 'Emergency resolve'}
           </RegularButton>
         </form>
 

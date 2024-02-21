@@ -1,6 +1,5 @@
 import { Alert } from '@/common/Alert/Alert'
 import { Routes } from '@/src/config/routes'
-import { Trans } from '@lingui/macro'
 
 export function DiversifiedCoverRules ({ projectName, coverKey, productKey }) {
   const onDownload = () => {
@@ -12,11 +11,9 @@ export function DiversifiedCoverRules ({ projectName, coverKey, productKey }) {
       <DownloadButton onClick={onDownload} />
 
       <Alert closable>
-        <Trans>
-          The product(s) listed above are part of a diversified cover pool. The
-          payout for a diversified cover product is not guaranteed, so it will
-          be granted on a first-come, first-serve basis.
-        </Trans>
+        The product(s) listed above are part of a diversified cover pool. The
+        payout for a diversified cover product is not guaranteed, so it will
+        be granted on a first-come, first-serve basis.
       </Alert>
 
       <Notes projectName={projectName} />
@@ -45,7 +42,7 @@ function DownloadButton ({ onClick }) {
             fill='#FEFEFF'
           />
         </svg>
-        <Trans>Download LP Cover Terms</Trans>
+        Download LP Cover Terms
       </button>
     </div>
   )
@@ -55,31 +52,31 @@ function Notes ({ projectName }) {
   return (
     <div className='flex flex-col pt-6' data-testid='notes'>
       <p>
-        <Trans>
-          Before providing liquidity to or purchasing a product policy from this
-          pool, please evaluate all product parameters thoroughly. The
-          underwriting capital is concentrated in the &quot;
-          {projectName}&quot; pool that covers individual products. Although
-          diversified cover pools give LPs much higher returns, they are riskier
-          by nature than dedicated cover pools.
-        </Trans>
+
+        Before providing liquidity to or purchasing a product policy from this
+        pool, please evaluate all product parameters thoroughly. The
+        underwriting capital is concentrated in the &quot;
+        {projectName}&quot; pool that covers individual products. Although
+        diversified cover pools give LPs much higher returns, they are riskier
+        by nature than dedicated cover pools.
+
       </p>
 
       <p className='py-6 font-bold text-display-xs'>
-        <Trans>Important Note</Trans>
+        Important Note
       </p>
 
       <p>
-        <Trans>
-          All rules of individual &quot;{projectName}&quot; products are
-          applicable to this pool. If a product&apos;s trigger event results
-          resolution, liquidity from this pool will be used to pay out claims.
-        </Trans>
+
+        All rules of individual &quot;{projectName}&quot; products are
+        applicable to this pool. If a product&apos;s trigger event results
+        resolution, liquidity from this pool will be used to pay out claims.
+
       </p>
 
       <div className='max-w-[800px]'>
         <p className='py-6 font-bold text-display-xs'>
-          <Trans>Risk Disclosure / Disclaimer</Trans>
+          Risk Disclosure / Disclaimer
         </p>
         <p className='pb-4'>
           {'In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool\'s balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:'}

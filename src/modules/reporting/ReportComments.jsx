@@ -14,11 +14,6 @@ import { useNetwork } from '@/src/context/Network'
 import { readFromIpfs } from '@/src/services/api/ipfs/read'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getReplacedString } from '@/utils/string'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const INCIDENT = 0
 const DISPUTE = 1
@@ -86,12 +81,8 @@ function ReportType (props) {
         } text-white text-xs p-0.5 px-1 rounded-1`}
       >
         {type === INCIDENT
-          ? (
-            <Trans>Incident Occurred</Trans>
-            )
-          : (
-            <Trans>False Reporting</Trans>
-            )}
+          ? 'Incident Occurred'
+          : 'False Reporting'}
       </span>
     </div>
   )
@@ -185,14 +176,12 @@ export default function ReportComments ({
     fetchIpfs()
   }, [reportIpfsHash, disputeIpfsHash])
 
-  const { i18n } = useLingui()
-
   return (
     <OutlinedCard className='p-6 mt-8 bg-white'>
       {reportData && (
         <Report
           header={{
-            type: t(i18n)`Reported by`,
+            type: 'Reported by',
             createdBy: reportData?.createdBy,
             reportedAt: reportIpfsDataTimeStamp
           }}
@@ -208,7 +197,7 @@ export default function ReportComments ({
           {disputeData && (
             <Report
               header={{
-                type: t(i18n)`Disputed by`,
+                type: 'Disputed by',
                 createdBy: disputeData?.createdBy,
                 reportedAt: disputeIpfsDataTimeStamp
               }}

@@ -23,10 +23,8 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { isGreater } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
-import { t } from '@lingui/macro'
 import sdk, { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const defaultInfo = {
   withdrawalOpen: '0',
@@ -58,8 +56,6 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   const fetchInfo = useCallback(async () => {
@@ -68,7 +64,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not get vault info`)
+      notifyError(err, 'Could not get vault info')
     }
 
     try {
@@ -120,7 +116,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err)
     }
-  }, [account, coverKey, networkId, notifyError, i18n])
+  }, [account, coverKey, networkId, notifyError])
 
   useEffect(() => {
     let ignore = false
@@ -148,7 +144,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const accrueInterest = async () => {
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not accrue interest`)
+      notifyError(err, 'Could not accrue interest')
     }
 
     try {
@@ -215,7 +211,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const updateWithdrawalWindow = async () => {
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not update withdrawal period`)
+      notifyError(err, 'Could not update withdrawal period')
     }
 
     try {

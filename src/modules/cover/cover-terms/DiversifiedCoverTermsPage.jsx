@@ -11,11 +11,6 @@ import { CoverTerms } from '@/modules/cover/cover-terms/CoverTerms'
 import { Network } from '@/modules/cover/cover-terms/Network'
 import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 import { Routes } from '@/src/config/routes'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) => {
   useEffect(() => {
@@ -26,8 +21,6 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
       window.close()
     }, 500)
   }, [coverData])
-
-  const { i18n } = useLingui()
 
   if (loading) {
     return (
@@ -54,7 +47,7 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
         <picture>
           <img
             loading='lazy'
-            alt={t(i18n)`Neptune Mutual`}
+            alt='Neptune Mutual'
             srcSet='/logos/neptune-mutual-full-beta.svg'
             className='w-full text-black h-9'
             data-testid='header-logo'
@@ -66,7 +59,7 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
       <Divider className='border !border-black' />
 
       <p className='mt-3 text-lg font-semibold font-arial text-000000'>
-        <Trans>As of: {effectiveDate}</Trans>
+        As of: {effectiveDate}
       </p>
 
       <h1 className='mt-12 text-000000 text-display-md'>{name}</h1>
@@ -75,7 +68,7 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
         blockchains?.length && (
           <div className='mt-5'>
             <p className='font-semibold'>
-              <Trans>Covered Blockchains</Trans>
+              Covered Blockchains
             </p>
             <div className='flex flex-wrap gap-2 mt-2'>
               {

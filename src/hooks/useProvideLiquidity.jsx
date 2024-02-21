@@ -32,13 +32,11 @@ import {
 } from '@/utils/bn'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
 import {
   registry,
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useProvideLiquidity = ({
   coverKey,
@@ -75,8 +73,6 @@ export const useProvideLiquidity = ({
     value: lqValue,
     podAddress: vaultTokenAddress
   })
-
-  const { i18n } = useLingui()
 
   const withdrawalOpenDate = DateLib.toDateFormat(withdrawalOpen, router.locale)
   const withdrawalCloseDate = DateLib.toDateFormat(withdrawalClose, router.locale)
@@ -120,7 +116,7 @@ export const useProvideLiquidity = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${liquidityTokenSymbol}`)
+      notifyError(err, `Could not approve ${liquidityTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -139,9 +135,9 @@ export const useProvideLiquidity = ({
         await txToast.push(
           tx,
           {
-            pending: t(i18n)`Approving ${tokenSymbol}`,
-            success: t(i18n)`Approved ${tokenSymbol} Successfully`,
-            failure: t(i18n)`Could not approve ${tokenSymbol}`
+            pending: `Approving ${tokenSymbol}`,
+            success: `Approved ${tokenSymbol} Successfully`,
+            failure: `Could not approve ${tokenSymbol}`
           },
           {
             onTxSuccess: () => {
@@ -202,7 +198,7 @@ export const useProvideLiquidity = ({
       setNPMApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol}`)
+      notifyError(err, `Could not approve ${NPMTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -221,9 +217,9 @@ export const useProvideLiquidity = ({
         await txToast.push(
           tx,
           {
-            pending: t(i18n)`Approving ${tokenSymbol}`,
-            success: t(i18n)`Approved ${tokenSymbol} Successfully`,
-            failure: t(i18n)`Could not approve ${tokenSymbol}`
+            pending: `Approving ${tokenSymbol}`,
+            success: `Approved ${tokenSymbol} Successfully`,
+            failure: `Could not approve ${tokenSymbol}`
           },
           {
             onTxSuccess: () => {
@@ -289,7 +285,7 @@ export const useProvideLiquidity = ({
       updateStakeAllowance(vaultTokenAddress)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not add liquidity`)
+      notifyError(err, 'Could not add liquidity')
     }
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
@@ -369,9 +365,9 @@ export const useProvideLiquidity = ({
         await txToast.push(
           tx,
           {
-            pending: t(i18n)`Adding Liquidity`,
-            success: t(i18n)`Added Liquidity Successfully`,
-            failure: t(i18n)`Could not add liquidity`
+            pending: 'Adding Liquidity',
+            success: 'Added Liquidity Successfully',
+            failure: 'Could not add liquidity'
           },
           {
             onTxSuccess: () => {

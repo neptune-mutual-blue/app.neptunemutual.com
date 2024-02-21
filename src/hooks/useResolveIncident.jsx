@@ -1,20 +1,22 @@
-import { t } from '@lingui/macro'
+import { useState } from 'react'
+
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTxPoster } from '@/src/context/TxPoster'
 import { useTxToast } from '@/src/hooks/useTxToast'
-import { registry, utils } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
-import { useState } from 'react'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { useActionMessage } from '@/src/helpers/notification'
-import { useLingui } from '@lingui/react'
+import {
+  registry,
+  utils
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const { account, library } = useWeb3React()
@@ -27,8 +29,6 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
 
   const [resolving, setResolving] = useState(false)
   const [emergencyResolving, setEmergencyResolving] = useState(false)
-
-  const { i18n } = useLingui()
 
   const { getActionMessage } = useActionMessage()
 
@@ -45,7 +45,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
       setResolving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not resolve incident`)
+      notifyError(err, 'Could not resolve incident')
     }
 
     try {
@@ -140,7 +140,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not emergency resolve incident`)
+      notifyError(err, 'Could not emergency resolve incident')
     }
 
     try {

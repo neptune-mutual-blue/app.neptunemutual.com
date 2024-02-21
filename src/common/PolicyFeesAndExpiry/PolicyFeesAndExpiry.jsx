@@ -13,7 +13,6 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { Trans } from '@lingui/macro'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = true, referralCode, editForm = false, updatingFee }) => {
@@ -35,7 +34,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
         <tbody>
           <tr className='flex justify-between'>
             <th className='font-semibold text-left uppercase'>
-              <Trans>Premium Rate</Trans>
+              Premium Rate
             </th>
             <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')}>
               {updatingFee ? <DataLoadingIndicator className='mt-0' message='Fetching fees...' /> : formatPercent(rateConverted, router.locale)}
@@ -43,7 +42,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left uppercase'>
-              {quotationStep ? <Trans>Your Cover Amount</Trans> : <Trans>Cover Fee</Trans>}
+              {quotationStep ? 'Your Cover Amount' : 'Cover Fee'}
             </th>
             <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')} title={!quotationStep ? formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long : ''}>
               {updatingFee && <DataLoadingIndicator className='mt-0' message='Fetching fees...' />}
@@ -53,8 +52,8 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left uppercase'>
               {quotationStep
-                ? <Trans>Cover Expires On</Trans>
-                : <Trans>Coverage Period</Trans>}
+                ? 'Cover Expires On'
+                : 'Coverage Period'}
             </th>
             {!editForm && (
               <td className={classNames('text-right flex justify-center', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')}>
@@ -84,7 +83,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             <tbody>
               <tr className='flex justify-between mt-3'>
                 <th className='font-semibold text-left uppercase'>
-                  <Trans>Cashback Code</Trans>
+                  Cashback Code
                 </th>
                 <td className='text-right text-4E7DD9'>
                   {referralCode || <span className='font-semibold'>-</span>}
@@ -114,13 +113,13 @@ const CoveragePeriodTooltip = ({ startsAt, endsAt }) => {
         <div className='px-4 py-4 text-xs tracking-normal bg-black rounded-lg md:max-w-md max-w-60 text-EEEEEE'>
           <p>
             <strong>
-              <Trans>Starts At</Trans>:
+              Starts At:
             </strong>{' '}
             {startsAt.toString()}
           </p>
           <p>
             <strong>
-              <Trans>Expires At</Trans>:
+              Expires At:
             </strong>{' '}
             {endsAt.toString()}
           </p>

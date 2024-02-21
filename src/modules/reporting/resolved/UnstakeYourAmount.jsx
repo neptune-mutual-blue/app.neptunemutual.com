@@ -24,7 +24,6 @@ import {
   convertFromUnits,
   isGreater
 } from '@/utils/bn'
-import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, projectOrProductName }) => {
@@ -95,21 +94,21 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
   return (
     <div className='flex flex-col items-center pt-4'>
       <span className={classNames('font-semibold', !isClaimableNow && 'mb-4')}>
-        <Trans>Result:</Trans>{' '}
-        {incidentReport.decision ? <Trans>Incident Occurred</Trans> : <Trans>False Reporting</Trans>}{' '}
-        {incidentReport.emergencyResolved && <Trans>Emergency Resolved</Trans>}
+        Result:{' '}
+        {incidentReport.decision ? 'Incident Occurred' : 'False Reporting'}{' '}
+        {incidentReport.emergencyResolved && 'Emergency Resolved'}
       </span>
 
       {isClaimableNow && (
         <CountDownTimer
-          title={<Trans>Claim ends in</Trans>}
+          title='Claim ends in'
           target={incidentReport.claimExpiresAt}
         />
       )}
 
       {notClaimableYet && (
         <CountDownTimer
-          title={<Trans>Claim begins in</Trans>}
+          title='Claim begins in'
           target={incidentReport.claimBeginsFrom}
         />
       )}
@@ -118,7 +117,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
         className='w-full px-10 py-4 mb-16 font-semibold uppercase md:w-80'
         onClick={() => { setIsOpen(true) }}
       >
-        <Trans>Unstake</Trans>
+        Unstake
       </RegularButton>
 
       <UnstakeModal
@@ -153,13 +152,13 @@ const UnstakeModal = ({
         <Dialog.Title className='flex items-center'>
           <ModalTitle imgSrc={logoSrc} alt={logoAlt} containerClass='mr-5' />
           <span className='font-bold text-display-sm'>
-            <Trans>Unstake</Trans>
+            Unstake
           </span>
         </Dialog.Title>
 
         <div className='my-8'>
           <Label className='mb-4' htmlFor='receive-amount'>
-            <Trans>You will receive</Trans>
+            You will receive
           </Label>
           <DisabledInput value={reward} unit={NPMTokenSymbol} />
         </div>
@@ -169,7 +168,7 @@ const UnstakeModal = ({
           className='w-full px-10 py-4 font-semibold uppercase'
           onClick={unstake}
         >
-          {unstaking ? <Trans>Unstaking...</Trans> : <Trans>Unstake</Trans>}
+          {unstaking ? 'Unstaking...' : 'Unstake'}
         </RegularButton>
 
         <ModalCloseButton

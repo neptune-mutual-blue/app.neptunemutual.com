@@ -1,20 +1,22 @@
 import { useState } from 'react'
-import { t } from '@lingui/macro'
+
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useActionMessage } from '@/src/helpers/notification'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useTxPoster } from '@/src/context/TxPoster'
 import { useTxToast } from '@/src/hooks/useTxToast'
-import { registry, utils } from '@neptunemutual/sdk'
-import { useWeb3React } from '@web3-react/core'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { METHODS } from '@/src/services/transactions/const'
-import { useActionMessage } from '@/src/helpers/notification'
-import { useLingui } from '@lingui/react'
+import {
+  registry,
+  utils
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
   const [finalizing, setFinalizing] = useState(false)
@@ -26,8 +28,6 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
   const { writeContract } = useTxPoster()
-
-  const { i18n } = useLingui()
 
   const { getActionMessage } = useActionMessage()
 
@@ -44,7 +44,7 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not finalize incident`)
+      notifyError(err, 'Could not finalize incident')
     }
 
     try {

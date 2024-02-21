@@ -34,11 +34,6 @@ import {
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getReplacedString } from '@/utils/string'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 const BondPage = () => {
@@ -73,8 +68,6 @@ const BondPage = () => {
     handleBond
   } = useCreateBond({ info: { ...info, lpTokenSymbol }, value, refetchBondInfo })
 
-  const { i18n } = useLingui()
-
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm)
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress),
@@ -83,7 +76,7 @@ const BondPage = () => {
 
   const leftHalf = [
     {
-      title: t(i18n)`Bond Price`,
+      title: 'Bond Price',
       value: formatCurrency(
         getDiscountedPrice(
           info.discountRate,
@@ -99,7 +92,7 @@ const BondPage = () => {
       valueClasses: 'text-display-xs text-4E7DD9 mt-1'
     },
     {
-      title: t(i18n)`Maximum Bond`,
+      title: 'Maximum Bond',
       value: `${
         formatCurrency(
           convertFromUnits(info.maxBond, NPMTokenDecimals).toString(),
@@ -123,7 +116,7 @@ const BondPage = () => {
 
   const rightHalf = [
     {
-      title: t(i18n)`Market Price`,
+      title: 'Market Price',
       value: formatCurrency(
         convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
         router.locale,
@@ -141,7 +134,7 @@ const BondPage = () => {
 
   if (account) {
     rightHalf.push({
-      title: t(i18n)`Your Bond`,
+      title: 'Your Bond',
       value: claimable
         ? `${
             formatCurrency(
@@ -181,16 +174,14 @@ const BondPage = () => {
     setValue(convertFromUnits(balance, lpTokenDecimals).toString())
   }
 
-  useLingui()
-
   const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || '0').toString()
   let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = t(i18n)`Calculating tokens...`
+    loadingMessage = 'Calculating tokens...'
   } else if (loadingBalance) {
-    loadingMessage = t(i18n)`Fetching balance...`
+    loadingMessage = 'Fetching balance...'
   } else if (loadingAllowance) {
-    loadingMessage = t(i18n)`Fetching allowance...`
+    loadingMessage = 'Fetching allowance...'
   }
 
   return (
@@ -199,7 +190,7 @@ const BondPage = () => {
     >
       <div className='max-w-lg col-span-2'>
         <TokenAmountInput
-          labelText={<Trans>Enter your amount</Trans>}
+          labelText='Enter your amount'
           inputValue={value}
           tokenBalance={balance}
           tokenSymbol={lpTokenSymbol}
@@ -214,7 +205,7 @@ const BondPage = () => {
         {error && <p className='px-3 text-FA5C2F'>{error}</p>}
         <div className='mt-16 receive'>
           <ReceiveAmountInput
-            labelText={<Trans>You will receive</Trans>}
+            labelText='You will receive'
             tokenSymbol={NPMTokenSymbol}
             inputValue={convertFromUnits(receiveAmount).toString()}
             data-testid='receive-amount-input'
@@ -223,7 +214,7 @@ const BondPage = () => {
 
         <div className='unlock mt-14'>
           <Label className='mb-2' htmlFor='unlock-on'>
-            <Trans>Will Unlock On</Trans>
+            Will Unlock On
           </Label>
           <p
             id='unlock-on'
@@ -247,11 +238,11 @@ const BondPage = () => {
               >
                 {approving
                   ? (
-                      t(i18n)`Approving...`
+                      'Approving...'
                     )
                   : (
                     <>
-                      <Trans>Approve</Trans> {lpTokenSymbol}
+                      Approve {lpTokenSymbol}
                     </>
                     )}
               </RegularButton>
@@ -268,11 +259,11 @@ const BondPage = () => {
               >
                 {bonding
                   ? (
-                      t(i18n)`Bonding...`
+                      'Bonding...'
                     )
                   : (
                     <>
-                      <Trans>Bond</Trans> {lpTokenSymbol}
+                      Bond {lpTokenSymbol}
                     </>
                     )}
               </RegularButton>
@@ -290,7 +281,7 @@ const BondPage = () => {
             rel='noopener noreferrer nofollow'
             className='inline-block mr-8 text-lg font-medium text-4E7DD9 hover:underline'
           >
-            <Trans>Get LP tokens</Trans>
+            Get LP tokens
           </a>
 
           <Link
@@ -298,7 +289,7 @@ const BondPage = () => {
             className='inline-block text-lg font-medium text-4E7DD9 hover:underline'
           >
 
-            <Trans>Transaction List</Trans>
+            Transaction List
 
           </Link>
         </div>

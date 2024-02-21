@@ -24,7 +24,6 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
 const loading = false
@@ -89,7 +88,7 @@ export const ProductCard = ({
           className='mt-1 text-xs uppercase opacity-40 lg:text-sm text-01052D lg:mt-2'
           data-testid='cover-fee'
         >
-          <Trans>Annual Cover fee:</Trans>{' '}
+          Annual Cover fee:{' '}
           {formatPercent(
             toBN(productData.floor).dividedBy(MULTIPLIER),
             router.locale
@@ -104,16 +103,14 @@ export const ProductCard = ({
           <InfoTooltip
             infoComponent={
               <p>
-                <Trans>
-                  Diversified pool with {productData.leverage}x
-                  leverage factor and{' '}
-                  {formatPercent(
-                    toBN(productData.capitalEfficiency)
-                      .dividedBy(MULTIPLIER)
-                      .toString()
-                  )}{' '}
-                  capital efficiency
-                </Trans>
+                Diversified pool with {productData.leverage}x
+                leverage factor and{' '}
+                {formatPercent(
+                  toBN(productData.capitalEfficiency)
+                    .dividedBy(MULTIPLIER)
+                    .toString()
+                )}{' '}
+                capital efficiency
               </p>
             }
           >
@@ -149,7 +146,7 @@ export const ProductCard = ({
 
       <div className={classNames('justify-between px-1 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}>
         <span className='text-xs uppercase lg:text-sm'>
-          <Trans>Utilization ratio</Trans>
+          Utilization ratio
         </span>
         <span
           className='text-xs font-semibold text-right lg:text-sm '
@@ -164,16 +161,16 @@ export const ProductCard = ({
           <div>
             <p>
               <strong>
-                <Trans>
-                  Utilization ratio: {formatPercent(utilization, router.locale)}
-                </Trans>
+
+                Utilization ratio: {formatPercent(utilization, router.locale)}
+
               </strong>
             </p>
             <p>
-              <Trans>Protection</Trans>: {protectionLong}
+              Protection: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {liquidityLong}
+              Liquidity: {liquidityLong}
             </p>
           </div>
         }
@@ -194,7 +191,7 @@ export const ProductCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Protection</Trans>: {protectionLong}
+              Protection: {protectionLong}
             </div>
           }
         >
@@ -223,7 +220,7 @@ export const ProductCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Liquidity</Trans>: {liquidityLong}
+              Liquidity: {liquidityLong}
             </div>
           }
         >

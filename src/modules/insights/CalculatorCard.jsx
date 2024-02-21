@@ -32,11 +32,6 @@ import {
 } from '@/utils/bn'
 import { calculateCoverPolicyFee } from '@/utils/calculateCoverPolicyFee'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 export const CalculatorCard = () => {
@@ -75,17 +70,17 @@ export const CalculatorCard = () => {
 
     if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
       const maxProposalThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      error = t`Maximum proposal threshold is ${
+      error = `Maximum proposal threshold is ${
         maxProposalThreshold
       }`
     } else if (isGreater(availableLiquidity, 0) && isGreaterOrEqual(val, availableLiquidity)) {
       const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
-      error = t`Maximum protection available is ${
+      error = `Maximum protection available is ${
         maxProtection
       }`
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
       const minProposal = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      error = t`Minimum proposal threshold is ${
+      error = `Minimum proposal threshold is ${
         minProposal
       }`
     }
@@ -119,8 +114,6 @@ export const CalculatorCard = () => {
 
   const buttonClass = 'block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-75 disabled:hover:bg-opacity-100 bg-primary'
 
-  const { i18n } = useLingui()
-
   return (
     <>
       <div className='pb-4 lg:pb-6'>
@@ -141,14 +134,14 @@ export const CalculatorCard = () => {
         <CalculatorAmountHandler
           error={error}
           buttonProps={{
-            children: t(i18n)`Max`,
+            children: 'Max',
             onClick: () => {},
             buttonClassName: 'hidden'
           }}
           unit={liquidityTokenSymbol}
           inputProps={{
             id: 'cover-amount',
-            placeholder: t(i18n)`Enter Amount`,
+            placeholder: 'Enter Amount',
             value: amount,
             disabled: resultLoading,
             onChange: handleChange,
@@ -173,11 +166,11 @@ export const CalculatorCard = () => {
                   type='button'
                   disabled={!amount || !coverMonth || resultLoading || !selectedCover || Boolean(error)}
                   className={buttonClass}
-                  title={t(i18n)`Calculate policy fee`}
+                  title='Calculate policy fee'
                   onClick={calculatePolicyFee}
                 >
-                  <span className='sr-only'>{t(i18n)`Calculate policy fee`}</span>
-                  <Trans>Calculate policy fee</Trans>
+                  <span className='sr-only'>Calculate policy fee</span>
+                  Calculate policy fee
                 </button>
                 )
               : (

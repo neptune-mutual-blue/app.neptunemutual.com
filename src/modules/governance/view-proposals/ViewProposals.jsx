@@ -18,7 +18,6 @@ import {
 import { calculateBoost } from '@/utils/calculate-boost'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 export const ViewProposals = () => {
@@ -45,7 +44,7 @@ export const ViewProposals = () => {
     <div className='flex flex-col items-center gap-8 p-8 bg-white border lg:flex-row rounded-2xl border-B0C4DB'>
       <div className='flex-1 w-full'>
         <h2 className='text-xl font-semibold'>
-          <Trans>View Proposals</Trans>
+          View Proposals
         </h2>
         <div className='p-6 mt-6 break-all rounded-2 bg-F3F5F7 md:break-words'>
           <KeyVal

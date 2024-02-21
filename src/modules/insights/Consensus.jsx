@@ -22,8 +22,6 @@ import {
 } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
@@ -134,42 +132,41 @@ const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-const getColumns = (i18n) => {
+const getColumns = () => {
   return [
     {
       id: 'cover',
-      name: t(i18n)`cover`,
+      name: 'cover',
       align: 'left',
       renderHeader,
       renderData: renderCover
     },
     {
       id: 'status',
-      name: t(i18n)`status`,
+      name: 'status',
       align: 'left',
       renderHeader,
       renderData: renderStatus
     },
     {
       id: 'attested',
-      name: t(i18n)`attested`,
+      name: 'attested',
       align: 'left',
       renderHeader,
       renderData: renderAttestedStake
     },
     {
       id: 'refuted',
-      name: t(i18n)`refuted`,
+      name: 'refuted',
       align: 'left',
       renderHeader,
       renderData: renderRefutedStake
     },
     {
       id: 'protection',
-      name: t(i18n)`protection`,
+      name: 'protection',
       align: 'right',
       renderHeader,
       renderData: renderProtection
@@ -198,9 +195,7 @@ function Consensus ({ data, loading, setConsensusIndex }) {
     }
   })
 
-  const { i18n } = useLingui()
-
-  const columns = getColumns(i18n)
+  const columns = getColumns()
 
   if (dataLoading) {
     return <Loading />

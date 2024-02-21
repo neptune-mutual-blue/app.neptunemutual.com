@@ -13,10 +13,8 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { convertFromUnits } from '@/utils/bn'
-import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount, rewardTokenSymbol, rewardTokenDecimals }) => {
   const { notifyError } = useErrorNotifier()
@@ -30,8 +28,6 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
-
-  const { i18n } = useLingui()
 
   const { getActionMessage } = useActionMessage()
 
@@ -47,7 +43,7 @@ export const useLiquidityGaugePoolWithdrawRewards = ({ poolAddress, rewardAmount
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not withdraw rewards`)
+      notifyError(err, 'Could not withdraw rewards')
     }
 
     try {

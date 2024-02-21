@@ -25,11 +25,6 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
 const PurchasePolicyStep = ({
@@ -95,11 +90,9 @@ const PurchasePolicyStep = ({
 
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
 
-  const { i18n } = useLingui()
-
   return (
     <div>
-      <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
+      <p className='text-lg text-center text-999BAB'>You Will Pay</p>
       <div
         className='flex justify-center mt-1 mb-8 font-bold text-center text-display-md text-4E7DD9'
         title={formatCurrency(
@@ -123,7 +116,7 @@ const PurchasePolicyStep = ({
           ).short}
       </div>
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7 text-md'>
-        <p className='font-semibold uppercase'><Trans>You will Receive:</Trans></p>
+        <p className='font-semibold uppercase'>You will Receive:</p>
         <p className='flex items-center'>
           {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long} (Claimable {liquidityTokenSymbol} Token)
           <CxUsdToolTip liquidityTokenSymbol={liquidityTokenSymbol} projectOrProductName={projectOrProductName} />
@@ -131,7 +124,7 @@ const PurchasePolicyStep = ({
       </div>
 
       {error && error === 'Insufficient Balance' && (
-        <Alert className='flex items-center text-FA5C2F'><Trans>Your balance is not enough to pay the fee. Please reload your wallet.</Trans></Alert>
+        <Alert className='flex items-center text-FA5C2F'>Your balance is not enough to pay the fee. Please reload your wallet.</Alert>
       )}
 
       <div className='mt-4'>
@@ -157,11 +150,11 @@ const PurchasePolicyStep = ({
             >
               {approving
                 ? (
-                  <Trans>Approving...</Trans>
+                    'Approving...'
                   )
                 : (
                   <>
-                    <Trans>Approve</Trans> {liquidityTokenSymbol}
+                    Approve {liquidityTokenSymbol}
                   </>
                   )}
             </RegularButton>
@@ -187,7 +180,7 @@ const PurchasePolicyStep = ({
                 })
               }}
             >
-              {purchasing ? <Trans>Purchasing...</Trans> : <Trans>Purchase Policy</Trans>}
+              {purchasing ? 'Purchasing...' : 'Purchase Policy'}
             </RegularButton>
             )}
       </div>
@@ -229,7 +222,7 @@ const PurchasePolicyStep = ({
             decimalLimit={liquidityTokenDecimals}
             error={!!error}
             buttonProps={{
-              children: t(i18n)`Max`,
+              children: 'Max',
               onClick: () => {},
               disabled: approving || purchasing || !editForm,
               buttonClassName: 'hidden'
@@ -239,7 +232,7 @@ const PurchasePolicyStep = ({
             inputProps={{
               id: 'cover-amount',
               disabled: approving || purchasing || !editForm,
-              placeholder: t(i18n)`Enter Amount`,
+              placeholder: 'Enter Amount',
               value: value,
               onChange: handleChange,
               allowNegativeValue: false
@@ -305,7 +298,7 @@ const PurchasePolicyStep = ({
 
               <div className='flex justify-between mt-6'>
                 <Label htmlFor='referral_code' className='mt-3 mb-2'>
-                  <Trans>Cashback Code</Trans>
+                  Cashback Code
                 </Label>
 
                 <div className='relative'>
@@ -313,7 +306,7 @@ const PurchasePolicyStep = ({
                     className='leading-none disabled:cursor-not-allowed !text-md !pr-14 focus-visible:ring-0 !h-3 text-center'
                     error={!!referralCodeErrorMessage}
                     id='referral_code'
-                    placeholder={t(i18n)`Enter Cashback Code`}
+                    placeholder='Enter Cashback Code'
                     value={referralCode}
                     onChange={referralCodeChange}
                     disabled={approving}
@@ -353,14 +346,14 @@ const CxUsdToolTip = ({ liquidityTokenSymbol, projectOrProductName }) => {
       <Tooltip.Content side='right'>
         <div className='w-full p-2 text-xs tracking-normal bg-black rounded-lg max-w-70 text-EEEEEE'>
           <p>
-            <Trans>
-              You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction.
-            </Trans>
+
+            You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction.
+
           </p>
           <p className='mt-6'>
-            <Trans>
-              The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”
-            </Trans>
+
+            The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”
+
           </p>
         </div>
         <Tooltip.Arrow offset={16} className='fill-black' />

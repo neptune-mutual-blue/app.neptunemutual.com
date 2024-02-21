@@ -32,8 +32,6 @@ import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 /**
  *
@@ -88,38 +86,37 @@ function renderHeader (col) {
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function}>} An array of column objects.
  */
-const getColumns = (i18n) => {
+const getColumns = () => {
   return [
     {
       id: 'reporter',
-      name: t(i18n)`reporter`,
+      name: 'reporter',
       align: 'left',
       renderHeader
     },
     {
       id: 'date and time',
-      name: t(i18n)`date and time`,
+      name: 'date and time',
       align: 'left',
       renderHeader
     },
     {
       id: 'total attested stake',
-      name: t(i18n)`total attested stake`,
+      name: 'total attested stake',
       align: 'right',
       renderHeader
     },
     {
       id: 'total refuted stake',
-      name: t(i18n)`total refuted stake`,
+      name: 'total refuted stake',
       align: 'right',
       renderHeader
     },
     {
       id: 'status',
-      name: t(i18n)`status`,
+      name: 'status',
       align: 'right',
       renderHeader
     }
@@ -147,9 +144,7 @@ const ReportListing = (props) => {
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
-  const { i18n } = useLingui()
-
-  const columns = getColumns(i18n)
+  const columns = getColumns()
 
   useEffect(() => {
     if (!coverKey) {

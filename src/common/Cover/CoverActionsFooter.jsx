@@ -3,15 +3,11 @@ import Link from 'next/link'
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
 import { getActions } from '@/src/config/cover/actions'
-import { Trans } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 import { CoverActionCard } from './CoverActionCard'
 
 export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
-  const { i18n } = useLingui()
-
-  const coverActions = getActions(i18n)
+  const coverActions = getActions()
 
   return (
     <>
@@ -22,7 +18,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
       >
         <Container>
           <h1 className='mb-10 font-bold text-center capitalize text-lg md:text-display-sm sm:mb-12'>
-            <Trans>Didn&#x2019;t find what you were looking for?</Trans>
+            Didn&#x2019;t find what you were looking for?
           </h1>
           <Grid>
             {Object.keys(coverActions)

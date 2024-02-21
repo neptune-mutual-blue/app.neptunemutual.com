@@ -11,9 +11,7 @@ import {
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { getReplacedString } from '@/utils/string'
-import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 const defaultInfo = {
   lpTokenAddress: '',
@@ -34,8 +32,6 @@ export const useBondInfo = () => {
   const { networkId } = useNetwork()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const fetchBondInfo = useCallback(
     async (onResult) => {
       if (!networkId) {
@@ -43,7 +39,7 @@ export const useBondInfo = () => {
       }
 
       const handleError = (err) => {
-        notifyError(err, t(i18n)`Could not get bond info`)
+        notifyError(err, 'Could not get bond info')
       }
 
       try {
@@ -91,7 +87,7 @@ export const useBondInfo = () => {
         handleError(err)
       }
     },
-    [account, networkId, notifyError, i18n]
+    [account, networkId, notifyError]
   )
 
   useEffect(() => {

@@ -24,8 +24,6 @@ import { MainLayout } from '@/src/layouts/main/MainLayout'
 import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import { Web3ReactProvider } from '@web3-react/core'
 
-import { LanguageProvider } from '../i18n'
-
 const Wrappers = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
@@ -61,11 +59,9 @@ function MyApp ({ Component, pageProps }) {
     <>
       <CookiesProvider>
         <ErrorBoundary>
-          <LanguageProvider>
-            <Wrappers>
-              <Component {...pageProps} />
-            </Wrappers>
-          </LanguageProvider>
+          <Wrappers>
+            <Component {...pageProps} />
+          </Wrappers>
         </ErrorBoundary>
       </CookiesProvider>
     </>

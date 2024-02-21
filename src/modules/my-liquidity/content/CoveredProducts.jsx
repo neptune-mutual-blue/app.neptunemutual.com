@@ -5,7 +5,6 @@ import {
   LiquidityProductModal
 } from '@/modules/my-liquidity/content/LiquidityProductModal'
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { Trans } from '@lingui/macro'
 
 export function CoveredProducts ({ products }) {
   const [showModal, setShowModal] = useState(false)
@@ -18,7 +17,7 @@ export function CoveredProducts ({ products }) {
     >
       <div className='flex flex-col'>
         <h4 className='mb-24 font-bold text-display-xs'>
-          <Trans>Products Covered Under This Pool</Trans>
+          Products Covered Under This Pool
         </h4>
         <div className='grid grid-cols-1 xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2'>
           {products.map((productData) => {

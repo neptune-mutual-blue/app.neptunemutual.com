@@ -33,11 +33,6 @@ import {
   toBN
 } from '@/utils/bn'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const ClaimCoverModal = ({
@@ -100,13 +95,11 @@ export const ClaimCoverModal = ({
 
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
-  const { i18n } = useLingui()
-
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = t(i18n)`Fetching balance...`
+    loadingMessage = 'Fetching balance...'
   } else if (loadingAllowance) {
-    loadingMessage = t(i18n)`Fetching allowance...`
+    loadingMessage = 'Fetching allowance...'
   }
 
   return (
@@ -121,7 +114,7 @@ export const ClaimCoverModal = ({
           className='flex items-center w-full font-bold text-display-sm'
           data-testid='dialog-title'
         >
-          <img src={imgSrc} alt={t(i18n)`policy`} height={48} width={48} />
+          <img src={imgSrc} alt='policy' height={48} width={48} />
           <span className='pl-3'>{modalTitle}</span>
         </Dialog.Title>
         <ModalCloseButton
@@ -135,7 +128,7 @@ export const ClaimCoverModal = ({
             tokenDecimals={tokenDecimals}
             tokenSymbol={tokenSymbol}
             tokenBalance={balance}
-            labelText={<Trans>Enter your {tokenSymbol}</Trans>}
+            labelText={<>Enter your {tokenSymbol}</>}
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id='bond-amount'
@@ -152,7 +145,7 @@ export const ClaimCoverModal = ({
         </div>
         <div className='mt-8 modal-unlock' data-testid='receive-info-container'>
           <Label className='mb-4 font-semibold'>
-            <Trans>You will receive</Trans>
+            You will receive
           </Label>
           <DisabledInput
             value={convertFromUnits(
@@ -164,13 +157,13 @@ export const ClaimCoverModal = ({
           <p className='px-3 pt-2 text-9B9B9B'>
             {isGreater(claimPlatformFee, '0') && (
               <>
-                <Trans>
-                  Fee:{' '}
-                  {formatPercent(
-                    toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
-                    router.locale
-                  )}
-                </Trans>
+
+                Fee:{' '}
+                {formatPercent(
+                  toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
+                  router.locale
+                )}
+
               </>
             )}
           </p>
@@ -188,7 +181,7 @@ export const ClaimCoverModal = ({
                 }}
                 data-testid='approve-button'
               >
-                {approving ? t(i18n)`Approving...` : t`Approve`}
+                {approving ? 'Approving...' : 'Approve'}
               </RegularButton>
               )
             : (
@@ -202,7 +195,7 @@ export const ClaimCoverModal = ({
                 }}
                 data-testid='claim-button'
               >
-                {claiming ? t(i18n)`Claiming...` : t`Claim`}
+                {claiming ? 'Claiming...' : 'Claim'}
               </RegularButton>
               )}
         </div>

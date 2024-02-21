@@ -21,11 +21,6 @@ import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -45,30 +40,29 @@ const renderActions = (row) => { return <ActionsRenderer row={row} /> }
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @param {Object} sorts - An object representing the current sort settings.
  * @param {Function} handleSort - A function to handle sorting events.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
   return [
     {
       id: 'when',
-      name: t(i18n)`when`,
+      name: 'when',
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
       id: 'Account',
-      name: t(i18n)`Account`,
+      name: 'Account',
       align: 'left',
       renderHeader,
       renderData: renderAccount
     },
     {
       id: 'Weight',
-      name: t(i18n)`Weight`,
+      name: 'Weight',
       align: 'right',
       renderHeader,
       renderData: renderAmount
@@ -98,14 +92,12 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
-  const { i18n } = useLingui()
-
-  const columns = getColumns(i18n, sorts, handleSort)
+  const columns = getColumns(sorts, handleSort)
 
   return (
     <>
       <h3 className='mb-6 text-lg font-bold text-center mt-14 md:text-left'>
-        <Trans>Recent Votes</Trans>
+        Recent Votes
       </h3>
 
       <TableWrapper>

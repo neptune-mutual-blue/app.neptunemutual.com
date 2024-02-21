@@ -34,10 +34,8 @@ import {
 } from '@/utils/bn'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter()
@@ -64,8 +62,6 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
   const txToast = useTxToast()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
@@ -80,7 +76,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, `Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -279,7 +275,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         }
       )
     } catch (err) {
-      notifyError(err, t(i18n)`Could not report incident`)
+      notifyError(err, 'Could not report incident')
       cleanup()
     }
   }

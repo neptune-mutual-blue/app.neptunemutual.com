@@ -24,7 +24,6 @@ import {
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const ReceiveAndUnlockModal = ({
@@ -217,7 +216,7 @@ export const ReceiveAndUnlockModal = ({
                 }}
                 disabled={!canWithdraw || withdrawing}
               >
-                {withdrawing ? <Trans>Unlocking...</Trans> : <Trans>Unlock</Trans>}
+                {withdrawing ? 'Unlocking...' : 'Unlock'}
               </RegularButton>
             )
           }
@@ -233,7 +232,7 @@ export const ReceiveAndUnlockModal = ({
                   })
                 }}
               >
-                {withdrawingRewards ? <Trans>Receiving...</Trans> : <Trans>Receive</Trans>}
+                {withdrawingRewards ? 'Receiving...' : 'Receive'}
               </RegularButton>
             )
           }

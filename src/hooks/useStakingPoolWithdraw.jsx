@@ -12,10 +12,8 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { convertToUnits } from '@/utils/bn'
-import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -32,8 +30,6 @@ export const useStakingPoolWithdraw = ({
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   const handleWithdraw = async (onTxSuccess) => {
@@ -48,7 +44,7 @@ export const useStakingPoolWithdraw = ({
       setWithdrawing(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not unstake ${tokenSymbol}`)
+      notifyError(err, `Could not unstake ${tokenSymbol}`)
     }
 
     try {
@@ -168,8 +164,6 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   const handleWithdrawRewards = async (onTxSuccess) => {
@@ -184,7 +178,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
       setWithdrawingRewards(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not withdraw rewards`)
+      notifyError(err, 'Could not withdraw rewards')
     }
 
     try {

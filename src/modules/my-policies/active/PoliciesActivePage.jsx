@@ -11,7 +11,6 @@ import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
-import { Trans } from '@lingui/macro'
 
 export const PoliciesActivePage = ({ data, loading }) => {
   return (
@@ -22,7 +21,7 @@ export const PoliciesActivePage = ({ data, loading }) => {
           className='text-lg font-medium text-4E7DD9 hover:underline'
         >
 
-          <Trans>Transaction List</Trans>
+          Transaction List
 
         </Link>
       </div>

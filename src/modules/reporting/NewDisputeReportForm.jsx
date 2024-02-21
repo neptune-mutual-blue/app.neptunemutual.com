@@ -19,11 +19,6 @@ import {
   convertToUnits,
   isGreater
 } from '@/utils/bn'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
   const form = useRef(null)
@@ -98,8 +93,6 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
     handleDispute(payload)
   }
 
-  const { i18n } = useLingui()
-
   return (
     <Container className='pt-12 bg-white border-t pb-44 border-t-B0C4DB max-w-none md:bg-transparent'>
       <form
@@ -110,21 +103,21 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
         className='px-2 mx-auto bg-white border rounded-lg max-w-7xl md:py-16 md:px-24 border-B0C4DB'
       >
         <h2 className='mb-4 font-bold text-display-sm'>
-          <Trans>Submit Your Dispute</Trans>
+          Submit Your Dispute
         </h2>
 
         <InputField
-          label={<Trans>Title</Trans>}
+          label='Title'
           className='my-12'
           inputProps={{
             id: 'dispute_title',
             name: 'title',
-            placeholder: t(i18n)`Enter Dispute Title`,
+            placeholder: 'Enter Dispute Title',
             type: 'text',
             required: canDispute,
             disabled: approving || disputing
           }}
-          desc={t(i18n)`Enter the dispute title.`}
+          desc='Enter the dispute title.'
         />
 
         <ProofOfIncident
@@ -135,13 +128,13 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
         <div className='relative'>
           <InputDescription
             className='mt-12'
-            label={<Trans>Description</Trans>}
+            label='Description'
             inputProps={{
               id: 'description',
               name: 'description',
               className:
                 'block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:outline-none focus:ring-4E7DD9 focus:border-4E7DD9 border-B0C4DB',
-              placeholder: t(i18n)`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
+              placeholder: 'Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.',
               rows: 5,
               maxLength: 300,
               required: canDispute,
@@ -154,7 +147,7 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
           <TokenAmountInput
             inputId='stake-amount'
             inputValue={value}
-            labelText={<Trans>Enter your stake</Trans>}
+            labelText='Enter your stake'
             tokenBalance={balance}
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}
@@ -165,21 +158,21 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
             required
           >
             <p className='text-9B9B9B'>
-              <Trans>Minimum Stake:</Trans>{' '}
+              Minimum Stake:{' '}
               {convertFromUnits(minReportingStake, tokenDecimals).toString()}{' '}
               {tokenSymbol}
             </p>
             <span className='flex items-center text-FA5C2F'>
               {/* Show error for Insufficent state */}
               {value && isGreater(minReportingStake, convertToUnits(value)) && (
-                <Trans>Insufficient Stake</Trans>
+                'Insufficient Stake'
               )}
 
               {/* Show error for Insufficent balance */}
               {value &&
                 isGreater(convertToUnits(value), balance) &&
                 isGreater(convertToUnits(value), minReportingStake) && (
-                  <Trans>Insufficient Balance</Trans>
+                'Insufficient Balance'
               )}
             </span>
           </TokenAmountInput>
@@ -193,9 +186,9 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
             className='w-full py-6 font-semibold uppercase px-14 xs:px-24 md:w-auto'
             type='submit'
           >
-            {canDispute && (disputing ? t(i18n)`Disputing...` : t`Dispute`)}
+            {canDispute && (disputing ? 'Disputing...' : 'Dispute')}
             {!canDispute &&
-              (approving ? t(i18n)`Approving...` : `${t`Approve`} ${tokenSymbol}`)}
+              (approving ? 'Approving...' : `Approve ${tokenSymbol}`)}
           </RegularButton>
         </div>
       </form>

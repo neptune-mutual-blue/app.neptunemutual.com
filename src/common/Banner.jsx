@@ -10,18 +10,11 @@ import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { classNames } from '@/utils/classnames'
 import { getNetworkInfo } from '@/utils/network'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const Banner = () => {
   const { networkId } = useNetwork()
   const { isMainNet, isEthereum, isArbitrum } = getNetworkInfo(networkId)
   const [show, setShow] = useLocalStorage('showAnnouncement', true)
-
-  const { i18n } = useLingui()
 
   if (!networkId) {
     return null
@@ -44,55 +37,53 @@ export const Banner = () => {
           <div className='flex items-center justify-center flex-auto min-w-0'>
             {isEthereum && (
               <p>
-                <Trans>
-                  Ethereum gas fees too high? {' '}
-                  <a
-                    className='underline'
-                    href={APP_URLS[42161]}
-                  >
-                    Use Neptune Mutual on Arbitrum
-                  </a>
-                </Trans>
+
+                Ethereum gas fees too high? {' '}
+                <a
+                  className='underline'
+                  href={APP_URLS[42161]}
+                >
+                  Use Neptune Mutual on Arbitrum
+                </a>
+
               </p>
             )}
 
             {isArbitrum && (
               <p>
-                <Trans>
-                  Don't have Arbitrum ETH?{' '}
-                  <a
-                    className='underline'
-                    href={APP_URLS[1]}
-                  >
-                    Use Neptune Mutual on Ethereum
-                  </a>{' '}
-                  or{' '}
-                  <a
-                    className='underline'
-                    href={ARBITRUM_BRIDGE_URL}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    Bridge ETH and USDC to Arbitrum
-                  </a>
-                </Trans>
+                Don't have Arbitrum ETH?{' '}
+                <a
+                  className='underline'
+                  href={APP_URLS[1]}
+                >
+                  Use Neptune Mutual on Ethereum
+                </a>{' '}
+                or{' '}
+                <a
+                  className='underline'
+                  href={ARBITRUM_BRIDGE_URL}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Bridge ETH and USDC to Arbitrum
+                </a>
+
               </p>
             )}
 
             {!isMainNet && (
               <p>
-                <Trans>
-                  You&#x2019;re on {NetworkNames[networkId]} Network. Get{' '}
-                  <a
-                    className='underline'
-                    href={FAUCET_URL}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    data-testid='faucet-link'
-                  >
-                    Test Tokens
-                  </a>.
-                </Trans>
+
+                You&#x2019;re on {NetworkNames[networkId]} Network. Get{' '}
+                <a
+                  className='underline'
+                  href={FAUCET_URL}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  data-testid='faucet-link'
+                >
+                  Test Tokens
+                </a>.
               </p>
             )}
           </div>
@@ -101,7 +92,7 @@ export const Banner = () => {
             aria-label='Close'
             onClick={handleClose}
             className={classNames('block p-1 ml-auto')}
-            title={t(i18n)`close`}
+            title='close'
             data-testid='close-banner'
           >
             <CloseIcon className='w-5 h-5' />

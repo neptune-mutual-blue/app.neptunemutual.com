@@ -8,7 +8,6 @@ import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
-import { Trans } from '@lingui/macro'
 
 export const ReportingHero = ({
   coverKey,
@@ -31,25 +30,25 @@ export const ReportingHero = ({
   let breadcrumbData = []
 
   breadcrumbData = [
-    { name: <Trans>Home</Trans>, href: '/' },
+    { name: 'Home', href: '/' },
     { name: coverName, href: Routes.ViewCover(coverKey) },
     isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
-    { name: <Trans>Reporting</Trans>, href: '' }
+    { name: 'Reporting', href: '' }
   ].filter(Boolean)
 
   if (type === 'new-report') {
     breadcrumbData = [
-      { name: <Trans>Home</Trans>, href: '/' },
+      { name: 'Home', href: '/' },
       { name: coverName, href: Routes.ViewCover(coverKey) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
-      { name: <Trans>Reporting</Trans>, href: '' }
+      { name: 'Reporting', href: '' }
     ].filter(Boolean)
   }
 
   if (type === 'details') {
     breadcrumbData = [
-      { name: <Trans>Home</Trans>, href: '/' },
-      { name: <Trans>Reporting</Trans>, href: isResolved ? Routes.ResolvedReports : Routes.ActiveReports },
+      { name: 'Home', href: '/' },
+      { name: 'Reporting', href: isResolved ? Routes.ResolvedReports : Routes.ActiveReports },
       !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) }
     ].filter(Boolean)
@@ -57,11 +56,11 @@ export const ReportingHero = ({
 
   if (type === 'new-dispute') {
     breadcrumbData = [
-      { name: <Trans>Home</Trans>, href: '/' },
+      { name: 'Home', href: '/' },
       !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
-      { name: <Trans>Reporting</Trans>, href: Routes.ViewReport(coverKey, productKey, incidentDate) },
-      { name: <Trans>Dispute</Trans>, href: '' }
+      { name: 'Reporting', href: Routes.ViewReport(coverKey, productKey, incidentDate) },
+      { name: 'Dispute', href: '' }
     ].filter(Boolean)
   }
 

@@ -22,11 +22,6 @@ import {
   isGreater
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake }) {
   const max = DateLib.toDateTimeLocal()
@@ -141,8 +136,6 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
     }
   }
 
-  const { i18n } = useLingui()
-
   return (
     <Container className='pt-12 pb-24 bg-white max-w-none md:bg-transparent'>
       <form
@@ -154,26 +147,26 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
       >
         <h2 className='mb-4 font-bold text-display-sm'>
           {/* @note: Intentional Capitalization of the word "Incident" below */}
-          <Trans>Report an Incident</Trans>
+          Report an Incident
         </h2>
         <div className='flex flex-col md:flex-row'>
           <InputField
             className='lg:flex-grow md:mr-12'
-            label={<Trans>Title</Trans>}
+            label='Title'
             inputProps={{
               id: 'incident_title',
               name: 'incident_title',
-              placeholder: t(i18n)`Enter Incident Title`,
+              placeholder: 'Enter Incident Title',
               required: canReport,
               disabled: approving || reporting,
               type: 'text'
             }}
-            desc={t(i18n)`Enter the incident title.`}
+            desc='Enter the incident title.'
           />
 
           <InputField
             className='mb-6 lg:flex-shrink'
-            label={<Trans>Observed Date & Time</Trans>}
+            label='Observed Date & Time'
             inputProps={{
               max: max,
               id: 'incident_date',
@@ -186,7 +179,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
               onFocus: handleObserveDateTimeBlurFocus,
               className: classNames(isDateNoHasValue && 'text-9B9B9B', isInActive && 'inactive')
             }}
-            desc={t(i18n)`The date and time you observed the incident.`}
+            desc='The date and time you observed the incident.'
           />
         </div>
 
@@ -198,13 +191,13 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         <div className='relative'>
           <InputDescription
             className='mt-12'
-            label={<Trans>Description</Trans>}
+            label='Description'
             inputProps={{
               id: 'description',
               name: 'description',
               className:
                 'block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:outline-none focus:ring-4E7DD9 focus:border-4E7DD9 border-B0C4DB',
-              placeholder: t(i18n)`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
+              placeholder: 'Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.',
               rows: 5,
               maxLength: 300,
               required: canReport,
@@ -217,7 +210,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
           <TokenAmountInput
             inputId='stake-amount'
             inputValue={value}
-            labelText={<Trans>Enter your stake</Trans>}
+            labelText='Enter your stake'
             tokenBalance={balance}
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}
@@ -228,21 +221,21 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
             required
           >
             <p className='text-9B9B9B'>
-              <Trans>Minimum Stake:</Trans>{' '}
+              Minimum Stake:{' '}
               {convertFromUnits(minReportingStake, tokenDecimals).toString()}{' '}
               {tokenSymbol}
             </p>
             <span className='flex items-center text-FA5C2F'>
               {/* Show error for Insufficent state */}
               {value && isGreater(minReportingStake, convertToUnits(value)) && (
-                <Trans>Insufficient Stake</Trans>
+                'Insufficient Stake'
               )}
 
               {/* Show error for Insufficent balance */}
               {value &&
                 isGreater(convertToUnits(value), balance) &&
                 isGreater(convertToUnits(value), minReportingStake) && (
-                  <Trans>Insufficient Balance</Trans>
+                'Insufficient Balance'
               )}
             </span>
           </TokenAmountInput>
@@ -251,11 +244,11 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         <div className='mt-10'>
           <div className='max-w-xs pr-8' data-testid='loaders'>
             {loadingAllowance && (
-              <DataLoadingIndicator message={t(i18n)`Fetching allowance...`} />
+              <DataLoadingIndicator message='Fetching allowance...' />
             )}
 
             {loadingBalance && (
-              <DataLoadingIndicator message={t(i18n)`Fetching balance...`} />
+              <DataLoadingIndicator message='Fetching balance...' />
             )}
           </div>
 
@@ -264,9 +257,9 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
             className='w-full py-6 font-semibold uppercase px-14 xs:px-24 md:w-auto'
             type='submit'
           >
-            {canReport && (reporting ? t(i18n)`Reporting...` : t`Report`)}
+            {canReport && (reporting ? 'Reporting...' : 'Report')}
             {!canReport &&
-              (approving ? t(i18n)`Approving...` : `${t`Approve`} ${tokenSymbol}`)}
+              (approving ? 'Approving...' : `Approve ${tokenSymbol}`)}
           </RegularButton>
         </div>
       </form>

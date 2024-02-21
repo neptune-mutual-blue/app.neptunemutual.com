@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import ChevronLeftLgIcon from '@/icons/ChevronLeftLgIcon'
 import ChevronRightLgIcon from '@/icons/ChevronRightLgIcon'
 import { getMonthNames } from '@/lib/dates'
-import { Trans } from '@lingui/macro'
 
 // HlCalendar - Highlight Calendar
 export const HlCalendar = ({ startDate, endDate }) => {
@@ -57,7 +56,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
             )}
             onClick={handlePrev}
           >
-            <span className='sr-only'><Trans>Previous</Trans></span>
+            <span className='sr-only'>Previous</span>
             <ChevronLeftLgIcon aria-hidden='true' className='w-3 h-3 text-lg' />
           </button>
           <button
@@ -67,7 +66,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
             )}
             onClick={handleNext}
           >
-            <span className='sr-only'><Trans>Next</Trans></span>
+            <span className='sr-only'>Next</span>
             <ChevronRightLgIcon
               aria-hidden='true'
               className='w-3 h-3 text-lg'

@@ -23,21 +23,18 @@ import {
 import { useNetwork } from '@/src/context/Network'
 import { useSnapshotProposals } from '@/src/hooks/useSnapshotProposals'
 import { classNames } from '@/utils/classnames'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 /**
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-export const getColumns = (i18n) => {
+export const getColumns = () => {
   return [
     {
       id: 'when',
-      name: t(i18n)`when`,
+      name: 'when',
       align: 'left',
       renderHeader,
       renderData: (row, { locale }) => { return <WhenRenderer row={row} locale={locale} /> }
@@ -51,7 +48,7 @@ export const getColumns = (i18n) => {
     },
     {
       id: 'details',
-      name: t(i18n)`details`,
+      name: 'details',
       align: 'left',
       renderHeader,
       renderData: (row) => { return <DetailsRenderer row={row} /> }
@@ -65,14 +62,14 @@ export const getColumns = (i18n) => {
     },
     {
       id: 'result',
-      name: t(i18n)`Result`,
+      name: 'Result',
       align: 'right',
       renderHeader,
       renderData: (row) => { return <ResultRenderer row={row} /> }
     },
     {
       id: 'actions',
-      name: t(i18n)`Actions`,
+      name: 'Actions',
       align: 'right',
       renderHeader,
       renderData: (row, { networkId }) => { return <ActionsRenderer row={row} networkId={networkId} /> }
@@ -84,17 +81,16 @@ export const getColumns = (i18n) => {
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array.<{name: string, value: string}>} An array of column objects.
  */
-const getFilterOptions = (i18n) => {
+const getFilterOptions = () => {
   return [
-    { name: t(i18n)`All`, value: 'all' },
-    { name: t(i18n)`Gauge Controller Emission (GCE)`, value: '[gce' },
-    { name: t(i18n)`Neptune Improvement Proposal (NIP)`, value: '[nip' },
-    { name: t(i18n)`Gauge Controller Listing (GCL)`, value: '[gcl' },
-    { name: t(i18n)`Liquidity Rewards (LR)`, value: '[lr' },
-    { name: t(i18n)`Grants`, value: '[grant' }
+    { name: 'All', value: 'all' },
+    { name: 'Gauge Controller Emission (GCE)', value: '[gce' },
+    { name: 'Neptune Improvement Proposal (NIP)', value: '[nip' },
+    { name: 'Gauge Controller Listing (GCL)', value: '[gcl' },
+    { name: 'Liquidity Rewards (LR)', value: '[lr' },
+    { name: 'Grants', value: '[grant' }
   ]
 }
 
@@ -110,9 +106,7 @@ export const ProposalsTable = () => {
   const { locale } = useRouter()
   const { networkId } = useNetwork()
 
-  const { i18n } = useLingui()
-
-  const filterOptions = getFilterOptions(i18n)
+  const filterOptions = getFilterOptions()
 
   const [filter, setFilter] = useState(filterOptions[0])
 
@@ -138,12 +132,12 @@ export const ProposalsTable = () => {
         className={classNames('mt-0', showMore ? 'rounded-none' : 'rounded-t-none')}
       >
         <Table>
-          <THead theadClass='rounded-t-none bg-F9FAFA' columns={getColumns(i18n)} />
+          <THead theadClass='rounded-t-none bg-F9FAFA' columns={getColumns()} />
           {
             !loading
               ? (
                 <TBody
-                  columns={getColumns(i18n)}
+                  columns={getColumns()}
                   data={data}
                   extraData={{ locale, networkId }}
                 />

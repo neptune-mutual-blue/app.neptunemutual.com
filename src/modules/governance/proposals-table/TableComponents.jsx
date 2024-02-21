@@ -22,7 +22,6 @@ import {
   getProposalLink,
   snapshotColors
 } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
 
 export const WhenRenderer = ({ row, locale }) => {
   return (
@@ -129,7 +128,7 @@ export const ActionsRenderer = ({ row, networkId }) => {
             (
               <Link href={setGaugeUrl} className='flex items-center justify-end gap-1'>
 
-                <Trans>Set Gauge</Trans>
+                Set Gauge
                 <PieChartIcon />
 
               </Link>
@@ -140,13 +139,13 @@ export const ActionsRenderer = ({ row, networkId }) => {
           row.state === 'Live'
             ? (
               <a target='_blank' className='flex items-center justify-end gap-1 mt-2' href={proposalLink} rel='noreferrer'>
-                <Trans>Submit Your Vote</Trans>
+                Submit Your Vote
                 <ExternalLinkIcon />
               </a>
               )
             : (
               <a target='_blank' className='flex items-center justify-end gap-1' href={proposalLink} rel='noreferrer'>
-                <Trans>View Proposal</Trans>
+                View Proposal
                 <DocumentationIcon2 />
               </a>
               )

@@ -14,14 +14,12 @@ import {
   isValidNumber
 } from '@/utils/bn'
 import { Contract } from '@ethersproject/contracts'
-import { t } from '@lingui/macro'
 import {
   config,
   registry,
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const defaultInfo = {
   fee: '0',
@@ -48,8 +46,6 @@ export const usePolicyFees = ({
   const [loading, setLoading] = useState(false)
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   useEffect(() => {
     let ignore = false
 
@@ -74,7 +70,7 @@ export const usePolicyFees = ({
       }
 
       const handleError = (err) => {
-        notifyError(err, t(i18n)`Could not get fees`)
+        notifyError(err, 'Could not get fees')
       }
 
       try {
@@ -146,8 +142,7 @@ export const usePolicyFees = ({
     liquidityTokenDecimals,
     networkId,
     notifyError,
-    productKey,
-    i18n
+    productKey
   ])
 
   return {

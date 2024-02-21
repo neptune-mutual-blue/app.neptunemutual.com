@@ -6,7 +6,6 @@ import {
   NoDataFound
 } from '@/common/Loading'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const Table = ({ children }) => {
   return (
@@ -42,7 +41,7 @@ export const TableShowMore = ({ show, loading = false, onShowMore, className = '
       onClick={onShowMore}
       {...rest}
     >
-      <Trans>Show More</Trans>
+      Show More
     </NeutralButton>
   )
 }

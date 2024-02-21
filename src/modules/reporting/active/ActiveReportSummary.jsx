@@ -30,11 +30,6 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const ActiveReportSummary = ({
   coverKey,
@@ -54,8 +49,6 @@ export const ActiveReportSummary = ({
   const startDate = DateLib.fromUnix(incidentReport.incidentDate)
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp)
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
-
-  const { i18n } = useLingui()
 
   const isAfterResolution = useRetryUntilPassed(() => {
     const _now = DateLib.unix()
@@ -99,7 +92,7 @@ export const ActiveReportSummary = ({
         {/* Left half */}
         <div className='flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB min-w-300'>
           <h2 className='mb-6 font-bold text-center text-display-xs lg:text-left'>
-            <Trans>Report Summary</Trans>
+            Report Summary
           </h2>
 
           {!isAfterResolution && (
@@ -153,16 +146,16 @@ export const ActiveReportSummary = ({
           <InsightsTable
             insights={[
               {
-                title: t(i18n)`Incident Occurred`,
+                title: 'Incident Occurred',
                 value: formatPercent(yesPercent, router.locale),
                 variant: 'success'
               },
               {
-                title: t(i18n)`User Votes:`,
+                title: 'User Votes:',
                 value: incidentReport.totalAttestedCount
               },
               {
-                title: t(i18n)`Stake:`,
+                title: 'Stake:',
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
@@ -177,7 +170,7 @@ export const ActiveReportSummary = ({
                 ).long
               },
               {
-                title: t(i18n)`Your Stake`,
+                title: 'Your Stake',
                 value: formatCurrency(
                   convertFromUnits(myYes),
                   router.locale,
@@ -198,16 +191,16 @@ export const ActiveReportSummary = ({
           <InsightsTable
             insights={[
               {
-                title: t(i18n)`False Reporting`,
+                title: 'False Reporting',
                 value: formatPercent(noPercent, router.locale),
                 variant: 'error'
               },
               {
-                title: t(i18n)`User Votes:`,
+                title: 'User Votes:',
                 value: incidentReport.totalRefutedCount
               },
               {
-                title: t(i18n)`Stake:`,
+                title: 'Stake:',
                 value: `${
                   formatCurrency(
                     convertFromUnits(incidentReport.totalRefutedStake),
@@ -226,7 +219,7 @@ export const ActiveReportSummary = ({
                 }`
               },
               {
-                title: t(i18n)`Your Stake`,
+                title: 'Your Stake',
                 value: formatCurrency(
                   convertFromUnits(myNo),
                   router.locale,
@@ -245,7 +238,7 @@ export const ActiveReportSummary = ({
 
           <hr className='mt-6 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
-            <Trans>Incident Reporters</Trans>
+            Incident Reporters
           </h3>
           <IncidentReporter
             variant='success'
@@ -262,7 +255,7 @@ export const ActiveReportSummary = ({
 
           <hr className='mt-8 mb-6 border-t border-D4DFEE' />
           <h3 className='mb-4 text-lg font-bold'>
-            <Trans>Reporting Period</Trans>
+            Reporting Period
           </h3>
           <ReportingPeriodStatus
             resolutionTimestamp={incidentReport.resolutionTimestamp}

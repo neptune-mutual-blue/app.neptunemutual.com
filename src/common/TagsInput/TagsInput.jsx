@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import CloseIcon from '@/icons/CloseIcon'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const TagsInput = ({ selectedTags, className }) => {
   const [tags, setTags] = useState([])
@@ -43,7 +42,7 @@ export const TagsInput = ({ selectedTags, className }) => {
                   height={16}
                   data-testid='tag-remove-btn'
                 >
-                  <Trans>close</Trans>
+                  close
                 </CloseIcon>
               </span>
             </li>

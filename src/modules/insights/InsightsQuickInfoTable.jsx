@@ -29,8 +29,6 @@ import {
   SORT_DATA_TYPES,
   sorter
 } from '@/utils/sorting'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const RenderProductName = ({ coverKey, productKey, data }) => {
   const isDiversified = isValidProduct(productKey)
@@ -101,28 +99,27 @@ const RenderCapacity = ({ capacity, locale, liquidityTokenDecimals }) => {
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-const getColumns = (i18n) => {
+const getColumns = () => {
   return [
     {
       id: 'cover',
-      name: t(i18n)`Cover`,
+      name: 'Cover',
       align: 'left',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
       renderData: (row) => { return <RenderProductName data={row} productKey={row.productKey} coverKey={row.coverKey} /> }
     },
     {
       id: 'utilization ratio',
-      name: t(i18n)`Utilization Ratio`,
+      name: 'Utilization Ratio',
       align: 'left',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
       renderData: (row, { locale }) => { return <RenderUtilizationRatio ratio={row.utilizationRatio} locale={locale} /> }
     },
     {
       id: 'capacity',
-      name: t(i18n)`Capacity`,
+      name: 'Capacity',
       align: 'right',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
       renderData: (row, { locale, liquidityTokenDecimals }) => { return <RenderCapacity capacity={row.capacity} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} /> }
@@ -161,9 +158,7 @@ export const InsightsQuickInfoTable = () => {
 
   const paginatedData = topCovers.slice((page - 1) * ROWS_PER_PAGE, (page - 1) * ROWS_PER_PAGE + ROWS_PER_PAGE)
 
-  const { i18n } = useLingui()
-
-  const columns = getColumns(i18n)
+  const columns = getColumns()
 
   return (
     <div>

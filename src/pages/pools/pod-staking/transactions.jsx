@@ -6,7 +6,6 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
-import { Trans } from '@lingui/macro'
 
 // import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 
@@ -32,22 +31,20 @@ export default function MyPodStakingTxs ({ disabled }) {
         <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: <Trans>Pool</Trans>, href: Routes.Pools(), current: false },
+              { name: 'Pool', href: Routes.Pools(), current: false },
               {
-                name: <Trans>POD Staking</Trans>,
+                name: 'POD Staking',
                 href: Routes.PodStakingPools,
                 current: false
               },
               {
-                name: <Trans>Transaction List</Trans>,
+                name: 'Transaction List',
                 href: Routes.PodStakingPoolsTransactions,
                 current: true
               }
             ]}
           />
-          <HeroTitle>
-            <Trans>Transaction List</Trans>
-          </HeroTitle>
+          <HeroTitle>Transaction List</HeroTitle>
         </Container>
         <hr className='border-B0C4DB' />
       </Hero>

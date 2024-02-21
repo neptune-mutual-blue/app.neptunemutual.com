@@ -32,7 +32,6 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
 const loading = false
@@ -112,7 +111,7 @@ export const ActiveReportingCard = ({
           className='mt-1 text-sm uppercase text-7398C0 lg:mt-2'
           data-testid='cover-fee'
         >
-          <Trans>Annual Cover fee:</Trans>{' '}
+          Annual Cover fee:{' '}
           {formatPercent(
             toBN(coverOrProductData.floor).dividedBy(MULTIPLIER),
             router.locale
@@ -127,16 +126,14 @@ export const ActiveReportingCard = ({
           <InfoTooltip
             infoComponent={
               <p>
-                <Trans>
-                  Diversified pool with {coverOrProductData.leverage}x
-                  leverage factor and{' '}
-                  {formatPercent(
-                    toBN(coverOrProductData.capitalEfficiency)
-                      .dividedBy(MULTIPLIER)
-                      .toString()
-                  )}{' '}
-                  capital efficiency
-                </Trans>
+                Diversified pool with {coverOrProductData.leverage}x
+                leverage factor and{' '}
+                {formatPercent(
+                  toBN(coverOrProductData.capitalEfficiency)
+                    .dividedBy(MULTIPLIER)
+                    .toString()
+                )}{' '}
+                capital efficiency
               </p>
             }
           >
@@ -172,7 +169,7 @@ export const ActiveReportingCard = ({
       {/* Stats */}
       <div className={classNames('justify-between px-1 text-xs lg:text-sm', loading ? 'hidden' : 'flex')}>
         <span className='text-xs uppercase lg:text-sm'>
-          <Trans>Utilization ratio</Trans>
+          Utilization ratio
         </span>
         <span
           className='text-xs font-semibold text-right lg:text-sm '
@@ -187,11 +184,11 @@ export const ActiveReportingCard = ({
           <div>
             <p>
               <b>
-                <Trans>Utilization ratio:</Trans> {formattedUtilizationRatio}
+                Utilization ratio: {formattedUtilizationRatio}
               </b>
             </p>
             <p>
-              <Trans>Protection</Trans>:  {formattedProtection.long}
+              Protection:  {formattedProtection.long}
             </p>
           </div>
         }
@@ -206,7 +203,7 @@ export const ActiveReportingCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Protection</Trans>: {formattedProtection.long}
+              Protection: {formattedProtection.long}
             </div>
           }
         >
@@ -227,7 +224,7 @@ export const ActiveReportingCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Reported On:</Trans>:{' '}
+              Reported On::{' '}
               {DateLib.toLongDateFormat(incidentDate, router.locale)}
             </div>
           }

@@ -5,8 +5,6 @@ Description: This file contains a JavaScript implementation of the Solidity func
 License: Apache 2.0
 */
 
-import { Trans } from '@lingui/macro'
-
 const _ONE_DAY = 86400
 const _DENOMINATOR = 10_000
 
@@ -38,23 +36,23 @@ export const calculateBoost = (expiryDuration) => {
 
 export const getBoostText = (boost = 0) => {
   if (boost >= 3.98) {
-    return <Trans>Maximum Boost</Trans>
+    return 'Maximum Boost'
   }
 
   if (boost <= 1.03) {
-    return <Trans>Minimum Boost</Trans>
+    return 'Minimum Boost'
   }
 
   if (boost > 3) {
-    return <Trans>High Boost</Trans>
+    return 'High Boost'
   }
 
   if (boost >= 2 && boost <= 3) {
-    return <Trans>Average Boost</Trans>
+    return 'Average Boost'
   }
 
   if (boost < 2) {
-    return <Trans>Low Boost</Trans>
+    return 'Low Boost'
   }
 }
 

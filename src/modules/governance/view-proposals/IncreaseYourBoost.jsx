@@ -8,7 +8,6 @@ import {
   getBoostTextClass
 } from '@/utils/calculate-boost'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 const BOOST_MIN = 1
 const BOOST_MAX = 4
@@ -46,7 +45,7 @@ export const IncreaseYourBoost = ({ boost }) => {
                 className='border-primary bg-primary focus-visible:ring-primary text-EEEEEE border  tracking-2 focus:outline-none focus-visible:ring-2  flex-auto rounded-tooltip py-3 px-4 font-semibold !text-sm uppercase z-auto relative'
               >
 
-                <Trans>Increase Your Boost</Trans>
+                Increase Your Boost
 
               </Link>
             )

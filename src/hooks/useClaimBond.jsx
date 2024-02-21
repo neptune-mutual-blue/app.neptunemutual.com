@@ -18,10 +18,8 @@ import {
 import { convertFromUnits } from '@/utils/bn'
 import { formatAmount } from '@/utils/formatter'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useClaimBond = ({ claimable }) => {
   const [claiming, setClaiming] = useState(false)
@@ -33,8 +31,6 @@ export const useClaimBond = ({ claimable }) => {
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
-
-  const { i18n } = useLingui()
 
   const { getActionMessage } = useActionMessage()
 
@@ -48,7 +44,7 @@ export const useClaimBond = ({ claimable }) => {
       setClaiming(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not claim bond`)
+      notifyError(err, 'Could not claim bond')
     }
 
     try {

@@ -11,7 +11,6 @@ import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import { LIQUIDITY_POINTS_PER_DOLLAR } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { getNetworkInfo } from '@/utils/network'
-import { Trans } from '@lingui/macro'
 
 const SuccessModal = ({ open, close, amountInDollars }) => {
   const { networkId } = useNetwork()
@@ -36,7 +35,7 @@ const SuccessModal = ({ open, close, amountInDollars }) => {
         <div className='flex flex-col items-center'>
           <div className='flex gap-2.5 justify-center items-center p-8 bg-01052D text-white w-full relative'>
             <SuccessIcon className='w-8 h-8 text-21AD8C' aria-hidden='true' />
-            <h4 className='font-semibold text-display-xs'><Trans>Added Liquidity Successfully!</Trans></h4>
+            <h4 className='font-semibold text-display-xs'>Added Liquidity Successfully!</h4>
 
             <ModalCloseButton className='absolute text-white !top-5 !right-5' onClick={close} />
           </div>

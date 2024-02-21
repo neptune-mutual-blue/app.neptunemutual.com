@@ -34,13 +34,11 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
-import { t } from '@lingui/macro'
 import {
   config,
   registry
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useStakingPoolDeposit = ({
   value,
@@ -75,8 +73,6 @@ export const useStakingPoolDeposit = ({
   const { notifyError } = useErrorNotifier()
   const router = useRouter()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   // Minimum of info.maximumStake, balance
@@ -101,7 +97,7 @@ export const useStakingPoolDeposit = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${tokenSymbol}`)
+      notifyError(err, `Could not approve ${tokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -199,7 +195,7 @@ export const useStakingPoolDeposit = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not stake ${tokenSymbol}`)
+      notifyError(err, `Could not stake ${tokenSymbol}`)
     }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)
@@ -327,25 +323,25 @@ export const useStakingPoolDeposit = ({
     }
 
     if (!isValidNumber(value)) {
-      setError(t(i18n)`Invalid amount to stake`)
+      setError('Invalid amount to stake')
 
       return
     }
 
     if (!account) {
-      setError(t(i18n)`Please connect your wallet`)
+      setError('Please connect your wallet')
 
       return
     }
 
     if (isEqualTo(value, '0')) {
-      setError(t(i18n)`Please specify an amount`)
+      setError('Please specify an amount')
 
       return
     }
 
     if (isGreater(convertToUnits(value).toString(), balance)) {
-      setError(t(i18n)`Insufficient Balance`)
+      setError('Insufficient Balance')
 
       return
     }
@@ -358,7 +354,7 @@ export const useStakingPoolDeposit = ({
         true
       ).short
 
-      setError(t(i18n)`Cannot stake more than ${maxStakableTokenAmount}`)
+      setError(`Cannot stake more than ${maxStakableTokenAmount}`)
 
       return
     }
@@ -366,7 +362,7 @@ export const useStakingPoolDeposit = ({
     if (error) {
       setError('')
     }
-  }, [account, balance, error, maxStakableAmount, router.locale, value, i18n])
+  }, [account, balance, error, maxStakableAmount, router.locale, value])
 
   const canDeposit =
     value &&

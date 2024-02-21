@@ -39,11 +39,6 @@ import {
 } from '@/utils/bn'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getNetworkInfo } from '@/utils/network'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -55,8 +50,6 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   const { isMainNet } = getNetworkInfo(networkId)
 
   const [isSuccess, setIsSuccess] = useState(false)
-
-  const { i18n } = useLingui()
 
   const {
     liquidityTokenAddress,
@@ -116,12 +109,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       npmValue &&
       isGreater(requiredStake, convertToUnits(npmValue, npmTokenDecimals))
     ) {
-      setNpmErrorMsg(t(i18n)`Insufficient Stake`)
+      setNpmErrorMsg('Insufficient Stake')
     } else if (
       npmValue &&
       isGreater(convertToUnits(npmValue, npmTokenDecimals), npmBalance)
     ) {
-      setNpmErrorMsg(t(i18n)`Exceeds maximum balance`)
+      setNpmErrorMsg('Exceeds maximum balance')
     } else {
       setNpmErrorMsg('')
     }
@@ -133,16 +126,16 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
         myStablecoinBalance
       )
     ) {
-      setLqErrorMsg(t(i18n)`Exceeds maximum balance`)
+      setLqErrorMsg('Exceeds maximum balance')
     } else if (
       lqValue &&
       isEqualTo(convertToUnits(lqValue, liquidityTokenDecimals), 0)
     ) {
-      setLqErrorMsg(t(i18n)`Please specify an amount`)
+      setLqErrorMsg('Please specify an amount')
     } else if (lqValue && isGreater(MIN_LIQUIDITY, lqValue)) {
-      setLqErrorMsg(t(i18n)`Liquidity is below threshold`)
+      setLqErrorMsg('Liquidity is below threshold')
     } else if (lqValue && isGreater(lqValue, MAX_LIQUIDITY)) {
-      setLqErrorMsg(t(i18n)`Liquidity is above threshold`)
+      setLqErrorMsg('Liquidity is above threshold')
     } else {
       setLqErrorMsg('')
     }
@@ -153,8 +146,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     npmBalance,
     npmTokenDecimals,
     npmValue,
-    requiredStake,
-    i18n
+    requiredStake
   ])
 
   const handleMaxNPM = () => {
@@ -201,30 +193,30 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     return isDiversified
       ? (
         <Alert>
-          <Trans>
-            Cannot add liquidity, as one of the product&apos;s status is not
-            normal
-          </Trans>
+
+          Cannot add liquidity, as one of the product&apos;s status is not
+          normal
+
         </Alert>
         )
       : (
         <Alert>
-          <Trans>
-            Cannot add liquidity, since the cover status is {statusLink}
-          </Trans>
+
+          Cannot add liquidity, since the cover status is {statusLink}
+
         </Alert>
         )
   }
 
   let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = t(i18n)`Calculating tokens...`
+    loadingMessage = 'Calculating tokens...'
   } else if (npmBalanceLoading) {
-    loadingMessage = t(i18n)`Fetching balance...`
+    loadingMessage = 'Fetching balance...'
   } else if (npmAllowanceLoading) {
-    loadingMessage = t(i18n)`Fetching ${NPMTokenSymbol} allowance...`
+    loadingMessage = `Fetching ${NPMTokenSymbol} allowance...`
   } else if (lqAllowanceLoading) {
-    loadingMessage = t(i18n)`Fetching ${liquidityTokenSymbol} allowance...`
+    loadingMessage = `Fetching ${liquidityTokenSymbol} allowance...`
   }
 
   const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false
@@ -236,7 +228,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       {!isStakeDisabled && (
         <div className='mb-16'>
           <TokenAmountInput
-            labelText={<Trans>Enter your {NPMTokenSymbol} stake</Trans>}
+            labelText={<>Enter your {NPMTokenSymbol} stake</>}
             onChange={handleNPMChange}
             handleChooseMax={handleMaxNPM}
             error={Boolean(npmErrorMsg)}
@@ -251,7 +243,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             {isGreater(minStakeToAddLiquidity, myStake) && (
               <TokenAmountWithPrefix
                 amountInUnits={minStakeToAddLiquidity}
-                prefix={<><Trans>Minimum Stake:</Trans>{' '}</>}
+                prefix={<>Minimum Stake:{' '}</>}
                 symbol={NPMTokenSymbol}
                 decimals={npmTokenDecimals}
               />
@@ -259,7 +251,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             {isGreater(myStake, '0') && (
               <TokenAmountWithPrefix
                 amountInUnits={myStake}
-                prefix={<><Trans>Your Stake:</Trans>{' '}</>}
+                prefix={<>Your Stake:{' '}</>}
                 symbol={NPMTokenSymbol}
                 decimals={npmTokenDecimals}
               />
@@ -274,7 +266,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
       <div className='mb-16'>
         <TokenAmountInput
-          labelText={<Trans>Enter Amount you wish to provide</Trans>}
+          labelText={<>Enter Amount you wish to provide</>}
           onChange={handleLqChange}
           handleChooseMax={handleMaxLq}
           error={isError}
@@ -294,19 +286,19 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
       <div className='mb-16'>
         <ReceiveAmountInput
-          labelText={<Trans>You will receive</Trans>}
+          labelText={<>You will receive</>}
           tokenSymbol={vaultTokenSymbol}
           inputValue={receiveAmount}
         />
       </div>
 
       <h5 className='block mb-3 font-semibold text-black uppercase text-md'>
-        <Trans>NEXT UNLOCK CYCLE</Trans>
+        <>NEXT UNLOCK CYCLE</>
       </h5>
       <div>
         <span className='text-7398C0' title={fromNow(info.withdrawalOpen)}>
           <strong>
-            <Trans comment='Liquidity Withdrawal Period Open Date'>Open:</Trans>{' '}
+            Open:{' '}
           </strong>
           {DateLib.toLongDateFormat(info.withdrawalOpen, router.locale)}
         </span>
@@ -314,9 +306,9 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       <div>
         <span className='text-7398C0' title={fromNow(info.withdrawalClose)}>
           <strong>
-            <Trans comment='Liquidity Withdrawal Period Closing Date'>
+            <>
               Close:
-            </Trans>{' '}
+            </>{' '}
           </strong>
           {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
         </span>
@@ -340,11 +332,11 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             >
               {lqApproving
                 ? (
-                  <Trans>Approving...</Trans>
+                    'Approving...'
                   )
                 : (
                   <>
-                    <Trans>Approve</Trans> {liquidityTokenSymbol || <Trans>Liquidity</Trans>}
+                    Approve {liquidityTokenSymbol || 'Liquidity'}
                   </>
                   )}
             </RegularButton>
@@ -364,11 +356,11 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
               >
                 {npmApproving
                   ? (
-                    <Trans>Approving...</Trans>
+                      'Approving...'
                     )
                   : (
                     <>
-                      {NPMTokenSymbol ? <Trans>Approve {NPMTokenSymbol}</Trans> : <Trans>Approve Stake</Trans>}
+                      {NPMTokenSymbol ? `Approve ${NPMTokenSymbol}` : 'Approve Stake'}
                     </>
                     )}
               </RegularButton>
@@ -398,12 +390,10 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
           >
             {providing
               ? (
-                <Trans>Providing Liquidity...</Trans>
+                  'Providing Liquidity...'
                 )
               : (
-                <>
-                  <Trans>Provide Liquidity</Trans>
-                </>
+                  'Provide Liquidity'
                 )}
           </RegularButton>
         )}

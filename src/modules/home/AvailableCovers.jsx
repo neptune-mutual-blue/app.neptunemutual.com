@@ -27,11 +27,6 @@ import {
   sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -68,12 +63,10 @@ export const AvailableCovers = () => {
     getProduct
   } = useCoversAndProducts2()
 
-  const { i18n } = useLingui()
-
   const viewOptions = [
-    { name: t(i18n)`All`, value: SORT_TYPES.ALL },
-    { name: t(i18n)`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
-    { name: t(i18n)`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL }
+    { name: 'All', value: SORT_TYPES.ALL },
+    { name: 'Diversified Pool', value: SORT_TYPES.DIVERSIFIED_POOL },
+    { name: 'Dedicated Pool', value: SORT_TYPES.DEDICATED_POOL }
   ]
 
   const defaultViewOption = viewOptions[0]
@@ -84,8 +77,8 @@ export const AvailableCovers = () => {
     return viewOptions.find((item) => { return item.value === selectedView }) || defaultViewOption
   }
   const sortOptions = useMemo(() => {
-    return DEFAULT_SORT_OPTIONS(i18n)
-  }, [i18n])
+    return DEFAULT_SORT_OPTIONS()
+  }, [])
   const defaultSortOption = sortOptions[2]
 
   const getSelectedSortOption = (query) => {
@@ -193,7 +186,7 @@ export const AvailableCovers = () => {
         <Link href='#cover-products'>
 
           <h1 className='mb-3 font-bold xl:mb-0 text-display-xs lg:text-display-sm'>
-            <Trans>Cover Products</Trans>
+            Cover Products
           </h1>
 
         </Link>
@@ -212,7 +205,7 @@ export const AvailableCovers = () => {
 
           <div className='w-full md:w-auto md:ml-2'>
             <Select
-              prefix={<><Trans>View:</Trans>{' '}</>}
+              prefix={<>View:{' '}</>}
               options={viewOptions}
               selected={selectedViewOption}
               setSelected={handleViewFilterChange}

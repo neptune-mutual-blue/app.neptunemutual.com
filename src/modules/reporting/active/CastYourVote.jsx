@@ -23,25 +23,18 @@ import {
   isGreater,
   toBN
 } from '@/utils/bn'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, minReportingStake }) => {
   const options = useMemo(() => {
     return [
-      { label: <Trans>Incident Occurred</Trans>, value: 'incident-occurred' },
-      { label: <Trans>False Reporting</Trans>, value: 'false-reporting' }
+      { label: 'Incident Occurred', value: 'incident-occurred' },
+      { label: 'False Reporting', value: 'false-reporting' }
     ]
   }, [])
 
   const [votingType, setVotingType] = useState(options[0].value)
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
-
-  const { i18n } = useLingui()
 
   const {
     balance,
@@ -77,13 +70,13 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
     }
 
     if (isGreater(convertToUnits(value), balance)) {
-      setError(t(i18n)`Exceeds maximum balance`)
+      setError('Exceeds maximum balance')
 
       return
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
-      setError(t(i18n)`Insufficient Balance`)
+      setError('Insufficient Balance')
 
       return
     }
@@ -91,7 +84,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
     if (error) {
       setError('')
     }
-  }, [balance, error, value, i18n])
+  }, [balance, error, value])
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value)
@@ -122,15 +115,15 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = <Trans>Fetching balance...</Trans>
+    loadingMessage = 'Fetching balance...'
   } else if (loadingAllowance) {
-    loadingMessage = <Trans>Fetching allowance...</Trans>
+    loadingMessage = 'Fetching allowance...'
   }
 
   return (
     <>
       <h3 className='font-bold text-center lg:text-left text-display-xs'>
-        <Trans>Cast Your Vote</Trans>
+        Cast Your Vote
       </h3>
       <div className='flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row'>
         {
@@ -156,7 +149,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
             htmlFor='stake-to-cast-vote'
             className='mb-2 ml-2 font-semibold uppercase'
           >
-            <Trans>Stake</Trans>
+            Stake
           </Label>
 
           <div className='flex flex-wrap items-start gap-8 mb-11'>
@@ -173,7 +166,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
               >
                 {isFirstDispute && (
                   <p className='text-9B9B9B'>
-                    <Trans>Minimum Stake:</Trans>{' '}
+                    Minimum Stake:{' '}
                     {convertFromUnits(
                       minReportingStake,
                       tokenDecimals
@@ -203,11 +196,11 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                   >
                     {approving
                       ? (
-                        <Trans>Approving...</Trans>
+                          'Approving...'
                         )
                       : (
                         <>
-                          <Trans>Approve</Trans> {tokenSymbol}
+                          Approve {tokenSymbol}
                         </>
                         )}
                   </RegularButton>
@@ -224,7 +217,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
                   loadingAllowance
                 }
                   >
-                    {voting ? t(i18n)`Reporting...` : 'Report'}
+                    {voting ? 'Reporting...' : 'Report'}
                   </RegularButton>
                   )}
               <DataLoadingIndicator message={loadingMessage} />
@@ -235,17 +228,15 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
       {isFirstDispute && (
         <>
           <Alert info>
-            <Trans>
-              Since you are the first person to dispute this incident reporting,
-              you will need to stake at least{' '}
-              {convertFromUnits(minReportingStake, tokenDecimals).toString()}{' '}
-              {tokenSymbol} tokens. If the majority agree with you, you will earn{' '}
-              {toBN(reporterCommission)
-                .multipliedBy(100)
-                .dividedBy(MULTIPLIER)
-                .toString()}
-              % of the "incident occurred" side&apos;s tokens.
-            </Trans>
+            Since you are the first person to dispute this incident reporting,
+            you will need to stake at least{' '}
+            {convertFromUnits(minReportingStake, tokenDecimals).toString()}{' '}
+            {tokenSymbol} tokens. If the majority agree with you, you will earn{' '}
+            {toBN(reporterCommission)
+              .multipliedBy(100)
+              .dividedBy(MULTIPLIER)
+              .toString()}
+            % of the "incident occurred" side&apos;s tokens.
           </Alert>
           <Link
             href={Routes.DisputeReport(
@@ -259,7 +250,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
             <RegularButton
               className='flex-auto w-full py-6 mt-4 font-semibold uppercase lg:w-64 mb-11 sm:mb-0 whitespace-nowrap text-EEEEEE'
             >
-              <Trans>Add Dispute</Trans>
+              Add Dispute
             </RegularButton>
           </Link>
         </>

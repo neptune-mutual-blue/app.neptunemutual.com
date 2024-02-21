@@ -16,11 +16,6 @@ import {
   isGreaterOrEqual
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const PurchaseAmountStep = ({
   setValue,
@@ -41,21 +36,19 @@ const PurchaseAmountStep = ({
   const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
 
-  const { i18n } = useLingui()
-
   function handleChange (val) {
     setError('')
     setValue(val)
 
     if (isGreaterOrEqual(val, availableLiquidity)) {
       const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
-      setError(t(i18n)`Maximum protection available is ${maxProtection}` + '. Choose a amount less than available.')
+      setError(`Maximum protection available is ${maxProtection}` + '. Choose a amount less than available.')
     } else if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
       const maxThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      setError(t(i18n)`Maximum proposal threshold is ${maxThreshold}`)
+      setError(`Maximum proposal threshold is ${maxThreshold}`)
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
       const minThreshold = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      setError(t(i18n)`Minimum proposal threshold is ${minThreshold}`)
+      setError(`Minimum proposal threshold is ${minThreshold}`)
     }
   }
 
@@ -68,16 +61,16 @@ const PurchaseAmountStep = ({
   return (
     <>
       <p className='font-bold text-center text-display-xs text-01052D'>
-        <Trans>How Much Protection Do You Require?</Trans>
+        How Much Protection Do You Require?
       </p>
       <p className='mt-1 mb-8 text-lg text-center text-999BAB'>
-        <Trans>Don&apos;t worry, you&apos;re not required to make a purchase just yet.</Trans>
+        Don&apos;t worry, you&apos;re not required to make a purchase just yet.
       </p>
       <InputWithTrailingButton
         decimalLimit={liquidityTokenDecimals}
         error={!!error}
         buttonProps={{
-          children: t(i18n)`Max`,
+          children: 'Max',
           onClick: () => {},
           disabled: approving || purchasing,
           buttonClassName: 'hidden'
@@ -87,7 +80,7 @@ const PurchaseAmountStep = ({
         inputProps={{
           id: 'cover-amount',
           disabled: approving || purchasing,
-          placeholder: t(i18n)`Enter Amount`,
+          placeholder: 'Enter Amount',
           value: value,
           onChange: handleChange,
           allowNegativeValue: false,

@@ -22,11 +22,6 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const { data: heroData } = useFetchHeroStats()
@@ -60,8 +55,6 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
     }
   }, [totalCapacity])
 
-  const { i18n } = useLingui()
-
   return (
     <Hero big>
       {Boolean(breadcrumbs.length) && (
@@ -90,14 +83,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
-                    name: t(i18n)`Capacity`,
+                    name: 'Capacity',
                     amount: formatCurrency(
                       currentCapacity,
                       router.locale
                     ).short
                   },
                   {
-                    name: t(i18n)`TVL (Pool)`,
+                    name: 'TVL (Pool)',
                     amount: formatCurrency(
                       convertFromUnits(
                         poolsTvl,
@@ -118,14 +111,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                 items={[
                   {
                     // Active Protection (or) Commitment
-                    name: t(i18n)`Coverage`,
+                    name: 'Coverage',
                     amount: formatCurrency(
                       heroData.covered,
                       router.locale
                     ).short
                   },
                   {
-                    name: t(i18n)`Cover Fee`,
+                    name: 'Cover Fee',
                     amount: formatCurrency(
                       heroData.coverFee,
                       router.locale
@@ -147,7 +140,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
         <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-14 border-0.5 border-B0C4DB'>
           <div className='mb-8'>
             <h3 className='mb-1 text-sm leading-5 text-9B9B9B'>
-              <Trans>Total Capacity</Trans>
+              Total Capacity
             </h3>
             <div className='flex items-center'>
               <h2

@@ -2,7 +2,6 @@ import Link from 'next/link'
 
 import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
 import { explainInterval } from '@/utils/formatter/interval'
-import { Trans } from '@lingui/macro'
 
 export const CoverResolutionSources = ({ children, resolutionSources = [], reportingPeriod }) => {
   return (
@@ -11,10 +10,10 @@ export const CoverResolutionSources = ({ children, resolutionSources = [], repor
         <div className='flex flex-wrap justify-between md:block'>
           <div>
             <h3 className='font-semibold text-lg'>
-              <Trans>Resolution Sources</Trans>
+              Resolution Sources
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>
-              {explainInterval(reportingPeriod)} <Trans>Reporting Period</Trans>
+              {explainInterval(reportingPeriod)} Reporting Period
             </p>
           </div>
           <div className='flex flex-col md:block sm:items-end'>

@@ -11,7 +11,6 @@ import { CoverAvatar } from '@/common/CoverAvatar'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const AbnormalCoverStatus = ({
   status,
@@ -50,9 +49,9 @@ export const AbnormalCoverStatus = ({
       </div>
 
       <Alert>
-        <Trans>
-          Cannot purchase policy, since the cover is under {statusLink}
-        </Trans>
+
+        Cannot purchase policy, since the cover is under {statusLink}
+
       </Alert>
 
       <RegularButton

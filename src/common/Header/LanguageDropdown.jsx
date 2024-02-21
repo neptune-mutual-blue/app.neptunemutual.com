@@ -23,8 +23,6 @@ import {
   Listbox,
   Transition
 } from '@headlessui/react'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 const LANGUAGES = Object.values(languageKey)
 const LANGUAGE_KEYS = Object.keys(languageKey)
@@ -82,8 +80,6 @@ export const LanguageDropdown = (props) => {
     setSearchValue(e.target.value)
   }
 
-  const { i18n } = useLingui()
-
   return (
     <div className='relative flex items-center mt-3 cursor-pointer'>
       <Listbox
@@ -123,7 +119,7 @@ export const LanguageDropdown = (props) => {
                       <input
                         autoComplete='off'
                         className='w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px]'
-                        placeholder={t(i18n)`Search Language`}
+                        placeholder='Search Language'
                         onChange={handleSearchLanguage}
                       />
                     </div>

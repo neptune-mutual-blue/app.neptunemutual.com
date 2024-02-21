@@ -152,7 +152,7 @@ msgstr "撤回したい金額"
 msgid "Annual Cover fee:"
 msgstr "年間保障料金："
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:162
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:164
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:347
 #: src/modules/bridge/CommonBridgeActions.jsx:44
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
@@ -240,7 +240,7 @@ msgstr ""
 msgid "Approving veNPM for unlock"
 msgstr ""
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:158
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:160
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:343
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:367
 #: src/modules/bridge/CommonBridgeActions.jsx:40
@@ -353,7 +353,7 @@ msgstr ""
 msgid "Calculating tokens..."
 msgstr "トークンを計算中..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:444
+#: src/common/CoverForm/PurchasePolicyForm.jsx:445
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -408,7 +408,7 @@ msgstr "資本化中。。。"
 msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
 msgstr "以下の利用規約をよくお読みください。給付の請求を完成するには、以下のすべての点に該当する必要があります。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:295
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:308
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:87
 msgid "Cashback Code"
 msgstr ""
@@ -668,7 +668,7 @@ msgstr ""
 msgid "Could not finalize incident"
 msgstr "インシデントを最終決定できませんでした"
 
-#: src/hooks/useERC20Allowance.jsx:110
+#: src/hooks/useERC20Allowance.jsx:112
 msgid "Could not get allowance"
 msgstr "手当を取得できませんでした"
 
@@ -827,7 +827,7 @@ msgstr "カバー料金"
 msgid "Cover Fee Earned"
 msgstr ""
 
-#: src/modules/home/AvailableCovers.jsx:194
+#: src/modules/home/AvailableCovers.jsx:196
 msgid "Cover Products"
 msgstr "カバー商品"
 
@@ -993,7 +993,7 @@ msgid "Enter {NPMTokenSymbol} Amount"
 msgstr ""
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:90
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:229
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:242
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:47
 #: src/modules/insights/CalculatorCard.jsx:151
 msgid "Enter Amount"
@@ -1011,9 +1011,9 @@ msgstr ""
 msgid "Enter Amount you wish to provide"
 msgstr "提供したい金額を入力してください"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:349
-#: src/common/CoverForm/PurchasePolicyForm.jsx:357
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:303
+#: src/common/CoverForm/PurchasePolicyForm.jsx:350
+#: src/common/CoverForm/PurchasePolicyForm.jsx:358
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:316
 msgid "Enter Cashback Code"
 msgstr ""
 
@@ -1443,7 +1443,7 @@ msgid "Market Price"
 msgstr "市場価格"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:80
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:219
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:232
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:38
 #: src/modules/insights/CalculatorCard.jsx:144
 msgid "Max"
@@ -1556,7 +1556,7 @@ msgstr ""
 
 #: lib/hl-calendar/index.jsx:70
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:92
-#: src/common/CoverForm/PurchasePolicyForm.jsx:431
+#: src/common/CoverForm/PurchasePolicyForm.jsx:432
 msgid "Next"
 msgstr "次へ"
 
@@ -1692,7 +1692,7 @@ msgstr ""
 msgid "policy"
 msgstr "ポリシー"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:399
+#: src/common/CoverForm/PurchasePolicyForm.jsx:400
 msgid "Policy purchases on this product are disabled."
 msgstr ""
 
@@ -1777,8 +1777,8 @@ msgstr "流動性を提供しました"
 msgid "Providing Liquidity..."
 msgstr "流動性提供中"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:436
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
+#: src/common/CoverForm/PurchasePolicyForm.jsx:437
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:190
 #: src/config/cover/actions.js:16
 #: src/modules/cover/purchase/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:69
@@ -1804,11 +1804,11 @@ msgstr "ポリシーを購入しました"
 msgid "Purchasing Policy"
 msgstr "ポリシー購入中"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:190
 msgid "Purchasing..."
 msgstr "購入中..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:404
+#: src/common/CoverForm/PurchasePolicyForm.jsx:405
 msgid "Reason: {0}"
 msgstr ""
 
@@ -2129,7 +2129,7 @@ msgstr "ホームページに戻る"
 msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
 msgstr "本ボンド機能において、 {vestingPeriodInterval}の期間中にて割引価格でNPMトークンを取得することができます。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:348
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:361
 msgid "The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”"
 msgstr ""
 
@@ -2407,7 +2407,7 @@ msgstr ""
 msgid "View Proposals"
 msgstr ""
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:435
+#: src/common/CoverForm/PurchasePolicyForm.jsx:436
 msgid "View Quotation"
 msgstr "見積もりを見る"
 
@@ -2419,7 +2419,7 @@ msgstr "取引を見る"
 msgid "View Tx"
 msgstr "Tx を見る"
 
-#: src/modules/home/AvailableCovers.jsx:213
+#: src/modules/home/AvailableCovers.jsx:215
 msgid "View:"
 msgstr "表示："
 
@@ -2498,7 +2498,7 @@ msgstr "ホワイトリストに登録されていません"
 msgid "You Earned"
 msgstr "取得した金額"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:101
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:102
 #: src/common/CoverForm/Steps/QuotationStep.jsx:18
 msgid "You Will Pay"
 msgstr "支払う金額"
@@ -2511,11 +2511,11 @@ msgstr "支払う金額"
 msgid "You will receive"
 msgstr "以下を受取ります"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:343
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:356
 msgid "You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction."
 msgstr "本取引を完成すると、cx{liquidityTokenSymbol} または 請求できる{liquidityTokenSymbol} を受け取ります。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:125
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:126
 msgid "You will Receive:"
 msgstr "受け取る金額："
 
@@ -2523,7 +2523,7 @@ msgstr "受け取る金額："
 msgid "You’re on {0} Network. Get <0>Test Tokens</0>."
 msgstr "{0} ネットワークにいます。 <0>テストトークンを入手</0>。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:133
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:134
 msgid "Your balance is not enough to pay the fee. Please reload your wallet."
 msgstr "残高不足で支払いできません。ウォレットを入金してください。"
 

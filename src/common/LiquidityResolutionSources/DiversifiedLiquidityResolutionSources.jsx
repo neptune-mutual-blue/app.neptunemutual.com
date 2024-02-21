@@ -5,7 +5,6 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
-import { Trans } from '@lingui/macro'
 
 export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) => {
   const router = useRouter()
@@ -21,10 +20,10 @@ export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) =
         <div className='flex flex-wrap justify-between md:block'>
           <div>
             <h3 className='text-lg font-semibold'>
-              <Trans>Vault Info</Trans>
+              Vault Info
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>
-              {explainInterval(reportingPeriod)} <Trans>Reporting Period</Trans>
+              {explainInterval(reportingPeriod)} Reporting Period
             </p>
           </div>
         </div>
@@ -39,7 +38,7 @@ export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) =
           }
         >
           <span className=''>
-            <Trans>Total Liquidity:</Trans>
+            Total Liquidity:
           </span>
           <strong className='font-bold text-right'>
             {
@@ -60,7 +59,7 @@ export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) =
           }
         >
           <span className=''>
-            <Trans>Reassurance:</Trans>
+            Reassurance:
           </span>
           <strong className='font-bold text-right'>
             {

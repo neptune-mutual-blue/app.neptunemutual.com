@@ -12,11 +12,6 @@ import {
   convertFromUnits,
   toBN
 } from '@/utils/bn'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const AddAndLockModal = ({
   modalTitle,
@@ -64,9 +59,7 @@ export const AddAndLockModal = ({
 
   const isPoolStaked = toBN(poolStaked).isGreaterThan(0)
 
-  const { i18n } = useLingui()
-
-  const inputLabel = isPoolStaked ? t(i18n)`Enter Amount You Wish to Add` : t(i18n)`Enter Amount You Wish to Lock`
+  const inputLabel = isPoolStaked ? 'Enter Amount You Wish to Add' : 'Enter Amount You Wish to Lock'
 
   const btnClass = 'w-full p-3 mt-6 font-semibold uppercase sm:min-w-auto sm:w-full'
   const closeModal = (approving || depositing) ? () => {} : onClose
@@ -117,7 +110,7 @@ export const AddAndLockModal = ({
                   }}
                   disabled={depositing || loadingAllowance}
                 >
-                  {depositing ? <Trans>Locking...</Trans> : <Trans>Lock</Trans>}
+                  {depositing ? 'Locking...' : 'Lock'}
                 </RegularButton>
                 )
               : (
@@ -126,7 +119,7 @@ export const AddAndLockModal = ({
                   disabled={!canApprove || approving || loadingAllowance}
                   onClick={handleApprove}
                 >
-                  {approving ? <Trans>Approving...</Trans> : <Trans>Approve</Trans>}
+                  {approving ? 'Approving...' : 'Approve'}
                 </RegularButton>
                 )
           }

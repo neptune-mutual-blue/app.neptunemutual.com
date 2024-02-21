@@ -20,10 +20,8 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { convertToUnits } from '@/utils/bn'
-import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [approving, setApproving] = useState(false)
@@ -47,8 +45,6 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const { notifyError } = useErrorNotifier()
   const { writeContract } = useTxPoster()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
@@ -61,7 +57,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${vaultTokenSymbol} tokens`)
+      notifyError(err, `Could not approve ${vaultTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -140,7 +136,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not remove liquidity`)
+      notifyError(err, 'Could not remove liquidity')
     }
 
     try {

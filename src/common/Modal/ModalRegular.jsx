@@ -16,7 +16,7 @@ export const ModalRegular = ({
   overlayProps = {},
   defaultContentClassNames = 'fixed z-50 w-full h-full px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 max-h-90vh flex justify-center items-center',
   className = '',
-  container = document.body,
+  container = undefined,
   noBlur = false,
   ...rest
 }) => {
@@ -25,7 +25,7 @@ export const ModalRegular = ({
       open={isOpen}
       {...rootProps}
     >
-      <Portal container={container}>
+      <Portal container={typeof window === 'undefined' ? undefined : container || document.body}>
         <Overlay
           className={classNames(
             'fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-30',

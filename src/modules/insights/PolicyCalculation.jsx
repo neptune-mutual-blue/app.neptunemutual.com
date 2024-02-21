@@ -6,7 +6,6 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { isValidProduct } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useLingui } from '@lingui/react'
 
 export const PolicyCalculation = ({
   feeData,
@@ -26,9 +25,7 @@ export const PolicyCalculation = ({
   ).short
   const coverRate = Number(feeData?.rate || '0') / 100
 
-  const { i18n } = useLingui()
-
-  const actions = getActions(i18n)
+  const actions = getActions()
 
   const handleBuyCover = () => {
     const link = actions.purchase.getHref(

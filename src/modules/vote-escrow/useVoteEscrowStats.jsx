@@ -9,8 +9,6 @@ import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { convertToUnits } from '@/utils/bn'
 import { getReplacedString } from '@/utils/string'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const useVoteEscrowStats = () => {
   const { networkId } = useNetwork()
@@ -21,8 +19,6 @@ export const useVoteEscrowStats = () => {
   const [loading, setLoading] = useState(false)
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   useEffect(() => {
     async function exec () {
       if (!networkId) {
@@ -30,7 +26,7 @@ export const useVoteEscrowStats = () => {
       }
 
       const handleError = (err) => {
-        notifyError(err, t(i18n)`Could not get vote-escrow stats`)
+        notifyError(err, 'Could not get vote-escrow stats')
       }
 
       const NPMTokenDecimals = ChainConfig[networkId].npm.tokenDecimals
@@ -73,7 +69,7 @@ export const useVoteEscrowStats = () => {
     exec()
       .then(() => { return setLoading(false) })
       .catch(() => { return setLoading(false) })
-  }, [notifyError, networkId, i18n])
+  }, [notifyError, networkId])
 
   return {
     data,

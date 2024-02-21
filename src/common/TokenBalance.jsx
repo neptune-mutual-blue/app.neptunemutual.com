@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 
+import { NPMSwapLink } from '@/common/NPMSwapLink'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import CopyIcon from '@/icons/CopyIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
@@ -11,13 +12,7 @@ import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { NPMSwapLink } from '@/common/NPMSwapLink'
-import { useLingui } from '@lingui/react'
 
 export const TokenBalance = ({
   tokenAddress,
@@ -33,22 +28,20 @@ export const TokenBalance = ({
   const toast = useToast()
   const router = useRouter()
 
-  const { i18n } = useLingui()
-
   const handleCopy = async (e) => {
     e && e.preventDefault()
     try {
       await navigator.clipboard.writeText(tokenAddress)
       toast.pushSuccess({
-        title: t(i18n)`Success`,
-        message: t(i18n)`Token address copied Successfully`,
+        title: 'Success',
+        message: 'Token address copied Successfully',
         lifetime: SHORT_TOAST_TIME
       })
     } catch (err) {
       // console.error(err);
       toast.pushError({
-        title: t(i18n)`Error`,
-        message: t(i18n)`Unable to copy token address`,
+        title: 'Error',
+        message: 'Unable to copy token address',
         lifetime: SHORT_TOAST_TIME
       })
     }
@@ -72,7 +65,7 @@ export const TokenBalance = ({
             title={formattedTokenAmount.long}
             data-testid='balance'
           >
-            <Trans>Balance:</Trans>{' '}
+            Balance:{' '}
             {formattedTokenAmount.short}
 
             <NPMSwapLink tokenAddress={tokenAddress} />

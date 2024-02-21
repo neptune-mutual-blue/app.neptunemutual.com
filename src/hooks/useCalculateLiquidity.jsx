@@ -1,17 +1,22 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { t } from '@lingui/macro'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
-import { convertToUnits, isValidNumber } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
-import { registry } from '@neptunemutual/sdk'
-import { useDebounce } from '@/src/hooks/useDebounce'
 import { useTxPoster } from '@/src/context/TxPoster'
+import { useDebounce } from '@/src/hooks/useDebounce'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useMountedState } from '@/src/hooks/useMountedState'
-import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
-import { useLingui } from '@lingui/react'
+import {
+  convertToUnits,
+  isValidNumber
+} from '@/utils/bn'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const isMounted = useMountedState()
@@ -24,8 +29,6 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const { contractRead } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const calculateLiquidity = useCallback(async () => {
     if (
       !networkId ||
@@ -37,7 +40,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not calculate liquidity`)
+      notifyError(err, 'Could not calculate liquidity')
     }
 
     setLoading(true)
@@ -84,8 +87,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     isMounted,
     library,
     networkId,
-    notifyError,
-    i18n
+    notifyError
   ])
 
   useEffect(() => {

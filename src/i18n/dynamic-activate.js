@@ -1,14 +1,10 @@
-/* istanbul ignore file */
-import { DEFAULT_LOCALE } from '@/src/config/locales'
 import { i18n } from '@lingui/core'
-
-import { messages as DEFAULT_MESSAGES } from '../../locales/en/messages'
 
 // Initialize the locale immediately to DEFAULT_LOCALE/DEFAULT_MESSAGES,
 // so that messages are shown while the appropriate translation load.
 // This is necessary for initial macro translations (t``) to work in the DEFAULT_LOCALE.
-i18n.load(DEFAULT_LOCALE, DEFAULT_MESSAGES)
-i18n.activate(DEFAULT_LOCALE)
+// i18n.load(DEFAULT_LOCALE, DEFAULT_MESSAGES)
+// i18n.activate(DEFAULT_LOCALE)
 
 /**
  * Load messages for requested locale and activate it.

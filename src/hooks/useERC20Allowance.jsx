@@ -12,8 +12,6 @@ import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useRetry } from '@/src/hooks/useRetry'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
@@ -31,8 +29,6 @@ export const useERC20Allowance = (tokenAddress) => {
   const { writeContract, contractRead } = useTxPoster()
   const { getApprovalAmount } = useUnlimitedApproval()
   const { requiresAuth } = useAuthValidation()
-
-  const { i18n } = useLingui()
 
   const fetchAllowance = useCallback(
     async (spender, { onTransactionResult, onError, cleanup }) => {
@@ -109,7 +105,7 @@ export const useERC20Allowance = (tokenAddress) => {
       }
 
       const handleError = (err) => {
-        notifyError(err, t(i18n)`Could not get allowance`)
+        notifyError(err, 'Could not get allowance')
       }
 
       const onTransactionResult = (_allowance) => {
@@ -130,7 +126,7 @@ export const useERC20Allowance = (tokenAddress) => {
         cleanup
       })
     },
-    [fetchAllowance, notifyError, i18n]
+    [fetchAllowance, notifyError]
   )
 
   const { stopRetrying, restartRetrying, isRetrying } = useRetry(

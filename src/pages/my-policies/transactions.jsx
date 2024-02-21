@@ -9,7 +9,6 @@ import { Routes } from '@/src/config/routes'
 import {
   MyPoliciesTxsTable
 } from '@/src/modules/my-policies/MyPoliciesTxsTable'
-import { Trans } from '@lingui/macro'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -34,17 +33,15 @@ export default function MyPoliciesTxs ({ disabled }) {
           <BreadCrumbs
             pages={[
               {
-                name: <Trans>My Policies</Trans>,
+                name: 'My Policies',
                 href: Routes.MyActivePolicies,
                 current: false
               },
-              { name: <Trans>Transaction List</Trans>, href: '#', current: true }
+              { name: 'Transaction List', href: '#', current: true }
             ]}
           />
 
-          <HeroTitle>
-            <Trans>Transaction List</Trans>
-          </HeroTitle>
+          <HeroTitle>Transaction List</HeroTitle>
         </Container>
 
         <hr className='border-B0C4DB' />

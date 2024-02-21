@@ -8,11 +8,6 @@ import { Grid } from '@/common/Grid/Grid'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
@@ -23,7 +18,7 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
           className='text-lg font-medium text-4E7DD9 hover:underline'
         >
 
-          <Trans>Transaction List</Trans>
+          Transaction List
 
         </Link>
       </div>
@@ -35,8 +30,6 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
 
 function MyLiquidities ({ data, loading }) {
   const { loading: isSummaryLoading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
-
-  const { i18n } = useLingui()
 
   if (loading || isSummaryLoading) {
     return (
@@ -58,14 +51,14 @@ function MyLiquidities ({ data, loading }) {
       >
         <img
           src='/images/covers/empty-list-illustration.svg'
-          alt={t(i18n)`No data found`}
+          alt='No data found'
           className='w-48 h-48'
         />
         <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
-          <Trans>
-            Liquidity providers collectively own a liquidity pool. To become a
-            liquidity provider, select a cover from the home screen.
-          </Trans>
+
+          Liquidity providers collectively own a liquidity pool. To become a
+          liquidity provider, select a cover from the home screen.
+
         </p>
       </div>
     )

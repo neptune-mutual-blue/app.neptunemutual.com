@@ -4,7 +4,6 @@ import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
 
 export const DedicatedLiquidityResolutionSources = ({
   coverData,
@@ -32,7 +31,7 @@ export const DedicatedLiquidityResolutionSources = ({
         }
       >
         <span className=''>
-          <Trans>Total Liquidity:</Trans>
+          Total Liquidity:
         </span>
         <strong className='font-bold text-right'>
           {
@@ -53,7 +52,7 @@ export const DedicatedLiquidityResolutionSources = ({
         }
       >
         <span className=''>
-          <Trans>Reassurance:</Trans>
+          Reassurance:
         </span>
         <strong className='font-bold text-right'>
           {

@@ -15,7 +15,6 @@ import {
   isGreater,
   isValidNumber
 } from '@/utils/bn'
-import { Trans } from '@lingui/macro'
 
 export const UnStakeForm = ({
   info,
@@ -71,14 +70,14 @@ export const UnStakeForm = ({
         inputId='withdraw-amount'
         inputValue={inputValue}
         handleChooseMax={handleChooseMax}
-        labelText={<Trans>Amount you wish to withdraw</Trans>}
+        labelText='Amount you wish to withdraw'
         onChange={handleChange}
         tokenSymbol={stakingTokenSymbol}
         tokenAddress={stakingTokenAddress}
         disabled={withdrawing}
       >
         <p className=''>
-          <Trans>Your Stake</Trans>:{' '}
+          Your Stake:{' '}
           <TokenAmountSpan
             amountInUnits={stakedAmount}
             symbol={stakingTokenSymbol}
@@ -87,14 +86,14 @@ export const UnStakeForm = ({
         </p>
         {!canWithdraw && (
           <p className='flex items-center text-FA5C2F'>
-            <Trans>Could not withdraw during lockup period</Trans>
+            Could not withdraw during lockup period
           </p>
         )}
       </TokenAmountInput>
 
       <div className='mt-4 xs:mt-8 modal-unlock'>
         <Label className='mb-3' htmlFor='modal-unlock-on'>
-          <Trans>Unlocks At Block</Trans>
+          Unlocks At Block
         </Label>
         <p
           id='modal-unlock-on'
@@ -114,7 +113,7 @@ export const UnStakeForm = ({
           })
         }}
       >
-        {withdrawing ? <Trans>Withdrawing...</Trans> : <Trans>Unstake</Trans>}
+        {withdrawing ? 'Withdrawing...' : 'Unstake'}
       </RegularButton>
     </div>
   )

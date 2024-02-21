@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import {
   DEFAULT_LOCALE,
   SUPPORTED_LOCALES
@@ -32,7 +30,5 @@ export const navigatorLocale = () => {
 }
 
 export const useActiveLocale = () => {
-  const { locale } = useRouter()
-
-  return locale || navigatorLocale() || DEFAULT_LOCALE
+  return DEFAULT_LOCALE
 }

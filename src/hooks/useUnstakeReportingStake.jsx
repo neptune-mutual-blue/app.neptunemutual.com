@@ -13,13 +13,11 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { t } from '@lingui/macro'
 import {
   registry,
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useUnstakeReportingStake = ({
   coverKey,
@@ -37,8 +35,6 @@ export const useUnstakeReportingStake = ({
 
   const { NPMTokenSymbol } = useAppConstants()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   const unstake = async (onTxSuccess = () => {}) => {
@@ -53,7 +49,7 @@ export const useUnstakeReportingStake = ({
       setUnstaking(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not unstake ${NPMTokenSymbol}`)
+      notifyError(err, `Could not unstake ${NPMTokenSymbol}`)
     }
 
     try {
@@ -164,7 +160,7 @@ export const useUnstakeReportingStake = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not unstake & claim ${NPMTokenSymbol}`)
+      notifyError(err, `Could not unstake & claim ${NPMTokenSymbol}`)
     }
 
     try {

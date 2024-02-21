@@ -4,7 +4,6 @@ import {
 } from 'react'
 
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
 
@@ -44,7 +43,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
         <Dialog.Title
           className='font-bold leading-9 text-black text-display-sm'
         >
-          <Trans>Connect wallet</Trans>
+          Connect wallet
         </Dialog.Title>
 
         <button

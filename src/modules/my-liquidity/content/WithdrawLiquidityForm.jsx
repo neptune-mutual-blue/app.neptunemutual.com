@@ -34,11 +34,6 @@ import { formatAmount } from '@/utils/formatter'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getNetworkInfo } from '@/utils/network'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const router = useRouter()
@@ -90,8 +85,6 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
     npmValue: npmValue || '0'
   })
 
-  const { i18n } = useLingui()
-
   const unStakableAmount = toBN(myStake)
     .minus(minStakeToAddLiquidity)
     .toString()
@@ -114,19 +107,19 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
       npmValue &&
       isGreater(convertToUnits(npmValue), unStakableAmount)
     ) {
-      setNpmErrorMsg(t(i18n)`Cannot go below minimum stake`)
+      setNpmErrorMsg('Cannot go below minimum stake')
     } else {
       setNpmErrorMsg('')
     }
 
     if (podValue && isGreater(convertToUnits(podValue), balance)) {
-      setPodErrorMsg(t(i18n)`Exceeds maximum balance`)
+      setPodErrorMsg('Exceeds maximum balance')
     } else if (podValue && isEqualTo(convertToUnits(podValue), 0)) {
-      setPodErrorMsg(t(i18n)`Insufficient Balance`)
+      setPodErrorMsg('Insufficient Balance')
     } else {
       setPodErrorMsg('')
     }
-  }, [balance, npmValue, podValue, unStakableAmount, isExit, i18n])
+  }, [balance, npmValue, podValue, unStakableAmount, isExit])
 
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(unStakableAmount).toString())
@@ -155,9 +148,9 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
   let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = t(i18n)`Calculating tokens...`
+    loadingMessage = 'Calculating tokens...'
   } else if (loadingAllowance) {
-    loadingMessage = t(i18n)`Fetching allowance...`
+    loadingMessage = 'Fetching allowance...'
   }
 
   const handleExit = (ev) => {
@@ -179,7 +172,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         {!isStakeDisabled && (
           <div className='flex flex-col mt-6'>
             <TokenAmountInput
-              labelText={<Trans>Enter {NPMTokenSymbol} Amount</Trans>}
+              labelText={<>Enter {NPMTokenSymbol} Amount</>}
               disabled={isExit}
               handleChooseMax={handleChooseNpmMax}
               inputValue={npmValue}
@@ -193,7 +186,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               {isGreater(myStake, '0') && (
                 <TokenAmountWithPrefix
                   amountInUnits={myStake}
-                  prefix={`${t(i18n)`Your Stake`}: `}
+                  prefix={`${'Your Stake'}: `}
                   symbol={NPMTokenSymbol}
                   decimals={NPMTokenDecimals}
                   data-testid='my-stake-prefix'
@@ -201,7 +194,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               )}
               <TokenAmountWithPrefix
                 amountInUnits={minStakeToAddLiquidity}
-                prefix={t(i18n)`Minimum Stake:` + ' '}
+                prefix={'Minimum Stake:' + ' '}
                 symbol={NPMTokenSymbol}
                 decimals={NPMTokenDecimals}
                 data-testid='minimum-stake-prefix'
@@ -217,7 +210,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
         <div className='mt-6'>
           <TokenAmountInput
-            labelText={<Trans>Enter your POD</Trans>}
+            labelText='Enter your POD'
             disabled={isExit}
             handleChooseMax={handleChoosePodMax}
             inputValue={podValue}
@@ -238,7 +231,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
         <div className='mt-6 modal-unlock'>
           <ReceiveAmountInput
-            labelText={<Trans>You will receive</Trans>}
+            labelText='You will receive'
             tokenSymbol={liquidityTokenSymbol}
             inputValue={formatAmount(
               convertFromUnits(
@@ -252,7 +245,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         </div>
 
         <h5 className='block mt-6 mb-1 font-semibold text-black uppercase text-md'>
-          <Trans>NEXT UNLOCK CYCLE</Trans>
+          NEXT UNLOCK CYCLE
         </h5>
 
         <div>
@@ -262,9 +255,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             data-testid='open-date'
           >
             <strong>
-              <Trans comment='Liquidity Withdrawal Period Open Date'>
-                Open:
-              </Trans>{' '}
+              Open:{' '}
             </strong>
             {DateLib.toLongDateFormat(withdrawalOpen, router.locale)}
           </span>
@@ -277,9 +268,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             data-testid='close-date'
           >
             <strong>
-              <Trans comment='Liquidity Withdrawal Period Closing Date'>
-                Close:
-              </Trans>{' '}
+              Close:{' '}
             </strong>
             {DateLib.toLongDateFormat(withdrawalClose, router.locale)}
           </span>
@@ -322,7 +311,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             }
               data-testid='approve-button'
             >
-              {approving ? t(i18n)`Approving...` : t`Approve`}
+              {approving ? 'Approving...' : 'Approve'}
             </RegularButton>
             )
           : (
@@ -345,7 +334,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             }
               data-testid='withdraw-button'
             >
-              {withdrawing ? t(i18n)`Withdrawing...` : t`Withdraw`}
+              {withdrawing ? 'Withdrawing...' : 'Withdraw'}
             </RegularButton>
             )}
       </div>

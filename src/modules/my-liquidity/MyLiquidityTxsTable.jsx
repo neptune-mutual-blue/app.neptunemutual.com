@@ -27,11 +27,6 @@ import { useSortData } from '@/src/hooks/useSortData'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
@@ -47,28 +42,27 @@ const renderActions = (row) => { return <ActionsRenderer row={row} /> }
  * Returns an array of column objects for the proposals table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
   return [
     {
       id: 'when',
-      name: t(i18n)`when`,
+      name: 'when',
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
       id: 'details',
-      name: t(i18n)`details`,
+      name: 'details',
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
       id: 'amount',
-      name: t(i18n)`amount`,
+      name: 'amount',
       align: 'right',
       renderHeader,
       renderData: renderAmount
@@ -97,9 +91,7 @@ export const MyLiquidityTxsTable = () => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
-  const { i18n } = useLingui()
-
-  const columns = getColumns(i18n, sorts, handleSort)
+  const columns = getColumns(sorts, handleSort)
 
   return (
     <>
@@ -118,7 +110,7 @@ export const MyLiquidityTxsTable = () => {
               <tbody data-testid='no-account-message'>
                 <tr className='w-full text-center first'>
                   <td className='p-6' colSpan={columns.length}>
-                    <Trans>Please connect your wallet</Trans>
+                    Please connect your wallet
                   </td>
                 </tr>
               </tbody>
@@ -190,14 +182,10 @@ const DetailsRenderer = ({ row }) => {
         <span className='text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'PodsIssued'
             ? (
-              <Trans>
-                Added {tokenAmountWithSymbol} to {projectName} Cover
-              </Trans>
+              <>Added {tokenAmountWithSymbol} to {projectName} Cover</>
               )
             : (
-              <Trans>
-                Removed {tokenAmountWithSymbol} from {projectName} Cover
-              </Trans>
+              <>Removed {tokenAmountWithSymbol} from {projectName} Cover</>
               )}
         </span>
       </div>
@@ -259,7 +247,7 @@ const ActionsRenderer = ({ row }) => {
         <Tooltip.Root>
           <Tooltip.Trigger className='p-1 mr-4 text-01052D'>
             <span className='sr-only'>
-              <Trans>Timestamp</Trans>
+              Timestamp
             </span>
             <ClockIcon className='w-4 h-4' />
           </Tooltip.Trigger>

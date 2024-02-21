@@ -43,7 +43,6 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getSpaceLink } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
 
 const VOTE_ESCROW_MIN_WEEKS = 1
 const VOTE_ESCROW_MAX_WEEKS = 208
@@ -162,9 +161,9 @@ const VoteEscrow = () => {
 
   let loadingMessage = ''
   if (loadingBalance) {
-    loadingMessage = <Trans>Fetching balance...</Trans>
+    loadingMessage = 'Fetching balance...'
   } else if (loadingAllowance) {
-    loadingMessage = <Trans>Fetching allowance...</Trans>
+    loadingMessage = 'Fetching allowance...'
   }
 
   const buttonDisabled = locking || !!loadingMessage || !(agreed && ((!extend && input) || extend))
@@ -213,7 +212,7 @@ const VoteEscrow = () => {
             target='_blank' href={submitUrl} rel='noreferrer'
             className='text-4E7DD9 text-sm font-semibold p-2.5  border-1 border-4E7DD9 flex-grow text-center justify-center md:justify-start md:text-left md:flex-grow-0 rounded-tooltip flex items-center gap-1'
           >
-            <Trans>Submit Your Vote</Trans> <ExternalLinkIcon />
+            Submit Your Vote <ExternalLinkIcon />
           </a>
         </div>
       </VoteEscrowCard>
@@ -317,8 +316,8 @@ const VoteEscrow = () => {
               >
                 {
                   approving
-                    ? <Trans>Approving...</Trans>
-                    : <><Trans>Approve</Trans> {NPMTokenSymbol}</>
+                    ? 'Approving...'
+                    : <>Approve {NPMTokenSymbol}</>
                 }
               </RegularButton>
             )}

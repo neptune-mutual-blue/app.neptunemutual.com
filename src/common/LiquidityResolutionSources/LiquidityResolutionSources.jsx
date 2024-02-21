@@ -19,7 +19,6 @@ import {
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { isGreater } from '@/utils/bn'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Trans } from '@lingui/macro'
 
 export const LiquidityResolutionSources = ({
   isDiversified,
@@ -78,7 +77,7 @@ export const LiquidityResolutionSources = ({
             className='mt-4 mr-2 text-sm tracking-wide uppercase text-4E7DD9 hover:underline disabled:hover:no-underline'
             onClick={accrueInterest}
           >
-            <Trans>Accrue</Trans>
+            Accrue
           </button>
         )}
 
@@ -87,7 +86,7 @@ export const LiquidityResolutionSources = ({
             className='mt-4 mr-2 text-sm tracking-wide uppercase text-4E7DD9 hover:underline disabled:hover:no-underline'
             onClick={updateWithdrawalWindow}
           >
-            <Trans>Update unlock cycle</Trans>
+            Update unlock cycle
           </button>
         )}
       </div>
@@ -95,7 +94,7 @@ export const LiquidityResolutionSources = ({
       <WithdrawLiquidityModal
         modalTitle={
           <ModalTitle imgSrc={isDiversified ? null : imgSrc}>
-            <Trans>Withdraw Liquidity</Trans>
+            Withdraw Liquidity
           </ModalTitle>
         }
         onClose={onClose}
@@ -114,7 +113,7 @@ const WithdrawLiquidityButton = ({ onOpen, myStake, podBalance }) => {
             className='!text-sm font-medium rounded-big'
             onClick={onOpen}
           >
-            <Trans>Withdraw Liquidity</Trans>
+            Withdraw Liquidity
           </OutlinedButton>
         </div>
       )}

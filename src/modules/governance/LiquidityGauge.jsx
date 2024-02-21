@@ -14,11 +14,13 @@ import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, toBNSafe } from '@/utils/bn'
+import {
+  convertFromUnits,
+  toBNSafe
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getAsOfDate } from '@/utils/snapshot'
-import { Trans } from '@lingui/macro'
 
 const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
   const [hoveredName, setHoveredName] = useState(null)
@@ -165,9 +167,9 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
         />
 
         <div className='absolute top-[50%] left-[50%] max-w-[150px] md:max-w-[unset] translate-x-[-50%] translate-y-[-50%] text-center'>
-          <div className='font-bold text-md md:text-display-sm'><Trans>Liquidity Gauge</Trans></div>
+          <div className='font-bold text-md md:text-display-sm'>Liquidity Gauge</div>
           <div className='text-sm font-medium md:text-md'>
-            <Trans>Epoch Emission:</Trans>{' '}
+            Epoch Emission:{' '}
             {formattedEmission.long}
           </div>
         </div>

@@ -36,11 +36,6 @@ import {
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
 import { formatPercent } from '@/utils/formatter/percent'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import { config } from '@neptunemutual/sdk'
 
 // data from subgraph
@@ -99,8 +94,6 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
     rewardTokenPrice: getPriceByAddress(info.rewardToken)
   })
 
-  const { i18n } = useLingui()
-
   // Used for sorting purpose only
   useEffect(() => {
     setStatsByKey(poolKey, { apr })
@@ -110,7 +103,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   if (hasStaked) {
     stats.push({
-      title: t(i18n)`Your Stake`,
+      title: 'Your Stake',
       value: formatCurrency(
         convertFromUnits(stakedAmount),
         router.locale,
@@ -125,7 +118,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       ).long
     })
     stats.push({
-      title: t(i18n)`You Earned`,
+      title: 'You Earned',
       value: formatCurrency(
         convertFromUnits(rewardAmount),
         router.locale,
@@ -142,13 +135,13 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   }
 
   stats.push({
-    title: t(i18n)`Lockup Period`,
+    title: 'Lockup Period',
     value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
   })
 
   stats.push(
     {
-      title: t(i18n)`TVL`,
+      title: 'TVL',
       value: formatCurrency(
         convertFromUnits(tvl, liquidityTokenDecimals),
         router.locale,
@@ -168,13 +161,13 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   const stakeModalTitle = (
     <ModalTitle imgSrc={rTokenImgSrc}>
-      <Trans>Stake {stakingTokenSymbol}</Trans>
+      Stake {stakingTokenSymbol}
     </ModalTitle>
   )
 
   const collectModalTitle = (
     <ModalTitle imgSrc={rTokenImgSrc}>
-      <Trans>Earn {rewardTokenSymbol}</Trans>
+      Earn {rewardTokenSymbol}
     </ModalTitle>
   )
 
@@ -187,12 +180,12 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
           />
         </div>
         <Badge className='text-21AD8C'>
-          <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
+          APR: {formatPercent(apr, router.locale)}
         </Badge>
       </div>
 
       <StakingCardTitle text={poolName} />
-      <StakingCardSubTitle text={t(i18n)`Stake ${stakingTokenName}`} />
+      <StakingCardSubTitle text={`Stake ${stakingTokenName}`} />
 
       <hr className='mt-4 mb-5 border-t border-B0C4DB' />
 
@@ -224,7 +217,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
                 onClick={onCollectModalOpen}
                 data-testid='collect-btn'
               >
-                <Trans>Collect</Trans>
+                Collect
               </StakingCardCTA>
             </div>
             )
@@ -233,7 +226,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
               className=''
               onClick={onStakeModalOpen}
             >
-              <Trans>Stake</Trans>
+              Stake
             </StakingCardCTA>
             )}
       </div>

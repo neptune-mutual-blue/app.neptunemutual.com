@@ -22,10 +22,8 @@ import {
   convertToUnits,
   toBN
 } from '@/utils/bn'
-import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingTokenDecimals, stakingTokenSymbol, amount, poolAddress }) => {
   const { notifyError } = useErrorNotifier()
@@ -50,8 +48,6 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingToken
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
 
-  const { i18n } = useLingui()
-
   const { getActionMessage } = useActionMessage()
 
   useEffect(() => {
@@ -65,7 +61,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingToken
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${stakingTokenSymbol}`)
+      notifyError(err, `Could not approve ${stakingTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -150,7 +146,7 @@ export const useLiquidityGaugePoolDeposit = ({ stakingTokenAddress, stakingToken
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not lock ${stakingTokenSymbol}`)
+      notifyError(err, `Could not lock ${stakingTokenSymbol}`)
     }
 
     try {

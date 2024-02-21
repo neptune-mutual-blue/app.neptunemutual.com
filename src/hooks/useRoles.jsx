@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react'
-import { t } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import { config, registry, utils, multicall } from '@neptunemutual/sdk'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { useLingui } from '@lingui/react'
+import {
+  config,
+  multicall,
+  registry,
+  utils
+} from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 export const useRoles = () => {
   const [roles, setRoles] = useState({
@@ -18,8 +25,6 @@ export const useRoles = () => {
   const { networkId } = useNetwork()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   useEffect(() => {
     let ignore = false
     if (!networkId || !account) {
@@ -30,7 +35,7 @@ export const useRoles = () => {
 
     async function exec () {
       const handleError = (err) => {
-        notifyError(err, t(i18n)`Could not get roles`)
+        notifyError(err, 'Could not get roles')
       }
 
       try {
@@ -94,7 +99,7 @@ export const useRoles = () => {
     return () => {
       ignore = true
     }
-  }, [account, library, networkId, notifyError, i18n])
+  }, [account, library, networkId, notifyError])
 
   return roles
 }

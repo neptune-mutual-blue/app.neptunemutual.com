@@ -17,7 +17,6 @@ import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
 import { wallets } from '@/lib/connect-wallet/config/wallets'
 import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
-import { Trans } from '@lingui/macro'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export const AccountDetailsModal = ({
@@ -48,7 +47,7 @@ export const AccountDetailsModal = ({
     >
       <ModalWrapper className='max-w-lg transition-all bg-F6F7F9'>
         <Dialog.Title className='font-bold leading-9 text-black text-display-sm'>
-          <Trans>Account</Trans>
+          Account
         </Dialog.Title>
 
         <button
@@ -63,7 +62,7 @@ export const AccountDetailsModal = ({
           <div className='flex flex-col-reverse items-center justify-between sm:flex-row'>
             <span className='flex items-center text-xs tracking-normal text-364253 whitespace-nowrap'>
               <span>
-                <Trans>Connected with</Trans> {wallet.name}
+                Connected with {wallet.name}
               </span>
               <span className='ml-2'>
                 <wallet.Icon width={12} height={12} />
@@ -73,7 +72,7 @@ export const AccountDetailsModal = ({
               onClick={handleDisconnect}
               className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4E7DD9 sm:mb-0 sm:ml-28 md:ml-0 text-xxs text-4E7DD9'
             >
-              <Trans>Disconnect</Trans>
+              Disconnect
             </button>
           </div>
 
@@ -94,7 +93,7 @@ export const AccountDetailsModal = ({
             >
               <OpenInNewIcon width={16} height={16} fill='#999BAB' />
               <span className='text-21AD8C text-xs tracking-normal ml-2.5'>
-                <Trans>View on Explorer</Trans>
+                View on Explorer
               </span>
             </a>
           </div>
@@ -103,7 +102,7 @@ export const AccountDetailsModal = ({
         <div className='flex flex-col w-full p-5 mt-8 border border-B0C4DB rounded-big'>
           <div className='flex items-center justify-between w-full'>
             <p className='text-md text-364253'>
-              <Trans>Unlimited Approvals</Trans>
+              Unlimited Approvals
             </p>
             <Toggle
               enabled={unlimitedApproval}
@@ -111,10 +110,10 @@ export const AccountDetailsModal = ({
             />
           </div>
           <p className='text-999BAB mt-3 text-xs tracking-normal leading-4.5'>
-            <Trans>
-              If you do not want to keep approving for each transaction, enable
-              this option.
-            </Trans>
+
+            If you do not want to keep approving for each transaction, enable
+            this option.
+
           </p>
         </div>
       </ModalWrapper>

@@ -1,14 +1,13 @@
 import { classNames } from '@/utils/classnames'
-import { Trans } from '@lingui/macro'
 
 export const HorizontalChartLegend = () => {
   return (
     <div className='flex justify-between mt-6 mb-8 md:justify-center md:space-x-6 md:flex-wrap md:mb-12'>
       <LegendItem variant='success'>
-        <Trans>Incident Occurred</Trans>
+        Incident Occurred
       </LegendItem>
       <LegendItem variant='error'>
-        <Trans>False Reporting</Trans>
+        False Reporting
       </LegendItem>
     </div>
   )

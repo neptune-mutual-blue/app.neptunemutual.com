@@ -1,6 +1,9 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { utils } from '@neptunemutual/sdk'
-import { useEffect, useState } from 'react'
-import { Trans } from '@lingui/macro'
 
 export const ReportingInfo = ({ ipfsHash }) => {
   const [data, setData] = useState(null)
@@ -23,7 +26,7 @@ export const ReportingInfo = ({ ipfsHash }) => {
   return (
     <details open>
       <summary>
-        <Trans>Reporting Info</Trans>
+        Reporting Info
       </summary>
       <pre
         className='p-4 overflow-x-auto bg-white rounded-md'

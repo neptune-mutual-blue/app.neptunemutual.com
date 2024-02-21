@@ -9,11 +9,6 @@ import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import SearchIcon from '@/icons/SearchIcon'
 import { classNames } from '@/utils/classnames'
 import { DEFAULT_SORT_OPTIONS } from '@/utils/sorting'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const SearchAndSortBar = ({
   containerClass = 'min-w-sm',
@@ -28,11 +23,9 @@ export const SearchAndSortBar = ({
   optionsProp = null,
   loading = false
 }) => {
-  const { i18n } = useLingui()
-
   const options = useMemo(() => {
-    return optionsProp ?? DEFAULT_SORT_OPTIONS(i18n)
-  }, [i18n, optionsProp])
+    return optionsProp ?? DEFAULT_SORT_OPTIONS()
+  }, [optionsProp])
 
   const [selected, setSelected] = useState(options[0])
 
@@ -68,7 +61,7 @@ export const SearchAndSortBar = ({
             'w-full pr-12 py-3 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none',
             inputClass, reportingResolved ? 'pl-12' : 'pl-4'
           )}
-          placeholder={t(i18n)`Search`}
+          placeholder='Search'
           value={searchValue}
           onChange={onSearchChange}
           data-testid='search-input'
@@ -82,7 +75,7 @@ export const SearchAndSortBar = ({
 
       <Select
         loading={loading}
-        prefix={<><Trans>Sort by:</Trans>{' '}</>}
+        prefix={<>Sort by:{' '}</>}
         options={options}
         selected={sortType ?? selected}
         setSelected={setSortType ?? setSelected}

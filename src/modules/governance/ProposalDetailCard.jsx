@@ -15,7 +15,6 @@ import {
   snapshotColors
 } from '@/utils/snapshot'
 import { getReplacedString } from '@/utils/string'
-import { Trans } from '@lingui/macro'
 
 export const ProposalDetailCard = ({
   proposalId,
@@ -39,7 +38,7 @@ export const ProposalDetailCard = ({
       <div className='flex flex-row gap-2'>
         <div className={`flex flex-row gap-1 ${state !== 'active' ? 'bg-[#EFF8FF] text-[#175CD3]' : 'bg-[#D92D20] text-white'} py-0.5 px-2 text-xs rounded-full font-medium items-center justify-center`}>
           {state !== 'active' && <CheckCircleIcon height={12} width={12} />}
-          {state !== 'active' ? <Trans>Complete</Trans> : <Trans>Live</Trans>}
+          {state !== 'active' ? 'Complete' : 'Live'}
         </div>
 
         {category && (
@@ -59,7 +58,7 @@ export const ProposalDetailCard = ({
         <div className='flex flex-col gap-4 sm:gap-8 sm:flex-row'>
           <div className='flex flex-col gap-1'>
             <h4 className='text-sm font-semibold text-999BAB'>
-              <Trans>Proposal</Trans>
+              Proposal
             </h4>
             <div className='flex flex-row gap-4'>
               <a
@@ -68,7 +67,7 @@ export const ProposalDetailCard = ({
                 target='_blank'
                 rel='noreferrer noopener nofollow'
               >
-                <Trans>Snapshot</Trans>
+                Snapshot
               </a>
               <a
                 className='underline text-4E7DD9 hover:no-underline'
@@ -76,14 +75,14 @@ export const ProposalDetailCard = ({
                 target='_blank'
                 rel='noreferrer noopener nofollow'
               >
-                <Trans>IPFS</Trans>
+                IPFS
               </a>
             </div>
           </div>
 
           <div className='flex flex-col gap-1'>
             <h4 className='text-sm font-semibold text-999BAB'>
-              <Trans>Start</Trans>
+              Start
             </h4>
             <InfoTooltip
               infoComponent={DateLib.toLongDateFormat(start, router.locale)}
@@ -96,7 +95,7 @@ export const ProposalDetailCard = ({
 
           <div className='flex flex-col gap-1'>
             <h4 className='text-sm font-semibold text-999BAB'>
-              <Trans>End</Trans>
+              End
             </h4>
             <InfoTooltip
               infoComponent={DateLib.toLongDateFormat(end, router.locale)}

@@ -26,11 +26,6 @@ import {
   sorter
 } from '@/utils/sorting'
 import { toStringSafe } from '@/utils/string'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -47,10 +42,8 @@ const sorterData = {
 }
 
 export const LiquidityGaugePoolsPage = () => {
-  const { i18n } = useLingui()
-
   const [sortType, setSortType] = useState({
-    name: t(i18n)`TVL`,
+    name: 'TVL',
     value: SORT_TYPES.TVL
   })
 
@@ -83,8 +76,8 @@ export const LiquidityGaugePoolsPage = () => {
   )
 
   const options = [
-    { name: t(i18n)`TVL`, value: SORT_TYPES.TVL },
-    { name: t(i18n)`Emissions`, value: SORT_TYPES.EMISSIONS }
+    { name: 'TVL', value: SORT_TYPES.TVL },
+    { name: 'Emissions', value: SORT_TYPES.EMISSIONS }
   ]
 
   return (
@@ -96,7 +89,7 @@ export const LiquidityGaugePoolsPage = () => {
             className='flex justify-start mb-6 text-lg font-medium md:mb-0 md:justify-center sm:inline-flex text-4E7DD9 hover:underline'
           >
 
-            <Trans>Transaction List</Trans>
+            Transaction List
 
           </Link>
           <SearchAndSortBar
@@ -134,8 +127,6 @@ function Content ({
   // hasMore,
   // handleShowMore
 }) {
-  const { i18n } = useLingui()
-
   if (data.length) {
     return (
       <LiquidityGaugePoolsList pools={data} />
@@ -151,7 +142,7 @@ function Content ({
             onClick={handleShowMore}
             data-testid='show-more-button'
           >
-            <Trans>Show More</Trans>
+            Show More
           </NeutralButton>
         )} */}
       </>
@@ -165,13 +156,13 @@ function Content ({
     >
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t(i18n)`No data found`}
+        alt='No data found'
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
-        <Trans>
-          No <span className='whitespace-nowrap'>liquidity gauge pools found.</span>
-        </Trans>
+
+        No <span className='whitespace-nowrap'>liquidity gauge pools found.</span>
+
       </p>
     </div>
   )

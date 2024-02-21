@@ -12,7 +12,6 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { getPolicyStatus } from '@/utils/policy-status'
-import { Trans } from '@lingui/macro'
 
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter()
@@ -33,22 +32,22 @@ export const CoverPurchaseDetailsPage = () => {
     if (isDiversified) {
       return [
         {
-          name: <Trans>Home</Trans>,
+          name: 'Home',
           href: '/',
           current: false
         },
         {
-          name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
+          name: coverOrProductData?.coverInfoDetails?.coverName || 'loading...',
           href: Routes.ViewCover(coverKey),
           current: true
         },
         {
-          name: coverOrProductData?.productInfoDetails?.productName || <Trans>loading...</Trans>,
+          name: coverOrProductData?.productInfoDetails?.productName || 'loading...',
           href: Routes.ViewProduct(coverKey, productKey),
           current: true
         },
         {
-          name: <Trans>Purchase Policy</Trans>,
+          name: 'Purchase Policy',
           current: true
         }
       ]
@@ -56,17 +55,17 @@ export const CoverPurchaseDetailsPage = () => {
 
     return [
       {
-        name: <Trans>Home</Trans>,
+        name: 'Home',
         href: '/',
         current: false
       },
       {
-        name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
+        name: coverOrProductData?.coverInfoDetails?.coverName || 'loading...',
         href: Routes.ViewCover(coverKey),
         current: true
       },
       {
-        name: <Trans>Purchase Policy</Trans>,
+        name: 'Purchase Policy',
         current: true
       }
     ]

@@ -38,10 +38,8 @@ import {
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useClaimPolicyInfo = ({
   value,
@@ -76,8 +74,6 @@ export const useClaimPolicyInfo = ({
   const { writeContract } = useTxPoster()
   const { requiresAuth } = useAuthValidation()
   const { notifyError } = useErrorNotifier()
-
-  const { i18n } = useLingui()
 
   const { getActionMessage } = useActionMessage()
 
@@ -127,7 +123,7 @@ export const useClaimPolicyInfo = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not approve ${tokenSymbol} tokens`)
+      notifyError(err, `Could not approve ${tokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -226,7 +222,7 @@ export const useClaimPolicyInfo = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not claim policy`)
+      notifyError(err, 'Could not claim policy')
     }
 
     try {
@@ -275,9 +271,9 @@ export const useClaimPolicyInfo = ({
         await txToast.push(
           tx,
           {
-            pending: t(i18n)`Claiming policy`,
-            success: t(i18n)`Claimed policy successfully`,
-            failure: t(i18n)`Could not claim policy`
+            pending: 'Claiming policy',
+            success: 'Claimed policy successfully',
+            failure: 'Could not claim policy'
           },
           {
             onTxSuccess: () => {
@@ -344,19 +340,19 @@ export const useClaimPolicyInfo = ({
     }
 
     if (!account) {
-      setError(t(i18n)`Please connect your wallet`)
+      setError('Please connect your wallet')
 
       return
     }
 
     if (!isValidNumber(value)) {
-      setError(t(i18n)`Invalid amount to claim`)
+      setError('Invalid amount to claim')
 
       return
     }
 
     if (isGreater(convertToUnits(value), balance || '0')) {
-      setError(t(i18n)`Insufficient Balance`)
+      setError('Insufficient Balance')
 
       return
     }
@@ -364,7 +360,7 @@ export const useClaimPolicyInfo = ({
     if (error) {
       setError('')
     }
-  }, [account, balance, error, value, i18n])
+  }, [account, balance, error, value])
 
   const canClaim =
     value &&

@@ -8,7 +8,6 @@ import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { MULTIPLIER } from '@/src/config/constants'
 import { isValidProduct } from '@/src/helpers/cover'
 import { toBN } from '@/utils/bn'
-import { Trans } from '@lingui/macro'
 
 import { ReportingInfo } from './ReportingInfo'
 
@@ -39,14 +38,14 @@ export const CoverReportingRules = ({
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className='mt-16'>
                   <h2 className='mb-6 font-bold text-display-sm'>
-                    <Trans>Active Reporting</Trans>
+                    Active Reporting
                   </h2>
 
                   {!hasActiveReportings && (
                     <p className='mb-10 text-lg text-8F949C'>
-                      <Trans>
-                        There are no known incidents of {projectOrProductName}.
-                      </Trans>
+
+                      There are no known incidents of {projectOrProductName}.
+
                     </p>
                   )}
 
@@ -61,17 +60,15 @@ export const CoverReportingRules = ({
                   )}
 
                   <Alert info closable>
-                    <Trans>
-                      If you just came to know about a recent incident of{' '}
-                      {projectOrProductName}, carefully read the cover rules
-                      above. You can earn flat{' '}
-                      {toBN(reporterCommission)
-                        .multipliedBy(100)
-                        .dividedBy(MULTIPLIER)
-                        .toString()}
-                      % of the minority fees if you are the first person to
-                      report this incident.
-                    </Trans>
+                    If you just came to know about a recent incident of{' '}
+                    {projectOrProductName}, carefully read the cover rules
+                    above. You can earn flat{' '}
+                    {toBN(reporterCommission)
+                      .multipliedBy(100)
+                      .dividedBy(MULTIPLIER)
+                      .toString()}
+                    % of the minority fees if you are the first person to
+                    report this incident.
                   </Alert>
                 </div>
               </AcceptReportRulesForm>
@@ -84,7 +81,7 @@ export const CoverReportingRules = ({
             {undefined}
             {/* <Link href="#">
               <a className="block mt-3 text-4E7DD9 hover:underline">
-                <Trans>Neptune Mutual Reporters</Trans>
+                Neptune Mutual Reporters
               </a>
             </Link> */}
           </CoverResolutionSources>

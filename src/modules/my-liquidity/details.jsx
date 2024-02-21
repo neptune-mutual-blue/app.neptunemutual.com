@@ -33,7 +33,6 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
 
 export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
@@ -72,7 +71,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
             data-testid='breadcrumbs'
             pages={[
               {
-                name: <Trans>My Liquidity</Trans>,
+                name: 'My Liquidity',
                 href: Routes.MyLiquidity,
                 current: false
               },
@@ -103,7 +102,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
                 )}
 
             {/* My Liquidity */}
-            <HeroStat title={<Trans>My Liquidity</Trans>} data-testid='herostat'>
+            <HeroStat title='My Liquidity' data-testid='herostat'>
               {
                 formatCurrency(
                   convertFromUnits(myLiquidity, liquidityTokenDecimals),

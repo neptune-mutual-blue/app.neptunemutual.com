@@ -9,9 +9,7 @@ import { useFetch } from '@/src/hooks/useFetch'
 import {
   validateReferralCode
 } from '@/src/services/api/policy/validate-referral-code'
-import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
-import { useLingui } from '@lingui/react'
 
 /**
  *
@@ -40,8 +38,6 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
   const fetchValidateReferralCode = useFetch('fetchValidateReferralCode')
   const debouncedValue = useDebounce(referralCode, DEBOUNCE_TIMEOUT)
 
-  const { i18n } = useLingui()
-
   useEffect(() => {
     (async () => {
       const trimmedValue = debouncedValue.trim()
@@ -57,7 +53,7 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
 
       // if there's a value we check it
       if (!isValidReferralCode(trimmedValue)) {
-        setErrorMessage(t(i18n)`Incorrect Cashback Code`)
+        setErrorMessage('Incorrect Cashback Code')
         setIsValid(false)
         setIsReferralCodeCheckPending(false)
 
@@ -75,9 +71,9 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
         setIsValid(isValidCode)
       }
 
-      setErrorMessage(isValidCode ? '' : t(i18n)`Invalid Cashback Code`)
+      setErrorMessage(isValidCode ? '' : 'Invalid Cashback Code')
     })()
-  }, [debouncedValue, fetchValidateReferralCode, setIsReferralCodeCheckPending, i18n])
+  }, [debouncedValue, fetchValidateReferralCode, setIsReferralCodeCheckPending])
 
   return { isValid, errorMessage }
 }

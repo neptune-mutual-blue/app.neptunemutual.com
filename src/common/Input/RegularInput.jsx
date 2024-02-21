@@ -1,13 +1,10 @@
 import { forwardRef } from 'react'
 
 import { classNames } from '@/utils/classnames'
-import { useLingui } from '@lingui/react'
 
 /** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error?:boolean}>} */
 export const RegularInput = forwardRef(
   ({ className, error = false, ...inputProps }, ref) => {
-    useLingui()
-
     return (
       <input
         ref={ref}

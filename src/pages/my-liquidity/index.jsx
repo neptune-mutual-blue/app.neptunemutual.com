@@ -15,7 +15,6 @@ import {
 import { useMyLiquidities } from '@/src/hooks/useMyLiquidities'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 /* istanbul ignore next */
@@ -42,7 +41,7 @@ export default function MyLiquidity ({ disabled }) {
   }
 
   const myTotalLiquidity = loading
-    ? <Trans>loading...</Trans>
+    ? 'loading...'
     : `${
         formatCurrency(
           convertFromUnits(totalLiquidityProvided, liquidityTokenDecimals),
@@ -57,11 +56,9 @@ export default function MyLiquidity ({ disabled }) {
 
       <Hero>
         <Container className='flex flex-wrap px-2 py-32 min-h-[312px]'>
-          <HeroTitle>
-            <Trans>My Liquidity</Trans>
-          </HeroTitle>
+          <HeroTitle>My Liquidity</HeroTitle>
           {account && (
-            <HeroStat title={<Trans>My Total Liquidity</Trans>}>
+            <HeroStat title='My Total Liquidity'>
               {myTotalLiquidity}
             </HeroStat>
           )}

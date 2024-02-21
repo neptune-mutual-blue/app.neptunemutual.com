@@ -25,11 +25,6 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { fromNow } from '@/utils/formatter/relative-time'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 import { useWeb3React } from '@web3-react/core'
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
@@ -41,30 +36,29 @@ const renderActions = (row) => { return <ActionsRenderer row={row} /> }
  * Returns an array of column objects for the table.
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
- * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
  * @param {Object} sorts - An object representing the current sort settings.
  * @param {Function} handleSort - A function to handle sorting events.
  * @returns {Array<{id: string, name: string, align: string, renderHeader: Function, renderData: (row: any, extraData: any, index: number) => React.JSX.Element}>} An array of column objects.
  */
-export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
+export const getColumns = (sorts = {}, handleSort = () => {}) => {
   return [
     {
       id: 'when',
-      name: t(i18n)`when`,
+      name: 'when',
       align: 'left',
       renderHeader: (col) => { return renderHeader(col, 'timestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
       id: 'details',
-      name: t(i18n)`details`,
+      name: 'details',
       align: 'left',
       renderHeader,
       renderData: renderDetails
     },
     {
       id: 'amount',
-      name: t(i18n)`amount`,
+      name: 'amount',
       align: 'right',
       renderHeader,
       renderData: renderAmount
@@ -98,9 +92,7 @@ export const MyTransactionsTable = () => {
 
   const { sorts, handleSort, sortedData } = useSortData({ data: listOfTransactions })
 
-  const { i18n } = useLingui()
-
-  const columns = getColumns(i18n, sorts, handleSort)
+  const columns = getColumns(sorts, handleSort)
 
   useEffect(() => {
     if (!networkId || !account) {
@@ -164,7 +156,7 @@ export const MyTransactionsTable = () => {
               <tbody data-testid='connect-wallet-tbody'>
                 <tr className='w-full text-center'>
                   <td className='p-6' colSpan={columns.length}>
-                    <Trans>Please connect your wallet...</Trans>
+                    Please connect your wallet...
                   </td>
                 </tr>
               </tbody>

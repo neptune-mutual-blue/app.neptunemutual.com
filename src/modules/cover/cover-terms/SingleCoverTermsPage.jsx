@@ -11,11 +11,6 @@ import { CoverTerms } from '@/modules/cover/cover-terms/CoverTerms'
 import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 import { Routes } from '@/src/config/routes'
 import { isValidProduct } from '@/src/helpers/cover'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
   useEffect(() => {
@@ -26,8 +21,6 @@ export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
       window.close()
     }, 500)
   }, [coverOrProductData])
-
-  const { i18n } = useLingui()
 
   if (loading) {
     return (
@@ -56,7 +49,7 @@ export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
         <picture>
           <img
             loading='lazy'
-            alt={t(i18n)`Neptune Mutual`}
+            alt='Neptune Mutual'
             srcSet='/logos/neptune-mutual-full-beta.svg'
             className='w-full text-black h-9'
             data-testid='header-logo'
@@ -68,7 +61,7 @@ export const SingleCoverTermsPage = ({ loading, coverOrProductData }) => {
       <Divider className='border !border-black' />
 
       <p className='mt-3 text-lg font-semibold font-arial text-000000'>
-        <Trans>As of: {effectiveDate}</Trans>
+        As of: {effectiveDate}
       </p>
 
       <CoverTerms

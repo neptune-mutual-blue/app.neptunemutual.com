@@ -8,9 +8,7 @@ import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import {
   getLgpTransactions
 } from '@/src/services/api/liquidity-gauge-pools/transactions'
-import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useLiquidityGaugePoolTxs = () => {
   const { networkId } = useNetwork()
@@ -18,8 +16,6 @@ export const useLiquidityGaugePoolTxs = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const { notifyError } = useErrorNotifier()
-
-  const { i18n } = useLingui()
 
   useEffect(() => {
     async function exec () {
@@ -36,7 +32,7 @@ export const useLiquidityGaugePoolTxs = () => {
 
         setData(_data)
       } catch (err) {
-        notifyError(err, t(i18n)`Could not get liquidity gauge pool transactions list`)
+        notifyError(err, 'Could not get liquidity gauge pool transactions list')
       }
     }
 
@@ -44,7 +40,7 @@ export const useLiquidityGaugePoolTxs = () => {
     exec()
       .then(() => { return setLoading(false) })
       .catch(() => { return setLoading(false) })
-  }, [notifyError, networkId, account, i18n])
+  }, [notifyError, networkId, account])
 
   return {
     data,

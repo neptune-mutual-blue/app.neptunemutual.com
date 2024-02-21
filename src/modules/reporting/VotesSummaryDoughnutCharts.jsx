@@ -4,19 +4,15 @@ import { PercentDoughnutChart } from '@/common/PercentDoughnutChart'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { classNames } from '@/utils/classnames'
 import { formatPercent } from '@/utils/formatter/percent'
-import { t } from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
   const router = useRouter()
-
-  const { i18n } = useLingui()
 
   const yesData = {
     // labels: ["Red", "Blue"],
     datasets: [
       {
-        label: t(i18n)`# of Votes`,
+        label: '# of Votes',
         data: [noPercent, yesPercent],
         backgroundColor: ['#DEEAF6', '#0FB88F'],
         borderColor: ['#DEEAF6', '#0FB88F'],
@@ -28,7 +24,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
     // labels: ["Red", "Blue"],
     datasets: [
       {
-        label: t(i18n)`# of Votes`,
+        label: '# of Votes',
         data: [noPercent, yesPercent],
         backgroundColor: ['#FA5C2F', '#DEEAF6'],
         borderColor: ['#FA5C2F', '#DEEAF6'],
@@ -45,7 +41,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
       >
         <div className='relative max-w-fit'>
           <DoughnutChartInsight
-            title={t(i18n)`Incident Occurred`}
+            title='Incident Occurred'
             percent={formatPercent(yesPercent, router.locale)}
             amountStaked={votes.yes}
             variant='success'
@@ -55,7 +51,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 
         <div className='relative max-w-fit'>
           <DoughnutChartInsight
-            title={t(i18n)`False Reporting`}
+            title='False Reporting'
             percent={formatPercent(noPercent, router.locale)}
             amountStaked={votes.no}
             variant='error'

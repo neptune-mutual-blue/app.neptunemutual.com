@@ -5,11 +5,6 @@ import { CoverDropdown } from '@/common/CoverDropdown'
 import { Routes } from '@/src/config/routes'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
-import {
-  t,
-  Trans
-} from '@lingui/macro'
-import { useLingui } from '@lingui/react'
 
 export const PoliciesEmptyState = () => {
   const router = useRouter()
@@ -32,8 +27,6 @@ export const PoliciesEmptyState = () => {
     )
   }
 
-  const { i18n } = useLingui()
-
   return (
     <div>
       <div
@@ -42,15 +35,15 @@ export const PoliciesEmptyState = () => {
       >
         <img
           src='/images/covers/empty-list-illustration.svg'
-          alt={t(i18n)`No data found`}
+          alt='No data found'
           className='w-48 h-48'
         />
         <p className='max-w-full mt-8 text-center text-md text-404040 w-96'>
-          <Trans>
-            A cover policy enables you to claim and receive payout when an
-            incident occurs. To purchase a policy, select a cover from the home
-            screen.
-          </Trans>
+
+          A cover policy enables you to claim and receive payout when an
+          incident occurs. To purchase a policy, select a cover from the home
+          screen.
+
         </p>
       </div>
 
@@ -66,7 +59,7 @@ export const PoliciesEmptyState = () => {
           className='mt-8 py-2.5 px-4 font-medium rounded-lg uppercase w-full bg-primary'
           onClick={handleClick}
         >
-          <Trans>Purchase Policy</Trans>
+          Purchase Policy
         </RegularButton>
       </div>
     </div>

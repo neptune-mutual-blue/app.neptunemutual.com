@@ -1,12 +1,18 @@
-import { useCallback, useEffect, useState } from 'react'
-import { t } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
+import {
+  ADDRESS_ONE,
+  POOL_INFO_URL,
+  PoolTypes
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { ADDRESS_ONE, PoolTypes, POOL_INFO_URL } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
-import { useLingui } from '@lingui/react'
+import { useWeb3React } from '@web3-react/core'
 
 export const defaultInfo = {
   // From store
@@ -40,15 +46,13 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
   const { networkId } = useNetwork()
   const { notifyError } = useErrorNotifier()
 
-  const { i18n } = useLingui()
-
   const fetchPoolInfo = useCallback(async () => {
     if (!networkId || !key) {
       return
     }
 
     const handleError = (err) => {
-      notifyError(err, t(i18n)`Could not get pool info`)
+      notifyError(err, 'Could not get pool info')
     }
 
     try {
@@ -74,7 +78,7 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     } catch (err) {
       handleError(err)
     }
-  }, [account, key, networkId, notifyError, type, i18n])
+  }, [account, key, networkId, notifyError, type])
 
   useEffect(() => {
     let ignore = false
