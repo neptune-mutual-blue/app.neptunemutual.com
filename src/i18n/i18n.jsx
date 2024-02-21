@@ -16,18 +16,14 @@ const DefaultI18n = ({ children }) => {
 
 export function LanguageProvider ({ children }) {
   const locale = useActiveLocale()
-  const [loaded, setLoaded] = useState(false)
   const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
+    /* eslint-disable-next-line */
     let ignore = false
 
     dynamicActivate(locale)
-      .then(() => {
-        /* istanbul ignore next */
-        if (ignore) { return }
-        setLoaded(true)
-      })
+      .then(() => {})
       .catch((error) => { return console.error('Failed to activate locale', locale, error) })
 
     return () => {
@@ -58,11 +54,6 @@ export function LanguageProvider ({ children }) {
       console.log('Could not fetch locale')
     }
 
-    return null
-  }
-
-  if (!loaded) {
-    // prevent the app from rendering with placeholder text before the locale is loaded
     return null
   }
 

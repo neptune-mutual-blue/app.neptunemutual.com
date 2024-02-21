@@ -37,7 +37,7 @@ export const useVoteEscrowData = () => {
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      const instance = utils.contract.getContract(ChainConfig[networkId].veNPM.address, abis.IVoteEscrowToken, signerOrProvider)
+      const instance = utils.contract.getContract(ChainConfig[networkId || 1].veNPM.address, abis.IVoteEscrowToken, signerOrProvider)
 
       const unlockTimestamp = await contractRead({
         instance,

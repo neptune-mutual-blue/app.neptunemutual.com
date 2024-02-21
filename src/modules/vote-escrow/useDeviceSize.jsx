@@ -5,7 +5,11 @@ import {
 } from 'react'
 
 export const useDeviceSize = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 475)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 475)
+  }, [])
 
   // choose the screen size
   const handleResize = useCallback(() => {

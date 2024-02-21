@@ -5,14 +5,13 @@ import React, {
 
 import Router from 'next/router'
 
-import {
-  CookiePolicy,
-  getLSAcceptedCookie
-} from '@/common/CookiePolicy'
+import { CookiePolicy } from '@/common/CookiePolicy'
 import { Footer } from '@/common/Footer/Footer'
 import { Header } from '@/common/Header/Header'
 import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
 import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import { LocalStorage } from '@/utils/localstorage'
 
 export const PageLoader = () => {
   const [showLoader, setShowLoader] = useState(false)
@@ -44,7 +43,7 @@ export const PageLoader = () => {
 }
 
 export const MainLayout = ({ children }) => {
-  const [isCookieOpen, setIsCookieOpen] = useState(() => { return getLSAcceptedCookie() === undefined })
+  const [isCookieOpen, setIsCookieOpen] = useLocalStorage(LocalStorage.KEYS.COOKIE_POLICY, true)
 
   return (
     <>

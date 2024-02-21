@@ -1,4 +1,7 @@
-import React, { useEffect } from 'react'
+import React, {
+  useEffect,
+  useState
+} from 'react'
 
 import { ChainColorsRGB } from '@/lib/connect-wallet/config/chains'
 import { useEagerConnect } from '@/lib/connect-wallet/hooks/useEagerConnect'
@@ -19,7 +22,12 @@ export function useNetwork () {
 }
 
 export const NetworkProvider = ({ children }) => {
-  const networkId = getNetworkId()
+  // const networkId = getNetworkId()
+  const [networkId, setNetworkId] = useState(null)
+
+  useEffect(() => {
+    setNetworkId(getNetworkId())
+  }, [])
 
   useEffect(() => {
     document.documentElement.style.setProperty(

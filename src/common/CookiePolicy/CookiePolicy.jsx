@@ -3,27 +3,11 @@ import React from 'react'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { useCookies } from '@/src/context/Cookie'
-import { LocalStorage } from '@/utils/localstorage'
 import {
   Dialog,
   Transition
 } from '@headlessui/react'
 import { Trans } from '@lingui/macro'
-
-/**
- * @returns {boolean}
- */
-export const getLSAcceptedCookie = () => {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  const value = window.localStorage.getItem(LocalStorage.KEYS.COOKIE_POLICY)
-
-  if (typeof value === 'string') {
-    return JSON.parse(value)
-  }
-}
 
 export function CookiePolicy ({ isOpen, onClose }) {
   const { setAccepted } = useCookies()
