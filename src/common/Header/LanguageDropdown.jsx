@@ -4,8 +4,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import ChevronDownArrowIcon from '@/icons/ChevronDownArrowIcon'
 import SearchLanguageIcon from '@/icons/SearchLanguageIcon'
 import SelectedCircleIcon from '@/icons/SelectedCircleIcon'
@@ -16,18 +14,17 @@ import {
   localesKey
 } from '@/src/config/locales'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import { parseLocale } from '@/src/i18n/utils'
 import { classNames } from '@/utils/classnames'
-import { getBrowserLocale } from '@/utils/locale'
 import {
   Listbox,
   Transition
 } from '@headlessui/react'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useLanguageContext } from '@/src/i18n/i18n'
 
 const LANGUAGES = Object.values(languageKey)
-const LANGUAGE_KEYS = Object.keys(languageKey)
 
 /**
  * @param {object} props
@@ -35,59 +32,38 @@ const LANGUAGE_KEYS = Object.keys(languageKey)
  * @returns
  */
 export const LanguageDropdown = (props) => {
-  const router = useRouter()
+  const { i18n } = useLingui()
+
   const [searchValue, setSearchValue] = useState('')
 
-  const [language, setLanguage] = useLocalStorage('locale', null)
+  const { locale, setLocale } = useLanguageContext()
 
-  useEffect(() => {
-    const browserLocale = getBrowserLocale().replace(/-.*/, '')
-    if (
-      !language &&
-      LANGUAGE_KEYS.includes(browserLocale) &&
-      router.locale !== browserLocale
-    ) {
-      router.push(router.asPath, router.asPath, { locale: browserLocale })
-
-      return
-    }
-
-    if (LANGUAGE_KEYS.includes(language) && router.locale !== language) {
-      router.push(router.asPath, router.asPath, { locale: language })
-    }
-  }, [language, router])
-
-  const [languages, setLanguages] = useState(LANGUAGES)
+  const [languagesToShow, setLanguagesToShow] = useState(LANGUAGES)
   const debouncedSearch = useDebounce(searchValue, DEBOUNCE_TIMEOUT)
 
   useEffect(() => {
     if (!debouncedSearch) {
-      setLanguages(LANGUAGES)
+      setLanguagesToShow(LANGUAGES)
 
       return
     }
     const searchedLanguages = LANGUAGES.filter((el) => { return el.toLowerCase().includes(debouncedSearch.toLowerCase()) }
     )
-    setLanguages(searchedLanguages)
+    setLanguagesToShow(searchedLanguages)
   }, [debouncedSearch])
 
   const handleOnChangeLanguage = (value) => {
-    setLanguage(localesKey[value])
-    router.push(router.asPath, router.asPath, {
-      locale: localesKey[value]
-    })
+    setLocale(parseLocale(localesKey[value]))
   }
 
   const handleSearchLanguage = (e) => {
     setSearchValue(e.target.value)
   }
 
-  const { i18n } = useLingui()
-
   return (
     <div className='relative flex items-center mt-3 cursor-pointer'>
       <Listbox
-        value={languageKey[router.locale]}
+        value={languageKey[locale]}
         onChange={handleOnChangeLanguage}
       >
         {
@@ -102,7 +78,7 @@ export const LanguageDropdown = (props) => {
                   <div className='flex items-center gap-1 text-xs text-white'>
                     <GlobeLogo />
                     <span>
-                      {languageKey[router.locale]?.split('-')[0]}
+                      {languageKey[locale]?.split('-')[0]}
                     </span>
                     <ChevronDownArrowIcon aria-hidden='true' />
                   </div>
@@ -128,7 +104,7 @@ export const LanguageDropdown = (props) => {
                       />
                     </div>
                     <div className='overflow-y-auto max-h-64'>
-                      {languages.map((lang, i) => {
+                      {languagesToShow.map((lang, i) => {
                         return (
                           <Listbox.Option key={i} value={lang}>
                             {({ selected, active }) => {

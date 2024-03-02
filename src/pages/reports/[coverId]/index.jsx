@@ -10,6 +10,10 @@ export default function Index () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
+  // Huobi / Neptune Mutual Decentralized Insurance
+
+  // Get insurance for Huobi or become an underwriter. Get reward for reporting incident.
+
   return (
     <>
       <Seo />

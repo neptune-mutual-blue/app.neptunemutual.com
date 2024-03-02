@@ -3,27 +3,11 @@ import React from 'react'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { useCookies } from '@/src/context/Cookie'
-import { LocalStorage } from '@/utils/localstorage'
 import {
   Dialog,
   Transition
 } from '@headlessui/react'
 import { Trans } from '@lingui/macro'
-
-/**
- * @returns {boolean}
- */
-export const getLSAcceptedCookie = () => {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  const value = window.localStorage.getItem(LocalStorage.KEYS.COOKIE_POLICY)
-
-  if (typeof value === 'string') {
-    return JSON.parse(value)
-  }
-}
 
 export function CookiePolicy ({ isOpen, onClose }) {
   const { setAccepted } = useCookies()
@@ -68,7 +52,7 @@ export function CookiePolicy ({ isOpen, onClose }) {
               </p>
               <div className='flex w-full text-sm whitespace-nowrap md:w-auto'>
                 <OutlinedButton
-                  className='flex-grow px-6 py-4 mr-4 tracking-wide uppercase font-medium bg-opacity-50 border border-solid text-primary md:py-2 rounded-1 min-w-60 md:mr-2 hover:bg-opacity-10 hover:bg-primary'
+                  className='flex-grow px-6 py-4 mr-4 font-medium tracking-wide uppercase bg-opacity-50 border border-solid text-primary md:py-2 rounded-1 min-w-60 md:mr-2 hover:bg-opacity-10 hover:bg-primary'
                   onClick={handleDecline}
                 >
                   <Trans>Decline</Trans>

@@ -1,4 +1,4 @@
-import {
+import React, {
   useCallback,
   useEffect,
   useState
@@ -9,13 +9,31 @@ import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
 
 import { useActiveLocale } from '../hooks/useActiveLocale'
+import { DEFAULT_LOCALE } from '@/src/config/locales'
 
 const DefaultI18n = ({ children }) => {
   return <span>{children}</span>
 }
 
+/**
+ * @type {React.Context<{ locale: string, setLocale: React.Dispatch<React.SetStateAction<string>> }>} LanguageContext
+ */
+const LanguageContext = React.createContext({
+  locale: DEFAULT_LOCALE,
+  setLocale: () => {}
+})
+
+export const useLanguageContext = () => {
+  const context = React.useContext(LanguageContext)
+  if (context === undefined) {
+    throw new Error('useLanguageContext must be used within a LanguageProvider')
+  }
+
+  return context
+}
+
 export function LanguageProvider ({ children }) {
-  const locale = useActiveLocale()
+  const { locale, setLocale } = useActiveLocale()
   const [loaded, setLoaded] = useState(false)
   const [refresh, setRefresh] = useState(false)
 
@@ -52,6 +70,10 @@ export function LanguageProvider ({ children }) {
     console.log('Locale %s loaded.', i18n.locale)
   }, [])
 
+  const memoizedValue = React.useMemo(() => {
+    return { locale, setLocale }
+  }, [locale, setLocale])
+
   if (!i18n.locale) {
     // only log in browser
     if (typeof window !== 'undefined') {
@@ -66,5 +88,9 @@ export function LanguageProvider ({ children }) {
     return null
   }
 
-  return <I18nProvider i18n={i18n} defaultComponent={DefaultI18n}>{children}</I18nProvider>
+  return (
+    <LanguageContext.Provider value={memoizedValue}>
+      <I18nProvider i18n={i18n} defaultComponent={DefaultI18n}>{children}</I18nProvider>
+    </LanguageContext.Provider>
+  )
 }
