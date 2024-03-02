@@ -37,7 +37,9 @@ export class LocalStorage {
    * @param {any} value
    */
   static set (key, value) {
-    localStorage.setItem(key, toString(value))
+    try {
+      localStorage.setItem(key, toString(value))
+    } catch {}
   }
 
   /**
@@ -47,8 +49,10 @@ export class LocalStorage {
    * @param {any} defaultValue
    */
   static get (key, callback, defaultValue) {
-    const value = localStorage.getItem(key)
+    let value = ''
     try {
+      value = localStorage.getItem(key)
+
       return callback(value)
     } catch (e) {
       LocalStorage.set(key, defaultValue)
