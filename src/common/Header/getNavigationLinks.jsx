@@ -9,18 +9,18 @@ import { t } from '@lingui/macro'
  * @param {import('@lingui/core').I18n} i18n
  * @returns
  */
-const getNavigationLinks = (pathname, i18n) => {
-  const policyEnabled = isFeatureEnabled('policy')
-  const liquidityEnabled = isFeatureEnabled('liquidity')
-  const reportingEnabled = isFeatureEnabled('reporting')
-  const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
-  const governanceEnabled = isFeatureEnabled('governance')
+const getNavigationLinks = (pathname, i18n, networkId) => {
+  const policyEnabled = isFeatureEnabled('policy', networkId)
+  const liquidityEnabled = isFeatureEnabled('liquidity', networkId)
+  const reportingEnabled = isFeatureEnabled('reporting', networkId)
+  const voteEscrowEnabled = isFeatureEnabled('vote-escrow', networkId)
+  const governanceEnabled = isFeatureEnabled('governance', networkId)
 
-  const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
-  const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
+  const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer', networkId)
+  const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero', networkId)
   const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
 
-  const poolLink = Routes.Pools()
+  const poolLink = Routes.Pools(networkId)
 
   const actions = getActions(i18n)
 
@@ -105,9 +105,9 @@ const getNavigationLinks = (pathname, i18n) => {
   return links
 }
 
-const getFlattenedNavLinks = (i18n) => {
+const getFlattenedNavLinks = (i18n, networkId) => {
   const _links = []
-  const links = getNavigationLinks('', i18n)
+  const links = getNavigationLinks('', i18n, networkId)
   links.map((link) => {
     if (link.href) { _links.push(link) }
     if (link.items) { link.items.map(item => { return _links.push(item) }) }

@@ -1,21 +1,15 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { useNetwork } from '@/src/context/Network'
 import {
   PoliciesExpiredPage
 } from '@/src/modules/my-policies/expired/PoliciesExpiredPage'
 import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('policy')
-    }
-  }
-}
-
-export default function MyPoliciesExpired ({ disabled }) {
+export default function MyPoliciesExpired () {
+  const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('policy', networkId)
   if (disabled) {
     return <ComingSoon />
   }

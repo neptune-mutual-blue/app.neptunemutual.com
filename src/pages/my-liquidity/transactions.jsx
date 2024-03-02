@@ -6,21 +6,16 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import {
   MyLiquidityTxsTable
 } from '@/src/modules/my-liquidity/MyLiquidityTxsTable'
 import { Trans } from '@lingui/macro'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('liquidity')
-    }
-  }
-}
+export default function MyLiquidityTxs () {
+  const { networkId } = useNetwork()
 
-export default function MyLiquidityTxs ({ disabled }) {
+  const disabled = isFeatureEnabled('liquidity', networkId)
   if (disabled) {
     return <ComingSoon />
   }

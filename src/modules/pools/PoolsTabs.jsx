@@ -11,33 +11,37 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
-const headers = [
-  isFeatureEnabled('liquidity-gauge-pools') && {
-    name: 'liquidity-gauge-pools',
-    href: Routes.LiquidityGaugePools,
-    displayAs: <Trans>Liquidity Gauge Pools</Trans>
-  },
-  isFeatureEnabled('bond') && {
-    name: 'bond',
-    href: Routes.BondPool,
-    displayAs: <Trans>Bond</Trans>
-  },
-  isFeatureEnabled('staking-pool') && {
-    name: 'staking',
-    href: Routes.StakingPools,
-    displayAs: <Trans>Staking</Trans>
-  },
-  isFeatureEnabled('pod-staking-pool') && {
-    name: 'pod-staking',
-    href: Routes.PodStakingPools,
-    displayAs: <Trans>POD Staking</Trans>
-  }
-].filter(Boolean)
+const getHeaders = (networkId) => {
+  return [
+    isFeatureEnabled('liquidity-gauge-pools', networkId) && {
+      name: 'liquidity-gauge-pools',
+      href: Routes.LiquidityGaugePools,
+      displayAs: <Trans>Liquidity Gauge Pools</Trans>
+    },
+    isFeatureEnabled('bond', networkId) && {
+      name: 'bond',
+      href: Routes.BondPool,
+      displayAs: <Trans>Bond</Trans>
+    },
+    isFeatureEnabled('staking-pool', networkId) && {
+      name: 'staking',
+      href: Routes.StakingPools,
+      displayAs: <Trans>Staking</Trans>
+    },
+    isFeatureEnabled('pod-staking-pool', networkId) && {
+      name: 'pod-staking',
+      href: Routes.PodStakingPools,
+      displayAs: <Trans>POD Staking</Trans>
+    }
+  ].filter(Boolean)
+}
 
 export const PoolsTabs = ({ active, children }) => {
   const { poolsTvl: tvl, liquidityTokenDecimals } = useAppConstants()
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   return (
     <>
@@ -58,7 +62,7 @@ export const PoolsTabs = ({ active, children }) => {
           </HeroStat>
         </Container>
 
-        <TabNav headers={headers} activeTab={active} />
+        <TabNav headers={getHeaders(networkId)} activeTab={active} />
       </Hero>
 
       {children}

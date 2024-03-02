@@ -65,6 +65,8 @@ export const Header = () => {
 
   const [container, setContainer] = useState(null)
 
+  const { i18n } = useLingui()
+
   useEffect(() => {
     TransactionHistory.on(() => {
       setUnread(() => {
@@ -93,9 +95,7 @@ export const Header = () => {
     setIsOpen(false)
   }
 
-  const { i18n } = useLingui()
-
-  const navigation = getNavigationLinks(router.pathname, i18n)
+  const navigation = getNavigationLinks(router.pathname, i18n, networkId)
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => { return !prev })
@@ -282,7 +282,7 @@ export const Header = () => {
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}
-          navigation={getFlattenedNavLinks(i18n)}
+          navigation={getFlattenedNavLinks(i18n, networkId)}
           network={<Network closeMenu={onClose} />}
           networkId={networkId}
           notifier={notifier}

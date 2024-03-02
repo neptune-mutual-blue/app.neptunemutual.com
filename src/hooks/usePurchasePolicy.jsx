@@ -341,7 +341,7 @@ export const usePurchasePolicy = ({
                 .then((receipt) => { return delay(receipt) })
                 .then(async (receipt) => {
                   if (receipt) {
-                    storePurchaseEvent(receipt)
+                    storePurchaseEvent(receipt, networkId)
                     setTxHash(receipt.transactionHash)
                   }
                 })

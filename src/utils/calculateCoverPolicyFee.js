@@ -4,7 +4,6 @@ import { config, registry, utils, multicall } from '@neptunemutual/sdk'
 import { convertToUnits } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import DateLib from '@/lib/date/DateLib'
-import { getNetworkId } from '@/src/config/environment'
 
 export const defaultInfo = {
   fee: '0',
@@ -17,6 +16,7 @@ export const defaultInfo = {
 }
 
 export const calculateCoverPolicyFee = async ({
+  networkId,
   value,
   coverMonth,
   coverKey,
@@ -25,7 +25,6 @@ export const calculateCoverPolicyFee = async ({
   account,
   liquidityTokenDecimals
 }) => {
-  const networkId = getNetworkId()
   const signerOrProvider = await getProviderOrSigner(library, account, networkId)
 
   let returnData = defaultInfo

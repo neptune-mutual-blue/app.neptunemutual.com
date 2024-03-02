@@ -5,8 +5,8 @@ import {
   useState
 } from 'react'
 
-import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useNetwork } from '@/src/context/Network'
 
 const getQuery = (reportId) => {
   return `
@@ -72,6 +72,7 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const fetchReport = useSubgraphFetch('useFetchReport')
+  const { networkId } = useNetwork()
 
   const reportId = useMemo(() => {
     if (!coverKey || !productKey || !incidentDate) {
@@ -87,14 +88,14 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
     }
 
     try {
-      const data = await fetchReport(getNetworkId(), getQuery(reportId))
+      const data = await fetchReport(networkId, getQuery(reportId))
       if (data && data.incidentReport) {
         setData(data.incidentReport)
       }
     } catch (e) {
       console.error(e)
     }
-  }, [fetchReport, reportId])
+  }, [fetchReport, networkId, reportId])
 
   useEffect(() => {
     async function updateData () {

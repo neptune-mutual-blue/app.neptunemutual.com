@@ -6,19 +6,14 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { MyBondTxsTable } from '@/src/modules/pools/bond/MyBondTxsTable'
 import { Trans } from '@lingui/macro'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('bond')
-    }
-  }
-}
+export default function MyBondTxs () {
+  const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('bond', networkId)
 
-export default function MyBondTxs ({ disabled }) {
   if (disabled) {
     return <ComingSoon />
   }
@@ -31,7 +26,7 @@ export default function MyBondTxs ({ disabled }) {
         <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: <Trans>Pool</Trans>, href: Routes.Pools(), current: false },
+              { name: <Trans>Pool</Trans>, href: Routes.Pools(networkId), current: false },
               {
                 name: <Trans>Bond</Trans>,
                 href: Routes.BondPool,
