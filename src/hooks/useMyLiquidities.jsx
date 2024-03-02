@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useNetwork } from '@/src/context/Network'
 
 const getQuery = (account) => {
   return `
@@ -40,11 +40,12 @@ export const useMyLiquidities = (account) => {
   })
   const [loading, setLoading] = useState(false)
   const fetchMyLiquidities = useSubgraphFetch('useMyLiquidities')
+  const { networkId } = useNetwork()
 
   useEffect(() => {
     if (account) {
       setLoading(true)
-      fetchMyLiquidities(getNetworkId(), getQuery(account))
+      fetchMyLiquidities(networkId, getQuery(account))
         .then(({ userLiquidities }) => {
           const myLiquidities = userLiquidities || []
           setData({
@@ -62,7 +63,7 @@ export const useMyLiquidities = (account) => {
         .catch((e) => { return console.error(e) })
         .finally(() => { return setLoading(false) })
     }
-  }, [account, fetchMyLiquidities])
+  }, [account, fetchMyLiquidities, networkId])
 
   return {
     data,

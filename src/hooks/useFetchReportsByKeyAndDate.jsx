@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useNetwork } from '@/src/context/Network'
 
 const getQuery = (coverKey, incidentDate) => {
   return `
@@ -31,21 +31,20 @@ const getQuery = (coverKey, incidentDate) => {
 export const useFetchReportsByKeyAndDate = ({ coverKey, incidentDate }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
-  const fetchReportsByKeyAndDate = useSubgraphFetch(
-    'useFetchReportsByKeyAndDate'
-  )
+  const fetchReportsByKeyAndDate = useSubgraphFetch('useFetchReportsByKeyAndDate')
+  const { networkId } = useNetwork()
 
   useEffect(() => {
     if (coverKey && incidentDate) {
       setLoading(true)
-      fetchReportsByKeyAndDate(getNetworkId(), getQuery(coverKey, incidentDate))
+      fetchReportsByKeyAndDate(networkId, getQuery(coverKey, incidentDate))
         .then(({ incidentReports }) => {
           setData(incidentReports)
         })
         .catch((e) => { return console.error(e) })
         .finally(() => { return setLoading(false) })
     }
-  }, [coverKey, fetchReportsByKeyAndDate, incidentDate])
+  }, [coverKey, fetchReportsByKeyAndDate, incidentDate, networkId])
 
   return {
     data,

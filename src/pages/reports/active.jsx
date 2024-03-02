@@ -1,20 +1,15 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { useNetwork } from '@/src/context/Network'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { ReportingActivePage } from '@/src/modules/reporting/active/active'
 import { ReportingTabs } from '@/src/modules/reporting/ReportingTabs'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('reporting')
-    }
-  }
-}
+export default function ReportingActive () {
+  const { networkId } = useNetwork()
 
-export default function ReportingActive ({ disabled }) {
+  const disabled = !isFeatureEnabled('reporting', networkId)
   if (disabled) {
     return <ComingSoon />
   }

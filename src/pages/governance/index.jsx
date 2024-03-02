@@ -3,17 +3,13 @@ import { Container } from '@/common/Container/Container'
 import { Seo } from '@/common/Seo'
 import { GovernanceModule } from '@/modules/governance/GovernanceModule'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { useNetwork } from '@/src/context/Network'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('governance')
-    }
-  }
-}
+export default function GovernanceIndexPage () {
+  const { networkId } = useNetwork()
 
-export default function GovernanceIndexPage ({ disabled }) {
+  const disabled = !isFeatureEnabled('governance', networkId)
+
   if (disabled) {
     return <ComingSoon />
   }

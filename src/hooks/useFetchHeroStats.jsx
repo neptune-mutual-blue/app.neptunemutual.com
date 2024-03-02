@@ -3,8 +3,8 @@ import {
   useState
 } from 'react'
 
-import { getNetworkId } from '@/src/config/environment'
 import { getHeroStats } from '@/src/services/aggregated-stats/hero-stats'
+import { useNetwork } from '@/src/context/Network'
 
 const defaultData = {
   availableCovers: 0,
@@ -20,13 +20,14 @@ const defaultData = {
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData)
   const [loading, setLoading] = useState(false)
+  const { networkId } = useNetwork()
 
   useEffect(() => {
     setLoading(true)
 
     ;(async function () {
       try {
-        const _data = await getHeroStats(getNetworkId())
+        const _data = await getHeroStats(networkId)
 
         setData({
           ..._data,
@@ -39,7 +40,7 @@ export const useFetchHeroStats = () => {
         setLoading(false)
       }
     })()
-  }, [])
+  }, [networkId])
 
   return {
     data,

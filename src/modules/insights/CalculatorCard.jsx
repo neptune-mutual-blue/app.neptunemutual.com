@@ -103,6 +103,7 @@ export const CalculatorCard = () => {
   const calculatePolicyFee = async () => {
     setResultLoading(true)
     const { data, error } = await calculateCoverPolicyFee({
+      networkId,
       value: amount,
       account,
       library,

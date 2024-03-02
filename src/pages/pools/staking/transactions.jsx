@@ -7,18 +7,12 @@ import { Seo } from '@/common/Seo'
 import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { Trans } from '@lingui/macro'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('staking-pool')
-    }
-  }
-}
-
-export default function MyStakingTxs ({ disabled }) {
+export default function MyStakingTxs () {
+  const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('staking-pool', networkId)
   if (disabled) {
     return <ComingSoon />
   }
@@ -31,7 +25,7 @@ export default function MyStakingTxs ({ disabled }) {
         <Container className='px-2 pt-5 pb-20 md:py-20'>
           <BreadCrumbs
             pages={[
-              { name: <Trans>Pool</Trans>, href: Routes.Pools(), current: false },
+              { name: <Trans>Pool</Trans>, href: Routes.Pools(networkId), current: false },
               {
                 name: <Trans>Staking</Trans>,
                 href: Routes.StakingPools,

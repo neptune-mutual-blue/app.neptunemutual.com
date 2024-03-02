@@ -19,7 +19,11 @@ export function useNetwork () {
 }
 
 export const NetworkProvider = ({ children }) => {
-  const networkId = getNetworkId()
+  const [networkId, setNetworkId] = React.useState(null)
+
+  useEffect(() => {
+    setNetworkId(getNetworkId())
+  }, [])
 
   useEffect(() => {
     document.documentElement.style.setProperty(

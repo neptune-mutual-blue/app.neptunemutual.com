@@ -8,17 +8,9 @@ import VoteEscrow from '@/modules/vote-escrow/VoteEscrow'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { useNetwork } from '@/src/context/Network'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('vote-escrow')
-    }
-  }
-}
-
-const VoteEscrowPage = ({ disabled }) => {
+const VoteEscrowPage = () => {
   const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('vote-escrow', networkId)
 
   if (disabled) {
     return <ComingSoon />

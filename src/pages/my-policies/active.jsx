@@ -11,24 +11,21 @@ import {
 import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
+import { useLingui } from '@lingui/react'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('policy')
-    }
-  }
-}
+export default function MyPoliciesActive () {
+  const { networkId } = useNetwork()
 
-export default function MyPoliciesActive ({ disabled }) {
+  const disabled = !isFeatureEnabled('policy', networkId)
   const {
     data: { totalActiveProtection, activePolicies },
     loading
   } = useActivePolicies()
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
+  const { i18n } = useLingui()
 
   if (disabled) {
     return <ComingSoon />
@@ -48,7 +45,7 @@ export default function MyPoliciesActive ({ disabled }) {
       <Seo />
       <PoliciesTabs
         active='active'
-        heroStatTitle={<Trans>Total Active Protection</Trans>}
+        heroStatTitle={t(i18n)`Total Active Protection`}
         heroStatValue={heroStatValue}
       >
 
