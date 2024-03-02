@@ -1,10 +1,16 @@
-import { Routes } from '@/src/config/routes'
+import { useEffect } from 'react'
+
 import { useRouter } from 'next/router'
+
+import { Routes } from '@/src/config/routes'
 
 // Redirect
 export default function Reports () {
   const router = useRouter()
-  router.replace(Routes.ActiveReports)
+
+  useEffect(() => {
+    router.replace(Routes.ActiveReports)
+  }, [router])
 
   return null
 }
