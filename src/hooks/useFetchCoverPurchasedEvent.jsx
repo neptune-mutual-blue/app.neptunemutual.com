@@ -4,14 +4,13 @@ import {
 } from 'react'
 
 import DateLib from '@/lib/date/DateLib'
-import { getNetworkId } from '@/src/config/environment'
 import { useNetwork } from '@/src/context/Network'
 import { getPolicyReceipt } from '@/src/services/api/policy/receipt'
 import { toBN } from '@/utils/bn'
 import { Interface } from '@ethersproject/abi'
 import sdk from '@neptunemutual/sdk'
 
-export const storePurchaseEvent = (receipt) => {
+export const storePurchaseEvent = (receipt, networkId) => {
   const iface = new Interface(sdk.config.abis.IPolicy)
 
   for (let i = 0; i < receipt.logs.length; i++) {
@@ -35,7 +34,7 @@ export const storePurchaseEvent = (receipt) => {
       blockTimestamp: DateLib.unix(),
       blockNumber: receipt.blockNumber.toString(),
       transactionSender: receipt.from,
-      chainId: getNetworkId().toString(),
+      chainId: networkId.toString(),
       transactionStablecoinAmount: toBN(parsed.args.fee).minus(parsed.args.platformFee).toString(),
       transactionNpmAmount: null,
       gasPrice: receipt.effectiveGasPrice.toString(),

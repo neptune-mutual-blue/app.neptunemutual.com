@@ -4,7 +4,7 @@ import {
   useState
 } from 'react'
 
-import { getNetworkId } from '@/src/config/environment'
+import { useNetwork } from '@/src/context/Network'
 import { calcBondPoolTVL } from '@/src/helpers/bond'
 import { calcStakingPoolTVL } from '@/src/helpers/pool'
 import { getPricingData } from '@/src/helpers/pricing'
@@ -50,11 +50,10 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     tvl: '0'
   })
   const fetchPoolsTVL = useSubgraphFetch('usePoolsTVL')
+  const { networkId } = useNetwork()
 
   useEffect(() => {
     if (!NPMTokenAddress) { return }
-
-    const networkId = getNetworkId()
 
     if (!networkId) { return }
 
@@ -82,7 +81,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
         })
       })
       .catch((e) => { return console.error(e) })
-  }, [NPMTokenAddress, fetchPoolsTVL])
+  }, [NPMTokenAddress, fetchPoolsTVL, networkId])
 
   const getTVLById = useCallback(
     /**

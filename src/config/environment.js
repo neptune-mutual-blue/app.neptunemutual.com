@@ -15,13 +15,13 @@ export const getNetworkId = () => {
 
 export const getGraphURL = (networkId) => { return SUBGRAPH_API_URLS[networkId] || null }
 
-const isStoreAvailable = () => {
+const isStoreAvailable = (networkId) => {
   if (typeof window === 'undefined') {
     throw new Error('window is not defined')
   }
 
   try {
-    const store = config.store.getStoreAddressFromEnvironment(getNetworkId())
+    const store = config.store.getStoreAddressFromEnvironment(networkId)
 
     if (store) {
       return true
@@ -31,10 +31,10 @@ const isStoreAvailable = () => {
   return false
 }
 
-export const isFeatureEnabled = (feature) => {
+export const isFeatureEnabled = (feature, networkId) => {
   if (typeof window !== 'undefined') {
     // If the feature requires `store`, then check if the store is available
-    if (!['bridge-celer', 'bridge-layerzero'].includes(feature) && !isStoreAvailable()) {
+    if (!['bridge-celer', 'bridge-layerzero'].includes(feature) && !isStoreAvailable(networkId)) {
       return false
     }
   }

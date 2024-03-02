@@ -26,16 +26,16 @@ const Bridge = '/bridge'
 
 const GovernanceProposalPage = (proposalId) => { return `/governance/${proposalId}` }
 
-const Pools = () => {
+const Pools = (networkId) => {
   let url = null
   // ORDER is important
-  if (isFeatureEnabled('liquidity-gauge-pools')) {
+  if (isFeatureEnabled('liquidity-gauge-pools', networkId)) {
     url = LiquidityGaugePools
-  } else if (isFeatureEnabled('bond')) {
+  } else if (isFeatureEnabled('bond', networkId)) {
     url = BondPool
-  } else if (isFeatureEnabled('staking-pool')) {
+  } else if (isFeatureEnabled('staking-pool', networkId)) {
     url = StakingPools
-  } else if (isFeatureEnabled('pod-staking-pool')) {
+  } else if (isFeatureEnabled('pod-staking-pool', networkId)) {
     url = PodStakingPools
   }
 

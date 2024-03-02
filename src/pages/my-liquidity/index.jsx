@@ -17,25 +17,20 @@ import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { useNetwork } from '@/src/context/Network'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('liquidity')
-    }
-  }
-}
+export default function MyLiquidity () {
+  const { networkId } = useNetwork()
 
-export default function MyLiquidity ({ disabled }) {
   const { account } = useWeb3React()
   const { data, loading } = useMyLiquidities(account)
   const { liquidityList, myLiquidities } = data
   const totalLiquidityProvided = useCalculateTotalLiquidity({ liquidityList })
+  const { liquidityTokenDecimals } = useAppConstants()
 
   const router = useRouter()
 
-  const { liquidityTokenDecimals } = useAppConstants()
+  const disabled = !isFeatureEnabled('liquidity', networkId)
 
   if (disabled) {
     return <ComingSoon />

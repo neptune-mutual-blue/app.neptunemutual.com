@@ -24,14 +24,14 @@ import { useMountedState } from '@/src/hooks/useMountedState'
 import { getNetworkInfo } from '@/utils/network'
 import { useWeb3React } from '@web3-react/core'
 
-const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
-const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
-const DEFAULT_BRIDGE = isLayerZeroBridgeEnabled ? BRIDGE_KEYS.LAYERZERO : BRIDGE_KEYS.CELER
-
 const BridgeModule = () => {
   const isMounted = useMountedState()
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
+
+  const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer', networkId)
+  const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero', networkId)
+  const DEFAULT_BRIDGE = isLayerZeroBridgeEnabled ? BRIDGE_KEYS.LAYERZERO : BRIDGE_KEYS.CELER
 
   const receiverAddress = ''
   const [sendAmount, setSendAmount] = useState('')

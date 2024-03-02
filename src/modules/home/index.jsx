@@ -7,6 +7,7 @@ import InsightsSkeleton from '@/modules/insights/InsightsSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
+import { Loading } from '@/common/Loading'
 
 const DynamicInsights = dynamic(() => { return import('@/modules/insights').then((mod) => { return mod.Insights }) }, {
   loading: () => { return <InsightsSkeleton /> }
@@ -15,17 +16,21 @@ const DynamicInsights = dynamic(() => { return import('@/modules/insights').then
 export default function HomePage () {
   const { networkId } = useNetwork()
 
+  if (!networkId) {
+    return <Loading />
+  }
+
   const networkDetails = ChainConfig[networkId]
 
-  const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
-  const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
+  const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer', networkId)
+  const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero', networkId)
   const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
 
   if (bridgeEnabled && !networkDetails) {
     return <BridgeModule />
   }
 
-  if (!networkDetails) { return <></> }
+  if (!networkDetails) { return <>Invalid Network</> }
 
   return (
     <>

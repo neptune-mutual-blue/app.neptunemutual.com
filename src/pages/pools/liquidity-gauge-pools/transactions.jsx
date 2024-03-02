@@ -9,18 +9,12 @@ import {
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { Trans } from '@lingui/macro'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('liquidity-gauge-pools')
-    }
-  }
-}
-
-export default function MyLiquidityGaugePoolsTxs ({ disabled }) {
+export default function MyLiquidityGaugePoolsTxs () {
+  const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('liquidity-gauge-pools', networkId)
   if (disabled) {
     return <ComingSoon />
   }
@@ -33,7 +27,7 @@ export default function MyLiquidityGaugePoolsTxs ({ disabled }) {
         <Container className='px-2 py-20'>
           <BreadCrumbs
             pages={[
-              { name: <Trans>Pool</Trans>, href: Routes.Pools(), current: false },
+              { name: <Trans>Pool</Trans>, href: Routes.Pools(networkId), current: false },
               {
                 name: <Trans>Liquidity Gauge Pools</Trans>,
                 href: Routes.LiquidityGaugePools,

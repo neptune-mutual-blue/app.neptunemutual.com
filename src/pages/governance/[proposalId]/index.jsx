@@ -4,14 +4,17 @@ import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import ProposalSkeleton from '@/modules/governance/ProposalSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
-
-const disabled = !isFeatureEnabled('governance')
+import { useNetwork } from '@/src/context/Network'
 
 const DynamicGovernanceSinglePage = dynamic(() => { return import('@/modules/governance').then((mod) => { return mod.GovernanceSinglePage }) }, {
   loading: () => { return <ProposalSkeleton /> }
 })
 
 export default function ProposalDetails () {
+  const { networkId } = useNetwork()
+
+  const disabled = !isFeatureEnabled('governance', networkId)
+
   if (disabled) {
     return <ComingSoon />
   }

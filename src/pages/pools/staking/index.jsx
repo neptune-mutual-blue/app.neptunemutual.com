@@ -1,20 +1,15 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { useNetwork } from '@/src/context/Network'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 import { StakingPage } from '@/src/modules/pools/staking'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('staking-pool')
-    }
-  }
-}
+export default function Staking () {
+  const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('staking-pool', networkId)
 
-export default function Staking ({ disabled }) {
   if (disabled) {
     return <ComingSoon />
   }

@@ -12,10 +12,11 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-
-const disabled = !isFeatureEnabled('reporting')
+import { useNetwork } from '@/src/context/Network'
 
 export default function IncidentResolvedCoverPage () {
+  const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('reporting', networkId)
   const router = useRouter()
   const { coverId, productId, timestamp } = router.query
   const coverKey = safeFormatBytes32String(coverId)

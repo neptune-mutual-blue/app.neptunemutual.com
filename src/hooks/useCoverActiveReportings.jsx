@@ -3,8 +3,8 @@ import {
   useState
 } from 'react'
 
-import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useNetwork } from '@/src/context/Network'
 
 const getQuery = (coverKey) => {
   return `
@@ -32,17 +32,16 @@ const getQuery = (coverKey) => {
 export const useCoverActiveReportings = ({ coverKey }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
-  const fetchCoverActiveReportings = useSubgraphFetch(
-    'useCoverActiveReportings'
-  )
+  const fetchCoverActiveReportings = useSubgraphFetch('useCoverActiveReportings')
+  const { networkId } = useNetwork()
 
   useEffect(() => {
-    if (!coverKey || !getNetworkId()) {
+    if (!coverKey || !networkId) {
       return
     }
 
     setLoading(true)
-    fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
+    fetchCoverActiveReportings(networkId, getQuery(coverKey))
       .then((result) => {
         if (!result) {
           return
@@ -52,7 +51,7 @@ export const useCoverActiveReportings = ({ coverKey }) => {
       })
       .catch((e) => { return console.error(e) })
       .finally(() => { return setLoading(false) })
-  }, [coverKey, fetchCoverActiveReportings])
+  }, [coverKey, fetchCoverActiveReportings, networkId])
 
   return {
     data,

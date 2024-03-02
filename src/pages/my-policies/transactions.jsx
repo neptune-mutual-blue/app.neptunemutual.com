@@ -6,21 +6,17 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import {
   MyPoliciesTxsTable
 } from '@/src/modules/my-policies/MyPoliciesTxsTable'
 import { Trans } from '@lingui/macro'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('policy')
-    }
-  }
-}
+export default function MyPoliciesTxs () {
+  const { networkId } = useNetwork()
 
-export default function MyPoliciesTxs ({ disabled }) {
+  const disabled = !isFeatureEnabled('policy', networkId)
+
   if (disabled) {
     return <ComingSoon />
   }

@@ -1,4 +1,5 @@
-import { getNetworkId, mainnetChainIds } from '@/src/config/environment'
+import { mainnetChainIds } from '@/src/config/environment'
+import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { addClarityAnalytics, addGoogleAnalytics } from '@/utils/analytics'
 import { LocalStorage } from '@/utils/localstorage'
@@ -20,13 +21,13 @@ export function useCookies () {
 
 export const CookiesProvider = ({ children }) => {
   const [accepted, setAccepted] = useLocalStorage(LocalStorage.KEYS.COOKIE_POLICY)
+  const { networkId } = useNetwork()
 
   useEffect(() => {
     let clarityTrackingCode = null
     let googleAnalyticsId = null
 
     if (typeof window !== 'undefined') {
-      const networkId = getNetworkId()
       const isMainnet = mainnetChainIds.indexOf(networkId) > -1
 
       clarityTrackingCode = isMainnet
@@ -42,7 +43,7 @@ export const CookiesProvider = ({ children }) => {
       addClarityAnalytics(clarityTrackingCode)
       addGoogleAnalytics(googleAnalyticsId)
     }
-  }, [accepted])
+  }, [accepted, networkId])
 
   return (
     <CookieContext.Provider value={{ accepted, setAccepted }}>

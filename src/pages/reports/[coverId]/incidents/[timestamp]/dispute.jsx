@@ -7,10 +7,11 @@ import {
 } from '@/modules/reporting/NewDisputeReportFormContainer'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-
-const disabled = !isFeatureEnabled('reporting')
+import { useNetwork } from '@/src/context/Network'
 
 export default function DisputeFormPage () {
+  const { networkId } = useNetwork()
+  const disabled = !isFeatureEnabled('reporting', networkId)
   const router = useRouter()
   const { coverId, productId, timestamp } = router.query
   const coverKey = safeFormatBytes32String(coverId)
