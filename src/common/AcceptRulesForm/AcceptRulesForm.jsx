@@ -10,6 +10,7 @@ import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 import { config } from '@neptunemutual/sdk'
+import { useNetwork } from '@/src/context/Network'
 
 export const AcceptRulesForm = ({
   onAccept,
@@ -20,6 +21,7 @@ export const AcceptRulesForm = ({
   activeIncidentDate
 }) => {
   const router = useRouter()
+  const { networkId } = useNetwork()
   const coverPurchasePage = router.pathname.includes('purchase')
   const [checked, setChecked] = useState(false)
 
@@ -39,7 +41,7 @@ export const AcceptRulesForm = ({
     const statusLink = (
       (
         <Link
-          href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}
+          href={Routes.ViewReport(coverKey, productKey, activeIncidentDate, networkId)}
           className='font-medium underline hover:no-underline'
         >
 

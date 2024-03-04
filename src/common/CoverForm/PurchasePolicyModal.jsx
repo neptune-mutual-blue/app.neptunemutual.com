@@ -27,10 +27,11 @@ export const PurchasePolicyModal = ({
   txHash,
   amount
 }) => {
+  const { networkId } = useNetwork()
   const router = useRouter()
 
   const hanldeClose = () => {
-    router.push(Routes.MyActivePolicies)
+    router.push(Routes.MyActivePolicies(networkId))
   }
 
   const finalAmount = useRef(0)
@@ -88,7 +89,7 @@ function Complete ({ txHash, onClose, amountInDollars }) {
 
         <div className='flex items-center justify-center gap-6 mt-8 center'>
           <Link
-            href={Routes.ViewPolicyReceipt(txHash)}
+            href={Routes.ViewPolicyReceipt(txHash, networkId)}
             target='_blank'
             onClick={onClose}
             className='font-semibold text-4E7DD9' rel='noreferrer'

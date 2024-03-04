@@ -7,11 +7,13 @@ import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 import { CoverActionCard } from './CoverActionCard'
+import { useNetwork } from '@/src/context/Network'
 
 export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
   const { i18n } = useLingui()
+  const { networkId } = useNetwork()
 
-  const coverActions = getActions(i18n)
+  const coverActions = getActions(i18n, networkId)
 
   return (
     <>
@@ -21,7 +23,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
         data-testid='main-container'
       >
         <Container>
-          <h1 className='mb-10 font-bold text-center capitalize text-lg md:text-display-sm sm:mb-12'>
+          <h1 className='mb-10 text-lg font-bold text-center capitalize md:text-display-sm sm:mb-12'>
             <Trans>Didn&#x2019;t find what you were looking for?</Trans>
           </h1>
           <Grid>

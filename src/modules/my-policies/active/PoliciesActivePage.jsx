@@ -12,13 +12,16 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export const PoliciesActivePage = ({ data, loading }) => {
+  const { networkId } = useNetwork()
+
   return (
     <Container className='py-16' data-testid='main-container'>
       <div className='flex justify-end'>
         <Link
-          href={Routes.PolicyTransactions}
+          href={Routes.PolicyTransactions(networkId)}
           className='text-lg font-medium text-4E7DD9 hover:underline'
         >
 

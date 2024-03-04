@@ -45,12 +45,12 @@ export default function MyPodStakingTxs ({ networkId }) {
               { name: <Trans>Pool</Trans>, href: Routes.Pools(networkId), current: false },
               {
                 name: <Trans>POD Staking</Trans>,
-                href: Routes.PodStakingPools,
+                href: Routes.PodStakingPools(networkId),
                 current: false
               },
               {
                 name: <Trans>Transaction List</Trans>,
-                href: Routes.PodStakingPoolsTransactions,
+                href: Routes.PodStakingPoolsTransactions(networkId),
                 current: true
               }
             ]}

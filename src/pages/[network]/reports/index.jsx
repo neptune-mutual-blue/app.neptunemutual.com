@@ -6,6 +6,7 @@ import { Routes } from '@/src/config/routes'
 
 import { slugToNetworkId } from '@/src/config/networks'
 import { getNetworks } from '@/src/ssg/static-paths'
+import { useNetwork } from '@/src/context/Network'
 
 export const getStaticPaths = async () => {
   return {
@@ -25,10 +26,11 @@ export const getStaticProps = async ({ params }) => {
 // Redirect
 export default function Reports () {
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   useEffect(() => {
-    router.replace(Routes.ActiveReports)
-  }, [router])
+    router.replace(Routes.ActiveReports(networkId))
+  }, [networkId, router])
 
   return null
 }

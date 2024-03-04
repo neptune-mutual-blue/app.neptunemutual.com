@@ -34,10 +34,12 @@ import { getCoverImgSrc } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
+  const { networkId } = useNetwork()
 
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
   const { accrueInterest, isWithdrawalWindowOpen, info, isWithdrawalWindowOutdated, updateWithdrawalWindow } = useLiquidityFormsContext()
@@ -73,7 +75,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
             pages={[
               {
                 name: <Trans>My Liquidity</Trans>,
-                href: Routes.MyLiquidity,
+                href: Routes.MyLiquidity(networkId),
                 current: false
               },
               {

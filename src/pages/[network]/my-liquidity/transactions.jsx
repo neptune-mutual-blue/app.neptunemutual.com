@@ -31,6 +31,7 @@ export const getStaticProps = async ({ params }) => {
 
 export default function MyLiquidityTxs ({ networkId }) {
   const disabled = isFeatureEnabled('liquidity', networkId)
+
   if (disabled) {
     return <ComingSoon />
   }
@@ -45,12 +46,12 @@ export default function MyLiquidityTxs ({ networkId }) {
             pages={[
               {
                 name: <Trans>My Liquidity</Trans>,
-                href: Routes.MyLiquidity,
+                href: Routes.MyLiquidity(networkId),
                 current: false
               },
               {
                 name: <Trans>Transaction List</Trans>,
-                href: Routes.LiquidityTransactions,
+                href: Routes.LiquidityTransactions(networkId),
                 current: true
               }
             ]}

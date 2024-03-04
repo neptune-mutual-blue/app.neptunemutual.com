@@ -47,6 +47,7 @@ import {
 import { toStringSafe } from '@/utils/string'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -220,16 +221,17 @@ const getColumns = (i18n) => {
   ]
 }
 
-const getUrl = (reportId) => {
+const getUrl = (reportId, networkId) => {
   const keysArray = reportId.split('-')
   const coverKey = keysArray[0]
   const productKey = keysArray[1]
   const timestamp = keysArray[2]
 
-  return Routes.ViewReport(coverKey, productKey, timestamp)
+  return Routes.ViewReport(coverKey, productKey, timestamp, networkId)
 }
 
 export const ReportingResolvedPage = () => {
+  const { networkId } = useNetwork()
   const router = useRouter()
   const {
     data: { incidentReports },
@@ -343,7 +345,7 @@ export const ReportingResolvedPage = () => {
                         <Fragment key={report.id}>
                           <tr
                             className='cursor-pointer hover:bg-F4F8FC'
-                            onClick={() => { return router.push(getUrl(report.id)) }}
+                            onClick={() => { return router.push(getUrl(report.id, networkId)) }}
                           >
                             <ResolvedTBodyRow
                               columns={columns}

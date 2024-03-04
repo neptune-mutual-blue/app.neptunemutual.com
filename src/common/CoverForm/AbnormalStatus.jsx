@@ -12,6 +12,7 @@ import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export const AbnormalCoverStatus = ({
   status,
@@ -22,7 +23,9 @@ export const AbnormalCoverStatus = ({
   name,
   className = ''
 }) => {
-  const href = Routes.ViewReport(coverKey, productKey, activeIncidentDate)
+  const { networkId } = useNetwork()
+
+  const href = Routes.ViewReport(coverKey, productKey, activeIncidentDate, networkId)
   const statusLink = (
     (
       <Link href={href} className='font-medium underline hover:no-underline'>

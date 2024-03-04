@@ -45,12 +45,12 @@ export default function MyBondTxs ({ networkId }) {
               { name: <Trans>Pool</Trans>, href: Routes.Pools(networkId), current: false },
               {
                 name: <Trans>Bond</Trans>,
-                href: Routes.BondPool,
+                href: Routes.BondPool(networkId),
                 current: false
               },
               {
                 name: <Trans>Transaction List</Trans>,
-                href: Routes.BondPoolTransactions,
+                href: Routes.BondPoolTransactions(networkId),
                 current: true
               }
             ]}

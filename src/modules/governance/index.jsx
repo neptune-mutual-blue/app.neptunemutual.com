@@ -26,9 +26,11 @@ import {
   getVotingResults
 } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export const GovernanceSinglePage = () => {
   const router = useRouter()
+  const { networkId } = useNetwork()
   const { proposalId } = router.query
 
   const [selectedChains, setSelectedChains] = useState([])
@@ -86,7 +88,7 @@ export const GovernanceSinglePage = () => {
         pages={[
           {
             name: <Trans>Governance</Trans>,
-            href: Routes.Governance,
+            href: Routes.Governance(networkId),
             current: false
           },
           {

@@ -13,13 +13,16 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
+  const { networkId } = useNetwork()
+
   return (
     <Container className='py-16' data-testid='page-container'>
       <div className='flex justify-end'>
         <Link
-          href={Routes.LiquidityTransactions}
+          href={Routes.LiquidityTransactions(networkId)}
           className='text-lg font-medium text-4E7DD9 hover:underline'
         >
 
@@ -34,6 +37,7 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
 }
 
 function MyLiquidities ({ data, loading }) {
+  const { networkId } = useNetwork()
   const { loading: isSummaryLoading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
 
   const { i18n } = useLingui()
@@ -81,7 +85,7 @@ function MyLiquidities ({ data, loading }) {
         return (
           (
             <Link
-              href={Routes.MyCoverLiquidity(coverKey)}
+              href={Routes.MyCoverLiquidity(coverKey, networkId)}
               key={x.id}
               className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
               data-testid='liquidity-cover-card'

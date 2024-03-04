@@ -36,7 +36,7 @@ export const ReportingHero = ({
   breadcrumbData = [
     { name: <Trans>Home</Trans>, href: '/' },
     { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
-    isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
+    isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) },
     { name: <Trans>Reporting</Trans>, href: '' }
   ].filter(Boolean)
 
@@ -44,7 +44,7 @@ export const ReportingHero = ({
     breadcrumbData = [
       { name: <Trans>Home</Trans>, href: '/' },
       { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
-      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
+      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) },
       { name: <Trans>Reporting</Trans>, href: '' }
     ].filter(Boolean)
   }
@@ -52,9 +52,9 @@ export const ReportingHero = ({
   if (type === 'details') {
     breadcrumbData = [
       { name: <Trans>Home</Trans>, href: '/' },
-      { name: <Trans>Reporting</Trans>, href: isResolved ? Routes.ResolvedReports : Routes.ActiveReports },
+      { name: <Trans>Reporting</Trans>, href: isResolved ? Routes.ResolvedReports(networkId) : Routes.ActiveReports(networkId) },
       !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
-      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) }
+      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) }
     ].filter(Boolean)
   }
 
@@ -62,8 +62,8 @@ export const ReportingHero = ({
     breadcrumbData = [
       { name: <Trans>Home</Trans>, href: '/' },
       !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
-      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
-      { name: <Trans>Reporting</Trans>, href: Routes.ViewReport(coverKey, productKey, incidentDate) },
+      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) },
+      { name: <Trans>Reporting</Trans>, href: Routes.ViewReport(coverKey, productKey, incidentDate, networkId) },
       { name: <Trans>Dispute</Trans>, href: '' }
     ].filter(Boolean)
   }

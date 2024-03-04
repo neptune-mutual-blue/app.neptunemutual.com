@@ -44,12 +44,12 @@ export default function MyStakingTxs ({ networkId }) {
               { name: <Trans>Pool</Trans>, href: Routes.Pools(networkId), current: false },
               {
                 name: <Trans>Staking</Trans>,
-                href: Routes.StakingPools,
+                href: Routes.StakingPools(networkId),
                 current: false
               },
               {
                 name: <Trans>Transaction List</Trans>,
-                href: Routes.StakingPoolsTransactions,
+                href: Routes.StakingPoolsTransactions(networkId),
                 current: true
               }
             ]}

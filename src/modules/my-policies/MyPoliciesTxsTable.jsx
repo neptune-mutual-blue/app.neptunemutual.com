@@ -285,7 +285,7 @@ const ActionsRenderer = ({ row }) => {
 
         {isCoverPurchase && (
           <a
-            href={Routes.ViewPolicyReceipt(row.transaction.id)}
+            href={Routes.ViewPolicyReceipt(row.transaction.id, networkId)}
             target='_blank'
             rel='noreferrer noopener nofollow'
             className='p-1 mr-4 text-black'

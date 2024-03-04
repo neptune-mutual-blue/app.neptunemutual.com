@@ -17,22 +17,22 @@ const getHeaders = (networkId) => {
   return [
     isFeatureEnabled('liquidity-gauge-pools', networkId) && {
       name: 'liquidity-gauge-pools',
-      href: Routes.LiquidityGaugePools,
+      href: Routes.LiquidityGaugePools(networkId),
       displayAs: <Trans>Liquidity Gauge Pools</Trans>
     },
     isFeatureEnabled('bond', networkId) && {
       name: 'bond',
-      href: Routes.BondPool,
+      href: Routes.BondPool(networkId),
       displayAs: <Trans>Bond</Trans>
     },
     isFeatureEnabled('staking-pool', networkId) && {
       name: 'staking',
-      href: Routes.StakingPools,
+      href: Routes.StakingPools(networkId),
       displayAs: <Trans>Staking</Trans>
     },
     isFeatureEnabled('pod-staking-pool', networkId) && {
       name: 'pod-staking',
-      href: Routes.PodStakingPools,
+      href: Routes.PodStakingPools(networkId),
       displayAs: <Trans>POD Staking</Trans>
     }
   ].filter(Boolean)

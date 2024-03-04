@@ -46,12 +46,12 @@ export default function MyLiquidityGaugePoolsTxs ({ networkId }) {
               { name: <Trans>Pool</Trans>, href: Routes.Pools(networkId), current: false },
               {
                 name: <Trans>Liquidity Gauge Pools</Trans>,
-                href: Routes.LiquidityGaugePools,
+                href: Routes.LiquidityGaugePools(networkId),
                 current: false
               },
               {
                 name: <Trans>Transaction List</Trans>,
-                href: Routes.LiquidityGaugePoolsTransactions,
+                href: Routes.LiquidityGaugePoolsTransactions(networkId),
                 current: true
               }
             ]}

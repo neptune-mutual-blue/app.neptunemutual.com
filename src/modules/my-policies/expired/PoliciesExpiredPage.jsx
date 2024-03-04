@@ -14,18 +14,20 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const PoliciesExpiredPage = () => {
   const {
     data: expiredPolicies,
     loading
   } = useExpiredPolicies()
+  const { networkId } = useNetwork()
 
   return (
     <Container className='py-16'>
       <div className='flex justify-end'>
         <Link
-          href={Routes.PolicyTransactions}
+          href={Routes.PolicyTransactions(networkId)}
           className='text-lg font-medium text-4E7DD9 hover:underline'
         >
 
