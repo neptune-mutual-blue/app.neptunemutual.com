@@ -147,7 +147,7 @@ export const Header = () => {
           <nav className='flex justify-between max-w-full mx-auto' aria-label='Top'>
             <div className='flex items-center justify-between py-0 xl:basis-full h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none'>
               <Link
-                href={Routes.Home}
+                href={Routes.Home(networkId)}
                 locale={router.locale || router.defaultLocale}
                 className='sm:w-48'
               >

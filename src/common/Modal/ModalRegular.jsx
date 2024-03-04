@@ -16,7 +16,7 @@ export const ModalRegular = ({
   overlayProps = {},
   defaultContentClassNames = 'fixed z-50 w-full h-full px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 max-h-90vh flex justify-center items-center',
   className = '',
-  container = document.body,
+  container = typeof window === 'undefined' ? undefined : document.body,
   noBlur = false,
   ...rest
 }) => {

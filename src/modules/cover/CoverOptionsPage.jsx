@@ -11,12 +11,14 @@ import { classNames } from '@/utils/classnames'
 import { getPolicyStatus } from '@/utils/policy-status'
 import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 const getBreadCrumbs = (
   isDiversified,
   coverOrProductData,
   coverKey,
-  productKey
+  productKey,
+  networkId
 ) => {
   if (isDiversified) {
     return [
@@ -27,7 +29,7 @@ const getBreadCrumbs = (
       },
       {
         name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
-        href: Routes.ViewCover(coverKey),
+        href: Routes.ViewCover(coverKey, networkId),
         current: true
       },
       {
@@ -46,7 +48,7 @@ const getBreadCrumbs = (
     },
     {
       name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
-      href: Routes.ViewCover(coverKey),
+      href: Routes.ViewCover(coverKey, networkId),
       current: true
     }
   ]
@@ -59,6 +61,7 @@ export const CoverOptionsPage = ({
   isDiversified
 }) => {
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   const { i18n } = useLingui()
 
@@ -74,7 +77,8 @@ export const CoverOptionsPage = ({
             isDiversified,
             coverOrProductData,
             coverKey,
-            productKey
+            productKey,
+            networkId
           )}
         />
       </Container>

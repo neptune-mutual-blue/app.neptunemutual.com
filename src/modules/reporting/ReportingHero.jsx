@@ -4,6 +4,7 @@ import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { Hero } from '@/common/Hero'
 import { CoverStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import {
   getCoverImgSrc,
   isValidProduct
@@ -19,6 +20,8 @@ export const ReportingHero = ({
   isResolved = false,
   projectOrProductName
 }) => {
+  const { networkId } = useNetwork()
+
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
   const coverName = coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
@@ -32,7 +35,7 @@ export const ReportingHero = ({
 
   breadcrumbData = [
     { name: <Trans>Home</Trans>, href: '/' },
-    { name: coverName, href: Routes.ViewCover(coverKey) },
+    { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
     isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
     { name: <Trans>Reporting</Trans>, href: '' }
   ].filter(Boolean)
@@ -40,7 +43,7 @@ export const ReportingHero = ({
   if (type === 'new-report') {
     breadcrumbData = [
       { name: <Trans>Home</Trans>, href: '/' },
-      { name: coverName, href: Routes.ViewCover(coverKey) },
+      { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
       { name: <Trans>Reporting</Trans>, href: '' }
     ].filter(Boolean)
@@ -50,7 +53,7 @@ export const ReportingHero = ({
     breadcrumbData = [
       { name: <Trans>Home</Trans>, href: '/' },
       { name: <Trans>Reporting</Trans>, href: isResolved ? Routes.ResolvedReports : Routes.ActiveReports },
-      !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey) },
+      !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) }
     ].filter(Boolean)
   }
@@ -58,7 +61,7 @@ export const ReportingHero = ({
   if (type === 'new-dispute') {
     breadcrumbData = [
       { name: <Trans>Home</Trans>, href: '/' },
-      !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey) },
+      !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
       { name: <Trans>Reporting</Trans>, href: Routes.ViewReport(coverKey, productKey, incidentDate) },
       { name: <Trans>Dispute</Trans>, href: '' }
