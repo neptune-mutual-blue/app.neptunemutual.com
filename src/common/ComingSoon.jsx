@@ -4,8 +4,10 @@ import { Container } from '@/common/Container/Container'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export function ComingSoon () {
+  const { networkId } = useNetwork()
   const linkColor = 'border-primary bg-primary focus-visible:ring-primary'
 
   return (
@@ -22,7 +24,7 @@ export function ComingSoon () {
           </Trans>
         </p>
         <Link
-          href={Routes.Home}
+          href={Routes.Home(networkId)}
           replace
           className={classNames(
             'uppercase py-5 px-16 font-bold leading-8 text-EEEEEE border  rounded-lg  focus:outline-none focus-visible:ring-2 ',

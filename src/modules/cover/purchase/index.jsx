@@ -13,9 +13,11 @@ import { isValidProduct } from '@/src/helpers/cover'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { getPolicyStatus } from '@/utils/policy-status'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter()
+  const { networkId } = useNetwork()
   const { coverId, productId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
@@ -28,7 +30,8 @@ export const CoverPurchaseDetailsPage = () => {
     isDiversified,
     coverOrProductData,
     coverKey,
-    productKey
+    productKey,
+    networkId
   ) => {
     if (isDiversified) {
       return [
@@ -39,7 +42,7 @@ export const CoverPurchaseDetailsPage = () => {
         },
         {
           name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
-          href: Routes.ViewCover(coverKey),
+          href: Routes.ViewCover(coverKey, networkId),
           current: true
         },
         {
@@ -62,7 +65,7 @@ export const CoverPurchaseDetailsPage = () => {
       },
       {
         name: coverOrProductData?.coverInfoDetails?.coverName || <Trans>loading...</Trans>,
-        href: Routes.ViewCover(coverKey),
+        href: Routes.ViewCover(coverKey, networkId),
         current: true
       },
       {
@@ -94,7 +97,8 @@ export const CoverPurchaseDetailsPage = () => {
             isDiversified,
             coverOrProductData,
             coverKey,
-            productKey
+            productKey,
+            networkId
           )}
           data-testid='cover-purchase-breadcrumb'
         />

@@ -4,9 +4,11 @@ import { useRouter } from 'next/router'
 import { Container } from '@/common/Container/Container'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
+import { useNetwork } from '@/src/context/Network'
 
 export function PageNotFound () {
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   const linkColor = 'border-primary bg-primary focus-visible:ring-primary'
 
@@ -20,9 +22,9 @@ export function PageNotFound () {
         <p className='mb-11 text-md'>
           Oops! Looks like you&#x2019;re heading to a wrong planet.
         </p>
-        {(router.pathname !== Routes.Home) && (
+        {(router.pathname !== Routes.Home(networkId)) && (
           <Link
-            href={Routes.Home}
+            href={Routes.Home(networkId)}
             replace
             className={classNames(
               'px-16 py-5 font-bold leading-8 uppercase border rounded-lg text-EEEEEE focus:outline-none focus-visible:ring-2',

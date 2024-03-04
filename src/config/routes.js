@@ -1,7 +1,7 @@
 import { isFeatureEnabled } from '@/src/config/environment'
+import { networkIdToSlug } from '@/src/config/networks'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 
-const Home = '/'
 const NotFound = '/404'
 const TransactionHistory = '/transactions'
 const BondTransactions = '/pools/bond/transactions'
@@ -26,6 +26,18 @@ const Bridge = '/bridge'
 
 const GovernanceProposalPage = (proposalId) => { return `/governance/${proposalId}` }
 
+const getRoutePrefix = (networkId) => {
+  if (networkId === 1) {
+    return ''
+  }
+
+  return `/${networkIdToSlug[networkId]}`
+}
+
+const Home = (networkId) => {
+  return getRoutePrefix(networkId) + '/'
+}
+
 const Pools = (networkId) => {
   let url = null
   // ORDER is important
@@ -39,13 +51,13 @@ const Pools = (networkId) => {
     url = PodStakingPools
   }
 
-  return url
+  return getRoutePrefix(networkId) + url
 }
 
-const ViewCover = (coverKey) => {
+const ViewCover = (coverKey, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
 
-  return `/covers/${coverId}`
+  return getRoutePrefix(networkId) + `/covers/${coverId}`
 }
 
 const ViewProduct = (coverKey, productKey) => {

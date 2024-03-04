@@ -30,6 +30,7 @@ import {
 } from '@/utils/sorting'
 import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 const homeViewSelectionKey = 'view'
 
@@ -53,6 +54,7 @@ const sorterData = {
 
 export const ProductsGrid = () => {
   const { i18n } = useLingui()
+  const { networkId } = useNetwork()
 
   const selectedType = useMemo(() => {
     return DEFAULT_SORT(i18n)
@@ -126,7 +128,7 @@ export const ProductsGrid = () => {
         <div className='flex items-center'>
           <Link
             href={{
-              pathname: Routes.Home,
+              pathname: Routes.Home(networkId),
               query: {
                 [homeViewSelectionKey]: SORT_TYPES.DIVERSIFIED_POOL
               }

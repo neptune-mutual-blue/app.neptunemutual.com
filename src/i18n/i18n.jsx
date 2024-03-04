@@ -34,7 +34,7 @@ export const useLanguageContext = () => {
 
 export function LanguageProvider ({ children }) {
   const { locale, setLocale } = useActiveLocale()
-  const [loaded, setLoaded] = useState(false)
+  // const [loaded, setLoaded] = useState(false)
   const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
@@ -43,7 +43,8 @@ export function LanguageProvider ({ children }) {
       .then(() => {
         /* istanbul ignore next */
         if (ignore) { return }
-        setLoaded(true)
+        console.log('Activated locale %s', locale)
+        // setLoaded(true)
       })
       .catch((error) => { return console.error('Failed to activate locale', locale, error) })
 
@@ -77,10 +78,12 @@ export function LanguageProvider ({ children }) {
 
     return null
   }
-  if (!loaded) {
-    // prevent the app from rendering with placeholder text before the locale is loaded
-    return null
-  }
+
+  // console.log('Loaded: %s', loaded)
+  // if (!loaded) {
+  //   // prevent the app from rendering with placeholder text before the locale is loaded
+  //   return null
+  // }
 
   return (
     <LanguageContext.Provider value={memoizedValue}>

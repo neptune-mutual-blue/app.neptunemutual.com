@@ -16,8 +16,11 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) => {
+  const { networkId } = useNetwork()
+
   useEffect(() => {
     if (!coverData) { return }
 
@@ -49,7 +52,7 @@ export const DiversifiedCoverTermsPage = ({ loading, coverData, subProducts }) =
 
   return (
     <div>
-      <Link href={Routes.Home} replace className='block w-max'>
+      <Link href={Routes.Home(networkId)} replace className='block w-max'>
 
         <picture>
           <img

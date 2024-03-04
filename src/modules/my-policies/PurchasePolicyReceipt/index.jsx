@@ -29,9 +29,11 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
   const { data: event, loading: eventLoading } = useFetchCoverPurchasedEvent({ txHash })
@@ -161,7 +163,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
       <div className='px-4 pt-4 m-auto sm:px-10 md:px-10 lg:max-w-5xl pb-52'>
         <div className='flex flex-col text-center cursor-pointer sm:flex-row mt-9'>
 
-          <Link href={Routes.Home} replace className='sm:w-auto'>
+          <Link href={Routes.Home(networkId)} replace className='sm:w-auto'>
 
             <picture>
               <img

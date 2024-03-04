@@ -14,12 +14,11 @@ import {
   ChainLogos,
   NetworkNames
 } from '@/lib/connect-wallet/config/chains'
-import { APP_URLS } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
 import { classNames } from '@/utils/classnames'
-import { getNetworkInfo } from '@/utils/network'
 import { Menu } from '@headlessui/react'
 import {
   Content,
@@ -30,7 +29,6 @@ import {
 
 export const Network = () => {
   const { networkId } = useNetwork()
-  const { isEthereum, isArbitrum, isBinanceSmartChain, isPolygon } = getNetworkInfo(networkId)
   const { width } = useWindowSize()
 
   const [open, setOpen] = useState(false)
@@ -38,35 +36,31 @@ export const Network = () => {
   const networks = useMemo(() => {
     return [
       {
-        name: 'Ethereum Mainnet',
-        value: 'ethereum',
-        href: APP_URLS[1],
-        Icon: ChainLogos[1],
-        active: isEthereum
+        title: 'Ethereum Mainnet',
+        networkId: 1,
+        active: networkId === 1,
+        Icon: ChainLogos[1]
       },
       {
-        name: 'Arbitrum One',
-        value: 'arbitrum',
-        href: APP_URLS[42161],
-        Icon: ChainLogos[42161],
-        active: isArbitrum
+        title: 'Arbitrum One',
+        networkId: 42161,
+        active: networkId === 42161,
+        Icon: ChainLogos[42161]
       },
       {
-        name: 'BNB Smart Chain',
-        value: 'bnbsmartchain',
-        href: APP_URLS[56],
-        Icon: ChainLogos[56],
-        active: isBinanceSmartChain
+        title: 'BNB Smart Chain',
+        networkId: 56,
+        active: networkId === 56,
+        Icon: ChainLogos[56]
       },
       {
-        name: 'Polygon',
-        value: 'polygon',
-        href: APP_URLS[137],
-        Icon: ChainLogos[137],
-        active: isPolygon
+        title: 'Polygon',
+        networkId: 137,
+        active: networkId === 137,
+        Icon: ChainLogos[137]
       }
     ]
-  }, [isEthereum, isArbitrum, isBinanceSmartChain, isPolygon])
+  }, [networkId])
 
   const ref = useRef()
   useOnClickOutside(ref, () => {
@@ -152,7 +146,6 @@ export const Network = () => {
 
                   <Menu.Items
                     className='absolute right-0 hidden py-4 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown md:block'
-                    tabIndex={-1}
                   >
 
                     <div className='space-y-1 text-000000'>
@@ -160,7 +153,7 @@ export const Network = () => {
                         Switch Network
                       </p>
                       {
-                      networks.map(({ name, href, Icon, active }, i) => {
+                      networks.map((network, i) => {
                         return (
                           <Menu.Item key={i}>
                             {
@@ -171,18 +164,18 @@ export const Network = () => {
                                     'flex items-center gap-1.5 justify-between px-4 py-1.5',
                                     activeState && 'bg-344054 bg-opacity-20'
                                   )}
-                                  href={href}
+                                  href={Routes.Home(network.networkId)}
                                   tabIndex={0}
                                 >
                                   <div className='flex items-center gap-1.5'>
                                     <div className='flex items-center justify-center w-4 h-4 overflow-hidden rounded-full'>
-                                      <Icon width='32' height='32' />
+                                      <network.Icon width='32' height='32' />
                                     </div>
-                                    <span className='text-sm leading-6'>{name}</span>
+                                    <span className='text-sm leading-6'>{network.title}</span>
                                   </div>
 
                                   {
-                                  active && (
+                                  network.active && (
                                     <CheckCircleFilledIcon className='w-4 h-4 text-4E7DD9' />
                                   )
                                 }
@@ -242,21 +235,21 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
 
                 <div className='mt-6 space-y-4 md:mt-10 md:space-y-6'>
                   {
-                    networks.map(({ name, href, Icon, active }, i) => {
+                    networks.map((network, i) => {
                       return (
-                        <li key={i} value={name}>
+                        <li key={i}>
                           <a
                             className='flex items-center gap-2'
-                            href={href}
+                            href={Routes.Home(network.networkId)}
                             tabIndex={0}
                           >
                             <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
-                              <Icon width='32' height='32' />
+                              <network.Icon width='32' height='32' />
                             </div>
-                            <span className='leading-6 text-md md:text-display-sm'>{name}</span>
+                            <span className='leading-6 text-md md:text-display-sm'>{network.title}</span>
 
                             {
-                            active && (
+                            network.active && (
                               <CheckCircleFilledIcon className='w-5 h-5 text-4E7DD9' />
                             )
                           }

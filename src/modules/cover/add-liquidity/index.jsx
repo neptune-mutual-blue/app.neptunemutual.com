@@ -38,10 +38,12 @@ import { getCoverImgSrc } from '@/src/helpers/cover'
 import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
   const router = useRouter()
+  const { networkId } = useNetwork()
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
@@ -92,7 +94,7 @@ export const CoverAddLiquidityDetailsPage = () => {
               },
               {
                 name: coverData?.coverInfoDetails?.coverName,
-                href: Routes.ViewCover(coverKey),
+                href: Routes.ViewCover(coverKey, networkId),
                 current: false
               },
               { name: <Trans>Provide Liquidity</Trans>, current: true }

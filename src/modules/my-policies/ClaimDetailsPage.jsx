@@ -27,6 +27,7 @@ import {
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 export const ClaimDetailsPage = ({
   disabled,
@@ -35,6 +36,7 @@ export const ClaimDetailsPage = ({
   timestamp
 }) => {
   const router = useRouter()
+  const { networkId } = useNetwork()
   const { page, limit, setPage } = usePagination()
 
   const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
@@ -86,7 +88,7 @@ export const ClaimDetailsPage = ({
               {
                 name: projectOrProductName,
                 href: !isDiversified
-                  ? Routes.ViewCover(coverKey)
+                  ? Routes.ViewCover(coverKey, networkId)
                   : Routes.ViewProduct(coverKey, productKey),
                 current: false
               },
