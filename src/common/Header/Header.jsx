@@ -173,10 +173,7 @@ export const Header = () => {
                             : 'border-transparent text-white',
                           !link.active && 'before:w-full before:h-1 before:-bottom-1 before:left-0 before:absolute before:bg-primary before:scale-x-0 before:focus-visible:scale-x-100 before:transition-all before:hover:scale-x-100'
                         )}
-                      >
-
-                        {link.name}
-
+                      >{link.name}
                       </Link>
                     )
                   )
@@ -458,7 +455,7 @@ const DropdownLinks = ({ name, isActive, items = [] }) => {
                       {
                       ({ active }) => {
                         return (
-                          <a
+                          <Link
                             href={item.href}
                             className={classNames(
                               'gap-2 text-sm inline-flex items-center whitespace-nowrap p-1 pl-10 w-full',
@@ -474,7 +471,7 @@ const DropdownLinks = ({ name, isActive, items = [] }) => {
                               )
                             }
                             {item.name}
-                          </a>
+                          </Link>
                         )
                       }
                     }

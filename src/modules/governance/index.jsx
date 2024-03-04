@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { NoDataFound } from '@/common/Loading'
@@ -26,13 +24,8 @@ import {
   getVotingResults
 } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
-import { useNetwork } from '@/src/context/Network'
 
-export const GovernanceSinglePage = () => {
-  const router = useRouter()
-  const { networkId } = useNetwork()
-  const { proposalId } = router.query
-
+export const GovernanceSinglePage = ({ proposalId, networkId }) => {
   const [selectedChains, setSelectedChains] = useState([])
   const { data: proposalDetail, loading } = useSnapshotProposalById(proposalId)
 

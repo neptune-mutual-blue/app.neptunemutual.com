@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 
 import {
   Loading,
@@ -12,6 +11,7 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 import { getNetworksAndProducts } from '@/src/ssg/static-paths'
 import { slugToNetworkId } from '@/src/config/networks'
+import { getDescription, getTitle } from '@/src/ssg/seo'
 
 export const getStaticPaths = async () => {
   return {
@@ -25,14 +25,16 @@ export const getStaticProps = async ({ params }) => {
     props: {
       networkId: slugToNetworkId[params.network],
       coverId: params.coverId,
-      productId: params.productId
+      productId: params.productId,
+      seo: {
+        title: getTitle(params.coverId, params.productId, slugToNetworkId[params.network]),
+        description: getDescription(params.coverId, params.productId, slugToNetworkId[params.network])
+      }
     }
   }
 }
 
-export default function Options () {
-  const router = useRouter()
-  const { coverId, productId } = router.query
+export default function Options ({ seo, coverId, productId }) {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
@@ -41,7 +43,7 @@ export default function Options () {
 
   return (
     <main>
-      <Seo />
+      <Seo title={seo.title} description={seo.description} />
 
       <Content
         loading={loading}

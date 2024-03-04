@@ -6,15 +6,13 @@ import { AvailableCovers } from '@/modules/home/AvailableCovers'
 import InsightsSkeleton from '@/modules/insights/InsightsSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { ChainConfig } from '@/src/config/hardcoded'
-import { useNetwork } from '@/src/context/Network'
 import { NoDataFound } from '@/common/Loading'
 
 const DynamicInsights = dynamic(() => { return import('@/modules/insights').then((mod) => { return mod.Insights }) }, {
   loading: () => { return <InsightsSkeleton /> }
 })
 
-export default function HomePage () {
-  const { networkId } = useNetwork()
+export default function HomePage ({ networkId }) {
   const networkDetails = ChainConfig[networkId]
 
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer', networkId)
