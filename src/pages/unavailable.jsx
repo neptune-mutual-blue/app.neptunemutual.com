@@ -3,6 +3,14 @@ import Head from 'next/head'
 import { Container } from '@/common/Container/Container'
 import { HeaderLogo } from '@/common/HeaderLogo'
 
+export const getStaticProps = async () => {
+  return {
+    props: {
+      networkId: 1
+    }
+  }
+}
+
 export default function PageNotAvailable () {
   return (
     <main className='bg-white'>

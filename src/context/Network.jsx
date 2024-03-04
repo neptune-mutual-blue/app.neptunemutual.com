@@ -5,8 +5,8 @@ import { useEagerConnect } from '@/lib/connect-wallet/hooks/useEagerConnect'
 import {
   useInactiveListener
 } from '@/lib/connect-wallet/hooks/useInactiveListener'
-import { getNetworkId } from '@/src/config/environment'
 
+/** @type {React.Context<{ networkId: number | null}>} */
 const NetworkContext = React.createContext({ networkId: null })
 
 export function useNetwork () {
@@ -18,13 +18,7 @@ export function useNetwork () {
   return context
 }
 
-export const NetworkProvider = ({ children }) => {
-  const [networkId, setNetworkId] = React.useState(null)
-
-  useEffect(() => {
-    setNetworkId(getNetworkId())
-  }, [])
-
+export const NetworkProvider = ({ children, networkId }) => {
   useEffect(() => {
     document.documentElement.style.setProperty(
       '--color-primary',

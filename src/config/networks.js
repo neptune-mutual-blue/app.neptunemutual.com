@@ -1,5 +1,29 @@
 import { ChainLogos } from '@/lib/connect-wallet/config/chains'
 
+const supportedNetworks = [
+  1, // Ethereum Mainnet
+  56, // BNB Smart Chain Mainnet
+  137, // Polygon Mainnet
+  42161, // Arbitrum One Mainnet
+  80001 // Mumbai Testnet
+]
+
+const networkIdToSlug = {
+  1: 'ethereum',
+  56: 'bsc',
+  137: 'polygon',
+  42161: 'arbitrum',
+  80001: 'mumbai'
+}
+
+const slugToNetworkId = {
+  ethereum: 1,
+  bsc: 56,
+  polygon: 137,
+  arbitrum: 42161,
+  mumbai: 80001
+}
+
 const networks = {
   mainnet: [
     {
@@ -57,4 +81,4 @@ const networks = {
   ]
 }
 
-export { networks }
+export { networks, supportedNetworks, networkIdToSlug, slugToNetworkId }
