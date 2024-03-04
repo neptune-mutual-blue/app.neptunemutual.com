@@ -46,7 +46,7 @@ export default function MyPoliciesTxs ({ networkId }) {
             pages={[
               {
                 name: <Trans>My Policies</Trans>,
-                href: Routes.MyActivePolicies,
+                href: Routes.MyActivePolicies(networkId),
                 current: false
               },
               { name: <Trans>Transaction List</Trans>, href: '#', current: true }

@@ -260,7 +260,7 @@ export const useDisputeIncident = ({
             })
 
             router.replace(
-              Routes.ViewReport(coverKey, productKey, incidentDate)
+              Routes.ViewReport(coverKey, productKey, incidentDate, networkId)
             )
           },
           onTxFailure: () => {

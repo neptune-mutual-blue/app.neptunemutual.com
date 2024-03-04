@@ -82,14 +82,14 @@ export const ClaimDetailsPage = ({
             pages={[
               {
                 name: <Trans>My Policies</Trans>,
-                href: Routes.MyActivePolicies,
+                href: Routes.MyActivePolicies(networkId),
                 current: false
               },
               {
                 name: projectOrProductName,
                 href: !isDiversified
                   ? Routes.ViewCover(coverKey, networkId)
-                  : Routes.ViewProduct(coverKey, productKey),
+                  : Routes.ViewProduct(coverKey, productKey, networkId),
                 current: false
               },
               { name: <Trans>Claim</Trans>, href: '#', current: true }

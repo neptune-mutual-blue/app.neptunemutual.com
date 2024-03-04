@@ -28,6 +28,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -49,6 +50,7 @@ const sorterData = {
 
 export const PodStakingPage = () => {
   const { i18n } = useLingui()
+  const { networkId } = useNetwork()
 
   const [sortType, setSortType] = useState({
     // name: t(i18n)`A-Z`,
@@ -95,7 +97,7 @@ export const PodStakingPage = () => {
       <div className='flex justify-end'>
         <div className='items-center justify-between w-full sm:flex'>
           <Link
-            href={Routes.PodStakingPoolsTransactions}
+            href={Routes.PodStakingPoolsTransactions(networkId)}
             className='flex justify-center text-lg font-medium sm:inline-flex text-4E7DD9 hover:underline'
           >
 

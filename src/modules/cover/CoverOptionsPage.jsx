@@ -34,7 +34,7 @@ const getBreadCrumbs = (
       },
       {
         name: coverOrProductData?.productInfoDetails?.productName || <Trans>loading...</Trans>,
-        href: Routes.ViewProduct(coverKey, productKey),
+        href: Routes.ViewProduct(coverKey, productKey, networkId),
         current: true
       }
     ]
@@ -65,7 +65,7 @@ export const CoverOptionsPage = ({
 
   const { i18n } = useLingui()
 
-  const coverActions = getActions(i18n)
+  const coverActions = getActions(i18n, networkId)
 
   const { disabled } = getPolicyStatus(coverOrProductData)
 

@@ -172,7 +172,7 @@ const ReportListing = (props) => {
    */
   function goTo (reportId) {
     const [, , timestamp] = reportId.split('-')
-    router.push(Routes.ViewReport(coverKey, productKey, timestamp))
+    router.push(Routes.ViewReport(coverKey, productKey, timestamp, networkId))
   }
 
   if (loading) {

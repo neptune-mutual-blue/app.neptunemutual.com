@@ -30,6 +30,7 @@ export function TransactionList ({
   const toast = useToast()
   const [activeTab, setActiveTab] = useState('all')
   const { account } = useWeb3React()
+  const { networkId } = useNetwork()
 
   const [
     /**
@@ -132,10 +133,10 @@ export function TransactionList ({
         </div>
 
         <div className='pr-4 mt-4 overflow-y-auto md:min-h-0 max-h-tx-list-mobile md:max-h-tx-list'>
-          <NotificationsList data={listOfTransactions} activeTab={activeTab} />
+          <NotificationsList data={listOfTransactions} activeTab={activeTab} networkId={networkId} />
         </div>
         <div className={`grow text-center pt-10 md:pt-6 -ml-8 md:ml-0 ${page >= maxPage ? 'hidden' : ''}`}>
-          <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
+          <a href={Routes.TransactionHistory(networkId)} className='text-sm underline hover:no-underline'>
             <Trans>View More</Trans>
           </a>
         </div>
@@ -148,12 +149,12 @@ export function TransactionList ({
  *
  * @param {{
  *  data: import('@/src/services/transactions/history').IHistoryEntry[],
- *  activeTab: string
+ *  activeTab: string,
+ *  networkId: number
  * }} prop
  * @returns
  */
-function NotificationsList ({ data, activeTab }) {
-  const { networkId } = useNetwork()
+function NotificationsList ({ data, activeTab, networkId }) {
   const { locale } = useRouter()
 
   if (data.length) {
@@ -186,7 +187,7 @@ function NotificationsList ({ data, activeTab }) {
 }
 
 /**
- * @param {import('@/src/services/transactions/history').IHistoryEntry & { networkId: string, locale: string }} prop
+ * @param {import('@/src/services/transactions/history').IHistoryEntry & { networkId: number, locale: string }} prop
  */
 function Notification ({
   hash,

@@ -4,22 +4,27 @@ import { HeroStat } from '@/common/HeroStat'
 import { HeroTitle } from '@/common/HeroTitle'
 import { TabNav } from '@/common/Tab/TabNav'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { Trans } from '@lingui/macro'
 
-const headers = [
-  {
-    name: 'active',
-    href: Routes.MyActivePolicies,
-    displayAs: <Trans>Active</Trans>
-  },
-  {
-    name: 'expired',
-    href: Routes.MyExpiredPolicies,
-    displayAs: <Trans>Expired</Trans>
-  }
-]
+const headers = (networkId) => {
+  return [
+    {
+      name: 'active',
+      href: Routes.MyActivePolicies(networkId),
+      displayAs: <Trans>Active</Trans>
+    },
+    {
+      name: 'expired',
+      href: Routes.MyExpiredPolicies(networkId),
+      displayAs: <Trans>Expired</Trans>
+    }
+  ]
+}
 
 export const PoliciesTabs = ({ active, children, heroStatValue = '', heroStatTitle = '' }) => {
+  const { networkId } = useNetwork()
+
   return (
     <>
       <Hero className='min-h-[312px] flex flex-col justify-between'>
@@ -36,7 +41,7 @@ export const PoliciesTabs = ({ active, children, heroStatValue = '', heroStatTit
           )}
         </Container>
 
-        <TabNav headers={headers} activeTab={active} />
+        <TabNav headers={headers(networkId)} activeTab={active} />
       </Hero>
 
       {children}

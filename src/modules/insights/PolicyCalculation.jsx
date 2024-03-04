@@ -7,6 +7,7 @@ import { isValidProduct } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const PolicyCalculation = ({
   feeData,
@@ -15,6 +16,7 @@ export const PolicyCalculation = ({
   amount
 }) => {
   const router = useRouter()
+  const { networkId } = useNetwork()
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
 
   const coverFee = convertFromUnits(feeData?.fee || '', liquidityTokenDecimals).toString()
@@ -28,7 +30,7 @@ export const PolicyCalculation = ({
 
   const { i18n } = useLingui()
 
-  const actions = getActions(i18n)
+  const actions = getActions(i18n, networkId)
 
   const handleBuyCover = () => {
     const link = actions.purchase.getHref(

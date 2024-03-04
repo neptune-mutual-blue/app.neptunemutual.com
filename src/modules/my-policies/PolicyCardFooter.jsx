@@ -13,6 +13,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -35,6 +36,7 @@ export const PolicyCardFooter = ({
     router.locale
   )
 
+  const { networkId } = useNetwork()
   const { i18n } = useLingui()
 
   const stats = []
@@ -103,7 +105,7 @@ export const PolicyCardFooter = ({
       {isClaimable && withinClaimPeriod && !isPolicyExpired && (
         (
           <Link
-            href={Routes.ClaimPolicy(coverKey, productKey, incidentDate)}
+            href={Routes.ClaimPolicy(coverKey, productKey, incidentDate, networkId)}
             className='flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4 bg-primary'
             data-testid='claim-link'
           >

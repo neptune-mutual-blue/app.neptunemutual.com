@@ -5,6 +5,7 @@ import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { getPolicyStatus } from '@/utils/policy-status'
+import { useNetwork } from '@/src/context/Network'
 
 export const ProductCardWrapper = ({
   coverKey,
@@ -14,6 +15,8 @@ export const ProductCardWrapper = ({
   progressBgColor = undefined,
   ...rest
 }) => {
+  const { networkId } = useNetwork()
+
   if (!productData) {
     return <CardSkeleton numberOfCards={1} {...rest} />
   }
@@ -23,7 +26,7 @@ export const ProductCardWrapper = ({
   return (
     (
       <Link
-        href={Routes.ViewProduct(coverKey, productKey)}
+        href={Routes.ViewProduct(coverKey, productKey, networkId)}
         key={coverKey}
         className={classNames(
           'rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9',

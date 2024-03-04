@@ -3,6 +3,7 @@ import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
 import PDFFileIcon from '@/icons/PDFFileIcon'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export function CoverTermsModal ({
@@ -13,10 +14,11 @@ export function CoverTermsModal ({
   parameters,
   imgSrc
 }) {
+  const { networkId } = useNetwork()
   const onClose = () => { return setShowModal(false) }
 
   const onDownload = () => {
-    window.open(Routes.ViewCoverProductTerms(coverKey, productKey || ''), '_blank')
+    window.open(Routes.ViewCoverProductTerms(coverKey, productKey || '', networkId), '_blank')
   }
 
   return (

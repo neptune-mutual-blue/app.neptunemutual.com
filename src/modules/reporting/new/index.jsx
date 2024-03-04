@@ -21,8 +21,10 @@ import {
   NewIncidentReportForm
 } from '@/src/modules/reporting/NewIncidentReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
+import { useNetwork } from '@/src/context/Network'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
+  const { networkId } = useNetwork()
   const [accepted, setAccepted] = useState(false)
   const router = useRouter()
 
@@ -46,9 +48,9 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
     if (!hasActiveReportings) { return }
 
     router.replace(
-      Routes.ViewReport(coverKey, productKey, activeReportings[0].incidentDate)
+      Routes.ViewReport(coverKey, productKey, activeReportings[0].incidentDate, networkId)
     )
-  }, [activeReportings, coverKey, productKey, router])
+  }, [activeReportings, coverKey, networkId, productKey, router])
 
   if (loading) {
     return (

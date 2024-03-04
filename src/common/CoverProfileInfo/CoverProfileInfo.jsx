@@ -11,6 +11,7 @@ import { isGreater } from '@/utils/bn'
 import { ProjectImage } from './ProjectImage'
 import { ProjectName } from './ProjectName'
 import { ProjectWebsiteLink } from './ProjectWebsiteLink'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  *
@@ -22,6 +23,8 @@ import { ProjectWebsiteLink } from './ProjectWebsiteLink'
  * @returns
  */
 export function Card ({ status, incidentDate = '0', coverKey, productKey }) {
+  const { networkId } = useNetwork()
+
   const badge = (
     <Badge
       status={status}
@@ -34,7 +37,7 @@ export function Card ({ status, incidentDate = '0', coverKey, productKey }) {
   if (isGreater(incidentDate, '0')) {
     return (
       <Link
-        href={Routes.ViewReport(coverKey, productKey, incidentDate)}
+        href={Routes.ViewReport(coverKey, productKey, incidentDate, networkId)}
         data-testid='badge-link'
       >
         {badge}

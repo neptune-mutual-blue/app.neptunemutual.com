@@ -25,8 +25,8 @@ export default function MyPolicies ({ networkId }) {
   const router = useRouter()
 
   useEffect(() => {
-    router.replace(Routes.MyActivePolicies)
-  }, [router])
+    router.replace(Routes.MyActivePolicies(networkId))
+  }, [networkId, router])
 
   return null
 }

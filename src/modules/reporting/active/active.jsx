@@ -30,6 +30,7 @@ import {
 import { toStringSafe } from '@/utils/string'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -116,6 +117,7 @@ export const ReportingActivePage = () => {
 }
 
 function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
+  const { networkId } = useNetwork()
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
   if (loadingProp) {
@@ -142,7 +144,8 @@ function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
                   href={Routes.ViewReport(
                     report.coverKey,
                     report.productKey,
-                    report.incidentDate
+                    report.incidentDate,
+                    networkId
                   )}
                   key={report.id}
                   className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
