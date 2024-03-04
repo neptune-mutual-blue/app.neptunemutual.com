@@ -1,13 +1,13 @@
-import { useRouter } from 'next/router'
 
 import { ComingSoon } from '@/common/ComingSoon'
 import { NewIncidentReportPage } from '@/modules/reporting/new'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useNetwork } from '@/src/context/Network'
 
 import { getNetworksAndCovers } from '@/src/ssg/static-paths'
 import { slugToNetworkId } from '@/src/config/networks'
+import { getDescription, getTitle } from '@/src/ssg/seo'
+import { Seo } from '@/common/Seo'
 
 export const getStaticPaths = async () => {
   return {
@@ -20,18 +20,19 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       networkId: slugToNetworkId[params.network],
-      coverId: params.coverId
+      coverId: params.coverId,
+      seo: {
+        title: getTitle(params.coverId, undefined, slugToNetworkId[params.network]),
+        description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
+      }
     }
   }
 }
 
-export default function ReportingNewCoverPage () {
-  const router = useRouter()
-  const { coverId, productId } = router.query
+export default function ReportingNewCoverPage ({ seo, networkId, coverId, productId }) {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { networkId } = useNetwork()
   const disabled = !isFeatureEnabled('reporting', networkId)
 
   if (disabled) {
@@ -39,9 +40,12 @@ export default function ReportingNewCoverPage () {
   }
 
   return (
-    <NewIncidentReportPage
-      coverKey={coverKey}
-      productKey={productKey}
-    />
+    <main>
+      <Seo title={seo.title} description={seo.description} />
+      <NewIncidentReportPage
+        coverKey={coverKey}
+        productKey={productKey}
+      />
+    </main>
   )
 }

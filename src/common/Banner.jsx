@@ -15,6 +15,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import Link from 'next/link'
 
 export const Banner = () => {
   const { networkId } = useNetwork()
@@ -46,12 +47,12 @@ export const Banner = () => {
               <p>
                 <Trans>
                   Ethereum gas fees too high? {' '}
-                  <a
+                  <Link
                     className='underline'
                     href={APP_URLS[42161]}
                   >
                     Use Neptune Mutual on Arbitrum
-                  </a>
+                  </Link>
                 </Trans>
               </p>
             )}
@@ -60,12 +61,12 @@ export const Banner = () => {
               <p>
                 <Trans>
                   Don't have Arbitrum ETH?{' '}
-                  <a
+                  <Link
                     className='underline'
                     href={APP_URLS[1]}
                   >
                     Use Neptune Mutual on Ethereum
-                  </a>{' '}
+                  </Link>{' '}
                   or{' '}
                   <a
                     className='underline'

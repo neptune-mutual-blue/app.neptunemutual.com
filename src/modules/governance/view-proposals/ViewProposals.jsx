@@ -9,7 +9,6 @@ import { KeyVal } from '@/modules/governance/view-proposals/KeyVal'
 import { MULTIPLIER } from '@/src/config/constants'
 import { ChainConfig } from '@/src/config/hardcoded'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
 import {
   convertFromUnits,
@@ -20,13 +19,17 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { NoDataFound } from '@/common/Loading'
 
-export const ViewProposals = () => {
+export const ViewProposals = ({ networkId }) => {
   const { account } = useWeb3React()
-  const { networkId } = useNetwork()
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
   const { data } = useVoteEscrowData()
+
+  if (!ChainConfig[networkId]) {
+    return <NoDataFound />
+  }
 
   const lockDuration = toBNSafe(data.unlockTimestamp).isGreaterThan(DateLib.unix())
     ? toBNSafe(data.unlockTimestamp).minus(DateLib.unix()) // to duration left

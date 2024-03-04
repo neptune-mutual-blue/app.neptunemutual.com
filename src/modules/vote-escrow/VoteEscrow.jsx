@@ -25,7 +25,6 @@ import {
 import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useNetwork } from '@/src/context/Network'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
 import { useVoteEscrowLock } from '@/src/hooks/contracts/useVoteEscrowLock'
 import {
@@ -49,7 +48,7 @@ import { useLingui } from '@lingui/react'
 const VOTE_ESCROW_MIN_WEEKS = 1
 const VOTE_ESCROW_MAX_WEEKS = 208
 
-const VoteEscrow = () => {
+const VoteEscrow = ({ networkId }) => {
   const [input, setInput] = useState('')
   const [extend, setExtend] = useState(false)
   const [agreed, setAgreed] = useState(false)
@@ -58,15 +57,15 @@ const VoteEscrow = () => {
   // null when slider is untouched
   const [sliderValue, setSliderValue] = useState(null)
 
-  const { networkId } = useNetwork()
   const { i18n } = useLingui()
 
   const router = useRouter()
+  const { isMobile } = useDeviceSize()
+
   const { NPMTokenDecimals, NPMTokenSymbol, NPMTokenAddress } = useAppConstants()
   const veNPMTokenSymbol = ChainConfig[networkId].veNPM.tokenSymbol
   const veNPMTokenDecimals = ChainConfig[networkId].veNPM.tokenDecimals
   const veNPMTokenAddress = ChainConfig[networkId].veNPM.address
-  const { isMobile } = useDeviceSize()
 
   const {
     data,

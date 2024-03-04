@@ -13,6 +13,31 @@ import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useNetwork } from '@/src/context/Network'
+import { slugToNetworkId } from '@/src/config/networks'
+
+export async function getStaticPaths () {
+  return { paths: [], fallback: 'blocking' }
+}
+
+export async function getStaticProps ({ params }) {
+  const networkId = slugToNetworkId[params.network]
+
+  if (!networkId) {
+    return {
+      notFound: true
+    }
+  }
+
+  return {
+    props: {
+      networkId,
+      coverId: params.coverId,
+      productId: params.productId,
+      timestamp: params.timestamp
+    },
+    revalidate: 10 // In seconds
+  }
+}
 
 export default function IncidentResolvedCoverPage () {
   const { networkId } = useNetwork()

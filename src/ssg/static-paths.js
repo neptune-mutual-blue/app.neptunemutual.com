@@ -2,11 +2,7 @@ const { networkIdToSlug } = require('@/src/config/networks')
 const all = require('../data/summary.json')
 
 const getNetworks = () => {
-  const duplicateNetworks = all.map((item) => {
-    return networkIdToSlug[item.chainId]
-  })
-
-  const networks = Array.from(new Set(duplicateNetworks))
+  const networks = Object.values(networkIdToSlug)
 
   return networks.map((network) => {
     return {

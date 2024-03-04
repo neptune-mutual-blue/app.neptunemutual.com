@@ -31,7 +31,7 @@ const Wrappers = ({ children, networkId }) => {
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider networkId={networkId}>
         <AppConstantsProvider>
-          <CoversAndProductsProvider2>
+          <CoversAndProductsProvider2 networkId={networkId}>
             <UnlimitedApprovalProvider>
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
