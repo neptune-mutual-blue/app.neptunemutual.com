@@ -9,11 +9,11 @@ export const getStaticProps = async () => {
   }
 }
 
-export default function Home () {
+export default function Home ({ networkId }) {
   return (
     <main>
       <Seo />
-      <HomePage />
+      <HomePage networkId={networkId} />
 
     </main>
   )

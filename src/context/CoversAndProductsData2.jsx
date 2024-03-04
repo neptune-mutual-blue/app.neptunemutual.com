@@ -7,7 +7,6 @@ import {
 } from 'react'
 
 import { ChainConfig } from '@/src/config/hardcoded'
-import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import { getProductSummary } from '@/src/services/api/home/product-summary'
 import {
@@ -21,7 +20,6 @@ import { useWeb3React } from '@web3-react/core'
 
 const CoversAndProductsDataContext = createContext({
   loading: false,
-  data: [],
 
   getCoverOrProduct: (_coverKey, _productKey) => { return null },
 
@@ -49,10 +47,9 @@ export function useCoversAndProducts2 () {
   return context
 }
 
-export const CoversAndProductsProvider2 = ({ children }) => {
+export const CoversAndProductsProvider2 = ({ children, networkId }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  const { networkId } = useNetwork()
   const { account } = useWeb3React()
 
   const stablecoinDecimals = ChainConfig[networkId]?.stablecoin.tokenDecimals ?? 6
@@ -145,7 +142,6 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   return (
     <CoversAndProductsDataContext.Provider value={{
       loading,
-      data,
       getCoverByCoverKey,
       getProductsByCoverKey,
       getCoverOrProduct,

@@ -5,6 +5,7 @@ import { CoverPurchaseDetailsPage } from '@/src/modules/cover/purchase'
 
 import { slugToNetworkId } from '@/src/config/networks'
 import { getNetworksAndCovers } from '@/src/ssg/static-paths'
+import { getDescription, getTitle } from '@/src/ssg/seo'
 
 export const getStaticPaths = async () => {
   return {
@@ -18,19 +19,23 @@ export const getStaticProps = async ({ params }) => {
     props: {
       networkId: slugToNetworkId[params.network],
       coverId: params.coverId,
-      disabled: !isFeatureEnabled('policy', slugToNetworkId[params.network])
+      disabled: !isFeatureEnabled('policy', slugToNetworkId[params.network]),
+      seo: {
+        title: getTitle(params.coverId, undefined, slugToNetworkId[params.network]),
+        description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
+      }
     }
   }
 }
 
-export default function CoverPurchaseDetails ({ disabled }) {
+export default function CoverPurchaseDetails ({ disabled, seo }) {
   if (disabled) {
     return <ComingSoon />
   }
 
   return (
     <>
-      <Seo />
+      <Seo title={seo.title} description={seo.description} />
 
       <CoverPurchaseDetailsPage />
     </>

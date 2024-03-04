@@ -13,6 +13,7 @@ import { APP_URLS } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { getNetworkInfo } from '@/utils/network'
+import Link from 'next/link'
 
 export const NetworkSwitchPopup = () => {
   const [open, setOpen] = useState(false)
@@ -54,14 +55,14 @@ export const NetworkSwitchPopup = () => {
 
           <div className='mt-4'>
             <img src='/images/arbitrum.svg' className='mx-auto' width={80} height={80} alt='arbitrum logo image' />
-            <a
+            <Link
               className='flex items-center justify-center w-full p-4 pl-6 mx-auto mt-6 text-white rounded-big bg-4E7DD9 md:w-max'
               href={APP_URLS[42161]}
               onClick={handleClosePopup}
             >
               <span className='font-semibold leading-5 uppercase text-md'>Switch to arbitrum</span>
               <TrendUpIcon className='flex-shrink-0' />
-            </a>
+            </Link>
           </div>
         </div>
       </ModalWrapper>

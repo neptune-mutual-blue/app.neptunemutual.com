@@ -61,7 +61,7 @@ export const MainLayout = ({ children }) => {
           onClose={() => { return setIsCookieOpen(false) }}
         />
 
-        {(!isCookieOpen) && <NetworkSwitchPopup />}
+        {!isCookieOpen ? <NetworkSwitchPopup /> : null}
         <ScrollToTopButton />
       </div>
 

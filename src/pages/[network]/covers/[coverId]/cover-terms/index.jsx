@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 
 import { Seo } from '@/common/Seo'
 import {
@@ -11,6 +10,7 @@ import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { getNetworksAndCovers } from '@/src/ssg/static-paths'
 import { slugToNetworkId } from '@/src/config/networks'
+import { getDescription, getTitle } from '@/src/ssg/seo'
 
 export const getStaticPaths = async () => {
   return {
@@ -23,16 +23,18 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       networkId: slugToNetworkId[params.network],
-      coverId: params.coverId
+      coverId: params.coverId,
+      seo: {
+        title: getTitle(params.coverId, undefined, slugToNetworkId[params.network]),
+        description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
+      }
     }
   }
 }
 
-export default function CoverTermsPage () {
-  const router = useRouter()
+export default function CoverTermsPage ({ seo, coverId }) {
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
 
-  const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
 
   const coverData = getCoverByCoverKey(coverKey)
@@ -40,7 +42,7 @@ export default function CoverTermsPage () {
 
   return (
     <main>
-      <Seo />
+      <Seo title={seo.title} description={seo.description} />
 
       <div className='px-8 pt-8 bg-white md:pt-14 sm:px-12 md:px-20 lg:px-36 xl:px-56 pb-14 text-000000'>
         {

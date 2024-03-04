@@ -12,6 +12,7 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 import { slugToNetworkId } from '@/src/config/networks'
 import { getNetworksAndCovers } from '@/src/ssg/static-paths'
+import { getDescription, getTitle } from '@/src/ssg/seo'
 
 const DynamicHomeHero = dynamic(() => { return import('@/modules/home/Hero').then((mod) => { return mod.HomeHero }) }, {
   loading: () => { return <HomeHeroSkeleton data-testid='hero-skeleton' /> }
@@ -28,12 +29,16 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       networkId: slugToNetworkId[params.network],
-      coverId: params.coverId
+      coverId: params.coverId,
+      seo: {
+        title: getTitle(params.coverId, undefined, slugToNetworkId[params.network]),
+        description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
+      }
     }
   }
 }
 
-export default function CoverPage () {
+export default function CoverPage ({ seo }) {
   const router = useRouter()
   const { coverId, productId } = router.query
 
@@ -45,7 +50,7 @@ export default function CoverPage () {
 
   return (
     <main>
-      <Seo />
+      <Seo title={seo.title} description={seo.description} />
       <Content
         loading={loading}
         coverData={coverData}

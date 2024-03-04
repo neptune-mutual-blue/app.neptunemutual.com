@@ -6,7 +6,6 @@ import {
 import { useRouter } from 'next/router'
 
 import { NoDataFound } from '@/common/Loading'
-import { Seo } from '@/common/Seo'
 import { NewReportSkeleton } from '@/modules/reporting/new/NewReportSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
@@ -73,9 +72,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
   }
 
   return (
-    <main>
-      <Seo />
-
+    <>
       {/* hero */}
       <ReportingHero
         coverKey={coverKey}
@@ -101,6 +98,6 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
             activeReportings={activeReportings}
           />
           )}
-    </main>
+    </>
   )
 }

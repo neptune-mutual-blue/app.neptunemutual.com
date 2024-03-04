@@ -9,7 +9,7 @@ import { isFeatureEnabled } from '@/src/config/environment'
 
 import { slugToNetworkId } from '@/src/config/networks'
 import { getNetworks } from '@/src/ssg/static-paths'
-import { useMountedState } from '@/src/hooks/useMountedState'
+import { ChainConfig } from '@/src/config/hardcoded'
 
 export const getStaticPaths = async () => {
   return {
@@ -28,13 +28,12 @@ export const getStaticProps = async ({ params }) => {
 
 export default function VoteEscrowPage ({ networkId }) {
   const disabled = !isFeatureEnabled('vote-escrow', networkId)
-  const isMounted = useMountedState()
 
   if (disabled) {
     return <ComingSoon />
   }
 
-  if (!isMounted()) {
+  if (!ChainConfig[networkId]) {
     return <Loading />
   }
 
@@ -42,7 +41,7 @@ export default function VoteEscrowPage ({ networkId }) {
     <main className='pt-16 pb-36' id='vote-escrow-page'>
       <Seo />
       <Container>
-        {networkId ? <VoteEscrow /> : <Loading />}
+        <VoteEscrow networkId={networkId} />
       </Container>
     </main>
   )

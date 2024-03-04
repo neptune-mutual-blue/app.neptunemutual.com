@@ -30,7 +30,7 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export default function MyLiquidityTxs ({ networkId }) {
-  const disabled = isFeatureEnabled('liquidity', networkId)
+  const disabled = !isFeatureEnabled('liquidity', networkId)
 
   if (disabled) {
     return <ComingSoon />
