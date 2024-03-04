@@ -26,10 +26,12 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 
 import { StatsCard } from './StatsCard'
+import { useNetwork } from '@/src/context/Network'
 
 function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const report = data.incidentReports[consensusIndex]
 
+  const { networkId } = useNetwork()
   const router = useRouter()
   const { NPMTokenSymbol, liquidityTokenDecimals } = useAppConstants()
   const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
@@ -53,7 +55,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const status = identifyStatus(report.status)
 
   const totalStake = sumOf(totalAttested, totalRefuted)
-  const href = Routes.ViewReport(coverKey, productKey, coverOrProductData?.activeIncidentDate)
+  const href = Routes.ViewReport(coverKey, productKey, coverOrProductData?.activeIncidentDate, networkId)
 
   const attestedPercentage = toBN(totalAttested)
     .dividedBy(totalStake)

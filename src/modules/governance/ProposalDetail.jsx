@@ -1,7 +1,8 @@
-import {
-  useState
-} from 'react'
+import { useState } from 'react'
 
+import BigNumber from 'bignumber.js'
+
+import { Alert } from '@/common/Alert/Alert'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { AccountDetail } from '@/modules/governance/AccountDetail'
@@ -9,6 +10,7 @@ import LiquidityGauge from '@/modules/governance/LiquidityGauge'
 import { ProposalDetailCard } from '@/modules/governance/ProposalDetailCard'
 import { EMISSION_PER_EPOCH } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import {
   sumOf,
   toBN
@@ -20,10 +22,9 @@ import {
   getVotingResults
 } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
-import BigNumber from 'bignumber.js'
-import { Alert } from '@/common/Alert/Alert'
 
 export const ProposalDetail = ({ proposalDetail }) => {
+  const { networkId } = useNetwork()
   const [selectedChains, setSelectedChains] = useState([])
 
   const isValidProposal = getTagFromTitle(proposalDetail.title) === 'gce'
@@ -49,7 +50,7 @@ export const ProposalDetail = ({ proposalDetail }) => {
         pages={[
           {
             name: <Trans>Governance</Trans>,
-            href: Routes.Governance,
+            href: Routes.Governance(networkId),
             current: false
           },
           {

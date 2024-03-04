@@ -1,10 +1,13 @@
 import { Alert } from '@/common/Alert/Alert'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { Trans } from '@lingui/macro'
 
 export function DiversifiedCoverRules ({ projectName, coverKey, productKey }) {
+  const { networkId } = useNetwork()
+
   const onDownload = () => {
-    window.open(Routes.ViewCoverProductTerms(coverKey, productKey), '_blank')
+    window.open(Routes.ViewCoverProductTerms(coverKey, productKey, networkId), '_blank')
   }
 
   return (

@@ -116,7 +116,7 @@ export const ResultRenderer = ({ row }) => {
 }
 
 export const ActionsRenderer = ({ row, networkId }) => {
-  const setGaugeUrl = Routes.GovernanceProposalPage(row.id)
+  const setGaugeUrl = Routes.GovernanceProposalPage(row.id, networkId)
   const proposalLink = getProposalLink(networkId, row.id)
 
   return (

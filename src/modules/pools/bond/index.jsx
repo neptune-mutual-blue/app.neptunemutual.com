@@ -294,7 +294,7 @@ const BondPage = () => {
           </a>
 
           <Link
-            href={Routes.BondTransactions}
+            href={Routes.BondTransactions(networkId)}
             className='inline-block text-lg font-medium text-4E7DD9 hover:underline'
           >
 

@@ -267,7 +267,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
 
             await cleanup()
 
-            router.replace(Routes.ActiveReports)
+            router.replace(Routes.ActiveReports(networkId))
           },
           onTxFailure: () => {
             TransactionHistory.push({

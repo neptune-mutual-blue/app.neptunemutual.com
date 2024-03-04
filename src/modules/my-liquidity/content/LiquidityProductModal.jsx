@@ -5,17 +5,20 @@ import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { toBN } from '@/utils/bn'
 import { formatPercent } from '@/utils/formatter/percent'
 import * as Dialog from '@radix-ui/react-dialog'
 
 export function LiquidityProductModal ({ productData, setShowModal }) {
+  const { networkId } = useNetwork()
+
   const imgSrc = getCoverImgSrc({ key: productData.productKey })
   const onClose = () => { return setShowModal(false) }
 
   const onDownload = () => {
-    window.open(Routes.ViewCoverProductTerms(productData.coverKey, productData.productKey), '_blank')
+    window.open(Routes.ViewCoverProductTerms(productData.coverKey, productData.productKey, networkId), '_blank')
     setShowModal(false)
   }
 

@@ -47,7 +47,7 @@ export const CoverPurchaseDetailsPage = () => {
         },
         {
           name: coverOrProductData?.productInfoDetails?.productName || <Trans>loading...</Trans>,
-          href: Routes.ViewProduct(coverKey, productKey),
+          href: Routes.ViewProduct(coverKey, productKey, networkId),
           current: true
         },
         {

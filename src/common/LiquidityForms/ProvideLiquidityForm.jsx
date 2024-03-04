@@ -191,7 +191,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
     const statusLink = (
       <Link
-        href={Routes.ViewReport(coverKey, productKey, incidentDate)}
+        href={Routes.ViewReport(coverKey, productKey, incidentDate, networkId)}
         className='font-medium underline hover:no-underline'
       >
         {status}

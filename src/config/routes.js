@@ -3,163 +3,196 @@ import { networkIdToSlug } from '@/src/config/networks'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 
 const NotFound = '/404'
-const TransactionHistory = '/transactions'
-const BondTransactions = '/pools/bond/transactions'
-const PolicyTransactions = '/my-policies/transactions'
-const LiquidityTransactions = '/my-liquidity/transactions'
-const MyActivePolicies = '/my-policies/active'
-const MyExpiredPolicies = '/my-policies/expired'
-const MyLiquidity = '/my-liquidity'
-const ActiveReports = '/reports/active'
-const Governance = '/governance'
-const VoteEscrow = '/vote-escrow'
-const ResolvedReports = '/reports/resolved'
-const BondPool = '/pools/bond'
-const StakingPools = '/pools/staking'
-const PodStakingPools = '/pools/pod-staking'
-const BondPoolTransactions = '/pools/bond/transactions'
-const StakingPoolsTransactions = '/pools/staking/transactions'
-const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
-const LiquidityGaugePoolsTransactions = '/pools/liquidity-gauge-pools/transactions'
-const LiquidityGaugePools = '/pools/liquidity-gauge-pools'
-const Bridge = '/bridge'
+/** @type {(networkId: number) => string} */
+const TransactionHistory = (networkId) => { return getRoutePrefix(networkId) + '/transactions' }
+/** @type {(networkId: number) => string} */
+const BondTransactions = (networkId) => { return getRoutePrefix(networkId) + '/pools/bond/transactions' }
+/** @type {(networkId: number) => string} */
+const PolicyTransactions = (networkId) => { return getRoutePrefix(networkId) + '/my-policies/transactions' }
+/** @type {(networkId: number) => string} */
+const LiquidityTransactions = (networkId) => { return getRoutePrefix(networkId) + '/my-liquidity/transactions' }
+/** @type {(networkId: number) => string} */
+const MyActivePolicies = (networkId) => { return getRoutePrefix(networkId) + '/my-policies/active' }
+/** @type {(networkId: number) => string} */
+const MyExpiredPolicies = (networkId) => { return getRoutePrefix(networkId) + '/my-policies/expired' }
+/** @type {(networkId: number) => string} */
+const MyLiquidity = (networkId) => { return getRoutePrefix(networkId) + '/my-liquidity' }
+/** @type {(networkId: number) => string} */
+const ActiveReports = (networkId) => { return getRoutePrefix(networkId) + '/reports/active' }
+/** @type {(networkId: number) => string} */
+const Governance = (networkId) => { return getRoutePrefix(networkId) + '/governance' }
+/** @type {(networkId: number) => string} */
+const VoteEscrow = (networkId) => { return getRoutePrefix(networkId) + '/vote-escrow' }
+/** @type {(networkId: number) => string} */
+const ResolvedReports = (networkId) => { return getRoutePrefix(networkId) + '/reports/resolved' }
+/** @type {(networkId: number) => string} */
+const BondPool = (networkId) => { return getRoutePrefix(networkId) + '/pools/bond' }
+/** @type {(networkId: number) => string} */
+const StakingPools = (networkId) => { return getRoutePrefix(networkId) + '/pools/staking' }
+/** @type {(networkId: number) => string} */
+const PodStakingPools = (networkId) => { return getRoutePrefix(networkId) + '/pools/pod-staking' }
+/** @type {(networkId: number) => string} */
+const BondPoolTransactions = (networkId) => { return getRoutePrefix(networkId) + '/pools/bond/transactions' }
+/** @type {(networkId: number) => string} */
+const StakingPoolsTransactions = (networkId) => { return getRoutePrefix(networkId) + '/pools/staking/transactions' }
+/** @type {(networkId: number) => string} */
+const PodStakingPoolsTransactions = (networkId) => { return getRoutePrefix(networkId) + '/pools/pod-staking/transactions' }
+/** @type {(networkId: number) => string} */
+const LiquidityGaugePoolsTransactions = (networkId) => { return getRoutePrefix(networkId) + '/pools/liquidity-gauge-pools/transactions' }
+/** @type {(networkId: number) => string} */
+const LiquidityGaugePools = (networkId) => { return getRoutePrefix(networkId) + '/pools/liquidity-gauge-pools' }
+/** @type {(networkId: number) => string} */
+const Bridge = (networkId) => { return getRoutePrefix(networkId) + '/bridge' }
 
-const GovernanceProposalPage = (proposalId) => { return `/governance/${proposalId}` }
+/** @type {(proposalId:string, networkId: number) => string} */
+const GovernanceProposalPage = (proposalId, networkId) => { return getRoutePrefix(networkId) + `/governance/${proposalId}` }
 
+/** @type {(networkId: number) => string} */
 const getRoutePrefix = (networkId) => {
-  if (networkId === 1) {
-    return ''
-  }
-
   return `/${networkIdToSlug[networkId]}`
 }
 
+/** @type {(networkId: any) => string} */
 const Home = (networkId) => {
-  return getRoutePrefix(networkId) + '/'
+  return networkId === 1 || networkId === '1' ? '/' : getRoutePrefix(networkId) + '/'
 }
 
+/** @type {(networkId: number) => string} */
 const Pools = (networkId) => {
   let url = null
   // ORDER is important
   if (isFeatureEnabled('liquidity-gauge-pools', networkId)) {
-    url = LiquidityGaugePools
+    url = LiquidityGaugePools(networkId)
   } else if (isFeatureEnabled('bond', networkId)) {
-    url = BondPool
+    url = BondPool(networkId)
   } else if (isFeatureEnabled('staking-pool', networkId)) {
-    url = StakingPools
+    url = StakingPools(networkId)
   } else if (isFeatureEnabled('pod-staking-pool', networkId)) {
-    url = PodStakingPools
+    url = PodStakingPools(networkId)
   }
 
   return getRoutePrefix(networkId) + url
 }
 
+/** @type {(coverKey: any, networkId: number) => string} */
 const ViewCover = (coverKey, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
 
   return getRoutePrefix(networkId) + `/covers/${coverId}`
 }
 
-const ViewProduct = (coverKey, productKey) => {
+/** @type {(coverKey: any, productKey: any, networkId: number) => string} */
+const ViewProduct = (coverKey, productKey, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
   const productId = safeParseBytes32String(productKey)
 
-  return `/covers/${coverId}/products/${productId}`
+  return getRoutePrefix(networkId) + `/covers/${coverId}/products/${productId}`
 }
 
-const ProvideLiquidity = (coverKey) => {
+/** @type {(coverKey: any, networkId: number) => string} */
+const ProvideLiquidity = (coverKey, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
 
-  return `/covers/${coverId}/add-liquidity`
+  return getRoutePrefix(networkId) + `/covers/${coverId}/add-liquidity`
 }
 
-const PurchasePolicy = (coverKey, productKey) => {
-  const coverId = safeParseBytes32String(coverKey)
-  const productId = safeParseBytes32String(productKey)
-
-  if (productId === '') {
-    return `/covers/${coverId}/purchase`
-  }
-
-  return `/covers/${coverId}/products/${productId}/purchase`
-}
-
-const ReportNewIncident = (coverKey, productKey) => {
+/** @type {(coverKey: any, productKey: any, networkId: number) => string} */
+const PurchasePolicy = (coverKey, productKey, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
   const productId = safeParseBytes32String(productKey)
 
   if (productId === '') {
-    return `/covers/${coverId}/new-report`
+    return getRoutePrefix(networkId) + `/covers/${coverId}/purchase`
   }
 
-  return `/covers/${coverId}/products/${productId}/new-report`
+  return getRoutePrefix(networkId) + `/covers/${coverId}/products/${productId}/purchase`
 }
 
-const ClaimPolicy = (coverKey, productKey, incidentDate) => {
+/** @type {(coverKey: any, productKey: any, networkId: number) => string} */
+const ReportNewIncident = (coverKey, productKey, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
   const productId = safeParseBytes32String(productKey)
 
   if (productId === '') {
-    return `/my-policies/${coverId}/incidents/${incidentDate}/claim`
+    return getRoutePrefix(networkId) + `/covers/${coverId}/new-report`
   }
 
-  return `/my-policies/${coverId}/products/${productId}/incidents/${incidentDate}/claim`
+  return getRoutePrefix(networkId) + `/covers/${coverId}/products/${productId}/new-report`
 }
 
-const ViewPolicyReceipt = (txHash) => {
-  return `/my-policies/receipt/${txHash}`
-}
-
-const ViewReport = (coverKey, productKey, incidentDate) => {
+/** @type {(coverKey: any, productKey: any, incidentDate:any, networkId: number) => string} */
+const ClaimPolicy = (coverKey, productKey, incidentDate, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
   const productId = safeParseBytes32String(productKey)
 
   if (productId === '') {
-    return `/reports/${coverId}/incidents/${incidentDate}/details`
+    return getRoutePrefix(networkId) + `/my-policies/${coverId}/incidents/${incidentDate}/claim`
   }
 
-  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}/details`
+  return getRoutePrefix(networkId) + `/my-policies/${coverId}/products/${productId}/incidents/${incidentDate}/claim`
 }
 
-const DisputeReport = (coverKey, productKey, incidentDate) => {
+/** @type {(txHash: any, networkId: number) => string} */
+const ViewPolicyReceipt = (txHash, networkId) => {
+  return getRoutePrefix(networkId) + `/my-policies/receipt/${txHash}`
+}
+
+/** @type {(coverKey: any, productKey: any, incidentDate:any, networkId: number) => string} */
+const ViewReport = (coverKey, productKey, incidentDate, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
   const productId = safeParseBytes32String(productKey)
 
   if (productId === '') {
-    return `/reports/${coverId}/incidents/${incidentDate}/dispute`
+    return getRoutePrefix(networkId) + `/reports/${coverId}/incidents/${incidentDate}/details`
   }
 
-  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}/dispute`
+  return getRoutePrefix(networkId) + `/reports/${coverId}/products/${productId}/incidents/${incidentDate}/details`
 }
 
-const ViewCoverReports = (coverKey) => {
-  const coverId = safeParseBytes32String(coverKey)
-
-  return `/reports/${coverId}`
-}
-
-const MyCoverLiquidity = (coverKey) => {
-  const coverId = safeParseBytes32String(coverKey)
-
-  return `/my-liquidity/${coverId}`
-}
-
-const ViewProductReports = (coverKey, productKey) => {
-  const coverId = safeParseBytes32String(coverKey)
-  const productId = safeParseBytes32String(productKey)
-
-  return `/reports/${coverId}/products/${productId}`
-}
-
-const ViewCoverProductTerms = (coverKey, productKey) => {
+/** @type {(coverKey: any, productKey: any, incidentDate:any, networkId: number) => string} */
+const DisputeReport = (coverKey, productKey, incidentDate, networkId) => {
   const coverId = safeParseBytes32String(coverKey)
   const productId = safeParseBytes32String(productKey)
 
   if (productId === '') {
-    return `/covers/${coverId}/cover-terms`
+    return getRoutePrefix(networkId) + `/reports/${coverId}/incidents/${incidentDate}/dispute`
   }
 
-  return `/covers/${coverId}/products/${productId}/cover-terms`
+  return getRoutePrefix(networkId) + `/reports/${coverId}/products/${productId}/incidents/${incidentDate}/dispute`
+}
+
+/** @type {(coverKey: any, networkId: number) => string} */
+const ViewCoverReports = (coverKey, networkId) => {
+  const coverId = safeParseBytes32String(coverKey)
+
+  return getRoutePrefix(networkId) + `/reports/${coverId}`
+}
+
+/** @type {(coverKey: any, networkId: number) => string} */
+const MyCoverLiquidity = (coverKey, networkId) => {
+  const coverId = safeParseBytes32String(coverKey)
+
+  return getRoutePrefix(networkId) + `/my-liquidity/${coverId}`
+}
+
+/** @type {(coverKey: any, productKey: any, networkId: number) => string} */
+const ViewProductReports = (coverKey, productKey, networkId) => {
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
+
+  return getRoutePrefix(networkId) + `/reports/${coverId}/products/${productId}`
+}
+
+/** @type {(coverKey: any, productKey: any, networkId: number) => string} */
+const ViewCoverProductTerms = (coverKey, productKey, networkId) => {
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
+
+  if (productId === '') {
+    return getRoutePrefix(networkId) + `/covers/${coverId}/cover-terms`
+  }
+
+  return getRoutePrefix(networkId) + `/covers/${coverId}/products/${productId}/cover-terms`
 }
 
 export const Routes = {

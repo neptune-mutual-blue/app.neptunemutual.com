@@ -44,6 +44,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getSpaceLink } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 
 const VOTE_ESCROW_MIN_WEEKS = 1
 const VOTE_ESCROW_MAX_WEEKS = 208
@@ -58,6 +59,7 @@ const VoteEscrow = () => {
   const [sliderValue, setSliderValue] = useState(null)
 
   const { networkId } = useNetwork()
+  const { i18n } = useLingui()
 
   const router = useRouter()
   const { NPMTokenDecimals, NPMTokenSymbol, NPMTokenAddress } = useAppConstants()
@@ -162,9 +164,9 @@ const VoteEscrow = () => {
 
   let loadingMessage = null
   if (loadingBalance) {
-    loadingMessage = <Trans>Fetching balance...</Trans>
+    loadingMessage = i18n._('Fetching balance...')
   } else if (loadingAllowance) {
-    loadingMessage = <Trans>Fetching allowance...</Trans>
+    loadingMessage = i18n._('Fetching allowance...')
   }
 
   const buttonDisabled = locking || !!loadingMessage || !(agreed && ((!extend && input) || extend))
@@ -202,7 +204,7 @@ const VoteEscrow = () => {
         </div>
         <div className='flex flex-wrap gap-4'>
           <Link
-            href={Routes.LiquidityGaugePools}
+            href={Routes.LiquidityGaugePools(networkId)}
             className='text-4E7DD9 text-sm font-semibold p-2.5 flex-grow text-center md:text-left md:flex-grow-0 border-1 border-4E7DD9 rounded-tooltip'
           >
 
@@ -228,7 +230,7 @@ const VoteEscrow = () => {
 
           <LabelComponent />
           <TokenAmountInput
-            labelText=''
+            labelText={<></>}
             onChange={handleChange}
             handleChooseMax={handleMax}
             tokenAddress={NPMTokenAddress}

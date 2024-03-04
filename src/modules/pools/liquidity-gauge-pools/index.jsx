@@ -31,6 +31,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -48,6 +49,7 @@ const sorterData = {
 
 export const LiquidityGaugePoolsPage = () => {
   const { i18n } = useLingui()
+  const { networkId } = useNetwork()
 
   const [sortType, setSortType] = useState({
     name: t(i18n)`TVL`,
@@ -92,7 +94,7 @@ export const LiquidityGaugePoolsPage = () => {
       <div className='flex justify-end mb-7 md:mb-14'>
         <div className='items-start justify-between w-full md:items-center sm:flex'>
           <Link
-            href={Routes.LiquidityGaugePoolsTransactions}
+            href={Routes.LiquidityGaugePoolsTransactions(networkId)}
             className='flex justify-start mb-6 text-lg font-medium md:mb-0 md:justify-center sm:inline-flex text-4E7DD9 hover:underline'
           >
 

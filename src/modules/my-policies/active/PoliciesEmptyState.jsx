@@ -10,9 +10,11 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const PoliciesEmptyState = () => {
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   const {
     loading,
@@ -27,7 +29,8 @@ export const PoliciesEmptyState = () => {
     router.push(
       Routes.PurchasePolicy(
         selected?.coverKey,
-        isValidProduct(selected?.productKey) ? selected?.productKey : ''
+        isValidProduct(selected?.productKey) ? selected?.productKey : '',
+        networkId
       )
     )
   }

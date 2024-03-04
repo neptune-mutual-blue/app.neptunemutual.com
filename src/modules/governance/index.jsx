@@ -1,11 +1,9 @@
-
 import { useRouter } from 'next/router'
 
 import { NoDataFound } from '@/common/Loading'
+import { ProposalDetail } from '@/modules/governance/ProposalDetail'
 import ProposalSkeleton from '@/modules/governance/ProposalSkeleton'
 import { useSnapshotProposalById } from '@/src/hooks/useSnapshotProposalById'
-
-import { ProposalDetail } from '@/modules/governance/ProposalDetail'
 
 export const GovernanceSinglePage = () => {
   const router = useRouter()

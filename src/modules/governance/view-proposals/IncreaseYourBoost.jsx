@@ -9,11 +9,14 @@ import {
 } from '@/utils/calculate-boost'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
+import { useNetwork } from '@/src/context/Network'
 
 const BOOST_MIN = 1
 const BOOST_MAX = 4
 
 export const IncreaseYourBoost = ({ boost }) => {
+  const { networkId } = useNetwork()
+
   const boostFraction = toBN(boost).decimalPlaces(4).toNumber()
 
   return (
@@ -42,7 +45,7 @@ export const IncreaseYourBoost = ({ boost }) => {
           (boostFraction < BOOST_MAX) && (
             (
               <Link
-                href={Routes.VoteEscrow}
+                href={Routes.VoteEscrow(networkId)}
                 className='border-primary bg-primary focus-visible:ring-primary text-EEEEEE border  tracking-2 focus:outline-none focus-visible:ring-2  flex-auto rounded-tooltip py-3 px-4 font-semibold !text-sm uppercase z-auto relative'
               >
 

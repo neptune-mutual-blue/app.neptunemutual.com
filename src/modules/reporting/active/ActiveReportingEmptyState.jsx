@@ -12,9 +12,11 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   const {
     loading,
@@ -25,7 +27,7 @@ export const ActiveReportingEmptyState = () => {
 
   const { i18n } = useLingui()
 
-  const actions = getActions(i18n)
+  const actions = getActions(i18n, networkId)
 
   const handleAddReport = () => {
     if (!selected) { return }
