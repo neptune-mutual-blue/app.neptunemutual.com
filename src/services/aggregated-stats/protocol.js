@@ -90,7 +90,12 @@ async function getIndividualProtocolMonthData (networkId) {
     return
   }
 
-  return data.protocolMonthDatas
+  return data.protocolMonthDatas.map(x => {
+    return {
+      networkId: networkId,
+      ...x
+    }
+  })
 }
 
 export async function getGroupedProtocolMonthData (networkId) {
@@ -116,7 +121,7 @@ export async function getGroupedProtocolMonthData (networkId) {
     if (!Array.isArray(arr)) { return }
 
     arr.forEach(val => {
-      obj[val.id] = sumOf(val.nonCumulativeCoverFee, obj[val.id] || '0')
+      obj[val.id] = sumOf(convertFromUnits(val.nonCumulativeCoverFee, ChainConfig[val.networkId]?.stablecoin?.tokenDecimals || 6), obj[val.id] || '0')
     })
   })
 

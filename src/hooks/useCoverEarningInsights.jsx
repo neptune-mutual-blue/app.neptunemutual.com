@@ -1,8 +1,13 @@
+import {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
 import { getMonthsBetweenDates } from '@/lib/dates'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useProtocolMonthData } from '@/src/hooks/useProtocolMonthData'
-import { convertFromUnits } from '@/utils/bn'
-import { useEffect, useMemo, useState } from 'react'
+import { toBN } from '@/utils/bn'
 
 const getInitialDateRange = (from) => {
   const currentDate = from
@@ -73,7 +78,7 @@ function useCoverEarningInsights () {
 
         return '0'
       }
-      ).map(val => { return Number(convertFromUnits(val, liquidityTokenDecimals)) }))
+      ).map(val => { return toBN(val || 0).toNumber() }))
     }
   }, [data, dateRange, liquidityTokenDecimals])
 
