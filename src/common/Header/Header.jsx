@@ -64,6 +64,8 @@ export const Header = () => {
 
   const [unread, setUnread] = useState(0)
 
+  const [container, setContainer] = useState(null)
+
   useEffect(() => {
     TransactionHistory.on(() => {
       setUnread(() => {
@@ -241,7 +243,7 @@ export const Header = () => {
                 </ConnectWallet>
               </div>
 
-              <div className='relative flex ml-3'>
+              <div className='relative flex ml-3' ref={setContainer}>
                 <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
                   <button
                     aria-label='Transactions'
@@ -277,6 +279,7 @@ export const Header = () => {
             <TransactionList
               isOpen={isTxDetailsPopupOpen}
               onClose={setIsTxDetailsPopupOpen}
+              container={container}
             />
           </nav>
         </NavContainer>

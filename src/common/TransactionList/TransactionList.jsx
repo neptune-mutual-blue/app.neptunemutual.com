@@ -24,7 +24,8 @@ import { useWeb3React } from '@web3-react/core'
 
 export function TransactionList ({
   isOpen = false,
-  onClose
+  onClose,
+  container
 }) {
   const toast = useToast()
   const [activeTab, setActiveTab] = useState('all')
@@ -97,6 +98,7 @@ export function TransactionList ({
       rootProps={{ modal: true, onOpenChange: onClose }}
       overlayClass='flex justify-end w-full h-full bg-transparent'
       defaultContentClassNames='w-screen md:w-auto absolute z-50 transform top-full -right-13 md:-right-10 xl:right-5 px-0 pt-0 md:pt-3 md:rounded-3xl'
+      container={container}
       noBlur
       data-testid='transaction-modal'
     >

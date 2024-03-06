@@ -1,7 +1,11 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useNetwork } from '@/src/context/Network'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { useWeb3React } from '@web3-react/core'
-import { useState, useEffect } from 'react'
 
 const getQuery = (limit, page, account) => {
   return `
@@ -47,7 +51,7 @@ export const usePolicyTxs = ({ limit, page }) => {
     policyTransactions: [],
     blockNumber: null
   })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
