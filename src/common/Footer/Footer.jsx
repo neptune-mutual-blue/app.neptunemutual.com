@@ -3,6 +3,7 @@ import {
   data,
   socials
 } from '@/common/Footer/data'
+import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
 import DiscordIcon from '@/icons/DiscordIcon'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -30,6 +31,8 @@ export const Footer = () => {
                 <DiscordIcon className='mt-4' width='48' height='48' />
               </a>
             </div>
+
+            <LanguageDropdown footer />
           </div>
 
           <div className='flex flex-wrap justify-between gap-6 lg:flex-nowrap'>

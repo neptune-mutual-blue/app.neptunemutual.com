@@ -32,6 +32,7 @@ const LANGUAGE_KEYS = Object.keys(languageKey)
 /**
  * @param {object} props
  * @param {boolean?} [props.onOverlay]
+ * @param {boolean?} [props.footer]
  * @returns
  */
 export const LanguageDropdown = (props) => {
@@ -85,7 +86,7 @@ export const LanguageDropdown = (props) => {
   const { i18n } = useLingui()
 
   return (
-    <div className='relative flex items-center mt-3 cursor-pointer'>
+    <div className='relative flex items-center mt-1 cursor-pointer md:mt-3'>
       <Listbox
         value={languageKey[router.locale]}
         onChange={handleOnChangeLanguage}
@@ -99,8 +100,11 @@ export const LanguageDropdown = (props) => {
                   open && 'underline'
                 )}
                 >
-                  <div className='flex items-center gap-1 text-xs text-white'>
-                    <GlobeLogo />
+                  <div className={classNames('flex items-center gap-1 text-sm',
+                    props.footer ? 'text-black text-md font-medium' : 'text-white'
+                  )}
+                  >
+                    <GlobeLogo className={props.footer ? 'text-black w-6 h-6' : 'text-white'} />
                     <span>
                       {languageKey[router.locale]?.split('-')[0]}
                     </span>
@@ -114,8 +118,9 @@ export const LanguageDropdown = (props) => {
                   leaveTo='opacity-0'
                 >
                   <Listbox.Options className={classNames(
-                    'z-50 py-6 px-2 mt-4 absolute h-fit top-4 right-0 overflow-auto min-w-[260px] sm:min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none',
-                    props.onOverlay && 'left-0 w-fit'
+                    'z-50 py-6 px-2 mt-4 absolute h-fit top-4 overflow-auto min-w-[260px] sm:min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none',
+                    props.onOverlay && 'left-0 w-fit',
+                    props.footer ? 'left-0' : 'right-0'
                   )}
                   >
                     <div className='flex items-center pb-4 mb-1 text-sm'>

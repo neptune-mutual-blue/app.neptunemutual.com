@@ -87,6 +87,7 @@ module.exports = {
         'points-btn': '0px 4px 28px 0px rgba(44, 141, 255, 0.50)'
       },
       flex: {
+        0: '0 0 0%',
         2: '2 2 0%'
       },
       spacing: {
