@@ -5,14 +5,14 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "standard.vscode-standard",
         "editor.codeActionsOnSave": {
-            "source.fixAll": true
+            "source.fixAll": "explicit"
         }
     },
     "[javascript]": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "standard.vscode-standard",
         "editor.codeActionsOnSave": {
-            "source.fixAll": true
+            "source.fixAll": "explicit"
         }
     },
     "[yaml]": {
