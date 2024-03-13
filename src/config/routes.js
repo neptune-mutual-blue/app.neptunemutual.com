@@ -71,7 +71,7 @@ const Pools = (networkId) => {
     url = PodStakingPools(networkId)
   }
 
-  return getRoutePrefix(networkId) + url
+  return url
 }
 
 /** @type {(coverKey: any, networkId: number) => string} */
@@ -196,6 +196,7 @@ const ViewCoverProductTerms = (coverKey, productKey, networkId) => {
 }
 
 export const Routes = {
+  getRoutePrefix,
   Home,
   NotFound,
   TransactionHistory,

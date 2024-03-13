@@ -14,6 +14,7 @@ import {
   ChainLogos,
   NetworkNames
 } from '@/lib/connect-wallet/config/chains'
+import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useOnClickOutside } from '@/src/hooks/useClickOutside'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
@@ -25,7 +26,6 @@ import {
   Portal,
   Root
 } from '@radix-ui/react-dialog'
-import { Routes } from '@/src/config/routes'
 
 export const Network = ({ closeMenu = () => {} }) => {
   const { networkId } = useNetwork()
@@ -163,6 +163,7 @@ export const Network = ({ closeMenu = () => {} }) => {
                             {
                             ({ active: activeState }) => {
                               return (
+                                // Do a page regresh when the network is changed
                                 <a
                                   className={classNames(
                                     'flex items-center gap-1.5 justify-between px-4 py-1.5',
@@ -242,6 +243,8 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
                     networks.map((network, i) => {
                       return (
                         <li key={i}>
+
+                          {/* Do a page regresh when the network is changed */}
                           <a
                             className='flex items-center gap-2'
                             href={Routes.Home(network.networkId)}

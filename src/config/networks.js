@@ -24,6 +24,14 @@ const slugToNetworkId = {
   mumbai: 80001
 }
 
+const enabledFeatures = {
+  1: process.env.NEXT_PUBLIC_ETHEREUM_FEATURES,
+  56: process.env.NEXT_PUBLIC_BSC_FEATURES,
+  137: process.env.NEXT_PUBLIC_POLYGON_FEATURES,
+  42161: process.env.NEXT_PUBLIC_ARBITRUM_FEATURES,
+  80001: process.env.NEXT_PUBLIC_MUMBAI_FEATURES
+}
+
 const networks = {
   mainnet: [
     {
@@ -81,4 +89,10 @@ const networks = {
   ]
 }
 
-export { networks, supportedNetworks, networkIdToSlug, slugToNetworkId }
+export {
+  enabledFeatures,
+  networkIdToSlug,
+  networks,
+  slugToNetworkId,
+  supportedNetworks
+}

@@ -81,7 +81,7 @@ export const TxPosterProvider = ({ children }) => {
         // Could not estimate gas, therefore could not proceed
         // Shows popup (with following description and message) and wait for user confirmation
         const argsStr = JSON.stringify(args)
-        const description = `Could not estimate gas for "${methodName}", args: ${argsStr}`
+        const description = `Could not estimate gas for "${methodName}", args: ${argsStr}, contract: ${instance.address}`
 
         setData({
           description: description,
