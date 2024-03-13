@@ -83,7 +83,7 @@ export const Network = () => {
     }
   }, [handleKeyPress])
 
-  const ChainLogo = ChainLogos[networkId || 1] || ChainLogos[1]
+  const ChainLogo = ChainLogos[networkId] || ChainLogos[1]
 
   const Button = ({ modalOpen }) => {
     return (

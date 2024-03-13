@@ -5,9 +5,7 @@ import React, {
 
 import Router from 'next/router'
 
-import {
-  CookiePolicy
-} from '@/common/CookiePolicy'
+import { CookiePolicy } from '@/common/CookiePolicy'
 import { Footer } from '@/common/Footer/Footer'
 import { Header } from '@/common/Header/Header'
 import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
