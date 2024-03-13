@@ -1,4 +1,5 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
+import { enabledFeatures } from '@/src/config/networks'
 import { detectChainId } from '@/utils/dns'
 import { config } from '@neptunemutual/sdk'
 
@@ -39,8 +40,20 @@ export const isFeatureEnabled = (feature, networkId) => {
     }
   }
 
-  const str =
-    process.env.NEXT_PUBLIC_FEATURES ||
+  /**
+   * '' - all features are enabled - lowest priority
+   * NEXT_PUBLIC_FEATURES - use for all networks - policy,liquidity,reporting,claim,bridge-celer,bridge-layerzero
+   * NEXT_PUBLIC_POLYGON_FEATURES - bridge-layerzero - highest priority
+   */
+
+  let str = process.env.NEXT_PUBLIC_FEATURES || ''
+
+  if (enabledFeatures[networkId]) {
+    str = enabledFeatures[networkId]
+  }
+
+  str =
+    str ||
     'policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool,vote-escrow,liquidity-gauge-pools,bridge-celer,bridge-layerzero,governance'
   const features = str.split(',').map((x) => { return x.trim() })
 

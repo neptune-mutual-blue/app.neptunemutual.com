@@ -159,6 +159,7 @@ export const Network = () => {
                             {
                             ({ active: activeState }) => {
                               return (
+                                // Do a page regresh when the network is changed
                                 <a
                                   className={classNames(
                                     'flex items-center gap-1.5 justify-between px-4 py-1.5',
@@ -238,6 +239,8 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
                     networks.map((network, i) => {
                       return (
                         <li key={i}>
+
+                          {/* Do a page regresh when the network is changed */}
                           <a
                             className='flex items-center gap-2'
                             href={Routes.Home(network.networkId)}

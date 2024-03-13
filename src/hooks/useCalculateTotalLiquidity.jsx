@@ -18,7 +18,7 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
   const { networkId } = useNetwork()
 
   useEffect(() => {
-    if (liquidityList.length === 0) { return }
+    if (!account || !networkId || liquidityList.length === 0) { return }
 
     let ignore = false
 
