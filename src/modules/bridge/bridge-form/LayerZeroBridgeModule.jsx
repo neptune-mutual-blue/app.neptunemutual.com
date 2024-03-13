@@ -168,7 +168,7 @@ export const LayerZeroBridgeModule = ({
           <NetworkSelect
             label='From'
             selected={selectedNetworks.srcNetwork}
-            defaultChain={parseInt(networkId)}
+            defaultChain={networkId}
             onChange={() => {}}
             disabled
           />

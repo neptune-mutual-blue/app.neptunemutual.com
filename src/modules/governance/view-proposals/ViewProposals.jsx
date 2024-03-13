@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useRouter } from 'next/router'
 
+import { NoDataFound } from '@/common/Loading'
 import DateLib from '@/lib/date/DateLib'
 import {
   IncreaseYourBoost
@@ -19,7 +20,6 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { NoDataFound } from '@/common/Loading'
 
 export const ViewProposals = ({ networkId }) => {
   const { account } = useWeb3React()
