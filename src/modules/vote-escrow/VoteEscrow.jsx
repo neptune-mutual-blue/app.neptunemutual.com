@@ -115,6 +115,7 @@ const VoteEscrow = ({ networkId }) => {
   const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
 
   const canUnlock = toBN(data.veNPMBalance).isGreaterThan(0)
+
   if (unlock) {
     return (
       <UnlockEscrow
