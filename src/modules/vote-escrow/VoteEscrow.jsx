@@ -82,7 +82,7 @@ const VoteEscrow = () => {
     handleApprove
   } = useVoteEscrowLock({
     refetchLockData,
-    lockAmountInUnits: convertToUnits(input || '0', NPMTokenDecimals),
+    lockAmountInUnits: convertToUnits(input || '0', NPMTokenDecimals).toString(),
     veNPMTokenAddress,
     NPMTokenAddress,
     NPMTokenSymbol
@@ -160,7 +160,7 @@ const VoteEscrow = () => {
     })
   }
 
-  let loadingMessage = ''
+  let loadingMessage = null
   if (loadingBalance) {
     loadingMessage = <Trans>Fetching balance...</Trans>
   } else if (loadingAllowance) {
