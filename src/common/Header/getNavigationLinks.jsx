@@ -41,27 +41,27 @@ const getNavigationLinks = (pathname, i18n, networkId) => {
     poolLink && {
       name: t(i18n)`Pool`,
       href: poolLink,
-      activeWhenStartsWith: '/pools'
+      activeWhenStartsWith: '/[network]/pools'
     },
     reportingEnabled && {
       name: t(i18n)`Reporting`,
       href: Routes.ActiveReports(networkId),
-      activeWhenStartsWith: '/reports'
+      activeWhenStartsWith: '/[network]/reports'
     },
     governanceEnabled && {
       name: t(i18n)`Governance`,
       href: Routes.Governance(networkId),
-      activeWhenStartsWith: Routes.Governance(networkId)
+      activeWhenStartsWith: '/[network]/governance'
     },
     voteEscrowEnabled && {
       name: t(i18n)`Vote Escrow`,
       href: Routes.VoteEscrow(networkId),
-      activeWhenStartsWith: Routes.VoteEscrow(networkId)
+      activeWhenStartsWith: '/[network]/vote-escrow'
     },
     bridgeEnabled && {
       name: t(i18n)`Bridge`,
       href: Routes.Bridge(networkId),
-      activeWhenStartsWith: '/bridge'
+      activeWhenStartsWith: '/[network]/bridge'
     },
     (policyEnabled || liquidityEnabled) && {
       name: t(i18n)`My Account`,
@@ -70,14 +70,14 @@ const getNavigationLinks = (pathname, i18n, networkId) => {
           name: t(i18n)`Policies`,
           mobileName: t(i18n)`My Policies`,
           href: Routes.MyActivePolicies(networkId),
-          activeWhenStartsWith: '/my-policies',
+          activeWhenStartsWith: '/[network]/my-policies',
           imgSrc: actions.purchase.imgSrc
         },
         liquidityEnabled && {
           name: t(i18n)`Liquidity`,
           mobileName: t(i18n)`My Liquidity`,
           href: Routes.MyLiquidity(networkId),
-          activeWhenStartsWith: '/my-liquidity',
+          activeWhenStartsWith: '/[network]/my-liquidity',
           imgSrc: actions['add-liquidity'].imgSrc
         }
       ]
