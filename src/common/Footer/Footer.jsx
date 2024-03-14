@@ -15,7 +15,7 @@ export const Footer = () => {
     <footer className='pt-16 border-t pb-18 border-B0C4DB print:hidden'>
       <Container>
         <div className='flex flex-col justify-between gap-10 lg:flex-row'>
-          <div className='flex flex-col items-start justify-between gap-8'>
+          <div className='flex flex-col items-start justify-between gap-8 text-01052D'>
             <img
               loading='lazy'
               alt={t(i18n)`Neptune Mutual`}
@@ -32,7 +32,7 @@ export const Footer = () => {
               </a>
             </div>
 
-            <LanguageDropdown footer />
+            <LanguageDropdown />
           </div>
 
           <div className='flex flex-wrap justify-between gap-6 lg:flex-nowrap'>

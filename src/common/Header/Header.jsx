@@ -330,7 +330,7 @@ export const MenuModal = ({
               <div className='absolute right-6 top-6'>
                 <BurgerMenu isOpen onToggle={onClose} />
               </div>
-              <div className='w-full sm:px-16'>
+              <div className='w-full text-white sm:px-16'>
                 <LanguageDropdown onOverlay />
               </div>
               <div className='flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl'>

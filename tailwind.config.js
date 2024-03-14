@@ -31,7 +31,8 @@ module.exports = {
       homeCard: '0px 12px 16px rgba(0, 0, 0, 0.04)',
       'hc-tooltip': '0px 5px 13px rgba(0, 0, 0, 0.1)',
       'tx-overview': '0px 4px 11px rgba(1, 5, 45, 0.3)',
-      'tx-list': '0px 4px 12px rgba(0, 0, 0, 0.4)'
+      'tx-list': '0px 4px 12px rgba(0, 0, 0, 0.4)',
+      menu: '0px 4px 10px 0px rgba(0, 0, 0, 0.2)'
     },
     colors: {
       transparent: 'transparent',
@@ -117,7 +118,8 @@ module.exports = {
         420: '420px',
         392: '392px',
         450: '450px',
-        'full-plus-20': 'calc(100% + 20px)'
+        'full-plus-20': 'calc(100% + 20px)',
+        'full-plus-16': 'calc(100% + 16px)'
       },
       lineHeight: {
         4.5: '18px',
