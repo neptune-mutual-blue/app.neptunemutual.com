@@ -33,6 +33,6 @@ export const detectChainId = (host = '') => {
       return '137'
 
     default:
-      return process.env.NEXT_PUBLIC_FALLBACK_NETWORK || '84531'
+      return process.env.NEXT_PUBLIC_FALLBACK_NETWORK || '80001'
   }
 }

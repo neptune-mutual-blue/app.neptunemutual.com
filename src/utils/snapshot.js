@@ -65,6 +65,7 @@ const SnapshotChainParams = {
   eth: 1,
   fuj: 43113,
   arb: 42161,
+  mum: 80001,
   bgo: 84531
 }
 

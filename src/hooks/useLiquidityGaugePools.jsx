@@ -55,7 +55,7 @@ export const useLiquidityGaugePools = ({ NPMTokenDecimals }) => {
         setData(pools.map(pool => {
           return {
             ...pool,
-            currentDistribution: convertToUnits(pool.currentDistribution, NPMTokenDecimals).toString()
+            currentDistribution: convertToUnits(pool.currentDistribution || 0, NPMTokenDecimals).toString()
           }
         }))
       } catch (err) {
