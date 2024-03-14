@@ -122,12 +122,12 @@ export const TOP_ACCOUNTS_ROWS_PER_PAGE = 7
 
 // SNAPSHOT
 export const SNAPSHOT_API_URL = {
-  testnet: 'https://testnet.snapshot.org/graphql',
+  testnet: 'https://testnet.hub.snapshot.org/graphql',
   mainnet: 'https://hub.snapshot.org/graphql'
 }
 
 export const SNAPSHOT_INTERFACE_URL = {
-  testnet: 'https://demo.snapshot.org',
+  testnet: 'https://testnet.snapshot.org',
   mainnet: 'https://snapshot.org'
 }
 
