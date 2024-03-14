@@ -23,7 +23,8 @@ const data = [
         text: 'Documentation',
         isExternal: true
       },
-      { href: 'https://neptunemutual.com/web3-tools/', text: 'Web3 Tools', isExternal: true }
+      { href: 'https://neptunemutual.com/web3-tools/', text: 'Web3 Tools', isExternal: true },
+      { href: 'https://explorer.neptunemutual.net/', text: 'Explorer', isExternal: true }
     ]
   },
   {
