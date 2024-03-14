@@ -1,10 +1,10 @@
-import TwitterIcon from '@/icons/TwitterIcon'
+import DiscordIcon from '@/icons/DiscordIcon'
+import GithubIcon from '@/icons/GithubIcon'
+import LinkedinFilledIcon from '@/icons/LinkedinFilledIcon'
 import RedditIcon from '@/icons/RedditIcon'
 import TelegramIcon from '@/icons/TelegramIcon'
-import GithubIcon from '@/icons/GithubIcon'
+import TwitterIcon from '@/icons/TwitterIcon'
 import YoutubeIcon from '@/icons/YoutubeIcon'
-import DiscordIcon from '@/icons/DiscordIcon'
-import LinkedinFilledIcon from '@/icons/LinkedinFilledIcon'
 
 const data = [
   {
