@@ -43,16 +43,22 @@ const getSnapshotInterfaceBaseURL = (networkId) => {
   return base
 }
 
+export const getSnapshotSpaceId = (networkId) => {
+  const { isMainNet } = getNetworkInfo(networkId)
+
+  return isMainNet ? SNAPSHOT_SPACE_ID.mainnet : SNAPSHOT_SPACE_ID.testnet
+}
+
 export const getProposalLink = (networkId, proposalId) => {
   const base = getSnapshotInterfaceBaseURL(networkId)
 
-  return `${base}/#/${SNAPSHOT_SPACE_ID}/proposal/${proposalId}`
+  return `${base}/#/${getSnapshotSpaceId(networkId)}/proposal/${proposalId}`
 }
 
 export const getSpaceLink = (networkId) => {
   const base = getSnapshotInterfaceBaseURL(networkId)
 
-  return `${base}/#/${SNAPSHOT_SPACE_ID}`
+  return `${base}/#/${getSnapshotSpaceId(networkId)}`
 }
 
 export const snapshotColors = {

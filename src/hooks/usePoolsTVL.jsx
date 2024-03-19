@@ -56,6 +56,8 @@ export const usePoolsTVL = (NPMTokenAddress) => {
 
     const networkId = getNetworkId()
 
+    if (!networkId) { return }
+
     fetchPoolsTVL(networkId, getQuery())
       .then(async ({ bondPools, pools }) => {
         const bondsPayload = bondPools.map((bondPool) => {
