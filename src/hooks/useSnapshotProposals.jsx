@@ -6,6 +6,9 @@ import {
 
 import { useRouter } from 'next/router'
 
+import {
+  DEFAULT_ROWS_PER_PAGE
+} from '@/modules/governance/proposals-table/ProposalsTable'
 import { useNetwork } from '@/src/context/Network'
 import { formatCurrency } from '@/utils/formatter/currency'
 import {
@@ -14,7 +17,6 @@ import {
   getSnapshotSpaceId,
   getTagFromTitle
 } from '@/utils/snapshot'
-import { DEFAULT_ROWS_PER_PAGE } from '@/modules/governance/proposals-table/ProposalsTable'
 
 const getProposalsQuery = (networkId, page, rowsPerPage, titleFilter = '') => {
   const skip = (page - 1) * rowsPerPage

@@ -39,8 +39,8 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-import { config } from '@neptunemutual/sdk'
 import { useLingui } from '@lingui/react'
+import { config } from '@neptunemutual/sdk'
 
 // data from subgraph
 // info from `getInfo` on smart contract
