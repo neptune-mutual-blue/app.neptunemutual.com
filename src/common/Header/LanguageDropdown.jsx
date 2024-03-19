@@ -4,8 +4,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import LeftArrow from '@/icons/LeftArrow'
 import SearchLanguageIcon from '@/icons/SearchLanguageIcon'
 import SelectedCircleIcon from '@/icons/SelectedCircleIcon'
@@ -16,10 +14,10 @@ import {
   localesKey
 } from '@/src/config/locales'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
+import { useLanguageContext } from '@/src/i18n/i18n'
+import { parseLocale } from '@/src/i18n/utils'
 import { classNames } from '@/utils/classnames'
-import { getBrowserLocale } from '@/utils/locale'
 import {
   Listbox,
   Transition
@@ -34,7 +32,6 @@ import {
 } from '@radix-ui/react-dialog'
 
 const LANGUAGES = Object.values(languageKey)
-const LANGUAGE_KEYS = Object.keys(languageKey)
 
 /**
  * @param {object} props
@@ -42,61 +39,39 @@ const LANGUAGE_KEYS = Object.keys(languageKey)
  * @returns
  */
 export const LanguageDropdown = (props) => {
-  const router = useRouter()
+  const { i18n } = useLingui()
   const [searchValue, setSearchValue] = useState('')
 
-  const [language, setLanguage] = useLocalStorage('locale', null)
+  const { locale, setLocale } = useLanguageContext()
 
   const { width } = useWindowSize()
 
-  useEffect(() => {
-    const browserLocale = getBrowserLocale().replace(/-.*/, '')
-    if (
-      !language &&
-      LANGUAGE_KEYS.includes(browserLocale) &&
-      router.locale !== browserLocale
-    ) {
-      router.push(router.asPath, router.asPath, { locale: browserLocale })
-
-      return
-    }
-
-    if (LANGUAGE_KEYS.includes(language) && router.locale !== language) {
-      router.push(router.asPath, router.asPath, { locale: language })
-    }
-  }, [language, router])
-
-  const [languages, setLanguages] = useState(LANGUAGES)
+  const [languagesToShow, setLanguagesToShow] = useState(LANGUAGES)
   const debouncedSearch = useDebounce(searchValue, DEBOUNCE_TIMEOUT)
 
   useEffect(() => {
     if (!debouncedSearch) {
-      setLanguages(LANGUAGES)
+      setLanguagesToShow(LANGUAGES)
 
       return
     }
     const searchedLanguages = LANGUAGES.filter((el) => { return el.toLowerCase().includes(debouncedSearch.toLowerCase()) }
     )
-    setLanguages(searchedLanguages)
+    setLanguagesToShow(searchedLanguages)
   }, [debouncedSearch])
 
   const handleOnChangeLanguage = (value) => {
-    setLanguage(localesKey[value])
-    router.push(router.asPath, router.asPath, {
-      locale: localesKey[value]
-    })
+    setLocale(parseLocale(localesKey[value]))
   }
 
   const handleSearchLanguage = (e) => {
     setSearchValue(e.target.value)
   }
 
-  const { i18n } = useLingui()
-
   return (
     <div className='relative flex items-center mt-1 cursor-pointer md:mt-3'>
       <Listbox
-        value={languageKey[router.locale]}
+        value={languageKey[locale]}
         onChange={handleOnChangeLanguage}
       >
         {
@@ -111,7 +86,7 @@ export const LanguageDropdown = (props) => {
                   <div className={classNames('flex items-center gap-1 text-current text-md font-medium')}>
                     <GlobeLogo className='w-6 h-6 text-current' />
                     <span>
-                      {languageKey[router.locale]?.split('-')[0]}
+                      {languageKey[locale]?.split('-')[0]}
                     </span>
                   </div>
                 </Listbox.Button>
@@ -140,7 +115,7 @@ export const LanguageDropdown = (props) => {
                       <SearchLanguageIcon width={16} height={16} />
                     </div>
                     <div className='flex flex-col gap-3 overflow-y-auto max-h-400'>
-                      {languages.map((lang, i) => {
+                      {languagesToShow.map((lang, i) => {
                         return (
                           <Listbox.Option key={i} value={lang}>
                             {({ selected, active }) => {
@@ -171,11 +146,11 @@ export const LanguageDropdown = (props) => {
 
                 <MobileLanguageDropdown
                   open={open && width <= 768}
-                  languages={languages}
+                  languages={languagesToShow}
                   searchValue={searchValue}
                   handleSearchLanguage={handleSearchLanguage}
                   i18n={i18n}
-                  currentLanguage={languageKey[router.locale]}
+                  currentLanguage={languageKey[locale]}
                 />
               </>
             )

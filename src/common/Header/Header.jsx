@@ -1,6 +1,5 @@
 import {
   useEffect,
-  useMemo,
   useState
 } from 'react'
 
@@ -95,10 +94,7 @@ export const Header = () => {
 
   const { i18n } = useLingui()
 
-  const navigation = useMemo(
-    () => { return getNavigationLinks(router.pathname, i18n) },
-    [router.pathname, i18n]
-  )
+  const navigation = getNavigationLinks(router.pathname, i18n)
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => { return !prev })

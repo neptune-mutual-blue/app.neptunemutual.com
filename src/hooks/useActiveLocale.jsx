@@ -1,38 +1,34 @@
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
+
+import React from 'react'
 
 import {
-  DEFAULT_LOCALE,
-  SUPPORTED_LOCALES
-} from '../config/locales'
+  localStorageLocale,
+  navigatorLocale
+} from '@/src/i18n/utils'
 
-export const parseLocale = (maybeSupportedLocale) => {
-  const lowerMaybeSupportedLocale = maybeSupportedLocale.toLowerCase()
-
-  return SUPPORTED_LOCALES.find(
-    (locale) => {
-      return locale.toLowerCase() === lowerMaybeSupportedLocale ||
-      locale.split('-')[0] === lowerMaybeSupportedLocale
-    }
-  )
-}
-
-export const navigatorLocale = () => {
-  if (typeof window === 'undefined' || !window || !navigator || !navigator.language) { return undefined }
-
-  const [language, region] = navigator.language.split('-')
-
-  if (region) {
-    return (
-      parseLocale(`${language}-${region.toUpperCase()}`) ??
-      parseLocale(language)
-    )
-  }
-
-  return parseLocale(language)
-}
+import { DEFAULT_LOCALE } from '../config/locales'
 
 export const useActiveLocale = () => {
-  const { locale } = useRouter()
+  // const router = useRouter()
+  const [locale, setLocale] = React.useState(DEFAULT_LOCALE)
 
-  return locale || navigatorLocale() || DEFAULT_LOCALE
+  React.useEffect(() => {
+    const initialLocale = localStorageLocale() || navigatorLocale() || DEFAULT_LOCALE
+    setLocale(initialLocale)
+  }, [])
+
+  // React.useEffect(() => {
+  //   if (locale !== router.locale) {
+  //     router.replace(router.asPath, router.asPath, { locale })
+  //   }
+  // }, [locale, router])
+
+  return {
+    locale,
+    setLocale: (newLocale) => {
+      localStorage.setItem('locale', newLocale)
+      setLocale(newLocale)
+    }
+  }
 }
