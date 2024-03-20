@@ -140,7 +140,7 @@ export const Network = () => {
 
   return (
     <div
-      className='inline-flex items-center justify-start w-full text-sm font-normal leading-loose rounded-lg md:justify-center md:w-auto text-FEFEFF bg-364253'
+      className='inline-flex items-center justify-start text-sm font-normal leading-loose rounded-lg md:justify-center md:w-auto text-FEFEFF bg-364253'
     >
       <div className='relative w-full' ref={ref}>
         <Menu>

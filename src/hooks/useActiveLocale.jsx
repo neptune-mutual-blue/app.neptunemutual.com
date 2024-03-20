@@ -8,9 +8,10 @@ import {
 } from '@/src/i18n/utils'
 
 import { DEFAULT_LOCALE } from '../config/locales'
+import { useRouter } from 'next/router'
 
 export const useActiveLocale = () => {
-  // const router = useRouter()
+  const router = useRouter()
   const [locale, setLocale] = React.useState(DEFAULT_LOCALE)
 
   React.useEffect(() => {
@@ -18,11 +19,11 @@ export const useActiveLocale = () => {
     setLocale(initialLocale)
   }, [])
 
-  // React.useEffect(() => {
-  //   if (locale !== router.locale) {
-  //     router.replace(router.asPath, router.asPath, { locale })
-  //   }
-  // }, [locale, router])
+  React.useEffect(() => {
+    if (locale !== router.locale) {
+      router.replace(router.asPath, router.asPath, { locale })
+    }
+  }, [locale, router])
 
   return {
     locale,

@@ -188,7 +188,7 @@ export const Header = () => {
                   {({ onOpen }) => {
                     let button = (
                       <button
-                        className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-primary'
+                        className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
                         onClick={onOpen}
                         title={t(i18n)`Connect wallet`}
                       >
