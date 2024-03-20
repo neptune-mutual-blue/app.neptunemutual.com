@@ -16,6 +16,7 @@ import {
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsList'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
 // import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
@@ -31,7 +32,6 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -117,7 +117,7 @@ export const LiquidityGaugePoolsPage = () => {
       </div>
 
       <div className='flex justify-end font-semibold text-4E7DD9 text-md mb-[18px]'>
-        <Link href='/governance'>View the Latest Gauge --&gt;</Link>
+        <Link href={Routes.Governance(networkId)}>View the Latest Gauge --&gt;</Link>
       </div>
 
       <Content
