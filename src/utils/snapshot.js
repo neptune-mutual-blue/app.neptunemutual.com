@@ -142,7 +142,7 @@ export const getVotingResults = (choices = [], scores = []) => {
       key,
       chainId,
       name: choice,
-      percent: score.isGreaterThan(0) ? score.dividedBy(totalScore).toPrecision(2) : '0',
+      percent: score.isGreaterThan(0) ? score.dividedBy(totalScore).toString() : '0',
       color: getColorByIndex(i, choices.length)
     }
   })

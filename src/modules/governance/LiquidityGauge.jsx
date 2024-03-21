@@ -19,6 +19,9 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getAsOfDate } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
+import { EMISSION_PER_EPOCH } from '@/src/config/constants'
+import BigNumber from 'bignumber.js'
+import { NoDataFound } from '@/common/Loading'
 
 const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
   const [hoveredName, setHoveredName] = useState(null)
@@ -154,6 +157,12 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
 
   if (!results) { return }
 
+  const match = results.find((item) => { return item.name === hoveredName })
+
+  if (!match) {
+    return <NoDataFound />
+  }
+
   return (
     <GovernanceCard className='gap-6 p-4 md:p-8'>
       <ChainDropdown options={chainDropdownOptions} selected={selectedChains} onSelectionChange={setSelectedChains} state={state} />
@@ -175,7 +184,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>
-          {hoveredName} ({formatPercent(results.find((item) => { return item.name === hoveredName })?.percent)})
+          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(EMISSION_PER_EPOCH).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), router.locale, 'NPM', true).long}
         </div>
         <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, router.locale)}>
           As of:{' '}{formattedDate}

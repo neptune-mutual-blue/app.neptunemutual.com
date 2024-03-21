@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useState
 } from 'react'
 
@@ -19,12 +18,14 @@ import { DEFAULT_ROWS_PER_PAGE } from '@/modules/governance/proposals-table/Prop
 const getProposalsQuery = (networkId, page, rowsPerPage, titleFilter = '') => {
   const skip = (page - 1) * rowsPerPage
 
-  return `
+  const spaceId = getSnapshotSpaceId(networkId)
+
+  return `query ProposalsWithCount {
   proposals(
     first: ${rowsPerPage},
     skip: ${skip},
     where: {
-      space_in: ["${getSnapshotSpaceId(networkId)}"],
+      space_in: ["${spaceId}"],
       title_contains: "${titleFilter}"
     },
     orderBy: "created",
@@ -43,18 +44,13 @@ const getProposalsQuery = (networkId, page, rowsPerPage, titleFilter = '') => {
       name
     }
   }
-  `
-}
-
-const getProposalsCountQuery = (networkId) => {
-  return `
-space(
-  id: "${getSnapshotSpaceId(networkId)}"
-) {
-  activeProposals
-  proposalsCount
-}
-`
+  space(
+    id: "${spaceId}"
+  ) {
+    activeProposals
+    proposalsCount
+  }
+}`
 }
 
 const parseProposalsData = (data, locale) => {
@@ -93,7 +89,7 @@ export const useSnapshotProposals = () => {
 
   const { networkId } = useNetwork()
 
-  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = DEFAULT_ROWS_PER_PAGE, titleFilter = '', fetchCount = true }) => {
+  const fetchProposals = useCallback(async ({ page = 1, rowsPerPage = DEFAULT_ROWS_PER_PAGE, titleFilter = '' }) => {
     setLoading(true)
 
     const url = getSnapshotApiURL(networkId)
@@ -106,12 +102,7 @@ export const useSnapshotProposals = () => {
           Accept: 'application/json'
         },
         body: JSON.stringify({
-          query: `
-            query ProposalsWithCount { 
-              ${getProposalsQuery(networkId, page, rowsPerPage, titleFilter)} 
-              ${fetchCount ? getProposalsCountQuery(networkId) : ''} 
-            }
-          `
+          query: getProposalsQuery(networkId, page, rowsPerPage, titleFilter)
         })
       })
 
@@ -129,10 +120,6 @@ export const useSnapshotProposals = () => {
     }
     setLoading(false)
   }, [networkId, locale])
-
-  useEffect(() => {
-    fetchProposals({})
-  }, [fetchProposals])
 
   return {
     data,
