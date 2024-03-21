@@ -34,7 +34,7 @@ export const ReportingHero = ({
   let breadcrumbData = []
 
   breadcrumbData = [
-    { name: <Trans>Home</Trans>, href: '/' },
+    { name: <Trans>Home</Trans>, href: Routes.Home(networkId) },
     { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
     isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) },
     { name: <Trans>Reporting</Trans>, href: '' }
@@ -42,7 +42,7 @@ export const ReportingHero = ({
 
   if (type === 'new-report') {
     breadcrumbData = [
-      { name: <Trans>Home</Trans>, href: '/' },
+      { name: <Trans>Home</Trans>, href: Routes.Home(networkId) },
       { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) },
       { name: <Trans>Reporting</Trans>, href: '' }
@@ -51,7 +51,7 @@ export const ReportingHero = ({
 
   if (type === 'details') {
     breadcrumbData = [
-      { name: <Trans>Home</Trans>, href: '/' },
+      { name: <Trans>Home</Trans>, href: Routes.Home(networkId) },
       { name: <Trans>Reporting</Trans>, href: isResolved ? Routes.ResolvedReports(networkId) : Routes.ActiveReports(networkId) },
       !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) }
@@ -60,7 +60,7 @@ export const ReportingHero = ({
 
   if (type === 'new-dispute') {
     breadcrumbData = [
-      { name: <Trans>Home</Trans>, href: '/' },
+      { name: <Trans>Home</Trans>, href: Routes.Home(networkId) },
       !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey, networkId) },
       isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey, networkId) },
       { name: <Trans>Reporting</Trans>, href: Routes.ViewReport(coverKey, productKey, incidentDate, networkId) },

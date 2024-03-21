@@ -7,11 +7,11 @@ import { Container } from '@/common/Container/Container'
 import { OptionActionCard } from '@/common/Option/OptionActionCard'
 import { getActions } from '@/src/config/cover/actions'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { classNames } from '@/utils/classnames'
 import { getPolicyStatus } from '@/utils/policy-status'
 import { Trans } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useNetwork } from '@/src/context/Network'
 
 const getBreadCrumbs = (
   isDiversified,
@@ -24,7 +24,7 @@ const getBreadCrumbs = (
     return [
       {
         name: <Trans>Home</Trans>,
-        href: '/',
+        href: Routes.Home(networkId),
         current: false
       },
       {
@@ -43,7 +43,7 @@ const getBreadCrumbs = (
   return [
     {
       name: <Trans>Home</Trans>,
-      href: '/',
+      href: Routes.Home(networkId),
       current: false
     },
     {

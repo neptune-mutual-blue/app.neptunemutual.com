@@ -1,7 +1,7 @@
 const all = require('../data/summary.json')
 
 const getCoverOrProductName = (coverId, productId, networkId) => {
-  if (!productId) {
+  if (productId) {
     const product = all.find((item) => {
       return item.chainId === networkId.toString() && item.coverKeyString === coverId && item.productKeyString === productId
     })

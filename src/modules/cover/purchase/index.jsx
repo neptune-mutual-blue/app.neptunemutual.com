@@ -9,11 +9,11 @@ import {
 } from '@/modules/cover/purchase/PurchasePageSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { getPolicyStatus } from '@/utils/policy-status'
 import { Trans } from '@lingui/macro'
-import { useNetwork } from '@/src/context/Network'
 
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter()
@@ -37,7 +37,7 @@ export const CoverPurchaseDetailsPage = () => {
       return [
         {
           name: <Trans>Home</Trans>,
-          href: '/',
+          href: Routes.Home(networkId),
           current: false
         },
         {
@@ -60,7 +60,7 @@ export const CoverPurchaseDetailsPage = () => {
     return [
       {
         name: <Trans>Home</Trans>,
-        href: '/',
+        href: Routes.Home(networkId),
         current: false
       },
       {

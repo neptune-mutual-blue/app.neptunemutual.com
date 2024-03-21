@@ -1,7 +1,7 @@
 // Will end with `/`
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
-  : '/'
+  : '/api/'
 
 // GET: ipfs
 export const READ_IPFS_URL = `${API_BASE_URL}ipfs/{ipfsHash}`
