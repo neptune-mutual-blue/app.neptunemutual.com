@@ -3,20 +3,30 @@ const all = require('../data/summary.json')
 const getCoverOrProductName = (coverId, productId, networkId) => {
   if (!productId) {
     const product = all.find((item) => {
-      return item.chainId === networkId.toString() && item.coverKeyString === coverId && item.productKeyString === productId
+      return item.chainId === networkId.toString() && item.coverKeyString === coverId && !item.productKeyString
     })
 
     if (product) {
-      return product.productInfoDetails.productName || product.coverInfoDetails.coverName
+      const coverName = product.coverInfoDetails.coverName
+      const productName = product.productInfoDetails.productName
+
+      return productName || coverName
     }
   }
 
   const cover = all.find((item) => {
-    return item.coverKeyString === coverId && item.chainId === networkId.toString()
+    return (
+      item.coverKeyString === coverId &&
+      item.chainId === networkId.toString() &&
+      item.productKeyString === productId
+    )
   })
 
   if (cover) {
-    return cover.coverInfoDetails.coverName
+    const coverName = cover.coverInfoDetails.coverName
+    const productName = cover.productInfoDetails.productName
+
+    return productName ? `${productName} | ${coverName}` : `${coverName}`
   }
 
   return ''

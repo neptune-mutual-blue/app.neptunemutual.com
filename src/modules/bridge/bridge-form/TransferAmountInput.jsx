@@ -3,9 +3,9 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import CurrencyInput from '@/lib/react-currency-input-field'
+import { TokenOrCoverLogo } from '@/modules/bridge/bridge-form/TokenOrCoverLogo'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   convertToUnits,
@@ -14,7 +14,6 @@ import {
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { getPlainNumber } from '@/utils/formatter/input'
-import { TokenOrCoverLogo } from '@/modules/bridge/bridge-form/TokenOrCoverLogo'
 
 export const TransferAmountInput = ({
   balance,
@@ -24,7 +23,7 @@ export const TransferAmountInput = ({
   value,
   className = ''
 }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
   const formattedBalance = formatCurrency(
     convertFromUnits(balance, tokenDecimals),
     locale,

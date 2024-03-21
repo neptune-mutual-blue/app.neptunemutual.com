@@ -5,9 +5,8 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import CurrencyInput from '@/lib/react-currency-input-field'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 import { getPlainNumber } from '@/utils/formatter/input'
 
@@ -36,7 +35,7 @@ export const InputWithTrailingButton = ({
   const [width, setWidth] = useState()
   // state for storing the value of `CurrencyInput` since only plain number is stored in `inputProps.value`
   const [inputValue, setInputValue] = useState(inputProps.value ?? '')
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   // callback function to get width of the unit & max button, and update `width` state
   const getSize = useCallback(() => {

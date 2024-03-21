@@ -34,11 +34,11 @@ import { DiversifiedCoverRules } from '@/modules/my-liquidity/content/rules'
 import { CoverStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Trans } from '@lingui/macro'
-import { useNetwork } from '@/src/context/Network'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -89,7 +89,7 @@ export const CoverAddLiquidityDetailsPage = () => {
             pages={[
               {
                 name: <Trans>Home</Trans>,
-                href: '/',
+                href: Routes.Home(networkId),
                 current: false
               },
               {
