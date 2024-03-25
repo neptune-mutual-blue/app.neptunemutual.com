@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 
-import { useRouter } from 'next/router'
-
 import DownArrow from '@/icons/DownArrow'
 import { chains } from '@/lib/connect-wallet/config/chains'
 import { getSumInDollars } from '@/modules/bridge/bridge-form/getSumInDollars'
@@ -11,6 +9,7 @@ import {
 } from '@/modules/bridge/bridge-form/TransferAmountInput'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
 import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBNSafe
@@ -52,7 +51,7 @@ export const CelerBridgeModule = ({
   conversionRates,
   setTotalPriceInUsd
 }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
 
   const {

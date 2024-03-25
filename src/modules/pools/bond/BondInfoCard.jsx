@@ -1,11 +1,10 @@
 import { useState } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { Badge } from '@/common/Badge/Badge'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { BondStatsContainer } from '@/src/modules/pools/bond/BondStatsContainer'
 import { ClaimBondModal } from '@/src/modules/pools/bond/ClaimBondModal'
 import { isGreater } from '@/utils/bn'
@@ -27,7 +26,7 @@ export const BondInfoCard = ({
   account
 }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const onOpen = () => {
     setIsOpen(true)
@@ -66,7 +65,7 @@ export const BondInfoCard = ({
         </div>
 
         <Badge className='uppercase text-21AD8C'>
-          <Trans>ROI:</Trans> {formatPercent(roi, router.locale)}
+          <Trans>ROI:</Trans> {formatPercent(roi, locale)}
         </Badge>
       </div>
 

@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router'
-
+import { NPMSwapLink } from '@/common/NPMSwapLink'
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import CopyIcon from '@/icons/CopyIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
@@ -8,6 +7,7 @@ import { useToast } from '@/lib/toast/context'
 import { SHORT_TOAST_TIME } from '@/src/config/toast'
 import { useNetwork } from '@/src/context/Network'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -15,9 +15,8 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-import { useWeb3React } from '@web3-react/core'
-import { NPMSwapLink } from '@/common/NPMSwapLink'
 import { useLingui } from '@lingui/react'
+import { useWeb3React } from '@web3-react/core'
 
 export const TokenBalance = ({
   tokenAddress,
@@ -31,7 +30,7 @@ export const TokenBalance = ({
   const { register } = useRegisterToken()
   const { account } = useWeb3React()
   const toast = useToast()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const { i18n } = useLingui()
 
@@ -56,7 +55,7 @@ export const TokenBalance = ({
 
   const formattedTokenAmount = formatCurrency(
     convertFromUnits(balance || 0, tokenDecimals),
-    router.locale,
+    locale,
     unit,
     true
   )

@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -29,6 +27,7 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
@@ -147,12 +146,12 @@ export const MyPoliciesTxsTable = () => {
 }
 
 const WhenRenderer = ({ row }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
       className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+      title={DateLib.toLongDateFormat(row.transaction.timestamp, locale)}
       data-testid='timestamp-col'
     >
       {fromNow(row.transaction.timestamp)}
@@ -206,7 +205,7 @@ const DetailsRenderer = ({ row }) => {
 
 const CxTokenAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const isClaimTx = row.type === 'Claimed'
@@ -218,7 +217,7 @@ const CxTokenAmountRenderer = ({ row }) => {
   const formattedCurrency = formatCurrency(
     convertFromUnits(amount, decimals),
     // convertFromUnits(row.cxTokenAmount, row.cxToken.tokenDecimals),
-    router.locale,
+    locale,
     row.cxToken.tokenSymbol,
     true
   )
@@ -253,7 +252,7 @@ const CxTokenAmountRenderer = ({ row }) => {
 
 const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const isCoverPurchase = row.type === 'CoverPurchased'
 
@@ -274,7 +273,7 @@ const ActionsRenderer = ({ row }) => {
               <p>
                 {DateLib.toLongDateFormat(
                   row.transaction.timestamp,
-                  router.locale,
+                  locale,
                   'UTC'
                 )}
               </p>

@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
@@ -8,18 +6,18 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { MyLiquidityPage } from '@/modules/my-liquidity'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import { useAppConstants } from '@/src/context/AppConstants'
 import {
   useCalculateTotalLiquidity
 } from '@/src/hooks/useCalculateTotalLiquidity'
 import { useMyLiquidities } from '@/src/hooks/useMyLiquidities'
+import { useLanguageContext } from '@/src/i18n/i18n'
+import { getNetworks } from '@/src/ssg/static-paths'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-
-import { slugToNetworkId } from '@/src/config/networks'
-import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
   return {
@@ -43,7 +41,7 @@ export default function MyLiquidity ({ networkId }) {
   const totalLiquidityProvided = useCalculateTotalLiquidity({ liquidityList })
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const disabled = !isFeatureEnabled('liquidity', networkId)
 
@@ -56,7 +54,7 @@ export default function MyLiquidity ({ networkId }) {
     : `${
         formatCurrency(
           convertFromUnits(totalLiquidityProvided, liquidityTokenDecimals),
-          router.locale
+          locale
         ).long
       }
   `

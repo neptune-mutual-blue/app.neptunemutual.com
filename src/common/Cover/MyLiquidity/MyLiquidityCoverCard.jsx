@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import {
   Badge,
   E_CARD_STATUS
@@ -11,6 +9,7 @@ import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   sumOf,
@@ -28,7 +27,7 @@ export const MyLiquidityCoverCard = ({
   subProducts,
   coverData
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { info } = useMyLiquidityInfo({ coverKey })
 
   const isDiversified = coverData?.supportsProducts
@@ -89,7 +88,7 @@ export const MyLiquidityCoverCard = ({
           <Trans>Reassurance Ratio</Trans>
         </span>
         <span className='font-semibold text-right' data-testid='assurance'>
-          {formatPercent(reassurancePercent, router.locale)}
+          {formatPercent(reassurancePercent, locale)}
         </span>
       </div>
       <div className='mt-2 mb-4'>
@@ -100,7 +99,7 @@ export const MyLiquidityCoverCard = ({
         title={
           formatCurrency(
             convertFromUnits(totalPODs || '0', tokenDecimal),
-            router.locale,
+            locale,
             tokenSymbol,
             true
           ).long
@@ -111,7 +110,7 @@ export const MyLiquidityCoverCard = ({
           {
             formatCurrency(
               convertFromUnits(totalPODs || '0', tokenDecimal),
-              router.locale,
+              locale,
               tokenSymbol,
               true
             ).short

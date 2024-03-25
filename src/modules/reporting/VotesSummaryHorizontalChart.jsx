@@ -1,9 +1,8 @@
 import React from 'react'
 
-import { useRouter } from 'next/router'
-
 import { PercentXStackedChart } from '@/common/PercentXStackedChart'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   HorizontalChartLegend
 } from '@/src/modules/reporting/HorizontalChartLegend'
@@ -59,7 +58,7 @@ export const VotesSummaryHorizontalChart = ({
 }
 
 const ToolTipContent = ({ majority }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   const { i18n } = useLingui()
@@ -70,7 +69,7 @@ const ToolTipContent = ({ majority }) => {
 
   const formattedMajorityStake = formatCurrency(
     convertFromUnits(majority.stake, NPMTokenDecimals),
-    router.locale,
+    locale,
     NPMTokenSymbol,
     true
   )
@@ -100,7 +99,7 @@ const ToolTipContent = ({ majority }) => {
             </span>
             <span className='py-1 text-sm leading-5 text-black'>
               {majority.voteCount} (
-              {formatPercent(majority.percent, router.locale)})
+              {formatPercent(majority.percent, locale)})
             </span>
           </>
 

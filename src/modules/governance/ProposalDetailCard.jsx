@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import CheckCircleIcon from '@/icons/CheckCircleIcon'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
@@ -8,6 +6,7 @@ import DateLib from '@/lib/date/DateLib'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
 import { IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   getCategoryFromTitle,
@@ -26,7 +25,7 @@ export const ProposalDetailCard = ({
   end,
   state
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
   const category = getCategoryFromTitle(title)
 
@@ -86,7 +85,7 @@ export const ProposalDetailCard = ({
               <Trans>Start</Trans>
             </h4>
             <InfoTooltip
-              infoComponent={DateLib.toLongDateFormat(start, router.locale)}
+              infoComponent={DateLib.toLongDateFormat(start, locale)}
               className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none'
               positionOffset={0}
             >
@@ -99,7 +98,7 @@ export const ProposalDetailCard = ({
               <Trans>End</Trans>
             </h4>
             <InfoTooltip
-              infoComponent={DateLib.toLongDateFormat(end, router.locale)}
+              infoComponent={DateLib.toLongDateFormat(end, locale)}
               className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none'
               positionOffset={0}
             >

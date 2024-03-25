@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
-import { useRouter } from 'next/router'
 
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import DateLib from '@/lib/date/DateLib'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBNSafe
@@ -90,8 +90,8 @@ export const LiquidityGaugeBoostDetails = ({
 
   const boost = toBNSafe(calculateBoost(lockDuration)).dividedBy(MULTIPLIER).toString()
 
-  const router = useRouter()
-  const formattedTokenValue = formatCurrency(convertFromUnits(currentDistribution, rewardTokenDecimals).toString(), router.locale, '', true, true)
+  const { locale } = useLanguageContext()
+  const formattedTokenValue = formatCurrency(convertFromUnits(currentDistribution, rewardTokenDecimals).toString(), locale, '', true, true)
 
   return (
     <div className='flex flex-col gap-2 mt-6 md:mt-0'>

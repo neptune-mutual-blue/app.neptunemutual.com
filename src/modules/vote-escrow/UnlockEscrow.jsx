@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import BackIcon from '@/icons/BackIcon'
@@ -10,6 +8,7 @@ import VoteEscrowTitle from '@/modules/vote-escrow/VoteEscrowTitle'
 import { PREMATURE_UNLOCK_PENALTY_FRACTION } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useVoteEscrowUnlock } from '@/src/hooks/contracts/useVoteEscrowUnlock'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -28,7 +27,7 @@ const UnlockEscrow = ({
   unlockTimestamp,
   refetchLockData
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
 
   const {
@@ -54,8 +53,8 @@ const UnlockEscrow = ({
 
   const receiveAmount = toBN(veNPMBalance).minus(penaltyAmount).toString()
 
-  const formattedPenaltyAmount = formatCurrency(convertFromUnits(penaltyAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
-  const formattedReceiveAmount = formatCurrency(convertFromUnits(receiveAmount, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedPenaltyAmount = formatCurrency(convertFromUnits(penaltyAmount, NPMTokenDecimals), locale, NPMTokenSymbol, true)
+  const formattedReceiveAmount = formatCurrency(convertFromUnits(receiveAmount, NPMTokenDecimals), locale, NPMTokenSymbol, true)
 
   let loadingMessage = ''
   if (loadingAllowance) {

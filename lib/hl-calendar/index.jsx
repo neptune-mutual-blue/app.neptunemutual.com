@@ -1,20 +1,19 @@
 import { useState } from 'react'
 
-import { useRouter } from 'next/router'
-
 import ChevronLeftLgIcon from '@/icons/ChevronLeftLgIcon'
 import ChevronRightLgIcon from '@/icons/ChevronRightLgIcon'
 import { getMonthNames } from '@/lib/dates'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { Trans } from '@lingui/macro'
 
 // HlCalendar - Highlight Calendar
 export const HlCalendar = ({ startDate, endDate }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { month, year } = getPrimaryMonthYear(startDate, endDate)
 
   const [calendarState, setCalendarState] = useState({ month, year })
 
-  const monthNames = getMonthNames(router.locale)
+  const monthNames = getMonthNames(locale)
 
   const allDates = addWeekDatesAfter(
     addWeekDatesBefore(

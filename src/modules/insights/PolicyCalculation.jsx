@@ -3,11 +3,12 @@ import { useRouter } from 'next/router'
 import ArrowRight from '@/icons/ArrowRight'
 import { getActions } from '@/src/config/cover/actions'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useLingui } from '@lingui/react'
-import { useNetwork } from '@/src/context/Network'
 
 export const PolicyCalculation = ({
   feeData,
@@ -18,11 +19,12 @@ export const PolicyCalculation = ({
   const router = useRouter()
   const { networkId } = useNetwork()
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
+  const { locale } = useLanguageContext()
 
   const coverFee = convertFromUnits(feeData?.fee || '', liquidityTokenDecimals).toString()
   const formattedCoverFee = formatCurrency(
     coverFee,
-    router.locale,
+    locale,
     liquidityTokenSymbol,
     true
   ).short
@@ -59,7 +61,7 @@ export const PolicyCalculation = ({
             !loading
               ? formatCurrency(
                 coverFee,
-                router.locale,
+                locale,
                 liquidityTokenSymbol,
                 true
               ).long

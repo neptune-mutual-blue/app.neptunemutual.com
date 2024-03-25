@@ -209,13 +209,13 @@ const ReportListing = (props) => {
               {reports.map((report, i) => {
                 const formattedTotalAttestedStake = formatCurrency(
                   convertFromUnits(report.totalAttestedStake, NPMTokenDecimals),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 )
                 const formattedTotalRefutedStake = formatCurrency(
                   convertFromUnits(report.totalRefutedStake, NPMTokenDecimals),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 )

@@ -21,6 +21,7 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 import { useRemoveLiquidity } from '@/src/hooks/useRemoveLiquidity'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   convertToUnits,
@@ -51,6 +52,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const [isExit, setIsExit] = useState(false)
   const { networkId } = useNetwork()
   const { isMainNet } = getNetworkInfo(networkId)
+
+  const { locale } = useLanguageContext()
 
   const {
     NPMTokenAddress,
@@ -245,7 +248,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                 receiveAmount,
                 liquidityTokenDecimals
               ).toString(),
-              router.locale
+              locale
             )}
             data-testid='receive-input'
           />
@@ -266,7 +269,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                 Open:
               </Trans>{' '}
             </strong>
-            {DateLib.toLongDateFormat(withdrawalOpen, router.locale)}
+            {DateLib.toLongDateFormat(withdrawalOpen, locale)}
           </span>
         </div>
 
@@ -281,7 +284,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                 Close:
               </Trans>{' '}
             </strong>
-            {DateLib.toLongDateFormat(withdrawalClose, router.locale)}
+            {DateLib.toLongDateFormat(withdrawalClose, locale)}
           </span>
         </div>
 

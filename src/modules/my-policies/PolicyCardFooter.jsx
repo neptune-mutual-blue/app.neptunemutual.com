@@ -1,9 +1,10 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import DateLib from '@/lib/date/DateLib'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -13,7 +14,6 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useNetwork } from '@/src/context/Network'
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -28,12 +28,12 @@ export const PolicyCardFooter = ({
   validityEndsAt,
   amountToCover
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const formattedAmountToCover = formatCurrency(
     convertFromUnits(amountToCover, liquidityTokenDecimals),
-    router.locale
+    locale
   )
 
   const { networkId } = useNetwork()
@@ -45,7 +45,7 @@ export const PolicyCardFooter = ({
       title: t(i18n)`Claim Before`,
       tooltipText: DateLib.toLongDateFormat(
         claimExpiresAt,
-        router.locale
+        locale
       ),
       value: fromNow(claimExpiresAt),
       variant: 'error'
@@ -55,20 +55,20 @@ export const PolicyCardFooter = ({
       title: t(i18n)`Resolution By`,
       tooltipText: DateLib.toLongDateFormat(
         claimBeginsFrom,
-        router.locale
+        locale
       ),
       value: fromNow(claimBeginsFrom)
     })
   } else if (isPolicyExpired) {
     stats.push({
       title: t(i18n)`Expired On`,
-      tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
+      tooltipText: DateLib.toLongDateFormat(validityEndsAt, locale),
       value: fromNow(validityEndsAt)
     })
   } else {
     stats.push({
       title: t(i18n)`Expires In`,
-      tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
+      tooltipText: DateLib.toLongDateFormat(validityEndsAt, locale),
       value: fromNow(validityEndsAt)
     })
   }

@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import {
   Badge,
   E_CARD_STATUS,
@@ -17,6 +15,7 @@ import {
 } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { getCoverImgSrc } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -37,7 +36,7 @@ export const ProductCard = ({
   progressBgColor = undefined,
   className = ''
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const productStatus = CoverStatus[productData.productStatus]
@@ -47,12 +46,12 @@ export const ProductCard = ({
 
   const protectionLong = formatCurrency(
     convertFromUnits(productData.commitment, liquidityTokenDecimals).toString(),
-    router.locale
+    locale
   ).long
 
   const liquidityLong = formatCurrency(
     convertFromUnits(capacity, liquidityTokenDecimals).toString(),
-    router.locale
+    locale
   ).long
 
   const status = identifyStatus(productStatus)
@@ -92,12 +91,12 @@ export const ProductCard = ({
           <Trans>Annual Cover fee:</Trans>{' '}
           {formatPercent(
             toBN(productData.floor).dividedBy(MULTIPLIER),
-            router.locale
+            locale
           )}
           -
           {formatPercent(
             toBN(productData.ceiling).dividedBy(MULTIPLIER),
-            router.locale
+            locale
           )}
         </div>
         {productData.leverage && (
@@ -124,7 +123,7 @@ export const ProductCard = ({
                   toBN(productData.capitalEfficiency)
                     .dividedBy(MULTIPLIER)
                     .toString(),
-                  router.locale,
+                  locale,
                   false
                 )}
               </p>
@@ -155,7 +154,7 @@ export const ProductCard = ({
           className='text-xs font-semibold text-right lg:text-sm '
           data-testid='util-ratio'
         >
-          {formatPercent(utilization, router.locale)}
+          {formatPercent(utilization, locale)}
         </span>
       </div>
 
@@ -165,7 +164,7 @@ export const ProductCard = ({
             <p>
               <strong>
                 <Trans>
-                  Utilization ratio: {formatPercent(utilization, router.locale)}
+                  Utilization ratio: {formatPercent(utilization, locale)}
                 </Trans>
               </strong>
             </p>
@@ -213,7 +212,7 @@ export const ProductCard = ({
                     productData.commitment,
                     liquidityTokenDecimals
                   ).toString(),
-                  router.locale
+                  locale
                 ).short
               }
             </p>
@@ -235,7 +234,7 @@ export const ProductCard = ({
             {
               formatCurrency(
                 convertFromUnits(capacity, liquidityTokenDecimals).toString(),
-                router.locale
+                locale
               ).short
             }
           </div>

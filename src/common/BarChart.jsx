@@ -7,10 +7,10 @@ import {
   Title,
   Tooltip
 } from 'chart.js'
-import { useRouter } from 'next/router'
 import { Bar } from 'react-chartjs-2'
 
 import { Loading } from '@/common/Loading'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { formatCurrency } from '@/utils/formatter/currency'
 
 ChartJS.register(
@@ -23,7 +23,7 @@ ChartJS.register(
 )
 
 export function BarChart ({ labels, yAxisData, loading, formatTooltipLabel = undefined }) {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const barData = {
     labels,
@@ -55,7 +55,7 @@ export function BarChart ({ labels, yAxisData, loading, formatTooltipLabel = und
         },
         ticks: {
           callback: function (val) {
-            return val === 0 ? 0 : formatCurrency(this.getLabelForValue(val).replace(/,/g, ''), router.locale, '', true, true).short
+            return val === 0 ? 0 : formatCurrency(this.getLabelForValue(val).replace(/,/g, ''), locale, '', true, true).short
           }
         }
       }

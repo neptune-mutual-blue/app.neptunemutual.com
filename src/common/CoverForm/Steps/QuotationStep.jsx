@@ -1,15 +1,14 @@
-import { useRouter } from 'next/router'
-
 import {
   PolicyFeesAndExpiry
 } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 
 const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityTokenDecimals, liquidityTokenSymbol, referralCode }) => {
   const { fee } = feeData
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
 
@@ -21,14 +20,14 @@ const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityToken
         title={
                 formatCurrency(
                   coverFee,
-                  router.locale,
+                  locale,
                   liquidityTokenSymbol,
                   true
                 ).long
               }
       >{formatCurrency(
         coverFee,
-        router.locale,
+        locale,
         liquidityTokenSymbol,
         true
       ).short}

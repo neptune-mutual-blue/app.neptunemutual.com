@@ -9,6 +9,7 @@ import {
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCapitalizePool } from '@/src/hooks/useCapitalizePool'
 import { useFinalizeIncident } from '@/src/hooks/useFinalizeIncident'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { IncidentReporter } from '@/src/modules/reporting/IncidentReporter'
 import { InsightsTable } from '@/src/modules/reporting/InsightsTable'
 import {
@@ -58,6 +59,8 @@ export const ResolvedReportSummary = ({
     incidentDate: incidentReport.incidentDate
   })
   const { NPMTokenSymbol, roles } = useAppConstants()
+
+  const { locale } = useLanguageContext()
 
   const votes = {
     yes: convertFromUnits(yes).toString(),
@@ -125,7 +128,7 @@ export const ResolvedReportSummary = ({
             insights={[
               {
                 title: t(i18n)`Incident Occurred`,
-                value: formatPercent(yesPercent, router.locale),
+                value: formatPercent(yesPercent, locale),
                 variant: 'success'
               },
               {
@@ -136,13 +139,13 @@ export const ResolvedReportSummary = ({
                 title: t(i18n)`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).long
@@ -151,13 +154,13 @@ export const ResolvedReportSummary = ({
                 title: t(i18n)`Your Stake`,
                 value: formatCurrency(
                   convertFromUnits(myYes),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
                   convertFromUnits(myYes),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).long
@@ -170,7 +173,7 @@ export const ResolvedReportSummary = ({
             insights={[
               {
                 title: t(i18n)`False Reporting`,
-                value: formatPercent(noPercent, router.locale),
+                value: formatPercent(noPercent, locale),
                 variant: 'error'
               },
               {
@@ -181,13 +184,13 @@ export const ResolvedReportSummary = ({
                 title: t(i18n)`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).long
@@ -196,13 +199,13 @@ export const ResolvedReportSummary = ({
                 title: t(i18n)`Your Stake`,
                 value: formatCurrency(
                   convertFromUnits(myNo),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
                   convertFromUnits(myNo),
-                  router.locale,
+                  locale,
                   NPMTokenSymbol,
                   true
                 ).long
@@ -238,12 +241,12 @@ export const ResolvedReportSummary = ({
             <span
               title={DateLib.toLongDateFormat(
                 incidentReport.incidentDate,
-                router.locale
+                locale
               )}
             >
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
-                router.locale,
+                locale,
                 { month: 'short', day: 'numeric' },
                 'UTC'
               )}
@@ -252,12 +255,12 @@ export const ResolvedReportSummary = ({
             <span
               title={DateLib.toLongDateFormat(
                 incidentReport.resolutionTimestamp,
-                router.locale
+                locale
               )}
             >
               {DateLib.toDateFormat(
                 incidentReport.resolutionTimestamp,
-                router.locale,
+                locale,
                 { month: 'short', day: 'numeric' },
                 'UTC'
               )}

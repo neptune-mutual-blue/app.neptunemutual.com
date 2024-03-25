@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import {
   Table,
   TableWrapper,
@@ -19,6 +17,7 @@ import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -156,7 +155,7 @@ export const InsightsQuickInfoTable = () => {
     return result
   }, [getAllProducts])
 
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const paginatedData = topCovers.slice((page - 1) * ROWS_PER_PAGE, (page - 1) * ROWS_PER_PAGE + ROWS_PER_PAGE)

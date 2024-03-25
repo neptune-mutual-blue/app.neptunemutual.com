@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { DisabledInput } from '@/common/Input/DisabledInput'
@@ -24,6 +22,7 @@ import {
 } from '@/src/helpers/cover'
 import { useClaimPolicyInfo } from '@/src/hooks/useClaimPolicyInfo'
 import { useDebounce } from '@/src/hooks/useDebounce'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   useCxTokenRowContext
 } from '@/src/modules/my-policies/CxTokenRowContext'
@@ -75,7 +74,7 @@ export const ClaimCoverModal = ({
     claimPlatformFee,
     tokenSymbol
   })
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   // Clear on modal close
   useEffect(() => {
@@ -168,7 +167,7 @@ export const ClaimCoverModal = ({
                   Fee:{' '}
                   {formatPercent(
                     toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
-                    router.locale
+                    locale
                   )}
                 </Trans>
               </>

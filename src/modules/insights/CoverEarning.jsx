@@ -1,9 +1,9 @@
 import { BarChart } from '@/common/BarChart'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
 
 function CoverEarning ({ labels, yAxisData, loading }) {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
 

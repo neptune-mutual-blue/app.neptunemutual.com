@@ -1,21 +1,19 @@
-import { useRouter } from 'next/router'
-
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useActivePolicies } from '@/src/hooks/useActivePolicies'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   PoliciesActivePage
 } from '@/src/modules/my-policies/active/PoliciesActivePage'
 import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
+import { getNetworks } from '@/src/ssg/static-paths'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-
-import { slugToNetworkId } from '@/src/config/networks'
-import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
   return {
@@ -38,7 +36,7 @@ export default function MyPoliciesActive ({ networkId }) {
     data: { totalActiveProtection, activePolicies },
     loading
   } = useActivePolicies()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
   const { i18n } = useLingui()
 
@@ -52,7 +50,7 @@ export default function MyPoliciesActive ({ networkId }) {
         totalActiveProtection,
         liquidityTokenDecimals
       ),
-      router.locale
+      locale
     ).long
 
   return (

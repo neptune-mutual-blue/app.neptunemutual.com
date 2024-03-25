@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -22,6 +20,7 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
 import { useStakingTxs } from '@/src/hooks/useStakingTxs'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
@@ -32,12 +31,12 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
 const WhenRenderer = ({ row }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
       className='px-6 py-6'
-      title={DateLib.toLongDateFormat(row.createdAtTimestamp, router.locale)}
+      title={DateLib.toLongDateFormat(row.createdAtTimestamp, locale)}
     >
       {fromNow(row.createdAtTimestamp)}
     </td>

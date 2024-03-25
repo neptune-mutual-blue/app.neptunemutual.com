@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import BigNumber from 'bignumber.js'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
@@ -27,6 +26,7 @@ import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
 import { useVoteEscrowLock } from '@/src/hooks/contracts/useVoteEscrowLock'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   convertToUnits,
@@ -59,7 +59,7 @@ const VoteEscrow = ({ networkId }) => {
 
   const { i18n } = useLingui()
 
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { isMobile } = useDeviceSize()
 
   const { NPMTokenDecimals, NPMTokenSymbol, NPMTokenAddress } = useAppConstants()
@@ -109,10 +109,10 @@ const VoteEscrow = ({ networkId }) => {
   const newLockedNpm = toBN(oldLockedNpm)
     .plus(convertToUnits(input || '0', NPMTokenDecimals)).toString()
 
-  const formattedLockedNpm = formatCurrency(convertFromUnits(newLockedNpm, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedLockedNpm = formatCurrency(convertFromUnits(newLockedNpm, NPMTokenDecimals), locale, NPMTokenSymbol, true)
 
   const votingPower = toBN(boost).multipliedBy(newLockedNpm)
-  const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), locale, NPMTokenSymbol, true)
 
   const canUnlock = toBN(data.veNPMBalance).isGreaterThan(0)
 
@@ -154,7 +154,7 @@ const VoteEscrow = ({ networkId }) => {
   const sliderDisplayValue = sliderValue || oldDurationInWeeks || VOTE_ESCROW_MIN_WEEKS
   const unlockDate = sliderValue ? DateLib.addDays(new Date(), sliderValue * 7) : DateLib.fromUnix(data.unlockTimestamp)
   const formattedUnlockDate = {
-    long: DateLib.toLongDateFormat(unlockDate, router.locale),
+    long: DateLib.toLongDateFormat(unlockDate, locale),
     short: DateLib.toDateFormat(unlockDate, 'en', {
       year: 'numeric',
       month: 'long',

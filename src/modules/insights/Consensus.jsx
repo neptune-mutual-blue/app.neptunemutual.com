@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { Badge } from '@/common/Badge/Badge'
 import {
   Badge as CardStatusBadge,
@@ -20,6 +18,7 @@ import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
@@ -178,7 +177,7 @@ const getColumns = (i18n) => {
 }
 
 function Consensus ({ data, loading, setConsensusIndex }) {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals, NPMTokenSymbol } = useAppConstants()
   const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
@@ -218,7 +217,7 @@ function Consensus ({ data, loading, setConsensusIndex }) {
           <TBody
             isLoading={loading}
             extraData={{
-              locale: router.locale,
+              locale: locale,
               liquidityTokenDecimals,
               setConsensusIndex,
               NPMTokenSymbol

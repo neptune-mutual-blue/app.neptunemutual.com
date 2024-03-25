@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
@@ -15,6 +13,7 @@ import IncreaseIcon from '@/icons/IncreaseIcon'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -31,7 +30,7 @@ import { useLingui } from '@lingui/react'
 export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const { data: heroData } = useFetchHeroStats()
   const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const [changeData, setChangeData] = useState(null)
   const { data: { totalCapacity } } = useProtocolDayData()
@@ -93,7 +92,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                     name: t(i18n)`Capacity`,
                     amount: formatCurrency(
                       currentCapacity,
-                      router.locale
+                      locale
                     ).short
                   },
                   {
@@ -103,7 +102,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                         poolsTvl,
                         liquidityTokenDecimals
                       ).toString(),
-                      router.locale
+                      locale
                     ).short
                   }
                 ]}
@@ -121,14 +120,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                     name: t(i18n)`Coverage`,
                     amount: formatCurrency(
                       heroData.covered,
-                      router.locale
+                      locale
                     ).short
                   },
                   {
                     name: t(i18n)`Cover Fee`,
                     amount: formatCurrency(
                       heroData.coverFee,
-                      router.locale
+                      locale
                     ).short
                   }
                 ]}
@@ -157,7 +156,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                 {
                   formatCurrency(
                     changeData?.last,
-                    router.locale
+                    locale
                   ).short
                 }
               </h2>
@@ -179,7 +178,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                       className={changeData.rise ? '' : 'transform-flip'}
                     />
                   </span>
-                  <span>{formatPercent(changeData.diff, router.locale)}</span>
+                  <span>{formatPercent(changeData.diff, locale)}</span>
                 </p>
               )}
             </div>

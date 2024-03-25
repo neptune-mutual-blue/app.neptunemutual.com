@@ -4,8 +4,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
@@ -17,6 +15,7 @@ import {
 import {
   useLiquidityGaugePoolWithdrawRewards
 } from '@/src/hooks/useLiquidityGaugePoolWithdrawRewards'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   convertToUnits,
@@ -43,7 +42,7 @@ export const ReceiveAndUnlockModal = ({
   updateStakedAndReward,
   poolStaked
 }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   const [isExit, setIsExit] = useState(false)
   const [isReceiveRewardsModalOpen, setIsReceiveRewardsModalOpen] = useState(true)

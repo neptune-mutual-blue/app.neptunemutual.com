@@ -42,6 +42,7 @@ import { usePolicyDisabledStatus } from '@/src/hooks/usePolicyDisabledStatus'
 import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   isGreater
@@ -99,6 +100,7 @@ export const PurchasePolicyForm = ({
   policyStatus
 }) => {
   const router = useRouter()
+  const { locale } = useLanguageContext()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
 
@@ -186,7 +188,7 @@ export const PurchasePolicyForm = ({
     setReferralCode(e.target.value.toUpperCase())
   }
 
-  const coverPeriodLabels = getCoveragePeriodLabels(router.locale)
+  const coverPeriodLabels = getCoveragePeriodLabels(locale)
 
   let canProceed = true
   if (formSteps === 0) {

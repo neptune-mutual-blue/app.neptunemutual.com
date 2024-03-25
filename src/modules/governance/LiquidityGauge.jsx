@@ -6,22 +6,25 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
+import BigNumber from 'bignumber.js'
 
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
+import { NoDataFound } from '@/common/Loading'
 import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
+import { EMISSION_PER_EPOCH } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, toBNSafe } from '@/utils/bn'
+import { useLanguageContext } from '@/src/i18n/i18n'
+import {
+  convertFromUnits,
+  toBNSafe
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getAsOfDate } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
-import { EMISSION_PER_EPOCH } from '@/src/config/constants'
-import BigNumber from 'bignumber.js'
-import { NoDataFound } from '@/common/Loading'
 
 const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
   const [hoveredName, setHoveredName] = useState(null)
@@ -29,7 +32,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
   const [mobile, setMobile] = useState(window.innerWidth < 768)
 
   const chartRef = useRef()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   // choose the screen size
@@ -144,10 +147,10 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
   })
   const asOfDate = getAsOfDate(start, end)
 
-  const formattedEmission = formatCurrency(convertFromUnits(emission, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
+  const formattedEmission = formatCurrency(convertFromUnits(emission, NPMTokenDecimals), locale, NPMTokenSymbol, true)
   const formattedDate = DateLib.toLongDateFormat(
     asOfDate,
-    router.locale,
+    locale,
     'UTC', {
       year: 'numeric',
       month: 'short',
@@ -184,9 +187,9 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>
-          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(EMISSION_PER_EPOCH).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), router.locale, 'NPM', true).long}
+          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(EMISSION_PER_EPOCH).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), locale, 'NPM', true).long}
         </div>
-        <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, router.locale)}>
+        <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, locale)}>
           As of:{' '}{formattedDate}
         </div>
       </div>

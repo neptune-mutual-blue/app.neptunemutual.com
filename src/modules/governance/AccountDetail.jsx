@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
@@ -10,6 +8,7 @@ import {
 import GovernanceCard from '@/modules/governance/GovernanceCard'
 import { useSetGauge } from '@/modules/governance/useSetGauge'
 import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -23,7 +22,7 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
 
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const {
     loadingAllowance,
@@ -87,7 +86,7 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
               >
                 {formatCurrency(
                   convertFromUnits(balance, depositTokenDecimals),
-                  router.locale,
+                  locale,
                   depositTokenSymbol,
                   true
                 ).long}
@@ -99,7 +98,7 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
               </h4>
               <p className='text-xl'>{formatCurrency(
                 convertFromUnits(amountToDeposit, depositTokenDecimals),
-                router.locale,
+                locale,
                 depositTokenSymbol,
                 true
               ).long}

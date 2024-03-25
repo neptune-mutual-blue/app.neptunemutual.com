@@ -1,6 +1,6 @@
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
 
 export const TokenAmountSpan = ({
   amountInUnits,
@@ -8,7 +8,7 @@ export const TokenAmountSpan = ({
   className = null,
   decimals
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <span
@@ -16,7 +16,7 @@ export const TokenAmountSpan = ({
       title={`${
         formatCurrency(
           convertFromUnits(amountInUnits, decimals).toString(),
-          router.locale,
+          locale,
           symbol,
           typeof symbol !== 'undefined'
         ).long
@@ -26,7 +26,7 @@ export const TokenAmountSpan = ({
       {
         formatCurrency(
           convertFromUnits(amountInUnits, decimals).toString(),
-          router.locale,
+          locale,
           symbol,
           typeof symbol !== 'undefined'
         ).short

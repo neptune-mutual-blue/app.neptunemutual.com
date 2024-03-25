@@ -3,14 +3,13 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { NPM_IPFS_HASH_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { readFromIpfs } from '@/src/services/api/ipfs/read'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { getReplacedString } from '@/utils/string'
@@ -27,7 +26,7 @@ const DISPUTE = 1
  * @param {{ type: string; createdBy: string; reportedAt: number; ipfsHash: string; }} props
  */
 function HeaderReport (props) {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
   const { type, createdBy, reportedAt, ipfsHash } = props
   const { networkId } = useNetwork()
 

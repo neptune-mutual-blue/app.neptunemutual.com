@@ -1,7 +1,6 @@
-import { useRouter } from 'next/router'
-
 import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
@@ -10,7 +9,7 @@ export const DedicatedLiquidityResolutionSources = ({
   coverData,
   children
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const totalLiquidity = coverData.tvl
@@ -27,7 +26,7 @@ export const DedicatedLiquidityResolutionSources = ({
         title={
           formatCurrency(
             convertFromUnits(totalLiquidity, liquidityTokenDecimals),
-            router.locale
+            locale
           ).long
         }
       >
@@ -38,7 +37,7 @@ export const DedicatedLiquidityResolutionSources = ({
           {
             formatCurrency(
               convertFromUnits(totalLiquidity, liquidityTokenDecimals),
-              router.locale
+              locale
             ).short
           }
         </strong>
@@ -48,7 +47,7 @@ export const DedicatedLiquidityResolutionSources = ({
         title={
           formatCurrency(
             convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
-            router.locale
+            locale
           ).long
         }
       >
@@ -59,7 +58,7 @@ export const DedicatedLiquidityResolutionSources = ({
           {
             formatCurrency(
               convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
-              router.locale
+              locale
             ).short
           }
         </strong>

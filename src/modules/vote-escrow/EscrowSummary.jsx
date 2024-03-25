@@ -1,11 +1,10 @@
 import React from 'react'
 
-import { useRouter } from 'next/router'
-
 import DateLib from '@/lib/date/DateLib'
 import { useVoteEscrowStats } from '@/modules/vote-escrow/useVoteEscrowStats'
 import { PREMATURE_UNLOCK_PENALTY_FRACTION } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -13,14 +12,14 @@ import { formatPercent } from '@/utils/formatter/percent'
 import { fromNow } from '@/utils/formatter/relative-time'
 
 const EscrowSummary = ({ veNPMBalance, veNPMTokenSymbol, unlockTimestamp, className = '' }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
   const { data } = useVoteEscrowStats()
 
-  const formattedUnlockDate = DateLib.toLongDateFormat(DateLib.fromUnix(unlockTimestamp), router.locale)
+  const formattedUnlockDate = DateLib.toLongDateFormat(DateLib.fromUnix(unlockTimestamp), locale)
 
-  const formattedTotalLocked = formatCurrency(convertFromUnits(data.totalVoteLocked, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
-  const formattedVeNPMBalance = formatCurrency(convertFromUnits(veNPMBalance, NPMTokenDecimals), router.locale, veNPMTokenSymbol, true)
+  const formattedTotalLocked = formatCurrency(convertFromUnits(data.totalVoteLocked, NPMTokenDecimals), locale, NPMTokenSymbol, true)
+  const formattedVeNPMBalance = formatCurrency(convertFromUnits(veNPMBalance, NPMTokenDecimals), locale, veNPMTokenSymbol, true)
 
   return (
     <div className={classNames('rounded-lg p-6', className)}>

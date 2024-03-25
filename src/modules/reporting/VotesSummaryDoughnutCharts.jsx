@@ -1,14 +1,13 @@
-import { useRouter } from 'next/router'
-
 import { PercentDoughnutChart } from '@/common/PercentDoughnutChart'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const { i18n } = useLingui()
 
@@ -46,7 +45,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
         <div className='relative max-w-fit'>
           <DoughnutChartInsight
             title={t(i18n)`Incident Occurred`}
-            percent={formatPercent(yesPercent, router.locale)}
+            percent={formatPercent(yesPercent, locale)}
             amountStaked={votes.yes}
             variant='success'
           />
@@ -56,7 +55,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
         <div className='relative max-w-fit'>
           <DoughnutChartInsight
             title={t(i18n)`False Reporting`}
-            percent={formatPercent(noPercent, router.locale)}
+            percent={formatPercent(noPercent, locale)}
             amountStaked={votes.no}
             variant='error'
           />

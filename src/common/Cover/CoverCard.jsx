@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import {
   Badge,
   E_CARD_STATUS,
@@ -18,6 +16,7 @@ import {
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { getCoverImgSrc } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -34,7 +33,7 @@ export const CoverCard = ({
   progressBgColor = undefined,
   className = ''
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
   const { getProductsByCoverKey } = useCoversAndProducts2()
 
@@ -45,14 +44,14 @@ export const CoverCard = ({
 
   const protection = formatCurrency(
     convertFromUnits(coverData.commitment, liquidityTokenDecimals).toString(),
-    router.locale
+    locale
   )
   const protectionLong = protection.long
   const protectionShort = protection.short
 
   const formattedCapacity = formatCurrency(
     convertFromUnits(capacity, liquidityTokenDecimals).toString(),
-    router.locale
+    locale
   )
   const capacityLong = formattedCapacity.long
   const capacityShort = formattedCapacity.short
@@ -95,12 +94,12 @@ export const CoverCard = ({
         <Trans>Annual Cover fee:</Trans>{' '}
         {formatPercent(
           toBN(coverData.floor).dividedBy(MULTIPLIER),
-          router.locale
+          locale
         )}
         -
         {formatPercent(
           toBN(coverData.ceiling).dividedBy(MULTIPLIER),
-          router.locale
+          locale
         )}
       </div>
 
@@ -116,7 +115,7 @@ export const CoverCard = ({
           className='text-xs font-semibold text-right lg:text-sm '
           data-testid='util-ratio'
         >
-          {formatPercent(utilization, router.locale)}
+          {formatPercent(utilization, locale)}
         </span>
       </div>
 
@@ -126,7 +125,7 @@ export const CoverCard = ({
             <p>
               <b>
                 <Trans>Utilization ratio:</Trans>{' '}
-                {formatPercent(utilization, router.locale)}
+                {formatPercent(utilization, locale)}
               </b>
             </p>
             <p>

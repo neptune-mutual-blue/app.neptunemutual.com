@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
@@ -17,6 +15,7 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -35,12 +34,12 @@ import {
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import {
   config,
   registry
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useStakingPoolDeposit = ({
   value,
@@ -73,7 +72,7 @@ export const useStakingPoolDeposit = ({
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const { i18n } = useLingui()
 
@@ -224,7 +223,7 @@ export const useStakingPoolDeposit = ({
           poolName: info.name,
           stake: value,
           stakeCurrency: tokenSymbol,
-          stakeFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
+          stakeFormatted: formatCurrency(value, locale, tokenSymbol, true).short,
           lockupPeriod,
           lockupPeriodFormatted: explainInterval(lockupPeriod),
           withdrawStartHeight
@@ -353,7 +352,7 @@ export const useStakingPoolDeposit = ({
     if (isGreater(convertToUnits(value).toString(), maxStakableAmount)) {
       const maxStakableTokenAmount = formatCurrency(
         convertFromUnits(maxStakableAmount).toString(),
-        router.locale,
+        locale,
         '',
         true
       ).short
@@ -366,7 +365,7 @@ export const useStakingPoolDeposit = ({
     if (error) {
       setError('')
     }
-  }, [account, balance, error, maxStakableAmount, router.locale, value, i18n])
+  }, [account, balance, error, maxStakableAmount, locale, value, i18n])
 
   const canDeposit =
     value &&

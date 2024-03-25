@@ -20,6 +20,7 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { writeToIpfs } from '@/src/services/api/ipfs/write'
 import { METHODS } from '@/src/services/transactions/const'
 import {
@@ -35,12 +36,13 @@ import {
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const [approving, setApproving] = useState(false)
   const [reporting, setReporting] = useState(false)
@@ -216,14 +218,14 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         title: payload.title,
         observed: payload.observed,
         observedMonth: observedDate.split('/')[0],
-        observedMonthFormatted: getMonthNames(router.locale)[parseInt(observedDate.split('/')[0]) - 1],
+        observedMonthFormatted: getMonthNames(locale)[parseInt(observedDate.split('/')[0]) - 1],
         observedYear: observedDate.split('/')[2],
         proofs: payload.proofOfIncident,
         stake: value,
         stakeCurrency: NPMTokenSymbol,
         stakeFormatted: formatCurrency(
           value,
-          router.locale,
+          locale,
           NPMTokenSymbol,
           true
         ).short,

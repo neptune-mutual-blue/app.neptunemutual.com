@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-
-import { useRouter } from 'next/router'
+import {
+  useEffect,
+  useState
+} from 'react'
 
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -22,6 +23,7 @@ import {
 } from '@/modules/governance/proposals-table/TableComponents'
 import { useNetwork } from '@/src/context/Network'
 import { useSnapshotProposals } from '@/src/hooks/useSnapshotProposals'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -107,7 +109,7 @@ const getFilterString = item => {
 }
 
 export const ProposalsTable = () => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
 
   const { i18n } = useLingui()

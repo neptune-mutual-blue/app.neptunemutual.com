@@ -1,14 +1,13 @@
-import { useRouter } from 'next/router'
-
 import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
 import { Trans } from '@lingui/macro'
 
 export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const totalLiquidity = coverData.tvl
@@ -34,7 +33,7 @@ export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) =
           title={
             formatCurrency(
               convertFromUnits(totalLiquidity, liquidityTokenDecimals),
-              router.locale
+              locale
             ).long
           }
         >
@@ -45,7 +44,7 @@ export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) =
             {
               formatCurrency(
                 convertFromUnits(totalLiquidity, liquidityTokenDecimals),
-                router.locale
+                locale
               ).short
             }
           </strong>
@@ -55,7 +54,7 @@ export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) =
           title={
             formatCurrency(
               convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
-              router.locale
+              locale
             ).long
           }
         >
@@ -66,7 +65,7 @@ export const DiversifiedLiquidityResolutionSources = ({ coverData, children }) =
             {
               formatCurrency(
                 convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
-                router.locale
+                locale
               ).short
             }
           </strong>

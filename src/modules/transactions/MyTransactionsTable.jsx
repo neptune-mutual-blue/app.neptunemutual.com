@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
@@ -20,6 +18,7 @@ import DateLib from '@/lib/date/DateLib'
 import { useNetwork } from '@/src/context/Network'
 import { useActionMessage } from '@/src/helpers/notification'
 import { useSortData } from '@/src/hooks/useSortData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
@@ -185,12 +184,12 @@ export const MyTransactionsTable = () => {
 }
 
 const WhenRenderer = ({ row }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
       className='px-6 py-6 text-sm leading-5 w-52 whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.timestamp / 1000, router.locale)}
+      title={DateLib.toLongDateFormat(row.timestamp / 1000, locale)}
       data-testid='timestamp-col'
     >
       {fromNow(row.timestamp / 1000)}
@@ -199,7 +198,7 @@ const WhenRenderer = ({ row }) => {
 }
 
 const DetailsRenderer = ({ row }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   const { getActionMessage } = useActionMessage()
 
@@ -221,7 +220,7 @@ const DetailsRenderer = ({ row }) => {
 }
 
 const AmountRenderer = ({ row }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
   const { getActionMessage } = useActionMessage()
 
   const { description } = getActionMessage(

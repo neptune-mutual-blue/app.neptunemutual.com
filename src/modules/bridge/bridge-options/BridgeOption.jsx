@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router'
-
 import CheckCircleFilledIcon from '@/icons/CheckCircleFilledIcon'
+import { TokenOrCoverLogo } from '@/modules/bridge/bridge-form/TokenOrCoverLogo'
 import { InfoKeyValue } from '@/modules/bridge/bridge-options/InfoKeyValue'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { TokenOrCoverLogo } from '@/modules/bridge/bridge-form/TokenOrCoverLogo'
 
 export const BridgeOption = ({
   type,
@@ -15,7 +14,7 @@ export const BridgeOption = ({
   onClick,
   priceInUsd
 }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   const name = type === BRIDGE_KEYS.CELER ? 'Celer Bridge' : 'LayerZero Bridge'
   const logo = type === BRIDGE_KEYS.CELER ? '/images/bridge/celer.svg' : '/images/bridge/layer-zero.svg'

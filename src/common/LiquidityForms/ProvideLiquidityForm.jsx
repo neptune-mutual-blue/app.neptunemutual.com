@@ -30,6 +30,7 @@ import { useNetwork } from '@/src/context/Network'
 import { useCalculatePods } from '@/src/hooks/useCalculatePods'
 import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
 import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   convertToUnits,
@@ -53,6 +54,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   const [lqErrorMsg, setLqErrorMsg] = useState('')
   const { networkId } = useNetwork()
   const { isMainNet } = getNetworkInfo(networkId)
+
+  const { locale } = useLanguageContext()
 
   const [isSuccess, setIsSuccess] = useState(false)
 
@@ -308,7 +311,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
           <strong>
             <Trans comment='Liquidity Withdrawal Period Open Date'>Open:</Trans>{' '}
           </strong>
-          {DateLib.toLongDateFormat(info.withdrawalOpen, router.locale)}
+          {DateLib.toLongDateFormat(info.withdrawalOpen, locale)}
         </span>
       </div>
       <div>
@@ -318,7 +321,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
               Close:
             </Trans>{' '}
           </strong>
-          {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
+          {DateLib.toLongDateFormat(info.withdrawalClose, locale)}
         </span>
       </div>
 

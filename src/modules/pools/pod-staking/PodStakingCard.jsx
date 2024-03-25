@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { Badge } from '@/common/Badge/Badge'
 import { ModalTitle } from '@/common/Modal/ModalTitle'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
@@ -18,6 +16,7 @@ import { useNetwork } from '@/src/context/Network'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { getTokenImgSrc } from '@/src/helpers/token'
 import { usePoolInfo } from '@/src/hooks/usePoolInfo'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   CollectRewardModal
 } from '@/src/modules/pools/staking/CollectRewardModal'
@@ -62,7 +61,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false)
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false)
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   function onStakeModalOpen () {
     setIsStakeModalOpen(true)
@@ -113,13 +112,13 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       title: t(i18n)`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
-        router.locale,
+        locale,
         stakingTokenSymbol,
         true
       ).long,
       tooltip: formatCurrency(
         convertFromUnits(stakedAmount),
-        router.locale,
+        locale,
         stakingTokenSymbol,
         true
       ).long
@@ -128,13 +127,13 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       title: t(i18n)`You Earned`,
       value: formatCurrency(
         convertFromUnits(rewardAmount),
-        router.locale,
+        locale,
         rewardTokenSymbol,
         true
       ).short,
       tooltip: formatCurrency(
         convertFromUnits(rewardAmount),
-        router.locale,
+        locale,
         rewardTokenSymbol,
         true
       ).long
@@ -151,12 +150,12 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       title: t(i18n)`TVL`,
       value: formatCurrency(
         convertFromUnits(tvl, liquidityTokenDecimals),
-        router.locale,
+        locale,
         'USD'
       ).short,
       tooltip: formatCurrency(
         convertFromUnits(tvl, liquidityTokenDecimals),
-        router.locale,
+        locale,
         'USD'
       ).long
     }
@@ -187,7 +186,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
           />
         </div>
         <Badge className='text-21AD8C'>
-          <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
+          <Trans>APR: {formatPercent(apr, locale)}</Trans>
         </Badge>
       </div>
 

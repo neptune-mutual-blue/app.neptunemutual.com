@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { Alert } from '@/common/Alert/Alert'
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
@@ -15,10 +14,12 @@ import {
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import {
   useFetchCoverPurchasedEvent
 } from '@/src/hooks/useFetchCoverPurchasedEvent'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   sumOf,
@@ -29,10 +30,9 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useNetwork } from '@/src/context/Network'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
 
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
@@ -92,14 +92,14 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           event.amountToCover,
           liquidityTokenDecimals
         ).toString(),
-        router.locale,
+        locale,
         liquidityTokenSymbol,
         true
       ).long
     },
     {
       label: 'Premium Rate',
-      value: formatPercent(rate, router.locale)
+      value: formatPercent(rate, locale)
     },
     {
       label: 'Duration',
@@ -121,7 +121,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
   const premuimPaid = formatCurrency(
     convertFromUnits(event.fee, liquidityTokenDecimals).toString(),
-    router.locale,
+    locale,
     liquidityTokenSymbol,
     true
   ).long

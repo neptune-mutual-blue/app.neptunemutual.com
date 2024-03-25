@@ -3,13 +3,12 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { Label } from '@/common/Label/Label'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import { useStakingPoolDeposit } from '@/src/hooks/useStakingPoolDeposit'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { explainInterval } from '@/utils/formatter/interval'
@@ -53,7 +52,7 @@ export const StakeForm = ({
     maximumStake: info.maximumStake
 
   })
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const { i18n } = useLingui()
 
@@ -102,7 +101,7 @@ export const StakeForm = ({
               title={`${
                 formatCurrency(
                   convertFromUnits(info.maximumStake).toString(),
-                  router.locale,
+                  locale,
                   stakingTokenSymbol,
                   true
                 ).long
@@ -111,7 +110,7 @@ export const StakeForm = ({
               {
                 formatCurrency(
                   convertFromUnits(info.maximumStake).toString(),
-                  router.locale,
+                  locale,
                   stakingTokenSymbol,
                   true
                 ).short
