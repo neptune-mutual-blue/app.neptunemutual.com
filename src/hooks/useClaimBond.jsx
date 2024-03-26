@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -10,6 +8,7 @@ import { useTxPoster } from '@/src/context/TxPoster'
 import { useActionMessage } from '@/src/helpers/notification'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -19,14 +18,14 @@ import { convertFromUnits } from '@/utils/bn'
 import { formatAmount } from '@/utils/formatter'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useClaimBond = ({ claimable }) => {
   const [claiming, setClaiming] = useState(false)
 
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenSymbol } = useAppConstants()
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
@@ -73,7 +72,7 @@ export const useClaimBond = ({ claimable }) => {
           allocationFormatted: formatCurrency(
             formatAmount(
               convertFromUnits(claimable).toString(),
-              router.locale
+              locale
             )).short
         }
 

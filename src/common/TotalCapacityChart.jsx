@@ -4,12 +4,11 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import {
   CustomHighcharts,
   HighchartsReactComponent
 } from '@/common/HighChartsReactComponent'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { sort } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 
@@ -20,7 +19,7 @@ export const TotalCapacityChart = ({ data }) => {
 
   /** @type {React.MutableRefObject<{ chart: Highcharts.Chart; container: React.RefObject<HTMLDivElement>; } | null>} */
   const chartRef = useRef()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const yAxisMin = (chartData.length >= 2 && sort(chartData.map((x) => { return x.y }))[0]) || 0
 
@@ -47,7 +46,7 @@ export const TotalCapacityChart = ({ data }) => {
           const fo =
             this.value === 0
               ? { short: '0' }
-              : formatCurrency(this.value, router.locale, '', true)
+              : formatCurrency(this.value, locale, '', true)
 
           return `<span class='text-black'>${fo.short}</span>`
         },
@@ -109,7 +108,7 @@ export const TotalCapacityChart = ({ data }) => {
       padding: 0,
       formatter: function () {
         return `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold tracking-normal text-01052D text-md'>${
-          formatCurrency(this.y, router.locale).short
+          formatCurrency(this.y, locale).short
         }</p><p class='text-xs leading-4.5 tracking-normal font-semibold text-5C738F uppercase'>${CustomHighcharts.dateFormat(
           '%b %e, %H:%S',
           new Date(this.x).getTime()

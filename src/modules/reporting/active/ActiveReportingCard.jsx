@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 
-import { useRouter } from 'next/router'
-
 import {
   Badge,
   E_CARD_STATUS,
@@ -23,6 +21,7 @@ import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -45,7 +44,7 @@ export const ActiveReportingCard = ({
   incidentDate,
   coverOrProductData
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
 
@@ -60,9 +59,9 @@ export const ActiveReportingCard = ({
 
   const formattedProtection = formatCurrency(
     convertFromUnits(commitment, liquidityTokenDecimals).toString(),
-    router.locale
+    locale
   )
-  const formattedUtilizationRatio = formatPercent(utilization, router.locale)
+  const formattedUtilizationRatio = formatPercent(utilization, locale)
 
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
@@ -115,12 +114,12 @@ export const ActiveReportingCard = ({
           <Trans>Annual Cover fee:</Trans>{' '}
           {formatPercent(
             toBN(coverOrProductData.floor).dividedBy(MULTIPLIER),
-            router.locale
+            locale
           )}
           -
           {formatPercent(
             toBN(coverOrProductData.ceiling).dividedBy(MULTIPLIER),
-            router.locale
+            locale
           )}
         </div>
         {isDiversified && (
@@ -147,7 +146,7 @@ export const ActiveReportingCard = ({
                   toBN(coverOrProductData.capitalEfficiency)
                     .dividedBy(MULTIPLIER)
                     .toString(),
-                  router.locale,
+                  locale,
                   false
                 )}
               </p>
@@ -178,7 +177,7 @@ export const ActiveReportingCard = ({
           className='text-xs font-semibold text-right lg:text-sm '
           data-testid='util-ratio'
         >
-          {formatPercent(utilization, router.locale)}
+          {formatPercent(utilization, locale)}
         </span>
       </div>
 
@@ -228,14 +227,14 @@ export const ActiveReportingCard = ({
           infoComponent={
             <div>
               <Trans>Reported On:</Trans>:{' '}
-              {DateLib.toLongDateFormat(incidentDate, router.locale)}
+              {DateLib.toLongDateFormat(incidentDate, locale)}
             </div>
           }
         >
           <div
             data-testid='incident-date'
             className='flex-1 text-right'
-            title={DateLib.toLongDateFormat(incidentDate, router.locale)}
+            title={DateLib.toLongDateFormat(incidentDate, locale)}
           >
             {fromNow(incidentDate)}
           </div>

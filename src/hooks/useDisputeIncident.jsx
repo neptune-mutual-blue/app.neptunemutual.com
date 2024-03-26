@@ -18,6 +18,7 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { writeToIpfs } from '@/src/services/api/ipfs/write'
 import { METHODS } from '@/src/services/transactions/const'
 import {
@@ -35,9 +36,9 @@ import {
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { governance } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useDisputeIncident = ({
   coverKey,
@@ -47,6 +48,7 @@ export const useDisputeIncident = ({
   minStake
 }) => {
   const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const [approving, setApproving] = useState(false)
   const [disputing, setDisputing] = useState(false)
@@ -216,7 +218,7 @@ export const useDisputeIncident = ({
         stakeCurrency: NPMTokenSymbol,
         stakeFormatted: formatCurrency(
           value,
-          router.locale,
+          locale,
           NPMTokenSymbol,
           true
         ).short,

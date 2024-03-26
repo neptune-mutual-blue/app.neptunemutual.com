@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
@@ -9,6 +7,7 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import DateLib from '@/lib/date/DateLib'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useClaimBond } from '@/src/hooks/useClaimBond'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatAmount } from '@/utils/formatter'
 import { fromNow } from '@/utils/formatter/relative-time'
@@ -24,7 +23,7 @@ export const ClaimBondModal = ({
   refetchBondInfo
 }) => {
   const { handleClaim, claiming } = useClaimBond({ claimable })
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenSymbol } = useAppConstants()
 
   return (
@@ -44,7 +43,7 @@ export const ClaimBondModal = ({
           <DisabledInput
             value={formatAmount(
               convertFromUnits(claimable).toString(),
-              router.locale
+              locale
             )}
             unit={NPMTokenSymbol}
           />
@@ -56,7 +55,7 @@ export const ClaimBondModal = ({
           <p
             id='modal-unlock-on'
             className='text-lg font-medium text-7398C0'
-            title={DateLib.toLongDateFormat(unlockDate, router.locale)}
+            title={DateLib.toLongDateFormat(unlockDate, locale)}
           >
             {fromNow(unlockDate)}
           </p>

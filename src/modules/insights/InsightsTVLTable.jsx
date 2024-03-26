@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import {
   Table,
   TableWrapper,
@@ -11,6 +9,7 @@ import {
   NetworkNames
 } from '@/lib/connect-wallet/config/chains'
 import { renderHeader } from '@/src/common/Table/renderHeader'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -32,7 +31,7 @@ const RenderNetwork = ({ networkId }) => {
 }
 
 const RenderCover = ({ coverFee }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
@@ -40,17 +39,17 @@ const RenderCover = ({ coverFee }) => {
     >
       <span
         title={
-          formatCurrency(coverFee, router.locale).long
+          formatCurrency(coverFee, locale).long
         }
       >
-        {formatCurrency(coverFee, router.locale).short}
+        {formatCurrency(coverFee, locale).short}
       </span>
     </td>
   )
 }
 
 const RenderCapacity = ({ capacity }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
@@ -58,17 +57,17 @@ const RenderCapacity = ({ capacity }) => {
     >
       <span
         title={
-          formatCurrency(capacity, router.locale).long
+          formatCurrency(capacity, locale).long
         }
       >
-        {formatCurrency(capacity, router.locale).short}
+        {formatCurrency(capacity, locale).short}
       </span>
     </td>
   )
 }
 
 const RenderTVL = ({ tvl }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
@@ -76,10 +75,10 @@ const RenderTVL = ({ tvl }) => {
     >
       <span
         title={
-          formatCurrency(tvl, router.locale).long
+          formatCurrency(tvl, locale).long
         }
       >
-        {formatCurrency(tvl, router.locale).short}
+        {formatCurrency(tvl, locale).short}
       </span>
     </td>
   )

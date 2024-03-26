@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
@@ -8,6 +6,7 @@ import {
   THead
 } from '@/common/Table/Table'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
@@ -101,7 +100,7 @@ const getColumns = (i18n) => {
 }
 
 export const TopAccountsByLiquidity = ({ userData = [], page = 1, loading }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   const paginatedData = userData.slice((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE, (page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE + TOP_ACCOUNTS_ROWS_PER_PAGE)
 

@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -24,6 +22,7 @@ import { useLiquidityTxs } from '@/src/hooks/useLiquidityTxs'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
@@ -138,12 +137,12 @@ export const MyLiquidityTxsTable = () => {
 }
 
 const WhenRenderer = ({ row }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
       className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+      title={DateLib.toLongDateFormat(row.transaction.timestamp, locale)}
     >
       {fromNow(row.transaction.timestamp)}
     </td>
@@ -210,7 +209,7 @@ const PodAmountRenderer = ({ row }) => {
   const tokenSymbol = row.vault.tokenSymbol
   const tokenDecimals = row.vault.tokenDecimals
 
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
@@ -220,7 +219,7 @@ const PodAmountRenderer = ({ row }) => {
           title={
             formatCurrency(
               convertFromUnits(row.podAmount, tokenDecimals),
-              router.locale,
+              locale,
               tokenSymbol,
               true
             ).long
@@ -229,7 +228,7 @@ const PodAmountRenderer = ({ row }) => {
           {
             formatCurrency(
               convertFromUnits(row.podAmount, tokenDecimals),
-              router.locale,
+              locale,
               tokenSymbol,
               true
             ).short
@@ -250,7 +249,7 @@ const PodAmountRenderer = ({ row }) => {
 
 const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td className='w-48 px-6 py-6 min-w-120'>
@@ -269,7 +268,7 @@ const ActionsRenderer = ({ row }) => {
               <p>
                 {DateLib.toLongDateFormat(
                   row.transaction.timestamp,
-                  router.locale,
+                  locale,
                   'UTC'
                 )}
               </p>

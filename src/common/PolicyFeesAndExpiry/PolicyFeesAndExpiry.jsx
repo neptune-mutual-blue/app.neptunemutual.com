@@ -1,10 +1,9 @@
-import { useRouter } from 'next/router'
-
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import DateLib from '@/lib/date/DateLib'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   sumOf,
@@ -18,7 +17,7 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = true, referralCode, editForm = false, updatingFee }) => {
   const { fee, rate } = data
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenSymbol, liquidityTokenDecimals } = useAppConstants()
 
   const rateConverted = toBN(rate).dividedBy(MULTIPLIER).toString()
@@ -38,16 +37,16 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
               <Trans>Premium Rate</Trans>
             </th>
             <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')}>
-              {updatingFee ? <DataLoadingIndicator className='mt-0' message='Fetching fees...' /> : formatPercent(rateConverted, router.locale)}
+              {updatingFee ? <DataLoadingIndicator className='mt-0' message='Fetching fees...' /> : formatPercent(rateConverted, locale)}
             </td>
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left uppercase'>
               {quotationStep ? <Trans>Your Cover Amount</Trans> : <Trans>Cover Fee</Trans>}
             </th>
-            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')} title={!quotationStep ? formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long : ''}>
+            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')} title={!quotationStep ? formatCurrency(coverFee, locale, liquidityTokenSymbol, true).long : ''}>
               {updatingFee && <DataLoadingIndicator className='mt-0' message='Fetching fees...' />}
-              {!updatingFee && (quotationStep ? secondText : formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).short)}
+              {!updatingFee && (quotationStep ? secondText : formatCurrency(coverFee, locale, liquidityTokenSymbol, true).short)}
             </td>
           </tr>
           <tr className='flex justify-between mt-3'>
@@ -58,13 +57,13 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             </th>
             {!editForm && (
               <td className={classNames('text-right flex justify-center', quotationStep ? 'text-black font-normal' : 'text-4E7DD9')}>
-                {!quotationStep && DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
+                {!quotationStep && DateLib.toLongDateFormat(startsAt, locale, 'UTC', {
                   year: 'numeric',
                   month: 'short',
                   day: 'numeric'
                 })}{' '}
                 {!quotationStep && '-'}{' '}
-                {DateLib.toLongDateFormat(expires, router.locale, 'UTC', {
+                {DateLib.toLongDateFormat(expires, locale, 'UTC', {
                   year: 'numeric',
                   month: 'short',
                   day: 'numeric',

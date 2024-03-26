@@ -27,6 +27,7 @@ import { useAuth } from '@/lib/connect-wallet/hooks/useAuth'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
@@ -50,6 +51,7 @@ import { useWeb3React } from '@web3-react/core'
 
 export const Header = () => {
   const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
@@ -142,7 +144,7 @@ export const Header = () => {
             <div className='flex items-center self-center justify-between py-0 md:pr-8 h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none xl:flex-0'>
               <Link
                 href={Routes.Home(networkId)}
-                locale={router.locale || router.defaultLocale}
+                locale={locale || router.defaultLocale}
                 className='w-max md:w-48'
               >
 
@@ -159,7 +161,7 @@ export const Header = () => {
                       <Link
                         key={link.name}
                         href={link.href}
-                        locale={router.locale}
+                        locale={locale}
                         className={classNames(
                           'relative text-sm border-b-4 px-2 border-t-transparent inline-flex items-center whitespace-nowrap outline-none',
                           link.active
@@ -299,6 +301,7 @@ export const MenuModal = ({
   navigation
 }) => {
   const router = useRouter()
+  const { locale } = useLanguageContext()
 
   useEffect(() => {
     const handleRouteNavigate = () => {
@@ -334,7 +337,7 @@ export const MenuModal = ({
                         <Link
                           key={link.name}
                           href={link.href}
-                          locale={router.locale}
+                          locale={locale}
                           className={classNames(
                             // 'text-display-xs leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
                             'text-display-xs leading-6 border-b-4 w-fit',

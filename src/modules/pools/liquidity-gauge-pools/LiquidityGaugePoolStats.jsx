@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router'
-
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -39,18 +38,18 @@ const StatAfterLocked = ({
 export function LiquidityGaugePoolStats ({
   lockupPeriodInBlocks, stakingTokenSymbol, stakingTokenDecimals, rewardTokenSymbol, rewardTokenDecimals, lockedByMe, rewardAmount, tvl
 }) {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const formattedBalance = formatCurrency(
     convertFromUnits(lockedByMe, stakingTokenDecimals),
-    router.locale,
+    locale,
     stakingTokenSymbol,
     true
   )
 
   const formattedReward = formatCurrency(
     convertFromUnits(rewardAmount, rewardTokenDecimals),
-    router.locale,
+    locale,
     rewardTokenSymbol,
     true
   )

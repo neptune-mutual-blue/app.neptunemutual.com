@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { Alert } from '@/common/Alert/Alert'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { ComingSoon } from '@/common/ComingSoon'
@@ -15,19 +13,20 @@ import { Seo } from '@/common/Seo'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useActivePoliciesByCover } from '@/src/hooks/useActivePoliciesByCover'
 import {
   useFetchReportsByKeyAndDate
 } from '@/src/hooks/useFetchReportsByKeyAndDate'
 import { usePagination } from '@/src/hooks/usePagination'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   ClaimCxTokensTable
 } from '@/src/modules/my-policies/ClaimCxTokensTable'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useNetwork } from '@/src/context/Network'
 
 export const ClaimDetailsPage = ({
   disabled,
@@ -35,7 +34,7 @@ export const ClaimDetailsPage = ({
   productKey,
   timestamp
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
   const { page, limit, setPage } = usePagination()
 
@@ -110,7 +109,7 @@ export const ClaimDetailsPage = ({
                         data.totalActiveProtection,
                         liquidityTokenDecimals
                       ),
-                      router.locale,
+                      locale,
                       'USD'
                     ).long
                   }

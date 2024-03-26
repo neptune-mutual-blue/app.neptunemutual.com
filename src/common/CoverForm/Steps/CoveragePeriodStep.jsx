@@ -3,14 +3,13 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { CustomRadio } from '@/common/Radio/Radio'
 import DateLib from '@/lib/date/DateLib'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { Trans } from '@lingui/macro'
 
 const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, handleRadioChange, coverMonth, tokenSymbol, feeData }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const [radioProgress, setRadioProgress] = useState(0)
 
@@ -80,7 +79,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
         <div className='flex justify-between font-semibold uppercase'><span className='w-1/2 text-left'>Your Cover Amount: </span><span className='w-1/2 font-normal text-right'>{value} {tokenSymbol}</span></div>
         <div className='flex justify-between mt-4 font-semibold uppercase'><span className='w-1/2 text-left'>Cover Expires On:</span>
           <span className='font-normal text-right fw-1/2'>
-            {DateLib.toLongDateFormat(feeData.expiryDate, router.locale, 'UTC', {
+            {DateLib.toLongDateFormat(feeData.expiryDate, locale, 'UTC', {
               year: 'numeric',
               month: 'short',
               day: 'numeric',

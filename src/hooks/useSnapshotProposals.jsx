@@ -3,12 +3,11 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import {
   DEFAULT_ROWS_PER_PAGE
 } from '@/modules/governance/proposals-table/ProposalsTable'
 import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { formatCurrency } from '@/utils/formatter/currency'
 import {
   getCategoryFromTitle,
@@ -87,7 +86,7 @@ export const useSnapshotProposals = () => {
   const [lastFetchedLength, setLastFetchedLength] = useState(0)
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   const { networkId } = useNetwork()
 

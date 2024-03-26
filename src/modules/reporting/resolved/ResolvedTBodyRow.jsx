@@ -3,14 +3,13 @@ import {
   useEffect
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 export const ResolvedTBodyRow = ({
@@ -20,7 +19,7 @@ export const ResolvedTBodyRow = ({
   report,
   coverOrProductData
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { setStatsByKey } = useSortableStats()
   const { NPMTokenSymbol } = useAppConstants()
 
@@ -55,7 +54,7 @@ export const ResolvedTBodyRow = ({
                   projectOrProductName,
                   isDiversified,
                   imgSrc,
-                  locale: router.locale,
+                  locale: locale,
                   status,
                   resolvedOn,
                   totalAttestedStake,

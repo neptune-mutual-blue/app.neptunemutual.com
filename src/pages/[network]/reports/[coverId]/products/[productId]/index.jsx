@@ -1,12 +1,13 @@
-import { useRouter } from 'next/router'
-
 import { Seo } from '@/common/Seo'
-import ReportListing from '@/src/modules/reporting/ReportListing'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-
-import { getNetworksAndProducts } from '@/src/ssg/static-paths'
 import { slugToNetworkId } from '@/src/config/networks'
-import { getDescription, getTitle } from '@/src/ssg/seo'
+import { useLanguageContext } from '@/src/i18n/i18n'
+import ReportListing from '@/src/modules/reporting/ReportListing'
+import {
+  getDescription,
+  getTitle
+} from '@/src/ssg/seo'
+import { getNetworksAndProducts } from '@/src/ssg/static-paths'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 export const getStaticPaths = async () => {
   return {
@@ -30,7 +31,7 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export default function Index ({ coverId, productId, seo }) {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
@@ -38,7 +39,7 @@ export default function Index ({ coverId, productId, seo }) {
     <>
       <Seo title={seo.title} description={seo.description} />
       <ReportListing
-        locale={router.locale}
+        locale={locale}
         coverKey={coverKey}
         productKey={productKey}
       />

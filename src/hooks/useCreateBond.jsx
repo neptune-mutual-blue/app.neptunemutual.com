@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -17,6 +15,7 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -32,9 +31,9 @@ import {
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT)
@@ -63,7 +62,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const txToast = useTxToast()
   const { writeContract, contractRead } = useTxPoster()
   const { notifyError } = useErrorNotifier()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const { i18n } = useLingui()
 
@@ -173,7 +172,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     if (isGreater(receiveAmount, info.maxBond)) {
       const maxBond = formatCurrency(
         convertFromUnits(info.maxBond).toString(),
-        router.locale,
+        locale,
         NPMTokenSymbol,
         true
       ).long
@@ -195,7 +194,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     error,
     info.maxBond,
     receiveAmount,
-    router.locale,
+    locale,
     value,
     NPMTokenSymbol,
     i18n

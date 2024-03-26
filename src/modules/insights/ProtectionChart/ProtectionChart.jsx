@@ -9,7 +9,6 @@ import {
   Title,
   Tooltip
 } from 'chart.js'
-import { useRouter } from 'next/router'
 import { Bar } from 'react-chartjs-2'
 
 import { Loading } from '@/common/Loading'
@@ -29,6 +28,7 @@ import {
   getXTickValue
 } from '@/modules/insights/ProtectionChart/utils'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 
 ChartJS.register(
@@ -41,7 +41,7 @@ ChartJS.register(
 )
 
 export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const ChainIds = data ? Object.keys(data) : []

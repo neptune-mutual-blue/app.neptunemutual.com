@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Container } from '@/common/Container/Container'
@@ -24,6 +23,7 @@ import { useBondInfo } from '@/src/hooks/useBondInfo'
 import { useCreateBond } from '@/src/hooks/useCreateBond'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { BondInfoCard } from '@/src/modules/pools/bond/BondInfoCard'
 import { mergeAlternatively } from '@/utils/arrays'
 import {
@@ -57,7 +57,7 @@ const BondPage = () => {
     getPriceByAddress,
     NPMTokenDecimals
   } = useAppConstants()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const {
     balance,
@@ -89,7 +89,7 @@ const BondPage = () => {
           info.discountRate,
           convertFromUnits(marketPrice, liquidityTokenDecimals).toString()
         ),
-        router.locale,
+        locale,
         'USD'
       ).short,
       tooltip: getDiscountedPrice(
@@ -103,7 +103,7 @@ const BondPage = () => {
       value: `${
         formatCurrency(
           convertFromUnits(info.maxBond, NPMTokenDecimals).toString(),
-          router.locale,
+          locale,
           NPMTokenSymbol,
           true
         ).short
@@ -111,7 +111,7 @@ const BondPage = () => {
       tooltip: `${
         formatCurrency(
           convertFromUnits(info.maxBond, NPMTokenDecimals).toString(),
-          router.locale,
+          locale,
           NPMTokenSymbol,
           true
         ).long
@@ -126,7 +126,7 @@ const BondPage = () => {
       title: t(i18n)`Market Price`,
       value: formatCurrency(
         convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
-        router.locale,
+        locale,
         'USD'
       ).short,
       tooltip: convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
@@ -146,7 +146,7 @@ const BondPage = () => {
         ? `${
             formatCurrency(
               convertFromUnits(info.claimable, NPMTokenDecimals).toString(),
-              router.locale,
+              locale,
               NPMTokenSymbol,
               true
             ).short
@@ -155,7 +155,7 @@ const BondPage = () => {
       tooltip: `${
         formatCurrency(
           convertFromUnits(info.claimable, NPMTokenDecimals).toString(),
-          router.locale,
+          locale,
           NPMTokenSymbol,
           true
         ).long
@@ -228,7 +228,7 @@ const BondPage = () => {
           <p
             id='unlock-on'
             className='text-lg font-medium text-7398C0'
-            title={DateLib.toLongDateFormat(unlockTimestamp, router.locale)}
+            title={DateLib.toLongDateFormat(unlockTimestamp, locale)}
           >
             {fromNow(unlockTimestamp)}
           </p>

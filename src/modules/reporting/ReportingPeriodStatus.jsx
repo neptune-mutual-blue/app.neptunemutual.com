@@ -1,19 +1,19 @@
 import DateLib from '@/lib/date/DateLib'
-import { Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import * as Tooltip from '@radix-ui/react-tooltip'
 import InfoIcon from '@/lib/toast/components/icons/InfoIcon'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { Trans } from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const endDate = DateLib.fromUnix(resolutionTimestamp)
 
   const isPast = DateLib.toUnix(new Date()) > DateLib.toUnix(endDate)
   const longDate = (
     <>
       <br />
-      {DateLib.toLongDateFormat(endDate, router.locale)}
+      {DateLib.toLongDateFormat(endDate, locale)}
     </>
   )
 

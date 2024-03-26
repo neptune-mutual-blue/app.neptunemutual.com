@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { CoverTermsModal } from '@/common/CoverForm/CoverTermsModal'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
 import { useNPMSwapLink } from '@/common/NPMSwapLink'
@@ -11,6 +9,7 @@ import {
   MAX_PROPOSAL_AMOUNT,
   MIN_PROPOSAL_AMOUNT
 } from '@/src/config/constants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   isGreater,
   isGreaterOrEqual
@@ -37,7 +36,7 @@ const PurchaseAmountStep = ({
   imgSrc,
   isPurchaseDisabled
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
 
@@ -48,13 +47,13 @@ const PurchaseAmountStep = ({
     setValue(val)
 
     if (isGreaterOrEqual(val, availableLiquidity)) {
-      const maxProtection = formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
+      const maxProtection = formatCurrency(availableLiquidity, locale, liquidityTokenSymbol, true).long
       setError(t(i18n)`Maximum protection available is ${maxProtection}` + '. Choose a amount less than available.')
     } else if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
-      const maxThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      const maxThreshold = formatCurrency(MAX_PROPOSAL_AMOUNT, locale, liquidityTokenSymbol, true).long
       setError(t(i18n)`Maximum proposal threshold is ${maxThreshold}`)
     } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
-      const minThreshold = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      const minThreshold = formatCurrency(MIN_PROPOSAL_AMOUNT, locale, liquidityTokenSymbol, true).long
       setError(t(i18n)`Minimum proposal threshold is ${minThreshold}`)
     }
   }
@@ -97,7 +96,7 @@ const PurchaseAmountStep = ({
       />
       {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}
 
-      <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available: {formatCurrency(availableLiquidity, router.locale).short}</div>
+      <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available: {formatCurrency(availableLiquidity, locale).short}</div>
 
       <div className='flex items-center justify-center gap-6 mt-8'>
         <button

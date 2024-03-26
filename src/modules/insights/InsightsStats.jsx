@@ -1,20 +1,19 @@
-import { useRouter } from 'next/router'
-
 import { Loading } from '@/common/Loading'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { StatsCard } from '@/src/modules/insights/StatsCard'
 import { formatCurrency } from '@/utils/formatter/currency'
 
 export const InsightsStats = ({ loading, statsData }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <div>
-      {loading ? <Loading /> : <StatDisplay router={router} statsData={statsData} />}
+      {loading ? <Loading /> : <StatDisplay locale={locale} statsData={statsData} />}
     </div>
   )
 }
 
-const StatDisplay = ({ router, statsData }) => {
+const StatDisplay = ({ locale, statsData }) => {
   return (
     <div className='flex flex-wrap items-start justify-between pb-6 lg:pb-10 gap-x-2 gap-y-4'>
       <StatsCard
@@ -25,13 +24,13 @@ const StatDisplay = ({ router, statsData }) => {
         value={
         formatCurrency(
           statsData?.combined?.totalCapacity || 0,
-          router.locale
+          locale
         ).short
       }
         tooltip={
         formatCurrency(
           statsData?.combined?.totalCapacity || 0,
-          router.locale
+          locale
         ).long
       }
       />
@@ -43,13 +42,13 @@ const StatDisplay = ({ router, statsData }) => {
         value={
         formatCurrency(
           statsData?.combined?.totalCoveredAmount,
-          router.locale
+          locale
         ).short
       }
         tooltip={
         formatCurrency(
           statsData?.combined?.totalCoveredAmount,
-          router.locale
+          locale
         ).long
       }
       />
@@ -60,13 +59,13 @@ const StatDisplay = ({ router, statsData }) => {
         title='Commitment' value={
         formatCurrency(
           statsData?.combined?.activeCoveredAmount,
-          router.locale
+          locale
         ).short
       }
         tooltip={
         formatCurrency(
           statsData?.combined?.activeCoveredAmount,
-          router.locale
+          locale
         ).long
       }
       />
@@ -78,13 +77,13 @@ const StatDisplay = ({ router, statsData }) => {
         value={
         formatCurrency(
           statsData?.combined?.totalCoverFee,
-          router.locale
+          locale
         ).short
       }
         tooltip={
         formatCurrency(
           statsData?.combined?.totalCoverFee,
-          router.locale
+          locale
         ).long
       }
       />

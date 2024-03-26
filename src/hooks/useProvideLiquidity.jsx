@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import {
   useLiquidityFormsContext
 } from '@/common/LiquidityForms/LiquidityFormsContext'
@@ -19,6 +17,7 @@ import { useCalculatePods } from '@/src/hooks/useCalculatePods'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -33,12 +32,12 @@ import {
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import {
   registry,
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useProvideLiquidity = ({
   coverKey,
@@ -53,7 +52,7 @@ export const useProvideLiquidity = ({
   const [providing, setProviding] = useState(false)
 
   const { networkId } = useNetwork()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { library, account } = useWeb3React()
   const {
     stablecoinTokenBalance: myStablecoinBalance,
@@ -78,8 +77,8 @@ export const useProvideLiquidity = ({
 
   const { i18n } = useLingui()
 
-  const withdrawalOpenDate = DateLib.toDateFormat(withdrawalOpen, router.locale)
-  const withdrawalCloseDate = DateLib.toDateFormat(withdrawalClose, router.locale)
+  const withdrawalOpenDate = DateLib.toDateFormat(withdrawalOpen, locale)
+  const withdrawalCloseDate = DateLib.toDateFormat(withdrawalClose, locale)
 
   const {
     liquidityTokenAddress,
@@ -315,14 +314,14 @@ export const useProvideLiquidity = ({
           stakeCurrency: NPMTokenSymbol,
           stakeFormatted: formatCurrency(
             npmValue,
-            router.locale,
+            locale,
             NPMTokenSymbol,
             true
           ).short,
           liquidity: lqValue,
           liquidityFormatted: formatCurrency(
             lqValue,
-            router.locale,
+            locale,
             liquidityTokenSymbol,
             true
           ).short,
@@ -330,7 +329,7 @@ export const useProvideLiquidity = ({
           sales: lqValue,
           salesFormatted: formatCurrency(
             lqValue,
-            router.locale,
+            locale,
             liquidityTokenSymbol,
             true
           ).short,
@@ -340,17 +339,17 @@ export const useProvideLiquidity = ({
           potCurrency: vaultTokenSymbol,
           potCurrencyFormatted: formatCurrency(
             receiveAmount,
-            router.locale,
+            locale,
             liquidityTokenSymbol,
             true
           ).short,
           unlockCycleOpen: withdrawalOpen,
           unlockCycleOpenMonth: withdrawalOpenDate.split('/')[0],
-          unlockCycleOpenMonthFormatted: getMonthNames(router.locale)[parseInt(withdrawalOpenDate.split('/')[0]) - 1],
+          unlockCycleOpenMonthFormatted: getMonthNames(locale)[parseInt(withdrawalOpenDate.split('/')[0]) - 1],
           unlockCycleOpenYear: withdrawalOpenDate.split('/')[2],
           unlockCycleClose: withdrawalClose,
           unlockCycleCloseMonth: withdrawalCloseDate.split('/')[0],
-          unlockCycleCloseMonthFormatted: getMonthNames(router.locale)[parseInt(withdrawalCloseDate.split('/')[0]) - 1],
+          unlockCycleCloseMonthFormatted: getMonthNames(locale)[parseInt(withdrawalCloseDate.split('/')[0]) - 1],
           unlockCycleCloseYear: withdrawalCloseDate.split('/')[2],
           tx: tx.hash
         }

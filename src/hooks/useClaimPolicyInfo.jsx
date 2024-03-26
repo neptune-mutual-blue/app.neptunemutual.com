@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { MULTIPLIER } from '@/src/config/constants'
@@ -19,6 +17,7 @@ import { useAuthValidation } from '@/src/hooks/useAuthValidation'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   useCxTokenRowContext
 } from '@/src/modules/my-policies/CxTokenRowContext'
@@ -39,9 +38,9 @@ import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useClaimPolicyInfo = ({
   value,
@@ -54,7 +53,7 @@ export const useClaimPolicyInfo = ({
   claimPlatformFee,
   tokenSymbol
 }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const [approving, setApproving] = useState(false)
   const [claiming, setClaiming] = useState(false)
   const [receiveAmount, setReceiveAmount] = useState('0')
@@ -247,16 +246,16 @@ export const useClaimPolicyInfo = ({
           productName: safeParseBytes32String(productKey),
           cost: receiveAmount,
           costCurrency: liquidityTokenDecimals,
-          costFormatted: formatCurrency(receiveAmount, router.locale, liquidityTokenSymbol, true),
+          costFormatted: formatCurrency(receiveAmount, locale, liquidityTokenSymbol, true),
           account,
           tx,
           claim: value,
           claimCurrency: cxTokenSymbol,
-          claimFormatted: formatCurrency(value, router.locale, cxTokenSymbol, true),
+          claimFormatted: formatCurrency(value, locale, cxTokenSymbol, true),
           fee: claimPlatformFee,
           feeFormatted: formatPercent(
             toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
-            router.locale
+            locale
           )
         }
 

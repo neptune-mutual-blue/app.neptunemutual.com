@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
@@ -30,14 +28,15 @@ import { CoverStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useNetwork } from '@/src/context/Network'
 
 export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
   const { networkId } = useNetwork()
 
@@ -109,7 +108,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
               {
                 formatCurrency(
                   convertFromUnits(myLiquidity, liquidityTokenDecimals),
-                  router.locale
+                  locale
                 ).long
               }
             </HeroStat>

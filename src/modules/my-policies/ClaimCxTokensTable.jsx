@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
@@ -11,6 +9,7 @@ import {
   THead
 } from '@/common/Table/Table'
 import DateLib from '@/lib/date/DateLib'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { ClaimCoverModal } from '@/src/modules/my-policies/ClaimCoverModal'
 import {
   CxTokenRowProvider,
@@ -116,7 +115,7 @@ export const ClaimCxTokensTable = ({
 
 const CxTokenAmountRenderer = () => {
   const { balance, tokenSymbol, tokenDecimals } = useCxTokenRowContext()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <>
@@ -126,7 +125,7 @@ const CxTokenAmountRenderer = () => {
           title={
             formatCurrency(
               convertFromUnits(balance, tokenDecimals),
-              router.locale,
+              locale,
               tokenSymbol,
               true
             ).long
@@ -135,7 +134,7 @@ const CxTokenAmountRenderer = () => {
           {
             formatCurrency(
               convertFromUnits(balance, tokenDecimals),
-              router.locale,
+              locale,
               tokenSymbol,
               true
             ).short
@@ -149,13 +148,13 @@ const CxTokenAmountRenderer = () => {
 export const ClaimBeforeColumnRenderer = () => {
   const { report } = useClaimTableContext()
   const claimExpiryDate = report?.claimExpiresAt || 0
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td className='max-w-sm px-6 py-6'>
       <span
         className='text-sm leading-5 text-left whitespace-nowrap w-max text-01052D'
-        title={DateLib.toLongDateFormat(claimExpiryDate, router.locale)}
+        title={DateLib.toLongDateFormat(claimExpiryDate, locale)}
       >
         {fromNow(claimExpiryDate)}
       </span>

@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { useRouter } from 'next/router'
 
 import { NoDataFound } from '@/common/Loading'
 import DateLib from '@/lib/date/DateLib'
@@ -11,6 +10,7 @@ import { MULTIPLIER } from '@/src/config/constants'
 import { ChainConfig } from '@/src/config/hardcoded'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useVoteEscrowData } from '@/src/hooks/contracts/useVoteEscrowData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBNSafe
@@ -23,7 +23,7 @@ import { useWeb3React } from '@web3-react/core'
 
 export const ViewProposals = ({ networkId }) => {
   const { account } = useWeb3React()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenDecimals, NPMTokenSymbol } = useAppConstants()
   const { data } = useVoteEscrowData()
 
@@ -41,8 +41,8 @@ export const ViewProposals = ({ networkId }) => {
 
   const veNPMTokenSymbol = ChainConfig[networkId].veNPM.tokenSymbol
   const votingPower = toBNSafe(boost).multipliedBy(data.lockedNPMBalance)
-  const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), router.locale, NPMTokenSymbol, true)
-  const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), router.locale, veNPMTokenSymbol, true)
+  const formattedVotingPower = formatCurrency(convertFromUnits(votingPower, NPMTokenDecimals), locale, NPMTokenSymbol, true)
+  const formattedVeNPMBalance = formatCurrency(convertFromUnits(data.veNPMBalance, NPMTokenDecimals), locale, veNPMTokenSymbol, true)
 
   return (
     <div className='flex flex-col items-center gap-8 p-8 bg-white border lg:flex-row rounded-2xl border-B0C4DB'>
@@ -81,7 +81,7 @@ export const ViewProposals = ({ networkId }) => {
             heading='Unlock At:'
             className='mt-8'
             value={fromNow(data.unlockTimestamp)}
-            title={DateLib.toLongDateFormat(data.unlockTimestamp, router.locale)}
+            title={DateLib.toLongDateFormat(data.unlockTimestamp, locale)}
           />
         </div>
       </div>

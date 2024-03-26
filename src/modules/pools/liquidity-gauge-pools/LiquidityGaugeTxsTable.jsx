@@ -1,7 +1,5 @@
 import { useMemo } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -28,6 +26,7 @@ import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
@@ -38,12 +37,12 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
 const WhenRenderer = ({ row }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
       className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.blockTimestamp, router.locale)}
+      title={DateLib.toLongDateFormat(row.blockTimestamp, locale)}
     >
       {fromNow(row.blockTimestamp)}
     </td>

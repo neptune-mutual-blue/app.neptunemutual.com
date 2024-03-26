@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { convertToIconVariant } from '@/common/TransactionList/helpers'
 import CheckIcon from '@/icons/CheckIcon'
@@ -13,6 +11,7 @@ import { useToast } from '@/lib/toast/context'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useActionMessage } from '@/src/helpers/notification'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
@@ -155,7 +154,7 @@ export function TransactionList ({
  * @returns
  */
 function NotificationsList ({ data, activeTab, networkId }) {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   if (data.length) {
     return (

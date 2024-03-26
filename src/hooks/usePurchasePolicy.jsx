@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { getMonthNames } from '@/lib/dates'
@@ -22,6 +20,7 @@ import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -38,12 +37,12 @@ import { delay } from '@/utils/delay'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import {
   registry,
   utils
 } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -81,7 +80,7 @@ export const usePurchasePolicy = ({
   } = useERC20Allowance(liquidityTokenAddress)
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   const now = new Date()
   const currentMonthIndex = now.getUTCMonth()
@@ -125,7 +124,7 @@ export const usePurchasePolicy = ({
     }
 
     if (isGreaterOrEqual(value || 0, availableLiquidity || 0)) {
-      const maxProtection = formatCurrency(availableLiquidity, router.locale).short
+      const maxProtection = formatCurrency(availableLiquidity, locale).short
       setError(
         t`Maximum protection available is ${
           maxProtection
@@ -136,7 +135,7 @@ export const usePurchasePolicy = ({
     }
 
     if (isGreater(convertToUnits(MIN_PROPOSAL_AMOUNT, liquidityTokenDecimals), convertToUnits(value, liquidityTokenDecimals) || 0)) {
-      const minProposal = formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+      const minProposal = formatCurrency(MIN_PROPOSAL_AMOUNT, locale, liquidityTokenSymbol, true).short
 
       setError(
         t`Minimum proposal amount should be greater than ${
@@ -148,7 +147,7 @@ export const usePurchasePolicy = ({
     }
 
     if (isGreater(convertToUnits(value, liquidityTokenDecimals) || 0, convertToUnits(MAX_PROPOSAL_AMOUNT, liquidityTokenDecimals))) {
-      const maxProposal = formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+      const maxProposal = formatCurrency(MAX_PROPOSAL_AMOUNT, locale, liquidityTokenSymbol, true).short
 
       setError(
         t`Maximum proposal amount should be less than ${
@@ -162,7 +161,7 @@ export const usePurchasePolicy = ({
     if (error) {
       setError('')
     }
-  }, [account, availableLiquidity, balance, error, feeAmount, liquidityTokenDecimals, liquidityTokenSymbol, router.locale, value, i18n])
+  }, [account, availableLiquidity, balance, error, feeAmount, liquidityTokenDecimals, liquidityTokenSymbol, locale, value, i18n])
 
   const handleApprove = async () => {
     setApproving(true)
@@ -281,7 +280,7 @@ export const usePurchasePolicy = ({
           coverFeeCurrency: liquidityTokenSymbol,
           coverFeeFormatted: formatCurrency(
             convertFromUnits(feeAmount, liquidityTokenDecimals),
-            router.locale,
+            locale,
             liquidityTokenSymbol,
             true
           ).short,
@@ -289,7 +288,7 @@ export const usePurchasePolicy = ({
           protectionCurrency: liquidityTokenSymbol,
           protectionFormatted: formatCurrency(
             value,
-            router.locale,
+            locale,
             liquidityTokenSymbol,
             true
           ).short,
@@ -297,14 +296,14 @@ export const usePurchasePolicy = ({
           salesCurrency: liquidityTokenSymbol,
           salesFormatted: formatCurrency(
             value,
-            router.locale,
+            locale,
             liquidityTokenSymbol,
             true
           ).short,
           coveragePeriod: coverMonth,
           coverMonthFormatted: coverMonth + ' months',
           coveragePeriodMonth: currentMonthIndex + parseInt(coverMonth),
-          coveragePeriodMonthFormatted: getMonthNames(router.locale)[(currentMonthIndex - 1 + parseInt(coverMonth)) % 12],
+          coveragePeriodMonthFormatted: getMonthNames(locale)[(currentMonthIndex - 1 + parseInt(coverMonth)) % 12],
           coveragePeriodYear: (currentMonthIndex + parseInt(coverMonth)) % 12 === 0 ? year : year + 1,
           referralCode: referralCode,
           tx: tx.hash

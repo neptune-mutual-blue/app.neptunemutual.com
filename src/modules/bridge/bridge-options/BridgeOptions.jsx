@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Divider } from '@/common/Divider/Divider'
 import { BridgeOption } from '@/modules/bridge/bridge-options/BridgeOption'
@@ -8,6 +6,7 @@ import {
   WalletNotConnected
 } from '@/modules/bridge/bridge-options/WalletNotConnected'
 import { BRIDGE_KEYS } from '@/src/config/bridge'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useWeb3React } from '@web3-react/core'
@@ -108,7 +107,7 @@ const OptionsMobile = ({
   isLayerZeroBridgeEnabled,
   isCelerBridgeAvailable
 }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <div className='block p-4 bg-F3F5F7 rounded-big lg:hidden'>

@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -17,6 +15,7 @@ import { useNetwork } from '@/src/context/Network'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useRecentVotes } from '@/src/hooks/useRecentVotes'
 import { useSortData } from '@/src/hooks/useSortData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -134,12 +133,12 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 }
 
 const WhenRenderer = ({ row }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
 
   return (
     <td
       className='max-w-xs px-6 py-6 text-sm leading-5 w-max whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+      title={DateLib.toLongDateFormat(row.transaction.timestamp, locale)}
     >
       {fromNow(row.transaction.timestamp)}
     </td>
@@ -147,7 +146,7 @@ const WhenRenderer = ({ row }) => {
 }
 
 const AmountRenderer = ({ row }) => {
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenSymbol } = useAppConstants()
 
   return (
@@ -164,7 +163,7 @@ const AmountRenderer = ({ row }) => {
           title={
             formatCurrency(
               convertFromUnits(row.stake),
-              router.locale,
+              locale,
               NPMTokenSymbol,
               true
             ).long
@@ -173,7 +172,7 @@ const AmountRenderer = ({ row }) => {
           {
             formatCurrency(
               convertFromUnits(row.stake),
-              router.locale,
+              locale,
               NPMTokenSymbol,
               true
             ).short

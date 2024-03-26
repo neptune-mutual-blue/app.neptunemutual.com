@@ -3,9 +3,8 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { getMonthNames } from '@/lib/dates'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 
 const getMonthEnd = (month, fullYear) => {
@@ -50,8 +49,8 @@ export const DateRangePicker = ({ handleRadioChange, coverMonth, disabled }) => 
     }
   }, [coverMonth])
 
-  const router = useRouter()
-  const coverPeriodLabels = getCoveragePeriodLabels(router.locale)
+  const { locale } = useLanguageContext()
+  const coverPeriodLabels = getCoveragePeriodLabels(locale)
 
   const [radioProgress, setRadioProgress] = useState(0)
 

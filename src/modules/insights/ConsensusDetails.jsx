@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { Badge } from '@/common/Badge/Badge'
 import {
@@ -13,10 +12,12 @@ import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useNetwork } from '@/src/context/Network'
 import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   sumOf,
@@ -26,13 +27,12 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 
 import { StatsCard } from './StatsCard'
-import { useNetwork } from '@/src/context/Network'
 
 function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const report = data.incidentReports[consensusIndex]
 
   const { networkId } = useNetwork()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { NPMTokenSymbol, liquidityTokenDecimals } = useAppConstants()
   const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
@@ -75,7 +75,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const formattedProtection = formatCurrency(
     convertFromUnits(protection, liquidityTokenDecimals).toString(),
-    router.locale, 'USD', false, true
+    locale, 'USD', false, true
   )
 
   const efficiency = formatPercent(
@@ -91,13 +91,13 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
     spillover = toBN(protection).isGreaterThanOrEqualTo(totalPoolAmount) ? toBN(protection).minus(totalPoolAmount) : toBN('0')
     spillOverText = formatCurrency(
       convertFromUnits(spillover.toString(), liquidityTokenDecimals).toString(),
-      router.locale
+      locale
     )
   }
 
   const refuted = formatCurrency(
     convertFromUnits(totalRefuted),
-    router.locale,
+    locale,
     NPMTokenSymbol,
     true,
     true
@@ -105,7 +105,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const attested = formatCurrency(
     convertFromUnits(totalAttested),
-    router.locale,
+    locale,
     NPMTokenSymbol,
     true,
     true
@@ -113,7 +113,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const totalStakeText = formatCurrency(
     convertFromUnits(totalStake),
-    router.locale,
+    locale,
     NPMTokenSymbol,
     true,
     true
@@ -121,7 +121,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const liquidityText = formatCurrency(
     convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-    router.locale,
+    locale,
     'USD',
     false,
     true
@@ -182,7 +182,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
         />
         <StatsCard
           titleClass='text-999BAB'
-          title='Utilization' value={formatPercent(utilization, router.locale)}
+          title='Utilization' value={formatPercent(utilization, locale)}
         />
         <StatsCard
           titleClass='text-999BAB'

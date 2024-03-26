@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroStat } from '@/common/HeroStat'
@@ -8,10 +6,11 @@ import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useNetwork } from '@/src/context/Network'
 
 const getHeaders = (networkId) => {
   return [
@@ -40,7 +39,7 @@ const getHeaders = (networkId) => {
 
 export const PoolsTabs = ({ active, children }) => {
   const { poolsTvl: tvl, liquidityTokenDecimals } = useAppConstants()
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
 
   return (
@@ -56,7 +55,7 @@ export const PoolsTabs = ({ active, children }) => {
             {
               formatCurrency(
                 convertFromUnits(tvl, liquidityTokenDecimals),
-                router.locale
+                locale
               ).long
             }
           </HeroStat>

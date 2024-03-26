@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router'
-
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBNSafe
@@ -14,7 +13,7 @@ export const DestinationBalanceError = ({
   balance,
   className = ''
 }) => {
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   const formattedBalance = formatCurrency(
     convertFromUnits(balance || '0', tokenDecimals),

@@ -3,8 +3,6 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import { Alert } from '@/common/Alert/Alert'
 import {
   OutlinedButton,
@@ -22,6 +20,7 @@ import {
 import { CustomRadio } from '@/common/Radio/Radio'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -63,7 +62,7 @@ const PurchasePolicyStep = ({
 
 }) => {
   const { fee } = feeData
-  const router = useRouter()
+  const { locale } = useLanguageContext()
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
 
   const [editForm, setEditForm] = useState(false)
@@ -104,7 +103,7 @@ const PurchasePolicyStep = ({
         className='flex justify-center mt-1 mb-8 font-bold text-center text-display-md text-4E7DD9'
         title={formatCurrency(
           coverFee,
-          router.locale,
+          locale,
           liquidityTokenSymbol,
           true
         ).long}
@@ -117,7 +116,7 @@ const PurchasePolicyStep = ({
             )
           : formatCurrency(
             coverFee,
-            router.locale,
+            locale,
             liquidityTokenSymbol,
             true
           ).short}
@@ -125,7 +124,7 @@ const PurchasePolicyStep = ({
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7 text-md'>
         <p className='font-semibold uppercase'><Trans>You will Receive:</Trans></p>
         <p className='flex items-center'>
-          {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long} (Claimable {liquidityTokenSymbol} Token)
+          {formatCurrency(value, locale, 'cx' + liquidityTokenSymbol, true).long} (Claimable {liquidityTokenSymbol} Token)
           <CxUsdToolTip liquidityTokenSymbol={liquidityTokenSymbol} projectOrProductName={projectOrProductName} />
         </p>
       </div>

@@ -4,9 +4,8 @@ import {
   useState
 } from 'react'
 
-import { useRouter } from 'next/router'
-
 import CurrencyInput from '@/lib/react-currency-input-field'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
 import { getPlainNumber } from '@/utils/formatter/input'
 
@@ -33,7 +32,7 @@ export const CalculatorAmountHandler = ({
   const [width, setWidth] = useState()
   const [focus, setFocus] = useState(false)
   const [inputValue, setInputValue] = useState(inputProps.value ?? '')
-  const { locale } = useRouter()
+  const { locale } = useLanguageContext()
 
   const getSize = () => {
     const newWidth = ref?.current?.clientWidth
