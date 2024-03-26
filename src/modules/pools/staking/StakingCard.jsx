@@ -80,10 +80,10 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   }
 
   const poolKey = data.key
-  const stakedAmount = info.myStake
+  const stakedAmount = info.myStake || '0'
   const rewardAmount = info.rewards
 
-  const hasStaked = isGreater(info.myStake, '0')
+  const hasStaked = isGreater(stakedAmount, '0')
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime
   const lockupPeriod = toBN(data.lockupPeriodInBlocks).multipliedBy(
@@ -94,11 +94,13 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const sTokenImgSrc = getTokenImgSrc(stakingTokenSymbol)
   const poolName = info.name
 
-  const apr = getApr(networkId, {
-    stakingTokenPrice: getPriceByAddress(info.stakingToken),
-    rewardPerBlock: info.rewardPerBlock,
-    rewardTokenPrice: getPriceByAddress(info.rewardToken)
-  })
+  const apr = info.stakingToken && info.rewardToken
+    ? getApr(networkId, {
+      stakingTokenPrice: getPriceByAddress(info.stakingToken),
+      rewardPerBlock: info.rewardPerBlock,
+      rewardTokenPrice: getPriceByAddress(info.rewardToken)
+    })
+    : '0'
 
   // Used for sorting purpose only
   useEffect(() => {

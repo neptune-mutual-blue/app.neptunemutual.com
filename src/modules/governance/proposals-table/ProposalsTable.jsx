@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -122,6 +122,12 @@ export const ProposalsTable = () => {
 
   const showMore = (lastFetchedLength >= rowsPerPage)
 
+  const titleFilter = getFilterString(filter)
+
+  useEffect(() => {
+    fetchProposals({ page, rowsPerPage, titleFilter })
+  }, [fetchProposals, page, rowsPerPage, titleFilter])
+
   return (
     <div className='mt-8'>
       <TitleComponent
@@ -129,7 +135,6 @@ export const ProposalsTable = () => {
         filterOptions={filterOptions}
         setFilter={(val) => {
           if (val.value === filter.value) { return }
-          fetchProposals({ page: 1, rowsPerPage, titleFilter: getFilterString(val) })
           setFilter(val)
           setPage(1)
         }}
@@ -159,11 +164,6 @@ export const ProposalsTable = () => {
         show={showMore}
         loading={loading}
         onShowMore={() => {
-          fetchProposals({
-            page: page + 1,
-            rowsPerPage,
-            titleFilter: getFilterString(filter)
-          })
           setPage(_page => { return _page + 1 })
         }}
       />

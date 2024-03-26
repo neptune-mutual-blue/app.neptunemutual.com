@@ -50,7 +50,7 @@ export function useCoversAndProducts2 () {
 }
 
 export const CoversAndProductsProvider2 = ({ children }) => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const { networkId } = useNetwork()
   const { account } = useWeb3React()

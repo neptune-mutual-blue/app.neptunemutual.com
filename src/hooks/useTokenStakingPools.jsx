@@ -39,9 +39,7 @@ const getQuery = (itemsToSkip) => {
 }
 
 export const useTokenStakingPools = () => {
-  const [data, setData] = useState({
-    pools: []
-  })
+  const [data, setData] = useState({ pools: [] })
   const [loading, setLoading] = useState(false)
   const [itemsToSkip, setItemsToSkip] = useState(0)
   const [hasMore, setHasMore] = useState(true)

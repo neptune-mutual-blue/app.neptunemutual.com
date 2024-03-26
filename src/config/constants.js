@@ -131,7 +131,10 @@ export const SNAPSHOT_INTERFACE_URL = {
   mainnet: 'https://snapshot.org'
 }
 
-export const SNAPSHOT_SPACE_ID = 'npmgov.eth'
+export const SNAPSHOT_SPACE_ID = {
+  testnet: process.env.NEXT_PUBLIC_TESTNET_SNAPSHOT_SPACE_ID,
+  mainnet: process.env.NEXT_PUBLIC_MAINNET_SNAPSHOT_SPACE_ID
+}
 
 export const DAYS = 24 * 60 * 60
 

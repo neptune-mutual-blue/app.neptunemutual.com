@@ -7,7 +7,7 @@ import { useNetwork } from '@/src/context/Network'
 import { getSnapshotApiURL, parseEmptyScores } from '@/utils/snapshot'
 
 const getQuery = (id) => {
-  return `{
+  return `query SingleProposal {
   proposal(id: "${id}") {
     id
     title
@@ -29,20 +29,20 @@ const getQuery = (id) => {
 }`
 }
 
-export const useSnapshotProposalById = (id, locale) => {
+export const useSnapshotProposalById = (id) => {
   const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const { networkId } = useNetwork()
 
   useEffect(() => {
-    setLoading(true)
-
-    if (!id) { return }
+    if (!id || !networkId) { return }
 
     const url = getSnapshotApiURL(networkId)
 
     const fetchSnapshotById = async () => {
+      setLoading(true)
+
       try {
         const res = await fetch(url, {
           method: 'POST',
@@ -67,7 +67,7 @@ export const useSnapshotProposalById = (id, locale) => {
     }
 
     fetchSnapshotById()
-  }, [id, locale, networkId])
+  }, [id, networkId])
 
   return {
     data,

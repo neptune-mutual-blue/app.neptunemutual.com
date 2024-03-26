@@ -1,6 +1,5 @@
 import {
   useEffect,
-  useMemo,
   useState
 } from 'react'
 
@@ -20,7 +19,6 @@ import { Network } from '@/common/Header/Network'
 import { HeaderLogo } from '@/common/HeaderLogo'
 import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
-import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import ConnectWallet
@@ -96,10 +94,7 @@ export const Header = () => {
 
   const { i18n } = useLingui()
 
-  const navigation = useMemo(
-    () => { return getNavigationLinks(router.pathname, i18n) },
-    [router.pathname, i18n]
-  )
+  const navigation = getNavigationLinks(router.pathname, i18n)
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => { return !prev })
@@ -139,21 +134,16 @@ export const Header = () => {
     <>
       <div className='bg-black text-EEEEEE print:hidden'>
         <Banner />
-        <NavContainer>
-          <div className='justify-end hidden max-w-full py-0 mx-auto sm:pl-6 xl:pl-20 xl:pr-18 xl:flex'>
-            <LanguageDropdown />
-          </div>
-        </NavContainer>
       </div>
 
       <header className='sticky z-40 bg-black -top-px text-EEEEEE print:hidden'>
         <NavContainer>
           <nav className='flex justify-between max-w-full mx-auto' aria-label='Top'>
-            <div className='flex items-center justify-between py-0 xl:basis-full h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none'>
+            <div className='flex items-center self-center justify-between py-0 md:pr-8 h-14 lg:h-20 xl:border-b border-B0C4DB xl:border-none xl:flex-0'>
               <Link
                 href={Routes.Home}
                 locale={router.locale || router.defaultLocale}
-                className='sm:w-48'
+                className='w-max md:w-48'
               >
 
                 <HeaderLogo />
@@ -161,7 +151,7 @@ export const Header = () => {
               </Link>
             </div>
 
-            <div className='self-stretch hidden gap-x-4 xl:flex'>
+            <div className='self-stretch hidden ml-auto gap-x-4 xl:flex'>
               {navigation.map((link) => {
                 if (link.href) {
                   return (
@@ -193,12 +183,12 @@ export const Header = () => {
             </div>
 
             <div className='flex xl:basis-full xl:justify-end'>
-              <div className='items-center hidden pt-3 pb-3 xl:flex'>
+              <div className='flex items-center pt-3 pb-3'>
                 <ConnectWallet networkId={networkId} notifier={notifier}>
                   {({ onOpen }) => {
                     let button = (
                       <button
-                        className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75 bg-primary'
+                        className='inline-block px-4 py-0 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md hover:bg-opacity-75 bg-primary'
                         onClick={onOpen}
                         title={t(i18n)`Connect wallet`}
                       >
@@ -213,15 +203,14 @@ export const Header = () => {
                           title={t(i18n)`account details`}
                         >
                           <span className='sr-only'><Trans>account details</Trans></span>
-                          <AccountBalanceWalletIcon width='24' height='24' />
-                          <span className='pl-2'>{truncateAddress(account)}</span>
+                          <span>{truncateAddress(account)}</span>
                         </button>
                       )
                     }
 
                     return (
                       <div>
-                        <div className='flex items-stretch h-full space-x-4'>
+                        <div className='flex items-stretch h-full space-x-2 md:space-x-4'>
                           <Network />
                           {button}
                           {isAccountDetailsOpen && (
@@ -243,38 +232,52 @@ export const Header = () => {
                 </ConnectWallet>
               </div>
 
-              <div className='relative flex ml-3' ref={setContainer}>
-                <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
-                  <button
-                    aria-label='Transactions'
-                    className={classNames(
-                      'items-center justify-center px-4 flex relative self-stretch flex-shrink-0',
-                      'before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB',
-                      isTxDetailsPopupOpen
-                        ? 'bg-404A5C before:w-0'
-                        : 'bg-transparent before:w-px'
-                    )}
-                    onClick={() => { return setIsTxDetailsPopupOpen((val) => { return !val }) }}
-                    data-testid='transaction-modal-button'
-                  >
-                    <span className='sr-only'><Trans>transaction overview button</Trans></span>
-                    <IconWithBadge number={unread}>
-                      <BellIcon className='text-white' />
-                    </IconWithBadge>
-                  </button>
-                </TransactionOverviewTooltip>
-              </div>
+              {
+                active && (
+                  <div className='relative flex' ref={setContainer}>
+                    <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
+                      <button
+                        aria-label='Transactions'
+                        className={classNames(
+                          'items-center justify-center px-1 md:px-4 flex relative self-stretch flex-shrink-0 ml-1 md:ml-2',
+                          'before:hidden md:before:block before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB',
+                          isTxDetailsPopupOpen
+                            ? 'bg-404A5C before:w-0'
+                            : 'bg-transparent before:w-px'
+                        )}
+                        onClick={() => { return setIsTxDetailsPopupOpen((val) => { return !val }) }}
+                        data-testid='transaction-modal-button'
+                      >
+                        <span className='sr-only'><Trans>transaction overview button</Trans></span>
+                        <IconWithBadge number={unread}>
+                          <BellIcon className='text-white' />
+                        </IconWithBadge>
+                      </button>
+                    </TransactionOverviewTooltip>
+                  </div>
+                )
+              }
 
               {!isOpen && (
-                <div className='flex items-center xl:hidden'>
+                <div className='items-center hidden md:flex xl:hidden'>
                   <BurgerMenu
                     isOpen={isOpen}
                     onToggle={toggleMenu}
-                    className='h-full px-4'
+                    className='h-full md:ml-4'
                   />
                 </div>
               )}
             </div>
+
+            {!isOpen && (
+              <div className='flex items-center md:hidden'>
+                <BurgerMenu
+                  isOpen={isOpen}
+                  onToggle={toggleMenu}
+                  className='h-full md:ml-4'
+                />
+              </div>
+            )}
 
             <TransactionList
               isOpen={isTxDetailsPopupOpen}
@@ -287,14 +290,6 @@ export const Header = () => {
           isOpen={isOpen}
           onClose={onClose}
           navigation={getFlattenedNavLinks(i18n)}
-          network={<Network closeMenu={onClose} />}
-          networkId={networkId}
-          notifier={notifier}
-          active={active}
-          account={account}
-          handleToggleAccountPopup={handleToggleAccountPopup}
-          isAccountDetailsOpen={isAccountDetailsOpen}
-          handleDisconnect={handleDisconnect}
         />
       </header>
     </>
@@ -304,19 +299,9 @@ export const Header = () => {
 export const MenuModal = ({
   isOpen,
   onClose,
-  navigation,
-  network,
-  networkId,
-  notifier,
-  active,
-  account,
-  handleToggleAccountPopup,
-  isAccountDetailsOpen,
-  handleDisconnect
+  navigation
 }) => {
   const router = useRouter()
-
-  const { i18n } = useLingui()
 
   useEffect(() => {
     const handleRouteNavigate = () => {
@@ -341,11 +326,11 @@ export const MenuModal = ({
               <div className='absolute right-6 top-6'>
                 <BurgerMenu isOpen onToggle={onClose} />
               </div>
-              <div className='w-full sm:px-16'>
+              <div className='w-full text-white sm:px-16'>
                 <LanguageDropdown onOverlay />
               </div>
               <div className='flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl'>
-                <div className='flex flex-col justify-start mb-auto overflow-y-auto'>
+                <div className='flex flex-col justify-start mb-auto py-2.5 gap-8 mt-4 overflow-y-auto'>
                   {navigation.map((link) => {
                     return (
                       (
@@ -354,7 +339,8 @@ export const MenuModal = ({
                           href={link.href}
                           locale={router.locale}
                           className={classNames(
-                            'text-display-sm leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
+                            // 'text-display-xs leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
+                            'text-display-xs leading-6 border-b-4 w-fit',
                             router.pathname === link.href
                               ? 'border-4E7DD9 text-4E7DD9 font-semibold'
                               : 'border-transparent text-white'
@@ -367,57 +353,6 @@ export const MenuModal = ({
                       )
                     )
                   })}
-                </div>
-                <div className='py-5 mb-12'>
-                  <ConnectWallet networkId={networkId} notifier={notifier}>
-                    {({ onOpen }) => {
-                      let button = (
-                        <button
-                          className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
-                          onClick={onOpen}
-                          title={t(i18n)`Connect wallet`}
-                        >
-                          Connect wallet
-                        </button>
-                      )
-                      if (active) {
-                        button = (
-                          <button
-                            aria-label='Account Details'
-                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold leading-loose tracking-wider text-white uppercase border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 bg-primary'
-                            onClick={handleToggleAccountPopup}
-                            title={t(i18n)`account details`}
-                          >
-                            <span className='sr-only'>
-                              <Trans>account details</Trans>
-                            </span>
-                            <AccountBalanceWalletIcon width='24' height='24' />
-                            <span className='pl-2'>
-                              {truncateAddress(account)}
-                            </span>
-                          </button>
-                        )
-                      }
-
-                      return (
-                        <div className='flex flex-col justify-between w-full'>
-                          {network} {button}
-                          {isAccountDetailsOpen && (
-                            <AccountDetailsModal
-                              {...{
-                                networkId,
-                                account,
-                                isOpen: isAccountDetailsOpen,
-                                onClose: handleToggleAccountPopup,
-                                active,
-                                handleDisconnect
-                              }}
-                            />
-                          )}
-                        </div>
-                      )
-                    }}
-                  </ConnectWallet>
                 </div>
               </div>
             </div>

@@ -19,7 +19,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
-export const AccountDetail = ({ title, selectedChain, distribution, amountToDeposit }) => {
+export const AccountDetail = ({ title, selectedChain, distribution }) => {
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
 
@@ -35,8 +35,9 @@ export const AccountDetail = ({ title, selectedChain, distribution, amountToDepo
     depositTokenDecimals,
     depositTokenSymbol,
     handleApprove,
-    handleSetGauge
-  } = useSetGauge({ title, amountToDeposit, distribution })
+    handleSetGauge,
+    amountToDeposit
+  } = useSetGauge({ title, distribution })
 
   const canSetGauge = toBN(allowance).isGreaterThanOrEqualTo(amountToDeposit)
   const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThan(balance)

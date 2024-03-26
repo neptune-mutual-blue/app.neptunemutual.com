@@ -28,7 +28,7 @@ import {
   Root
 } from '@radix-ui/react-dialog'
 
-export const Network = ({ closeMenu = () => {} }) => {
+export const Network = () => {
   const { networkId } = useNetwork()
   const { isEthereum, isArbitrum, isBinanceSmartChain, isPolygon } = getNetworkInfo(networkId)
   const { width } = useWindowSize()
@@ -70,11 +70,11 @@ export const Network = ({ closeMenu = () => {} }) => {
 
   const ref = useRef()
   useOnClickOutside(ref, () => {
-    if (open && width >= 1200) { setOpen(false) }
+    if (open && width >= 768) { setOpen(false) }
   })
 
   const handleKeyPress = useCallback((e) => {
-    if (!open || width < 1200) { return }
+    if (!open || width < 768) { return }
 
     if (e.key === 'Escape' || e.code === 'Escape') {
       setOpen(false)
@@ -91,70 +91,67 @@ export const Network = ({ closeMenu = () => {} }) => {
 
   const ChainLogo = ChainLogos[networkId || 1] || ChainLogos[1]
 
+  const Button = ({ modalOpen }) => {
+    return (
+      width < 768
+        ? (
+          <button
+            onClick={() => {
+              if (width < 768) { return setOpen(_val => { return !_val }) }
+            }}
+            className={classNames(
+              'p-1 md:h-10 md:p-2.5 rounded-2 flex gap-1 items-center'
+            )}
+          >
+            <figure
+              className='flex-shrink-0 overflow-hidden rounded-full'
+              title={NetworkNames[networkId] || 'Network'}
+            >
+              <ChainLogo width='24' height='24' />
+            </figure>
+
+            <ChevronDownIcon
+              width='16' height='16'
+              className={classNames('flex-shrink-0 transform hidden md:block', modalOpen && 'rotate-180')}
+            />
+          </button>
+          )
+        : (
+          <Menu.Button
+            className={classNames(
+              'p-1 md:h-10 md:p-2.5 rounded-2 flex gap-1 items-center'
+            )}
+          >
+            <figure
+              className='flex-shrink-0 overflow-hidden rounded-full'
+              title={NetworkNames[networkId] || 'Network'}
+            >
+              <ChainLogo width='24' height='24' />
+            </figure>
+
+            <ChevronDownIcon
+              width='16' height='16'
+              className={classNames('flex-shrink-0 transform hidden md:block', modalOpen && 'rotate-180')}
+            />
+          </Menu.Button>
+          )
+    )
+  }
+
   return (
     <div
-      className='inline-flex items-center justify-start w-full mr-2 text-sm font-normal leading-loose rounded-lg xl:justify-center md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'
+      className='inline-flex items-center justify-start text-sm font-normal leading-loose rounded-lg md:justify-center md:w-auto text-FEFEFF bg-364253'
     >
-      <figure
-        className={classNames(
-          'overflow-hidden flex-shrink-0',
-          width >= 1200 ? 'hidden rounded-lg' : 'rounded-l-lg'
-        )}
-        title={NetworkNames[networkId] || 'Network'}
-      >
-        <span className='block lg:hidden'>
-          <ChainLogo width='44' height='44' />{' '}
-        </span>
-        <span className='hidden lg:block'>
-          <ChainLogo width='64' height='64' />{' '}
-        </span>
-      </figure>
-
       <div className='relative w-full' ref={ref}>
-        <button
-          onClick={() => { return setOpen(_val => { return !_val }) }}
-          className={classNames(
-            'w-full flex items-center justify-between gap-2 px-3 py-2 lg:py-4 xl:py-2',
-            width >= 1200 && 'hidden'
-          )}
-        >
-          <p className='inline-block w-full text-left truncate'>
-            {NetworkNames[networkId] || 'Network'}
-          </p>
-
-          <ChevronDownIcon
-            width='16' height='16'
-            className={classNames('flex-shrink-0 transform', open && 'rotate-180')}
-          />
-        </button>
-
         <Menu>
           {
             ({ open: modalOpen }) => {
               return (
                 <div className='relative'>
-                  <Menu.Button
-                  // onClick={() => setOpen(_val => !_val)}
-                    className={classNames(
-                      'h-10 p-2.5 rounded-2 flex gap-1 items-center',
-                      width >= 1200 ? 'block' : 'hidden'
-                    )}
-                  >
-                    <figure
-                      className='flex-shrink-0 overflow-hidden rounded-full'
-                      title={NetworkNames[networkId] || 'Network'}
-                    >
-                      <ChainLogo width='24' height='24' />
-                    </figure>
-
-                    <ChevronDownIcon
-                      width='16' height='16'
-                      className={classNames('flex-shrink-0 transform', modalOpen && 'rotate-180')}
-                    />
-                  </Menu.Button>
+                  <Button modalOpen={modalOpen} />
 
                   <Menu.Items
-                    className='absolute right-0 hidden py-4 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
+                    className='absolute right-0 hidden py-4 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown md:block'
                     tabIndex={-1}
                   >
 
@@ -206,10 +203,10 @@ export const Network = ({ closeMenu = () => {} }) => {
         </Menu>
 
         <NetworkModalMobile
-          open={open && width < 1200}
+          open={open && width < 768}
           onClose={() => { return setOpen(false) }}
           networks={networks}
-          closeMobileMenu={closeMenu}
+          closeMobileMenu={() => { return setOpen(false) }}
         />
       </div>
 

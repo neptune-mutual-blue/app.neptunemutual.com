@@ -46,6 +46,12 @@ class MyDocument extends Document {
           <meta name='twitter:description' content={ogDescription} />
           <meta name='twitter:image' content={ogImageUri} />
 
+          {/* preload */}
+          <link rel='preload' as='image' href='/cover-actions/purchase.png' />
+          <link rel='preload' as='image' href='/cover-actions/add-liquidity.png' />
+          <link rel='preload' as='image' href='/cover-actions/report.png' />
+          <link rel='preload' as='image' href='/cover-actions/claim.png' />
+
         </Head>
         <body
           translate='no'

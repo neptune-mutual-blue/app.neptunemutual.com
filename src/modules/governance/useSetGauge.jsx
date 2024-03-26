@@ -20,14 +20,14 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, sumOf } from '@/utils/bn'
 import { getEpochFromTitle } from '@/utils/snapshot'
 import { t } from '@lingui/macro'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useLingui } from '@lingui/react'
 
-export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
+export const useSetGauge = ({ title, distribution }) => {
   const [approving, setApproving] = useState(false)
   const [isSettingGauge, setIsSettingGauge] = useState(false)
 
@@ -61,6 +61,8 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
   useEffect(() => {
     updateAllowance(gcrContractAddress)
   }, [gcrContractAddress, updateAllowance])
+
+  const amountToDeposit = sumOf(...distribution.map((d) => { return d.emission })).toString()
 
   const handleApprove = async () => {
     setApproving(true)
@@ -232,8 +234,11 @@ export const useSetGauge = ({ title, amountToDeposit, distribution }) => {
     loadingBalance,
     allowance,
     balance,
+
+    amountToDeposit,
     depositTokenDecimals: NPMTokenDecimals,
     depositTokenSymbol: NPMTokenSymbol,
+
     handleApprove,
     handleSetGauge
   }
