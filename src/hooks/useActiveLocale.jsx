@@ -1,22 +1,40 @@
 import React from 'react'
 
+import { useRouter } from 'next/router'
+
 import {
   localStorageLocale,
-  navigatorLocale
+  navigatorLocale,
+  parseLocale
 } from '@/src/i18n/utils'
 
 import { DEFAULT_LOCALE } from '../config/locales'
 
-// import { useRouter } from 'next/router'
-
 export const useActiveLocale = () => {
-  // const router = useRouter()
+  const router = useRouter()
   const [locale, setLocale] = React.useState(DEFAULT_LOCALE)
 
   React.useEffect(() => {
     const initialLocale = localStorageLocale() || navigatorLocale() || DEFAULT_LOCALE
     setLocale(initialLocale)
   }, [])
+
+  React.useEffect(() => {
+    const { lang } = router.query
+
+    if (!lang) {
+      return
+    }
+
+    const newLocale = parseLocale(lang)
+
+    if (!newLocale) {
+      return
+    }
+
+    localStorage.setItem('locale', newLocale)
+    setLocale(newLocale)
+  }, [router])
 
   // React.useEffect(() => {
   //   if (locale !== router.locale) {
