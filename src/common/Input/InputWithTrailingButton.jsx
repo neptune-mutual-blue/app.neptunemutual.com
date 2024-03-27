@@ -73,6 +73,7 @@ export const InputWithTrailingButton = ({
   return (
     <div className={classNames('relative w-full text-lg text-black', disabled && 'opacity-40 cursor-not-allowed')}>
       <CurrencyInput
+        disableAbbreviations
         {...inputFieldProps}
         className={classNames(
           'bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border',
