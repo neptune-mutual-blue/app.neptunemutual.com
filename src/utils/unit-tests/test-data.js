@@ -854,7 +854,7 @@ export const testData = {
     isFallback: false,
     basePath: '',
     locale: 'en',
-    locales: ['en', 'es', 'fr', 'ja', 'zh'],
+    locales: ['en', 'es', 'ja', 'zh'],
     defaultLocale: 'en',
     isReady: true,
     isPreview: false,

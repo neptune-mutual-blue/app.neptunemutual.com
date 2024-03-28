@@ -3,7 +3,7 @@ export const DEFAULT_LOCALE = 'en'
 export const languageKey = {
   zh: 'Chinese - 中文',
   en: 'English',
-  fr: 'French - français',
+  // fr: 'French - français',
   // de: "German - Deutsch",
   // id: "Indonesian - Bahasa Indonesia",
   // it: "Italian - italiano",
@@ -19,7 +19,7 @@ export const languageKey = {
 export const localesKey = {
   'Chinese - 中文': 'zh',
   English: 'en',
-  'French - français': 'fr',
+  // 'French - français': 'fr',
   // "Indonesian - Bahasa Indonesia": "id",
   // "Italian - italiano": "it",
   'Japanese - 日本語': 'ja'
