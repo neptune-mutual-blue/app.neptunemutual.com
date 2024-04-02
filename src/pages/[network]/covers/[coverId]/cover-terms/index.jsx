@@ -1,4 +1,3 @@
-
 import { Seo } from '@/common/Seo'
 import {
   DiversifiedCoverTermsPage
@@ -6,11 +5,14 @@ import {
 import {
   SingleCoverTermsPage
 } from '@/modules/cover/cover-terms/SingleCoverTermsPage'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { getNetworksAndCovers } from '@/src/ssg/static-paths'
 import { slugToNetworkId } from '@/src/config/networks'
-import { getDescription, getTitle } from '@/src/ssg/seo'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import {
+  getDescription,
+  getTitle
+} from '@/src/ssg/seo'
+import { getNetworksAndCovers } from '@/src/ssg/static-paths'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 export const getStaticPaths = async () => {
   return {
@@ -25,7 +27,11 @@ export const getStaticProps = async ({ params }) => {
       networkId: slugToNetworkId[params.network],
       coverId: params.coverId,
       seo: {
-        title: getTitle(params.coverId, undefined, slugToNetworkId[params.network]),
+        title: getTitle({
+          coverId: params.coverId,
+          networkId: slugToNetworkId[params.network],
+          pageAction: 'Cover Terms'
+        }),
         description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
       }
     }

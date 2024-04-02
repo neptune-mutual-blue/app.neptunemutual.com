@@ -1,12 +1,12 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import {
   PoliciesExpiredPage
 } from '@/src/modules/my-policies/expired/PoliciesExpiredPage'
 import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
-
-import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
@@ -19,12 +19,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'My Expired Policies'
+      })
     }
   }
 }
 
-export default function MyPoliciesExpired ({ networkId }) {
+export default function MyPoliciesExpired ({ networkId, title }) {
   const disabled = !isFeatureEnabled('policy', networkId)
   if (disabled) {
     return <ComingSoon />
@@ -32,7 +36,7 @@ export default function MyPoliciesExpired ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
       <PoliciesTabs active='expired'>
         <PoliciesExpiredPage />
       </PoliciesTabs>

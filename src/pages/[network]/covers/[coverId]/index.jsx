@@ -6,13 +6,15 @@ import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
 import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
 import { ProductsGridSkeleton } from '@/modules/home/ProductsGridSkeleton'
+import { slugToNetworkId } from '@/src/config/networks'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-
-import { slugToNetworkId } from '@/src/config/networks'
+import {
+  getDescription,
+  getTitle
+} from '@/src/ssg/seo'
 import { getNetworksAndCovers } from '@/src/ssg/static-paths'
-import { getDescription, getTitle } from '@/src/ssg/seo'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 const DynamicHomeHero = dynamic(() => { return import('@/modules/home/Hero').then((mod) => { return mod.HomeHero }) }, {
   loading: () => { return <HomeHeroSkeleton data-testid='hero-skeleton' /> }
@@ -31,7 +33,11 @@ export const getStaticProps = async ({ params }) => {
       networkId: slugToNetworkId[params.network],
       coverId: params.coverId,
       seo: {
-        title: getTitle(params.coverId, undefined, slugToNetworkId[params.network]),
+        title: getTitle({
+          coverId: params.coverId,
+          productId: undefined,
+          networkId: slugToNetworkId[params.network]
+        }),
         description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
       }
     }

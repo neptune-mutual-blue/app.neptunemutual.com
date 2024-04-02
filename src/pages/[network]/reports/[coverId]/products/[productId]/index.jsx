@@ -23,7 +23,12 @@ export const getStaticProps = async ({ params }) => {
       coverId: params.coverId,
       productId: params.productId,
       seo: {
-        title: getTitle(params.coverId, params.productId, slugToNetworkId[params.network]),
+        title: getTitle({
+          coverId: params.coverId,
+          productId: params.productId,
+          networkId: slugToNetworkId[params.network],
+          pageAction: 'Report Listing'
+        }),
         description: getDescription(params.coverId, params.productId, slugToNetworkId[params.network])
       }
     }

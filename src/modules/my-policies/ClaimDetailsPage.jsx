@@ -32,7 +32,8 @@ export const ClaimDetailsPage = ({
   disabled,
   coverKey,
   productKey,
-  timestamp
+  timestamp,
+  title
 }) => {
   const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
@@ -73,7 +74,7 @@ export const ClaimDetailsPage = ({
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <Hero>
         <Container className='px-2 pt-5 pb-20 md:py-20'>

@@ -1,11 +1,11 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 import { StakingPage } from '@/src/modules/pools/staking'
-
-import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
@@ -18,12 +18,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Staking'
+      })
     }
   }
 }
 
-export default function Staking ({ networkId }) {
+export default function Staking ({ networkId, title }) {
   const disabled = !isFeatureEnabled('staking-pool', networkId)
 
   if (disabled) {
@@ -32,7 +36,7 @@ export default function Staking ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
       <PoolsTabs active='staking'>
         <SortableStatsProvider>
           <StakingPage />

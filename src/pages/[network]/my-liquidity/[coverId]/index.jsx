@@ -1,16 +1,17 @@
-
 import { ComingSoon } from '@/common/ComingSoon'
 import {
   LiquidityFormsProvider
 } from '@/common/LiquidityForms/LiquidityFormsContext'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
-import { ProvideLiquidityToCover } from '@/src/modules/my-liquidity/details'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-
 import { slugToNetworkId } from '@/src/config/networks'
+import { ProvideLiquidityToCover } from '@/src/modules/my-liquidity/details'
+import {
+  getDescription,
+  getTitle
+} from '@/src/ssg/seo'
 import { getNetworksAndCovers } from '@/src/ssg/static-paths'
-import { getDescription, getTitle } from '@/src/ssg/seo'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 export const getStaticPaths = async () => {
   return {
@@ -26,7 +27,11 @@ export const getStaticProps = async ({ params }) => {
       coverId: params.coverId,
       disabled: !isFeatureEnabled('liquidity', slugToNetworkId[params.network]),
       seo: {
-        title: getTitle(params.coverId, undefined, slugToNetworkId[params.network]),
+        title: getTitle({
+          coverId: params.coverId,
+          networkId: slugToNetworkId[params.network],
+          pageAction: 'Add Liquidity'
+        }),
         description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
       }
     }

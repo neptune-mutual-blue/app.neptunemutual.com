@@ -13,6 +13,7 @@ import {
 } from '@/src/hooks/useCalculateTotalLiquidity'
 import { useMyLiquidities } from '@/src/hooks/useMyLiquidities'
 import { useLanguageContext } from '@/src/i18n/i18n'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -29,12 +30,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'My Liquidity'
+      })
     }
   }
 }
 
-export default function MyLiquidity ({ networkId }) {
+export default function MyLiquidity ({ networkId, title }) {
   const { account } = useWeb3React()
   const { data, loading } = useMyLiquidities(account)
   const { liquidityList, myLiquidities } = data
@@ -61,7 +66,7 @@ export default function MyLiquidity ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <Hero>
         <Container className='flex flex-wrap px-2 py-32 min-h-[312px]'>

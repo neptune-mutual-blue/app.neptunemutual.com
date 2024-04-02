@@ -8,11 +8,11 @@ import {
   LiquidityGaugeTxsTable
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable'
 import { isFeatureEnabled } from '@/src/config/environment'
-import { Routes } from '@/src/config/routes'
-import { Trans } from '@lingui/macro'
-
 import { slugToNetworkId } from '@/src/config/networks'
+import { Routes } from '@/src/config/routes'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
+import { Trans } from '@lingui/macro'
 
 export const getStaticPaths = async () => {
   return {
@@ -24,12 +24,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Liquidity Gauge Pools Transactions'
+      })
     }
   }
 }
 
-export default function MyLiquidityGaugePoolsTxs ({ networkId }) {
+export default function MyLiquidityGaugePoolsTxs ({ networkId, title }) {
   const disabled = !isFeatureEnabled('liquidity-gauge-pools', networkId)
   if (disabled) {
     return <ComingSoon />
@@ -37,7 +41,7 @@ export default function MyLiquidityGaugePoolsTxs ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <Hero>
         <Container className='px-2 py-20'>

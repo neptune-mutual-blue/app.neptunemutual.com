@@ -4,11 +4,11 @@ import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { MyTransactionsTable } from '@/modules/transactions/MyTransactionsTable'
-import { Routes } from '@/src/config/routes'
-import { Trans } from '@lingui/macro'
-
 import { slugToNetworkId } from '@/src/config/networks'
+import { Routes } from '@/src/config/routes'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
+import { Trans } from '@lingui/macro'
 
 export const getStaticPaths = async () => {
   return {
@@ -20,15 +20,19 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'My Transactions'
+      })
     }
   }
 }
 
-export default function Home ({ networkId }) {
+export default function Home ({ networkId, title }) {
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <Hero>
         <Container className='px-2 pt-5 pb-20 md:py-20'>

@@ -1,3 +1,4 @@
+const { ShortNetworkNames } = require('@/lib/connect-wallet/config/chains')
 const all = require('../data/summary.json')
 
 const getCoverOrProductName = (coverId, productId, networkId) => {
@@ -22,10 +23,28 @@ const getCoverOrProductName = (coverId, productId, networkId) => {
   return ''
 }
 
-const getTitle = (coverId, productId, networkId) => {
-  const name = getCoverOrProductName(coverId, productId, networkId)
+const getTitle = ({
+  coverId = undefined,
+  productId = undefined,
+  networkId,
+  pageAction = undefined
+}) => {
+  let title = ''
 
-  return `${name} / Neptune Mutual Decentralized Insurance`
+  if (pageAction) {
+    title += `${pageAction} / `
+  }
+
+  if (coverId || productId) {
+    const name = getCoverOrProductName(coverId, productId, networkId)
+    title += `${name} / `
+  }
+
+  const network = ShortNetworkNames[networkId]
+
+  title += `${network} Cover Marketplace / Neptune Mutual Decentralized Insurance`
+
+  return title
 }
 
 const getDescription = (coverId, productId, networkId) => {

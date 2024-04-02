@@ -2,10 +2,10 @@ import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { LiquidityGaugePoolsPage } from '@/modules/pools/liquidity-gauge-pools'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
-
-import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
@@ -18,12 +18,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Liquidity Gauge Pools'
+      })
     }
   }
 }
 
-export default function LiquidityGaugePools ({ networkId }) {
+export default function LiquidityGaugePools ({ networkId, title }) {
   const disabled = !isFeatureEnabled('liquidity-gauge-pools', networkId)
 
   if (disabled) {
@@ -32,7 +36,7 @@ export default function LiquidityGaugePools ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
       <PoolsTabs active='liquidity-gauge-pools'>
         <SortableStatsProvider>
           <LiquidityGaugePoolsPage />
