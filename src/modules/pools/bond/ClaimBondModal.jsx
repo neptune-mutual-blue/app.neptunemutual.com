@@ -57,7 +57,7 @@ export const ClaimBondModal = ({
             className='text-lg font-medium text-7398C0'
             title={DateLib.toLongDateFormat(unlockDate, locale)}
           >
-            {fromNow(unlockDate)}
+            {fromNow(unlockDate, locale)}
           </p>
         </div>
         {/* left to add click handler */}

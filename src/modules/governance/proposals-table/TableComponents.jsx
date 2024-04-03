@@ -31,7 +31,7 @@ export const WhenRenderer = ({ row, locale }) => {
     >
       <InfoTooltip infoComponent={DateLib.toLongDateFormat(row.start / 1000, locale)}>
         <span>
-          {fromNow(row.start)}
+          {fromNow(row.start, locale)}
         </span>
       </InfoTooltip>
     </td>

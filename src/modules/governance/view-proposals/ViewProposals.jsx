@@ -80,7 +80,7 @@ export const ViewProposals = ({ networkId }) => {
           <KeyVal
             heading='Unlock At:'
             className='mt-8'
-            value={fromNow(data.unlockTimestamp)}
+            value={fromNow(data.unlockTimestamp, locale)}
             title={DateLib.toLongDateFormat(data.unlockTimestamp, locale)}
           />
         </div>
