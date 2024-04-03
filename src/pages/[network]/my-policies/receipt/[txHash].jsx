@@ -24,7 +24,7 @@ export async function getStaticProps ({ params }) {
       txHash: params.txHash,
       title: getTitle({
         networkId,
-        pageAction: 'Policy Receipt'
+        pageAction: 'Policy Receipt on #NETWORK marketplace'
       })
     },
     revalidate: 10 // In seconds

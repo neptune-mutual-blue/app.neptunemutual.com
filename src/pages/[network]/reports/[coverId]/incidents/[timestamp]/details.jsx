@@ -36,7 +36,7 @@ export async function getStaticProps ({ params }) {
         networkId: slugToNetworkId[params.network],
         coverId: params.coverId,
         productId: params.productId,
-        pageAction: 'Incident Report'
+        pageAction: 'Incident Report Details for #COVER on #NETWORK marketplace'
       })
     },
     revalidate: 10 // In seconds

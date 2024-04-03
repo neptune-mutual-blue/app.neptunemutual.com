@@ -30,7 +30,7 @@ export const getStaticProps = async ({ params }) => {
           coverId: params.coverId,
           productId: params.productId,
           networkId: slugToNetworkId[params.network],
-          pageAction: 'Cover Terms'
+          pageAction: 'Cover Terms for #COVER on #NETWORK marketplace'
         }),
         description: getDescription(params.coverId, params.productId, slugToNetworkId[params.network])
       }

@@ -21,7 +21,7 @@ export const getStaticProps = async ({ params }) => {
       title: getTitle({
         networkId: slugToNetworkId[params.network],
         coverId: params.coverId,
-        pageAction: 'Report Listing'
+        pageAction: 'Report Listing for #COVER on #NETWORK marketplace'
       })
     }
   }

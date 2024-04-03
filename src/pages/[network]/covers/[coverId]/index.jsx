@@ -36,7 +36,8 @@ export const getStaticProps = async ({ params }) => {
         title: getTitle({
           coverId: params.coverId,
           productId: undefined,
-          networkId: slugToNetworkId[params.network]
+          networkId: slugToNetworkId[params.network],
+          pageAction: '#COVER on Neptune Mutual #NETWORK marketplace'
         }),
         description: getDescription(params.coverId, undefined, slugToNetworkId[params.network])
       }

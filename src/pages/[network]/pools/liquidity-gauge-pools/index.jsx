@@ -21,7 +21,7 @@ export const getStaticProps = async ({ params }) => {
       networkId: slugToNetworkId[params.network],
       title: getTitle({
         networkId: slugToNetworkId[params.network],
-        pageAction: 'Liquidity Gauge Pools'
+        pageAction: 'Liquidity Gauge Pools on #NETWORK marketplace'
       })
     }
   }

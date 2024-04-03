@@ -30,7 +30,7 @@ export async function getStaticProps ({ params }) {
       proposalId: params.proposalId,
       title: getTitle({
         networkId,
-        pageAction: 'Proposal Details'
+        pageAction: 'Proposal Details on #NETWORK marketplace'
       })
     },
     revalidate: 10 // In seconds

@@ -27,7 +27,7 @@ export const getStaticProps = async ({ params }) => {
       networkId: slugToNetworkId[params.network],
       title: getTitle({
         networkId: slugToNetworkId[params.network],
-        pageAction: 'My Policies Transactions'
+        pageAction: 'My Policies Transactions on #NETWORK marketplace'
       })
     }
   }

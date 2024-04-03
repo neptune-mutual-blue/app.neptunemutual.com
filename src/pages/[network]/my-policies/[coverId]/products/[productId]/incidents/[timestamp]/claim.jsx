@@ -18,7 +18,7 @@ export default function ClaimPolicyDiversifiedProduct () {
     coverId,
     productId,
     networkId,
-    pageAction: 'Claim Policy'
+    pageAction: 'Claim Policy on #COVER on #NETWORK marketplace'
   })
 
   return (

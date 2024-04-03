@@ -30,7 +30,7 @@ export async function getStaticProps ({ params }) {
         networkId: slugToNetworkId[params.network],
         coverId: params.coverId,
         productId: params.productId,
-        pageAction: 'Dispute Report'
+        pageAction: 'Dispute Report Details for #COVER on #NETWORK marketplace'
       })
     },
     revalidate: 10 // In seconds

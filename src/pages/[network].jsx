@@ -15,7 +15,10 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       networkId: slugToNetworkId[params.network],
-      title: getTitle({ networkId: slugToNetworkId[params.network] })
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Neptune Mutual #NETWORK marketplace'
+      })
     }
   }
 }

@@ -37,12 +37,13 @@ const getTitle = ({
 
   if (coverId || productId) {
     const name = getCoverOrProductName(coverId, productId, networkId)
-    title += `${name} / `
+    title = title.replace('#COVER', name)
   }
 
   const network = ShortNetworkNames[networkId]
+  title = title.replace('#NETWORK', network)
 
-  title += `${network} Cover Marketplace / Neptune Mutual Decentralized Insurance`
+  title += 'Neptune Mutual Decentralized Insurance'
 
   return title
 }
