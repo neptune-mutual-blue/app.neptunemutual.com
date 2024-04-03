@@ -230,7 +230,7 @@ const BondPage = () => {
             className='text-lg font-medium text-7398C0'
             title={DateLib.toLongDateFormat(unlockTimestamp, router.locale)}
           >
-            {fromNow(unlockTimestamp)}
+            {fromNow(unlockTimestamp, router.locale)}
           </p>
         </div>
 

@@ -304,7 +304,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
         <Trans>NEXT UNLOCK CYCLE</Trans>
       </h5>
       <div>
-        <span className='text-7398C0' title={fromNow(info.withdrawalOpen)}>
+        <span className='text-7398C0' title={fromNow(info.withdrawalOpen, router.locale)}>
           <strong>
             <Trans comment='Liquidity Withdrawal Period Open Date'>Open:</Trans>{' '}
           </strong>
@@ -312,7 +312,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
         </span>
       </div>
       <div>
-        <span className='text-7398C0' title={fromNow(info.withdrawalClose)}>
+        <span className='text-7398C0' title={fromNow(info.withdrawalClose, router.locale)}>
           <strong>
             <Trans comment='Liquidity Withdrawal Period Closing Date'>
               Close:
