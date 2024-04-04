@@ -51,7 +51,7 @@ function HeaderReport (props) {
         className='text-9B9B9B shrink-0'
         title={DateLib.toLongDateFormat(reportedAt, locale)}
       >
-        {reportedAt && fromNow(reportedAt)}
+        {reportedAt && fromNow(reportedAt, locale)}
       </span>
 
       {/* Link to ipfs */}

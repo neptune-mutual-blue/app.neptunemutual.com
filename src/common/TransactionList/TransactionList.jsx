@@ -225,7 +225,7 @@ function Notification ({
         <p className='mb-1 text-sm font-bold'>{title}</p>
         <p className='text-sm'>{description}</p>
         <p className='mt-2 text-xs leading-4 tracking-normal text-999BAB'>
-          {fromNow(timestamp / 1000)}
+          {fromNow(timestamp / 1000, locale)}
         </p>
       </div>
       <a

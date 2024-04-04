@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
@@ -27,16 +29,7 @@ import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
-const renderWhen = (row) => {
-  return (
-    <td
-      className='px-6 py-6'
-      title={DateLib.toLongDateFormat(row.transaction.timestamp)}
-    >
-      {fromNow(row.transaction.timestamp)}
-    </td>
-  )
-}
+const renderWhen = (row, locale) => { return <WhenRenderer row={row} locale={locale} /> }
 
 const renderDetails = (row) => { return <DetailsRenderer row={row} /> }
 
@@ -101,6 +94,8 @@ export const MyBondTxsTable = () => {
 
   const columns = getColumns(i18n, sorts, handleSort)
 
+  const router = useRouter()
+
   return (
     <>
       <TableWrapper>
@@ -115,6 +110,7 @@ export const MyBondTxsTable = () => {
                 isLoading={loading}
                 columns={columns}
                 data={sortedData}
+                extraData={router.locale}
               />
               )
             : (
@@ -137,6 +133,17 @@ export const MyBondTxsTable = () => {
         loading={loading}
       />
     </>
+  )
+}
+
+const WhenRenderer = ({ row, locale }) => {
+  return (
+    <td
+      className='px-6 py-6'
+      title={DateLib.toLongDateFormat(row.transaction.timestamp)}
+    >
+      {fromNow(row.transaction.timestamp, locale)}
+    </td>
   )
 }
 
