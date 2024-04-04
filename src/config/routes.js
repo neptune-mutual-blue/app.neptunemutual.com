@@ -1,3 +1,4 @@
+import { DEFAULT_NETWORK } from '@/src/config/constants'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { networkIdToSlug } from '@/src/config/networks'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
@@ -54,7 +55,7 @@ const getRoutePrefix = (networkId) => {
 
 /** @type {(networkId: any) => string} */
 const Home = (networkId) => {
-  return networkId === 1 || networkId === '1' ? '/' : getRoutePrefix(networkId) + '/'
+  return (Number(networkId) === DEFAULT_NETWORK) ? '/' : getRoutePrefix(networkId) + '/'
 }
 
 /** @type {(networkId: number) => string} */
