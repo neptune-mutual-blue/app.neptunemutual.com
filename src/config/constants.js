@@ -154,3 +154,5 @@ export const getSushiswapLink = (usdc, address, networkId) => { return `https://
 export const LIQUIDITY_POINTS_PER_DOLLAR = 0.0375
 
 export const POLICY_POINTS_PER_DOLLAR = 0.00625
+
+export const DEFAULT_NETWORK = 42161
