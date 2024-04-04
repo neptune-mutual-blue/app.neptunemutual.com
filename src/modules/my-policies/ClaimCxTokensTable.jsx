@@ -156,7 +156,7 @@ export const ClaimBeforeColumnRenderer = () => {
         className='text-sm leading-5 text-left whitespace-nowrap w-max text-01052D'
         title={DateLib.toLongDateFormat(claimExpiryDate, locale)}
       >
-        {fromNow(claimExpiryDate)}
+        {fromNow(claimExpiryDate, locale)}
       </span>
     </td>
   )

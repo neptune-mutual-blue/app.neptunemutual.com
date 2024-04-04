@@ -46,7 +46,7 @@ const EscrowSummary = ({ veNPMBalance, veNPMTokenSymbol, unlockTimestamp, classN
           <span className='font-semibold' title={formattedVeNPMBalance.long}>{formattedVeNPMBalance.short}</span>
         </div>
         <div className='flex justify-between text-sm'>
-          <span>Your Unlock Timestamp:</span> <span className='font-semibold' title={formattedUnlockDate}>{unlockTimestamp !== '0' ? fromNow(unlockTimestamp) : 'N/A'}</span>
+          <span>Your Unlock Timestamp:</span> <span className='font-semibold' title={formattedUnlockDate}>{unlockTimestamp !== '0' ? fromNow(unlockTimestamp, locale) : 'N/A'}</span>
         </div>
         <div className='flex justify-between text-sm'>
           <span>Premature Unlock Penalty:</span> <span className='font-semibold'>{formatPercent(PREMATURE_UNLOCK_PENALTY_FRACTION)}</span>

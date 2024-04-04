@@ -236,7 +236,7 @@ export const ActiveReportingCard = ({
             className='flex-1 text-right'
             title={DateLib.toLongDateFormat(incidentDate, locale)}
           >
-            {fromNow(incidentDate)}
+            {fromNow(incidentDate, locale)}
           </div>
         </InfoTooltip>
       </div>

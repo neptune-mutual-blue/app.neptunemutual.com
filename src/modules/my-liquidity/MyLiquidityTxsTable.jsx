@@ -144,7 +144,7 @@ const WhenRenderer = ({ row }) => {
       className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.transaction.timestamp, locale)}
     >
-      {fromNow(row.transaction.timestamp)}
+      {fromNow(row.transaction.timestamp, locale)}
     </td>
   )
 }

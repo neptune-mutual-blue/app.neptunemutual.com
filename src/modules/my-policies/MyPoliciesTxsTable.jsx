@@ -154,7 +154,7 @@ const WhenRenderer = ({ row }) => {
       title={DateLib.toLongDateFormat(row.transaction.timestamp, locale)}
       data-testid='timestamp-col'
     >
-      {fromNow(row.transaction.timestamp)}
+      {fromNow(row.transaction.timestamp, locale)}
     </td>
   )
 }

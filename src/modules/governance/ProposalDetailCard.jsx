@@ -89,7 +89,7 @@ export const ProposalDetailCard = ({
               className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none'
               positionOffset={0}
             >
-              <p>{fromNow(start)}</p>
+              <p>{fromNow(start, locale)}</p>
             </InfoTooltip>
           </div>
 
@@ -102,7 +102,7 @@ export const ProposalDetailCard = ({
               className='text-xs px-2 py-1.5 bg-opacity-100 max-w-none'
               positionOffset={0}
             >
-              <p>{fromNow(end)}</p>
+              <p>{fromNow(end, locale)}</p>
             </InfoTooltip>
           </div>
         </div>
