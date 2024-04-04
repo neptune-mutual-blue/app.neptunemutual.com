@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/router'
 
 import { ComingSoon } from '@/common/ComingSoon'
 import { NoDataFound } from '@/common/Loading'
@@ -8,12 +7,12 @@ import {
   ReportDetailsSkeleton
 } from '@/modules/reporting/ReportDetailsSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
+import { getTitle } from '@/src/ssg/seo'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useNetwork } from '@/src/context/Network'
-import { slugToNetworkId } from '@/src/config/networks'
 
 export async function getStaticPaths () {
   return { paths: [], fallback: 'blocking' }
@@ -32,17 +31,20 @@ export async function getStaticProps ({ params }) {
     props: {
       networkId,
       coverId: params.coverId,
-      timestamp: params.timestamp
+      timestamp: params.timestamp,
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        coverId: params.coverId,
+        productId: params.productId,
+        pageAction: 'Incident Report Details for #COVER on #NETWORK marketplace'
+      })
     },
     revalidate: 10 // In seconds
   }
 }
 
-export default function IncidentResolvedCoverPage () {
-  const { networkId } = useNetwork()
+export default function IncidentResolvedCoverPage ({ networkId, coverId, productId, timestamp, title }) {
   const disabled = !isFeatureEnabled('reporting', networkId)
-  const router = useRouter()
-  const { coverId, productId, timestamp } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
@@ -58,7 +60,7 @@ export default function IncidentResolvedCoverPage () {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <Content
         coverKey={coverKey}

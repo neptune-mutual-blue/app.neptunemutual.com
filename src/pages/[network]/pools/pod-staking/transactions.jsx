@@ -5,13 +5,12 @@ import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
-import { Routes } from '@/src/config/routes'
-import { Trans } from '@lingui/macro'
-
 // import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
-
 import { slugToNetworkId } from '@/src/config/networks'
+import { Routes } from '@/src/config/routes'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
+import { Trans } from '@lingui/macro'
 
 export const getStaticPaths = async () => {
   return {
@@ -23,12 +22,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Pod Staking Transactions on #NETWORK marketplace'
+      })
     }
   }
 }
 
-export default function MyPodStakingTxs ({ networkId }) {
+export default function MyPodStakingTxs ({ networkId, title }) {
   const disabled = !isFeatureEnabled('pod-staking-pool', networkId)
   if (disabled) {
     return <ComingSoon />
@@ -36,7 +39,7 @@ export default function MyPodStakingTxs ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <Hero>
         <Container className='px-2 pt-5 pb-20 md:py-20'>

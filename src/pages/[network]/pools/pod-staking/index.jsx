@@ -1,11 +1,11 @@
 import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PodStakingPage } from '@/src/modules/pools/pod-staking'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
-
-import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
@@ -18,12 +18,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Pod Staking on #NETWORK marketplace'
+      })
     }
   }
 }
 
-export default function PodStaking ({ networkId }) {
+export default function PodStaking ({ networkId, title }) {
   const disabled = !isFeatureEnabled('pod-staking-pool', networkId)
   if (disabled) {
     return <ComingSoon />
@@ -31,7 +35,7 @@ export default function PodStaking ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
       <PoolsTabs active='pod-staking'>
         <SortableStatsProvider>
           <PodStakingPage />

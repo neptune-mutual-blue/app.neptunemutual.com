@@ -9,6 +9,7 @@ import {
   PoliciesActivePage
 } from '@/src/modules/my-policies/active/PoliciesActivePage'
 import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -25,12 +26,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'My Active Policies on #NETWORK marketplace'
+      })
     }
   }
 }
 
-export default function MyPoliciesActive ({ networkId }) {
+export default function MyPoliciesActive ({ networkId, title }) {
   const disabled = !isFeatureEnabled('policy', networkId)
   const {
     data: { totalActiveProtection, activePolicies },
@@ -55,7 +60,7 @@ export default function MyPoliciesActive ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
       <PoliciesTabs
         active='active'
         heroStatTitle={t(i18n)`Total Active Protection`}

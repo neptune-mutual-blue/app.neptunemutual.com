@@ -2,8 +2,9 @@ import { useRouter } from 'next/router'
 
 import { ClaimDetailsPage } from '@/modules/my-policies/ClaimDetailsPage'
 import { isFeatureEnabled } from '@/src/config/environment'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useNetwork } from '@/src/context/Network'
+import { getTitle } from '@/src/ssg/seo'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 export default function ClaimPolicyDiversifiedProduct () {
   const { networkId } = useNetwork()
@@ -13,12 +14,20 @@ export default function ClaimPolicyDiversifiedProduct () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
+  const title = getTitle({
+    coverId,
+    productId,
+    networkId,
+    pageAction: 'Claim Policy on #COVER on #NETWORK marketplace'
+  })
+
   return (
     <ClaimDetailsPage
       disabled={disabled}
       coverKey={coverKey}
       productKey={productKey}
       timestamp={timestamp}
+      title={title}
     />
   )
 }

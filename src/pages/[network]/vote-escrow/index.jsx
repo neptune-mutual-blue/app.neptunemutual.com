@@ -6,10 +6,10 @@ import { Loading } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
 import VoteEscrow from '@/modules/vote-escrow/VoteEscrow'
 import { isFeatureEnabled } from '@/src/config/environment'
-
-import { slugToNetworkId } from '@/src/config/networks'
-import { getNetworks } from '@/src/ssg/static-paths'
 import { ChainConfig } from '@/src/config/hardcoded'
+import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
+import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
   return {
@@ -21,12 +21,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Vote Escrow on #NETWORK marketplace'
+      })
     }
   }
 }
 
-export default function VoteEscrowPage ({ networkId }) {
+export default function VoteEscrowPage ({ networkId, title }) {
   const disabled = !isFeatureEnabled('vote-escrow', networkId)
 
   if (disabled) {
@@ -39,7 +43,7 @@ export default function VoteEscrowPage ({ networkId }) {
 
   return (
     <main className='pt-16 pb-36' id='vote-escrow-page'>
-      <Seo />
+      <Seo title={title} />
       <Container>
         <VoteEscrow networkId={networkId} />
       </Container>

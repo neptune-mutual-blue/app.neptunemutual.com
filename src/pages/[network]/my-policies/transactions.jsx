@@ -5,14 +5,14 @@ import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { Seo } from '@/common/Seo'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { slugToNetworkId } from '@/src/config/networks'
 import { Routes } from '@/src/config/routes'
 import {
   MyPoliciesTxsTable
 } from '@/src/modules/my-policies/MyPoliciesTxsTable'
-import { Trans } from '@lingui/macro'
-
-import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
+import { Trans } from '@lingui/macro'
 
 export const getStaticPaths = async () => {
   return {
@@ -24,12 +24,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'My Policies Transactions on #NETWORK marketplace'
+      })
     }
   }
 }
 
-export default function MyPoliciesTxs ({ networkId }) {
+export default function MyPoliciesTxs ({ networkId, title }) {
   const disabled = !isFeatureEnabled('policy', networkId)
 
   if (disabled) {
@@ -38,7 +42,7 @@ export default function MyPoliciesTxs ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <Hero>
         <Container className='px-2 pt-5 pb-20 md:py-20'>

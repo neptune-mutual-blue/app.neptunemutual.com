@@ -4,6 +4,7 @@ import { Seo } from '@/common/Seo'
 import { BridgeModule } from '@/modules/bridge/BridgeModule'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 import { getNetworks } from '@/src/ssg/static-paths'
 
 export const getStaticPaths = async () => {
@@ -16,12 +17,16 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   return {
     props: {
-      networkId: slugToNetworkId[params.network]
+      networkId: slugToNetworkId[params.network],
+      title: getTitle({
+        networkId: slugToNetworkId[params.network],
+        pageAction: 'Bridge NPM on #NETWORK marketplace'
+      })
     }
   }
 }
 
-export default function BridgeIndexPage ({ networkId }) {
+export default function BridgeIndexPage ({ networkId, title }) {
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer', networkId)
   const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero', networkId)
 
@@ -35,7 +40,7 @@ export default function BridgeIndexPage ({ networkId }) {
 
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <BridgeModule />
     </main>

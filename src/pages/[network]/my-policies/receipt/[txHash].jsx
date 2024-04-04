@@ -1,9 +1,9 @@
-
 import { Seo } from '@/common/Seo'
 import {
   PurchasePolicyReceipt
 } from '@/modules/my-policies/PurchasePolicyReceipt'
 import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 
 export async function getStaticPaths () {
   return { paths: [], fallback: 'blocking' }
@@ -21,16 +21,20 @@ export async function getStaticProps ({ params }) {
   return {
     props: {
       networkId,
-      txHash: params.txHash
+      txHash: params.txHash,
+      title: getTitle({
+        networkId,
+        pageAction: 'Policy Receipt on #NETWORK marketplace'
+      })
     },
     revalidate: 10 // In seconds
   }
 }
 
-export default function PurchasePolicyReceiptPage ({ txHash }) {
+export default function PurchasePolicyReceiptPage ({ txHash, title }) {
   return (
     <main>
-      <Seo />
+      <Seo title={title} />
 
       <PurchasePolicyReceipt txHash={txHash} />
     </main>

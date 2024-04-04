@@ -5,6 +5,7 @@ import { Seo } from '@/common/Seo'
 import ProposalSkeleton from '@/modules/governance/ProposalSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { slugToNetworkId } from '@/src/config/networks'
+import { getTitle } from '@/src/ssg/seo'
 
 const DynamicGovernanceSinglePage = dynamic(() => { return import('@/modules/governance').then((mod) => { return mod.GovernanceSinglePage }) }, {
   loading: () => { return <ProposalSkeleton /> }
@@ -26,13 +27,17 @@ export async function getStaticProps ({ params }) {
   return {
     props: {
       networkId,
-      proposalId: params.proposalId
+      proposalId: params.proposalId,
+      title: getTitle({
+        networkId,
+        pageAction: 'Proposal Details on #NETWORK marketplace'
+      })
     },
     revalidate: 10 // In seconds
   }
 }
 
-export default function ProposalDetails ({ networkId, proposalId }) {
+export default function ProposalDetails ({ networkId, proposalId, title }) {
   const disabled = !isFeatureEnabled('governance', networkId)
 
   if (disabled) {
@@ -41,7 +46,7 @@ export default function ProposalDetails ({ networkId, proposalId }) {
 
   return (
     <main className='pt-5 pb-32 md:pt-18'>
-      <Seo />
+      <Seo title={title} />
       <DynamicGovernanceSinglePage proposalId={proposalId} />
     </main>
   )
