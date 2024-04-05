@@ -31,6 +31,10 @@ const getTitle = ({
 }) => {
   let title = ''
 
+  if (!networkId) {
+    return pageAction + ' / Neptune Mutual Decentralized Insurance'
+  }
+
   if (pageAction) {
     title += `${pageAction} / `
   }
