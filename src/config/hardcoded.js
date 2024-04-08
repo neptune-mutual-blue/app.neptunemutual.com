@@ -60,11 +60,11 @@ export const ChainConfig = {
       tokenDecimals: 6
     },
     veNPM: {
-      address: '',
+      address: '0x7C0A47f9e4C91003081350aeaC9170510C754EF1',
       tokenSymbol: 'veNPM',
       tokenDecimals: 18
     },
-    gaugeControllerRegistry: '',
+    gaugeControllerRegistry: '0x7a1cbA47C2f701c646a5FB417ac97BD6a1F78cf9',
     cxTokenDecimals: 18,
     vaultTokenDecimals: 18
   },

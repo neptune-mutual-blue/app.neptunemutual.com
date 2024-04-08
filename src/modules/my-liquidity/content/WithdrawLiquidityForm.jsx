@@ -258,7 +258,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         <div>
           <span
             className='text-7398C0'
-            title={fromNow(withdrawalOpen)}
+            title={fromNow(withdrawalOpen, router.locale)}
             data-testid='open-date'
           >
             <strong>
@@ -273,7 +273,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         <div>
           <span
             className='text-7398C0'
-            title={fromNow(withdrawalClose)}
+            title={fromNow(withdrawalClose, router.locale)}
             data-testid='close-date'
           >
             <strong>

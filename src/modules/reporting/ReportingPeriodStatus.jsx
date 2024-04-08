@@ -1,9 +1,10 @@
-import DateLib from '@/lib/date/DateLib'
-import { Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
-import * as Tooltip from '@radix-ui/react-tooltip'
+
+import DateLib from '@/lib/date/DateLib'
 import InfoIcon from '@/lib/toast/components/icons/InfoIcon'
 import { fromNow } from '@/utils/formatter/relative-time'
+import { Trans } from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
   const router = useRouter()
@@ -19,7 +20,7 @@ export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
 
   return (
     <div className='flex items-center mb-2'>
-      <p className='text-sm font-bold'>{fromNow(endDate)}</p>
+      <p className='text-sm font-bold'>{fromNow(endDate, router.locale)}</p>
       <Tooltip.Root>
         <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
           <InfoIcon className='w-4 h-4 text-999BAB' aria-hidden='true' />

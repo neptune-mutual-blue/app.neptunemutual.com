@@ -45,7 +45,7 @@ export const PolicyCardFooter = ({
         claimExpiresAt,
         router.locale
       ),
-      value: fromNow(claimExpiresAt),
+      value: fromNow(claimExpiresAt, router.locale),
       variant: 'error'
     })
   } else if (beforeResolutionDeadline) {
@@ -55,19 +55,19 @@ export const PolicyCardFooter = ({
         claimBeginsFrom,
         router.locale
       ),
-      value: fromNow(claimBeginsFrom)
+      value: fromNow(claimBeginsFrom, router.locale)
     })
   } else if (isPolicyExpired) {
     stats.push({
       title: t(i18n)`Expired On`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
-      value: fromNow(validityEndsAt)
+      value: fromNow(validityEndsAt, router.locale)
     })
   } else {
     stats.push({
       title: t(i18n)`Expires In`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
-      value: fromNow(validityEndsAt)
+      value: fromNow(validityEndsAt, router.locale)
     })
   }
 

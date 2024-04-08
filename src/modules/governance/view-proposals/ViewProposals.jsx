@@ -77,7 +77,7 @@ export const ViewProposals = () => {
           <KeyVal
             heading='Unlock At:'
             className='mt-8'
-            value={fromNow(data.unlockTimestamp)}
+            value={fromNow(data.unlockTimestamp, router.locale)}
             title={DateLib.toLongDateFormat(data.unlockTimestamp, router.locale)}
           />
         </div>

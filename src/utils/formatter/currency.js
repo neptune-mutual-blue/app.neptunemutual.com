@@ -1,69 +1,29 @@
-const asCurrency = (sign, number, symbol, locale, currency, token = false) => {
-  if (token) {
-    if (number < 0.00000001) {
-      return 'A fraction of ' + currency
-    }
-
-    if (parseFloat(number) < 0.01) {
-      number = number.toFixed(8)
-    }
-
-    return `${sign}${number.toLocaleString(locale)}${symbol} ${currency}`
-  }
-
-  const formatter = new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    maximumFractionDigits: parseFloat(number) < 1 ? 8 : 2
-  })
-
-  return `${sign}${formatter.format(number)}${symbol}`
-}
+import { toBN } from '@/utils/bn'
 
 export const formatCurrency = (
-  input,
+  amount,
   locale = 'en',
   currency = 'USD',
-  token = false,
-  alwaysShort = false
+  token = false
 ) => {
-  const number = parseFloat(Math.abs(input).toString())
+  const minimumFractionDigits = 0
+  let maximumFractionDigits = 2
+  const style = 'currency'
+  const notation = 'compact'
 
-  if (!number) {
-    return { short: 'N/A', long: 'Not available' }
+  if (toBN(amount).isLessThanOrEqualTo(1)) {
+    maximumFractionDigits = 8
   }
 
-  const sign = input < 0 ? '-' : ''
-
-  let result = number
-  let symbol = ''
-
-  if (number > 1e4 && number < 1e5) {
-    result = parseFloat(number.toFixed(2))
-  }
-
-  if (((alwaysShort && number >= 1e3) || (!alwaysShort && number >= 1e5)) && number < 1e6) {
-    symbol = 'K'
-    result = +(number / 1e3).toFixed(2)
-  }
-
-  if (number >= 1e6 && number < 1e9) {
-    symbol = 'M'
-    result = +(number / 1e6).toFixed(2)
-  }
-
-  if (number >= 1e9 && number < 1e12) {
-    symbol = 'B'
-    result = +(number / 1e9).toFixed(2)
-  }
-
-  if (number >= 1e12) {
-    symbol = 'T'
-    result = +(number / 1e12).toFixed(2)
+  if (token) {
+    return {
+      short: Intl.NumberFormat(locale, { notation, minimumFractionDigits, maximumFractionDigits }).format(amount) + ' ' + currency,
+      long: Intl.NumberFormat(locale, { minimumFractionDigits, maximumFractionDigits }).format(amount) + ' ' + currency
+    }
   }
 
   return {
-    short: asCurrency(sign, result, symbol, locale, currency, token),
-    long: asCurrency(sign, number, '', locale, currency, token)
+    short: Intl.NumberFormat(locale, { style, currency, notation, minimumFractionDigits, maximumFractionDigits }).format(amount),
+    long: Intl.NumberFormat(locale, { style, currency, minimumFractionDigits, maximumFractionDigits }).format(amount)
   }
 }

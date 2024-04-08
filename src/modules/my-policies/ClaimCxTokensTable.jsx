@@ -157,7 +157,7 @@ export const ClaimBeforeColumnRenderer = () => {
         className='text-sm leading-5 text-left whitespace-nowrap w-max text-01052D'
         title={DateLib.toLongDateFormat(claimExpiryDate, router.locale)}
       >
-        {fromNow(claimExpiryDate)}
+        {fromNow(claimExpiryDate, router.locale)}
       </span>
     </td>
   )

@@ -39,7 +39,7 @@ const WhenRenderer = ({ row }) => {
       className='px-6 py-6'
       title={DateLib.toLongDateFormat(row.createdAtTimestamp, router.locale)}
     >
-      {fromNow(row.createdAtTimestamp)}
+      {fromNow(row.createdAtTimestamp, router.locale)}
     </td>
   )
 }

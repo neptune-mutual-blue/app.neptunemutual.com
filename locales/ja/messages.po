@@ -1,25 +1,27 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-12 12:55+0530\n"
+"PO-Revision-Date: 2024-03-01 15:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: PO File Editor https://pofile.net/free-po-editor\n"
-"Language: ja\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"PO-Revision-Date: 2022-12-27 11:20+0800\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"X-Loco-Source-Locale: en_HK\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Parser: loco_parse_po"\n"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:11
 msgid "{coverName} Cover Terms"
-msgstr ""
+msgstr "{coverName} カバー条件"
 
 #: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:77
 msgid "{lockupPeriodInBlocks} Blocks"
-msgstr ""
+msgstr "{lockupPeriodInBlocks}ブローク"
 
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:19
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:31
@@ -48,18 +50,16 @@ msgstr "同意する"
 #: src/modules/insights/TopAccountsByLiquidity.jsx:81
 #: src/modules/insights/TopAccountsByProtection.jsx:81
 msgid "account"
-msgstr ""
+msgstr "アカウント"
 
 #: src/common/Header/AccountDetailsModal.jsx:51
-#: src/modules/governance/AccountDetail.jsx:60
+#: src/modules/governance/AccountDetail.jsx:61
 #: src/modules/reporting/RecentVotesTable.jsx:64
 msgid "Account"
 msgstr "アカウント"
 
-#: src/common/Header/Header.jsx:212
-#: src/common/Header/Header.jsx:214
-#: src/common/Header/Header.jsx:388
-#: src/common/Header/Header.jsx:391
+#: src/common/Header/Header.jsx:203
+#: src/common/Header/Header.jsx:205
 msgid "account details"
 msgstr "アカウントの詳細状況"
 
@@ -77,7 +77,7 @@ msgstr "経過利子生成中"
 
 #: src/modules/governance/proposals-table/ProposalsTable.jsx:75
 msgid "Actions"
-msgstr ""
+msgstr "行動"
 
 #: src/modules/my-policies/PoliciesTabs.jsx:13
 #: src/modules/reporting/ReportingTabs.jsx:12
@@ -98,7 +98,7 @@ msgstr "新しいURLの追加"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:193
 msgid "Added {tokenAmountWithSymbol} to {projectName} Cover"
-msgstr ""
+msgstr "{tokenAmountWithSymbol} を {projectName} のカバーに追加しました"
 
 #: src/hooks/useProvideLiquidity.jsx:373
 msgid "Added Liquidity Successfully"
@@ -106,7 +106,7 @@ msgstr "流動性が追加されました"
 
 #: src/common/LiquidityForms/SuccessModal.jsx:39
 msgid "Added Liquidity Successfully!"
-msgstr ""
+msgstr "流動性の追加に成功しました!"
 
 #: src/hooks/useProvideLiquidity.jsx:372
 msgid "Adding Liquidity"
@@ -119,7 +119,7 @@ msgstr "全て"
 
 #: src/modules/my-liquidity/content/rules.jsx:73
 msgid "All rules of individual \"{projectName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
-msgstr ""
+msgstr "個々の「{projectName}」商品のすべてのルールがこのプールに適用されます。商品のトリガーイベントが解決された場合、このプールの流動性が保障金の支払いに使用されます。"
 
 #: src/pages/transactions.jsx:29
 msgid "All Transaction History"
@@ -144,7 +144,7 @@ msgstr "ステークしたい金額"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:74
 msgid "Amount you wish to withdraw"
-msgstr "撤回したい金額"
+msgstr "引き出したい金額"
 
 #: src/common/Cover/CoverCard.jsx:95
 #: src/common/Cover/ProductCard.jsx:92
@@ -152,7 +152,7 @@ msgstr "撤回したい金額"
 msgid "Annual Cover fee:"
 msgstr "年間保障料金："
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:162
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:164
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:347
 #: src/modules/bridge/CommonBridgeActions.jsx:44
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
@@ -167,29 +167,29 @@ msgstr "年間保障料金："
 msgid "Approve"
 msgstr "承認"
 
-#: src/modules/governance/AccountDetail.jsx:123
+#: src/modules/governance/AccountDetail.jsx:124
 msgid "Approve {depositTokenSymbol}"
-msgstr ""
+msgstr "{depositTokenSymbol} を承認する"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:371
 msgid "Approve {NPMTokenSymbol}"
-msgstr ""
+msgstr "{NPMTokenSymbol} を承認する"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:371
 msgid "Approve Stake"
-msgstr ""
+msgstr "ステークをを承認する"
 
 #: src/modules/vote-escrow/UnlockEscrow.jsx:102
 msgid "Approve VeNPM"
-msgstr ""
+msgstr "VeNPM を承認する"
 
 #: src/helpers/notification.js:716
 msgid "Approved {symbol} Successfully"
-msgstr ""
+msgstr "{symbol} が正常に承認されました"
 
 #: src/helpers/notification.js:755
 msgid "Approved {tokenSymbol} successfully"
-msgstr ""
+msgstr "{tokenSymbol} が正常に承認されました"
 
 #: src/helpers/notification.js:145
 #: src/helpers/notification.js:221
@@ -208,7 +208,7 @@ msgstr "{tokenSymbol} の承認に成功しました"
 
 #: src/helpers/notification.js:729
 msgid "Approving {symbol} tokens"
-msgstr ""
+msgstr "{symbol} トークンを承認しています"
 
 #: src/helpers/notification.js:158
 #: src/helpers/notification.js:345
@@ -220,7 +220,7 @@ msgstr "{tokenSymbol} を承認中"
 
 #: src/helpers/notification.js:767
 msgid "Approving {tokenSymbol} token"
-msgstr ""
+msgstr "{tokenSymbol} トークンを承認しています"
 
 #: src/helpers/notification.js:234
 #: src/helpers/notification.js:269
@@ -234,17 +234,17 @@ msgstr "{tokenSymbol} トークンを承認中"
 
 #: src/helpers/notification.js:50
 msgid "Approving NPM"
-msgstr ""
+msgstr "NPMを承認しています"
 
 #: src/helpers/notification.js:33
 msgid "Approving veNPM for unlock"
-msgstr ""
+msgstr "veNPM のロック解除を承認しています"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:158
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:160
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:343
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:367
 #: src/modules/bridge/CommonBridgeActions.jsx:40
-#: src/modules/governance/AccountDetail.jsx:121
+#: src/modules/governance/AccountDetail.jsx:122
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:325
 #: src/modules/my-policies/ClaimCoverModal.jsx:191
 #: src/modules/pools/bond/index.jsx:250
@@ -264,7 +264,7 @@ msgid "APR"
 msgstr "年換算利回り"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:190
-#: src/modules/pools/staking/StakingCard.jsx:200
+#: src/modules/pools/staking/StakingCard.jsx:202
 msgid "APR: {0}"
 msgstr "年換算利回り: {0}"
 
@@ -275,7 +275,7 @@ msgstr "日時：{effectiveDate}"
 
 #: src/modules/insights/Consensus.jsx:158
 msgid "attested"
-msgstr ""
+msgstr "証明された"
 
 #: src/helpers/notification.js:643
 msgid "Attested successfully"
@@ -291,20 +291,22 @@ msgstr "利用可能の"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:125
 msgid "Available cxTokens for {projectOrProductName} to Claim"
-msgstr ""
+msgstr "{projectOrProductName} における請求可能のcxToken"
 
 #: src/utils/calculate-boost.jsx:53
 msgid "Average Boost"
 msgstr ""
+"\n"
+"平均ブースト"
 
 #: src/common/BackButton/BackButton.jsx:16
 #: src/common/ProductsGrid/ProductsGrid.jsx:139
 msgid "Back"
 msgstr "戻る"
 
-#: src/modules/governance/AccountDetail.jsx:80
+#: src/modules/governance/AccountDetail.jsx:81
 msgid "Balance"
-msgstr ""
+msgstr "残高"
 
 #: src/common/TokenBalance.jsx:75
 msgid "Balance:"
@@ -312,7 +314,7 @@ msgstr "残高:"
 
 #: src/modules/my-liquidity/content/rules.jsx:58
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{projectName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
-msgstr ""
+msgstr "このプールに流動性を提供したり、カバーを購入したりする前に、すべての商品パラメータを徹底的に評価してください。引受資本は、個々の商品をカバーする「{projectName}」プールに集中しています。綜合型カバープールは LP にはるかに高いリターンをもたらす一方、専用カバープールよりもリスクが高くなります。"
 
 #: src/modules/pools/bond/index.jsx:275
 #: src/modules/pools/PoolsTabs.jsx:24
@@ -322,7 +324,7 @@ msgstr "ボンド"
 
 #: src/modules/pools/PoolsTabs.jsx:47
 msgid "Bond and Liquidity Gauge"
-msgstr ""
+msgstr "ボンド及び流動性ゲージ"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:53
 msgid "Bond Info"
@@ -339,13 +341,13 @@ msgstr "ボンド発行中。。。"
 #: src/common/Header/getNavigationLinks.jsx:62
 #: src/modules/bridge/CommonBridgeActions.jsx:27
 msgid "Bridge"
-msgstr ""
+msgstr "ブリッジ"
 
 #: src/modules/insights/CalculatorCard.jsx:176
 #: src/modules/insights/CalculatorCard.jsx:179
 #: src/modules/insights/CalculatorCard.jsx:180
 msgid "Calculate policy fee"
-msgstr ""
+msgstr "カバー料金を計算する"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:221
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:158
@@ -353,7 +355,7 @@ msgstr ""
 msgid "Calculating tokens..."
 msgstr "トークンを計算中..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:444
+#: src/common/CoverForm/PurchasePolicyForm.jsx:445
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -372,7 +374,7 @@ msgstr "最小限のステーキング金額を下回ることはできません
 
 #: src/common/CoverForm/AbnormalStatus.jsx:53
 msgid "Cannot purchase policy, since the cover is under {statusLink}"
-msgstr ""
+msgstr "カバーが {statusLink} であるため、購入できません"
 
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:56
 msgid "Cannot purchase policy, since the cover status is {statusLink}"
@@ -408,10 +410,10 @@ msgstr "資本化中。。。"
 msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
 msgstr "以下の利用規約をよくお読みください。給付の請求を完成するには、以下のすべての点に該当する必要があります。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:295
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:308
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:87
 msgid "Cashback Code"
-msgstr ""
+msgstr "キャッシュバックコード"
 
 #: src/modules/reporting/active/CastYourVote.jsx:133
 msgid "Cast Your Vote"
@@ -453,7 +455,7 @@ msgstr "今すぐ請求"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:128
 msgid "Claim your {projectOrProductName} cover cxTokens from the following addresses before the given claim date. Also indicated is the amount of cxTokens you will receive per claim."
-msgstr ""
+msgstr "指定された請求日までに、次のアドレスから {projectOrProductName} のカバー cxToken を請求してください。請求ごとに受け取る cxToken の量も示されています。"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:197
 msgid "Claimed {tokenAmountWithSymbol} {projectOrProductName} policy"
@@ -500,7 +502,7 @@ msgstr ""
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:227
 #: src/modules/pools/staking/HarvestForm.jsx:85
-#: src/modules/pools/staking/StakingCard.jsx:239
+#: src/modules/pools/staking/StakingCard.jsx:241
 msgid "Collect"
 msgstr "収集"
 
@@ -514,16 +516,15 @@ msgstr "近日公開！"
 
 #: src/modules/governance/ProposalDetailCard.jsx:42
 msgid "Complete"
-msgstr ""
+msgstr "完成"
 
 #: src/modules/bridge/CommonBridgeActions.jsx:23
 msgid "Confirming..."
-msgstr ""
+msgstr "確認中..."
 
 #: lib/connect-wallet/components/ConnectWallet/Popup.jsx:47
-#: src/common/Header/Header.jsx:202
-#: src/common/Header/Header.jsx:204
-#: src/common/Header/Header.jsx:377
+#: src/common/Header/Header.jsx:193
+#: src/common/Header/Header.jsx:195
 #: src/i18n/__tests__/i18.failed.test.jsx:20
 #: src/i18n/__tests__/i18.success.test.jsx:16
 msgid "Connect wallet"
@@ -557,7 +558,7 @@ msgid "Could not approve {liquidityTokenSymbol}"
 msgstr "{liquidityTokenSymbol}を承認できませんでした"
 
 #: src/hooks/useProvideLiquidity.jsx:205
-#: src/modules/governance/useSetGauge.jsx:72
+#: src/modules/governance/useSetGauge.jsx:74
 msgid "Could not approve {NPMTokenSymbol}"
 msgstr "{NPMTokenSymbol}を承認できませんでした"
 
@@ -569,11 +570,11 @@ msgstr "{NPMTokenSymbol}トークンを承認できませんでした"
 
 #: src/hooks/useLiquidityGaugePoolDeposit.jsx:68
 msgid "Could not approve {stakingTokenSymbol}"
-msgstr ""
+msgstr " {stakingTokenSymbol} を承認できませんでした"
 
 #: src/helpers/notification.js:723
 msgid "Could not approve {symbol} tokens"
-msgstr ""
+msgstr "{symbol}トークンを承認できませんでした"
 
 #: src/helpers/notification.js:152
 #: src/helpers/notification.js:339
@@ -606,11 +607,11 @@ msgstr "LP トークンを承認できませんでした"
 
 #: src/helpers/notification.js:45
 msgid "Could not approve NPM"
-msgstr ""
+msgstr "NPMを承認できませんでした"
 
 #: src/helpers/notification.js:28
 msgid "Could not approve veNPM"
-msgstr ""
+msgstr "veNPMを承認できませんでした"
 
 #: src/helpers/notification.js:650
 #: src/hooks/useVote.jsx:152
@@ -661,14 +662,14 @@ msgstr "インシデントの緊急決議をできませんでした"
 
 #: src/helpers/notification.js:79
 msgid "Could not extend lock period"
-msgstr ""
+msgstr "ロック期間を延長できませんでした"
 
 #: src/helpers/notification.js:547
 #: src/hooks/useFinalizeIncident.jsx:47
 msgid "Could not finalize incident"
 msgstr "インシデントを最終決定できませんでした"
 
-#: src/hooks/useERC20Allowance.jsx:110
+#: src/hooks/useERC20Allowance.jsx:112
 msgid "Could not get allowance"
 msgstr "手当を取得できませんでした"
 
@@ -682,11 +683,11 @@ msgstr "料金を取得できませんでした"
 
 #: src/hooks/useLiquidityGaugePoolTxs.jsx:39
 msgid "Could not get liquidity gauge pool transactions list"
-msgstr ""
+msgstr "流動性ゲージプールの取引リストを取得できませんでした"
 
 #: src/hooks/useLiquidityGaugePools.jsx:29
 msgid "Could not get liquidity gauge pools"
-msgstr ""
+msgstr "流動性ゲージプールを取得できませんでした"
 
 #: src/hooks/usePoolInfo.jsx:51
 msgid "Could not get pool info"
@@ -702,19 +703,19 @@ msgstr "金庫の情報を取得できませんでした"
 
 #: src/modules/vote-escrow/useVoteEscrowStats.jsx:33
 msgid "Could not get vote-escrow stats"
-msgstr ""
+msgstr "投票エスクロー統計を取得できませんでした"
 
 #: src/hooks/useLiquidityGaugePoolDeposit.jsx:153
 msgid "Could not lock {stakingTokenSymbol}"
-msgstr ""
+msgstr "{stakingTokenSymbol}をロックできませんでした"
 
 #: src/helpers/notification.js:781
 msgid "Could not lock {tokenSymbol}"
-msgstr ""
+msgstr " {tokenSymbol}をロックできませんでした"
 
 #: src/helpers/notification.js:62
 msgid "Could not lock NPM"
-msgstr ""
+msgstr "NPMをロックできませんでした"
 
 #: src/helpers/notification.js:473
 msgid "Could not provide liquidity"
@@ -728,7 +729,7 @@ msgstr "ポリシーを購入できませんでした"
 
 #: src/helpers/notification.js:817
 msgid "Could not receive rewards"
-msgstr ""
+msgstr "報酬を受け取ることができませんでした"
 
 #: src/helpers/notification.js:667
 #: src/hooks/useVote.jsx:261
@@ -752,7 +753,7 @@ msgstr "インシデントを決議できませんでした"
 
 #: src/helpers/notification.js:743
 msgid "Could not set gauge"
-msgstr ""
+msgstr "ゲージを設定できませんでした"
 
 #: src/helpers/notification.js:173
 #: src/hooks/useStakingPoolDeposit.jsx:202
@@ -761,11 +762,11 @@ msgstr " {tokenSymbol}をステークできませんでした"
 
 #: src/helpers/notification.js:800
 msgid "Could not unlock {tokenSymbol}"
-msgstr ""
+msgstr "{tokenSymbol} のロックを解除できませんでした"
 
 #: src/helpers/notification.js:96
 msgid "Could not unlock NPM"
-msgstr ""
+msgstr "NPMのロックを解除できませんでした"
 
 #: src/hooks/useUnstakeReportingStake.jsx:56
 msgid "Could not unstake {NPMTokenSymbol}"
@@ -791,7 +792,7 @@ msgstr "{symbol}ステークを解除し回収することができませんで�
 #: src/helpers/notification.js:614
 #: src/hooks/useMyLiquidityInfo.jsx:218
 msgid "Could not update withdrawal period"
-msgstr ""
+msgstr "引き出し期間を更新できませんでした"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:90
 msgid "Could not withdraw during lockup period"
@@ -813,10 +814,12 @@ msgstr "カバー"
 #: src/modules/insights/InsightsQuickInfoTable.jsx:111
 msgid "Cover"
 msgstr ""
+"カバー\n"
+""
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:56
 msgid "Cover Expires On"
-msgstr ""
+msgstr "カバーの有効期限"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:46
 #: src/modules/home/Hero.jsx:128
@@ -825,9 +828,9 @@ msgstr "カバー料金"
 
 #: src/modules/insights/InsightsTVLTable.jsx:106
 msgid "Cover Fee Earned"
-msgstr ""
+msgstr "獲得したカバー料金"
 
-#: src/modules/home/AvailableCovers.jsx:194
+#: src/modules/home/AvailableCovers.jsx:196
 msgid "Cover Products"
 msgstr "カバー商品"
 
@@ -845,7 +848,7 @@ msgstr "カバーされた"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:57
 msgid "Coverage Period"
-msgstr ""
+msgstr "カバー期間"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:18
 #: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:78
@@ -860,9 +863,11 @@ msgstr "ボンドを発行しました"
 msgid "Creating bond"
 msgstr "ボンド発行中"
 
-#: src/modules/governance/AccountDetail.jsx:69
+#: src/modules/governance/AccountDetail.jsx:70
 msgid "Current Network"
 msgstr ""
+"\n"
+"現在のネットワーク"
 
 #: src/modules/reporting/ReportListing.jsx:104
 #: src/modules/reporting/resolved/resolved.jsx:208
@@ -933,7 +938,7 @@ msgstr "総合型資金プールは {0}倍のレバレッジ係数と{1}の資�
 
 #: src/common/Banner.jsx:61
 msgid "Don't have Arbitrum ETH? <0>Use Neptune Mutual on Ethereum</0> or <1>Bridge ETH and USDC to Arbitrum</1>"
-msgstr ""
+msgstr "Arbitrum ETH をお持ちでない場合は、 <0>イーサリアムで Neptune Mutual を使用する</0>  or  <1>ETH と USDC をArbitrumにブリッジする</1>"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:74
 msgid "Don't worry, you're not required to make a purchase just yet."
@@ -943,7 +948,7 @@ msgstr "ご心配なく。まだカバーを購入する必要がございませ
 msgid "Download LP Cover Terms"
 msgstr "LPカバー規約をダウンロードする"
 
-#: src/modules/pools/staking/StakingCard.jsx:180
+#: src/modules/pools/staking/StakingCard.jsx:182
 msgid "Earn"
 msgstr "稼ぐ"
 
@@ -978,22 +983,22 @@ msgstr "緊急採決中。。。"
 
 #: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:71
 msgid "Emission Received"
-msgstr ""
+msgstr "エミッションを受け取りました"
 
 #: src/modules/pools/liquidity-gauge-pools/index.jsx:87
 msgid "Emissions"
-msgstr ""
+msgstr "エミッション"
 
 #: src/modules/governance/ProposalDetailCard.jsx:99
 msgid "End"
-msgstr ""
+msgstr "終了"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:182
 msgid "Enter {NPMTokenSymbol} Amount"
-msgstr ""
+msgstr "{NPMTokenSymbol} の金額を入力してください"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:90
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:229
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:242
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:47
 #: src/modules/insights/CalculatorCard.jsx:151
 msgid "Enter Amount"
@@ -1001,21 +1006,21 @@ msgstr "金額を入力してください"
 
 #: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:69
 msgid "Enter Amount You Wish to Add"
-msgstr ""
+msgstr "追加したい金額を入力してください"
 
 #: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:69
 msgid "Enter Amount You Wish to Lock"
-msgstr ""
+msgstr "ロックしたい金額を入力してください"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:277
 msgid "Enter Amount you wish to provide"
 msgstr "提供したい金額を入力してください"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:349
-#: src/common/CoverForm/PurchasePolicyForm.jsx:357
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:303
+#: src/common/CoverForm/PurchasePolicyForm.jsx:350
+#: src/common/CoverForm/PurchasePolicyForm.jsx:358
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:316
 msgid "Enter Cashback Code"
-msgstr ""
+msgstr "キャッシュバックコードを入力してください"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:122
 msgid "Enter Dispute Title"
@@ -1035,11 +1040,11 @@ msgstr "インシデントのタイトルを入力してください。"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:239
 msgid "Enter your {NPMTokenSymbol} stake"
-msgstr ""
+msgstr "{NPMTokenSymbol} ステークを入力してください"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:138
 msgid "Enter your {tokenSymbol}"
-msgstr ""
+msgstr "{tokenSymbol} を入力してください"
 
 #: src/modules/pools/bond/index.jsx:202
 msgid "Enter your amount"
@@ -1054,9 +1059,9 @@ msgstr "POD金額を入力してください"
 msgid "Enter your stake"
 msgstr "ステーク金額を入力してください"
 
-#: src/modules/governance/LiquidityGauge.jsx:170
+#: src/modules/governance/LiquidityGauge.jsx:179
 msgid "Epoch Emission:"
-msgstr ""
+msgstr "エポックエミッション:"
 
 #: src/common/TokenBalance.jsx:50
 #: src/hooks/useDisputeIncident.jsx:292
@@ -1065,7 +1070,7 @@ msgstr "エラー"
 
 #: src/common/Banner.jsx:47
 msgid "Ethereum gas fees too high?  <0>Use Neptune Mutual on Arbitrum</0>"
-msgstr ""
+msgstr "イーサリアムのガス代が高すぎる？ <0>Arbitrum で Neptune Mutual を使用する</0>"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:124
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:136
@@ -1076,7 +1081,7 @@ msgstr "最大残高を超過"
 
 #: src/hooks/useCreateBond.jsx:182
 msgid "Exceeds maximum bond {maxBond}"
-msgstr ""
+msgstr "最大ボンド量 {maxBond} を超えています"
 
 #: src/modules/my-policies/PoliciesTabs.jsx:18
 msgid "Expired"
@@ -1096,11 +1101,11 @@ msgstr "期限切れ"
 
 #: src/helpers/notification.js:72
 msgid "Extended lock period successfully"
-msgstr ""
+msgstr "ロック期間の延長に成功しました"
 
 #: src/helpers/notification.js:84
 msgid "Extending lock period"
-msgstr ""
+msgstr "ロック期間を延長しています"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:98
 msgid "False reporting"
@@ -1134,7 +1139,7 @@ msgid "Fetching {NPMTokenSymbol} allowance..."
 msgstr "{NPMTokenSymbol}手当を取得しています..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:209
-#: src/modules/governance/AccountDetail.jsx:52
+#: src/modules/governance/AccountDetail.jsx:53
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:160
 #: src/modules/my-policies/ClaimCoverModal.jsx:109
 #: src/modules/pools/bond/index.jsx:193
@@ -1148,7 +1153,7 @@ msgstr "手当を取得しています..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:211
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:223
-#: src/modules/governance/AccountDetail.jsx:50
+#: src/modules/governance/AccountDetail.jsx:51
 #: src/modules/my-policies/ClaimCoverModal.jsx:107
 #: src/modules/pools/bond/index.jsx:191
 #: src/modules/pools/staking/StakeForm.jsx:80
@@ -1180,36 +1185,36 @@ msgstr "最終決定中。。。"
 
 #: src/modules/governance/proposals-table/ProposalsTable.jsx:93
 msgid "Gauge Controller Emission (GCE)"
-msgstr ""
+msgstr "ゲージ コントローラー エミッション (GCE)"
 
 #: src/modules/governance/proposals-table/ProposalsTable.jsx:95
 msgid "Gauge Controller Listing (GCL)"
-msgstr ""
+msgstr "ゲージコントローラーリスト (GCL)"
 
 #: src/helpers/notification.js:736
 msgid "Gauge set successfully"
-msgstr ""
+msgstr "ゲージが正常に設定されました"
 
 #: src/modules/pools/bond/index.jsx:293
 msgid "Get LP tokens"
 msgstr "LPトークンを取得します"
 
 #: src/common/Header/getNavigationLinks.jsx:52
-#: src/modules/governance/index.jsx:88
+#: src/modules/governance/ProposalDetail.jsx:51
 msgid "Governance"
-msgstr ""
+msgstr "カバナンス"
 
 #: src/modules/governance/proposals-table/ProposalsTable.jsx:97
 msgid "Grants"
-msgstr ""
+msgstr "助成金"
 
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:179
 msgid "Harvested {harvestAmountWithSymbol} from {0} Pool"
-msgstr ""
+msgstr "{0} プールから {harvestAmountWithSymbol} を収集しました"
 
 #: src/utils/calculate-boost.jsx:49
 msgid "High Boost"
-msgstr ""
+msgstr "ハイブースト"
 
 #: src/modules/cover/add-liquidity/index.jsx:89
 #: src/modules/cover/CoverOptionsPage.jsx:24
@@ -1234,7 +1239,7 @@ msgstr "私はこの資金プール及びNeptune Mutual プロトコルに関す
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:307
 msgid "I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions."
-msgstr ""
+msgstr "私は、標準の除外条件だけでなく、対象条件、パラメータ、除外条件を読み、理解し、同意します。"
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:34
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
@@ -1253,7 +1258,7 @@ msgstr "取引ごとに承認したくない場合は、このボックスを有
 
 #: src/modules/reporting/CoverReportingRules.jsx:64
 msgid "If you just came to know about a recent incident of {projectOrProductName}, carefully read the cover rules above. You can earn flat {0}% of the minority fees if you are the first person to report this incident."
-msgstr ""
+msgstr "{projectOrProductName} の最近のインシデントについて知った場合は、上記のカバールールをよくお読みください。このインシデントを最初に報告した人は、少数者料金の一律 {0}% を受け取ることができます。"
 
 #: src/modules/my-liquidity/content/rules.jsx:69
 msgid "Important Note"
@@ -1283,11 +1288,11 @@ msgstr "インシデント通報者"
 
 #: src/hooks/useValidateReferralCode.jsx:60
 msgid "Incorrect Cashback Code"
-msgstr ""
+msgstr "間違ったキャッシュバック コード"
 
 #: src/modules/governance/view-proposals/IncreaseYourBoost.jsx:49
 msgid "Increase Your Boost"
-msgstr ""
+msgstr "ブーストを増やす"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:122
 msgid "Insights"
@@ -1331,18 +1336,20 @@ msgstr "ステークする金額が無効です"
 #: src/hooks/useValidateReferralCode.jsx:78
 msgid "Invalid Cashback Code"
 msgstr ""
+"\n"
+"無効なキャッシュバック コード"
 
 #: src/modules/governance/ProposalDetailCard.jsx:79
 msgid "IPFS"
-msgstr ""
+msgstr "IPFS"
 
 #: src/common/LastSynced/index.jsx:14
 msgid "Last Synced:"
-msgstr ""
+msgstr "最後に同期された時間:"
 
 #: src/modules/cover/cover-terms/StandardTerms.jsx:9
 msgid "Latest version of the Standard Terms and Conditions will apply."
-msgstr ""
+msgstr "最新版の標準利用規約が適用されます。"
 
 #: src/common/Cover/CoverCard.jsx:136
 #: src/common/Cover/CoverCard.jsx:175
@@ -1355,14 +1362,14 @@ msgstr ""
 msgid "Liquidity"
 msgstr "流動性"
 
-#: src/modules/governance/LiquidityGauge.jsx:168
+#: src/modules/governance/LiquidityGauge.jsx:177
 msgid "Liquidity Gauge"
-msgstr ""
+msgstr "流動性ゲージ"
 
 #: src/modules/pools/PoolsTabs.jsx:19
 #: src/pages/pools/liquidity-gauge-pools/transactions.jsx:38
 msgid "Liquidity Gauge Pools"
-msgstr ""
+msgstr "流動性ゲージプール"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:145
 msgid "Liquidity is above threshold"
@@ -1378,11 +1385,13 @@ msgstr "流動性プロバイダーたちは共同で流動性プールを所有
 
 #: src/modules/governance/proposals-table/ProposalsTable.jsx:96
 msgid "Liquidity Rewards (LR)"
-msgstr ""
+msgstr "流動性報酬 (LR)"
 
 #: src/modules/governance/ProposalDetailCard.jsx:42
 msgid "Live"
 msgstr ""
+"\n"
+"ライブ"
 
 #: src/common/Table/__tests__/Table.test.jsx:110
 #: src/modules/cover/CoverOptionsPage.jsx:29
@@ -1397,53 +1406,53 @@ msgstr "読み込み中..."
 
 #: src/common/Loading.jsx:7
 msgid "Loading..."
-msgstr ""
+msgstr "読み込み中..."
 
 #: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:120
 msgid "Lock"
-msgstr ""
+msgstr "ロック"
 
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:167
 msgid "Locked {stakeAmountWithSymbol} in {0} Pool"
-msgstr ""
+msgstr "{0} プールにて {stakeAmountWithSymbol} をロックしました"
 
 #: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:81
 msgid "Locked {tokenAmountWithSymbol} in {0} Pool"
-msgstr ""
+msgstr "{0} プールにて {tokenAmountWithSymbol} をロックしました"
 
 #: src/helpers/notification.js:774
 msgid "Locked {tokenSymbol} successfully"
-msgstr ""
+msgstr "{tokenSymbol} を正常にロックしました"
 
 #: src/helpers/notification.js:786
 msgid "Locking {tokenSymbol} token"
-msgstr ""
+msgstr "{tokenSymbol} トークンをロックしています"
 
 #: src/helpers/notification.js:67
 msgid "Locking NPM"
-msgstr ""
+msgstr "NPMをロックしています"
 
 #: src/modules/pools/liquidity-gauge-pools/AddAndLockModal.jsx:120
 msgid "Locking..."
-msgstr ""
+msgstr "ロック中..."
 
 #: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:76
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:145
 #: src/modules/pools/staking/StakeForm.jsx:128
-#: src/modules/pools/staking/StakingCard.jsx:144
+#: src/modules/pools/staking/StakingCard.jsx:146
 msgid "Lockup Period"
 msgstr "ロックアップ期間"
 
 #: src/utils/calculate-boost.jsx:57
 msgid "Low Boost"
-msgstr ""
+msgstr "低ブースト"
 
 #: src/modules/pools/bond/index.jsx:126
 msgid "Market Price"
 msgstr "市場価格"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:80
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:219
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:232
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:38
 #: src/modules/insights/CalculatorCard.jsx:144
 msgid "Max"
@@ -1455,7 +1464,7 @@ msgstr "最大のボンド額"
 
 #: src/utils/calculate-boost.jsx:41
 msgid "Maximum Boost"
-msgstr ""
+msgstr "最大ブースト"
 
 #: src/modules/pools/staking/StakeForm.jsx:100
 msgid "Maximum Limit:"
@@ -1463,40 +1472,42 @@ msgstr "最大額："
 
 #: src/hooks/usePurchasePolicy.jsx:154
 msgid "Maximum proposal amount should be less than {maxProposal}"
-msgstr ""
+msgstr "提案の最大金額は {maxProposal} を下回る必要があります"
 
 #: src/modules/insights/CalculatorCard.jsx:78
 msgid "Maximum proposal threshold is {maxProposalThreshold}"
-msgstr ""
+msgstr "提案の最大しきい値は {maxProposalThreshold} です"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:55
 msgid "Maximum proposal threshold is {maxThreshold}"
-msgstr ""
+msgstr "提案の最大しきい値は {maxThreshold} です"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:52
 #: src/modules/insights/CalculatorCard.jsx:83
 msgid "Maximum protection available is {maxProtection}"
-msgstr ""
+msgstr "利用可能な最大の保障金額は {maxProtection} です"
 
 #: src/hooks/usePurchasePolicy.jsx:130
 msgid "Maximum protection available is {maxProtection}. Choose a amount less than available."
-msgstr ""
+msgstr "利用可能な最大の保障金額は {maxProtection} です。利用可能な金額より少ない金額を選択してください。"
 
 #: src/utils/calculate-boost.jsx:45
 msgid "Minimum Boost"
-msgstr ""
+msgstr "最小ブースト"
 
 #: src/hooks/usePurchasePolicy.jsx:142
 msgid "Minimum proposal amount should be greater than {minProposal}"
 msgstr ""
+"提案の最小金額は {minProposal} を上回る必要があります\n"
+""
 
 #: src/modules/insights/CalculatorCard.jsx:88
 msgid "Minimum proposal threshold is {minProposal}"
-msgstr ""
+msgstr "提案の最小しきい値は {minProposal} です"
 
 #: src/common/CoverForm/Steps/PurchaseAmountStep.jsx:58
 msgid "Minimum proposal threshold is {minThreshold}"
-msgstr ""
+msgstr "提案のの最小しきい値は {minThreshold} です"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:254
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:204
@@ -1508,7 +1519,7 @@ msgstr "最小ステーク:"
 
 #: src/common/Header/getNavigationLinks.jsx:67
 msgid "My Account"
-msgstr ""
+msgstr "私のアカウント"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:103
 msgid "My Active Protection"
@@ -1541,9 +1552,9 @@ msgstr "私の取引履歴"
 
 #: src/modules/governance/proposals-table/ProposalsTable.jsx:94
 msgid "Neptune Improvement Proposal (NIP)"
-msgstr ""
+msgstr "Neptune 改善提案 (NIP)"
 
-#: src/common/Footer/Footer.jsx:20
+#: src/common/Footer/Footer.jsx:21
 #: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:57
 #: src/modules/cover/cover-terms/SingleCoverTermsPage.jsx:59
 #: src/modules/my-policies/PurchasePolicyReceipt/index.jsx:169
@@ -1552,11 +1563,11 @@ msgstr "Neptune Mutual"
 
 #: src/modules/insights/InsightsTVLTable.jsx:99
 msgid "Network"
-msgstr ""
+msgstr "ネットワーク"
 
 #: lib/hl-calendar/index.jsx:70
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:92
-#: src/common/CoverForm/PurchasePolicyForm.jsx:431
+#: src/common/CoverForm/PurchasePolicyForm.jsx:432
 msgid "Next"
 msgstr "次へ"
 
@@ -1567,7 +1578,7 @@ msgstr "次のアンロックサイクル"
 
 #: src/modules/pools/liquidity-gauge-pools/index.jsx:172
 msgid "No <0>liquidity gauge pools found.</0>"
-msgstr ""
+msgstr "<0>流動性ゲージ プールが見つかりません。</0>"
 
 #: src/modules/pools/pod-staking/index.jsx:179
 msgid "No <0>POD staking pools found.</0>"
@@ -1589,7 +1600,7 @@ msgstr "データが見つかりません"
 
 #: src/common/Loading.jsx:15
 msgid "No Data Found"
-msgstr ""
+msgstr "データが見つかりませんでした"
 
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:55
 msgid "No known incident found for any cover product. If you believe a cover incident has occurred, earn rewards by reporting the incident."
@@ -1601,7 +1612,7 @@ msgstr "表示する取引履歴がありません"
 
 #: src/common/TransactionList/TransactionList.jsx:181
 msgid "No unread notifications"
-msgstr ""
+msgstr "未読の通知はありません"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:137
 msgid "No valid incidents are reported with the given timestamp"
@@ -1619,11 +1630,11 @@ msgstr "お知らせ"
 
 #: src/helpers/notification.js:38
 msgid "NPM approved successfully"
-msgstr ""
+msgstr "NPMは正常に承認されました"
 
 #: src/helpers/notification.js:55
 msgid "NPM locked successfully"
-msgstr ""
+msgstr "NPMは正常にロックされました"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:48
 msgid "NPM Logo"
@@ -1645,7 +1656,7 @@ msgstr ""
 
 #: src/modules/vote-escrow/UnlockEscrow.jsx:84
 msgid "Penalty: {0}"
-msgstr ""
+msgstr "ペナルティ: {0}"
 
 #: src/hooks/useClaimPolicyInfo.jsx:347
 #: src/hooks/usePurchasePolicy.jsx:110
@@ -1682,19 +1693,19 @@ msgstr "POD ステーキング"
 
 #: src/modules/insights/TopAccountsByProtection.jsx:88
 msgid "policies"
-msgstr ""
+msgstr "カバー"
 
 #: src/common/Header/getNavigationLinks.jsx:70
 msgid "Policies"
-msgstr ""
+msgstr "カバー"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:124
 msgid "policy"
 msgstr "ポリシー"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:399
+#: src/common/CoverForm/PurchasePolicyForm.jsx:400
 msgid "Policy purchases on this product are disabled."
-msgstr ""
+msgstr "この商品のカバー購入は無効になっています。"
 
 #: src/common/Header/getNavigationLinks.jsx:42
 #: src/pages/pools/bond/transactions.jsx:34
@@ -1706,7 +1717,7 @@ msgstr "資金プール"
 
 #: src/modules/vote-escrow/UnlockEscrow.jsx:133
 msgid "prematurely unlock your npm"
-msgstr ""
+msgstr "npm のロックを早めに解除する"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:38
 msgid "Premium Rate"
@@ -1718,7 +1729,7 @@ msgstr "前へ"
 
 #: src/modules/vote-escrow/UnlockEscrow.jsx:83
 msgid "Proceed with Caution"
-msgstr ""
+msgstr "慎重に進めてください"
 
 #: src/common/HomeCard/HomeMainCard.jsx:21
 msgid "Products"
@@ -1734,12 +1745,12 @@ msgstr "インシデントの証拠"
 
 #: src/modules/governance/ProposalDetailCard.jsx:62
 msgid "Proposal"
-msgstr ""
+msgstr "提案"
 
 #: src/modules/insights/Consensus.jsx:172
 #: src/modules/insights/TopAccountsByProtection.jsx:95
 msgid "protection"
-msgstr ""
+msgstr "保障"
 
 #: src/common/Cover/CoverCard.jsx:133
 #: src/common/Cover/CoverCard.jsx:155
@@ -1777,8 +1788,8 @@ msgstr "流動性を提供しました"
 msgid "Providing Liquidity..."
 msgstr "流動性提供中"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:436
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
+#: src/common/CoverForm/PurchasePolicyForm.jsx:437
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:190
 #: src/config/cover/actions.js:16
 #: src/modules/cover/purchase/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:69
@@ -1804,13 +1815,13 @@ msgstr "ポリシーを購入しました"
 msgid "Purchasing Policy"
 msgstr "ポリシー購入中"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:188
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:190
 msgid "Purchasing..."
 msgstr "購入中..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:404
+#: src/common/CoverForm/PurchasePolicyForm.jsx:405
 msgid "Reason: {0}"
-msgstr ""
+msgstr "理由: {0}"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:89
 msgid "Reassurance Ratio"
@@ -1823,19 +1834,19 @@ msgstr "再保障額："
 
 #: src/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal.jsx:236
 msgid "Receive"
-msgstr ""
+msgstr "受け取ります"
 
 #: src/helpers/notification.js:810
 msgid "Received Rewards successfully"
-msgstr ""
+msgstr "報酬を正常に受け取りました"
 
 #: src/helpers/notification.js:822
 msgid "Receiving Rewards"
-msgstr ""
+msgstr "報酬を受け取り中"
 
 #: src/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal.jsx:236
 msgid "Receiving..."
-msgstr ""
+msgstr "受け取り中"
 
 #: src/modules/reporting/RecentVotesTable.jsx:108
 msgid "Recent Votes"
@@ -1843,7 +1854,7 @@ msgstr "最近の投票"
 
 #: src/modules/insights/Consensus.jsx:165
 msgid "refuted"
-msgstr ""
+msgstr "異議を提出しました"
 
 #: src/helpers/notification.js:672
 msgid "Refuting"
@@ -1851,11 +1862,11 @@ msgstr "異議を提出中"
 
 #: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:69
 msgid "Removed {tokenAmountWithSymbol} from {0} Pool"
-msgstr ""
+msgstr "{0} プールから {tokenAmountWithSymbol} を撤回しました"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:198
 msgid "Removed {tokenAmountWithSymbol} from {projectName} Cover"
-msgstr ""
+msgstr "{projectName} のカバーから {tokenAmountWithSymbol} を撤回しました"
 
 #: src/helpers/notification.js:573
 msgid "Removed Liquidity Successfully"
@@ -1863,7 +1874,7 @@ msgstr "流動性を撤回しました"
 
 #: src/helpers/notification.js:585
 msgid "Removing liquidity"
-msgstr ""
+msgstr "流動性を撤回しています"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:267
 msgid "Report"
@@ -1936,9 +1947,9 @@ msgstr "通報期間"
 msgid "Reporting..."
 msgstr "通報中。。。"
 
-#: src/modules/governance/AccountDetail.jsx:97
+#: src/modules/governance/AccountDetail.jsx:98
 msgid "Required"
-msgstr ""
+msgstr "必須"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:53
 msgid "Resolution By"
@@ -1978,7 +1989,7 @@ msgstr "採決中"
 
 #: src/modules/governance/proposals-table/ProposalsTable.jsx:68
 msgid "Result"
-msgstr ""
+msgstr "結果"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:98
 msgid "Result:"
@@ -1996,7 +2007,8 @@ msgstr "ROI（投資利益率）："
 msgid "Search"
 msgstr "検索"
 
-#: src/common/Header/LanguageDropdown.jsx:126
+#: src/common/Header/LanguageDropdown.jsx:110
+#: src/common/Header/LanguageDropdown.jsx:187
 msgid "Search Language"
 msgstr "言語を検索"
 
@@ -2022,19 +2034,19 @@ msgstr "決定を選んでください"
 
 #: src/modules/governance/proposals-table/TableComponents.jsx:132
 msgid "Set Gauge"
-msgstr ""
+msgstr "ゲージを設定する"
 
-#: src/modules/governance/AccountDetail.jsx:137
+#: src/modules/governance/AccountDetail.jsx:138
 msgid "Set Gauge On {0}"
-msgstr ""
+msgstr " {0} にゲージを設定します"
 
 #: src/helpers/notification.js:748
 msgid "Setting gauge"
-msgstr ""
+msgstr "ゲージを設定しています"
 
-#: src/modules/governance/AccountDetail.jsx:135
+#: src/modules/governance/AccountDetail.jsx:136
 msgid "Setting Gauge..."
-msgstr ""
+msgstr "ゲージ設定中"
 
 #: src/common/Table/Table.jsx:45
 msgid "Show More"
@@ -2046,7 +2058,7 @@ msgstr "お客様はこの事件報告に異議を唱えた最初の人物であ
 
 #: src/modules/governance/ProposalDetailCard.jsx:71
 msgid "Snapshot"
-msgstr ""
+msgstr "スナップショット"
 
 #: src/common/SearchAndSortBar.jsx:85
 msgid "Sort by:"
@@ -2054,7 +2066,7 @@ msgstr "並べ替え:"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:236
 #: src/modules/pools/staking/StakeForm.jsx:161
-#: src/modules/pools/staking/StakingCard.jsx:250
+#: src/modules/pools/staking/StakingCard.jsx:252
 #: src/modules/reporting/active/CastYourVote.jsx:159
 msgid "Stake"
 msgstr "ステーク"
@@ -2064,7 +2076,7 @@ msgid "Stake {stakingTokenName}"
 msgstr "{stakingTokenName}をステーク"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:171
-#: src/modules/pools/staking/StakingCard.jsx:205
+#: src/modules/pools/staking/StakingCard.jsx:207
 msgid "Stake {stakingTokenSymbol}"
 msgstr "{stakingTokenSymbol}をステーク"
 
@@ -2095,7 +2107,7 @@ msgstr "ステーキング中..."
 
 #: src/modules/governance/ProposalDetailCard.jsx:86
 msgid "Start"
-msgstr ""
+msgstr "スタート"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:117
 msgid "Starts At"
@@ -2115,7 +2127,7 @@ msgstr "異議を提出する"
 #: src/modules/governance/proposals-table/TableComponents.jsx:143
 #: src/modules/vote-escrow/VoteEscrow.jsx:216
 msgid "Submit Your Vote"
-msgstr ""
+msgstr "投票を送信してください"
 
 #: src/common/TokenBalance.jsx:43
 msgid "Success"
@@ -2129,9 +2141,9 @@ msgstr "ホームページに戻る"
 msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
 msgstr "本ボンド機能において、 {vestingPeriodInterval}の期間中にて割引価格でNPMトークンを取得することができます。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:348
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:361
 msgid "The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {projectOrProductName} cover resolves as “Incident Occured”"
-msgstr ""
+msgstr "{projectOrProductName} のカバーが「インシデント発生」として解決された場合、cx{liquidityTokenSymbol} トークンは 1:1 の比率で {liquidityTokenSymbol} と引き換えられます。"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:189
 msgid "The date and time you observed the incident."
@@ -2143,7 +2155,7 @@ msgstr "上記の商品は、総合型カバープールの一部になります
 
 #: src/modules/reporting/CoverReportingRules.jsx:47
 msgid "There are no known incidents of {projectOrProductName}."
-msgstr ""
+msgstr "{projectOrProductName} に関する既知のインシデントはありません。"
 
 #: src/modules/reporting/ReportingPeriodStatus.jsx:31
 msgid "This report concluded on {longDate}"
@@ -2197,7 +2209,7 @@ msgstr "認証に支持する全てのステーク"
 
 #: src/modules/home/Hero.jsx:150
 msgid "Total Capacity"
-msgstr ""
+msgstr "総カバレッジ"
 
 #: src/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources.jsx:35
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:42
@@ -2235,13 +2247,13 @@ msgstr "取引実行中"
 msgid "Transaction List"
 msgstr "取引一覧"
 
-#: src/common/Header/Header.jsx:259
+#: src/common/Header/Header.jsx:251
 msgid "transaction overview button"
 msgstr "取引概要ボタン"
 
 #: src/modules/insights/TopAccountsByLiquidity.jsx:88
 msgid "transactions"
-msgstr ""
+msgstr "取引"
 
 #: src/modules/insights/InsightsTVLTable.jsx:113
 #: src/modules/pools/liquidity-gauge-pools/index.jsx:53
@@ -2250,7 +2262,7 @@ msgstr ""
 #: src/modules/pools/pod-staking/index.jsx:89
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:151
 #: src/modules/pools/staking/index.jsx:88
-#: src/modules/pools/staking/StakingCard.jsx:150
+#: src/modules/pools/staking/StakingCard.jsx:152
 msgid "TVL"
 msgstr "TVL "
 
@@ -2268,7 +2280,7 @@ msgstr "無制限の承認"
 
 #: src/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal.jsx:220
 msgid "Unlock"
-msgstr ""
+msgstr "ロックを解除する"
 
 #: src/common/UnlockDate.jsx:8
 #: src/modules/pools/bond/ClaimBondModal.jsx:54
@@ -2277,27 +2289,30 @@ msgstr "ロック解除日"
 
 #: src/modules/vote-escrow/UnlockEscrow.jsx:118
 msgid "unlock npm"
-msgstr ""
+msgstr "npmのロックを解除する"
 
 #: src/helpers/notification.js:793
 msgid "Unlocked {tokenSymbol} successfully"
-msgstr ""
+msgstr "{tokenSymbol} のロックを正常に解除しました"
 
 #: src/helpers/notification.js:89
 msgid "Unlocked successfully"
-msgstr ""
+msgstr "ロックが正常に解除されました"
 
 #: src/helpers/notification.js:805
 msgid "Unlocking {tokenSymbol} token"
-msgstr ""
+msgstr "{tokenSymbol} トークンのロックを解除しています"
 
 #: src/helpers/notification.js:101
 msgid "Unlocking NPM"
-msgstr ""
+msgstr "NPMのロックを解除しています"
 
 #: src/modules/pools/liquidity-gauge-pools/ReceiveAndUnlockModal.jsx:220
 msgid "Unlocking..."
 msgstr ""
+"ロック解除中\n"
+"\n"
+""
 
 #: src/modules/pools/staking/UnStakeForm.jsx:97
 msgid "Unlocks At Block"
@@ -2340,15 +2355,15 @@ msgstr "ステーク解除中..."
 
 #: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:90
 msgid "Update unlock cycle"
-msgstr ""
+msgstr "ロック解除サイクルを更新する"
 
 #: src/helpers/notification.js:619
 msgid "Updating withdrawal period"
-msgstr ""
+msgstr "引き出し期間を更新しています"
 
 #: src/helpers/notification.js:607
 msgid "Updating withdrawal period successfully"
-msgstr ""
+msgstr "引き出し期間を正常に更新しました"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:161
 #: src/modules/reporting/active/ActiveReportSummary.jsx:206
@@ -2367,7 +2382,7 @@ msgstr "稼働率"
 
 #: src/modules/insights/InsightsQuickInfoTable.jsx:118
 msgid "Utilization Ratio"
-msgstr ""
+msgstr "稼働率"
 
 #: src/common/Cover/CoverCard.jsx:128
 #: src/modules/reporting/active/ActiveReportingCard.jsx:190
@@ -2384,7 +2399,7 @@ msgstr "金庫情報"
 
 #: src/helpers/notification.js:21
 msgid "veNPM approved successfully"
-msgstr ""
+msgstr "veNPM が正常に承認されました"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:74
 msgid "vesting term"
@@ -2401,13 +2416,13 @@ msgstr "エクスプローラーで見る"
 #: src/modules/governance/ChainDropdown.jsx:74
 #: src/modules/governance/proposals-table/TableComponents.jsx:149
 msgid "View Proposal"
-msgstr ""
+msgstr "提案を見る"
 
 #: src/modules/governance/view-proposals/ViewProposals.jsx:48
 msgid "View Proposals"
-msgstr ""
+msgstr "提案を見る"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:435
+#: src/common/CoverForm/PurchasePolicyForm.jsx:436
 msgid "View Quotation"
 msgstr "見積もりを見る"
 
@@ -2419,13 +2434,13 @@ msgstr "取引を見る"
 msgid "View Tx"
 msgstr "Tx を見る"
 
-#: src/modules/home/AvailableCovers.jsx:213
+#: src/modules/home/AvailableCovers.jsx:215
 msgid "View:"
 msgstr "表示："
 
 #: src/common/Header/getNavigationLinks.jsx:57
 msgid "Vote Escrow"
-msgstr ""
+msgstr "投票エスクロー"
 
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:30
 msgid "votes"
@@ -2478,11 +2493,11 @@ msgstr "回収中"
 
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:193
 msgid "Withdrawn {withdrawAmountWithSymbol} from {0} Pool"
-msgstr ""
+msgstr "{0} プールから {withdrawAmountWithSymbol} が引き出されました"
 
 #: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:75
 msgid "Withdrawn reward of {tokenAmountWithSymbol} from {0} Pool"
-msgstr ""
+msgstr "{0} プールから {tokenAmountWithSymbol} の報酬が引き出されました"
 
 #: src/helpers/notification.js:106
 msgid "Withdrawn rewards successfully"
@@ -2494,11 +2509,11 @@ msgstr "ホワイトリストに登録されていません"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:128
 #: src/modules/pools/staking/HarvestForm.jsx:48
-#: src/modules/pools/staking/StakingCard.jsx:127
+#: src/modules/pools/staking/StakingCard.jsx:129
 msgid "You Earned"
 msgstr "取得した金額"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:101
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:102
 #: src/common/CoverForm/Steps/QuotationStep.jsx:18
 msgid "You Will Pay"
 msgstr "支払う金額"
@@ -2511,11 +2526,11 @@ msgstr "支払う金額"
 msgid "You will receive"
 msgstr "以下を受取ります"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:343
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:356
 msgid "You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction."
 msgstr "本取引を完成すると、cx{liquidityTokenSymbol} または 請求できる{liquidityTokenSymbol} を受け取ります。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:125
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:126
 msgid "You will Receive:"
 msgstr "受け取る金額："
 
@@ -2523,7 +2538,7 @@ msgstr "受け取る金額："
 msgid "You’re on {0} Network. Get <0>Test Tokens</0>."
 msgstr "{0} ネットワークにいます。 <0>テストトークンを入手</0>。"
 
-#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:133
+#: src/common/CoverForm/Steps/PurchasePolicyStep.jsx:134
 msgid "Your balance is not enough to pay the fee. Please reload your wallet."
 msgstr "残高不足で支払いできません。ウォレットを入金してください。"
 
@@ -2533,16 +2548,16 @@ msgstr "あなたのボンド"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:46
 msgid "Your Cover Amount"
-msgstr ""
+msgstr "カバー金額"
 
 #: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:66
 msgid "Your Locked Balance"
-msgstr ""
+msgstr "ロックされた残高"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:196
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:113
 #: src/modules/pools/staking/HarvestForm.jsx:45
-#: src/modules/pools/staking/StakingCard.jsx:112
+#: src/modules/pools/staking/StakingCard.jsx:114
 #: src/modules/pools/staking/UnStakeForm.jsx:81
 #: src/modules/reporting/active/ActiveReportSummary.jsx:180
 #: src/modules/reporting/active/ActiveReportSummary.jsx:229
@@ -2553,4 +2568,4 @@ msgstr "あなたのステーク"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:262
 msgid "Your Stake:"
-msgstr ""
+msgstr "ステーク："

@@ -239,7 +239,7 @@ const ReportListing = (props) => {
                           locale
                         )}
                       >
-                        {fromNow(report.incidentDate)}
+                        {fromNow(report.incidentDate, router.locale)}
                       </span>
                     </td>
                     <td className='px-6 py-4 text-right' title={formattedTotalAttestedStake.long}>
