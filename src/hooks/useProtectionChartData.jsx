@@ -61,6 +61,10 @@ const getAggregatedDataWithLabels = (data = []) => {
     aggregatedData[chain] = sortedArr
   })
 
+  Object.keys(aggregatedData).forEach(chain => {
+    aggregatedData[chain].reverse()
+  })
+
   const key = Object.keys(aggregatedData)[0]
   labels = aggregatedData[key].map(i => { return i.label })
 
