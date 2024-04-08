@@ -1,25 +1,43 @@
-import { useRouter } from 'next/router'
-
 import { ClaimDetailsPage } from '@/modules/my-policies/ClaimDetailsPage'
 import { isFeatureEnabled } from '@/src/config/environment'
-import { useNetwork } from '@/src/context/Network'
+import { slugToNetworkId } from '@/src/config/networks'
 import { getTitle } from '@/src/ssg/seo'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
-export default function ClaimPolicyDiversifiedProduct () {
-  const { networkId } = useNetwork()
+export async function getStaticPaths () {
+  return { paths: [], fallback: 'blocking' }
+}
+
+export async function getStaticProps ({ params }) {
+  const networkId = slugToNetworkId[params.network]
+
+  if (!networkId) {
+    return {
+      notFound: true
+    }
+  }
+
+  return {
+    props: {
+      networkId,
+      coverId: params.coverId,
+      productId: params.productId,
+      timestamp: params.timestamp,
+      title: getTitle({
+        networkId,
+        coverId: params.coverId,
+        productId: params.productId,
+        pageAction: 'Claim Policy on #COVER on #NETWORK marketplace'
+      })
+    },
+    revalidate: 10 // In seconds
+  }
+}
+
+export default function ClaimPolicyDiversifiedProduct ({ networkId, coverId, productId, timestamp, title }) {
   const disabled = !isFeatureEnabled('claim', networkId)
-  const router = useRouter()
-  const { coverId, productId, timestamp } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
-
-  const title = getTitle({
-    coverId,
-    productId,
-    networkId,
-    pageAction: 'Claim Policy on #COVER on #NETWORK marketplace'
-  })
 
   return (
     <ClaimDetailsPage
