@@ -4,7 +4,8 @@ export const CHAINS = {
   BASE_GOERLI: 84531,
   MUMBAI: 80001,
   ARBITRUM: 42161,
-  ETHEREUM: 1
+  ETHEREUM: 1,
+  POLYGON: 137
 }
 
 export const ChainConfig = {
@@ -36,6 +37,26 @@ export const ChainConfig = {
     },
     stablecoin: {
       address: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
+      tokenSymbol: 'USDC',
+      tokenDecimals: 18
+    },
+    veNPM: {
+      address: '',
+      tokenSymbol: 'veNPM',
+      tokenDecimals: 18
+    },
+    gaugeControllerRegistry: '',
+    cxTokenDecimals: 18,
+    vaultTokenDecimals: 18
+  },
+  [CHAINS.POLYGON]: {
+    npm: {
+      address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
+      tokenSymbol: 'NPM',
+      tokenDecimals: 18
+    },
+    stablecoin: {
+      address: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
       tokenSymbol: 'USDC',
       tokenDecimals: 18
     },

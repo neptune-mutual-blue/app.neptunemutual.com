@@ -116,13 +116,13 @@ export const useVoteEscrowLock = ({ refetchLockData, lockAmountInUnits, NPMToken
       cleanup()
     }
 
-    approve(
+    await approve(
       veNPMTokenAddress, lockAmountInUnits,
       {
         onTransactionResult,
         onRetryCancel,
         onError
-      })
+      }).catch(onError)
   }
 
   const lock = async (amount, durationInWeeks, cb) => {

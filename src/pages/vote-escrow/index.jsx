@@ -5,6 +5,9 @@ import { Container } from '@/common/Container/Container'
 import { Seo } from '@/common/Seo'
 import VoteEscrow from '@/modules/vote-escrow/VoteEscrow'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { Loading } from '@/common/Loading'
+import { useNetwork } from '@/src/context/Network'
+import { ChainConfig } from '@/src/config/hardcoded'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -16,8 +19,14 @@ export function getStaticProps () {
 }
 
 const VoteEscrowPage = ({ disabled }) => {
+  const { networkId } = useNetwork()
+
   if (disabled) {
     return <ComingSoon />
+  }
+
+  if (!networkId || !ChainConfig[networkId] || !ChainConfig[networkId].veNPM || !ChainConfig[networkId].veNPM.address) {
+    return <Loading />
   }
 
   return (

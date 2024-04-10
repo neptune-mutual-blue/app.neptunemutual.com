@@ -94,7 +94,7 @@ export const Header = () => {
 
   const { i18n } = useLingui()
 
-  const navigation = getNavigationLinks(router.pathname, i18n)
+  const navigation = getNavigationLinks(networkId, router.pathname, i18n)
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => { return !prev })
@@ -289,7 +289,7 @@ export const Header = () => {
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}
-          navigation={getFlattenedNavLinks(i18n)}
+          navigation={getFlattenedNavLinks(networkId, i18n)}
         />
       </header>
     </>
