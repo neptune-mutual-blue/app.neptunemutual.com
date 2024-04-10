@@ -147,6 +147,10 @@ export const EPOCH_DURATION = 28 * DAYS
 // convertToUnits(150_000, 18).toString(). the long configuration was used because use of function was failing many tests
 export const EMISSION_PER_EPOCH = '150000000000000000000000'
 
+export const mainnetGetNpmLink = 'https://neptunemutual.com/marketplace/#get-npm'
+
+export const testnetGetNpmLink = FAUCET_URL
+
 export const getUniswapLink = (address) => { return `https://app.uniswap.org/#/swap?inputCurrency=USDC&outputCurrency=${address}` }
 
 export const getSushiswapLink = (usdc, address, networkId) => { return `https://www.sushi.com/swap?token0=${usdc}&token1=${address}&chainId=${networkId}` }
