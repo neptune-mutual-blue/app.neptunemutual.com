@@ -4,9 +4,13 @@ import {
   useState
 } from 'react'
 
-import { getMonthsBetweenDates } from '@/lib/dates'
+import {
+  formatInsightsMonthId,
+  getMonthsBetweenDates
+} from '@/lib/dates'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useProtocolMonthData } from '@/src/hooks/useProtocolMonthData'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { toBN } from '@/utils/bn'
 
 const getInitialDateRange = (from) => {
@@ -32,7 +36,9 @@ function useCoverEarningInsights () {
 
   const [yAxisData, setYAxisData] = useState([])
 
-  const [labels, setLabels] = useState(getMonthsBetweenDates(dateRange[0], dateRange[1]))
+  const { locale } = useLanguageContext()
+
+  const [labels, setLabels] = useState(getMonthsBetweenDates(locale, dateRange[0], dateRange[1]))
 
   const onPrevious = () => {
     const newInitialDate = dateRange[0]
@@ -50,7 +56,7 @@ function useCoverEarningInsights () {
 
   useEffect(() => {
     if (data) {
-      const newLabels = getMonthsBetweenDates(dateRange[0], dateRange[1])
+      const newLabels = getMonthsBetweenDates(locale, dateRange[0], dateRange[1])
 
       setLabels(newLabels)
 
@@ -62,15 +68,13 @@ function useCoverEarningInsights () {
       }).map(monthData => {
         return {
           ...monthData,
-          id: new Date(monthData.id).toLocaleString('default', {
-            month: 'short',
-            timeZone: 'UTC'
-          })
+          id: formatInsightsMonthId(locale, new Date(monthData.id), { timeZone: 'UTC' })
         }
       })
 
       setYAxisData(newLabels.map(lbl => {
-        const foundMonth = monthDataInRange.find(monthData => { return monthData.id === lbl })
+        const month = lbl.split(' ')[0]
+        const foundMonth = monthDataInRange.find(monthData => { return monthData.id === month })
 
         if (foundMonth) {
           return foundMonth.nonCumulativeCoverFee
@@ -80,7 +84,7 @@ function useCoverEarningInsights () {
       }
       ).map(val => { return toBN(val || 0).toNumber() }))
     }
-  }, [data, dateRange, liquidityTokenDecimals])
+  }, [data, dateRange, liquidityTokenDecimals, locale])
 
   const hasPrevious = useMemo(() => {
     if (data) {

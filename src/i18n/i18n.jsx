@@ -69,7 +69,7 @@ export function LanguageProvider ({ children }) {
   useEffect(() => { console.log('Locale %s loaded.', i18n.locale) }, [])
 
   const memoizedValue = React.useMemo(() => {
-    return { locale, setLocale }
+    return { locale: locale || 'en', setLocale }
   }, [locale, setLocale])
 
   if (!i18n.locale) {
