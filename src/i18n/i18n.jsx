@@ -51,7 +51,9 @@ export function LanguageProvider ({ children }) {
       ignore = true
     }
   }, [locale])
+
   const updateRefresh = useCallback(() => { return setRefresh(r => { return !r }) }, [])
+
   useEffect(() => {
     // Detect network change and manually refresh
     if (window && window.addEventListener) {
@@ -60,13 +62,15 @@ export function LanguageProvider ({ children }) {
 
     return () => { return window.removeEventListener('languagechange', updateRefresh) }
   }, [updateRefresh])
+
   useEffect(() => { console.log('refreshing...') }, [refresh])
+
   useEffect(() => {
     console.log('Locale %s loaded.', i18n.locale)
   }, [])
 
   const memoizedValue = React.useMemo(() => {
-    return { locale, setLocale }
+    return { locale: locale || 'en', setLocale }
   }, [locale, setLocale])
 
   if (!i18n.locale) {
