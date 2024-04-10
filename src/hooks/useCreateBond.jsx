@@ -266,11 +266,11 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       cleanup()
     }
 
-    approve(bondContractAddress, convertToUnits(value).toString(), {
+    await approve(bondContractAddress, convertToUnits(value).toString(), {
       onTransactionResult,
       onRetryCancel,
       onError
-    })
+    }).catch(onError)
   }
 
   const handleBond = async (onTxSuccess) => {

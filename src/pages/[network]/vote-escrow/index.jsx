@@ -2,7 +2,6 @@ import React from 'react'
 
 import { ComingSoon } from '@/common/ComingSoon'
 import { Container } from '@/common/Container/Container'
-import { Loading } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
 import VoteEscrow from '@/modules/vote-escrow/VoteEscrow'
 import { isFeatureEnabled } from '@/src/config/environment'
@@ -33,12 +32,8 @@ export const getStaticProps = async ({ params }) => {
 export default function VoteEscrowPage ({ networkId, title }) {
   const disabled = !isFeatureEnabled('vote-escrow', networkId)
 
-  if (disabled) {
+  if (disabled || !ChainConfig[networkId] || !ChainConfig[networkId].veNPM || !ChainConfig[networkId].veNPM.address) {
     return <ComingSoon />
-  }
-
-  if (!ChainConfig[networkId]) {
-    return <Loading />
   }
 
   return (

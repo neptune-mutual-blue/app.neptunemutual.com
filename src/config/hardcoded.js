@@ -4,7 +4,8 @@ export const CHAINS = {
   BASE_GOERLI: 84531,
   MUMBAI: 80001,
   ARBITRUM: 42161,
-  ETHEREUM: 1
+  ETHEREUM: 1,
+  POLYGON: 137
 }
 
 export const ChainConfig = {
@@ -48,6 +49,26 @@ export const ChainConfig = {
     cxTokenDecimals: 18,
     vaultTokenDecimals: 18
   },
+  [CHAINS.POLYGON]: {
+    npm: {
+      address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
+      tokenSymbol: 'NPM',
+      tokenDecimals: 18
+    },
+    stablecoin: {
+      address: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
+      tokenSymbol: 'USDC',
+      tokenDecimals: 18
+    },
+    veNPM: {
+      address: '',
+      tokenSymbol: 'veNPM',
+      tokenDecimals: 18
+    },
+    gaugeControllerRegistry: '',
+    cxTokenDecimals: 18,
+    vaultTokenDecimals: 18
+  },
   [CHAINS.ARBITRUM]: {
     npm: {
       address: '0x57f12FE6A4e5fe819eec699FAdf9Db2D06606bB4',
@@ -60,11 +81,11 @@ export const ChainConfig = {
       tokenDecimals: 6
     },
     veNPM: {
-      address: '',
+      address: '0x7C0A47f9e4C91003081350aeaC9170510C754EF1',
       tokenSymbol: 'veNPM',
       tokenDecimals: 18
     },
-    gaugeControllerRegistry: '',
+    gaugeControllerRegistry: '0x7a1cbA47C2f701c646a5FB417ac97BD6a1F78cf9',
     cxTokenDecimals: 18,
     vaultTokenDecimals: 18
   },
