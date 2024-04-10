@@ -1,5 +1,6 @@
 import { getActions } from '@/src/config/cover/actions'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { t } from '@lingui/macro'
 
@@ -9,11 +10,11 @@ import { t } from '@lingui/macro'
  * @param {import('@lingui/core').I18n} i18n
  * @returns
  */
-const getNavigationLinks = (pathname, i18n) => {
+const getNavigationLinks = (networkId, pathname, i18n) => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
-  const voteEscrowEnabled = isFeatureEnabled('vote-escrow')
+  const voteEscrowEnabled = isFeatureEnabled('vote-escrow') && ChainConfig[networkId] && ChainConfig[networkId].veNPM && ChainConfig[networkId].veNPM.address
   const governanceEnabled = isFeatureEnabled('governance')
 
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
@@ -105,9 +106,9 @@ const getNavigationLinks = (pathname, i18n) => {
   return links
 }
 
-const getFlattenedNavLinks = (i18n) => {
+const getFlattenedNavLinks = (networkId, i18n) => {
   const _links = []
-  const links = getNavigationLinks('', i18n)
+  const links = getNavigationLinks(networkId, '', i18n)
   links.map((link) => {
     if (link.href) { _links.push(link) }
     if (link.items) { link.items.map(item => { return _links.push(item) }) }
