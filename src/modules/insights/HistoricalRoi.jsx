@@ -1,17 +1,22 @@
 import { useRef } from 'react'
 
+import { useRouter } from 'next/router'
+
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
 import { Loading } from '@/common/Loading'
 import {
   ChainAnalyticsColors,
   ShortNetworkNames
 } from '@/lib/connect-wallet/config/chains'
+import { formatDateByLocale } from '@/lib/dates'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 
 export const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
 
   const ChainIds = data ? Array.from(new Set(data.map(entry => { return entry.chainId }))) : []
+
+  const router = useRouter()
 
   const chains = ChainIds.map(chainId => {
     return {
@@ -24,8 +29,9 @@ export const HistoricalRoi = ({ loading, data }) => {
   const chartOptions = {
     xAxis: {
       labels: {
-        format:
-          "<span class='text-black uppercase'>{value:%b %y}</span>",
+        formatter: function () {
+          return `<span class='text-black uppercase'>${formatDateByLocale(router.locale, this.value)}</span>`
+        },
         useHTML: true
       },
       ordinal: false,
@@ -134,8 +140,9 @@ export const HistoricalRoi = ({ loading, data }) => {
       outlineWidth: 0,
       xAxis: {
         labels: {
-          format:
-            "<span class='text-black uppercase'>{value:%b %y}</span>",
+          formatter: function () {
+            return `<span class='text-black uppercase'>${formatDateByLocale(router.locale, this.value)}</span>`
+          },
           useHTML: true,
           style: {
             color: '#01052D'

@@ -3,8 +3,11 @@ import React, {
   useState
 } from 'react'
 
+import { useRouter } from 'next/router'
+
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
 import { Loading } from '@/common/Loading'
+import { formatDateByLocale } from '@/lib/dates'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
 
@@ -42,6 +45,8 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       }
     })
   }
+
+  const router = useRouter()
 
   const series = Object.entries(groupCovers).map(([key, value]) => {
     if (selectedCover && selectedCover !== key) {
@@ -92,8 +97,9 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
   const chartOptions = {
     xAxis: {
       labels: {
-        format:
-          "<span class='text-black uppercase'>{value:%b %y}</span>",
+        formatter: function () {
+          return `<span class='text-black uppercase'>${formatDateByLocale(router.locale, this.value)}</span>`
+        },
         useHTML: true
       },
       ordinal: false,
@@ -195,8 +201,9 @@ export const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
       xAxis: {
         // tickInterval: 5 * 24 * 3600 * 1000,
         labels: {
-          format:
-            "<span class='text-black uppercase'>{value:%b %y}</span>",
+          formatter: function () {
+            return `<span class='text-black uppercase'>${formatDateByLocale(router.locale, this.value)}</span>`
+          },
           useHTML: true,
           style: {
             color: '#01052D'

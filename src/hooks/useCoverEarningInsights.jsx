@@ -4,11 +4,14 @@ import {
   useState
 } from 'react'
 
-import { formatInsightsMonthId, getMonthsBetweenDates } from '@/lib/dates'
+import {
+  formatDateByLocale,
+  getMonthsBetweenDates
+} from '@/lib/dates'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useProtocolMonthData } from '@/src/hooks/useProtocolMonthData'
-import { toBN } from '@/utils/bn'
 import { useLanguageContext } from '@/src/i18n/i18n'
+import { toBN } from '@/utils/bn'
 
 const getInitialDateRange = (from) => {
   const currentDate = from
@@ -65,7 +68,7 @@ function useCoverEarningInsights () {
       }).map(monthData => {
         return {
           ...monthData,
-          id: formatInsightsMonthId(locale, new Date(monthData.id), { timeZone: 'UTC' })
+          id: formatDateByLocale(locale, new Date(monthData.id), { timeZone: 'UTC' })
         }
       })
 
