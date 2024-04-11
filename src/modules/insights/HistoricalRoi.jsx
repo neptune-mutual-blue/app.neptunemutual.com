@@ -6,12 +6,16 @@ import {
   ChainAnalyticsColors,
   ShortNetworkNames
 } from '@/lib/connect-wallet/config/chains'
+import { formatDateByLocale } from '@/lib/dates'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import { hexToRgba } from '@/utils/hex-to-rgba'
 
 export const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
 
   const ChainIds = data ? Array.from(new Set(data.map(entry => { return entry.chainId }))) : []
+
+  const { locale } = useLanguageContext()
 
   const chains = ChainIds.map(chainId => {
     return {
@@ -24,9 +28,10 @@ export const HistoricalRoi = ({ loading, data }) => {
   const chartOptions = {
     xAxis: {
       labels: {
-        format:
-          "<span class='text-black uppercase'>{value:%b %y}</span>",
-        useHTML: true
+        useHTML: true,
+        formatter: function () {
+          return `<span class='text-black uppercase'>${formatDateByLocale(locale, this.value)}</span>`
+        }
       },
       ordinal: false,
       minRange: 1 * 24 * 3600 * 1000,
@@ -134,8 +139,9 @@ export const HistoricalRoi = ({ loading, data }) => {
       outlineWidth: 0,
       xAxis: {
         labels: {
-          format:
-            "<span class='text-black uppercase'>{value:%b %y}</span>",
+          formatter: function () {
+            return `<span class='text-black uppercase'>${formatDateByLocale(locale, this.value)}</span>`
+          },
           useHTML: true,
           style: {
             color: '#01052D'

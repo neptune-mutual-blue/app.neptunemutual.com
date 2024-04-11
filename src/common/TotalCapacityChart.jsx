@@ -8,6 +8,7 @@ import {
   CustomHighcharts,
   HighchartsReactComponent
 } from '@/common/HighChartsReactComponent'
+import { formatDateByLocale } from '@/lib/dates'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import { sort } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -26,8 +27,9 @@ export const TotalCapacityChart = ({ data }) => {
   const chartOptions = {
     xAxis: {
       labels: {
-        format:
-          "<span class='text-black uppercase'>{value:%b %e}</span>",
+        formatter: function () {
+          return `<span class='text-black uppercase'>${formatDateByLocale(locale, this.value)}</span>`
+        },
         useHTML: true
       },
       crosshair: {
@@ -139,8 +141,9 @@ export const TotalCapacityChart = ({ data }) => {
       xAxis: {
         // tickInterval: 5 * 24 * 3600 * 1000,
         labels: {
-          format:
-            "<span class='text-black uppercase'>{value:%b %e}</span>",
+          formatter: function () {
+            return `<span class='text-black uppercase'>${formatDateByLocale(locale, this.value)}</span>`
+          },
           useHTML: true,
           style: {
             color: '#01052D'

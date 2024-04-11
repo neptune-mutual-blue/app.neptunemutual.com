@@ -5,7 +5,7 @@ import {
 } from 'react'
 
 import {
-  formatInsightsMonthId,
+  formatDateByLocale,
   getMonthsBetweenDates
 } from '@/lib/dates'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -68,7 +68,7 @@ function useCoverEarningInsights () {
       }).map(monthData => {
         return {
           ...monthData,
-          id: formatInsightsMonthId(locale, new Date(monthData.id), { timeZone: 'UTC' })
+          id: formatDateByLocale(locale, new Date(monthData.id), { timeZone: 'UTC' })
         }
       })
 
