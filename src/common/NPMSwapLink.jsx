@@ -4,25 +4,21 @@ import {
   mainnetGetNpmLink,
   testnetGetNpmLink
 } from '@/src/config/constants'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { classNames } from '@/utils/classnames'
 import { getNetworkInfo } from '@/utils/network'
 
-export const useNPMSwapLink = (props) => {
+export const useNPMSwapLink = (_props) => {
   const { networkId } = useNetwork()
-  const { NPMTokenAddress } = useAppConstants()
 
   const npmSwapLink = useMemo(() => {
-    if (!NPMTokenAddress || !networkId) { return '' }
-
-    if (props?.tokenAddress && NPMTokenAddress.toLowerCase() !== props?.tokenAddress.toLowerCase()) { return '' }
+    if (!networkId) { return '' }
 
     const { isTestNet } = getNetworkInfo(networkId)
     if (isTestNet) { return testnetGetNpmLink }
 
     return mainnetGetNpmLink
-  }, [NPMTokenAddress, networkId, props?.tokenAddress])
+  }, [networkId])
 
   return npmSwapLink
 }

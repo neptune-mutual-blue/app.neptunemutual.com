@@ -73,8 +73,7 @@ function useCoverEarningInsights () {
       })
 
       setYAxisData(newLabels.map(lbl => {
-        const month = lbl.split(' ')[0]
-        const foundMonth = monthDataInRange.find(monthData => { return monthData.id === month })
+        const foundMonth = monthDataInRange.find(monthData => { return monthData.id === lbl })
 
         if (foundMonth) {
           return foundMonth.nonCumulativeCoverFee
