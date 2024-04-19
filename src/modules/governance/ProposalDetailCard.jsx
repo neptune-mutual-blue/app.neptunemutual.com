@@ -110,7 +110,7 @@ export const ProposalDetailCard = ({
         <div className='flex flex-row items-center gap-1'>
           <a
             className='font-semibold text-4E7DD9'
-            href={getBlockLink(networkId, snapshot)}
+            href={getBlockLink(networkId === 42161 ? 1 : networkId, snapshot)}
             target='_blank'
             rel='noreferrer noopener nofollow'
           >

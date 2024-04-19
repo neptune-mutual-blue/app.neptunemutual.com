@@ -4,7 +4,7 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { EPOCH_DURATION } from '@/src/config/constants'
+import { latestSnapshotIpfsData } from '@/src/config/constants'
 import { abis } from '@/src/config/contracts/abis'
 import { ChainConfig } from '@/src/config/hardcoded'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -20,12 +20,15 @@ import {
   STATUS,
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { convertFromUnits, sumOf } from '@/utils/bn'
+import {
+  convertFromUnits,
+  sumOf
+} from '@/utils/bn'
 import { getEpochFromTitle } from '@/utils/snapshot'
 import { t } from '@lingui/macro'
+import { useLingui } from '@lingui/react'
 import { utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { useLingui } from '@lingui/react'
 
 export const useSetGauge = ({ title, distribution }) => {
   const [approving, setApproving] = useState(false)
@@ -147,11 +150,15 @@ export const useSetGauge = ({ title, distribution }) => {
         signerOrProvider
       )
 
+      const now = new Date()
+      const epochEndDate = new Date(latestSnapshotIpfsData.epochEndsAt)
+      const epochDuration = Math.ceil((epochEndDate.valueOf() - now.valueOf()) / 1000)
+
       const epoch = getEpochFromTitle(title)
       const args = [
         epoch,
         amountToDeposit,
-        EPOCH_DURATION,
+        epochDuration,
         distribution
       ]
 
