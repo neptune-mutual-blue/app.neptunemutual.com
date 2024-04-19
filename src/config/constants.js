@@ -66,6 +66,8 @@ export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networ
 
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`
 
+export const EPOCH_DETAILS_URL = `${API_BASE_URL}snapshot/gce/proposals/{networkType}/{epochId}`
+
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   80001: 'https://test.atlasswap.com/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
@@ -154,3 +156,25 @@ export const getSushiswapLink = (usdc, address, networkId) => { return `https://
 export const LIQUIDITY_POINTS_PER_DOLLAR = 0.0375
 
 export const POLICY_POINTS_PER_DOLLAR = 0.00625
+
+export const latestSnapshotIpfsData = {
+  epochId: 1,
+  networkType: 'mainnet',
+  pools: [
+    {
+      chainId: 42161,
+      name: 'Prime dApps',
+      poolKey: '0x7072696d65000000000000000000000000000000000000000000000000000000'
+    },
+    {
+      chainId: 42161,
+      name: 'Popular DeFi Apps',
+      poolKey: '0x706f70756c61722d646566692d61707073000000000000000000000000000000'
+    }
+  ],
+  emission: '375000000000000000000000',
+  votingStartsAt: '2024-04-16T18:00:00.000Z',
+  votingEndsAt: '2024-04-27T18:00:00.000Z',
+  epochStartsAfter: '2024-04-28T00:00:00.000Z',
+  epochEndsAt: '2024-05-27T23:59:59.000Z'
+}
