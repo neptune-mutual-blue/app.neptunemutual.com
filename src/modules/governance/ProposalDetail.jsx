@@ -71,6 +71,7 @@ export const ProposalDetail = ({ proposalDetail }) => {
           start={proposalDetail.start}
           end={proposalDetail.end}
           state={proposalDetail.state}
+          network={proposalDetail.network}
         />
 
         {isValidProposal
