@@ -1,5 +1,6 @@
 import DateLib from '@/lib/date/DateLib'
 import {
+  EPOCH_DETAILS_URL,
   SNAPSHOT_API_URL,
   SNAPSHOT_INTERFACE_URL,
   SNAPSHOT_SPACE_ID
@@ -11,6 +12,7 @@ import {
 import { getColorByIndex } from '@/utils/colorArrays'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { getNetworkInfo } from '@/utils/network'
+import { getReplacedString } from '@/utils/string'
 
 export const getCategoryFromTitle = (text) => {
   const lowercaseText = text.toLowerCase()
@@ -32,6 +34,17 @@ export const getTagFromTitle = (text = '') => {
 export const getSnapshotApiURL = (networkId) => {
   const { isMainNet } = getNetworkInfo(networkId)
   const url = isMainNet ? SNAPSHOT_API_URL.mainnet : SNAPSHOT_API_URL.testnet
+
+  return url
+}
+
+export const getEpochDetails = (networkId, epochId) => {
+  const { isMainNet } = getNetworkInfo(networkId)
+
+  const url = getReplacedString(EPOCH_DETAILS_URL, {
+    networkType: isMainNet ? 'mainnet' : 'testnet',
+    epochId
+  })
 
   return url
 }
@@ -97,8 +110,7 @@ export const parseChoice = (choice) => {
 }
 
 export const getEpochFromTitle = (title = '') => {
-  const regex = /epoch\s+#(\d)\s*/gi
-  const [, epochStr] = (regex.exec(title))
+  const [, epochStr] = title.split('#')
 
   if (isNaN(parseInt(epochStr))) {
     return null

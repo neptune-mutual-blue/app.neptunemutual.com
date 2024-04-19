@@ -4,7 +4,10 @@ import {
 } from 'react'
 
 import { useNetwork } from '@/src/context/Network'
-import { getSnapshotApiURL, parseEmptyScores } from '@/utils/snapshot'
+import {
+  getSnapshotApiURL,
+  parseEmptyScores
+} from '@/utils/snapshot'
 
 const getQuery = (id) => {
   return `query SingleProposal {
@@ -17,6 +20,7 @@ const getQuery = (id) => {
     end
     ipfs
     snapshot
+    network
     state
     author
     scores
