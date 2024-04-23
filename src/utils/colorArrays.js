@@ -1,4 +1,4 @@
-export const colorsArray = [
+const colorsArray = [
   '#A11043',
   '#E31B54',
   '#B42318',
@@ -25,16 +25,22 @@ export const colorsArray = [
   '#4E5BA6'
 ]
 
-const getColorByIndex = (index, total) => {
-  const cols = colorsArray.length / 2
-  const numbersArray = Array(total).fill(0).map((_, i) => { return i })
-  const diff = total - cols > 0 ? total - cols : 0
+function getCyclicElements (arr, step) {
+  const total = arr.length
+  const result = []
 
-  const sameIndexItems = numbersArray.slice(0, diff * 2)
-  const increasingIndexItems = numbersArray.slice(diff * 2).map((item, i) => { return (item + i + 1) })
+  for (let start = 0; start < step; start++) {
+    for (let i = start; i < total; i += step) {
+      result.push(arr[i])
+    }
+  }
 
-  const finalArrayOfIndexes = [...sameIndexItems, ...increasingIndexItems].map(idx => { return (idx % colorsArray.length) })
-  const colorAtIndex = colorsArray[finalArrayOfIndexes[index]]
+  return result
+}
+const colors = getCyclicElements(colorsArray, 5)
+
+const getColorByIndex = (index) => {
+  const colorAtIndex = colors[(index + 1) % colors.length]
 
   return colorAtIndex
 }
