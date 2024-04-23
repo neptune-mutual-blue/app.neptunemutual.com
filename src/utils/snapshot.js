@@ -155,7 +155,7 @@ export const getVotingResults = (choices = [], scores = []) => {
       chainId,
       name: choice,
       percent: score.isGreaterThan(0) ? score.dividedBy(totalScore).toString() : '0',
-      color: getColorByIndex(i, choices.length)
+      color: getColorByIndex(i)
     }
   })
 
