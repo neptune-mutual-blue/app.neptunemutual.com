@@ -8,7 +8,7 @@ import { Container } from '@/common/Container/Container'
 import { AccountDetail } from '@/modules/governance/AccountDetail'
 import LiquidityGauge from '@/modules/governance/LiquidityGauge'
 import { ProposalDetailCard } from '@/modules/governance/ProposalDetailCard'
-import { EMISSION_PER_EPOCH } from '@/src/config/constants'
+import { latestSnapshotIpfsData } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import {
@@ -32,15 +32,17 @@ export const ProposalDetail = ({ proposalDetail }) => {
 
   const filteredResults = getResultsByChains(getVotingResults(proposalDetail.choices, proposalDetail.scores), selectedChains)
 
+  const emission = latestSnapshotIpfsData.emission
+
   const distribution = filteredResults.map(result => {
     return {
       key: result.key,
-      emission: toBN(EMISSION_PER_EPOCH).multipliedBy(result.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString()
+      emission: toBN(emission).multipliedBy(result.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString()
     }
   })
 
   const emissionOfSelectedChains = distribution.length === 0
-    ? sumOf(...(filteredResults || []).map((r) => { return r.percent })).multipliedBy(EMISSION_PER_EPOCH).decimalPlaces(0, BigNumber.ROUND_CEIL).toString()
+    ? sumOf(...(filteredResults || []).map((r) => { return r.percent })).multipliedBy(emission).decimalPlaces(0, BigNumber.ROUND_CEIL).toString()
     : sumOf(...distribution.map((d) => { return d.emission })).toString()
 
   return (
@@ -65,10 +67,10 @@ export const ProposalDetail = ({ proposalDetail }) => {
           proposalId={proposalDetail.id}
           title={proposalDetail.title}
           snapshot={proposalDetail.snapshot}
-          ipfs={proposalDetail.ipfs}
           start={proposalDetail.start}
           end={proposalDetail.end}
           state={proposalDetail.state}
+          network={proposalDetail.network}
         />
 
         {isValidProposal

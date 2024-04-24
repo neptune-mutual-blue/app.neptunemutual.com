@@ -44,9 +44,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
   : '/'
 
-export const IPFS_HASH_URL = 'https://cloudflare-ipfs.com/ipfs/{ipfsHash}' // cloudflare works with cidv1 hashes like `bafkreihdaejkl4z2utvdsm7aulv5kmhjvnkpwyoosuqkz73xlkwoq2qiqa`
-
-export const NPM_IPFS_HASH_URL = 'https://ipfs.neptunemutual.net/ipfs/{ipfsHash}'
+export const NPM_IPFS_HASH_URL = 'https://ipfs.neptunemutual.net/?hash={ipfsHash}'
 
 export const BRIDGE_BALANCE_URL = `${API_BASE_URL}bridge/balance/{networkId}`
 
@@ -65,6 +63,8 @@ export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/
 export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`
 
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`
+
+export const EPOCH_DETAILS_URL = `${API_BASE_URL}snapshot/gce/proposals/{networkType}/{epochId}`
 
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
@@ -144,9 +144,6 @@ export const PREMATURE_UNLOCK_PENALTY_FRACTION = 0.25
 
 export const EPOCH_DURATION = 28 * DAYS
 
-// convertToUnits(150_000, 18).toString(). the long configuration was used because use of function was failing many tests
-export const EMISSION_PER_EPOCH = '150000000000000000000000'
-
 export const mainnetGetNpmLink = 'https://neptunemutual.com/marketplace/#get-npm'
 
 export const testnetGetNpmLink = FAUCET_URL
@@ -160,3 +157,26 @@ export const LIQUIDITY_POINTS_PER_DOLLAR = 0.0375
 export const POLICY_POINTS_PER_DOLLAR = 0.00625
 
 export const DEFAULT_NETWORK = 42161
+
+export const latestSnapshotIpfsData = {
+  hash: 'QmWJ5qNNKiQ8dCLvcphkYfZc7kNwzSVpTsGXT9B6WJzA9s',
+  epochId: 1,
+  networkType: 'mainnet',
+  pools: [
+    {
+      chainId: 42161,
+      name: 'Prime dApps',
+      poolKey: '0x7072696d65000000000000000000000000000000000000000000000000000000'
+    },
+    {
+      chainId: 42161,
+      name: 'Popular DeFi Apps',
+      poolKey: '0x706f70756c61722d646566692d61707073000000000000000000000000000000'
+    }
+  ],
+  emission: '375000000000000000000000',
+  votingStartsAt: '2024-04-16T18:00:00.000Z',
+  votingEndsAt: '2024-04-27T18:00:00.000Z',
+  epochStartsAfter: '2024-04-28T00:00:00.000Z',
+  epochEndsAt: '2024-05-27T23:59:59.000Z'
+}

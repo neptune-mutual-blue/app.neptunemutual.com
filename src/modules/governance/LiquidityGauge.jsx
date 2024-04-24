@@ -14,7 +14,6 @@ import { ShortNetworkNames } from '@/lib/connect-wallet/config/chains'
 import DateLib from '@/lib/date/DateLib'
 import ChainDropdown from '@/modules/governance/ChainDropdown'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { EMISSION_PER_EPOCH } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import {
@@ -187,7 +186,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>
-          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(EMISSION_PER_EPOCH).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), locale, 'NPM', true).long}
+          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(emission).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), locale, 'NPM', true).long}
         </div>
         <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, locale)}>
           As of:{' '}{formattedDate}
