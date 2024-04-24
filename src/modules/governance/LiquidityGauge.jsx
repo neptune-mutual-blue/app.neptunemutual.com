@@ -6,7 +6,6 @@ import {
   useState
 } from 'react'
 
-import BigNumber from 'bignumber.js'
 import { useRouter } from 'next/router'
 
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
@@ -24,6 +23,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { getAsOfDate } from '@/utils/snapshot'
 import { Trans } from '@lingui/macro'
+import { EMISSION_ROUNDING_MODE } from '@/src/config/constants'
 
 const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, chainIds = [], results = [], emission }) => {
   const [hoveredName, setHoveredName] = useState(null)
@@ -86,7 +86,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
         innerSize: '60%',
         dataLabels: {
           distance: 20,
-          format: allZeros ? '<b>{point.name}</b>: 0%' : '<b>{point.name}</b>: {point.y:.1f} %',
+          format: allZeros ? '<b>{point.name}</b>: 0%' : '<b>{point.name}</b>: {point.y:.3f} %',
           connectorColor: 'black'
         },
         showInLegend: false,
@@ -186,7 +186,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>
-          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(emission).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), router.locale, 'NPM', true).long}
+          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(emission).multipliedBy(match?.percent).decimalPlaces(2, EMISSION_ROUNDING_MODE).toString(), router.locale, 'NPM', true).long}
         </div>
         <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, router.locale)}>
           As of:{' '}{formattedDate}

@@ -1,14 +1,12 @@
 import { useState } from 'react'
 
-import BigNumber from 'bignumber.js'
-
 import { Alert } from '@/common/Alert/Alert'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { AccountDetail } from '@/modules/governance/AccountDetail'
 import LiquidityGauge from '@/modules/governance/LiquidityGauge'
 import { ProposalDetailCard } from '@/modules/governance/ProposalDetailCard'
-import { latestSnapshotIpfsData } from '@/src/config/constants'
+import { EMISSION_ROUNDING_MODE, latestSnapshotIpfsData } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import {
   sumOf,
@@ -35,12 +33,12 @@ export const ProposalDetail = ({ proposalDetail }) => {
   const distribution = filteredResults.map(result => {
     return {
       key: result.key,
-      emission: toBN(emission).multipliedBy(result.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString()
+      emission: toBN(emission).multipliedBy(result.percent).decimalPlaces(0, EMISSION_ROUNDING_MODE).toString()
     }
   })
 
   const emissionOfSelectedChains = distribution.length === 0
-    ? sumOf(...(filteredResults || []).map((r) => { return r.percent })).multipliedBy(emission).decimalPlaces(0, BigNumber.ROUND_CEIL).toString()
+    ? sumOf(...(filteredResults || []).map((r) => { return r.percent })).multipliedBy(emission).decimalPlaces(0, EMISSION_ROUNDING_MODE).toString()
     : sumOf(...distribution.map((d) => { return d.emission })).toString()
 
   return (
