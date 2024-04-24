@@ -7,7 +7,6 @@ import {
 } from 'react'
 
 import BigNumber from 'bignumber.js'
-import { useRouter } from 'next/router'
 
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
 import { NoDataFound } from '@/common/Loading'
@@ -30,8 +29,6 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
   const [hoveredName, setHoveredName] = useState(null)
   const [mouseEnteredOnLegend, setMouseEnteredOnLegend] = useState(false)
   const [mobile, setMobile] = useState(window.innerWidth < 768)
-
-  const router = useRouter()
 
   const chartRef = useRef()
   const { locale } = useLanguageContext()
@@ -189,7 +186,7 @@ const LiquidityGauge = ({ start, end, state, selectedChains, setSelectedChains, 
 
       <div className='mt-8 text-center'>
         <div className='mb-1 text-xl font-semibold'>
-          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(emission).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), router.locale, 'NPM', true).long}
+          {hoveredName} ({formatPercent(match?.percent)}) - {formatCurrency(convertFromUnits(emission).multipliedBy(match?.percent).decimalPlaces(0, BigNumber.ROUND_CEIL).toString(), locale, 'NPM', true).long}
         </div>
         <div className='mb-4 text-md' title={DateLib.toLongDateFormat(asOfDate, locale)}>
           As of:{' '}{formattedDate}
