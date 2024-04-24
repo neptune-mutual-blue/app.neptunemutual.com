@@ -65,7 +65,6 @@ export const ProposalDetail = ({ proposalDetail }) => {
           proposalId={proposalDetail.id}
           title={proposalDetail.title}
           snapshot={proposalDetail.snapshot}
-          ipfs={proposalDetail.ipfs}
           start={proposalDetail.start}
           end={proposalDetail.end}
           state={proposalDetail.state}

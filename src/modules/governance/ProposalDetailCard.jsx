@@ -6,7 +6,10 @@ import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { getBlockLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import GovernanceCard from '@/modules/governance/GovernanceCard'
-import { IPFS_HASH_URL } from '@/src/config/constants'
+import {
+  latestSnapshotIpfsData,
+  NPM_IPFS_HASH_URL
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
@@ -21,7 +24,6 @@ export const ProposalDetailCard = ({
   proposalId,
   title,
   snapshot,
-  ipfs,
   start,
   end,
   state,
@@ -73,7 +75,7 @@ export const ProposalDetailCard = ({
               </a>
               <a
                 className='underline text-4E7DD9 hover:no-underline'
-                href={getReplacedString(IPFS_HASH_URL, { ipfsHash: ipfs })}
+                href={getReplacedString(NPM_IPFS_HASH_URL, { ipfsHash: latestSnapshotIpfsData.hash })}
                 target='_blank'
                 rel='noreferrer noopener nofollow'
               >
