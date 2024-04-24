@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 export const MULTIPLIER = 10_000
 
 export const DEFAULT_GAS_LIMIT = '6000000'
@@ -157,6 +159,8 @@ export const LIQUIDITY_POINTS_PER_DOLLAR = 0.0375
 export const POLICY_POINTS_PER_DOLLAR = 0.00625
 
 export const DEFAULT_NETWORK = 42161
+
+export const EMISSION_ROUNDING_MODE = BigNumber.ROUND_FLOOR
 
 export const latestSnapshotIpfsData = {
   hash: 'QmWJ5qNNKiQ8dCLvcphkYfZc7kNwzSVpTsGXT9B6WJzA9s',
