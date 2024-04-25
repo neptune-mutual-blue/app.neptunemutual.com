@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 export const MULTIPLIER = 10_000
 
 export const DEFAULT_GAS_LIMIT = '6000000'
@@ -44,9 +46,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
   : '/'
 
-export const IPFS_HASH_URL = 'https://cloudflare-ipfs.com/ipfs/{ipfsHash}' // cloudflare works with cidv1 hashes like `bafkreihdaejkl4z2utvdsm7aulv5kmhjvnkpwyoosuqkz73xlkwoq2qiqa`
-
-export const NPM_IPFS_HASH_URL = 'https://ipfs.neptunemutual.net/ipfs/{ipfsHash}'
+export const NPM_IPFS_HASH_URL = 'https://ipfs.neptunemutual.net/?hash={ipfsHash}'
 
 export const BRIDGE_BALANCE_URL = `${API_BASE_URL}bridge/balance/{networkId}`
 
@@ -146,9 +146,6 @@ export const PREMATURE_UNLOCK_PENALTY_FRACTION = 0.25
 
 export const EPOCH_DURATION = 28 * DAYS
 
-// convertToUnits(150_000, 18).toString(). the long configuration was used because use of function was failing many tests
-export const EMISSION_PER_EPOCH = '150000000000000000000000'
-
 export const mainnetGetNpmLink = 'https://neptunemutual.com/marketplace/#get-npm'
 
 export const testnetGetNpmLink = FAUCET_URL
@@ -161,7 +158,10 @@ export const LIQUIDITY_POINTS_PER_DOLLAR = 0.0375
 
 export const POLICY_POINTS_PER_DOLLAR = 0.00625
 
+export const EMISSION_ROUNDING_MODE = BigNumber.ROUND_FLOOR
+
 export const latestSnapshotIpfsData = {
+  hash: 'QmWJ5qNNKiQ8dCLvcphkYfZc7kNwzSVpTsGXT9B6WJzA9s',
   epochId: 1,
   networkType: 'mainnet',
   pools: [

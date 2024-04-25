@@ -80,13 +80,15 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
               <h4 className='text-sm font-semibold text-999BAB'>
                 <Trans>Balance</Trans>
               </h4>
-              <p className={classNames(
-                'text-xl',
-                isBalanceInsufficient && 'text-E52E2E'
-              )}
+              <p
+                className={classNames(
+                  'text-xl',
+                  isBalanceInsufficient && 'text-E52E2E'
+                )}
+                title={convertFromUnits(balance, depositTokenDecimals).toString()}
               >
                 {formatCurrency(
-                  convertFromUnits(balance, depositTokenDecimals),
+                  convertFromUnits(balance, depositTokenDecimals).toString(),
                   router.locale,
                   depositTokenSymbol,
                   true
@@ -97,8 +99,8 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
               <h4 className='text-sm font-semibold text-999BAB'>
                 <Trans>Required</Trans>
               </h4>
-              <p className='text-xl'>{formatCurrency(
-                convertFromUnits(amountToDeposit, depositTokenDecimals),
+              <p className='text-xl' title={convertFromUnits(amountToDeposit, depositTokenDecimals).toString()}>{formatCurrency(
+                convertFromUnits(amountToDeposit, depositTokenDecimals).toString(),
                 router.locale,
                 depositTokenSymbol,
                 true
