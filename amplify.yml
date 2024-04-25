@@ -3,7 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - nvm use 18
+        - nvm use 20
         - yarn install
     build:
       commands:
