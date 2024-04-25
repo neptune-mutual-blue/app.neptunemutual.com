@@ -3,7 +3,8 @@ frontend:
   phases:
     preBuild:
       commands:
-        - nvm use 20
+        - nvm install 20.11.1
+        - nvm use 20.11.1
         - yarn install
     build:
       commands:
