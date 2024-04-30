@@ -112,6 +112,29 @@ export const ChainConfig = {
     cxTokenDecimals: 18,
     vaultTokenDecimals: 18
   },
+  [CHAINS.FUJI]: {
+    npm: {
+      address: '0x73643a4f85ccbEdA5db6397BF044f4CBF16DC4Df',
+      tokenSymbol: 'NPM',
+      tokenDecimals: 18
+    },
+    stablecoin: {
+      address: '0x06C3cf1240720671FfFa1bAc5d2E5Ae8b59130F9',
+      tokenSymbol: 'USDC',
+      tokenDecimals: 6
+    },
+    veNPM: {
+      address: '0xA950f3AB79CAa35ca1302A24669136631D24B527',
+      tokenSymbol: 'veNPM',
+      tokenDecimals: 18
+    },
+    gaugeControllerRegistry: '0xD6BDCfA7a27bb7177FB8a3465cc0F7957A251564',
+    neptuneLegends: '',
+    policyProofMinter: '',
+    merkleProofMinter: '',
+    cxTokenDecimals: 18,
+    vaultTokenDecimals: 18
+  },
   [CHAINS.BASE_GOERLI]: {
     npm: {
       address: '0x4BbDc138dd105C7ddE874df7FCd087b064F7973d',

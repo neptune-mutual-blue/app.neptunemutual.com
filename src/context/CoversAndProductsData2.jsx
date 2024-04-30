@@ -71,12 +71,12 @@ export const CoversAndProductsProvider2 = ({ children }) => {
         .map(x => {
           return {
             ...x,
-            availableForUnderwriting: convertToUnits(x.availableForUnderwriting, stablecoinDecimals).toString(),
-            capacity: convertToUnits(x.capacity, stablecoinDecimals).toString(),
-            commitment: convertToUnits(x.commitment, stablecoinDecimals).toString(),
+            availableForUnderwriting: convertToUnits(x.availableForUnderwriting || 0, stablecoinDecimals).toString(),
+            capacity: convertToUnits(x.capacity || 0, stablecoinDecimals).toString(),
+            commitment: convertToUnits(x.commitment || 0, stablecoinDecimals).toString(),
             minReportingStake: convertToUnits(x.minReportingStake, npmDecimals).toString(),
-            reassurance: convertToUnits(x.reassurance, stablecoinDecimals).toString(),
-            tvl: convertToUnits(x.tvl, stablecoinDecimals).toString(),
+            reassurance: convertToUnits(x.reassurance || 0, stablecoinDecimals).toString(),
+            tvl: convertToUnits(x.tvl || 0, stablecoinDecimals).toString(),
             leverage: toBNSafe(x.leverage).isZero() ? '1' : x.leverage
           }
         })
