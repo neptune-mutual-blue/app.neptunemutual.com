@@ -59,7 +59,7 @@ export const TxPosterProvider = ({ children }) => {
       let estimatedGas = null
 
       try {
-        console.log('Call `%s` ', methodName, ' with args: ', args)
+        console.log('Call `%s` on contract %s with args:', methodName, instance.address, args)
 
         estimatedGas = await instance.estimateGas[methodName](...args, { ...overrides })
 
