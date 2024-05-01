@@ -85,7 +85,7 @@ export const ChainConfig = {
       tokenSymbol: 'veNPM',
       tokenDecimals: 18
     },
-    gaugeControllerRegistry: '0x7a1cbA47C2f701c646a5FB417ac97BD6a1F78cf9',
+    gaugeControllerRegistry: '0x5cE5ac933C8CEf672304306684D15c3218F94D10',
     cxTokenDecimals: 18,
     vaultTokenDecimals: 18
   },
