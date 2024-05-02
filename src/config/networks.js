@@ -5,6 +5,7 @@ const supportedNetworks = [
   56, // BNB Smart Chain Mainnet
   137, // Polygon Mainnet
   42161, // Arbitrum One Mainnet
+  43113, // Fuji Testnet
   80001 // Mumbai Testnet
 ]
 
@@ -13,6 +14,7 @@ const networkIdToSlug = {
   56: 'bsc',
   137: 'polygon',
   42161: 'arbitrum',
+  43113: 'fuji',
   80001: 'mumbai'
 }
 
@@ -21,6 +23,7 @@ const slugToNetworkId = {
   bsc: 56,
   polygon: 137,
   arbitrum: 42161,
+  fuji: 43113,
   mumbai: 80001
 }
 
@@ -29,6 +32,7 @@ const enabledFeatures = {
   56: process.env.NEXT_PUBLIC_BSC_FEATURES,
   137: process.env.NEXT_PUBLIC_POLYGON_FEATURES,
   42161: process.env.NEXT_PUBLIC_ARBITRUM_FEATURES,
+  43113: process.env.NEXT_PUBLIC_FUJI_FEATURES,
   80001: process.env.NEXT_PUBLIC_MUMBAI_FEATURES
 }
 
