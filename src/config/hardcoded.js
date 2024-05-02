@@ -85,7 +85,7 @@ export const ChainConfig = {
       tokenSymbol: 'veNPM',
       tokenDecimals: 18
     },
-    gaugeControllerRegistry: '0x7a1cbA47C2f701c646a5FB417ac97BD6a1F78cf9',
+    gaugeControllerRegistry: '0x5cE5ac933C8CEf672304306684D15c3218F94D10',
     cxTokenDecimals: 18,
     vaultTokenDecimals: 18
   },
@@ -106,6 +106,29 @@ export const ChainConfig = {
       tokenDecimals: 18
     },
     gaugeControllerRegistry: '0xecEE2e24190b016C7c27B063bC3176466FE2e9bf',
+    neptuneLegends: '',
+    policyProofMinter: '',
+    merkleProofMinter: '',
+    cxTokenDecimals: 18,
+    vaultTokenDecimals: 18
+  },
+  [CHAINS.FUJI]: {
+    npm: {
+      address: '0x73643a4f85ccbEdA5db6397BF044f4CBF16DC4Df',
+      tokenSymbol: 'NPM',
+      tokenDecimals: 18
+    },
+    stablecoin: {
+      address: '0x06C3cf1240720671FfFa1bAc5d2E5Ae8b59130F9',
+      tokenSymbol: 'USDC',
+      tokenDecimals: 6
+    },
+    veNPM: {
+      address: '0xA950f3AB79CAa35ca1302A24669136631D24B527',
+      tokenSymbol: 'veNPM',
+      tokenDecimals: 18
+    },
+    gaugeControllerRegistry: '0xD6BDCfA7a27bb7177FB8a3465cc0F7957A251564',
     neptuneLegends: '',
     policyProofMinter: '',
     merkleProofMinter: '',

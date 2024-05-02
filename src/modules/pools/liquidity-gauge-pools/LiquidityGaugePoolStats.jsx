@@ -56,7 +56,7 @@ export function LiquidityGaugePoolStats ({
 
   const formattedTvl = formatCurrency(tvl)
 
-  const hasLockedAmount = toBN(lockedByMe).isGreaterThan(0)
+  const hasLockedAmount = toBN(lockedByMe).isGreaterThan(0) || toBN(rewardAmount).isGreaterThan(0)
 
   const { i18n } = useLingui()
 
