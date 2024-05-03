@@ -19,6 +19,7 @@ import {
 } from '@/utils/bn'
 
 import { PoolDescription } from './PoolDescription'
+import { useAppConstants } from '@/src/context/AppConstants'
 
 export function LiquidityGaugePoolCard ({
   pool, rewardTokenSymbol, rewardTokenDecimals, getPriceByToken
@@ -33,7 +34,14 @@ export function LiquidityGaugePoolCard ({
   // const lockupPeriod = toBN(pool.lockupPeriodInBlocks).multipliedBy(approxBlockTime)
   const { lockedByMe, rewardAmount, lockedByEveryone, update: updateStakedAndReward } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
 
-  const stakingTokenTVL = convertFromUnits(toBN(getPriceByToken(stakingTokenAddress)).multipliedBy(lockedByEveryone).toString(), stakingTokenDecimals).toString()
+  const { liquidityTokenDecimals } = useAppConstants()
+
+  const stakingTokenTVL = convertFromUnits(
+    toBN(getPriceByToken(stakingTokenAddress))
+      .multipliedBy(lockedByEveryone)
+      .toString(),
+    liquidityTokenDecimals
+  )
 
   return (
     <div className='p-8 bg-white first:rounded-t-2xl last:rounded-b-2xl' key={pool.id}>
