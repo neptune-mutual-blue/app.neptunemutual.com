@@ -37,7 +37,14 @@ const StatAfterLocked = ({
 }
 
 export function LiquidityGaugePoolStats ({
-  lockupPeriodInBlocks, stakingTokenSymbol, stakingTokenDecimals, rewardTokenSymbol, rewardTokenDecimals, lockedByMe, rewardAmount, tvl
+  lockupPeriodInBlocks,
+  stakingTokenSymbol,
+  stakingTokenDecimals,
+  rewardTokenSymbol,
+  rewardTokenDecimals,
+  lockedByMe,
+  rewardAmount,
+  tvl
 }) {
   const router = useRouter()
 

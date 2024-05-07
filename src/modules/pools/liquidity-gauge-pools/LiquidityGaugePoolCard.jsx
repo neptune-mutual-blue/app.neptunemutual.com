@@ -27,6 +27,7 @@ export function LiquidityGaugePoolCard ({
   const poolAddress = pool.poolAddress
   const stakingTokenAddress = pool.stakingToken
   const stakingTokenSymbol = pool.stakingTokenSymbol
+  const stakingTokenBalance = pool.stakingTokenBalance
   const stakingTokenDecimals = pool.stakingTokenDecimals
   const lockupPeriodInBlocks = pool.lockupPeriodInBlocks
 
@@ -36,9 +37,13 @@ export function LiquidityGaugePoolCard ({
 
   const { liquidityTokenDecimals } = useAppConstants()
 
+  const stakingTokenPrice = getPriceByToken(stakingTokenAddress).toString() === '0'
+    ? toBN(10).pow(liquidityTokenDecimals - stakingTokenDecimals).toString()
+    : getPriceByToken(stakingTokenAddress).toString()
+
   const stakingTokenTVL = convertFromUnits(
-    toBN(getPriceByToken(stakingTokenAddress))
-      .multipliedBy(lockedByEveryone)
+    toBN(stakingTokenPrice)
+      .multipliedBy(stakingTokenBalance || lockedByEveryone)
       .toString(),
     liquidityTokenDecimals
   )

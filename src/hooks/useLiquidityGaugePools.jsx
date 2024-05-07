@@ -55,6 +55,8 @@ export const useLiquidityGaugePools = ({ NPMTokenDecimals }) => {
         setData(pools.map(pool => {
           return {
             ...pool,
+            stakingToken: pool.token || '',
+            stakingTokenBalance: pool.balance || '',
             currentDistribution: convertToUnits(pool.currentDistribution || 0, NPMTokenDecimals).toString()
           }
         }))

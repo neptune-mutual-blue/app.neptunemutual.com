@@ -8,9 +8,12 @@ import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
+import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
+import { useMemo } from 'react'
+import { useLiquidityGaugePoolPricing } from '@/src/hooks/useLiquidityGaugePoolPricing'
 
 const headers = [
   isFeatureEnabled('liquidity-gauge-pools') && {
@@ -36,8 +39,44 @@ const headers = [
 ].filter(Boolean)
 
 export const PoolsTabs = ({ active, children }) => {
-  const { poolsTvl: tvl, liquidityTokenDecimals } = useAppConstants()
+  const { poolsTvl, liquidityTokenDecimals, NPMTokenDecimals } = useAppConstants()
   const router = useRouter()
+
+  const { data: liquidityGaugePools } = useLiquidityGaugePools({ NPMTokenDecimals })
+
+  const tokenData = useMemo(() => {
+    return liquidityGaugePools.map(pool => {
+      return [{
+        type: 'pod',
+        address: pool.stakingToken
+      },
+      {
+        type: 'token',
+        address: pool.rewardToken
+      }]
+    }).flat()
+  }, [liquidityGaugePools])
+
+  const { getPriceByToken } = useLiquidityGaugePoolPricing(tokenData)
+
+  const tvl = useMemo(() => {
+    const balance = sumOf(...liquidityGaugePools.map(pool => {
+      const stakingTokenPricePerUnit = getPriceByToken(pool.stakingToken).toString() === '0'
+        ? toBN(10).pow(liquidityTokenDecimals - pool.stakingTokenDecimals).toString()
+        : getPriceByToken(pool.stakingToken).toString()
+
+      const stakingTokenTVL = convertFromUnits(
+        toBN(stakingTokenPricePerUnit)
+          .multipliedBy(pool.stakingTokenBalance || '0')
+          .toString(),
+        liquidityTokenDecimals
+      )
+
+      return stakingTokenTVL
+    })).toString()
+
+    return sumOf(poolsTvl, balance).toString()
+  }, [getPriceByToken, liquidityGaugePools, liquidityTokenDecimals, poolsTvl])
 
   return (
     <>
