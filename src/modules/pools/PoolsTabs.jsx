@@ -65,12 +65,9 @@ export const PoolsTabs = ({ active, children }) => {
         ? toBN(10).pow(liquidityTokenDecimals - pool.stakingTokenDecimals).toString()
         : getPriceByToken(pool.stakingToken).toString()
 
-      const stakingTokenTVL = convertFromUnits(
-        toBN(stakingTokenPricePerUnit)
-          .multipliedBy(pool.stakingTokenBalance || '0')
-          .toString(),
-        liquidityTokenDecimals
-      )
+      const stakingTokenTVL = toBN(stakingTokenPricePerUnit)
+        .multipliedBy(pool.stakingTokenBalance || '0')
+        .toString()
 
       return stakingTokenTVL
     })).toString()
