@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { CustomRadio } from '@/common/Radio/Radio'
 import DateLib from '@/lib/date/DateLib'
 import { Trans } from '@lingui/macro'
+import { formatCurrency } from '@/utils/formatter/currency'
 
 const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, handleRadioChange, coverMonth, tokenSymbol, feeData }) => {
   const router = useRouter()
@@ -29,6 +30,8 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
       setRadioProgress(0)
     }
   }, [coverMonth])
+
+  const formattedAmountToCover = formatCurrency(value, router.locale, tokenSymbol, true)
 
   return (
     <div className='mt-6'>
@@ -77,7 +80,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
         />
       </div>
       <div className='w-full px-2 py-6 text-center rounded-lg mt-11 md:px-8 bg-F3F5F7'>
-        <div className='flex justify-between font-semibold uppercase'><span className='w-1/2 text-left'>Your Cover Amount: </span><span className='w-1/2 font-normal text-right'>{value} {tokenSymbol}</span></div>
+        <div className='flex justify-between font-semibold uppercase'><span className='w-1/2 text-left'>Your Cover Amount: </span><span className='w-1/2 font-normal text-right' title={formattedAmountToCover.short}>{formattedAmountToCover.long}</span></div>
         <div className='flex justify-between mt-4 font-semibold uppercase'><span className='w-1/2 text-left'>Cover Expires On:</span>
           <span className='font-normal text-right fw-1/2'>
             {DateLib.toLongDateFormat(feeData.expiryDate, router.locale, 'UTC', {

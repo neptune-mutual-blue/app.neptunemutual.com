@@ -48,18 +48,19 @@ export const LiquidityGaugeCardAction = ({
     setIsUnlockModalOpen(false)
   }
 
+  const isPoolStaked = toBN(lockedByMe).isGreaterThan(0) || toBN(rewardAmount).isGreaterThan(0)
+
   const addModalTitle = useMemo(() => {
-    const isPoolStaked = toBN(lockedByMe).isGreaterThan(0)
     if (isAddModalOpen && isPoolStaked) { return `Add ${stakingTokenSymbol}` }
     if (isAddModalOpen && !isPoolStaked) { return `Lock ${stakingTokenSymbol}` }
 
     return ''
-  }, [stakingTokenSymbol, isAddModalOpen, lockedByMe])
+  }, [isAddModalOpen, isPoolStaked, stakingTokenSymbol])
 
   return (
     <>
       <div className='mt-4 md:mt-0'>
-        {toBN(lockedByMe).isZero()
+        {!isPoolStaked
           ? (
             <button
               onClick={() => { return setIsAddModalOpen(true) }}

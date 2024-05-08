@@ -102,8 +102,8 @@ export const ReceiveAndUnlockModal = ({
     : `Unlock ${stakingTokenSymbol}`
 
   useEffect(() => {
-    if (toBN(poolStaked).isZero()) { closeModal() }
-  }, [poolStaked, closeModal])
+    if (toBN(poolStaked).isZero() && toBN(rewardAmount).isZero()) { closeModal() }
+  }, [poolStaked, closeModal, rewardAmount])
 
   return (
     <ModalRegular

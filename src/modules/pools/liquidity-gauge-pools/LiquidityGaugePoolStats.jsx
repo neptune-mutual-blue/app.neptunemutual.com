@@ -37,7 +37,14 @@ const StatAfterLocked = ({
 }
 
 export function LiquidityGaugePoolStats ({
-  lockupPeriodInBlocks, stakingTokenSymbol, stakingTokenDecimals, rewardTokenSymbol, rewardTokenDecimals, lockedByMe, rewardAmount, tvl
+  lockupPeriodInBlocks,
+  stakingTokenSymbol,
+  stakingTokenDecimals,
+  rewardTokenSymbol,
+  rewardTokenDecimals,
+  lockedByMe,
+  rewardAmount,
+  tvl
 }) {
   const router = useRouter()
 
@@ -57,7 +64,7 @@ export function LiquidityGaugePoolStats ({
 
   const formattedTvl = formatCurrency(tvl)
 
-  const hasLockedAmount = toBN(lockedByMe).isGreaterThan(0)
+  const hasLockedAmount = toBN(lockedByMe).isGreaterThan(0) || toBN(rewardAmount).isGreaterThan(0)
 
   const { i18n } = useLingui()
 
