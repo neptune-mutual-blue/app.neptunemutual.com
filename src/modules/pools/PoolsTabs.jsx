@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { useRouter } from 'next/router'
 
 import { Container } from '@/common/Container/Container'
@@ -8,12 +10,17 @@ import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
+import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
+import {
+  useLiquidityGaugePoolPricing
+} from '@/src/hooks/useLiquidityGaugePoolPricing'
+import {
+  convertFromUnits,
+  sumOf,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
-import { useMemo } from 'react'
-import { useLiquidityGaugePoolPricing } from '@/src/hooks/useLiquidityGaugePoolPricing'
 
 const headers = [
   isFeatureEnabled('liquidity-gauge-pools') && {
@@ -62,7 +69,7 @@ export const PoolsTabs = ({ active, children }) => {
   const tvl = useMemo(() => {
     const balance = sumOf(...liquidityGaugePools.map(pool => {
       const stakingTokenPricePerUnit = getPriceByToken(pool.stakingToken).toString() === '0'
-        ? toBN(10).pow(liquidityTokenDecimals - pool.stakingTokenDecimals).toString()
+        ? toBN(10).pow(liquidityTokenDecimals - Number(pool.stakingTokenDecimals)).toString()
         : getPriceByToken(pool.stakingToken).toString()
 
       const stakingTokenTVL = toBN(stakingTokenPricePerUnit)

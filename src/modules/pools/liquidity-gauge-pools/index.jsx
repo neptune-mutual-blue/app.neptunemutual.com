@@ -16,9 +16,9 @@ import {
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsList'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
 // import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import {
   SORT_DATA_TYPES,

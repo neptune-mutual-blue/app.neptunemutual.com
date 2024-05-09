@@ -17,6 +17,7 @@ import { CookiesProvider } from '@/src/context/Cookie'
 import {
   CoversAndProductsProvider2
 } from '@/src/context/CoversAndProductsData2'
+import { LiquidityGaugePoolsProvider } from '@/src/context/LiquidityGaugePools'
 import { NetworkProvider } from '@/src/context/Network'
 import { TxPosterProvider } from '@/src/context/TxPoster'
 import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
@@ -35,8 +36,9 @@ const Wrappers = ({ children }) => {
             <UnlimitedApprovalProvider>
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
-                  <MainLayout>{children}</MainLayout>
-
+                  <LiquidityGaugePoolsProvider>
+                    <MainLayout>{children}</MainLayout>
+                  </LiquidityGaugePoolsProvider>
                   <WalletDisclaimerPoup />
                 </TxPosterProvider>
               </ToastProvider>
