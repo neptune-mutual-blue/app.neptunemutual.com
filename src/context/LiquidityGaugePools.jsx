@@ -6,7 +6,10 @@ import {
   useState
 } from 'react'
 
+import { useRouter } from 'next/router'
+
 import { GCR_POOLS_URL } from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { convertToUnits } from '@/utils/bn'
@@ -95,9 +98,21 @@ export const LiquidityGaugePoolsProvider = ({ children }) => {
 
   const { i18n } = useLingui()
 
+  const { pathname } = useRouter()
+
+  const isPoolsPage = useMemo(() => {
+    return [
+      Routes.BondPool,
+      Routes.StakingPools,
+      Routes.PodStakingPools,
+      Routes.LiquidityGaugePools,
+      Routes.LiquidityGaugePoolsTransactions
+    ].includes(pathname)
+  }, [pathname])
+
   useEffect(() => {
     async function fetchPools () {
-      if (!networkId) {
+      if (!networkId || !isPoolsPage) {
         return
       }
 
@@ -138,7 +153,7 @@ export const LiquidityGaugePoolsProvider = ({ children }) => {
     fetchPools()
       .then(() => { return setLoading(false) })
       .catch(() => { return setLoading(false) })
-  }, [notifyError, networkId, i18n])
+  }, [notifyError, networkId, i18n, isPoolsPage])
 
   return (
     <LiquidityGaugePoolsContext.Provider value={{ data, loading }}>
