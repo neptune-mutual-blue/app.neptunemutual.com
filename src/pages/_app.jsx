@@ -25,6 +25,7 @@ import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import { Web3ReactProvider } from '@web3-react/core'
 
 import { LanguageProvider } from '../i18n'
+import { LiquidityGaugePoolsProvider } from '@/src/context/LiquidityGaugePools'
 
 const Wrappers = ({ children }) => {
   return (
@@ -35,8 +36,9 @@ const Wrappers = ({ children }) => {
             <UnlimitedApprovalProvider>
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
-                  <MainLayout>{children}</MainLayout>
-
+                  <LiquidityGaugePoolsProvider>
+                    <MainLayout>{children}</MainLayout>
+                  </LiquidityGaugePoolsProvider>
                   <WalletDisclaimerPoup />
                 </TxPosterProvider>
               </ToastProvider>
