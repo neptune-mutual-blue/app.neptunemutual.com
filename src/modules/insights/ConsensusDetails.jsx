@@ -137,7 +137,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
                 className='w-5 h-5 mr-2'
                 data-testid='cover-img'
                 // @ts-ignore
-                onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
+                onError={(ev) => { if (!ev.target.src.endsWith('/images/covers/empty.svg')) { ev.target.src = '/images/covers/empty.svg' } }}
               />
               <div className='mr-6 text-sm'>
                 {projectOrProductName}

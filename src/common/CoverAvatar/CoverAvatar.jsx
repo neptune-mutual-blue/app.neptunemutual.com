@@ -27,14 +27,14 @@ export const CoverAvatar = ({
                     alt={item.alt}
                     className='w-full h-full rounded-full bg-DEEAF6 p-3.5'
                     data-testid='cover-img'
-                    onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
+                    onError={(ev) => { if (!ev.target.src.endsWith('/images/covers/empty.svg')) { ev.target.src = '/images/covers/empty.svg' } }}
                   />
                 </div>
               )
             })}
 
             {imgs.length > 3 && (
-              <p className='text-xs opacity-40 text-01052D ml-2'>
+              <p className='ml-2 text-xs opacity-40 text-01052D'>
                 +{imgs.length - 3} MORE
               </p>
 
@@ -50,7 +50,7 @@ export const CoverAvatar = ({
               alt={imgs[0].alt}
               className='inline-block'
               data-testid='cover-img'
-              onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
+              onError={(ev) => { if (!ev.target.src.endsWith('/images/covers/empty.svg')) { ev.target.src = '/images/covers/empty.svg' } }}
             />
           </div>
           )}
