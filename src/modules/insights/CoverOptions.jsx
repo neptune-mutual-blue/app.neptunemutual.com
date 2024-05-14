@@ -1,7 +1,20 @@
+import { useMemo } from 'react'
+
+import { useRouter } from 'next/router'
+
 import { CoverDropdown } from '@/common/CoverDropdown'
 import CheckBlue from '@/icons/CheckBlue'
 import UpArrowFilled from '@/icons/UpArrowFilled'
+import {
+  sorterData,
+  SortQueryParam
+} from '@/modules/home/AvailableCovers'
 import { classNames } from '@/utils/classnames'
+import {
+  DEFAULT_SORT_OPTIONS,
+  sorter
+} from '@/utils/sorting'
+import { useLingui } from '@lingui/react'
 
 export const CoverOptions = ({
   loading,
@@ -9,11 +22,29 @@ export const CoverOptions = ({
   selected,
   setSelected
 }) => {
+  const { i18n } = useLingui()
+  const { query } = useRouter()
+
+  const sortedCovers = useMemo(() => {
+    const sortOptions = DEFAULT_SORT_OPTIONS(i18n)
+
+    const defaultSortOption = sortOptions[1]
+
+    const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
+
+    const selectedSortOption = sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
+
+    return sorter({
+      ...sorterData[selectedSortOption.value],
+      list: covers
+    })
+  }, [covers, i18n, query])
+
   return (
     <div>
       <CoverDropdown
         loading={loading}
-        coversOrProducts={covers}
+        coversOrProducts={sortedCovers}
         selected={selected}
         setSelected={setSelected}
         className=''
