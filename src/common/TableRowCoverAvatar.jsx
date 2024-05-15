@@ -42,7 +42,7 @@ export const TableRowCoverAvatar = ({
                       sizeClasses.diversifiedImg
                     )}
                     data-testid='cover-img'
-                    onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
+                    onError={(ev) => { if (!ev.target.src.endsWith('/images/covers/empty.svg')) { ev.target.src = '/images/covers/empty.svg' } }}
                   />
                 </div>
               )
@@ -77,7 +77,7 @@ export const TableRowCoverAvatar = ({
               alt={imgs[0].alt}
               className={classNames('inline-block', sizeClasses.dedicatedImg)}
               data-testid='cover-img'
-              onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
+              onError={(ev) => { if (!ev.target.src.endsWith('/images/covers/empty.svg')) { ev.target.src = '/images/covers/empty.svg' } }}
             />
           </div>
           )}

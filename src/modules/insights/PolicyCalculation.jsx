@@ -17,7 +17,7 @@ export const PolicyCalculation = ({
   const router = useRouter()
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
 
-  const coverFee = convertFromUnits(feeData?.fee || '', liquidityTokenDecimals).toString()
+  const coverFee = convertFromUnits(feeData?.fee || '0', liquidityTokenDecimals).toString()
   const formattedCoverFee = formatCurrency(
     coverFee,
     router.locale,

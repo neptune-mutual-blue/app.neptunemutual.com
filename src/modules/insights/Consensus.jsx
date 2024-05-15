@@ -105,7 +105,7 @@ const renderCover = (row, _extraData) => {
           className='w-6 h-6 mr-2'
           data-testid='cover-img'
             // @ts-ignore
-          onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
+          onError={(ev) => { if (!ev.target.src.endsWith('/images/covers/empty.svg')) { ev.target.src = '/images/covers/empty.svg' } }}
         />
         <div className='overflow-hidden text-sm overflow-ellipsis' title={row.projectOrProductName}>
           {row.projectOrProductName}

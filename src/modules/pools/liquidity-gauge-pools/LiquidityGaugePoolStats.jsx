@@ -44,7 +44,8 @@ export function LiquidityGaugePoolStats ({
   rewardTokenDecimals,
   lockedByMe,
   rewardAmount,
-  tvl
+  tvl,
+  liquidityTokenDecimals
 }) {
   const router = useRouter()
 
@@ -62,7 +63,10 @@ export function LiquidityGaugePoolStats ({
     true
   )
 
-  const formattedTvl = formatCurrency(tvl)
+  const formattedTvl = formatCurrency(
+    convertFromUnits(tvl, liquidityTokenDecimals),
+    router.locale
+  )
 
   const hasLockedAmount = toBN(lockedByMe).isGreaterThan(0) || toBN(rewardAmount).isGreaterThan(0)
 

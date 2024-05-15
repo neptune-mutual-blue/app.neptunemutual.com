@@ -36,7 +36,7 @@ import { useLingui } from '@lingui/react'
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */
-const sorterData = {
+export const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
     selector: (data) => { return data.text },
     datatype: SORT_DATA_TYPES.STRING
@@ -47,12 +47,15 @@ const sorterData = {
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
     selector: (data) => { return data.utilizationRatio },
-    datatype: SORT_DATA_TYPES.BIGNUMBER
+    datatype: SORT_DATA_TYPES.BIGNUMBER,
+    ascending: true
   }
 }
 
 const ViewQueryParam = 'view'
-const SortQueryParam = 'sort'
+
+export const SortQueryParam = 'sort'
+
 const SearchQueryParam = 'search'
 
 export const AvailableCovers = () => {
@@ -86,7 +89,7 @@ export const AvailableCovers = () => {
   const sortOptions = useMemo(() => {
     return DEFAULT_SORT_OPTIONS(i18n)
   }, [i18n])
-  const defaultSortOption = sortOptions[2]
+  const defaultSortOption = sortOptions[1]
 
   const getSelectedSortOption = (query) => {
     const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value

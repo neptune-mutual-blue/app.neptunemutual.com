@@ -18,7 +18,7 @@ export const CoverProfileInfoShort = ({
         <img
           src={imgSrc}
           alt={title}
-          onError={(ev) => { return (ev.target.src = '/images/covers/empty.svg') }}
+          onError={(ev) => { if (!ev.target.src.endsWith('/images/covers/empty.svg')) { ev.target.src = '/images/covers/empty.svg' } }}
         />
       </div>
       <div>
