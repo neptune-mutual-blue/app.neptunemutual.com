@@ -17,12 +17,10 @@ import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useBlockHeight } from '@/src/hooks/useBlockHeight'
-import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
 import { useLiquidityGaugePoolTxs } from '@/src/hooks/useLiquidityGaugePoolTxs'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
@@ -36,6 +34,7 @@ import {
 import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
+import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
 
 const WhenRenderer = ({ row }) => {
   const router = useRouter()
@@ -224,8 +223,7 @@ const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
 
 export const LiquidityGaugeTxsTable = () => {
   const { data, loading } = useLiquidityGaugePoolTxs()
-  const { NPMTokenDecimals } = useAppConstants()
-  const { data: pools } = useLiquidityGaugePools({ NPMTokenDecimals })
+  const { pools } = useLiquidityGaugePools()
   const { getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
 
   const { networkId } = useNetwork()

@@ -13,40 +13,28 @@ import {
 import {
   useLiquidityGaugePoolStakedAndReward
 } from '@/src/hooks/useLiquidityGaugePoolStakedAndReward'
-import {
-  convertFromUnits,
-  toBN
-} from '@/utils/bn'
 
 import { PoolDescription } from './PoolDescription'
-import { useAppConstants } from '@/src/context/AppConstants'
 
 export function LiquidityGaugePoolCard ({
-  pool, rewardTokenSymbol, rewardTokenDecimals, getPriceByToken
+  pool,
+  rewardTokenSymbol,
+  rewardTokenDecimals,
+  liquidityTokenDecimals
 }) {
   const poolAddress = pool.poolAddress
   const stakingTokenAddress = pool.stakingToken
   const stakingTokenSymbol = pool.stakingTokenSymbol
-  const stakingTokenBalance = pool.stakingTokenBalance
   const stakingTokenDecimals = pool.stakingTokenDecimals
   const lockupPeriodInBlocks = pool.lockupPeriodInBlocks
+  const stakingTokenTVL = pool.tvl
 
   // const approxBlockTime = config.networks.getChainConfig(networkId).approximateBlockTime
   // const lockupPeriod = toBN(pool.lockupPeriodInBlocks).multipliedBy(approxBlockTime)
+
+  // @TODO: Use lockedByEveryone for tvl, if it exists
+  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   const { lockedByMe, rewardAmount, lockedByEveryone, update: updateStakedAndReward } = useLiquidityGaugePoolStakedAndReward({ poolAddress })
-
-  const { liquidityTokenDecimals } = useAppConstants()
-
-  const stakingTokenPrice = getPriceByToken(stakingTokenAddress).toString() === '0'
-    ? toBN(10).pow(liquidityTokenDecimals - stakingTokenDecimals).toString()
-    : getPriceByToken(stakingTokenAddress).toString()
-
-  const stakingTokenTVL = convertFromUnits(
-    toBN(stakingTokenPrice)
-      .multipliedBy(stakingTokenBalance || lockedByEveryone)
-      .toString(),
-    liquidityTokenDecimals
-  )
 
   return (
     <div className='p-8 bg-white first:rounded-t-2xl last:rounded-b-2xl' key={pool.id}>
@@ -89,6 +77,7 @@ export function LiquidityGaugePoolCard ({
             lockedByMe={lockedByMe}
             rewardAmount={rewardAmount}
             tvl={stakingTokenTVL}
+            liquidityTokenDecimals={liquidityTokenDecimals}
           />
 
           <LiquidityGaugeCardAction

@@ -8,12 +8,10 @@ import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
+import { convertFromUnits, sumOf } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
-import { useMemo } from 'react'
-import { useLiquidityGaugePoolPricing } from '@/src/hooks/useLiquidityGaugePoolPricing'
+import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
 
 const headers = [
   isFeatureEnabled('liquidity-gauge-pools') && {
@@ -39,41 +37,11 @@ const headers = [
 ].filter(Boolean)
 
 export const PoolsTabs = ({ active, children }) => {
-  const { poolsTvl, liquidityTokenDecimals, NPMTokenDecimals } = useAppConstants()
+  const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
+  const { tvl: liquidityGaugePoolsTvl } = useLiquidityGaugePools()
   const router = useRouter()
 
-  const { data: liquidityGaugePools } = useLiquidityGaugePools({ NPMTokenDecimals })
-
-  const tokenData = useMemo(() => {
-    return liquidityGaugePools.map(pool => {
-      return [{
-        type: 'pod',
-        address: pool.stakingToken
-      },
-      {
-        type: 'token',
-        address: pool.rewardToken
-      }]
-    }).flat()
-  }, [liquidityGaugePools])
-
-  const { getPriceByToken } = useLiquidityGaugePoolPricing(tokenData)
-
-  const tvl = useMemo(() => {
-    const balance = sumOf(...liquidityGaugePools.map(pool => {
-      const stakingTokenPricePerUnit = getPriceByToken(pool.stakingToken).toString() === '0'
-        ? toBN(10).pow(liquidityTokenDecimals - pool.stakingTokenDecimals).toString()
-        : getPriceByToken(pool.stakingToken).toString()
-
-      const stakingTokenTVL = toBN(stakingTokenPricePerUnit)
-        .multipliedBy(pool.stakingTokenBalance || '0')
-        .toString()
-
-      return stakingTokenTVL
-    })).toString()
-
-    return sumOf(poolsTvl, balance).toString()
-  }, [getPriceByToken, liquidityGaugePools, liquidityTokenDecimals, poolsTvl])
+  const tvl = sumOf(poolsTvl, liquidityGaugePoolsTvl).toString()
 
   return (
     <>
