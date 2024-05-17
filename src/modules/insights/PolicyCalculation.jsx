@@ -21,7 +21,7 @@ export const PolicyCalculation = ({
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
   const { locale } = useLanguageContext()
 
-  const coverFee = convertFromUnits(feeData?.fee || '', liquidityTokenDecimals).toString()
+  const coverFee = convertFromUnits(feeData?.fee || '0', liquidityTokenDecimals).toString()
   const formattedCoverFee = formatCurrency(
     coverFee,
     locale,
