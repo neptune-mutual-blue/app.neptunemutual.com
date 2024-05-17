@@ -6,9 +6,13 @@ import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
 import { useNetwork } from '@/src/context/Network'
 import { useLanguageContext } from '@/src/i18n/i18n'
-import { convertFromUnits } from '@/utils/bn'
+import {
+  convertFromUnits,
+  sumOf
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 
@@ -38,9 +42,12 @@ const getHeaders = (networkId) => {
 }
 
 export const PoolsTabs = ({ active, children }) => {
-  const { poolsTvl: tvl, liquidityTokenDecimals } = useAppConstants()
+  const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
+  const { tvl: liquidityGaugePoolsTvl } = useLiquidityGaugePools()
   const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
+
+  const tvl = sumOf(poolsTvl, liquidityGaugePoolsTvl).toString()
 
   return (
     <>

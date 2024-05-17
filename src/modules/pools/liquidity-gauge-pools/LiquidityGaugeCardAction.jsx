@@ -60,7 +60,7 @@ export const LiquidityGaugeCardAction = ({
   return (
     <>
       <div className='mt-4 md:mt-0'>
-        {toBN(lockedByMe).isZero()
+        {!isPoolStaked
           ? (
             <button
               onClick={() => { return setIsAddModalOpen(true) }}

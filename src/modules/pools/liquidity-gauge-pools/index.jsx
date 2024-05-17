@@ -15,11 +15,10 @@ import {
   LiquidityGaugePoolsList
 } from '@/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolsList'
 import { Routes } from '@/src/config/routes'
-import { useAppConstants } from '@/src/context/AppConstants'
+import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
 import { useNetwork } from '@/src/context/Network'
 // import { useAppConstants } from '@/src/context/AppConstants'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { useLiquidityGaugePools } from '@/src/hooks/useLiquidityGaugePools'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import {
   SORT_DATA_TYPES,
@@ -56,8 +55,7 @@ export const LiquidityGaugePoolsPage = () => {
     value: SORT_TYPES.TVL
   })
 
-  const { NPMTokenDecimals } = useAppConstants()
-  const { data: pools, loading } = useLiquidityGaugePools({ NPMTokenDecimals })
+  const { pools, loading } = useLiquidityGaugePools()
   const { getStatsByKey } = useSortableStats()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
