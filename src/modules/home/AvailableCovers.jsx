@@ -92,9 +92,9 @@ export const AvailableCovers = () => {
   const defaultSortOption = sortOptions[1]
 
   const getSelectedSortOption = (query) => {
-    const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
+    const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.query
 
-    return sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
+    return sortOptions.find((item) => { return item.query === selectedSort }) || defaultSortOption
   }
 
   const searchTerm = typeof query[SearchQueryParam] === 'string' ? query[SearchQueryParam] : ''
@@ -168,7 +168,7 @@ export const AvailableCovers = () => {
   const handleSortFilterChange = (option) => {
     const newUrl = { query: { ...query } }
     if (option.value && option.value !== defaultSortOption.value) {
-      newUrl.query[SortQueryParam] = option.value
+      newUrl.query[SortQueryParam] = option.query
     } else {
       delete newUrl.query[SortQueryParam]
     }

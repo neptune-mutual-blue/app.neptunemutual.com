@@ -30,9 +30,9 @@ export const CoverOptions = ({
 
     const defaultSortOption = sortOptions[1]
 
-    const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
+    const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.query
 
-    const selectedSortOption = sortOptions.find((item) => { return item.value === selectedSort }) || defaultSortOption
+    const selectedSortOption = sortOptions.find((item) => { return item.query === selectedSort }) || defaultSortOption
 
     return sorter({
       ...sorterData[selectedSortOption.value],

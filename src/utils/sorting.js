@@ -21,13 +21,13 @@ export const SORT_TYPES = {
 /**
  *
  * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
- * @returns {Array<{name: string, value: string}>} An array of column objects.
+ * @returns {Array<{name: string, value: string, query: string}>} An array of column objects.
  */
 export const DEFAULT_SORT_OPTIONS = (i18n) => {
   return [
-    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t(i18n)`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-    { name: t(i18n)`Liquidity`, value: SORT_TYPES.LIQUIDITY }
+    { name: t(i18n)`A-Z`, value: SORT_TYPES.ALPHABETIC, query: 'a-z' },
+    { name: t(i18n)`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO, query: 'utilization-ratio' },
+    { name: t(i18n)`Liquidity`, value: SORT_TYPES.LIQUIDITY, query: 'liquidity' }
   ]
 }
 
