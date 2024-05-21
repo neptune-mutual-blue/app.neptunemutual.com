@@ -103,6 +103,7 @@ export function LiquidityGaugePoolStats ({
                 key={stat.label}
                 label={stat.label}
                 value={stat.value}
+                tooltip={stat.tooltip}
               />
             )
           })}
@@ -111,15 +112,16 @@ export function LiquidityGaugePoolStats ({
 
       {hasLockedAmount && (
         <div className='flex flex-col w-full gap-4 p-4 mt-6 text-sm bg-F3F5F7 rounded-xl md:max-w-420 md:mt-0'>
-          {(stats.map(stat => {
+          {stats.map(stat => {
             return (
               <StatAfterLocked
                 key={stat.label}
                 label={stat.label}
                 value={stat.value}
+                tooltip={stat.tooltip}
               />
             )
-          }))}
+          })}
         </div>)}
 
       {/* <div className='flex flex-row items-center gap-1'>

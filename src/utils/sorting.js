@@ -5,14 +5,14 @@ import { t } from '@lingui/macro'
 
 // Don't translate these
 export const SORT_TYPES = {
-  ALPHABETIC: 'A-Z',
-  UTILIZATION_RATIO: 'Utilization ratio',
-  LIQUIDITY: 'Liquidity',
-  EMISSIONS: 'Emissions',
-  TVL: 'TVL',
-  APR: 'APR',
-  INCIDENT_DATE: 'Incident date',
-  RESOLVED_DATE: 'Resolved date',
+  ALPHABETIC: 'a-z',
+  UTILIZATION_RATIO: 'utilization-ratio',
+  LIQUIDITY: 'liquidity',
+  EMISSIONS: 'emissions',
+  TVL: 'tvl',
+  APR: 'apr',
+  INCIDENT_DATE: 'incident-date',
+  RESOLVED_DATE: 'resolved-date',
   ALL: 'all',
   DIVERSIFIED_POOL: 'diversified',
   DEDICATED_POOL: 'dedicated'

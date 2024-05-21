@@ -4,7 +4,7 @@ const https = require('https')
 const path = require('path')
 
 // Mainnet and Testnet
-const urls = ['https://api.neptunemutual.net/home/product-summary/1', 'https://api.neptunemutual.net/home/product-summary/80001']
+const urls = ['https://api2.neptunemutual.net/home/product-summary/1', 'https://api2.neptunemutual.net/home/product-summary/43113']
 
 const file = path.resolve(__dirname, '../src/data/summary.json')
 

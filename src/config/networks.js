@@ -5,8 +5,8 @@ const supportedNetworks = [
   56, // BNB Smart Chain Mainnet
   137, // Polygon Mainnet
   42161, // Arbitrum One Mainnet
-  43113, // Fuji Testnet
-  80001 // Mumbai Testnet
+  43113 // Fuji Testnet
+  // 80001 // Mumbai Testnet
 ]
 
 const networkIdToSlug = {
