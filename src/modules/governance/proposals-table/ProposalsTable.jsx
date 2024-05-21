@@ -85,16 +85,16 @@ export const getColumns = (i18n) => {
  * Each object represents a column and contains properties such as id, name, alignment, and render functions.
  *
  * @param {import('@lingui/core').I18n} i18n - The I18n instance from Lingui library.
- * @returns {Array.<{name: string, value: string}>} An array of column objects.
+ * @returns {Array.<{name: string, value: string, query: string}>} An array of column objects.
  */
 const getFilterOptions = (i18n) => {
   return [
-    { name: t(i18n)`All`, value: 'all' },
-    { name: t(i18n)`Gauge Controller Emission (GCE)`, value: '[gce' },
-    { name: t(i18n)`Neptune Improvement Proposal (NIP)`, value: '[nip' },
-    { name: t(i18n)`Gauge Controller Listing (GCL)`, value: '[gcl' },
-    { name: t(i18n)`Liquidity Rewards (LR)`, value: '[lr' },
-    { name: t(i18n)`Grants`, value: '[grant' }
+    { name: t(i18n)`All`, value: 'all', query: '' },
+    { name: t(i18n)`Gauge Controller Emission (GCE)`, value: '[gce', query: 'gce' },
+    { name: t(i18n)`Neptune Improvement Proposal (NIP)`, value: '[nip', query: 'nip' },
+    { name: t(i18n)`Gauge Controller Listing (GCL)`, value: '[gcl', query: 'gcl' },
+    { name: t(i18n)`Liquidity Rewards (LR)`, value: '[lr', query: 'lr' },
+    { name: t(i18n)`Grants`, value: '[grant', query: 'grants' }
   ]
 }
 
@@ -107,7 +107,7 @@ const getFilterString = item => {
 }
 
 export const ProposalsTable = () => {
-  const { locale } = useRouter()
+  const { locale, query, replace } = useRouter()
   const { networkId } = useNetwork()
 
   const { i18n } = useLingui()
@@ -128,16 +128,38 @@ export const ProposalsTable = () => {
     fetchProposals({ page, rowsPerPage, titleFilter })
   }, [fetchProposals, page, rowsPerPage, titleFilter])
 
+  useEffect(() => {
+    const queryFilter = query.filter
+    const selectedFilter = filterOptions.find((item) => { return item.query === queryFilter }) || filterOptions[0]
+
+    if (selectedFilter) {
+      setFilter(prev => {
+        if (prev.value === selectedFilter.value) { return prev }
+
+        return selectedFilter
+      })
+    }
+  }, [query, filterOptions])
+
+  const handleFilterChange = (val) => {
+    const newUrl = { query: { ...query } }
+
+    if (val.value === filter.value || val.query === '') {
+      delete newUrl.query.filter
+    } else {
+      newUrl.query.filter = val.query
+    }
+
+    replace(newUrl, undefined, { shallow: true })
+    setPage(1)
+  }
+
   return (
     <div className='mt-8'>
       <TitleComponent
         filter={filter}
         filterOptions={filterOptions}
-        setFilter={(val) => {
-          if (val.value === filter.value) { return }
-          setFilter(val)
-          setPage(1)
-        }}
+        setFilter={handleFilterChange}
       />
       <TableWrapper
         className={classNames('mt-0', showMore ? 'rounded-none' : 'rounded-t-none')}
