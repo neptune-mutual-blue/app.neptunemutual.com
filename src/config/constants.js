@@ -160,24 +160,24 @@ export const POLICY_POINTS_PER_DOLLAR = 0.00625
 export const EMISSION_ROUNDING_MODE = BigNumber.ROUND_FLOOR
 
 export const latestSnapshotIpfsData = {
-  hash: 'QmWJ5qNNKiQ8dCLvcphkYfZc7kNwzSVpTsGXT9B6WJzA9s',
-  epochId: 1,
+  hash: 'QmaNVByqbYqP4aYXJrmUyprHzX9MVbk69yZTgcL3kSCDLB',
+  epochId: 2,
   networkType: 'mainnet',
   pools: [
     {
       chainId: 42161,
-      name: 'Prime dApps',
-      poolKey: '0x7072696d65000000000000000000000000000000000000000000000000000000'
+      name: 'Popular DeFi Apps',
+      poolKey: '0x706f70756c61722d646566692d61707073000000000000000000000000000000'
     },
     {
       chainId: 42161,
-      name: 'Popular DeFi Apps',
-      poolKey: '0x706f70756c61722d646566692d61707073000000000000000000000000000000'
+      name: 'Prime dApps',
+      poolKey: '0x7072696d65000000000000000000000000000000000000000000000000000000'
     }
   ],
   emission: '375000000000000000000000',
-  votingStartsAt: '2024-04-16T18:00:00.000Z',
-  votingEndsAt: '2024-04-27T18:00:00.000Z',
-  epochStartsAfter: '2024-04-28T00:00:00.000Z',
-  epochEndsAt: '2024-05-27T23:59:59.000Z'
+  votingStartsAt: '2024-05-16T18:30:00.000Z',
+  votingEndsAt: '2024-05-23T18:30:00.000Z',
+  epochStartsAfter: '2024-05-28T00:00:00.000Z',
+  epochEndsAt: '2024-06-27T23:59:59.000Z'
 }

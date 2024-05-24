@@ -156,7 +156,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               >
                 {
                   formatCurrency(
-                    changeData?.last,
+                    (changeData?.last || '0'),
                     router.locale
                   ).short
                 }
