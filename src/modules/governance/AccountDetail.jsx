@@ -36,7 +36,8 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
     depositTokenSymbol,
     handleApprove,
     handleSetGauge,
-    amountToDeposit
+    amountToDeposit,
+    hasSetGaugeRole
   } = useSetGauge({ title, distribution })
 
   const canSetGauge = toBN(allowance).isGreaterThanOrEqualTo(amountToDeposit)
@@ -127,7 +128,7 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
           </RegularButton>
         )}
 
-        {canSetGauge && (
+        {(canSetGauge && hasSetGaugeRole) && (
           <RegularButton
             className='relative z-auto px-4 py-3 font-semibold uppercase rounded-tooltip hover:bg-opacity-90'
             onClick={handleSetGauge}
@@ -151,6 +152,16 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
           </ul>
         </Alert>
       )}
+
+      {
+        !hasSetGaugeRole && (
+          <Alert className='!mt-6'>
+            <ul className='list-disc pl-7'>
+              <li>Your account {account} does not have the required role to set gauge for proposal - {title}</li>
+            </ul>
+          </Alert>
+        )
+      }
     </GovernanceCard>
   )
 }

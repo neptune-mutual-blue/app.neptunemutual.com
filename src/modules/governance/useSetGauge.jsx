@@ -15,6 +15,7 @@ import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
+import { contractRead } from '@/src/services/readContract'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -24,6 +25,7 @@ import {
   convertFromUnits,
   sumOf
 } from '@/utils/bn'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { getEpochFromTitle } from '@/utils/snapshot'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -59,11 +61,41 @@ export const useSetGauge = ({ title, distribution }) => {
 
   const { getActionMessage } = useActionMessage()
 
+  const [hasSetGaugeRole, setHasSetGaugeRole] = useState(false)
+
   const gcrContractAddress = ChainConfig[networkId].gaugeControllerRegistry
 
   useEffect(() => {
     updateAllowance(gcrContractAddress)
   }, [gcrContractAddress, updateAllowance])
+
+  useEffect(() => {
+    (async () => {
+      if (!account) {
+        setHasSetGaugeRole(false)
+      }
+
+      try {
+        const signerOrProvider = getProviderOrSigner(library, account, networkId)
+        const instance = utils.contract.getContract(
+          gcrContractAddress,
+          abis.GaugeControllerRegistry,
+          signerOrProvider
+        )
+        const hasRole = await contractRead({
+          instance,
+          methodName: 'hasRole',
+          args: [safeFormatBytes32String('GaugeAgent'), account]
+        })
+
+        setHasSetGaugeRole(hasRole)
+      } catch (err) {
+        notifyError(err, t(i18n)`Could not check set gauge role`)
+
+        setHasSetGaugeRole(false)
+      }
+    })()
+  }, [account, gcrContractAddress, i18n, library, networkId, notifyError])
 
   const amountToDeposit = sumOf(...distribution.map((d) => { return d.emission })).toString()
 
@@ -247,6 +279,8 @@ export const useSetGauge = ({ title, distribution }) => {
     depositTokenSymbol: NPMTokenSymbol,
 
     handleApprove,
-    handleSetGauge
+    handleSetGauge,
+
+    hasSetGaugeRole
   }
 }
