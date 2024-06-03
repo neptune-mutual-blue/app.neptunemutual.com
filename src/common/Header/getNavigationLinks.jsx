@@ -21,7 +21,7 @@ const getNavigationLinks = (networkId, pathname, i18n) => {
   const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
   const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
 
-  const poolLink = Routes.Pools()
+  const poolLink = Routes.Pools(networkId)
 
   const actions = getActions(i18n)
 

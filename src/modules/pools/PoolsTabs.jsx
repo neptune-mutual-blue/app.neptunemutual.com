@@ -6,40 +6,49 @@ import { HeroStat } from '@/common/HeroStat'
 import { HeroTitle } from '@/common/HeroTitle'
 import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, sumOf } from '@/utils/bn'
+import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
+import { useNetwork } from '@/src/context/Network'
+import {
+  convertFromUnits,
+  sumOf
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
 
-const headers = [
-  isFeatureEnabled('liquidity-gauge-pools') && {
-    name: 'liquidity-gauge-pools',
-    href: Routes.LiquidityGaugePools,
-    displayAs: <Trans>Liquidity Gauge Pools</Trans>
-  },
-  isFeatureEnabled('bond') && {
-    name: 'bond',
-    href: Routes.BondPool,
-    displayAs: <Trans>Bond</Trans>
-  },
-  isFeatureEnabled('staking-pool') && {
-    name: 'staking',
-    href: Routes.StakingPools,
-    displayAs: <Trans>Staking</Trans>
-  },
-  isFeatureEnabled('pod-staking-pool') && {
-    name: 'pod-staking',
-    href: Routes.PodStakingPools,
-    displayAs: <Trans>POD Staking</Trans>
-  }
-].filter(Boolean)
+const headers = (networkId) => {
+  return [
+    (isFeatureEnabled('liquidity-gauge-pools') && ChainConfig[networkId]?.gaugeControllerRegistry) && {
+      name: 'liquidity-gauge-pools',
+      href: Routes.LiquidityGaugePools,
+      displayAs: <Trans>Liquidity Gauge Pools</Trans>
+    },
+    isFeatureEnabled('bond') && {
+      name: 'bond',
+      href: Routes.BondPool,
+      displayAs: <Trans>Bond</Trans>
+    },
+    isFeatureEnabled('staking-pool') && {
+      name: 'staking',
+      href: Routes.StakingPools,
+      displayAs: <Trans>Staking</Trans>
+    },
+    isFeatureEnabled('pod-staking-pool') && {
+      name: 'pod-staking',
+      href: Routes.PodStakingPools,
+      displayAs: <Trans>POD Staking</Trans>
+    }
+  ].filter(Boolean)
+}
 
 export const PoolsTabs = ({ active, children }) => {
   const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
   const { tvl: liquidityGaugePoolsTvl } = useLiquidityGaugePools()
   const router = useRouter()
+
+  const { networkId } = useNetwork()
 
   const tvl = sumOf(poolsTvl, liquidityGaugePoolsTvl).toString()
 
@@ -62,7 +71,7 @@ export const PoolsTabs = ({ active, children }) => {
           </HeroStat>
         </Container>
 
-        <TabNav headers={headers} activeTab={active} />
+        <TabNav headers={headers(networkId)} activeTab={active} />
       </Hero>
 
       {children}
