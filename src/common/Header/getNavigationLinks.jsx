@@ -14,14 +14,14 @@ const getNavigationLinks = (networkId, pathname, i18n) => {
   const policyEnabled = isFeatureEnabled('policy')
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
-  const voteEscrowEnabled = isFeatureEnabled('vote-escrow') && ChainConfig[networkId] && ChainConfig[networkId].veNPM && ChainConfig[networkId].veNPM.address
+  const voteEscrowEnabled = isFeatureEnabled('vote-escrow') && ChainConfig?.[networkId]?.veNPM?.address
   const governanceEnabled = isFeatureEnabled('governance')
 
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer')
   const isLayerZeroBridgeEnabled = isFeatureEnabled('bridge-layerzero')
   const bridgeEnabled = isCelerBridgeEnabled || isLayerZeroBridgeEnabled
 
-  const poolLink = Routes.Pools()
+  const poolLink = Routes.Pools(networkId)
 
   const actions = getActions(i18n)
 
