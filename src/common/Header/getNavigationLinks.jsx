@@ -14,7 +14,7 @@ const getNavigationLinks = (pathname, i18n, networkId) => {
   const policyEnabled = isFeatureEnabled('policy', networkId)
   const liquidityEnabled = isFeatureEnabled('liquidity', networkId)
   const reportingEnabled = isFeatureEnabled('reporting', networkId)
-  const voteEscrowEnabled = isFeatureEnabled('vote-escrow', networkId) && ChainConfig[networkId] && ChainConfig[networkId].veNPM && ChainConfig[networkId].veNPM.address
+  const voteEscrowEnabled = isFeatureEnabled('vote-escrow', networkId) && ChainConfig?.[networkId]?.veNPM?.address
   const governanceEnabled = isFeatureEnabled('governance', networkId)
 
   const isCelerBridgeEnabled = isFeatureEnabled('bridge-celer', networkId)

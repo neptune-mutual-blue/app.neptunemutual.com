@@ -1,5 +1,6 @@
 import { DEFAULT_NETWORK } from '@/src/config/constants'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { networkIdToSlug } from '@/src/config/networks'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 
@@ -62,13 +63,18 @@ const Home = (networkId) => {
 const Pools = (networkId) => {
   let url = null
   // ORDER is important
-  if (isFeatureEnabled('liquidity-gauge-pools', networkId)) {
+  const isLiquidityGaugePoolsEnabled = isFeatureEnabled('liquidity-gauge-pools', networkId) && ChainConfig?.[networkId]?.gaugeControllerRegistry
+  const isBondEnabled = isFeatureEnabled('bond', networkId)
+  const isStakingPoolEnabled = isFeatureEnabled('staking-pool', networkId)
+  const isPodStakingPoolEnabled = isFeatureEnabled('pod-staking-pool', networkId)
+
+  if (isLiquidityGaugePoolsEnabled) {
     url = LiquidityGaugePools(networkId)
-  } else if (isFeatureEnabled('bond', networkId)) {
+  } else if (isBondEnabled) {
     url = BondPool(networkId)
-  } else if (isFeatureEnabled('staking-pool', networkId)) {
+  } else if (isStakingPoolEnabled) {
     url = StakingPools(networkId)
-  } else if (isFeatureEnabled('pod-staking-pool', networkId)) {
+  } else if (isPodStakingPoolEnabled) {
     url = PodStakingPools(networkId)
   }
 

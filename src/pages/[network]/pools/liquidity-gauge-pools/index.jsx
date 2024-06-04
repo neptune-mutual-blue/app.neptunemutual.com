@@ -2,6 +2,7 @@ import { ComingSoon } from '@/common/ComingSoon'
 import { Seo } from '@/common/Seo'
 import { LiquidityGaugePoolsPage } from '@/modules/pools/liquidity-gauge-pools'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { slugToNetworkId } from '@/src/config/networks'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
@@ -28,7 +29,7 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export default function LiquidityGaugePools ({ networkId, title }) {
-  const disabled = !isFeatureEnabled('liquidity-gauge-pools', networkId)
+  const disabled = !isFeatureEnabled('liquidity-gauge-pools', networkId) || !(ChainConfig?.[networkId]?.gaugeControllerRegistry)
 
   if (disabled) {
     return <ComingSoon />

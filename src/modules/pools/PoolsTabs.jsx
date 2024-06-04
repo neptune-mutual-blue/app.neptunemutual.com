@@ -1,9 +1,12 @@
+import { useMemo } from 'react'
+
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroStat } from '@/common/HeroStat'
 import { HeroTitle } from '@/common/HeroTitle'
 import { TabNav } from '@/common/Tab/TabNav'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
@@ -18,7 +21,7 @@ import { Trans } from '@lingui/macro'
 
 const getHeaders = (networkId) => {
   return [
-    isFeatureEnabled('liquidity-gauge-pools', networkId) && {
+    isFeatureEnabled('liquidity-gauge-pools', networkId) && ChainConfig?.[networkId]?.gaugeControllerRegistry && {
       name: 'liquidity-gauge-pools',
       href: Routes.LiquidityGaugePools(networkId),
       displayAs: <Trans>Liquidity Gauge Pools</Trans>
@@ -49,6 +52,8 @@ export const PoolsTabs = ({ active, children }) => {
 
   const tvl = sumOf(poolsTvl, liquidityGaugePoolsTvl).toString()
 
+  const headers = useMemo(() => { return getHeaders(networkId) }, [networkId])
+
   return (
     <>
       <Hero className='min-h-[312px] flex flex-col justify-between'>
@@ -68,7 +73,7 @@ export const PoolsTabs = ({ active, children }) => {
           </HeroStat>
         </Container>
 
-        <TabNav headers={getHeaders(networkId)} activeTab={active} />
+        <TabNav headers={headers} activeTab={active} />
       </Hero>
 
       {children}
