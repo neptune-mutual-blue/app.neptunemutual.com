@@ -20,8 +20,7 @@ import {
   isValidProduct
 } from '@/src/helpers/cover'
 import {
-  convertFromUnits,
-  toBN
+  convertFromUnits
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
@@ -145,7 +144,7 @@ export const InsightsQuickInfoTable = () => {
   const { loading, getAllProducts } = useCoversAndProducts2()
   const topCovers = useMemo(() => {
     const products = getAllProducts()
-      .filter(x => { return toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7) })
+    // .filter(x => { return toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7) })
 
     const result = sorter({
       datatype: SORT_DATA_TYPES.BIGNUMBER,
