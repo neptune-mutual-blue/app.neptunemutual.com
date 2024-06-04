@@ -9,6 +9,8 @@ const urls = ['https://api2.neptunemutual.net/home/product-summary/1', 'https://
 const file = path.resolve(__dirname, '../src/data/summary.json')
 
 const getJson = (url) => {
+  console.log(`Downloading ${url}`)
+
   return new Promise((resolve, reject) => {
     https.get(url, (res) => {
       let data = ''

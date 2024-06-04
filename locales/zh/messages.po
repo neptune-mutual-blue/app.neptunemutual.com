@@ -29,7 +29,7 @@ msgstr ""
 msgid "{coverName} Cover Terms"
 msgstr "{coverName}保障条款"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:76
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:87
 msgid "{lockupPeriodInBlocks} Blocks"
 msgstr "{lockupPeriodInBlocks}区块"
 
@@ -85,7 +85,7 @@ msgstr "已成功生息"
 msgid "Accruing interest"
 msgstr "正在生息"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:77
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:79
 msgid "Actions"
 msgstr "行动"
 
@@ -122,8 +122,8 @@ msgstr "已成功添加流动性！"
 msgid "Adding Liquidity"
 msgstr "正在添加流动性"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:94
-#: src/modules/home/AvailableCovers.jsx:74
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:96
+#: src/modules/home/AvailableCovers.jsx:77
 msgid "All"
 msgstr "全部"
 
@@ -138,7 +138,7 @@ msgstr "全部交易记录"
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:70
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:75
 #: src/modules/pools/bond/MyBondTxsTable.jsx:66
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:209
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:208
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:81
 #: src/modules/transactions/MyTransactionsTable.jsx:66
 msgid "amount"
@@ -177,7 +177,7 @@ msgstr "保费："
 msgid "Approve"
 msgstr "核准"
 
-#: src/modules/governance/AccountDetail.jsx:123
+#: src/modules/governance/AccountDetail.jsx:125
 msgid "Approve {depositTokenSymbol}"
 msgstr "核准{depositTokenSymbol}"
 
@@ -254,7 +254,7 @@ msgstr "正在核准veNPM来解锁"
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:346
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:370
 #: src/modules/bridge/CommonBridgeActions.jsx:40
-#: src/modules/governance/AccountDetail.jsx:121
+#: src/modules/governance/AccountDetail.jsx:123
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:328
 #: src/modules/my-policies/ClaimCoverModal.jsx:190
 #: src/modules/pools/bond/index.jsx:250
@@ -325,12 +325,12 @@ msgid "Before providing liquidity to or purchasing a product policy from this po
 msgstr "在向该保障池提供流动性或从中购买产品保单之前，请认真评估所有产品参数。承销资金集中“{projectName}”池中为每个产品提供保障。虽然多元化的保障池会为LP们带来更高的回报，但它们本质上比专项保障池的风险更大。"
 
 #: src/modules/pools/bond/index.jsx:275
-#: src/modules/pools/PoolsTabs.jsx:25
+#: src/modules/pools/PoolsTabs.jsx:32
 #: src/pages/[network]/pools/bond/transactions.jsx:51
 msgid "Bond"
 msgstr "Bond"
 
-#: src/modules/pools/PoolsTabs.jsx:50
+#: src/modules/pools/PoolsTabs.jsx:62
 msgid "Bond and Liquidity Gauge"
 msgstr "Bond 及流动性指标"
 
@@ -393,7 +393,7 @@ msgid "Cannot stake more than {maxStakableTokenAmount}"
 msgstr "不可以质押超过{maxStakableTokenAmount}"
 
 #: src/modules/home/Hero.jsx:92
-#: src/modules/insights/InsightsQuickInfoTable.jsx:124
+#: src/modules/insights/InsightsQuickInfoTable.jsx:121
 #: src/modules/insights/InsightsTVLTable.jsx:119
 msgid "Capacity"
 msgstr "保障"
@@ -522,7 +522,7 @@ msgstr "收集中"
 msgid "Coming soon!"
 msgstr "不日上线！"
 
-#: src/modules/governance/ProposalDetailCard.jsx:41
+#: src/modules/governance/ProposalDetailCard.jsx:44
 msgid "Complete"
 msgstr "完成"
 
@@ -566,7 +566,7 @@ msgid "Could not approve {liquidityTokenSymbol}"
 msgstr "无法核准 {liquidityTokenSymbol}"
 
 #: src/hooks/useProvideLiquidity.jsx:204
-#: src/modules/governance/useSetGauge.jsx:74
+#: src/modules/governance/useSetGauge.jsx:77
 msgid "Could not approve {NPMTokenSymbol}"
 msgstr "无法核准 {NPMTokenSymbol}"
 
@@ -693,7 +693,7 @@ msgstr "无法获取费率"
 msgid "Could not get liquidity gauge pool transactions list"
 msgstr "无法获取流动性指标池的交易清单"
 
-#: src/hooks/useLiquidityGaugePools.jsx:29
+#: src/context/LiquidityGaugePools.jsx:60
 msgid "Could not get liquidity gauge pools"
 msgstr "无法获取流动性指标池"
 
@@ -819,7 +819,7 @@ msgstr "无法取出奖励"
 msgid "cover"
 msgstr "保障"
 
-#: src/modules/insights/InsightsQuickInfoTable.jsx:110
+#: src/modules/insights/InsightsQuickInfoTable.jsx:107
 msgid "Cover"
 msgstr "保障"
 
@@ -836,7 +836,7 @@ msgstr "保费"
 msgid "Cover Fee Earned"
 msgstr "已赚取保费"
 
-#: src/modules/home/AvailableCovers.jsx:196
+#: src/modules/home/AvailableCovers.jsx:199
 msgid "Cover Products"
 msgstr "保障产品"
 
@@ -886,7 +886,7 @@ msgstr "拒绝"
 msgid "Dedicated covers"
 msgstr "专属保障池"
 
-#: src/modules/home/AvailableCovers.jsx:76
+#: src/modules/home/AvailableCovers.jsx:79
 msgid "Dedicated Pool"
 msgstr "专属资金池"
 
@@ -895,11 +895,11 @@ msgstr "专属资金池"
 msgid "Description"
 msgstr "事件描述"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:56
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:58
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:63
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:68
 #: src/modules/pools/bond/MyBondTxsTable.jsx:59
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:202
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:201
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:74
 #: src/modules/transactions/MyTransactionsTable.jsx:59
 msgid "details"
@@ -931,7 +931,7 @@ msgstr "已成功提交异议"
 msgid "Disputing..."
 msgstr "正在提交异议。。。"
 
-#: src/modules/home/AvailableCovers.jsx:75
+#: src/modules/home/AvailableCovers.jsx:78
 msgid "Diversified Pool"
 msgstr "多元化资金池"
 
@@ -985,15 +985,15 @@ msgstr "正在紧急裁决事件"
 msgid "Emergency resolving..."
 msgstr "紧急裁决中。。。"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:70
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:81
 msgid "Emission Received"
 msgstr "已收到的释放代币"
 
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:89
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:87
 msgid "Emissions"
 msgstr "代币释放"
 
-#: src/modules/governance/ProposalDetailCard.jsx:98
+#: src/modules/governance/ProposalDetailCard.jsx:101
 msgid "End"
 msgstr "终止"
 
@@ -1063,7 +1063,7 @@ msgstr "填写您的POD（存款凭证）金额"
 msgid "Enter your stake"
 msgstr "填写想要质押的数量"
 
-#: src/modules/governance/LiquidityGauge.jsx:182
+#: src/modules/governance/LiquidityGauge.jsx:180
 msgid "Epoch Emission:"
 msgstr "Eposh释放："
 
@@ -1185,11 +1185,11 @@ msgstr "正在最终裁定事件"
 msgid "Finalizing..."
 msgstr "最终裁定中"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:95
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:97
 msgid "Gauge Controller Emission (GCE)"
 msgstr "指标控制器释放 （GCE)"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:97
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:99
 msgid "Gauge Controller Listing (GCL)"
 msgstr "指标控制器列表 (GCL)"
 
@@ -1202,11 +1202,11 @@ msgid "Get LP tokens"
 msgstr "获取LP代币"
 
 #: src/common/Header/getNavigationLinks.jsx:54
-#: src/modules/governance/ProposalDetail.jsx:52
+#: src/modules/governance/ProposalDetail.jsx:55
 msgid "Governance"
 msgstr "治理"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:99
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:101
 msgid "Grants"
 msgstr "补助"
 
@@ -1339,7 +1339,7 @@ msgstr "质押数量无效"
 msgid "Invalid Cashback Code"
 msgstr "返现代码无效"
 
-#: src/modules/governance/ProposalDetailCard.jsx:78
+#: src/modules/governance/ProposalDetailCard.jsx:81
 msgid "IPFS"
 msgstr "IPFS"
 
@@ -1362,11 +1362,11 @@ msgstr "最新版本的标准条款和条件将适用。"
 msgid "Liquidity"
 msgstr "流动性"
 
-#: src/modules/governance/LiquidityGauge.jsx:180
+#: src/modules/governance/LiquidityGauge.jsx:178
 msgid "Liquidity Gauge"
 msgstr "流动性指标"
 
-#: src/modules/pools/PoolsTabs.jsx:20
+#: src/modules/pools/PoolsTabs.jsx:27
 #: src/pages/[network]/pools/liquidity-gauge-pools/transactions.jsx:52
 msgid "Liquidity Gauge Pools"
 msgstr "流动性指标池"
@@ -1383,11 +1383,11 @@ msgstr "流动性低于阈值"
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
 msgstr "流动性提供者共同拥有一个资金池。如想成为流动性提供者，请从主页中选择一个保障。"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:98
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:100
 msgid "Liquidity Rewards (LR)"
 msgstr "流动性奖励（LR）"
 
-#: src/modules/governance/ProposalDetailCard.jsx:41
+#: src/modules/governance/ProposalDetailCard.jsx:44
 msgid "Live"
 msgstr "正常运行"
 
@@ -1414,7 +1414,7 @@ msgstr "锁定"
 msgid "Locked {stakeAmountWithSymbol} in {0} Pool"
 msgstr "已在 {0} 池中锁定{stakeAmountWithSymbol} "
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:80
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:79
 msgid "Locked {tokenAmountWithSymbol} in {0} Pool"
 msgstr "已在 {0} 池中锁定 {tokenAmountWithSymbol} "
 
@@ -1434,7 +1434,7 @@ msgstr "正在锁定NPM"
 msgid "Locking..."
 msgstr "正在锁定"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:75
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:86
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:144
 #: src/modules/pools/staking/StakeForm.jsx:127
 #: src/modules/pools/staking/StakingCard.jsx:145
@@ -1546,7 +1546,7 @@ msgstr "我的总流动性"
 msgid "My Transactions"
 msgstr "我的交易"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:96
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:98
 msgid "Neptune Improvement Proposal (NIP)"
 msgstr "Neptune改进提案 (NIP)"
 
@@ -1572,7 +1572,7 @@ msgstr "下一个"
 msgid "NEXT UNLOCK CYCLE"
 msgstr "下一个解锁周期"
 
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:174
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:172
 msgid "No <0>liquidity gauge pools found.</0>"
 msgstr "未找到<0>流动性指标池。</0>"
 
@@ -1587,7 +1587,7 @@ msgstr "没有<0>发现质押资金池。</0>"
 #: src/modules/my-liquidity/index.jsx:65
 #: src/modules/my-policies/active/PoliciesEmptyState.jsx:48
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:85
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:170
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:168
 #: src/modules/pools/pod-staking/index.jsx:177
 #: src/modules/pools/staking/index.jsx:175
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:53
@@ -1658,7 +1658,7 @@ msgstr "惩罚：{0}"
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:120
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:129
 #: src/modules/pools/bond/MyBondTxsTable.jsx:119
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:285
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:283
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:131
 msgid "Please connect your wallet"
 msgstr "请连接您的钱包"
@@ -1680,7 +1680,7 @@ msgstr "请填写金额"
 msgid "Please specify an amount"
 msgstr "请填写数量"
 
-#: src/modules/pools/PoolsTabs.jsx:35
+#: src/modules/pools/PoolsTabs.jsx:42
 #: src/pages/[network]/pools/pod-staking/transactions.jsx:50
 msgid "POD Staking"
 msgstr "POD质押中"
@@ -1737,7 +1737,7 @@ msgstr "本资金池所覆盖的保障产品"
 msgid "Proof of incident"
 msgstr "证明事件发生的证据"
 
-#: src/modules/governance/ProposalDetailCard.jsx:61
+#: src/modules/governance/ProposalDetailCard.jsx:64
 msgid "Proposal"
 msgstr "提案"
 
@@ -1852,7 +1852,7 @@ msgstr "已提出异议"
 msgid "Refuting"
 msgstr "正在提出异议"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:68
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:67
 msgid "Removed {tokenAmountWithSymbol} from {0} Pool"
 msgstr "已从 {0} 池中移除 {tokenAmountWithSymbol}"
 
@@ -1939,7 +1939,7 @@ msgstr "通报期"
 msgid "Reporting..."
 msgstr "通报中"
 
-#: src/modules/governance/AccountDetail.jsx:97
+#: src/modules/governance/AccountDetail.jsx:99
 msgid "Required"
 msgstr "必需的"
 
@@ -1979,7 +1979,7 @@ msgstr "正在裁决事件"
 msgid "Resolving..."
 msgstr "裁决中。。。"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:70
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:72
 msgid "Result"
 msgstr "结果"
 
@@ -2016,7 +2016,7 @@ msgstr "查看更多"
 msgid "select a cover"
 msgstr "选择一个保障产品"
 
-#: src/common/CoverForm/Steps/CoveragePeriodStep.jsx:34
+#: src/common/CoverForm/Steps/CoveragePeriodStep.jsx:37
 msgid "Select your coverage period"
 msgstr "请选择您的保障期限"
 
@@ -2028,7 +2028,7 @@ msgstr "请选择您的决定"
 msgid "Set Gauge"
 msgstr "设定指标"
 
-#: src/modules/governance/AccountDetail.jsx:137
+#: src/modules/governance/AccountDetail.jsx:139
 msgid "Set Gauge On {0}"
 msgstr "在{0}设定指标"
 
@@ -2036,7 +2036,7 @@ msgstr "在{0}设定指标"
 msgid "Setting gauge"
 msgstr "正在设定指标"
 
-#: src/modules/governance/AccountDetail.jsx:135
+#: src/modules/governance/AccountDetail.jsx:137
 msgid "Setting Gauge..."
 msgstr "正在设定指标。。。"
 
@@ -2048,7 +2048,7 @@ msgstr "显示更多"
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake at least {0} {tokenSymbol} tokens. If the majority agree with you, you will earn {1}% of the \"incident occurred\" side's tokens."
 msgstr "由于您是第一位对本事件通报提出异议的，您需要质押至少{0} {tokenSymbol}代币。如果大多数选择支持您，您将获得投票给“事件发生”一方所质押代币总量的 {1}%作为奖励。"
 
-#: src/modules/governance/ProposalDetailCard.jsx:70
+#: src/modules/governance/ProposalDetailCard.jsx:73
 msgid "Snapshot"
 msgstr "快照"
 
@@ -2084,7 +2084,7 @@ msgstr "质押金额："
 msgid "Staked {tokenSymbol} successfully"
 msgstr "质押{tokenSymbol}已成功"
 
-#: src/modules/pools/PoolsTabs.jsx:30
+#: src/modules/pools/PoolsTabs.jsx:37
 #: src/pages/[network]/pools/staking/transactions.jsx:50
 msgid "Staking"
 msgstr "正在质押"
@@ -2097,7 +2097,7 @@ msgstr "正在质押{tokenSymbol}"
 msgid "Staking..."
 msgstr "质押中。。。"
 
-#: src/modules/governance/ProposalDetailCard.jsx:85
+#: src/modules/governance/ProposalDetailCard.jsx:88
 msgid "Start"
 msgstr "开始"
 
@@ -2160,7 +2160,7 @@ msgstr "本通报将于{longDate}结束。"
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:261
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:266
 #: src/modules/pools/bond/MyBondTxsTable.jsx:220
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:144
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:143
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:283
 msgid "Timestamp"
 msgstr "时间戳"
@@ -2221,7 +2221,7 @@ msgstr "正在进行的交易"
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:28
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:34
 #: src/modules/pools/bond/index.jsx:301
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:101
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:99
 #: src/modules/pools/pod-staking/index.jsx:104
 #: src/modules/pools/staking/index.jsx:103
 #: src/pages/[network]/my-liquidity/transactions.jsx:53
@@ -2248,9 +2248,9 @@ msgid "transactions"
 msgstr "交易"
 
 #: src/modules/insights/InsightsTVLTable.jsx:112
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:55
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:88
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:79
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:54
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:86
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:90
 #: src/modules/pools/pod-staking/index.jsx:91
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:150
 #: src/modules/pools/staking/index.jsx:90
@@ -2371,7 +2371,7 @@ msgstr "用户投票数："
 msgid "Utilization ratio"
 msgstr "利用率"
 
-#: src/modules/insights/InsightsQuickInfoTable.jsx:117
+#: src/modules/insights/InsightsQuickInfoTable.jsx:114
 msgid "Utilization Ratio"
 msgstr "利用率"
 
@@ -2425,7 +2425,7 @@ msgstr "浏览交易"
 msgid "View Tx"
 msgstr "浏览Tx"
 
-#: src/modules/home/AvailableCovers.jsx:215
+#: src/modules/home/AvailableCovers.jsx:218
 msgid "View:"
 msgstr "浏览："
 
@@ -2445,11 +2445,11 @@ msgstr "我们正使用第三方cookies为您提供个性化的体验。"
 msgid "Weight"
 msgstr "质押数量"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:42
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:44
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:56
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:61
 #: src/modules/pools/bond/MyBondTxsTable.jsx:52
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:195
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:194
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:67
 #: src/modules/reporting/RecentVotesTable.jsx:56
 #: src/modules/transactions/MyTransactionsTable.jsx:52
@@ -2486,7 +2486,7 @@ msgstr "正在提取中。。。"
 msgid "Withdrawn {withdrawAmountWithSymbol} from {0} Pool"
 msgstr "已从 {0} 池中提取 {withdrawAmountWithSymbol}"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:74
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:73
 msgid "Withdrawn reward of {tokenAmountWithSymbol} from {0} Pool"
 msgstr "已从 {0} 池中提取 {tokenAmountWithSymbol} 奖励"
 
@@ -2541,7 +2541,7 @@ msgstr "您的Bond"
 msgid "Your Cover Amount"
 msgstr "您的保障额"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:65
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:76
 msgid "Your Locked Balance"
 msgstr "您的锁仓额"
 

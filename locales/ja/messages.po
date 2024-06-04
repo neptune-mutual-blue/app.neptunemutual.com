@@ -29,7 +29,7 @@ msgstr ""
 msgid "{coverName} Cover Terms"
 msgstr "{coverName} カバー条件"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:76
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:87
 msgid "{lockupPeriodInBlocks} Blocks"
 msgstr "{lockupPeriodInBlocks}ブローク"
 
@@ -85,7 +85,7 @@ msgstr "経過利子生成済み"
 msgid "Accruing interest"
 msgstr "経過利子生成中"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:77
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:79
 msgid "Actions"
 msgstr "行動"
 
@@ -122,8 +122,8 @@ msgstr "流動性の追加に成功しました!"
 msgid "Adding Liquidity"
 msgstr "流動性の追加"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:94
-#: src/modules/home/AvailableCovers.jsx:74
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:96
+#: src/modules/home/AvailableCovers.jsx:77
 msgid "All"
 msgstr "全て"
 
@@ -138,7 +138,7 @@ msgstr "全ての取引履歴"
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:70
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:75
 #: src/modules/pools/bond/MyBondTxsTable.jsx:66
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:209
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:208
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:81
 #: src/modules/transactions/MyTransactionsTable.jsx:66
 msgid "amount"
@@ -177,7 +177,7 @@ msgstr "年間保障料金："
 msgid "Approve"
 msgstr "承認"
 
-#: src/modules/governance/AccountDetail.jsx:123
+#: src/modules/governance/AccountDetail.jsx:125
 msgid "Approve {depositTokenSymbol}"
 msgstr "{depositTokenSymbol} を承認する"
 
@@ -254,7 +254,7 @@ msgstr "veNPM のロック解除を承認しています"
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:346
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:370
 #: src/modules/bridge/CommonBridgeActions.jsx:40
-#: src/modules/governance/AccountDetail.jsx:121
+#: src/modules/governance/AccountDetail.jsx:123
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:328
 #: src/modules/my-policies/ClaimCoverModal.jsx:190
 #: src/modules/pools/bond/index.jsx:250
@@ -327,12 +327,12 @@ msgid "Before providing liquidity to or purchasing a product policy from this po
 msgstr "このプールに流動性を提供したり、カバーを購入したりする前に、すべての商品パラメータを徹底的に評価してください。引受資本は、個々の商品をカバーする「{projectName}」プールに集中しています。綜合型カバープールは LP にはるかに高いリターンをもたらす一方、専用カバープールよりもリスクが高くなります。"
 
 #: src/modules/pools/bond/index.jsx:275
-#: src/modules/pools/PoolsTabs.jsx:25
+#: src/modules/pools/PoolsTabs.jsx:32
 #: src/pages/[network]/pools/bond/transactions.jsx:51
 msgid "Bond"
 msgstr "ボンド"
 
-#: src/modules/pools/PoolsTabs.jsx:50
+#: src/modules/pools/PoolsTabs.jsx:62
 msgid "Bond and Liquidity Gauge"
 msgstr "ボンド及び流動性ゲージ"
 
@@ -395,7 +395,7 @@ msgid "Cannot stake more than {maxStakableTokenAmount}"
 msgstr "{maxStakableTokenAmount}以上のステーキングはできません"
 
 #: src/modules/home/Hero.jsx:92
-#: src/modules/insights/InsightsQuickInfoTable.jsx:124
+#: src/modules/insights/InsightsQuickInfoTable.jsx:121
 #: src/modules/insights/InsightsTVLTable.jsx:119
 msgid "Capacity"
 msgstr "カバレッジ"
@@ -524,7 +524,7 @@ msgstr "収集中。。。"
 msgid "Coming soon!"
 msgstr "近日公開！"
 
-#: src/modules/governance/ProposalDetailCard.jsx:41
+#: src/modules/governance/ProposalDetailCard.jsx:44
 msgid "Complete"
 msgstr "完成"
 
@@ -568,7 +568,7 @@ msgid "Could not approve {liquidityTokenSymbol}"
 msgstr "{liquidityTokenSymbol}を承認できませんでした"
 
 #: src/hooks/useProvideLiquidity.jsx:204
-#: src/modules/governance/useSetGauge.jsx:74
+#: src/modules/governance/useSetGauge.jsx:77
 msgid "Could not approve {NPMTokenSymbol}"
 msgstr "{NPMTokenSymbol}を承認できませんでした"
 
@@ -695,7 +695,7 @@ msgstr "料金を取得できませんでした"
 msgid "Could not get liquidity gauge pool transactions list"
 msgstr "流動性ゲージプールの取引リストを取得できませんでした"
 
-#: src/hooks/useLiquidityGaugePools.jsx:29
+#: src/context/LiquidityGaugePools.jsx:60
 msgid "Could not get liquidity gauge pools"
 msgstr "流動性ゲージプールを取得できませんでした"
 
@@ -821,7 +821,7 @@ msgstr "報酬を回収できませんでした"
 msgid "cover"
 msgstr "カバー"
 
-#: src/modules/insights/InsightsQuickInfoTable.jsx:110
+#: src/modules/insights/InsightsQuickInfoTable.jsx:107
 msgid "Cover"
 msgstr ""
 "カバー\n"
@@ -840,7 +840,7 @@ msgstr "カバー料金"
 msgid "Cover Fee Earned"
 msgstr "獲得したカバー料金"
 
-#: src/modules/home/AvailableCovers.jsx:196
+#: src/modules/home/AvailableCovers.jsx:199
 msgid "Cover Products"
 msgstr "カバー商品"
 
@@ -892,7 +892,7 @@ msgstr "拒否する"
 msgid "Dedicated covers"
 msgstr "専用カバープール"
 
-#: src/modules/home/AvailableCovers.jsx:76
+#: src/modules/home/AvailableCovers.jsx:79
 msgid "Dedicated Pool"
 msgstr "専用の資金プール"
 
@@ -901,11 +901,11 @@ msgstr "専用の資金プール"
 msgid "Description"
 msgstr "説明"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:56
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:58
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:63
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:68
 #: src/modules/pools/bond/MyBondTxsTable.jsx:59
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:202
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:201
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:74
 #: src/modules/transactions/MyTransactionsTable.jsx:59
 msgid "details"
@@ -937,7 +937,7 @@ msgstr "異議提出に成功しました"
 msgid "Disputing..."
 msgstr "異議提出中。。。"
 
-#: src/modules/home/AvailableCovers.jsx:75
+#: src/modules/home/AvailableCovers.jsx:78
 msgid "Diversified Pool"
 msgstr "総合型資金プール"
 
@@ -991,15 +991,15 @@ msgstr "インシデント緊急採決中"
 msgid "Emergency resolving..."
 msgstr "緊急採決中。。。"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:70
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:81
 msgid "Emission Received"
 msgstr "エミッションを受け取りました"
 
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:89
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:87
 msgid "Emissions"
 msgstr "エミッション"
 
-#: src/modules/governance/ProposalDetailCard.jsx:98
+#: src/modules/governance/ProposalDetailCard.jsx:101
 msgid "End"
 msgstr "終了"
 
@@ -1069,7 +1069,7 @@ msgstr "POD金額を入力してください"
 msgid "Enter your stake"
 msgstr "ステーク金額を入力してください"
 
-#: src/modules/governance/LiquidityGauge.jsx:182
+#: src/modules/governance/LiquidityGauge.jsx:180
 msgid "Epoch Emission:"
 msgstr "エポックエミッション:"
 
@@ -1191,11 +1191,11 @@ msgstr "インシデント最終決定中"
 msgid "Finalizing..."
 msgstr "最終決定中。。。"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:95
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:97
 msgid "Gauge Controller Emission (GCE)"
 msgstr "ゲージ コントローラー エミッション (GCE)"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:97
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:99
 msgid "Gauge Controller Listing (GCL)"
 msgstr "ゲージコントローラーリスト (GCL)"
 
@@ -1208,11 +1208,11 @@ msgid "Get LP tokens"
 msgstr "LPトークンを取得します"
 
 #: src/common/Header/getNavigationLinks.jsx:54
-#: src/modules/governance/ProposalDetail.jsx:52
+#: src/modules/governance/ProposalDetail.jsx:55
 msgid "Governance"
 msgstr "カバナンス"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:99
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:101
 msgid "Grants"
 msgstr "助成金"
 
@@ -1347,7 +1347,7 @@ msgstr ""
 "\n"
 "無効なキャッシュバック コード"
 
-#: src/modules/governance/ProposalDetailCard.jsx:78
+#: src/modules/governance/ProposalDetailCard.jsx:81
 msgid "IPFS"
 msgstr "IPFS"
 
@@ -1370,11 +1370,11 @@ msgstr "最新版の標準利用規約が適用されます。"
 msgid "Liquidity"
 msgstr "流動性"
 
-#: src/modules/governance/LiquidityGauge.jsx:180
+#: src/modules/governance/LiquidityGauge.jsx:178
 msgid "Liquidity Gauge"
 msgstr "流動性ゲージ"
 
-#: src/modules/pools/PoolsTabs.jsx:20
+#: src/modules/pools/PoolsTabs.jsx:27
 #: src/pages/[network]/pools/liquidity-gauge-pools/transactions.jsx:52
 msgid "Liquidity Gauge Pools"
 msgstr "流動性ゲージプール"
@@ -1391,11 +1391,11 @@ msgstr "流動性は閾値を下回っています"
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
 msgstr "流動性プロバイダーたちは共同で流動性プールを所有しています。流動性プロバイダーになるには、ホーム画面からカバーを選択してください。"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:98
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:100
 msgid "Liquidity Rewards (LR)"
 msgstr "流動性報酬 (LR)"
 
-#: src/modules/governance/ProposalDetailCard.jsx:41
+#: src/modules/governance/ProposalDetailCard.jsx:44
 msgid "Live"
 msgstr ""
 "\n"
@@ -1424,7 +1424,7 @@ msgstr "ロック"
 msgid "Locked {stakeAmountWithSymbol} in {0} Pool"
 msgstr "{0} プールにて {stakeAmountWithSymbol} をロックしました"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:80
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:79
 msgid "Locked {tokenAmountWithSymbol} in {0} Pool"
 msgstr "{0} プールにて {tokenAmountWithSymbol} をロックしました"
 
@@ -1444,7 +1444,7 @@ msgstr "NPMをロックしています"
 msgid "Locking..."
 msgstr "ロック中..."
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:75
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:86
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:144
 #: src/modules/pools/staking/StakeForm.jsx:127
 #: src/modules/pools/staking/StakingCard.jsx:145
@@ -1558,7 +1558,7 @@ msgstr "私の提供した流動性の合計"
 msgid "My Transactions"
 msgstr "私の取引履歴"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:96
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:98
 msgid "Neptune Improvement Proposal (NIP)"
 msgstr "Neptune 改善提案 (NIP)"
 
@@ -1584,7 +1584,7 @@ msgstr "次へ"
 msgid "NEXT UNLOCK CYCLE"
 msgstr "次のアンロックサイクル"
 
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:174
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:172
 msgid "No <0>liquidity gauge pools found.</0>"
 msgstr "<0>流動性ゲージ プールが見つかりません。</0>"
 
@@ -1599,7 +1599,7 @@ msgstr "<0>ステーキングプールが見つかりません。</0>"
 #: src/modules/my-liquidity/index.jsx:65
 #: src/modules/my-policies/active/PoliciesEmptyState.jsx:48
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:85
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:170
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:168
 #: src/modules/pools/pod-staking/index.jsx:177
 #: src/modules/pools/staking/index.jsx:175
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:53
@@ -1672,7 +1672,7 @@ msgstr "ペナルティ: {0}"
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:120
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:129
 #: src/modules/pools/bond/MyBondTxsTable.jsx:119
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:285
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:283
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:131
 msgid "Please connect your wallet"
 msgstr "ウォレットに接続してください"
@@ -1694,7 +1694,7 @@ msgstr "金額を指定してください"
 msgid "Please specify an amount"
 msgstr "金額を指定してください"
 
-#: src/modules/pools/PoolsTabs.jsx:35
+#: src/modules/pools/PoolsTabs.jsx:42
 #: src/pages/[network]/pools/pod-staking/transactions.jsx:50
 msgid "POD Staking"
 msgstr "POD ステーキング"
@@ -1751,7 +1751,7 @@ msgstr "この資金プールにカバーされている商品"
 msgid "Proof of incident"
 msgstr "インシデントの証拠"
 
-#: src/modules/governance/ProposalDetailCard.jsx:61
+#: src/modules/governance/ProposalDetailCard.jsx:64
 msgid "Proposal"
 msgstr "提案"
 
@@ -1868,7 +1868,7 @@ msgstr "異議を提出しました"
 msgid "Refuting"
 msgstr "異議を提出中"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:68
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:67
 msgid "Removed {tokenAmountWithSymbol} from {0} Pool"
 msgstr "{0} プールから {tokenAmountWithSymbol} を撤回しました"
 
@@ -1955,7 +1955,7 @@ msgstr "通報期間"
 msgid "Reporting..."
 msgstr "通報中。。。"
 
-#: src/modules/governance/AccountDetail.jsx:97
+#: src/modules/governance/AccountDetail.jsx:99
 msgid "Required"
 msgstr "必須"
 
@@ -1995,7 +1995,7 @@ msgstr "インシデント採決中"
 msgid "Resolving..."
 msgstr "採決中"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:70
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:72
 msgid "Result"
 msgstr "結果"
 
@@ -2032,7 +2032,7 @@ msgstr "もっと見る"
 msgid "select a cover"
 msgstr "カバーを選択してください"
 
-#: src/common/CoverForm/Steps/CoveragePeriodStep.jsx:34
+#: src/common/CoverForm/Steps/CoveragePeriodStep.jsx:37
 msgid "Select your coverage period"
 msgstr "保障期間を選んでください"
 
@@ -2044,7 +2044,7 @@ msgstr "決定を選んでください"
 msgid "Set Gauge"
 msgstr "ゲージを設定する"
 
-#: src/modules/governance/AccountDetail.jsx:137
+#: src/modules/governance/AccountDetail.jsx:139
 msgid "Set Gauge On {0}"
 msgstr " {0} にゲージを設定します"
 
@@ -2052,7 +2052,7 @@ msgstr " {0} にゲージを設定します"
 msgid "Setting gauge"
 msgstr "ゲージを設定しています"
 
-#: src/modules/governance/AccountDetail.jsx:135
+#: src/modules/governance/AccountDetail.jsx:137
 msgid "Setting Gauge..."
 msgstr "ゲージ設定中"
 
@@ -2064,7 +2064,7 @@ msgstr "詳細を表示"
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake at least {0} {tokenSymbol} tokens. If the majority agree with you, you will earn {1}% of the \"incident occurred\" side's tokens."
 msgstr "お客様はこの事件報告に異議を唱えた最初の人物であるため、最低限 {0} の {tokenSymbol} トークンをステークする必要があります。もし過半数がお客様に同意する場合、「インシデントが発生した」側がステークしたトークンの {1}% を獲得できます。"
 
-#: src/modules/governance/ProposalDetailCard.jsx:70
+#: src/modules/governance/ProposalDetailCard.jsx:73
 msgid "Snapshot"
 msgstr "スナップショット"
 
@@ -2100,7 +2100,7 @@ msgstr "ステーク:"
 msgid "Staked {tokenSymbol} successfully"
 msgstr "{tokenSymbol} のステークに成功しました"
 
-#: src/modules/pools/PoolsTabs.jsx:30
+#: src/modules/pools/PoolsTabs.jsx:37
 #: src/pages/[network]/pools/staking/transactions.jsx:50
 msgid "Staking"
 msgstr "ステーキング中"
@@ -2113,7 +2113,7 @@ msgstr " {tokenSymbol}をステーキング中"
 msgid "Staking..."
 msgstr "ステーキング中..."
 
-#: src/modules/governance/ProposalDetailCard.jsx:85
+#: src/modules/governance/ProposalDetailCard.jsx:88
 msgid "Start"
 msgstr "スタート"
 
@@ -2176,7 +2176,7 @@ msgstr "この通報は{longDate}にて終了する予定です"
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:261
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:266
 #: src/modules/pools/bond/MyBondTxsTable.jsx:220
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:144
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:143
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:283
 msgid "Timestamp"
 msgstr "タイムスタンプ"
@@ -2237,7 +2237,7 @@ msgstr "取引実行中"
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:28
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:34
 #: src/modules/pools/bond/index.jsx:301
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:101
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:99
 #: src/modules/pools/pod-staking/index.jsx:104
 #: src/modules/pools/staking/index.jsx:103
 #: src/pages/[network]/my-liquidity/transactions.jsx:53
@@ -2264,9 +2264,9 @@ msgid "transactions"
 msgstr "取引"
 
 #: src/modules/insights/InsightsTVLTable.jsx:112
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:55
-#: src/modules/pools/liquidity-gauge-pools/index.jsx:88
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:79
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:54
+#: src/modules/pools/liquidity-gauge-pools/index.jsx:86
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:90
 #: src/modules/pools/pod-staking/index.jsx:91
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:150
 #: src/modules/pools/staking/index.jsx:90
@@ -2388,7 +2388,7 @@ msgstr "ユーザーの投票:"
 msgid "Utilization ratio"
 msgstr "稼働率"
 
-#: src/modules/insights/InsightsQuickInfoTable.jsx:117
+#: src/modules/insights/InsightsQuickInfoTable.jsx:114
 msgid "Utilization Ratio"
 msgstr "稼働率"
 
@@ -2442,7 +2442,7 @@ msgstr "取引を見る"
 msgid "View Tx"
 msgstr "Tx を見る"
 
-#: src/modules/home/AvailableCovers.jsx:215
+#: src/modules/home/AvailableCovers.jsx:218
 msgid "View:"
 msgstr "表示："
 
@@ -2462,11 +2462,11 @@ msgstr "お客様にカスタマイズのユーザー体験を提供するため
 msgid "Weight"
 msgstr "ウェイト"
 
-#: src/modules/governance/proposals-table/ProposalsTable.jsx:42
+#: src/modules/governance/proposals-table/ProposalsTable.jsx:44
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:56
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:61
 #: src/modules/pools/bond/MyBondTxsTable.jsx:52
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:195
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:194
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:67
 #: src/modules/reporting/RecentVotesTable.jsx:56
 #: src/modules/transactions/MyTransactionsTable.jsx:52
@@ -2503,7 +2503,7 @@ msgstr "回収中"
 msgid "Withdrawn {withdrawAmountWithSymbol} from {0} Pool"
 msgstr "{0} プールから {withdrawAmountWithSymbol} が引き出されました"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:74
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugeTxsTable.jsx:73
 msgid "Withdrawn reward of {tokenAmountWithSymbol} from {0} Pool"
 msgstr "{0} プールから {tokenAmountWithSymbol} の報酬が引き出されました"
 
@@ -2558,7 +2558,7 @@ msgstr "あなたのボンド"
 msgid "Your Cover Amount"
 msgstr "カバー金額"
 
-#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:65
+#: src/modules/pools/liquidity-gauge-pools/LiquidityGaugePoolStats.jsx:76
 msgid "Your Locked Balance"
 msgstr "ロックされた残高"
 

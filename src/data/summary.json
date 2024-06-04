@@ -47,88 +47,6 @@
       "initialReassuranceAmount": "0",
       "reassuranceRate": "2500"
     },
-    "productKey": null,
-    "productKeyString": null,
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": null,
-    "productInfoDetails": {},
-    "productStatusEnum": "Normal",
-    "productStatus": 0,
-    "floor": "50",
-    "ceiling": "800",
-    "leverage": "6",
-    "capitalEfficiency": "10000",
-    "capacity": "1401483.429843030000000000000000000000000000000000000000",
-    "commitment": "16339",
-    "availableForUnderwriting": "1385144.429843030000000000000000000000000000000000000000",
-    "utilizationRatio": "0.011658361170798867706184937387265327583415694377",
-    "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
-    "coverageLag": "86400",
-    "supportsProducts": true,
-    "requiresWhitelist": false,
-    "minReportingStake": "10000",
-    "activeIncidentDate": 0,
-    "reporterCommission": 1000,
-    "reportingPeriod": 604800,
-    "claimPlatformFee": 650,
-    "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmThidT7SXTdi6a4LkszZfWgAhVPc8x7ub6fbsMuL3S23R",
-    "productInfoUrl": null
-  },
-  {
-    "chainId": "42161",
-    "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",
-    "coverKeyString": "prime",
-    "coverInfo": "QmThidT7SXTdi6a4LkszZfWgAhVPc8x7ub6fbsMuL3S23R",
-    "coverInfoDetails": {
-      "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",
-      "coverName": "Prime dApps",
-      "projectName": null,
-      "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-PRI",
-      "requiresWhitelist": false,
-      "supportsProducts": true,
-      "leverageFactor": "6",
-      "tags": [
-        "nft",
-        "exchange",
-        "dex",
-        "swap",
-        "fork",
-        "stablecoin",
-        "lending",
-        "flashloan",
-        "borrowing",
-        "interest",
-        "loan",
-        "staking",
-        "yield",
-        "insurance",
-        "payment"
-      ],
-      "about": "",
-      "blockchains": [
-        {
-          "chainId": 1,
-          "name": "Main Ethereum Network"
-        }
-      ],
-      "floor": "50",
-      "ceiling": "800",
-      "reportingPeriod": 604800,
-      "cooldownPeriod": 86400,
-      "claimPeriod": 604800,
-      "minStakeToReport": "10000000000000000000000",
-      "stakeWithFee": "30000000000000000000000",
-      "initialReassuranceAmount": "0",
-      "reassuranceRate": "2500"
-    },
     "productKey": "0x756e69737761702d76322d616e642d7633000000000000000000000000000000",
     "productKeyString": "uniswap-v2-and-v3",
     "policyStatus": [
@@ -235,12 +153,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "9000",
-    "capacity": "145819.08518598000000000000000000000000",
-    "commitment": "2058",
-    "availableForUnderwriting": "143761.08518598000000000000000000000000",
-    "utilizationRatio": "0.01411337889944374422786600566381",
+    "capacity": "145904.50271862000000000000000000000000",
+    "commitment": "2305",
+    "availableForUnderwriting": "143599.50271862000000000000000000000000",
+    "utilizationRatio": "0.01579800456498071567053878916524",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -252,6 +170,130 @@
     "isUserWhitelisted": false,
     "coverInfoUrl": "/ipfs/QmThidT7SXTdi6a4LkszZfWgAhVPc8x7ub6fbsMuL3S23R",
     "productInfoUrl": "/ipfs/QmPoihzcsB7P1gjFmm8XQKt7ydnNnLgiWhjWnjaMJnHhiQ"
+  },
+  {
+    "chainId": "56",
+    "coverKey": "0x62696e616e636500000000000000000000000000000000000000000000000000",
+    "coverKeyString": "binance",
+    "coverInfo": "QmcFbX3fHrnjLqtJbMLMJk2njFga6RPq2SysG3owZF6ziY",
+    "coverInfoDetails": {
+      "coverKey": "0x62696e616e636500000000000000000000000000000000000000000000000000",
+      "coverName": "Binance Exchange Custody",
+      "projectName": null,
+      "tokenName": "Yield Bearing USDC",
+      "tokenSymbol": "iUSDC-BNB",
+      "requiresWhitelist": false,
+      "supportsProducts": false,
+      "leverageFactor": "1",
+      "tags": [
+        "exchange",
+        "cex",
+        "bnb",
+        "binance"
+      ],
+      "about": "Founded in 2017 Binance is by far the largest centralized crypto exchange ranked by daily volume traded. Users can trade spots, futures and derivatives via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
+      "parameters": [
+        {
+          "parameter": "Cover Policy Conditions",
+          "type": "condition",
+          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
+          "list": {
+            "type": "unordered",
+            "items": [
+              "This policy relates exclusively to the core exchange platform serving global users outside of the US and US territories (not any other apps listed on the platform)",
+              "To be eligible for a claim, policyholders must hold at least 100 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy"
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Parameters",
+          "type": "parameter",
+          "text": "One of the following parameters must be applicable for the policy to be validated:",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "The designated exchange platform suffers a security breach of its hot or cold wallets where the minimum total loss of funds exceeds $50M",
+              "Or the exchange halts all asset withdrawals for all users for more than 15 days except for Legitimate Reasons as defined under the Standard Terms and Conditions. In this case, incident report cannot be submitted until the expiry of the 15-day withdrawal-halt period. No policy could be purchased after withdrawal halt by the exchange and if any such policy purchased after withdrawal halt will be deemed invalid. Any policies that are expired prior to the end of the 15-day withdrawal-halt period will not be eligible for payout"
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Exclusions",
+          "type": "exclusion",
+          "list": {
+            "type": "unordered",
+            "items": [
+              "All exclusions present in the standard terms and exclusions"
+            ]
+          }
+        }
+      ],
+      "blockchains": null,
+      "floor": "50",
+      "ceiling": "1600",
+      "reportingPeriod": 604800,
+      "cooldownPeriod": 86400,
+      "claimPeriod": 604800,
+      "minStakeToReport": "50000000000000000000000",
+      "stakeWithFee": "12500000000000000000000",
+      "initialReassuranceAmount": "0",
+      "reassuranceRate": "2500",
+      "links": {
+        "website": "https://binance.com/",
+        "discord": "https://discord.com/invite/jE4wt8g2H2",
+        "blog": "https://www.binance.com/en/blog",
+        "tiktok": "https://www.tiktok.com/@binance?lang=en",
+        "facebook": "https://www.facebook.com/binance",
+        "twitter": "https://twitter.com/binance",
+        "reddit": "https://www.reddit.com/r/binance/",
+        "instagram": "https://www.instagram.com/Binance/",
+        "coinmarketcap": "https://coinmarketcap.com/exchanges/binance/",
+        "youtube": "https://www.youtube.com/binanceyoutube"
+      },
+      "resolutionSources": [
+        {
+          "text": "Binance Twitter",
+          "uri": "https://twitter.com/binance"
+        },
+        {
+          "text": "Neptune Mutual Twitter",
+          "uri": "https://twitter.com/neptunemutual"
+        }
+      ]
+    },
+    "productKey": null,
+    "productKeyString": null,
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": null,
+    "productInfoDetails": {},
+    "productStatusEnum": "Normal",
+    "productStatus": 0,
+    "floor": "50",
+    "ceiling": "1600",
+    "leverage": "1",
+    "capitalEfficiency": "10000",
+    "capacity": "5050.99608812465753424700000000000000",
+    "commitment": "0",
+    "availableForUnderwriting": "5050.99608812465753424700000000000000",
+    "utilizationRatio": "0.00000000000000000000000000000000",
+    "reassurance": "0",
+    "tvl": "5050.99608812465753424700000000000000",
+    "coverageLag": "86400",
+    "supportsProducts": false,
+    "requiresWhitelist": false,
+    "minReportingStake": "50000",
+    "activeIncidentDate": 0,
+    "reporterCommission": 1000,
+    "reportingPeriod": 604800,
+    "claimPlatformFee": 650,
+    "isUserWhitelisted": false,
+    "coverInfoUrl": "/ipfs/QmcFbX3fHrnjLqtJbMLMJk2njFga6RPq2SysG3owZF6ziY",
+    "productInfoUrl": null
   },
   {
     "chainId": "42161",
@@ -359,12 +401,12 @@
     "ceiling": "1600",
     "leverage": "1",
     "capitalEfficiency": "10000",
-    "capacity": "899.21754900000000000000000000000000",
-    "commitment": "0",
-    "availableForUnderwriting": "899.21754900000000000000000000000000",
-    "utilizationRatio": "0.00000000000000000000000000000000",
+    "capacity": "899.48768100000000000000000000000000",
+    "commitment": "51",
+    "availableForUnderwriting": "848.48768100000000000000000000000000",
+    "utilizationRatio": "0.05669894216149915231579475072322",
     "reassurance": "0",
-    "tvl": "899.21754900000000000000000000000000",
+    "tvl": "899.48768100000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -375,129 +417,6 @@
     "claimPlatformFee": 650,
     "isUserWhitelisted": false,
     "coverInfoUrl": "/ipfs/Qmb8DRD8qE1irpj9YHTdkNks5BhLGyE1h8T86amhef77re",
-    "productInfoUrl": null
-  },
-  {
-    "chainId": "42161",
-    "coverKey": "0x6f6b780000000000000000000000000000000000000000000000000000000000",
-    "coverKeyString": "okx",
-    "coverInfo": "QmUsRg5QKE7sAtJwchZdiVKXpaXAv98xpwsNxPbvhUYQJf",
-    "coverInfoDetails": {
-      "coverKey": "0x6f6b780000000000000000000000000000000000000000000000000000000000",
-      "coverName": "OKX Exchange Custody",
-      "projectName": null,
-      "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-OKX",
-      "requiresWhitelist": false,
-      "supportsProducts": false,
-      "leverageFactor": "1",
-      "tags": [
-        "exchange",
-        "cex",
-        "okx",
-        "okb",
-        "okex"
-      ],
-      "about": "Founded in 2017, OKX is a rebrand from the former OKEX exchange, it is one of the leading global crypto exchanges, particularly with strong derivatives trading volume. Users can trade spots, futures and derivatives via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
-      "parameters": [
-        {
-          "parameter": "Cover Policy Conditions",
-          "type": "condition",
-          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
-          "list": {
-            "type": "unordered",
-            "items": [
-              "This policy relates exclusively to the core exchange platform serving global users outside of the US and US territories (not any other apps listed on the platform)",
-              "To be eligible for a claim, policyholders must hold at least 100 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy"
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Parameters",
-          "type": "parameter",
-          "text": "One of the following parameters must be applicable for the policy to be validated:",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "The designated exchange platform suffers a security breach of its hot or cold wallets where the minimum total loss of  funds exceeds $50M",
-              "Or the exchange halts all asset withdrawals for all users for more than 15 days except for Legitimate Reasons as defined under the Standard Terms and Conditions.  In this case, incident report cannot be submitted until the expiry of the 15-day withdrawal-halt period. No policy could be purchased after withdrawal halt by the exchange and if any such policy purchased after withdrawal halt will be deemed invalid.  Any policies that are expired prior to the end of the 15-day withdrawal-halt period will not be eligible for payout"
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Exclusions",
-          "type": "exclusion",
-          "list": {
-            "type": "unordered",
-            "items": [
-              "All exclusions present in the standard terms and exclusions"
-            ]
-          }
-        }
-      ],
-      "blockchains": null,
-      "floor": "50",
-      "ceiling": "700",
-      "reportingPeriod": 604800,
-      "cooldownPeriod": 86400,
-      "claimPeriod": 604800,
-      "minStakeToReport": "50000000000000000000000",
-      "stakeWithFee": "30000000000000000000000",
-      "initialReassuranceAmount": "0",
-      "reassuranceRate": "2500",
-      "links": {
-        "website": "https://www.okx.com/",
-        "telegram": "https://t.me/OKXOfficial_English",
-        "twitter": "https://twitter.com/okx",
-        "blog": "https://www.okx.com/academy/en/category/Press-en",
-        "instagram": "https://www.instagram.com/okx_official/",
-        "youtube": "https://www.youtube.com/channel/UCZEp9q993DknUPrhIL51lcw",
-        "discord": "https://discord.com/invite/e6EyvM5QwM",
-        "linkedin": "https://www.linkedin.com/company/okxofficial/"
-      },
-      "resolutionSources": [
-        {
-          "text": "OKX Twitter",
-          "uri": "https://twitter.com/okx"
-        },
-        {
-          "text": "Neptune Mutual Twitter",
-          "uri": "https://twitter.com/neptunemutual"
-        }
-      ]
-    },
-    "productKey": null,
-    "productKeyString": null,
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": null,
-    "productInfoDetails": {},
-    "productStatusEnum": "Normal",
-    "productStatus": 0,
-    "floor": "50",
-    "ceiling": "700",
-    "leverage": "1",
-    "capitalEfficiency": "10000",
-    "capacity": "365.51299300000000000000000000000000",
-    "commitment": "10",
-    "availableForUnderwriting": "355.51299300000000000000000000000000",
-    "utilizationRatio": "0.02735880855540475957854663732843",
-    "reassurance": "0",
-    "tvl": "365.51299300000000000000000000000000",
-    "coverageLag": "86400",
-    "supportsProducts": false,
-    "requiresWhitelist": false,
-    "minReportingStake": "50000",
-    "activeIncidentDate": 0,
-    "reporterCommission": 1000,
-    "reportingPeriod": 604800,
-    "claimPlatformFee": 650,
-    "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmUsRg5QKE7sAtJwchZdiVKXpaXAv98xpwsNxPbvhUYQJf",
     "productInfoUrl": null
   },
   {
@@ -646,12 +565,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "9000",
-    "capacity": "145819.08518598000000000000000000000000",
+    "capacity": "145904.50271862000000000000000000000000",
     "commitment": "0",
-    "availableForUnderwriting": "145819.08518598000000000000000000000000",
+    "availableForUnderwriting": "145904.50271862000000000000000000000000",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -809,12 +728,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "8000",
-    "capacity": "129616.96460976000000000000000000000000",
-    "commitment": "1151",
-    "availableForUnderwriting": "128465.96460976000000000000000000000000",
-    "utilizationRatio": "0.00888001044821050452237997768898",
+    "capacity": "129692.89130544000000000000000000000000",
+    "commitment": "2013",
+    "availableForUnderwriting": "127679.89130544000000000000000000000000",
+    "utilizationRatio": "0.01552128246766570638845722577585",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -965,12 +884,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "9500",
-    "capacity": "153920.14547409000000000000000000000000",
-    "commitment": "1264",
-    "availableForUnderwriting": "152656.14547409000000000000000000000000",
-    "utilizationRatio": "0.00821205045062002119258368781298",
+    "capacity": "154010.30842521000000000000000000000000",
+    "commitment": "2416",
+    "availableForUnderwriting": "151594.30842521000000000000000000000000",
+    "utilizationRatio": "0.01568726161712253369289624074022",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -1132,12 +1051,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "9000",
-    "capacity": "145819.08518598000000000000000000000000",
-    "commitment": "1156",
-    "availableForUnderwriting": "144663.08518598000000000000000000000000",
-    "utilizationRatio": "0.00792763168501310414354378160708",
+    "capacity": "145904.50271862000000000000000000000000",
+    "commitment": "2308",
+    "availableForUnderwriting": "143596.50271862000000000000000000000000",
+    "utilizationRatio": "0.01581856595920845629830955548520",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -1535,12 +1454,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "9500",
-    "capacity": "153920.14547409000000000000000000000000",
+    "capacity": "154010.30842521000000000000000000000000",
     "commitment": "0",
-    "availableForUnderwriting": "153920.14547409000000000000000000000000",
+    "availableForUnderwriting": "154010.30842521000000000000000000000000",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -1702,12 +1621,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "7000",
-    "capacity": "113414.84403354000000000000000000000000",
-    "commitment": "952",
-    "availableForUnderwriting": "112462.84403354000000000000000000000000",
-    "utilizationRatio": "0.00839396296060211026963459228985",
+    "capacity": "113481.27989226000000000000000000000000",
+    "commitment": "1800",
+    "availableForUnderwriting": "111681.27989226000000000000000000000000",
+    "utilizationRatio": "0.01586164697568562713744830396510",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -1871,12 +1790,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "7500",
-    "capacity": "121515.90432165000000000000000000000000",
-    "commitment": "1754",
-    "availableForUnderwriting": "119761.90432165000000000000000000000000",
-    "utilizationRatio": "0.01443432454205500138523438713372",
+    "capacity": "121587.08559885000000000000000000000000",
+    "commitment": "1956",
+    "availableForUnderwriting": "119631.08559885000000000000000000000000",
+    "utilizationRatio": "0.01608723484378426716784756873260",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -2042,12 +1961,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "9000",
-    "capacity": "145819.08518598000000000000000000000000",
-    "commitment": "8004",
-    "availableForUnderwriting": "137815.08518598000000000000000000000000",
-    "utilizationRatio": "0.05488993426197654460633601036595",
+    "capacity": "145904.50271862000000000000000000000000",
+    "commitment": "3431",
+    "availableForUnderwriting": "142473.50271862000000000000000000000000",
+    "utilizationRatio": "0.02351538119845936462716641458826",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -2210,12 +2129,12 @@
     "ceiling": "800",
     "leverage": "6",
     "capitalEfficiency": "9000",
-    "capacity": "145819.08518598000000000000000000000000",
+    "capacity": "145904.50271862000000000000000000000000",
     "commitment": "0",
-    "availableForUnderwriting": "145819.08518598000000000000000000000000",
+    "availableForUnderwriting": "145904.50271862000000000000000000000000",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "270035.34293700000000000000000000000000",
+    "tvl": "270193.52355300000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -2464,12 +2383,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "9000",
-    "capacity": "37200.62411141538461538461538461538462",
+    "capacity": "37214.24520973846153846153846153846154",
     "commitment": "0",
-    "availableForUnderwriting": "37200.62411141538461538461538461538462",
+    "availableForUnderwriting": "37214.24520973846153846153846153846154",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -2638,12 +2557,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "5000",
-    "capacity": "20667.01339523076923076923076923076923",
-    "commitment": "252",
-    "availableForUnderwriting": "20415.01339523076923076923076923076923",
-    "utilizationRatio": "0.01219334381706806608603499413795",
+    "capacity": "20674.58067207692307692307692307692308",
+    "commitment": "357",
+    "availableForUnderwriting": "20317.58067207692307692307692307692308",
+    "utilizationRatio": "0.01726758117431440809853310179091",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -2808,12 +2727,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "5000",
-    "capacity": "20667.01339523076923076923076923076923",
+    "capacity": "20674.58067207692307692307692307692308",
     "commitment": "0",
-    "availableForUnderwriting": "20667.01339523076923076923076923076923",
+    "availableForUnderwriting": "20674.58067207692307692307692307692308",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -2982,12 +2901,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "4000",
-    "capacity": "16533.61071618461538461538461538461538",
-    "commitment": "2795",
-    "availableForUnderwriting": "13738.61071618461538461538461538461538",
-    "utilizationRatio": "0.16904958317810141225430460622808",
+    "capacity": "16539.66453766153846153846153846153846",
+    "commitment": "360",
+    "availableForUnderwriting": "16179.66453766153846153846153846153846",
+    "utilizationRatio": "0.02176585862308538835949550645913",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -3152,12 +3071,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "4000",
-    "capacity": "16533.61071618461538461538461538461538",
+    "capacity": "16539.66453766153846153846153846153846",
     "commitment": "0",
-    "availableForUnderwriting": "16533.61071618461538461538461538461538",
+    "availableForUnderwriting": "16539.66453766153846153846153846153846",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -3325,12 +3244,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "6000",
-    "capacity": "24800.41607427692307692307692307692308",
-    "commitment": "50",
-    "availableForUnderwriting": "24750.41607427692307692307692307692308",
-    "utilizationRatio": "0.00201609520784855590046874903075",
+    "capacity": "24809.49680649230769230769230769230769",
+    "commitment": "622",
+    "availableForUnderwriting": "24187.49680649230769230769230769230769",
+    "utilizationRatio": "0.02507104456214650288815963892144",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -3498,12 +3417,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "6000",
-    "capacity": "24800.41607427692307692307692307692308",
+    "capacity": "24809.49680649230769230769230769230769",
     "commitment": "0",
-    "availableForUnderwriting": "24800.41607427692307692307692307692308",
+    "availableForUnderwriting": "24809.49680649230769230769230769230769",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -3672,12 +3591,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "3000",
-    "capacity": "12400.20803713846153846153846153846154",
-    "commitment": "0",
-    "availableForUnderwriting": "12400.20803713846153846153846153846154",
-    "utilizationRatio": "0.00000000000000000000000000000000",
+    "capacity": "12404.74840324615384615384615384615385",
+    "commitment": "267",
+    "availableForUnderwriting": "12137.74840324615384615384615384615385",
+    "utilizationRatio": "0.02152401574949555071105666749847",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -3838,12 +3757,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "5000",
-    "capacity": "20667.01339523076923076923076923076923",
-    "commitment": "50",
-    "availableForUnderwriting": "20617.01339523076923076923076923076923",
-    "utilizationRatio": "0.00241931424941826708056249883690",
+    "capacity": "20674.58067207692307692307692307692308",
+    "commitment": "552",
+    "availableForUnderwriting": "20122.58067207692307692307692307692308",
+    "utilizationRatio": "0.02669945324431807638764782125653",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -4012,12 +3931,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "7000",
-    "capacity": "28933.81875332307692307692307692307692",
-    "commitment": "50",
-    "availableForUnderwriting": "28883.81875332307692307692307692307692",
-    "utilizationRatio": "0.00172808160672733362897321345493",
+    "capacity": "28944.41294090769230769230769230769231",
+    "commitment": "525",
+    "availableForUnderwriting": "28419.41294090769230769230769230769231",
+    "utilizationRatio": "0.01813821551923782363291292204928",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -4178,12 +4097,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "7000",
-    "capacity": "28933.81875332307692307692307692307692",
+    "capacity": "28944.41294090769230769230769230769231",
     "commitment": "0",
-    "availableForUnderwriting": "28933.81875332307692307692307692307692",
+    "availableForUnderwriting": "28944.41294090769230769230769230769231",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -4347,12 +4266,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "5000",
-    "capacity": "20667.01339523076923076923076923076923",
-    "commitment": "0",
-    "availableForUnderwriting": "20667.01339523076923076923076923076923",
-    "utilizationRatio": "0.00000000000000000000000000000000",
+    "capacity": "20674.58067207692307692307692307692308",
+    "commitment": "402",
+    "availableForUnderwriting": "20272.58067207692307692307692307692308",
+    "utilizationRatio": "0.01944416703662294693448265243682",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -4522,12 +4441,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "9000",
-    "capacity": "37200.62411141538461538461538461538462",
+    "capacity": "37214.24520973846153846153846153846154",
     "commitment": "0",
-    "availableForUnderwriting": "37200.62411141538461538461538461538462",
+    "availableForUnderwriting": "37214.24520973846153846153846153846154",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -7364,9 +7283,9 @@
     "leverage": "6",
     "capitalEfficiency": "9500",
     "capacity": "52213.74498102336986308872000000000000",
-    "commitment": "512",
-    "availableForUnderwriting": "51701.74498102336986308872000000000000",
-    "utilizationRatio": "0.00980584710378621440901535923930",
+    "commitment": "252",
+    "availableForUnderwriting": "51961.74498102336986308872000000000000",
+    "utilizationRatio": "0.00482631537139477740443724712559",
     "reassurance": "0",
     "tvl": "45801.53068510821917814800000000000000",
     "coverageLag": "86400",
@@ -7526,9 +7445,9 @@
     "leverage": "6",
     "capitalEfficiency": "9000",
     "capacity": "49465.65313991687671239984000000000000",
-    "commitment": "462",
-    "availableForUnderwriting": "49003.65313991687671239984000000000000",
-    "utilizationRatio": "0.00933981400575470812525356156712",
+    "commitment": "0",
+    "availableForUnderwriting": "49465.65313991687671239984000000000000",
+    "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "0",
     "tvl": "45801.53068510821917814800000000000000",
     "coverageLag": "86400",
@@ -7692,9 +7611,9 @@
     "leverage": "6",
     "capitalEfficiency": "8000",
     "capacity": "43969.46945770389041102208000000000000",
-    "commitment": "4531",
-    "availableForUnderwriting": "39438.46945770389041102208000000000000",
-    "utilizationRatio": "0.10304877579563615872286660907619",
+    "commitment": "1556",
+    "availableForUnderwriting": "42413.46945770389041102208000000000000",
+    "utilizationRatio": "0.03538819137894722202003541022347",
     "reassurance": "0",
     "tvl": "45801.53068510821917814800000000000000",
     "coverageLag": "86400",
@@ -7853,9 +7772,9 @@
     "leverage": "6",
     "capitalEfficiency": "7000",
     "capacity": "38473.28577549090410964432000000000000",
-    "commitment": "610",
-    "availableForUnderwriting": "37863.28577549090410964432000000000000",
-    "utilizationRatio": "0.01585515735670789969314843939502",
+    "commitment": "450",
+    "availableForUnderwriting": "38023.28577549090410964432000000000000",
+    "utilizationRatio": "0.01169642755822713911789638971764",
     "reassurance": "0",
     "tvl": "45801.53068510821917814800000000000000",
     "coverageLag": "86400",
@@ -8017,9 +7936,9 @@
     "leverage": "6",
     "capitalEfficiency": "7000",
     "capacity": "38473.28577549090410964432000000000000",
-    "commitment": "510",
-    "availableForUnderwriting": "37963.28577549090410964432000000000000",
-    "utilizationRatio": "0.01325595123265742433361590834665",
+    "commitment": "350",
+    "availableForUnderwriting": "38123.28577549090410964432000000000000",
+    "utilizationRatio": "0.00909722143417666375836385866927",
     "reassurance": "0",
     "tvl": "45801.53068510821917814800000000000000",
     "coverageLag": "86400",
@@ -8121,6 +8040,293 @@
     "productInfoUrl": null
   },
   {
+    "chainId": "56",
+    "coverKey": "0x706f70756c61722d646566692d61707073000000000000000000000000000000",
+    "coverKeyString": "popular-defi-apps",
+    "coverInfo": "QmbQNn4ZstkW6aeaVeZ4DnBqx3Cg7pvoopsERFVmW9pwEB",
+    "coverInfoDetails": {
+      "coverKey": "0x706f70756c61722d646566692d61707073000000000000000000000000000000",
+      "coverName": "Popular DeFi Apps",
+      "projectName": null,
+      "tokenName": "Yield Bearing USDC",
+      "tokenSymbol": "iUSDC-POP",
+      "requiresWhitelist": false,
+      "supportsProducts": true,
+      "leverageFactor": "6",
+      "tags": [
+        "nft",
+        "exchange",
+        "dex",
+        "swap",
+        "fork",
+        "stablecoin",
+        "lending",
+        "flashloan",
+        "borrowing",
+        "interest",
+        "loan",
+        "staking",
+        "yield",
+        "insurance",
+        "payment"
+      ],
+      "about": "",
+      "blockchains": [
+        {
+          "chainId": 56,
+          "name": "BNB Chain"
+        }
+      ],
+      "floor": "200",
+      "ceiling": "1200",
+      "reportingPeriod": 604800,
+      "cooldownPeriod": 86400,
+      "claimPeriod": 604800,
+      "minStakeToReport": "10000000000000000000000",
+      "stakeWithFee": "12500000000000000000000",
+      "initialReassuranceAmount": "0",
+      "reassuranceRate": "2500"
+    },
+    "productKey": null,
+    "productKeyString": null,
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": null,
+    "productInfoDetails": {},
+    "productStatusEnum": "Normal",
+    "productStatus": 0,
+    "floor": "200",
+    "ceiling": "1200",
+    "leverage": "6",
+    "capitalEfficiency": "10000",
+    "capacity": "222595.439129625945205799280000000000000000000000000000",
+    "commitment": "2608",
+    "availableForUnderwriting": "219987.439129625945205799280000000000000000000000000000",
+    "utilizationRatio": "0.011716322716213698312006391807142298082804792205",
+    "reassurance": "0",
+    "tvl": "45801.53068510821917814800000000000000",
+    "coverageLag": "86400",
+    "supportsProducts": true,
+    "requiresWhitelist": false,
+    "minReportingStake": "10000",
+    "activeIncidentDate": 0,
+    "reporterCommission": 1000,
+    "reportingPeriod": 604800,
+    "claimPlatformFee": 650,
+    "isUserWhitelisted": false,
+    "coverInfoUrl": "/ipfs/QmbQNn4ZstkW6aeaVeZ4DnBqx3Cg7pvoopsERFVmW9pwEB",
+    "productInfoUrl": null
+  },
+  {
+    "chainId": "42161",
+    "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",
+    "coverKeyString": "prime",
+    "coverInfo": "QmThidT7SXTdi6a4LkszZfWgAhVPc8x7ub6fbsMuL3S23R",
+    "coverInfoDetails": {
+      "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",
+      "coverName": "Prime dApps",
+      "projectName": null,
+      "tokenName": "Yield Bearing USDC",
+      "tokenSymbol": "iUSDC-PRI",
+      "requiresWhitelist": false,
+      "supportsProducts": true,
+      "leverageFactor": "6",
+      "tags": [
+        "nft",
+        "exchange",
+        "dex",
+        "swap",
+        "fork",
+        "stablecoin",
+        "lending",
+        "flashloan",
+        "borrowing",
+        "interest",
+        "loan",
+        "staking",
+        "yield",
+        "insurance",
+        "payment"
+      ],
+      "about": "",
+      "blockchains": [
+        {
+          "chainId": 1,
+          "name": "Main Ethereum Network"
+        }
+      ],
+      "floor": "50",
+      "ceiling": "800",
+      "reportingPeriod": 604800,
+      "cooldownPeriod": 86400,
+      "claimPeriod": 604800,
+      "minStakeToReport": "10000000000000000000000",
+      "stakeWithFee": "30000000000000000000000",
+      "initialReassuranceAmount": "0",
+      "reassuranceRate": "2500"
+    },
+    "productKey": null,
+    "productKeyString": null,
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": null,
+    "productInfoDetails": {},
+    "productStatusEnum": "Normal",
+    "productStatus": 0,
+    "floor": "50",
+    "ceiling": "800",
+    "leverage": "6",
+    "capitalEfficiency": "10000",
+    "capacity": "1402304.387240070000000000000000000000000000000000000000",
+    "commitment": "16229",
+    "availableForUnderwriting": "1386075.387240070000000000000000000000000000000000000000",
+    "utilizationRatio": "0.011573093650474080280639304273264690444926452166",
+    "reassurance": "0",
+    "tvl": "270193.52355300000000000000000000000000",
+    "coverageLag": "86400",
+    "supportsProducts": true,
+    "requiresWhitelist": false,
+    "minReportingStake": "10000",
+    "activeIncidentDate": 0,
+    "reporterCommission": 1000,
+    "reportingPeriod": 604800,
+    "claimPlatformFee": 650,
+    "isUserWhitelisted": false,
+    "coverInfoUrl": "/ipfs/QmThidT7SXTdi6a4LkszZfWgAhVPc8x7ub6fbsMuL3S23R",
+    "productInfoUrl": null
+  },
+  {
+    "chainId": "42161",
+    "coverKey": "0x6f6b780000000000000000000000000000000000000000000000000000000000",
+    "coverKeyString": "okx",
+    "coverInfo": "QmUsRg5QKE7sAtJwchZdiVKXpaXAv98xpwsNxPbvhUYQJf",
+    "coverInfoDetails": {
+      "coverKey": "0x6f6b780000000000000000000000000000000000000000000000000000000000",
+      "coverName": "OKX Exchange Custody",
+      "projectName": null,
+      "tokenName": "Yield Bearing USDC",
+      "tokenSymbol": "iUSDC-OKX",
+      "requiresWhitelist": false,
+      "supportsProducts": false,
+      "leverageFactor": "1",
+      "tags": [
+        "exchange",
+        "cex",
+        "okx",
+        "okb",
+        "okex"
+      ],
+      "about": "Founded in 2017, OKX is a rebrand from the former OKEX exchange, it is one of the leading global crypto exchanges, particularly with strong derivatives trading volume. Users can trade spots, futures and derivatives via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
+      "parameters": [
+        {
+          "parameter": "Cover Policy Conditions",
+          "type": "condition",
+          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
+          "list": {
+            "type": "unordered",
+            "items": [
+              "This policy relates exclusively to the core exchange platform serving global users outside of the US and US territories (not any other apps listed on the platform)",
+              "To be eligible for a claim, policyholders must hold at least 100 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy"
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Parameters",
+          "type": "parameter",
+          "text": "One of the following parameters must be applicable for the policy to be validated:",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "The designated exchange platform suffers a security breach of its hot or cold wallets where the minimum total loss of  funds exceeds $50M",
+              "Or the exchange halts all asset withdrawals for all users for more than 15 days except for Legitimate Reasons as defined under the Standard Terms and Conditions.  In this case, incident report cannot be submitted until the expiry of the 15-day withdrawal-halt period. No policy could be purchased after withdrawal halt by the exchange and if any such policy purchased after withdrawal halt will be deemed invalid.  Any policies that are expired prior to the end of the 15-day withdrawal-halt period will not be eligible for payout"
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Exclusions",
+          "type": "exclusion",
+          "list": {
+            "type": "unordered",
+            "items": [
+              "All exclusions present in the standard terms and exclusions"
+            ]
+          }
+        }
+      ],
+      "blockchains": null,
+      "floor": "50",
+      "ceiling": "700",
+      "reportingPeriod": 604800,
+      "cooldownPeriod": 86400,
+      "claimPeriod": 604800,
+      "minStakeToReport": "50000000000000000000000",
+      "stakeWithFee": "30000000000000000000000",
+      "initialReassuranceAmount": "0",
+      "reassuranceRate": "2500",
+      "links": {
+        "website": "https://www.okx.com/",
+        "telegram": "https://t.me/OKXOfficial_English",
+        "twitter": "https://twitter.com/okx",
+        "blog": "https://www.okx.com/academy/en/category/Press-en",
+        "instagram": "https://www.instagram.com/okx_official/",
+        "youtube": "https://www.youtube.com/channel/UCZEp9q993DknUPrhIL51lcw",
+        "discord": "https://discord.com/invite/e6EyvM5QwM",
+        "linkedin": "https://www.linkedin.com/company/okxofficial/"
+      },
+      "resolutionSources": [
+        {
+          "text": "OKX Twitter",
+          "uri": "https://twitter.com/okx"
+        },
+        {
+          "text": "Neptune Mutual Twitter",
+          "uri": "https://twitter.com/neptunemutual"
+        }
+      ]
+    },
+    "productKey": null,
+    "productKeyString": null,
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": null,
+    "productInfoDetails": {},
+    "productStatusEnum": "Normal",
+    "productStatus": 0,
+    "floor": "50",
+    "ceiling": "700",
+    "leverage": "1",
+    "capitalEfficiency": "10000",
+    "capacity": "367.15372600000000000000000000000000",
+    "commitment": "100",
+    "availableForUnderwriting": "267.15372600000000000000000000000000",
+    "utilizationRatio": "0.27236547777810104533706951948514",
+    "reassurance": "0",
+    "tvl": "367.15372600000000000000000000000000",
+    "coverageLag": "86400",
+    "supportsProducts": false,
+    "requiresWhitelist": false,
+    "minReportingStake": "50000",
+    "activeIncidentDate": 0,
+    "reporterCommission": 1000,
+    "reportingPeriod": 604800,
+    "claimPlatformFee": 650,
+    "isUserWhitelisted": false,
+    "coverInfoUrl": "/ipfs/QmUsRg5QKE7sAtJwchZdiVKXpaXAv98xpwsNxPbvhUYQJf",
+    "productInfoUrl": null
+  },
+  {
     "chainId": "42161",
     "coverKey": "0x706f70756c61722d646566692d61707073000000000000000000000000000000",
     "coverKeyString": "popular-defi-apps",
@@ -8188,12 +8394,12 @@
     "ceiling": "1200",
     "leverage": "6",
     "capitalEfficiency": "10000",
-    "capacity": "310005.200928461538463191822610080000000000000000000000",
-    "commitment": "3197",
-    "availableForUnderwriting": "306808.200928461538463191822610080000000000000000000000",
-    "utilizationRatio": "0.010312730207186933142022743814301977340208796750",
+    "capacity": "310118.710081153846155500120299920000000000000000000000",
+    "commitment": "3085",
+    "availableForUnderwriting": "307033.710081153846155500120299920000000000000000000000",
+    "utilizationRatio": "0.009947803533661988605731187629512350216701577563",
     "reassurance": "0",
-    "tvl": "89557.05804600000000000000000000000000",
+    "tvl": "89589.84957900000000000000000000000000",
     "coverageLag": "86400",
     "supportsProducts": true,
     "requiresWhitelist": false,
@@ -8204,212 +8410,6 @@
     "claimPlatformFee": 650,
     "isUserWhitelisted": false,
     "coverInfoUrl": "/ipfs/Qmd8p5a5eUXFF9XofGCi9EWD8dnQayfPfANfRB4vGUtXqt",
-    "productInfoUrl": null
-  },
-  {
-    "chainId": "56",
-    "coverKey": "0x706f70756c61722d646566692d61707073000000000000000000000000000000",
-    "coverKeyString": "popular-defi-apps",
-    "coverInfo": "QmbQNn4ZstkW6aeaVeZ4DnBqx3Cg7pvoopsERFVmW9pwEB",
-    "coverInfoDetails": {
-      "coverKey": "0x706f70756c61722d646566692d61707073000000000000000000000000000000",
-      "coverName": "Popular DeFi Apps",
-      "projectName": null,
-      "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-POP",
-      "requiresWhitelist": false,
-      "supportsProducts": true,
-      "leverageFactor": "6",
-      "tags": [
-        "nft",
-        "exchange",
-        "dex",
-        "swap",
-        "fork",
-        "stablecoin",
-        "lending",
-        "flashloan",
-        "borrowing",
-        "interest",
-        "loan",
-        "staking",
-        "yield",
-        "insurance",
-        "payment"
-      ],
-      "about": "",
-      "blockchains": [
-        {
-          "chainId": 56,
-          "name": "BNB Chain"
-        }
-      ],
-      "floor": "200",
-      "ceiling": "1200",
-      "reportingPeriod": 604800,
-      "cooldownPeriod": 86400,
-      "claimPeriod": 604800,
-      "minStakeToReport": "10000000000000000000000",
-      "stakeWithFee": "12500000000000000000000",
-      "initialReassuranceAmount": "0",
-      "reassuranceRate": "2500"
-    },
-    "productKey": null,
-    "productKeyString": null,
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": null,
-    "productInfoDetails": {},
-    "productStatusEnum": "Normal",
-    "productStatus": 0,
-    "floor": "200",
-    "ceiling": "1200",
-    "leverage": "6",
-    "capitalEfficiency": "10000",
-    "capacity": "222595.439129625945205799280000000000000000000000000000",
-    "commitment": "6625",
-    "availableForUnderwriting": "215970.439129625945205799280000000000000000000000000000",
-    "utilizationRatio": "0.029762514568602665382301512930336550919701590629",
-    "reassurance": "0",
-    "tvl": "45801.53068510821917814800000000000000",
-    "coverageLag": "86400",
-    "supportsProducts": true,
-    "requiresWhitelist": false,
-    "minReportingStake": "10000",
-    "activeIncidentDate": 0,
-    "reporterCommission": 1000,
-    "reportingPeriod": 604800,
-    "claimPlatformFee": 650,
-    "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmbQNn4ZstkW6aeaVeZ4DnBqx3Cg7pvoopsERFVmW9pwEB",
-    "productInfoUrl": null
-  },
-  {
-    "chainId": "56",
-    "coverKey": "0x62696e616e636500000000000000000000000000000000000000000000000000",
-    "coverKeyString": "binance",
-    "coverInfo": "QmcFbX3fHrnjLqtJbMLMJk2njFga6RPq2SysG3owZF6ziY",
-    "coverInfoDetails": {
-      "coverKey": "0x62696e616e636500000000000000000000000000000000000000000000000000",
-      "coverName": "Binance Exchange Custody",
-      "projectName": null,
-      "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-BNB",
-      "requiresWhitelist": false,
-      "supportsProducts": false,
-      "leverageFactor": "1",
-      "tags": [
-        "exchange",
-        "cex",
-        "bnb",
-        "binance"
-      ],
-      "about": "Founded in 2017 Binance is by far the largest centralized crypto exchange ranked by daily volume traded. Users can trade spots, futures and derivatives via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
-      "parameters": [
-        {
-          "parameter": "Cover Policy Conditions",
-          "type": "condition",
-          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
-          "list": {
-            "type": "unordered",
-            "items": [
-              "This policy relates exclusively to the core exchange platform serving global users outside of the US and US territories (not any other apps listed on the platform)",
-              "To be eligible for a claim, policyholders must hold at least 100 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy"
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Parameters",
-          "type": "parameter",
-          "text": "One of the following parameters must be applicable for the policy to be validated:",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "The designated exchange platform suffers a security breach of its hot or cold wallets where the minimum total loss of funds exceeds $50M",
-              "Or the exchange halts all asset withdrawals for all users for more than 15 days except for Legitimate Reasons as defined under the Standard Terms and Conditions. In this case, incident report cannot be submitted until the expiry of the 15-day withdrawal-halt period. No policy could be purchased after withdrawal halt by the exchange and if any such policy purchased after withdrawal halt will be deemed invalid. Any policies that are expired prior to the end of the 15-day withdrawal-halt period will not be eligible for payout"
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Exclusions",
-          "type": "exclusion",
-          "list": {
-            "type": "unordered",
-            "items": [
-              "All exclusions present in the standard terms and exclusions"
-            ]
-          }
-        }
-      ],
-      "blockchains": null,
-      "floor": "50",
-      "ceiling": "1600",
-      "reportingPeriod": 604800,
-      "cooldownPeriod": 86400,
-      "claimPeriod": 604800,
-      "minStakeToReport": "50000000000000000000000",
-      "stakeWithFee": "12500000000000000000000",
-      "initialReassuranceAmount": "0",
-      "reassuranceRate": "2500",
-      "links": {
-        "website": "https://binance.com/",
-        "discord": "https://discord.com/invite/jE4wt8g2H2",
-        "blog": "https://www.binance.com/en/blog",
-        "tiktok": "https://www.tiktok.com/@binance?lang=en",
-        "facebook": "https://www.facebook.com/binance",
-        "twitter": "https://twitter.com/binance",
-        "reddit": "https://www.reddit.com/r/binance/",
-        "instagram": "https://www.instagram.com/Binance/",
-        "coinmarketcap": "https://coinmarketcap.com/exchanges/binance/",
-        "youtube": "https://www.youtube.com/binanceyoutube"
-      },
-      "resolutionSources": [
-        {
-          "text": "Binance Twitter",
-          "uri": "https://twitter.com/binance"
-        },
-        {
-          "text": "Neptune Mutual Twitter",
-          "uri": "https://twitter.com/neptunemutual"
-        }
-      ]
-    },
-    "productKey": null,
-    "productKeyString": null,
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": null,
-    "productInfoDetails": {},
-    "productStatusEnum": "Normal",
-    "productStatus": 0,
-    "floor": "50",
-    "ceiling": "1600",
-    "leverage": "1",
-    "capitalEfficiency": "10000",
-    "capacity": "5050.99608812465753424700000000000000",
-    "commitment": "100",
-    "availableForUnderwriting": "4950.99608812465753424700000000000000",
-    "utilizationRatio": "0.01979807512326309700604487020117",
-    "reassurance": "0",
-    "tvl": "5050.99608812465753424700000000000000",
-    "coverageLag": "86400",
-    "supportsProducts": false,
-    "requiresWhitelist": false,
-    "minReportingStake": "50000",
-    "activeIncidentDate": 0,
-    "reporterCommission": 1000,
-    "reportingPeriod": 604800,
-    "claimPlatformFee": 650,
-    "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmcFbX3fHrnjLqtJbMLMJk2njFga6RPq2SysG3owZF6ziY",
     "productInfoUrl": null
   },
   {
@@ -8684,12 +8684,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "9000",
-    "capacity": "10966690.28571428571428571428571428571429",
+    "capacity": "10966690.30992171428571428571428571428571",
     "commitment": "0",
-    "availableForUnderwriting": "10966690.28571428571428571428571428571429",
+    "availableForUnderwriting": "10966690.30992171428571428571428571428571",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -8843,12 +8843,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "7000",
-    "capacity": "8529648.00000000000000000000000000000000",
+    "capacity": "8529648.01882800000000000000000000000000",
     "commitment": "0",
-    "availableForUnderwriting": "8529648.00000000000000000000000000000000",
+    "availableForUnderwriting": "8529648.01882800000000000000000000000000",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -8860,6 +8860,169 @@
     "isUserWhitelisted": false,
     "coverInfoUrl": "/ipfs/QmRmw7C2sHCLraMjByQec9xN7PXf3kTafdsc7gpTw7BrYa",
     "productInfoUrl": "/ipfs/QmNTWRJnb1Luk4PwbqGZ3XY78bGRHeU7vw95HqmoySDnQa"
+  },
+  {
+    "chainId": "43113",
+    "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
+    "coverKeyString": "defi",
+    "coverInfo": "QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
+    "coverInfoDetails": {
+      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
+      "coverName": "Popular DeFi Apps",
+      "projectName": null,
+      "tokenName": "Yield Bearing USDC",
+      "tokenSymbol": "iUSDC-POP",
+      "requiresWhitelist": false,
+      "supportsProducts": true,
+      "leverageFactor": "10",
+      "tags": [
+        "nft",
+        "exchange",
+        "dex",
+        "swap",
+        "fork",
+        "stablecoin",
+        "lending",
+        "flashloan",
+        "borrowing",
+        "interest",
+        "loan",
+        "staking",
+        "yield",
+        "insurance",
+        "payment"
+      ],
+      "about": "",
+      "blockchains": [
+        {
+          "chainId": 1,
+          "name": "Main Ethereum Network"
+        }
+      ],
+      "floor": "200",
+      "ceiling": "1200",
+      "reportingPeriod": 300,
+      "cooldownPeriod": 300,
+      "claimPeriod": 300,
+      "minStakeToReport": "2000000000000000000000",
+      "stakeWithFee": "25000000000000000000000",
+      "initialReassuranceAmount": "50000000000",
+      "reassuranceRate": "2500"
+    },
+    "productKey": "0x73757368692d7632000000000000000000000000000000000000000000000000",
+    "productKeyString": "sushi-v2",
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": "QmXPkuacaiXrh9aUdiMybBmTjJbZjSEgqq7CnetQuTywVG",
+    "productInfoDetails": {
+      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
+      "productKey": "0x73757368692d7632000000000000000000000000000000000000000000000000",
+      "productName": "Sushi v2",
+      "requiresWhitelist": false,
+      "efficiency": "7000",
+      "tags": [
+        "exchange",
+        "dex",
+        "swap",
+        "fork",
+        "flashloan"
+      ],
+      "about": "Sushi is a community-driven organization built to solve what might be called the “liquidity problem.” One could define this problem as the inability of disparate forms of liquidity to connect with markets in a decentralized way, and vice versa. While other solutions provide incrementally progressive advances toward solving the problem of liquidity, Sushi’s progress is intended to create a broader range of network effects. Rather than limiting itself to a single solution, Sushi intertwines many decentralized markets and instruments.",
+      "blockchains": [
+        {
+          "chainId": 1,
+          "name": "Main Ethereum Network"
+        }
+      ],
+      "parameters": [
+        {
+          "parameter": "Cover Policy Conditions",
+          "type": "condition",
+          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
+          "list": {
+            "type": "unordered",
+            "items": [
+              "This policy relates exclusively to the SushiSwap v2 deployed on the Ethereum blockchain.",
+              "To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy."
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Parameters",
+          "type": "parameter",
+          "text": "All of the following parameters must be applicable for the policy to be validated:",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "Minimum total loss of user funds from the reported incident should exceed $5 million.",
+              "The designated protocol suffers a hack of user funds in which the user funds are permanently and irrecoverably stolen from the protocol.",
+              "The loss arises from a smart contract vulnerability.",
+              "The loss must arise from one of the following blockchains: Ethereum."
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Exclusions",
+          "type": "exclusion",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "Incident on any blockchain that is not supported by this cover.",
+              "Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.",
+              "All exclusions present in the standard terms and conditions."
+            ]
+          }
+        }
+      ],
+      "links": {
+        "website": "https://sushi.com/",
+        "twitter": "https://twitter.com/sushiswap",
+        "blog": "https://sushichef.medium.com/",
+        "github": "https://github.com/sushiswap",
+        "documentation": "https://dev.sushi.com/"
+      },
+      "resolutionSources": [
+        {
+          "text": "Sushi Blog",
+          "uri": "https://sushichef.medium.com"
+        },
+        {
+          "text": "Sushi Twitter",
+          "uri": "https://twitter.com/sushiswap"
+        },
+        {
+          "text": "Neptune Mutual Twitter",
+          "uri": "https://twitter.com/neptunemutual"
+        }
+      ]
+    },
+    "productStatusEnum": "Normal",
+    "productStatus": 0,
+    "floor": "200",
+    "ceiling": "1200",
+    "leverage": "10",
+    "capitalEfficiency": "7000",
+    "capacity": "7992008.54804955555555555555555555555556",
+    "commitment": "0",
+    "availableForUnderwriting": "7992008.54804955555555555555555555555556",
+    "utilizationRatio": "0.00000000000000000000000000000000",
+    "reassurance": "922185.00000000000000000000000000000000",
+    "tvl": "10275439.56177800000000000000000000000000",
+    "coverageLag": "60",
+    "supportsProducts": false,
+    "requiresWhitelist": false,
+    "minReportingStake": "2000",
+    "activeIncidentDate": 0,
+    "reporterCommission": 1000,
+    "reportingPeriod": 300,
+    "claimPlatformFee": 650,
+    "isUserWhitelisted": false,
+    "coverInfoUrl": "/ipfs/QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
+    "productInfoUrl": "/ipfs/QmXPkuacaiXrh9aUdiMybBmTjJbZjSEgqq7CnetQuTywVG"
   },
   {
     "chainId": "43113",
@@ -9010,12 +9173,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "9000",
-    "capacity": "10966690.28571428571428571428571428571429",
+    "capacity": "10966690.30992171428571428571428571428571",
     "commitment": "0",
-    "availableForUnderwriting": "10966690.28571428571428571428571428571429",
+    "availableForUnderwriting": "10966690.30992171428571428571428571428571",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -9166,12 +9329,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "7000",
-    "capacity": "8529648.00000000000000000000000000000000",
+    "capacity": "8529648.01882800000000000000000000000000",
     "commitment": "0",
-    "availableForUnderwriting": "8529648.00000000000000000000000000000000",
+    "availableForUnderwriting": "8529648.01882800000000000000000000000000",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -9329,12 +9492,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "7000",
-    "capacity": "8529648.00000000000000000000000000000000",
+    "capacity": "8529648.01882800000000000000000000000000",
     "commitment": "0",
-    "availableForUnderwriting": "8529648.00000000000000000000000000000000",
+    "availableForUnderwriting": "8529648.01882800000000000000000000000000",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -9346,6 +9509,164 @@
     "isUserWhitelisted": false,
     "coverInfoUrl": "/ipfs/QmRmw7C2sHCLraMjByQec9xN7PXf3kTafdsc7gpTw7BrYa",
     "productInfoUrl": "/ipfs/QmPiKWDUPVUJuW7bpqVpXRUyeC1rr3HNu9cUFrCE114BSB"
+  },
+  {
+    "chainId": "43113",
+    "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
+    "coverKeyString": "defi",
+    "coverInfo": "QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
+    "coverInfoDetails": {
+      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
+      "coverName": "Popular DeFi Apps",
+      "projectName": null,
+      "tokenName": "Yield Bearing USDC",
+      "tokenSymbol": "iUSDC-POP",
+      "requiresWhitelist": false,
+      "supportsProducts": true,
+      "leverageFactor": "10",
+      "tags": [
+        "nft",
+        "exchange",
+        "dex",
+        "swap",
+        "fork",
+        "stablecoin",
+        "lending",
+        "flashloan",
+        "borrowing",
+        "interest",
+        "loan",
+        "staking",
+        "yield",
+        "insurance",
+        "payment"
+      ],
+      "about": "",
+      "blockchains": [
+        {
+          "chainId": 1,
+          "name": "Main Ethereum Network"
+        }
+      ],
+      "floor": "200",
+      "ceiling": "1200",
+      "reportingPeriod": 300,
+      "cooldownPeriod": 300,
+      "claimPeriod": 300,
+      "minStakeToReport": "2000000000000000000000",
+      "stakeWithFee": "25000000000000000000000",
+      "initialReassuranceAmount": "50000000000",
+      "reassuranceRate": "2500"
+    },
+    "productKey": "0x6e657875732d6d757475616c2d76310000000000000000000000000000000000",
+    "productKeyString": "nexus-mutual-v1",
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": "QmNrtsqPhdDwNZwsxyjPjgFzD1XM2VvLPhEiTMu9uiikXM",
+    "productInfoDetails": {
+      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
+      "productKey": "0x6e657875732d6d757475616c2d76310000000000000000000000000000000000",
+      "productName": "Nexus Mutual v1",
+      "requiresWhitelist": false,
+      "efficiency": "9000",
+      "tags": [
+        "insurance",
+        "cover"
+      ],
+      "about": "Nexus Mutual is a decentralized alternative to insurance. Nexus Mutual uses blockchain technology to create a risk sharing pool in the form of a mutual to return the power of insurance to the people. The platform is built on the Ethereum public chain. It allows anyone to become a member and purchase cover. It replaces the idea of a traditional insurance company because it is wholly owned by the members. The model encourages engagement as members will get economic incentives for participating in Risk Assessment, Claims Assessment and Governance.",
+      "blockchains": [
+        {
+          "chainId": 1,
+          "name": "Main Ethereum Network"
+        }
+      ],
+      "parameters": [
+        {
+          "parameter": "Cover Policy Conditions",
+          "type": "condition",
+          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
+          "list": {
+            "type": "unordered",
+            "items": [
+              "This policy relates exclusively to the Nexus Mutual v1 contracts deployed on the Ethereum blockchain.",
+              "To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy."
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Parameters",
+          "type": "parameter",
+          "text": "All of the following parameters must be applicable for the policy to be validated:",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "Minimum total loss of user funds from the reported incident should exceed $5 million.",
+              "The designated protocol suffers a hack of user funds in which the user funds are permanently and irrecoverably stolen from the protocol.",
+              "The loss arises from a smart contract vulnerability.",
+              "The loss must arise from one of the following blockchains: Ethereum."
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Exclusions",
+          "type": "exclusion",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "Incident on any blockchain that is not supported by this cover.",
+              "Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.",
+              "All exclusions present in the standard terms and conditions."
+            ]
+          }
+        }
+      ],
+      "links": {
+        "website": "https://nexusmutual.io/",
+        "twitter": "https://twitter.com/NexusMutual",
+        "blog": "https://medium.com/nexus-mutual",
+        "documentation": "https://nexusmutual.gitbook.io/docs/users/understanding-nexus-mutual",
+        "github": "https://github.com/NexusMutual",
+        "discord": "https://discord.com/invite/aQjkzW5",
+        "telegram": "https://t.me/joinchat/K_g-fA-3CmFwXumCKQUXkw"
+      },
+      "resolutionSources": [
+        {
+          "text": "Nexus Mutual Twitter",
+          "uri": "https://twitter.com/NexusMutual"
+        },
+        {
+          "text": "Neptune Mutual Twitter",
+          "uri": "https://twitter.com/neptunemutual"
+        }
+      ]
+    },
+    "productStatusEnum": "Normal",
+    "productStatus": 0,
+    "floor": "200",
+    "ceiling": "1200",
+    "leverage": "10",
+    "capitalEfficiency": "9000",
+    "capacity": "10275439.56177800000000000000000000000000",
+    "commitment": "0",
+    "availableForUnderwriting": "10275439.56177800000000000000000000000000",
+    "utilizationRatio": "0.00000000000000000000000000000000",
+    "reassurance": "922185.00000000000000000000000000000000",
+    "tvl": "10275439.56177800000000000000000000000000",
+    "coverageLag": "60",
+    "supportsProducts": false,
+    "requiresWhitelist": false,
+    "minReportingStake": "2000",
+    "activeIncidentDate": 0,
+    "reporterCommission": 1000,
+    "reportingPeriod": 300,
+    "claimPlatformFee": 650,
+    "isUserWhitelisted": false,
+    "coverInfoUrl": "/ipfs/QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
+    "productInfoUrl": "/ipfs/QmNrtsqPhdDwNZwsxyjPjgFzD1XM2VvLPhEiTMu9uiikXM"
   },
   {
     "chainId": "43113",
@@ -9494,12 +9815,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "7500",
-    "capacity": "9138908.57142857142857142857142857142857",
-    "commitment": "0",
-    "availableForUnderwriting": "9138908.57142857142857142857142857142857",
-    "utilizationRatio": "0.00000000000000000000000000000000",
+    "capacity": "9138908.59160142857142857142857142857143",
+    "commitment": "10",
+    "availableForUnderwriting": "9138898.59160142857142857142857142857143",
+    "utilizationRatio": "0.00000109422256495594084074077608",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -9662,12 +9983,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "10000",
-    "capacity": "12185211.42857142857142857142857142857143",
+    "capacity": "12185211.45546857142857142857142857142857",
     "commitment": "0",
-    "availableForUnderwriting": "12185211.42857142857142857142857142857143",
+    "availableForUnderwriting": "12185211.45546857142857142857142857142857",
     "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -9847,81 +10168,25 @@
   },
   {
     "chainId": "43113",
-    "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
-    "coverKeyString": "defi",
-    "coverInfo": "QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
+    "coverKey": "0x636f696e62617365000000000000000000000000000000000000000000000000",
+    "coverKeyString": "coinbase",
+    "coverInfo": "QmfEViRmvDaE8GaGWrgEjkAHsTx9Dmcsiwtu2TTYfi8M9Y",
     "coverInfoDetails": {
-      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
-      "coverName": "Popular DeFi Apps",
+      "coverKey": "0x636f696e62617365000000000000000000000000000000000000000000000000",
+      "coverName": "Coinbase (Non US)",
       "projectName": null,
       "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-POP",
+      "tokenSymbol": "iUSDC-COIN",
       "requiresWhitelist": false,
-      "supportsProducts": true,
-      "leverageFactor": "10",
-      "tags": [
-        "nft",
-        "exchange",
-        "dex",
-        "swap",
-        "fork",
-        "stablecoin",
-        "lending",
-        "flashloan",
-        "borrowing",
-        "interest",
-        "loan",
-        "staking",
-        "yield",
-        "insurance",
-        "payment"
-      ],
-      "about": "",
-      "blockchains": [
-        {
-          "chainId": 1,
-          "name": "Main Ethereum Network"
-        }
-      ],
-      "floor": "200",
-      "ceiling": "1200",
-      "reportingPeriod": 300,
-      "cooldownPeriod": 300,
-      "claimPeriod": 300,
-      "minStakeToReport": "2000000000000000000000",
-      "stakeWithFee": "25000000000000000000000",
-      "initialReassuranceAmount": "50000000000",
-      "reassuranceRate": "2500"
-    },
-    "productKey": "0x73757368692d7632000000000000000000000000000000000000000000000000",
-    "productKeyString": "sushi-v2",
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": "QmXPkuacaiXrh9aUdiMybBmTjJbZjSEgqq7CnetQuTywVG",
-    "productInfoDetails": {
-      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
-      "productKey": "0x73757368692d7632000000000000000000000000000000000000000000000000",
-      "productName": "Sushi v2",
-      "requiresWhitelist": false,
-      "efficiency": "7000",
+      "supportsProducts": false,
+      "leverageFactor": "1",
       "tags": [
         "exchange",
-        "dex",
-        "swap",
-        "fork",
-        "flashloan"
+        "cex",
+        "coinbase",
+        "coin"
       ],
-      "about": "Sushi is a community-driven organization built to solve what might be called the “liquidity problem.” One could define this problem as the inability of disparate forms of liquidity to connect with markets in a decentralized way, and vice versa. While other solutions provide incrementally progressive advances toward solving the problem of liquidity, Sushi’s progress is intended to create a broader range of network effects. Rather than limiting itself to a single solution, Sushi intertwines many decentralized markets and instruments.",
-      "blockchains": [
-        {
-          "chainId": 1,
-          "name": "Main Ethereum Network"
-        }
-      ],
+      "about": "Founded in 2012 Coinbase is the largest exchange for institutional crypto traders, and the first crypto exchange that went public and listed on Nasdaq. Users can trade mainly spots via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
       "parameters": [
         {
           "parameter": "Cover Policy Conditions",
@@ -9930,7 +10195,7 @@
           "list": {
             "type": "unordered",
             "items": [
-              "This policy relates exclusively to the SushiSwap v2 deployed on the Ethereum blockchain.",
+              "This policy relates exclusively to the core exchange platform serving global users (outside of US and US territories).",
               "To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy."
             ]
           }
@@ -9942,10 +10207,9 @@
           "list": {
             "type": "ordered",
             "items": [
-              "Minimum total loss of user funds from the reported incident should exceed $5 million.",
-              "The designated protocol suffers a hack of user funds in which the user funds are permanently and irrecoverably stolen from the protocol.",
-              "The loss arises from a smart contract vulnerability.",
-              "The loss must arise from one of the following blockchains: Ethereum."
+              "Minimum total loss of user funds should exceed $50 million.",
+              "Coinbase suffers a security breach of its hot or cold wallets where the user funds are permanently and irrecoverably stolen from Coinbase.",
+              "The loss must arise from security incidents of the crypto storage systems"
             ]
           }
         },
@@ -9955,28 +10219,35 @@
           "list": {
             "type": "ordered",
             "items": [
-              "Incident on any blockchain that is not supported by this cover.",
+              "Losses arisen due to issues with fork, merge,  any other changes of relevant underlying blockchains",
+              "Losses resulting from Key man risk where a single person controls access to the user funds at the custodian, is not covered.",
+              "Coinbase non custodial wallet is not relevant to this cover",
               "Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.",
-              "All exclusions present in the standard terms and conditions."
+              "All exclusions present in the standard terms and exclusions"
             ]
           }
         }
       ],
+      "blockchains": null,
+      "floor": "400",
+      "ceiling": "1600",
+      "reportingPeriod": 300,
+      "cooldownPeriod": 300,
+      "claimPeriod": 300,
+      "minStakeToReport": "2000000000000000000000",
+      "stakeWithFee": "26000000000000000000000",
+      "initialReassuranceAmount": "50000000000",
+      "reassuranceRate": "2500",
       "links": {
-        "website": "https://sushi.com/",
-        "twitter": "https://twitter.com/sushiswap",
-        "blog": "https://sushichef.medium.com/",
-        "github": "https://github.com/sushiswap",
-        "documentation": "https://dev.sushi.com/"
+        "website": "https://coinbase.com/",
+        "blog": "https://www.coinbase.com/blog",
+        "twitter": "https://twitter.com/coinbase",
+        "facebook": "https://www.facebook.com/Coinbase"
       },
       "resolutionSources": [
         {
-          "text": "Sushi Blog",
-          "uri": "https://sushichef.medium.com"
-        },
-        {
-          "text": "Sushi Twitter",
-          "uri": "https://twitter.com/sushiswap"
+          "text": "Coinbase Twitter",
+          "uri": "https://twitter.com/coinbase"
         },
         {
           "text": "Neptune Mutual Twitter",
@@ -9984,18 +10255,28 @@
         }
       ]
     },
+    "productKey": null,
+    "productKeyString": null,
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": null,
+    "productInfoDetails": {},
     "productStatusEnum": "Normal",
     "productStatus": 0,
-    "floor": "200",
-    "ceiling": "1200",
-    "leverage": "10",
-    "capitalEfficiency": "7000",
-    "capacity": "7992008.54804955555555555555555555555556",
+    "floor": "400",
+    "ceiling": "1600",
+    "leverage": "1",
+    "capitalEfficiency": "10000",
+    "capacity": "5811272.00000000000000000000000000000000",
     "commitment": "0",
-    "availableForUnderwriting": "7992008.54804955555555555555555555555556",
+    "availableForUnderwriting": "5811272.00000000000000000000000000000000",
     "utilizationRatio": "0.00000000000000000000000000000000",
-    "reassurance": "922185.00000000000000000000000000000000",
-    "tvl": "10275439.56177800000000000000000000000000",
+    "reassurance": "949287.00000000000000000000000000000000",
+    "tvl": "5811272.00000000000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": false,
     "requiresWhitelist": false,
@@ -10005,8 +10286,135 @@
     "reportingPeriod": 300,
     "claimPlatformFee": 650,
     "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
-    "productInfoUrl": "/ipfs/QmXPkuacaiXrh9aUdiMybBmTjJbZjSEgqq7CnetQuTywVG"
+    "coverInfoUrl": "/ipfs/QmfEViRmvDaE8GaGWrgEjkAHsTx9Dmcsiwtu2TTYfi8M9Y",
+    "productInfoUrl": null
+  },
+  {
+    "chainId": "43113",
+    "coverKey": "0x68756f6269000000000000000000000000000000000000000000000000000000",
+    "coverKeyString": "huobi",
+    "coverInfo": "QmcyCnFeKwM7mnvz4w3x7cvcjJ1HD9uHGrTv8bdZWc1rDi",
+    "coverInfoDetails": {
+      "coverKey": "0x68756f6269000000000000000000000000000000000000000000000000000000",
+      "coverName": "Huobi Global",
+      "projectName": null,
+      "tokenName": "Yield Bearing USDC",
+      "tokenSymbol": "iUSDC-HT",
+      "requiresWhitelist": false,
+      "supportsProducts": false,
+      "leverageFactor": "1",
+      "tags": [
+        "exchange",
+        "cex",
+        "huobi",
+        "ht"
+      ],
+      "about": "Founded in 2013 Huobi Global is amongst the battle tested crypto exchanges with longer operating history and once ranked number 1 globally in terms of trading volume. Users can trade spots, futures and derivatives via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
+      "parameters": [
+        {
+          "parameter": "Cover Policy Conditions",
+          "type": "condition",
+          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
+          "list": {
+            "type": "unordered",
+            "items": [
+              "This policy relates exclusively to the core exchange platform serving global users (outside of US and US territories).",
+              "To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy."
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Parameters",
+          "type": "parameter",
+          "text": "All of the following parameters must be applicable for the policy to be validated:",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "Minimum total loss of user funds should exceed $50 million.",
+              "Huobi suffers a security breach of its hot or cold wallets where the user funds are permanently and irrecoverably stolen from Huobi.",
+              "The loss must arise from security incidents of the crypto storage systems"
+            ]
+          }
+        },
+        {
+          "parameter": "Cover Exclusions",
+          "type": "exclusion",
+          "list": {
+            "type": "ordered",
+            "items": [
+              "Losses arisen due to issues with fork, merge,  any other changes of relevant underlying blockchains",
+              "Losses resulting from Key man risk where a single person controls access to the user funds at the custodian, is not covered.",
+              "Huobi non custodial wallet is not relevant to this cover",
+              "Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.",
+              "All exclusions present in the standard terms and exclusions"
+            ]
+          }
+        }
+      ],
+      "blockchains": null,
+      "floor": "400",
+      "ceiling": "1600",
+      "reportingPeriod": 300,
+      "cooldownPeriod": 300,
+      "claimPeriod": 300,
+      "minStakeToReport": "2000000000000000000000",
+      "stakeWithFee": "27000000000000000000000",
+      "initialReassuranceAmount": "50000000000",
+      "reassuranceRate": "2500",
+      "links": {
+        "website": "https://www.huobi.com/",
+        "blog": "https://blog.huobi.com/",
+        "twitter": "https://twitter.com/huobiglobal",
+        "instagram": "https://www.instagram.com/huobiglobalofficial/",
+        "youtube": "https://www.youtube.com/huobiglobal",
+        "facebook": "https://www.facebook.com/huobiglobalofficial",
+        "reddit": "https://www.reddit.com/r/HuobiGlobal/",
+        "linkedin": "https://www.linkedin.com/company/huobi/"
+      },
+      "resolutionSources": [
+        {
+          "text": "Huobi Twitter",
+          "uri": "https://twitter.com/huobiglobal"
+        },
+        {
+          "text": "Neptune Mutual Twitter",
+          "uri": "https://twitter.com/neptunemutual"
+        }
+      ]
+    },
+    "productKey": null,
+    "productKeyString": null,
+    "policyStatus": [
+      {
+        "disabled": false,
+        "reason": ""
+      }
+    ],
+    "productInfo": null,
+    "productInfoDetails": {},
+    "productStatusEnum": "Normal",
+    "productStatus": 0,
+    "floor": "400",
+    "ceiling": "1600",
+    "leverage": "1",
+    "capitalEfficiency": "10000",
+    "capacity": "3896445.00000000000000000000000000000000",
+    "commitment": "0",
+    "availableForUnderwriting": "3896445.00000000000000000000000000000000",
+    "utilizationRatio": "0.00000000000000000000000000000000",
+    "reassurance": "4038232.00000000000000000000000000000000",
+    "tvl": "3896445.00000000000000000000000000000000",
+    "coverageLag": "60",
+    "supportsProducts": false,
+    "requiresWhitelist": false,
+    "minReportingStake": "2000",
+    "activeIncidentDate": 0,
+    "reporterCommission": 1000,
+    "reportingPeriod": 300,
+    "claimPlatformFee": 650,
+    "isUserWhitelisted": false,
+    "coverInfoUrl": "/ipfs/QmcyCnFeKwM7mnvz4w3x7cvcjJ1HD9uHGrTv8bdZWc1rDi",
+    "productInfoUrl": null
   },
   {
     "chainId": "43113",
@@ -10325,164 +10733,6 @@
     "isUserWhitelisted": false,
     "coverInfoUrl": "/ipfs/QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
     "productInfoUrl": "/ipfs/QmVSGRGf2xrCN9U76G8S7BN9bhZbi74wX9gkDnujCixasS"
-  },
-  {
-    "chainId": "43113",
-    "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
-    "coverKeyString": "defi",
-    "coverInfo": "QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
-    "coverInfoDetails": {
-      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
-      "coverName": "Popular DeFi Apps",
-      "projectName": null,
-      "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-POP",
-      "requiresWhitelist": false,
-      "supportsProducts": true,
-      "leverageFactor": "10",
-      "tags": [
-        "nft",
-        "exchange",
-        "dex",
-        "swap",
-        "fork",
-        "stablecoin",
-        "lending",
-        "flashloan",
-        "borrowing",
-        "interest",
-        "loan",
-        "staking",
-        "yield",
-        "insurance",
-        "payment"
-      ],
-      "about": "",
-      "blockchains": [
-        {
-          "chainId": 1,
-          "name": "Main Ethereum Network"
-        }
-      ],
-      "floor": "200",
-      "ceiling": "1200",
-      "reportingPeriod": 300,
-      "cooldownPeriod": 300,
-      "claimPeriod": 300,
-      "minStakeToReport": "2000000000000000000000",
-      "stakeWithFee": "25000000000000000000000",
-      "initialReassuranceAmount": "50000000000",
-      "reassuranceRate": "2500"
-    },
-    "productKey": "0x6e657875732d6d757475616c2d76310000000000000000000000000000000000",
-    "productKeyString": "nexus-mutual-v1",
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": "QmNrtsqPhdDwNZwsxyjPjgFzD1XM2VvLPhEiTMu9uiikXM",
-    "productInfoDetails": {
-      "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",
-      "productKey": "0x6e657875732d6d757475616c2d76310000000000000000000000000000000000",
-      "productName": "Nexus Mutual v1",
-      "requiresWhitelist": false,
-      "efficiency": "9000",
-      "tags": [
-        "insurance",
-        "cover"
-      ],
-      "about": "Nexus Mutual is a decentralized alternative to insurance. Nexus Mutual uses blockchain technology to create a risk sharing pool in the form of a mutual to return the power of insurance to the people. The platform is built on the Ethereum public chain. It allows anyone to become a member and purchase cover. It replaces the idea of a traditional insurance company because it is wholly owned by the members. The model encourages engagement as members will get economic incentives for participating in Risk Assessment, Claims Assessment and Governance.",
-      "blockchains": [
-        {
-          "chainId": 1,
-          "name": "Main Ethereum Network"
-        }
-      ],
-      "parameters": [
-        {
-          "parameter": "Cover Policy Conditions",
-          "type": "condition",
-          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
-          "list": {
-            "type": "unordered",
-            "items": [
-              "This policy relates exclusively to the Nexus Mutual v1 contracts deployed on the Ethereum blockchain.",
-              "To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy."
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Parameters",
-          "type": "parameter",
-          "text": "All of the following parameters must be applicable for the policy to be validated:",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "Minimum total loss of user funds from the reported incident should exceed $5 million.",
-              "The designated protocol suffers a hack of user funds in which the user funds are permanently and irrecoverably stolen from the protocol.",
-              "The loss arises from a smart contract vulnerability.",
-              "The loss must arise from one of the following blockchains: Ethereum."
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Exclusions",
-          "type": "exclusion",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "Incident on any blockchain that is not supported by this cover.",
-              "Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.",
-              "All exclusions present in the standard terms and conditions."
-            ]
-          }
-        }
-      ],
-      "links": {
-        "website": "https://nexusmutual.io/",
-        "twitter": "https://twitter.com/NexusMutual",
-        "blog": "https://medium.com/nexus-mutual",
-        "documentation": "https://nexusmutual.gitbook.io/docs/users/understanding-nexus-mutual",
-        "github": "https://github.com/NexusMutual",
-        "discord": "https://discord.com/invite/aQjkzW5",
-        "telegram": "https://t.me/joinchat/K_g-fA-3CmFwXumCKQUXkw"
-      },
-      "resolutionSources": [
-        {
-          "text": "Nexus Mutual Twitter",
-          "uri": "https://twitter.com/NexusMutual"
-        },
-        {
-          "text": "Neptune Mutual Twitter",
-          "uri": "https://twitter.com/neptunemutual"
-        }
-      ]
-    },
-    "productStatusEnum": "Normal",
-    "productStatus": 0,
-    "floor": "200",
-    "ceiling": "1200",
-    "leverage": "10",
-    "capitalEfficiency": "9000",
-    "capacity": "10275439.56177800000000000000000000000000",
-    "commitment": "0",
-    "availableForUnderwriting": "10275439.56177800000000000000000000000000",
-    "utilizationRatio": "0.00000000000000000000000000000000",
-    "reassurance": "922185.00000000000000000000000000000000",
-    "tvl": "10275439.56177800000000000000000000000000",
-    "coverageLag": "60",
-    "supportsProducts": false,
-    "requiresWhitelist": false,
-    "minReportingStake": "2000",
-    "activeIncidentDate": 0,
-    "reporterCommission": 1000,
-    "reportingPeriod": 300,
-    "claimPlatformFee": 650,
-    "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmcGnscy5Mfdu6sc8sLWdHTMgjEuXS5rMZbc3MzWEV3yJq",
-    "productInfoUrl": "/ipfs/QmNrtsqPhdDwNZwsxyjPjgFzD1XM2VvLPhEiTMu9uiikXM"
   },
   {
     "chainId": "43113",
@@ -11115,9 +11365,9 @@
     "leverage": "10",
     "capitalEfficiency": "9000",
     "capacity": "10275439.56177800000000000000000000000000",
-    "commitment": "10",
-    "availableForUnderwriting": "10275429.56177800000000000000000000000000",
-    "utilizationRatio": "0.00000097319437673473701967506270",
+    "commitment": "0",
+    "availableForUnderwriting": "10275439.56177800000000000000000000000000",
+    "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "922185.00000000000000000000000000000000",
     "tvl": "10275439.56177800000000000000000000000000",
     "coverageLag": "60",
@@ -11197,9 +11447,9 @@
     "leverage": "10",
     "capitalEfficiency": "10000",
     "capacity": "85628663.014816666666324152014607400000000000000000000000",
-    "commitment": "100010",
-    "availableForUnderwriting": "85528653.014816666666324152014607400000000000000000000000",
-    "utilizationRatio": "0.001167950035406892592057108043689613400667023085",
+    "commitment": "100000",
+    "availableForUnderwriting": "85528663.014816666666324152014607400000000000000000000000",
+    "utilizationRatio": "0.001167833252081684423614746569032710129654057679",
     "reassurance": "922185.00000000000000000000000000000000",
     "tvl": "10275439.56177800000000000000000000000000",
     "coverageLag": "60",
@@ -11278,12 +11528,12 @@
     "ceiling": "800",
     "leverage": "10",
     "capitalEfficiency": "10000",
-    "capacity": "68846444.571428571428815132800000000000000000000000000000",
-    "commitment": "0",
-    "availableForUnderwriting": "68846444.571428571428815132800000000000000000000000000000",
-    "utilizationRatio": "0.000000000000000000000000000000000000000000000000",
+    "capacity": "68846444.723397428571672275657680800000000000000000000000",
+    "commitment": "10",
+    "availableForUnderwriting": "68846434.723397428571672275657680800000000000000000000000",
+    "utilizationRatio": "0.000000145250782958753208947376467630353525725174",
     "reassurance": "885829.00000000000000000000000000000000",
-    "tvl": "8529648.00000000000000000000000000000000",
+    "tvl": "8529648.01882800000000000000000000000000",
     "coverageLag": "60",
     "supportsProducts": true,
     "requiresWhitelist": false,
@@ -11407,9 +11657,9 @@
     "leverage": "1",
     "capitalEfficiency": "10000",
     "capacity": "8039492.04098600000000000000000000000000",
-    "commitment": "10",
-    "availableForUnderwriting": "8039482.04098600000000000000000000000000",
-    "utilizationRatio": "0.00000124385968031551833655511635",
+    "commitment": "0",
+    "availableForUnderwriting": "8039492.04098600000000000000000000000000",
+    "utilizationRatio": "0.00000000000000000000000000000000",
     "reassurance": "2521734.00000000000000000000000000000000",
     "tvl": "8039492.04098600000000000000000000000000",
     "coverageLag": "60",
@@ -11422,256 +11672,6 @@
     "claimPlatformFee": 650,
     "isUserWhitelisted": false,
     "coverInfoUrl": "/ipfs/Qme5v1qf7tBZWASYpBMBzQ3shB61KXJwAKrDEuFcyrjSAn",
-    "productInfoUrl": null
-  },
-  {
-    "chainId": "43113",
-    "coverKey": "0x636f696e62617365000000000000000000000000000000000000000000000000",
-    "coverKeyString": "coinbase",
-    "coverInfo": "QmfEViRmvDaE8GaGWrgEjkAHsTx9Dmcsiwtu2TTYfi8M9Y",
-    "coverInfoDetails": {
-      "coverKey": "0x636f696e62617365000000000000000000000000000000000000000000000000",
-      "coverName": "Coinbase (Non US)",
-      "projectName": null,
-      "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-COIN",
-      "requiresWhitelist": false,
-      "supportsProducts": false,
-      "leverageFactor": "1",
-      "tags": [
-        "exchange",
-        "cex",
-        "coinbase",
-        "coin"
-      ],
-      "about": "Founded in 2012 Coinbase is the largest exchange for institutional crypto traders, and the first crypto exchange that went public and listed on Nasdaq. Users can trade mainly spots via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
-      "parameters": [
-        {
-          "parameter": "Cover Policy Conditions",
-          "type": "condition",
-          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
-          "list": {
-            "type": "unordered",
-            "items": [
-              "This policy relates exclusively to the core exchange platform serving global users (outside of US and US territories).",
-              "To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy."
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Parameters",
-          "type": "parameter",
-          "text": "All of the following parameters must be applicable for the policy to be validated:",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "Minimum total loss of user funds should exceed $50 million.",
-              "Coinbase suffers a security breach of its hot or cold wallets where the user funds are permanently and irrecoverably stolen from Coinbase.",
-              "The loss must arise from security incidents of the crypto storage systems"
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Exclusions",
-          "type": "exclusion",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "Losses arisen due to issues with fork, merge,  any other changes of relevant underlying blockchains",
-              "Losses resulting from Key man risk where a single person controls access to the user funds at the custodian, is not covered.",
-              "Coinbase non custodial wallet is not relevant to this cover",
-              "Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.",
-              "All exclusions present in the standard terms and exclusions"
-            ]
-          }
-        }
-      ],
-      "blockchains": null,
-      "floor": "400",
-      "ceiling": "1600",
-      "reportingPeriod": 300,
-      "cooldownPeriod": 300,
-      "claimPeriod": 300,
-      "minStakeToReport": "2000000000000000000000",
-      "stakeWithFee": "26000000000000000000000",
-      "initialReassuranceAmount": "50000000000",
-      "reassuranceRate": "2500",
-      "links": {
-        "website": "https://coinbase.com/",
-        "blog": "https://www.coinbase.com/blog",
-        "twitter": "https://twitter.com/coinbase",
-        "facebook": "https://www.facebook.com/Coinbase"
-      },
-      "resolutionSources": [
-        {
-          "text": "Coinbase Twitter",
-          "uri": "https://twitter.com/coinbase"
-        },
-        {
-          "text": "Neptune Mutual Twitter",
-          "uri": "https://twitter.com/neptunemutual"
-        }
-      ]
-    },
-    "productKey": null,
-    "productKeyString": null,
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": null,
-    "productInfoDetails": {},
-    "productStatusEnum": "Normal",
-    "productStatus": 0,
-    "floor": "400",
-    "ceiling": "1600",
-    "leverage": "1",
-    "capitalEfficiency": "10000",
-    "capacity": "5811272.00000000000000000000000000000000",
-    "commitment": "0",
-    "availableForUnderwriting": "5811272.00000000000000000000000000000000",
-    "utilizationRatio": "0.00000000000000000000000000000000",
-    "reassurance": "949287.00000000000000000000000000000000",
-    "tvl": "5811272.00000000000000000000000000000000",
-    "coverageLag": "60",
-    "supportsProducts": false,
-    "requiresWhitelist": false,
-    "minReportingStake": "2000",
-    "activeIncidentDate": 0,
-    "reporterCommission": 1000,
-    "reportingPeriod": 300,
-    "claimPlatformFee": 650,
-    "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmfEViRmvDaE8GaGWrgEjkAHsTx9Dmcsiwtu2TTYfi8M9Y",
-    "productInfoUrl": null
-  },
-  {
-    "chainId": "43113",
-    "coverKey": "0x68756f6269000000000000000000000000000000000000000000000000000000",
-    "coverKeyString": "huobi",
-    "coverInfo": "QmcyCnFeKwM7mnvz4w3x7cvcjJ1HD9uHGrTv8bdZWc1rDi",
-    "coverInfoDetails": {
-      "coverKey": "0x68756f6269000000000000000000000000000000000000000000000000000000",
-      "coverName": "Huobi Global",
-      "projectName": null,
-      "tokenName": "Yield Bearing USDC",
-      "tokenSymbol": "iUSDC-HT",
-      "requiresWhitelist": false,
-      "supportsProducts": false,
-      "leverageFactor": "1",
-      "tags": [
-        "exchange",
-        "cex",
-        "huobi",
-        "ht"
-      ],
-      "about": "Founded in 2013 Huobi Global is amongst the battle tested crypto exchanges with longer operating history and once ranked number 1 globally in terms of trading volume. Users can trade spots, futures and derivatives via its online platform and mobile app. Centralized exchanges operate order books and take custody of users assets to facilitate trading, it also facilitates lending and borrowing as well as other services such as staking to its user base.",
-      "parameters": [
-        {
-          "parameter": "Cover Policy Conditions",
-          "type": "condition",
-          "text": "This cover is not a contract of insurance. Cover is provided on a parametric basis and the decision as to whether or not an incident is validated is determined by Neptune Mutual’s incident reporting and resolution process whereby the result is based on the number of NPM tokens or vouchers staked by the community in the resolution process; this incident reporting and validation process is community driven, but in exceptional circumstances can be overridden by the Neptune Mutual Association in order to protect against certain types of on-chain consensus attacks.",
-          "list": {
-            "type": "unordered",
-            "items": [
-              "This policy relates exclusively to the core exchange platform serving global users (outside of US and US territories).",
-              "To be eligible for a claim, policyholder must hold at least 10 NPM tokens in the wallet used for the policy transaction for the full duration of the cover policy."
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Parameters",
-          "type": "parameter",
-          "text": "All of the following parameters must be applicable for the policy to be validated:",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "Minimum total loss of user funds should exceed $50 million.",
-              "Huobi suffers a security breach of its hot or cold wallets where the user funds are permanently and irrecoverably stolen from Huobi.",
-              "The loss must arise from security incidents of the crypto storage systems"
-            ]
-          }
-        },
-        {
-          "parameter": "Cover Exclusions",
-          "type": "exclusion",
-          "list": {
-            "type": "ordered",
-            "items": [
-              "Losses arisen due to issues with fork, merge,  any other changes of relevant underlying blockchains",
-              "Losses resulting from Key man risk where a single person controls access to the user funds at the custodian, is not covered.",
-              "Huobi non custodial wallet is not relevant to this cover",
-              "Frontend, hosting, server or network infrastructure, database, DNS server, CI/CD, and/or supply-chain attacks.",
-              "All exclusions present in the standard terms and exclusions"
-            ]
-          }
-        }
-      ],
-      "blockchains": null,
-      "floor": "400",
-      "ceiling": "1600",
-      "reportingPeriod": 300,
-      "cooldownPeriod": 300,
-      "claimPeriod": 300,
-      "minStakeToReport": "2000000000000000000000",
-      "stakeWithFee": "27000000000000000000000",
-      "initialReassuranceAmount": "50000000000",
-      "reassuranceRate": "2500",
-      "links": {
-        "website": "https://www.huobi.com/",
-        "blog": "https://blog.huobi.com/",
-        "twitter": "https://twitter.com/huobiglobal",
-        "instagram": "https://www.instagram.com/huobiglobalofficial/",
-        "youtube": "https://www.youtube.com/huobiglobal",
-        "facebook": "https://www.facebook.com/huobiglobalofficial",
-        "reddit": "https://www.reddit.com/r/HuobiGlobal/",
-        "linkedin": "https://www.linkedin.com/company/huobi/"
-      },
-      "resolutionSources": [
-        {
-          "text": "Huobi Twitter",
-          "uri": "https://twitter.com/huobiglobal"
-        },
-        {
-          "text": "Neptune Mutual Twitter",
-          "uri": "https://twitter.com/neptunemutual"
-        }
-      ]
-    },
-    "productKey": null,
-    "productKeyString": null,
-    "policyStatus": [
-      {
-        "disabled": false,
-        "reason": ""
-      }
-    ],
-    "productInfo": null,
-    "productInfoDetails": {},
-    "productStatusEnum": "Normal",
-    "productStatus": 0,
-    "floor": "400",
-    "ceiling": "1600",
-    "leverage": "1",
-    "capitalEfficiency": "10000",
-    "capacity": "3896445.00000000000000000000000000000000",
-    "commitment": "0",
-    "availableForUnderwriting": "3896445.00000000000000000000000000000000",
-    "utilizationRatio": "0.00000000000000000000000000000000",
-    "reassurance": "4038232.00000000000000000000000000000000",
-    "tvl": "3896445.00000000000000000000000000000000",
-    "coverageLag": "60",
-    "supportsProducts": false,
-    "requiresWhitelist": false,
-    "minReportingStake": "2000",
-    "activeIncidentDate": 0,
-    "reporterCommission": 1000,
-    "reportingPeriod": 300,
-    "claimPlatformFee": 650,
-    "isUserWhitelisted": false,
-    "coverInfoUrl": "/ipfs/QmcyCnFeKwM7mnvz4w3x7cvcjJ1HD9uHGrTv8bdZWc1rDi",
     "productInfoUrl": null
   }
 ]
