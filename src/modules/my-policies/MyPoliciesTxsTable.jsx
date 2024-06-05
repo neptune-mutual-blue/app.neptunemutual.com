@@ -4,7 +4,7 @@ import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
-  TableShowMore,
+  // TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -18,7 +18,6 @@ import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { Routes } from '@/src/config/routes'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { useNetwork } from '@/src/context/Network'
 import {
@@ -29,8 +28,6 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
-import { convertFromUnits } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
@@ -39,6 +36,11 @@ import {
 import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
+
+const ROW_TYPES = {
+  CLAIMED: 'claimed',
+  COVER_PURCHASED: 'cover_purchased'
+}
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -61,7 +63,7 @@ export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
       id: 'when',
       name: t(i18n)`when`,
       align: 'left',
-      renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
+      renderHeader: (col) => { return renderHeader(col, 'blockTimestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
@@ -89,8 +91,8 @@ export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
 }
 
 export const MyPoliciesTxsTable = () => {
-  const { page, limit, setPage } = usePagination()
-  const { data, loading, hasMore } = usePolicyTxs({
+  const { page, limit /* setPage */ } = usePagination()
+  const { data, loading /* hasMore */ } = usePolicyTxs({
     page,
     limit
   })
@@ -135,13 +137,13 @@ export const MyPoliciesTxsTable = () => {
         </Table>
       </TableWrapper>
 
-      <TableShowMore
+      {/* <TableShowMore
         show={hasMore && account}
         loading={loading}
         onShowMore={() => {
           setPage((prev) => { return prev + 1 })
         }}
-      />
+      /> */}
     </>
   )
 }
@@ -152,18 +154,18 @@ const WhenRenderer = ({ row }) => {
   return (
     <td
       className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+      title={DateLib.toLongDateFormat(row.blockTimestamp, router.locale)}
       data-testid='timestamp-col'
     >
-      {fromNow(row.transaction.timestamp, router.locale)}
+      {fromNow(row.blockTimestamp, router.locale)}
     </td>
   )
 }
 
 const DetailsRenderer = ({ row }) => {
   const productKey = row.productKey
-  const coverKey = row.cover.id
-  const { liquidityTokenDecimals } = useAppConstants()
+  const coverKey = row.coverKey
+
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
   const isDiversified = isValidProduct(productKey)
@@ -174,7 +176,13 @@ const DetailsRenderer = ({ row }) => {
     return null
   }
 
-  const tokenAmountWithSymbol = <TokenAmountSpan amountInUnits={row.stablecoinAmount} decimals={liquidityTokenDecimals} />
+  const tokenAmountWithSymbol = row.txType === ROW_TYPES.COVER_PURCHASED
+    ? <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} />
+    : <TokenAmountSpan amountInUnits={row.stablecoinAmount} decimals={0} />
+
+  const detailsText = row.txType === ROW_TYPES.COVER_PURCHASED
+    ? <Trans>Purchased {tokenAmountWithSymbol} {projectOrProductName} policy</Trans>
+    : <Trans>Claimed {tokenAmountWithSymbol} {projectOrProductName} policy</Trans>
 
   return (
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
@@ -187,17 +195,7 @@ const DetailsRenderer = ({ row }) => {
           containerClass='grow-0'
         />
         <span className='pl-4 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
-          {row.type === 'CoverPurchased'
-            ? (
-              <Trans>
-                Purchased {tokenAmountWithSymbol} {projectOrProductName} policy
-              </Trans>
-              )
-            : (
-              <Trans>
-                Claimed {tokenAmountWithSymbol} {projectOrProductName} policy
-              </Trans>
-              )}
+          {detailsText}
         </span>
       </div>
     </td>
@@ -206,39 +204,24 @@ const DetailsRenderer = ({ row }) => {
 
 const CxTokenAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
-  const router = useRouter()
-  const { liquidityTokenDecimals } = useAppConstants()
 
-  const isClaimTx = row.type === 'Claimed'
+  const cxTokenDecimals = 18 // @TODO: Get from context
 
-  // @todo: cxTokenAmount will not be equal to stablecoinAmount, if they don't have same decimals
-  const amount = isClaimTx ? row.cxTokenAmount : row.stablecoinAmount
-  const decimals =
-    isClaimTx ? row.cxToken.tokenDecimals : liquidityTokenDecimals
-  const formattedCurrency = formatCurrency(
-    convertFromUnits(amount, decimals),
-    // convertFromUnits(row.cxTokenAmount, row.cxToken.tokenDecimals),
-    router.locale,
-    row.cxToken.tokenSymbol,
-    true
-  )
+  const tokenAmountWithSymbol = row.txType === ROW_TYPES.COVER_PURCHASED
+    ? <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} symbol={row.tokenSymbol} />
+    : <TokenAmountSpan className='text-FA5C2F' amountInUnits={row.stablecoinAmount} decimals={0} symbol={row.tokenSymbol} />
 
   return (
     <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>
       <div className='flex items-center justify-end text-sm leading-6 whitespace-nowrap'>
-        <span
-          className={isClaimTx ? 'text-FA5C2F' : 'text-01052D'}
-          title={formattedCurrency.long}
-        >
-          {formattedCurrency.short}
-        </span>
+        {tokenAmountWithSymbol}
         <button
           className='p-1 ml-3'
           onClick={() => {
             return register(
-              row.cxToken.id,
-              row.cxToken.tokenSymbol,
-              row.cxToken.tokenDecimals
+              row.cxToken,
+              row.tokenSymbol,
+              cxTokenDecimals
             )
           }}
           title='Add to metamask'
@@ -255,7 +238,7 @@ const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
   const router = useRouter()
 
-  const isCoverPurchase = row.type === 'CoverPurchased'
+  const isCoverPurchase = row.txType === ROW_TYPES.COVER_PURCHASED
 
   return (
     <td className='px-6 py-6 min-w-120' data-testid='col-actions'>
@@ -273,7 +256,7 @@ const ActionsRenderer = ({ row }) => {
             <div className='max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl'>
               <p>
                 {DateLib.toLongDateFormat(
-                  row.transaction.timestamp,
+                  row.blockTimestamp,
                   router.locale,
                   'UTC'
                 )}
@@ -285,7 +268,7 @@ const ActionsRenderer = ({ row }) => {
 
         {isCoverPurchase && (
           <a
-            href={Routes.ViewPolicyReceipt(row.transaction.id)}
+            href={Routes.ViewPolicyReceipt(row.transactionHash)}
             target='_blank'
             rel='noreferrer noopener nofollow'
             className='p-1 mr-4 text-black'
@@ -297,7 +280,7 @@ const ActionsRenderer = ({ row }) => {
         )}
 
         <a
-          href={getTxLink(networkId, { hash: row.transaction.id })}
+          href={getTxLink(networkId, { hash: row.transactionHash })}
           target='_blank'
           rel='noreferrer noopener nofollow'
           className='p-1 text-black'

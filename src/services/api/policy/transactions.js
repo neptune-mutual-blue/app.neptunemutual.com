@@ -2,7 +2,6 @@ import { getReplacedString } from '@/utils/string'
 
 import * as api from '../config'
 
-// @note: THIS FILE IS NOT BEING USED
 export const getPolicyTransactions = async (networkId, account) => {
   try {
     const url = getReplacedString(api.USER_POLICY_TXS, { networkId, account: account.toLowerCase() })
