@@ -15,7 +15,7 @@ import {
   THead
 } from '@/common/Table/Table'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import {
   getCoverImgSrc,
   isValidProduct
@@ -180,7 +180,7 @@ const getColumns = (i18n) => {
 function Consensus ({ data, loading, setConsensusIndex }) {
   const router = useRouter()
   const { liquidityTokenDecimals, NPMTokenSymbol } = useAppConstants()
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   const reports = loading ? [] : data.incidentReports || []
   const rowsData = reports.map(report => {

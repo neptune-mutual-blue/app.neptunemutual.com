@@ -14,7 +14,7 @@ import {
 import { Seo } from '@/common/Seo'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useActivePoliciesByCover } from '@/src/hooks/useActivePoliciesByCover'
 import {
@@ -37,7 +37,7 @@ export const ClaimDetailsPage = ({
   const router = useRouter()
   const { page, limit, setPage } = usePagination()
 
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const isDiversified = isValidProduct(productKey)
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName

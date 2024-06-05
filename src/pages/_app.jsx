@@ -15,8 +15,8 @@ import { DEFAULT_VARIANT } from '@/src/config/toast'
 import { AppConstantsProvider } from '@/src/context/AppConstants'
 import { CookiesProvider } from '@/src/context/Cookie'
 import {
-  CoversAndProductsProvider2
-} from '@/src/context/CoversAndProductsData2'
+  CoversAndProductsProvider
+} from '@/src/context/CoversAndProductsData'
 import { NetworkProvider } from '@/src/context/Network'
 import { TxPosterProvider } from '@/src/context/TxPoster'
 import { UnlimitedApprovalProvider } from '@/src/context/UnlimitedApproval'
@@ -32,7 +32,7 @@ const Wrappers = ({ children }) => {
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider>
         <AppConstantsProvider>
-          <CoversAndProductsProvider2>
+          <CoversAndProductsProvider>
             <UnlimitedApprovalProvider>
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
@@ -43,7 +43,7 @@ const Wrappers = ({ children }) => {
                 </TxPosterProvider>
               </ToastProvider>
             </UnlimitedApprovalProvider>
-          </CoversAndProductsProvider2>
+          </CoversAndProductsProvider>
         </AppConstantsProvider>
       </NetworkProvider>
     </Web3ReactProvider>

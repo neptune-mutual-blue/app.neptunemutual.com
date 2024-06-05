@@ -5,7 +5,7 @@ import {
   NoDataFound
 } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
@@ -16,7 +16,7 @@ export default function Options () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { loading, getProduct } = useCoversAndProducts2()
+  const { loading, getProduct } = useCoversAndProducts()
   const productData = getProduct(coverKey, productKey)
 
   return (

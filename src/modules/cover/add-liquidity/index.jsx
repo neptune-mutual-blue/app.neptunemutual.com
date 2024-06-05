@@ -33,7 +33,7 @@ import { CoveredProducts } from '@/modules/my-liquidity/content/CoveredProducts'
 import { DiversifiedCoverRules } from '@/modules/my-liquidity/content/rules'
 import { CoverStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { classNames } from '@/utils/classnames'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
@@ -46,7 +46,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
 
-  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
   const coverData = getCoverByCoverKey(coverKey)
 
   const { info, isWithdrawalWindowOpen, isWithdrawalWindowOutdated, accrueInterest, updateWithdrawalWindow } = useLiquidityFormsContext()

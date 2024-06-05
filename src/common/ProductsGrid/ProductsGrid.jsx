@@ -16,7 +16,7 @@ import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import LeftArrow from '@/icons/LeftArrow'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
@@ -64,7 +64,7 @@ export const ProductsGrid = () => {
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
 
-  const { loading, getProductsByCoverKey, getCoverByCoverKey, getProduct } = useCoversAndProducts2()
+  const { loading, getProductsByCoverKey, getCoverByCoverKey, getProduct } = useCoversAndProducts()
 
   const coverData = getCoverByCoverKey(coverKey)
 

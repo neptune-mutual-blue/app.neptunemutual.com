@@ -14,7 +14,7 @@ import {
 import PreviousNext from '@/src/common/PreviousNext'
 import { renderHeader } from '@/src/common/Table/renderHeader'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import {
   getCoverImgSrc,
   isValidProduct
@@ -141,7 +141,7 @@ export const InsightsQuickInfoTable = () => {
     setPage(page + 1)
   }
 
-  const { loading, getAllProducts } = useCoversAndProducts2()
+  const { loading, getAllProducts } = useCoversAndProducts()
   const topCovers = useMemo(() => {
     const products = getAllProducts()
     // .filter(x => { return toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7) })

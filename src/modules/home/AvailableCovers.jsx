@@ -17,7 +17,7 @@ import { Select } from '@/common/Select'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import FilterIcon from '@/icons/FilterIcon'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { getPolicyStatus } from '@/utils/policy-status'
 import {
@@ -69,7 +69,7 @@ export const AvailableCovers = () => {
     getAllProducts,
     getCoverByCoverKey,
     getProduct
-  } = useCoversAndProducts2()
+  } = useCoversAndProducts()
 
   const { i18n } = useLingui()
 

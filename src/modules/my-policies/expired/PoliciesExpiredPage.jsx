@@ -5,7 +5,7 @@ import { Grid } from '@/common/Grid/Grid'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useExpiredPolicies } from '@/src/hooks/useExpiredPolicies'
 import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
@@ -39,7 +39,7 @@ export const PoliciesExpiredPage = () => {
 }
 
 function ExpiredPolicies ({ data, loading }) {
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   const { i18n } = useLingui()
 

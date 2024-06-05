@@ -11,7 +11,7 @@ import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { TableShowMore } from '@/common/Table/Table'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useActiveReportings } from '@/src/hooks/useActiveReportings'
@@ -116,7 +116,7 @@ export const ReportingActivePage = () => {
 }
 
 function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   if (loadingProp) {
     return (

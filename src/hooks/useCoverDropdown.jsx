@@ -4,12 +4,12 @@ import {
   useState
 } from 'react'
 
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { getPolicyStatus } from '@/utils/policy-status'
 
 export function useCoverDropdown () {
   const [selected, setSelected] = useState(null)
-  const { loading, getAllProducts } = useCoversAndProducts2()
+  const { loading, getAllProducts } = useCoversAndProducts()
 
   const coversOrProducts = useMemo(() => {
     return getAllProducts().map(x => { return { ...x, id: x.coverKey + (x.productKey || '') } })

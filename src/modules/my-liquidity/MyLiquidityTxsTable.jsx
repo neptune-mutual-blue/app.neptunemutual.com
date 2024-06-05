@@ -17,7 +17,7 @@ import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useLiquidityTxs } from '@/src/hooks/useLiquidityTxs'
@@ -154,7 +154,7 @@ const DetailsRenderer = ({ row }) => {
   const coverKey = row.cover.id
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
   const coverData = getCoverByCoverKey(coverKey)
 
   if (loading) {
