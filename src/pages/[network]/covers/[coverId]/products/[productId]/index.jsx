@@ -4,7 +4,7 @@ import {
 } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
 import { slugToNetworkId } from '@/src/config/networks'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import {
@@ -44,7 +44,7 @@ export default function Options ({ seo, coverId, productId }) {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { loading, getProduct } = useCoversAndProducts2()
+  const { loading, getProduct } = useCoversAndProducts()
   const productData = getProduct(coverKey, productKey)
 
   return (

@@ -13,7 +13,7 @@ import {
 } from '@/modules/my-policies/PurchasePolicyReceipt/DescriptionComponent'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import {
@@ -42,7 +42,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   const productKey = event?.productKey
 
   const isDiversified = isValidProduct(productKey)
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
 

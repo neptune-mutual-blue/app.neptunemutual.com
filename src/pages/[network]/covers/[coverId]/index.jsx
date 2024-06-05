@@ -7,7 +7,7 @@ import { Seo } from '@/common/Seo'
 import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
 import { ProductsGridSkeleton } from '@/modules/home/ProductsGridSkeleton'
 import { slugToNetworkId } from '@/src/config/networks'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import {
   getDescription,
@@ -52,7 +52,7 @@ export default function CoverPage ({ seo }) {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { loading, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey } = useCoversAndProducts()
   const coverData = getCoverByCoverKey(coverKey)
 
   return (

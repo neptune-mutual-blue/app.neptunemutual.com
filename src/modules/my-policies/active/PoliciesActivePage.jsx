@@ -8,11 +8,11 @@ import {
 } from '@/modules/my-policies/active/PoliciesEmptyState'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
+import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
 import { Trans } from '@lingui/macro'
-import { useNetwork } from '@/src/context/Network'
 
 export const PoliciesActivePage = ({ data, loading }) => {
   const { networkId } = useNetwork()
@@ -35,7 +35,7 @@ export const PoliciesActivePage = ({ data, loading }) => {
 }
 
 function ActivePolicies ({ data, loading }) {
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   if (loading || dataLoading) {
     return (

@@ -3,7 +3,7 @@ import {
   SingleCoverTermsPage
 } from '@/modules/cover/cover-terms/SingleCoverTermsPage'
 import { slugToNetworkId } from '@/src/config/networks'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import {
   getDescription,
@@ -39,7 +39,7 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export default function CoverPage ({ seo, coverId, productId }) {
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId)

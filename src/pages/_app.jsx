@@ -14,9 +14,7 @@ import { ToastProvider } from '@/lib/toast/provider'
 import { DEFAULT_VARIANT } from '@/src/config/toast'
 import { AppConstantsProvider } from '@/src/context/AppConstants'
 import { CookiesProvider } from '@/src/context/Cookie'
-import {
-  CoversAndProductsProvider2
-} from '@/src/context/CoversAndProductsData2'
+import { CoversAndProductsProvider } from '@/src/context/CoversAndProductsData'
 import { LiquidityGaugePoolsProvider } from '@/src/context/LiquidityGaugePools'
 import { NetworkProvider } from '@/src/context/Network'
 import { TxPosterProvider } from '@/src/context/TxPoster'
@@ -32,7 +30,7 @@ const Wrappers = ({ children, networkId }) => {
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider networkId={networkId}>
         <AppConstantsProvider>
-          <CoversAndProductsProvider2 networkId={networkId}>
+          <CoversAndProductsProvider networkId={networkId}>
             <UnlimitedApprovalProvider>
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
@@ -43,7 +41,7 @@ const Wrappers = ({ children, networkId }) => {
                 </TxPosterProvider>
               </ToastProvider>
             </UnlimitedApprovalProvider>
-          </CoversAndProductsProvider2>
+          </CoversAndProductsProvider>
         </AppConstantsProvider>
       </NetworkProvider>
     </Web3ReactProvider>

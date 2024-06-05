@@ -14,7 +14,7 @@ import {
   MULTIPLIER
 } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import {
@@ -35,7 +35,7 @@ export const CoverCard = ({
 }) => {
   const { locale } = useLanguageContext()
   const { liquidityTokenDecimals } = useAppConstants()
-  const { getProductsByCoverKey } = useCoversAndProducts2()
+  const { getProductsByCoverKey } = useCoversAndProducts()
 
   const productStatus = CoverStatus[coverData.productStatus]
 

@@ -4,7 +4,7 @@ import { NoDataFound } from '@/common/Loading'
 import DateLib from '@/lib/date/DateLib'
 import { DisputeFormSkeleton } from '@/modules/reporting/DisputeFormSkeleton'
 import { HeroSkeleton } from '@/modules/reporting/ReportDetailsSkeleton'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
 import {
@@ -16,7 +16,7 @@ import { Trans } from '@lingui/macro'
 
 export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp }) {
   const isDiversified = isValidProduct(productKey)
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
   if (dataLoading) {

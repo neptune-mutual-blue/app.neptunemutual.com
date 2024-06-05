@@ -15,7 +15,7 @@ import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
 import {
   getCoverImgSrc,
@@ -164,7 +164,7 @@ const DetailsRenderer = ({ row }) => {
   const productKey = row.productKey
   const coverKey = row.coverKey
 
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   const isDiversified = isValidProduct(productKey)
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)

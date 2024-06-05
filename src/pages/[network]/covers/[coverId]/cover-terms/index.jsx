@@ -6,7 +6,7 @@ import {
   SingleCoverTermsPage
 } from '@/modules/cover/cover-terms/SingleCoverTermsPage'
 import { slugToNetworkId } from '@/src/config/networks'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import {
   getDescription,
   getTitle
@@ -39,7 +39,7 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export default function CoverTermsPage ({ seo, coverId }) {
-  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
 
   const coverKey = safeFormatBytes32String(coverId)
 

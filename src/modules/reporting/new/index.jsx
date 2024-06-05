@@ -8,7 +8,8 @@ import { useRouter } from 'next/router'
 import { NoDataFound } from '@/common/Loading'
 import { NewReportSkeleton } from '@/modules/reporting/new/NewReportSkeleton'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
+import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import {
   useFetchCoverProductActiveReportings
@@ -20,7 +21,6 @@ import {
   NewIncidentReportForm
 } from '@/src/modules/reporting/NewIncidentReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
-import { useNetwork } from '@/src/context/Network'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
   const { networkId } = useNetwork()
@@ -28,7 +28,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
   const router = useRouter()
 
   const isDiversified = isValidProduct(productKey)
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
   const { data: activeReportings } = useFetchCoverProductActiveReportings({

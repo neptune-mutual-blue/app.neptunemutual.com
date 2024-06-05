@@ -15,7 +15,7 @@ import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
@@ -223,7 +223,7 @@ const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
 export const LiquidityGaugeTxsTable = () => {
   const { data, loading } = useLiquidityGaugePoolTxs()
   const { pools } = useLiquidityGaugePools()
-  const { getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
 
   const { networkId } = useNetwork()
   const { account } = useWeb3React()

@@ -11,7 +11,8 @@ import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { TableShowMore } from '@/common/Table/Table'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
+import { useNetwork } from '@/src/context/Network'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useActiveReportings } from '@/src/hooks/useActiveReportings'
@@ -30,7 +31,6 @@ import {
 import { toStringSafe } from '@/utils/string'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -118,7 +118,7 @@ export const ReportingActivePage = () => {
 
 function Content ({ data, loading: loadingProp, hasMore, handleShowMore }) {
   const { networkId } = useNetwork()
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   if (loadingProp) {
     return (

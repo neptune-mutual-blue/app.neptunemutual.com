@@ -11,7 +11,7 @@ import PreviousNext from '@/common/PreviousNext'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
 import {
   getCoverImgSrc,
@@ -34,7 +34,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const { networkId } = useNetwork()
   const { locale } = useLanguageContext()
   const { NPMTokenSymbol, liquidityTokenDecimals } = useAppConstants()
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   if (dataLoading) {
     return <Loading />

@@ -23,7 +23,7 @@ import DateLib from '@/lib/date/DateLib'
 import { ReportingHero } from '@/modules/reporting/ReportingHero'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
@@ -144,7 +144,7 @@ const ReportListing = (props) => {
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   const isDiversified = isValidProduct(productKey)
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
   const { i18n } = useLingui()

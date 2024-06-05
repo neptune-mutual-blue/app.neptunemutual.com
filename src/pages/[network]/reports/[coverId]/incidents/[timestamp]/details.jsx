@@ -8,7 +8,7 @@ import {
 } from '@/modules/reporting/ReportDetailsSkeleton'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { slugToNetworkId } from '@/src/config/networks'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useFetchReport } from '@/src/hooks/useFetchReport'
 import { getTitle } from '@/src/ssg/seo'
@@ -84,7 +84,7 @@ function Content ({ loading, incidentReportData, refetch, coverKey, productKey }
     getProduct,
     getCoverByCoverKey,
     updateData: refetchCoverData
-  } = useCoversAndProducts2()
+  } = useCoversAndProducts()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
   const reporterCommission = coverOrProductData?.reporterCommission

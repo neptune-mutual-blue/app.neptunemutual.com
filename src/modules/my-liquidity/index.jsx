@@ -7,13 +7,13 @@ import {
 import { Grid } from '@/common/Grid/Grid'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
+import { useNetwork } from '@/src/context/Network'
 import {
   t,
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
-import { useNetwork } from '@/src/context/Network'
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   const { networkId } = useNetwork()
@@ -38,7 +38,7 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
 
 function MyLiquidities ({ data, loading }) {
   const { networkId } = useNetwork()
-  const { loading: isSummaryLoading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { loading: isSummaryLoading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
 
   const { i18n } = useLingui()
 
