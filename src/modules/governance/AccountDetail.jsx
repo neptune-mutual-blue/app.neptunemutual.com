@@ -18,6 +18,7 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { useGaugeAgent } from '@/modules/governance/useGaugeAgent'
 
 export const AccountDetail = ({ title, selectedChain, distribution }) => {
   const { account } = useWeb3React()
@@ -39,12 +40,14 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
     amountToDeposit
   } = useSetGauge({ title, distribution })
 
+  const { isGaugeAgent } = useGaugeAgent()
+
   const canSetGauge = toBN(allowance).isGreaterThanOrEqualTo(amountToDeposit)
   const isBalanceInsufficient = toBN(amountToDeposit).isGreaterThan(balance)
 
   const currentNetworkName = NetworkNames[networkId]
   const invalidNetwork = networkId !== selectedChain
-  const showError = isBalanceInsufficient || invalidNetwork
+  const showError = isBalanceInsufficient || invalidNetwork || !isGaugeAgent
 
   let loadingMessage = ''
   if (loadingBalance) {
@@ -111,7 +114,7 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
         </div>
       </div>
 
-      <div className='inline-flex flex-col mt-3'>
+      <div className='inline-flex flex-col mt-2'>
         <DataLoadingIndicator message={loadingMessage} />
         {!canSetGauge && (
           <RegularButton
@@ -146,6 +149,7 @@ export const AccountDetail = ({ title, selectedChain, distribution }) => {
       {showError && (
         <Alert className='!mt-6'>
           <ul className='list-disc pl-7'>
+            {!isGaugeAgent && <li>You don't have access to set gauge. Please try changing your account or network.</li>}
             {invalidNetwork && <li>Incorrect Network: {currentNetworkName}</li>}
             {isBalanceInsufficient && <li>Your balance is not sufficient to set gauge for proposal - {title}</li>}
           </ul>
