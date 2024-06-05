@@ -51,6 +51,7 @@ import {
 } from '@/src/services/aggregated-stats/insights'
 
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
+import { useAllCoversAndProducts } from '@/src/context/CoversAndProductsData'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -88,6 +89,10 @@ export const InsightsContent = () => {
   const [selected, setSelected] = useLocalStorage('current-insights', FALLBACK_SELECTION)
 
   const { data: statsData, loading } = useNetworkStats()
+
+  const { getAllProducts } = useAllCoversAndProducts()
+  const availableProducts = getAllProducts()
+  const activeReportingProducts = availableProducts.filter(x => { return x.productStatus !== 0 })
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: protectionTopAccounts, loading: protectionTopAccountsLoading, fetchTopAccountsByProtection } = useTopAccountsByProtection()
@@ -193,7 +198,7 @@ export const InsightsContent = () => {
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>
-      {tvlStatsLoading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
+      {tvlStatsLoading ? '' : `${availableProducts.length} Covers, ${activeReportingProducts.length} Reporting`}
     </div>
   )
 
