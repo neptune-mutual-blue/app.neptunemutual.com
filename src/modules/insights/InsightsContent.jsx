@@ -26,6 +26,7 @@ import {
   TopAccountsByProtection
 } from '@/modules/insights/TopAccountsByProtection'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
+import { useAllCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
 import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
 import useCoverEarningInsights from '@/src/hooks/useCoverEarningInsights'
@@ -88,6 +89,10 @@ export const InsightsContent = () => {
   const [selected, setSelected] = useLocalStorage('current-insights', FALLBACK_SELECTION)
 
   const { data: statsData, loading } = useNetworkStats()
+
+  const { getAllProducts } = useAllCoversAndProducts()
+  const availableProducts = getAllProducts()
+  const activeReportingProducts = availableProducts.filter(x => { return x.productStatus !== 0 })
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: protectionTopAccounts, loading: protectionTopAccountsLoading, fetchTopAccountsByProtection } = useTopAccountsByProtection()
@@ -193,7 +198,7 @@ export const InsightsContent = () => {
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>
-      {tvlStatsLoading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
+      {tvlStatsLoading ? '' : `${availableProducts.length} Covers, ${activeReportingProducts.length} Reporting`}
     </div>
   )
 
