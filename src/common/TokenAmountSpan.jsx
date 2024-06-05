@@ -1,5 +1,8 @@
 import { useLanguageContext } from '@/src/i18n/i18n'
-import { convertFromUnits } from '@/utils/bn'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 
 export const TokenAmountSpan = ({
@@ -15,7 +18,7 @@ export const TokenAmountSpan = ({
       className={className}
       title={`${
         formatCurrency(
-          convertFromUnits(amountInUnits, decimals).toString(),
+          decimals === 0 ? toBN(amountInUnits).toString() : convertFromUnits(amountInUnits, decimals).toString(),
           locale,
           symbol,
           typeof symbol !== 'undefined'
@@ -25,7 +28,7 @@ export const TokenAmountSpan = ({
     >
       {
         formatCurrency(
-          convertFromUnits(amountInUnits, decimals).toString(),
+          decimals === 0 ? toBN(amountInUnits).toString() : convertFromUnits(amountInUnits, decimals).toString(),
           locale,
           symbol,
           typeof symbol !== 'undefined'
