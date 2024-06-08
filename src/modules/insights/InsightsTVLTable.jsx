@@ -99,21 +99,21 @@ const getColumns = (i18n) => {
       name: t(i18n)`Network`,
       align: 'left',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-      renderData: (row) => { return <RenderNetwork networkId={row.networkId} /> }
+      renderData: (row) => { return <RenderNetwork networkId={row.chainId} /> }
     },
     {
       id: 'Cover Fee Earned',
       name: t(i18n)`Cover Fee Earned`,
       align: 'left',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-      renderData: (row) => { return <RenderCover coverFee={row.coverFee} /> }
+      renderData: (row) => { return <RenderCover coverFee={row.coverFeeEarned} /> }
     },
     {
       id: 'TVL',
       name: t(i18n)`TVL`,
       align: 'right',
       renderHeader: col => { return renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040') },
-      renderData: (row) => { return <RenderTVL tvl={row.tvl} /> }
+      renderData: (row) => { return <RenderTVL tvl={row.totalValueLocked} /> }
     },
     {
       id: 'Capacity',

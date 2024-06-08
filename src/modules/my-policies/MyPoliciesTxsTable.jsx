@@ -36,10 +36,11 @@ import {
 import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
+import { ChainConfig } from '@/src/config/hardcoded'
 
 const ROW_TYPES = {
-  CLAIMED: 'claimed',
-  COVER_PURCHASED: 'cover_purchased'
+  CLAIMED: 'Claimed',
+  COVER_PURCHASED: 'CoverPurchased'
 }
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
@@ -204,8 +205,9 @@ const DetailsRenderer = ({ row }) => {
 
 const CxTokenAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
+  const { networkId } = useNetwork()
 
-  const cxTokenDecimals = 18 // @TODO: Get from context
+  const cxTokenDecimals = ChainConfig[networkId]?.cxTokenDecimals
 
   const tokenAmountWithSymbol = row.txType === ROW_TYPES.COVER_PURCHASED
     ? <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} symbol={row.tokenSymbol} />
@@ -224,7 +226,7 @@ const CxTokenAmountRenderer = ({ row }) => {
               cxTokenDecimals
             )
           }}
-          title='Add to metamask'
+          title='Add to Metamask'
         >
           <span className='sr-only'>Add to metamask</span>
           <AddCircleIcon className='w-4 h-4' />
@@ -284,7 +286,7 @@ const ActionsRenderer = ({ row }) => {
           target='_blank'
           rel='noreferrer noopener nofollow'
           className='p-1 text-black'
-          title='Open in explorer'
+          title='Open in Explorer'
         >
           <span className='sr-only'>Open in explorer</span>
           <OpenInNewIcon className='w-4 h-4' />

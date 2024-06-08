@@ -6,7 +6,8 @@ export const TokenAmountSpan = ({
   amountInUnits,
   symbol = undefined,
   className = null,
-  decimals
+  decimals,
+  ...rest
 }) => {
   const router = useRouter()
 
@@ -22,6 +23,7 @@ export const TokenAmountSpan = ({
         ).long
       }`}
       data-testid='token-amount-span'
+      {...rest}
     >
       {
         formatCurrency(

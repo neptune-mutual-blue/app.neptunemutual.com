@@ -74,15 +74,15 @@ function MyLiquidities ({ data, loading }) {
   return (
     <Grid className='mb-24 mt-14' data-testid='liquidities-grid'>
       {data.map((x) => {
-        const coverKey = x.cover.id
-        const coverData = getCoverByCoverKey(coverKey)
+        const coverKey = x.coverKey
+        const coverData = getCoverByCoverKey(x.coverKey)
         const isDiversified = coverData?.supportsProducts
 
         return (
           (
             <Link
               href={Routes.MyCoverLiquidity(coverKey)}
-              key={x.id}
+              key={x.coverKey}
               className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4E7DD9'
               data-testid='liquidity-cover-card'
             >
@@ -90,9 +90,8 @@ function MyLiquidities ({ data, loading }) {
               <MyLiquidityCoverCard
                 coverKey={coverKey}
                 coverData={coverData}
-                totalPODs={x.totalPodsRemaining}
-                tokenSymbol={x.cover.vaults[0].tokenSymbol}
-                tokenDecimal={x.cover.vaults[0].tokenDecimal}
+                totalPODs={x.balance}
+                tokenSymbol={x.tokenSymbol}
                 subProducts={isDiversified ? getProductsByCoverKey(coverKey) : null}
               />
 

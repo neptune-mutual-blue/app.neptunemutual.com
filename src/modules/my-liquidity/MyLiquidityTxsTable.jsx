@@ -4,7 +4,7 @@ import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
-  TableShowMore,
+  // TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -16,7 +16,6 @@ import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
@@ -24,8 +23,6 @@ import { useLiquidityTxs } from '@/src/hooks/useLiquidityTxs'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useSortData } from '@/src/hooks/useSortData'
-import { convertFromUnits } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
@@ -34,6 +31,14 @@ import {
 import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
+import { ChainConfig } from '@/src/config/hardcoded'
+
+const ROW_TYPES = {
+  PODS_REDEEMED: 'PodsRedeemed',
+  PODS_ISSUED: 'PodsIssued',
+  NPM_UNSTAKEN: 'NpmUnstaken',
+  NPM_STAKEN: 'NpmStaken'
+}
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -56,7 +61,7 @@ export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
       id: 'when',
       name: t(i18n)`when`,
       align: 'left',
-      renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
+      renderHeader: (col) => { return renderHeader(col, 'blockTimestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
@@ -84,8 +89,8 @@ export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
 }
 
 export const MyLiquidityTxsTable = () => {
-  const { page, limit, setPage } = usePagination()
-  const { data, loading, hasMore } = useLiquidityTxs({
+  const { page, limit /* setPage */ } = usePagination()
+  const { data, loading /* hasMore */ } = useLiquidityTxs({
     page,
     limit
   })
@@ -112,7 +117,11 @@ export const MyLiquidityTxsTable = () => {
           />
           {account
             ? (
-              <TBody isLoading={loading} columns={columns} data={sortedData} />
+              <TBody
+                isLoading={loading}
+                columns={columns}
+                data={sortedData}
+              />
               )
             : (
               <tbody data-testid='no-account-message'>
@@ -126,13 +135,13 @@ export const MyLiquidityTxsTable = () => {
         </Table>
       </TableWrapper>
 
-      <TableShowMore
+      {/* <TableShowMore
         show={hasMore && account}
         loading={loading}
         onShowMore={() => {
           setPage((prev) => { return prev + 1 })
         }}
-      />
+      /> */}
     </>
   )
 }
@@ -143,16 +152,15 @@ const WhenRenderer = ({ row }) => {
   return (
     <td
       className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+      title={DateLib.toLongDateFormat(row.blockTimestamp, router.locale)}
     >
-      {fromNow(row.transaction.timestamp, router.locale)}
+      {fromNow(row.blockTimestamp, router.locale)}
     </td>
   )
 }
 
 const DetailsRenderer = ({ row }) => {
-  const coverKey = row.cover.id
-  const { liquidityTokenDecimals } = useAppConstants()
+  const coverKey = row.coverKey
 
   const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
   const coverData = getCoverByCoverKey(coverKey)
@@ -161,12 +169,17 @@ const DetailsRenderer = ({ row }) => {
     return null
   }
 
-  const tokenAmountWithSymbol = (
-    <TokenAmountSpan
-      amountInUnits={row.liquidityAmount}
-      decimals={liquidityTokenDecimals}
-    />
+  const liquidityTokenAmountWithSymbol = (
+    <TokenAmountSpan amountInUnits={row.stablecoinAmount} decimals={0} />
   )
+
+  const stakingTokenAmountWithSymbol = (
+    <TokenAmountSpan amountInUnits={row.npmAmount} decimals={0} symbol='NPM' />
+  )
+
+  const tokenAmountWithSymbol = row.txType === ROW_TYPES.PODS_ISSUED || row.txType === ROW_TYPES.PODS_REDEEMED
+    ? liquidityTokenAmountWithSymbol
+    : stakingTokenAmountWithSymbol
 
   const isDiversified = coverData?.supportsProducts
   const projectName = coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
@@ -188,17 +201,29 @@ const DetailsRenderer = ({ row }) => {
               }]}
         />
         <span className='text-sm leading-5 text-left whitespace-nowrap text-01052D'>
-          {row.type === 'PodsIssued'
+          {row.txType === ROW_TYPES.PODS_ISSUED
             ? (
               <Trans>
                 Added {tokenAmountWithSymbol} to {projectName} Cover
               </Trans>
               )
-            : (
-              <Trans>
-                Removed {tokenAmountWithSymbol} from {projectName} Cover
-              </Trans>
-              )}
+            : row.txType === ROW_TYPES.NPM_STAKEN
+              ? (
+                <Trans>
+                  Staked {tokenAmountWithSymbol} in {projectName} Cover
+                </Trans>
+                )
+              : row.txType === ROW_TYPES.NPM_UNSTAKEN
+                ? (
+                  <Trans>
+                    Unstaked {tokenAmountWithSymbol} in {projectName} Cover
+                  </Trans>
+                  )
+                : (
+                  <Trans>
+                    Removed {tokenAmountWithSymbol} from {projectName} Cover
+                  </Trans>
+                  )}
         </span>
       </div>
     </td>
@@ -207,37 +232,33 @@ const DetailsRenderer = ({ row }) => {
 
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
-  const tokenSymbol = row.vault.tokenSymbol
-  const tokenDecimals = row.vault.tokenDecimals
+  const { networkId } = useNetwork()
 
-  const router = useRouter()
+  const tokenDecimals = ChainConfig[networkId]?.vaultTokenDecimals
+
+  const className = row.txType === ROW_TYPES.PODS_ISSUED || row.txType === ROW_TYPES.NPM_STAKEN
+    ? 'text-01052D'
+    : 'text-FA5C2F'
+
+  const podTokenAmountWithSymbol = (
+    <TokenAmountSpan className={className} amountInUnits={row.podAmount} decimals={0} symbol={row.tokenSymbol} />
+  )
+
+  const stakingTokenAmountWithSymbol = (
+    <TokenAmountSpan className={className} amountInUnits={row.npmAmount} decimals={0} symbol='NPM' />
+  )
+
+  const tokenAmountWithSymbol = row.txType === ROW_TYPES.PODS_ISSUED || row.txType === ROW_TYPES.PODS_REDEEMED
+    ? podTokenAmountWithSymbol
+    : stakingTokenAmountWithSymbol
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
       <div className='flex items-center justify-end text-sm leading-6 whitespace-nowrap'>
-        <span
-          className={row.type === 'PodsIssued' ? 'text-01052D' : 'text-FA5C2F'}
-          title={
-            formatCurrency(
-              convertFromUnits(row.podAmount, tokenDecimals),
-              router.locale,
-              tokenSymbol,
-              true
-            ).long
-          }
-        >
-          {
-            formatCurrency(
-              convertFromUnits(row.podAmount, tokenDecimals),
-              router.locale,
-              tokenSymbol,
-              true
-            ).short
-          }
-        </span>
+        {tokenAmountWithSymbol}
         <button
           className='p-1 ml-3'
-          onClick={() => { return register(row.vault.id, tokenSymbol, tokenDecimals) }}
+          onClick={() => { return register(row.vaultAddress, row.tokenSymbol, tokenDecimals) }}
           title='Add to Metamask'
         >
           <span className='sr-only'>Add to metamask</span>
@@ -268,7 +289,7 @@ const ActionsRenderer = ({ row }) => {
             <div className='max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl'>
               <p>
                 {DateLib.toLongDateFormat(
-                  row.transaction.timestamp,
+                  row.blockTimestamp,
                   router.locale,
                   'UTC'
                 )}
@@ -279,7 +300,7 @@ const ActionsRenderer = ({ row }) => {
         </Tooltip.Root>
 
         <a
-          href={getTxLink(networkId, { hash: row.transaction.id })}
+          href={getTxLink(networkId, { hash: row.transactionHash })}
           target='_blank'
           rel='noreferrer noopener nofollow'
           className='p-1 text-black'

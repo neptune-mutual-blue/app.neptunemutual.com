@@ -1,32 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getNetworkId } from '@/src/config/environment'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
-
-const getQuery = (account) => {
-  return `
-{
-  userLiquidities(
-    where: {
-      account: "${account}"
-      totalPodsRemaining_gt: "0"
-    }
-  ) {
-    id
-    account
-    totalPodsRemaining
-    cover {
-      id
-      coverKey
-      vaults {
-        tokenSymbol
-        tokenDecimals
-        address
-      }
-    }
-  }
-}
-`
-}
+import { getActiveLiquidities } from '@/src/services/api/liquidity/active'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  *
@@ -39,30 +13,30 @@ export const useMyLiquidities = (account) => {
     liquidityList: []
   })
   const [loading, setLoading] = useState(false)
-  const fetchMyLiquidities = useSubgraphFetch('useMyLiquidities')
+  const { networkId } = useNetwork()
 
   useEffect(() => {
     if (account) {
       setLoading(true)
-      fetchMyLiquidities(getNetworkId(), getQuery(account))
-        .then(({ userLiquidities }) => {
-          const myLiquidities = userLiquidities || []
+      getActiveLiquidities(networkId, account)
+        .then((userLiquidities) => {
+          if (!userLiquidities) { return }
+
+          const myLiquidities = userLiquidities
           setData({
             myLiquidities,
-            liquidityList: myLiquidities.map(
-              ({ totalPodsRemaining, cover }) => {
-                return {
-                  podAmount: totalPodsRemaining || '0',
-                  podAddress: cover.vaults[0].address
-                }
+            liquidityList: myLiquidities.map((item) => {
+              return {
+                podAmount: item.balance || '0',
+                podAddress: item.vaultAddress
               }
-            )
+            })
           })
         })
         .catch((e) => { return console.error(e) })
         .finally(() => { return setLoading(false) })
     }
-  }, [account, fetchMyLiquidities])
+  }, [account, networkId])
 
   return {
     data,
