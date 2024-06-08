@@ -64,9 +64,9 @@ export const HarvestForm = ({
           <button
             className='ml-1'
             onClick={() => { return register(rewardTokenAddress, rewardTokenSymbol) }}
-            title='Add to Metamask'
+            title='Add to wallet'
           >
-            <span className='sr-only'>Add to Metamask</span>
+            <span className='sr-only'>Add to wallet</span>
             <AddCircleIcon width={16} fill='currentColor' />
           </button>
         </span>

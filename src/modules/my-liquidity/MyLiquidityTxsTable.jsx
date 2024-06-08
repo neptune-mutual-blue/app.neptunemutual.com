@@ -216,7 +216,7 @@ const DetailsRenderer = ({ row }) => {
               : row.txType === ROW_TYPES.NPM_UNSTAKEN
                 ? (
                   <Trans>
-                    Unstaked {tokenAmountWithSymbol} in {projectName} Cover
+                    Unstaked {tokenAmountWithSymbol} from {projectName} Cover
                   </Trans>
                   )
                 : (
@@ -259,9 +259,9 @@ const PodAmountRenderer = ({ row }) => {
         <button
           className='p-1 ml-3'
           onClick={() => { return register(row.vaultAddress, row.tokenSymbol, tokenDecimals) }}
-          title='Add to Metamask'
+          title='Add to wallet'
         >
-          <span className='sr-only'>Add to metamask</span>
+          <span className='sr-only'>Add to wallet</span>
           <AddCircleIcon className='w-4 h-4' />
         </button>
       </div>
@@ -304,7 +304,7 @@ const ActionsRenderer = ({ row }) => {
           target='_blank'
           rel='noreferrer noopener nofollow'
           className='p-1 text-black'
-          title='Open in Explorer'
+          title='Open in explorer'
         >
           <span className='sr-only'>Open in explorer</span>
           <OpenInNewIcon className='w-4 h-4' />

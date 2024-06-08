@@ -121,9 +121,9 @@ const PoolAmountRenderer = ({ row }) => {
               tokenDecimals
             )
           }}
-          title='Add to Metamask'
+          title='Add to wallet'
         >
-          <span className='sr-only'>Add to metamask</span>
+          <span className='sr-only'>Add to wallet</span>
           <AddCircleIcon className='w-4 h-4' />
         </button>
       </div>

@@ -199,7 +199,7 @@ const ActionsRenderer = ({ row }) => {
           target='_blank'
           rel='noreferrer noopener nofollow'
           className='p-1 text-black'
-          title='Open in Explorer'
+          title='Open in explorer'
         >
           <span className='sr-only'>Open in explorer</span>
           <OpenInNewIcon className='w-4 h-4' />

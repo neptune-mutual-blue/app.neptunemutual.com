@@ -20,7 +20,7 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
   const decimals = ChainConfig[networkId]?.vaultTokenDecimals
 
   useEffect(() => {
-    if (liquidityList.length === 0) { return }
+    if (!account || !networkId || liquidityList.length === 0) { return }
 
     let ignore = false
 
