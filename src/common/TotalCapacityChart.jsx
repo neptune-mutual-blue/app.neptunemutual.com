@@ -12,10 +12,9 @@ import { formatDateByLocale } from '@/lib/dates'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import { sort } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { Loading } from '@/common/Loading'
 
-export const TotalCapacityChart = ({ data }) => {
-  // const { liquidityTokenDecimals } = useAppConstants()
-
+export const TotalCapacityChart = ({ data = [], loading = false }) => {
   const [chartData, setChartData] = useState([])
 
   /** @type {React.MutableRefObject<{ chart: Highcharts.Chart; container: React.RefObject<HTMLDivElement>; } | null>} */
@@ -199,6 +198,11 @@ export const TotalCapacityChart = ({ data }) => {
       clearTimeout(chartDataTimeout)
     }
   }, [data, chartData.length])
+
+  if (loading) {
+    return <Loading />
+    //  <NoDataFound />
+  }
 
   return (
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>

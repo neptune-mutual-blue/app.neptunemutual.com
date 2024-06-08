@@ -1,32 +1,10 @@
-import { useState, useEffect } from 'react'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
-import { useNetwork } from '@/src/context/Network'
+import {
+  useEffect,
+  useState
+} from 'react'
 
-const getQuery = (account) => {
-  return `
-{
-  userLiquidities(
-    where: {
-      account: "${account}"
-      totalPodsRemaining_gt: "0"
-    }
-  ) {
-    id
-    account
-    totalPodsRemaining
-    cover {
-      id
-      coverKey
-      vaults {
-        tokenSymbol
-        tokenDecimals
-        address
-      }
-    }
-  }
-}
-`
-}
+import { useNetwork } from '@/src/context/Network'
+import { getActiveLiquidities } from '@/src/services/api/liquidity/active'
 
 /**
  *
@@ -39,31 +17,30 @@ export const useMyLiquidities = (account) => {
     liquidityList: []
   })
   const [loading, setLoading] = useState(false)
-  const fetchMyLiquidities = useSubgraphFetch('useMyLiquidities')
   const { networkId } = useNetwork()
 
   useEffect(() => {
     if (account) {
       setLoading(true)
-      fetchMyLiquidities(networkId, getQuery(account))
-        .then(({ userLiquidities }) => {
-          const myLiquidities = userLiquidities || []
+      getActiveLiquidities(networkId, account)
+        .then((userLiquidities) => {
+          if (!userLiquidities) { return }
+
+          const myLiquidities = userLiquidities
           setData({
             myLiquidities,
-            liquidityList: myLiquidities.map(
-              ({ totalPodsRemaining, cover }) => {
-                return {
-                  podAmount: totalPodsRemaining || '0',
-                  podAddress: cover.vaults[0].address
-                }
+            liquidityList: myLiquidities.map((item) => {
+              return {
+                podAmount: item.balance || '0',
+                podAddress: item.vaultAddress
               }
-            )
+            })
           })
         })
         .catch((e) => { return console.error(e) })
         .finally(() => { return setLoading(false) })
     }
-  }, [account, fetchMyLiquidities, networkId])
+  }, [account, networkId])
 
   return {
     data,

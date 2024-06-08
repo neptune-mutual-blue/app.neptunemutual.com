@@ -8,6 +8,7 @@ import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
 import PreviousNext from '@/common/PreviousNext'
 import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { AbbreviatedNetworkNames } from '@/lib/connect-wallet/config/chains'
+import DateLib from '@/lib/date/DateLib'
 import Consensus from '@/modules/insights/Consensus'
 import ConsensusDetails from '@/modules/insights/ConsensusDetails'
 import CoverEarning from '@/modules/insights/CoverEarning'
@@ -37,9 +38,7 @@ import {
   useHistoricalRoiDataByCover
 } from '@/src/hooks/useHistoricalRoiByCover'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
-import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
-import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
 import {
   useTopAccountsByLiquidity
 } from '@/src/hooks/useTopAccountsByLiquidity'
@@ -47,11 +46,11 @@ import {
   useTopAccountsByProtection
 } from '@/src/hooks/useTopAccountsByProtection'
 import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
-import {
-  useFetchInsightsTVLStats
-} from '@/src/services/aggregated-stats/insights'
+import { toBN } from '@/utils/bn'
 
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
+import { useTvlDistribution } from '@/src/hooks/useTvlDistribution'
+import { useLiquiditySummary } from '@/src/hooks/useLiquiditySummary'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -88,17 +87,15 @@ const FALLBACK_SELECTION = DROPDOWN_OPTIONS.find((option) => { return option.val
 export const InsightsContent = () => {
   const [selected, setSelected] = useLocalStorage('current-insights', FALLBACK_SELECTION)
 
-  const { data: statsData, loading } = useNetworkStats()
-
-  const { getAllProducts } = useAllCoversAndProducts()
+  const { getAllProducts, loading: productSummaryLoading } = useAllCoversAndProducts()
   const availableProducts = getAllProducts()
   const activeReportingProducts = availableProducts.filter(x => { return x.productStatus !== 0 })
 
-  const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: protectionTopAccounts, loading: protectionTopAccountsLoading, fetchTopAccountsByProtection } = useTopAccountsByProtection()
+  const { data: tvlDistribution, loading: tvlDistributionLoading, fetchTvlDistribution } = useTvlDistribution()
+  const { data: liquiditySummary, loading: liquiditySummaryLoading, fetchLiquiditySummary } = useLiquiditySummary()
   const { data: liquidityTopAccounts, loading: liquidityTopAccountsLoading, fetchTopAccountsByLiquidity } = useTopAccountsByLiquidity()
 
-  const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
   const { data: historicalDataByCover, loading: historicalDataByCoverLoading, fetchHistoricalDataByCover } = useHistoricalRoiDataByCover()
 
@@ -144,7 +141,11 @@ export const InsightsContent = () => {
     }
 
     if ([AllDropdownOptions.COVER_TVL, AllDropdownOptions.DEMAND, AllDropdownOptions.TOTAL_CAPACITY].includes(selected.value)) {
-      fetchProtocolDayData()
+      fetchLiquiditySummary()
+    }
+
+    if ([AllDropdownOptions.QUICK_INFO, AllDropdownOptions.TVL_DISTRIBUTION].includes(selected.value)) {
+      fetchTvlDistribution()
     }
 
     if (selected.value === AllDropdownOptions.HISTORICAL_ROI) {
@@ -190,15 +191,16 @@ export const InsightsContent = () => {
     fetchHistoricalData,
     fetchHistoricalDataByCover,
     fetchMonthlyProtectionData,
-    fetchProtocolDayData,
+    fetchLiquiditySummary,
     fetchTopAccountsByLiquidity,
     fetchTopAccountsByProtection,
+    fetchTvlDistribution,
     selected.value
   ])
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>
-      {tvlStatsLoading ? '' : `${availableProducts.length} Covers, ${activeReportingProducts.length} Reporting`}
+      {productSummaryLoading ? '' : `${availableProducts.length} Covers, ${activeReportingProducts.length} Reporting`}
     </div>
   )
 
@@ -277,15 +279,15 @@ export const InsightsContent = () => {
       case AllDropdownOptions.TVL_DISTRIBUTION:
         return (
           <>
-            <InsightsStats loading={loading} statsData={statsData} />
-            <InsightsTVLTable data={TVLStats} loading={tvlStatsLoading} />
+            <InsightsStats tvlDistribution={tvlDistribution} loading={tvlDistributionLoading} />
+            <InsightsTVLTable data={tvlDistribution} loading={tvlDistributionLoading} />
           </>
         )
 
       case AllDropdownOptions.QUICK_INFO:
         return (
           <>
-            <InsightsStats loading={loading} statsData={statsData} />
+            <InsightsStats tvlDistribution={tvlDistribution} loading={tvlDistributionLoading} />
             <InsightsQuickInfoTable />
           </>
         )
@@ -351,14 +353,29 @@ export const InsightsContent = () => {
           />
         )
 
-      case AllDropdownOptions.COVER_TVL:
-        return <TotalCapacityChart data={totalLiquidity} />
+      case AllDropdownOptions.COVER_TVL: {
+        const totalLiquidity = liquiditySummary.map((item) => {
+          return { date: DateLib.toUnix(new Date(item.date)), value: toBN(item.totalLiquidity) }
+        })
 
-      case AllDropdownOptions.TOTAL_CAPACITY:
-        return <TotalCapacityChart data={totalCapacity} />
+        return <TotalCapacityChart data={totalLiquidity} loading={liquiditySummaryLoading} />
+      }
 
-      case AllDropdownOptions.DEMAND:
-        return <TotalCapacityChart data={totalCovered} />
+      case AllDropdownOptions.TOTAL_CAPACITY: {
+        const totalCapacity = liquiditySummary.map((item) => {
+          return { date: DateLib.toUnix(new Date(item.date)), value: toBN(item.totalCapacity) }
+        })
+
+        return <TotalCapacityChart data={totalCapacity} loading={liquiditySummaryLoading} />
+      }
+
+      case AllDropdownOptions.DEMAND: {
+        const totalCovered = liquiditySummary.map((item) => {
+          return { date: DateLib.toUnix(new Date(item.date)), value: toBN(item.totalCovered) }
+        })
+
+        return <TotalCapacityChart data={totalCovered} loading={liquiditySummaryLoading} />
+      }
 
       case AllDropdownOptions.TOP_ACCOUNTS_BY_PROTECTION:
         return <TopAccountsByProtection userData={protectionTopAccounts} loading={protectionTopAccountsLoading} page={currentPage} />

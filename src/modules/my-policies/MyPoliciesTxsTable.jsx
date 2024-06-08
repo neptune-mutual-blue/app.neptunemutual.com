@@ -14,6 +14,7 @@ import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
@@ -36,8 +37,8 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
 
 const ROW_TYPES = {
-  CLAIMED: 'claimed',
-  COVER_PURCHASED: 'cover_purchased'
+  CLAIMED: 'Claimed',
+  COVER_PURCHASED: 'CoverPurchased'
 }
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
@@ -202,8 +203,9 @@ const DetailsRenderer = ({ row }) => {
 
 const CxTokenAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
+  const { networkId } = useNetwork()
 
-  const cxTokenDecimals = 18 // @TODO: Get from context
+  const cxTokenDecimals = ChainConfig[networkId]?.cxTokenDecimals
 
   const tokenAmountWithSymbol = row.txType === ROW_TYPES.COVER_PURCHASED
     ? <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} symbol={row.tokenSymbol} />
@@ -222,9 +224,9 @@ const CxTokenAmountRenderer = ({ row }) => {
               cxTokenDecimals
             )
           }}
-          title='Add to metamask'
+          title='Add to wallet'
         >
-          <span className='sr-only'>Add to metamask</span>
+          <span className='sr-only'>Add to wallet</span>
           <AddCircleIcon className='w-4 h-4' />
         </button>
       </div>

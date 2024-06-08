@@ -2,7 +2,6 @@ import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
-  TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -16,7 +15,6 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useRecentVotes } from '@/src/hooks/useRecentVotes'
 import { useSortData } from '@/src/hooks/useSortData'
 import { useLanguageContext } from '@/src/i18n/i18n'
-import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
@@ -25,6 +23,11 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+
+const ROW_TYPES = {
+  ATTESTED: 'Attested',
+  REFUTED: 'Refuted'
+}
 
 const renderWhen = (row) => { return <WhenRenderer row={row} /> }
 
@@ -55,7 +58,7 @@ export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
       id: 'when',
       name: t(i18n)`when`,
       align: 'left',
-      renderHeader: (col) => { return renderHeader(col, 'transaction.timestamp', sorts, handleSort) },
+      renderHeader: (col) => { return renderHeader(col, 'blockTimestamp', sorts, handleSort) },
       renderData: renderWhen
     },
     {
@@ -83,8 +86,8 @@ export const getColumns = (i18n, sorts = {}, handleSort = () => {}) => {
 }
 
 export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
-  const { page, limit, setPage } = usePagination()
-  const { data, loading, hasMore } = useRecentVotes({
+  const { page, limit /* setPage */ } = usePagination()
+  const { data, loading /* hasMore */ } = useRecentVotes({
     coverKey,
     productKey,
     incidentDate,
@@ -121,13 +124,13 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
         </Table>
       </TableWrapper>
 
-      <TableShowMore
+      {/* <TableShowMore
         show={hasMore}
         loading={loading}
         onShowMore={() => {
           setPage((prev) => { return prev + 1 })
         }}
-      />
+      /> */}
     </>
   )
 }
@@ -138,9 +141,9 @@ const WhenRenderer = ({ row }) => {
   return (
     <td
       className='max-w-xs px-6 py-6 text-sm leading-5 w-max whitespace-nowrap text-01052D'
-      title={DateLib.toLongDateFormat(row.transaction.timestamp, locale)}
+      title={DateLib.toLongDateFormat(row.blockTimestamp, locale)}
     >
-      {fromNow(row.transaction.timestamp, locale)}
+      {fromNow(row.blockTimestamp, locale)}
     </td>
   )
 }
@@ -155,14 +158,14 @@ const AmountRenderer = ({ row }) => {
         <div
           className={classNames(
             'w-4 h-4 mr-4 rounded',
-            row.voteType === 'Attested' ? 'bg-21AD8C' : 'bg-FA5C2F'
+            row.txType === ROW_TYPES.ATTESTED ? 'bg-21AD8C' : 'bg-FA5C2F'
           )}
         />
         <div
           className='text-sm leading-6 text-right text-01052D'
           title={
             formatCurrency(
-              convertFromUnits(row.stake),
+              row.stake,
               locale,
               NPMTokenSymbol,
               true
@@ -171,7 +174,7 @@ const AmountRenderer = ({ row }) => {
         >
           {
             formatCurrency(
-              convertFromUnits(row.stake),
+              row.stake,
               locale,
               NPMTokenSymbol,
               true
@@ -190,7 +193,7 @@ const ActionsRenderer = ({ row }) => {
     <td className='px-6 py-6 min-w-60'>
       <div className='flex items-center justify-end'>
         <a
-          href={getTxLink(networkId, { hash: row.transaction.id })}
+          href={getTxLink(networkId, { hash: row.transactionHash })}
           target='_blank'
           rel='noreferrer noopener nofollow'
           className='p-1 text-black'

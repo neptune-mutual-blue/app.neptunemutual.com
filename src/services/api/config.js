@@ -15,6 +15,11 @@ export const USER_POLICY_TXS = `${API_BASE_URL}policy/transactions/{networkId}/{
 
 export const POLICY_RECEIPT_URL = `${API_BASE_URL}/policy/receipt/{networkId}/{txHash}`
 
+// GET: liquidity
+export const USER_ACTIVE_LIQUIDITIES = `${API_BASE_URL}liquidity/active/{networkId}/{account}`
+
+export const USER_LIQUIDITY_TXS = `${API_BASE_URL}liquidity/transactions/{networkId}/{account}`
+
 // GET: home
 export const PRODUCT_SUMMARY_URL = `${API_BASE_URL}home/product-summary/{networkId}`
 
@@ -41,6 +46,12 @@ export const COVER_SOLD_BY_POOL = `${API_BASE_URL}home/charts/cover-sold-by-pool
 export const COVER_PREMIUM_BY_POOL = `${API_BASE_URL}home/charts/cover-premium-by-pool/{networkId}`
 
 export const COVER_EXPIRING_THIS_MONTH = `${API_BASE_URL}home/charts/cover-expiring-this-month/{networkId}`
+
+export const LIQUIDITY_SUMMARY = `${API_BASE_URL}home/charts/liquidity-summary/{networkId}`
+
+export const TVL_DISTRIBUTION = `${API_BASE_URL}home/charts/tvl-distribution/{networkId}`
+
+export const RECENT_VOTES = `${API_BASE_URL}consensus/report/votes/{networkId}/{coverKey}/{productKey}/{incidentDate}`
 
 // GET: bridge
 export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`

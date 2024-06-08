@@ -1,19 +1,56 @@
 import { Loading } from '@/common/Loading'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import { StatsCard } from '@/src/modules/insights/StatsCard'
+import { toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { useMemo } from 'react'
 
-export const InsightsStats = ({ loading, statsData }) => {
+export const InsightsStats = ({ loading, tvlDistribution }) => {
   const { locale } = useLanguageContext()
+
+  const {
+    totalCapacity,
+    totalCoveredAmount,
+    activeCoveredAmount,
+    totalCoverFee
+  } = useMemo(() => {
+    return tvlDistribution.reduce((acc, item) => {
+      acc.totalCapacity = acc.totalCapacity.plus(item.capacity || 0)
+      acc.totalCoveredAmount = acc.totalCoveredAmount.plus(item.covered || 0)
+      acc.activeCoveredAmount = acc.activeCoveredAmount.plus(item.commitment || 0)
+      acc.totalCoverFee = acc.totalCoverFee.plus(item.coverFeeEarned || 0)
+
+      return acc
+    }, {
+      totalCapacity: toBN(0),
+      totalCoveredAmount: toBN(0),
+      activeCoveredAmount: toBN(0),
+      totalCoverFee: toBN(0)
+    })
+  }, [tvlDistribution])
 
   return (
     <div>
-      {loading ? <Loading /> : <StatDisplay locale={locale} statsData={statsData} />}
+      {loading
+        ? <Loading />
+        : <StatDisplay
+            locale={locale}
+            totalCapacity={totalCapacity.toString()}
+            totalCoveredAmount={totalCoveredAmount.toString()}
+            activeCoveredAmount={activeCoveredAmount.toString()}
+            totalCoverFee={totalCoverFee.toString()}
+          />}
     </div>
   )
 }
 
-const StatDisplay = ({ locale, statsData }) => {
+const StatDisplay = ({
+  locale,
+  totalCapacity,
+  totalCoveredAmount,
+  activeCoveredAmount,
+  totalCoverFee
+}) => {
   return (
     <div className='flex flex-wrap items-start justify-between pb-6 lg:pb-10 gap-x-2 gap-y-4'>
       <StatsCard
@@ -21,15 +58,16 @@ const StatDisplay = ({ locale, statsData }) => {
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
         title='Total Capacity'
+        titleTooltip='Total capacity of the all products combined'
         value={
         formatCurrency(
-          statsData?.combined?.totalCapacity || 0,
+          totalCapacity,
           locale
         ).short
       }
         tooltip={
         formatCurrency(
-          statsData?.combined?.totalCapacity || 0,
+          totalCapacity,
           locale
         ).long
       }
@@ -39,15 +77,16 @@ const StatDisplay = ({ locale, statsData }) => {
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
         title='Covered'
+        titleTooltip='Total amount covered till date'
         value={
         formatCurrency(
-          statsData?.combined?.totalCoveredAmount,
+          totalCoveredAmount,
           locale
         ).short
       }
         tooltip={
         formatCurrency(
-          statsData?.combined?.totalCoveredAmount,
+          totalCoveredAmount,
           locale
         ).long
       }
@@ -56,15 +95,17 @@ const StatDisplay = ({ locale, statsData }) => {
         className='min-w-120'
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
-        title='Commitment' value={
+        title='Commitment'
+        titleTooltip='Active commitment - Sum of amount covered of all active policies'
+        value={
         formatCurrency(
-          statsData?.combined?.activeCoveredAmount,
+          activeCoveredAmount,
           locale
         ).short
       }
         tooltip={
         formatCurrency(
-          statsData?.combined?.activeCoveredAmount,
+          activeCoveredAmount,
           locale
         ).long
       }
@@ -74,15 +115,16 @@ const StatDisplay = ({ locale, statsData }) => {
         titleClass='text-999BAB lg:text-404040'
         valueClass='uppercase'
         title='Cover Fee'
+        titleTooltip='Total fee collected from all policy purchases till date'
         value={
         formatCurrency(
-          statsData?.combined?.totalCoverFee,
+          totalCoverFee,
           locale
         ).short
       }
         tooltip={
         formatCurrency(
-          statsData?.combined?.totalCoverFee,
+          totalCoverFee,
           locale
         ).long
       }

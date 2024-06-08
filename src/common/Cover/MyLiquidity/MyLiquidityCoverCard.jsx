@@ -7,23 +7,23 @@ import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
+import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import {
-  convertFromUnits,
   sumOf,
   toBN
 } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const MyLiquidityCoverCard = ({
   coverKey,
   totalPODs,
   tokenSymbol = 'POD',
-  tokenDecimal,
   subProducts,
   coverData
 }) => {
@@ -94,29 +94,41 @@ export const MyLiquidityCoverCard = ({
       <div className='mt-2 mb-4'>
         <ProgressBar value={reassurancePercent?.toNumber()} />
       </div>
-      <div
-        className='flex justify-between px-1 text-sm'
-        title={
-          formatCurrency(
-            convertFromUnits(totalPODs || '0', tokenDecimal),
-            locale,
-            tokenSymbol,
-            true
-          ).long
-        }
-      >
+
+      <div className='flex items-center gap-2'>
         <span data-testid='liquidity'>
           <Trans>My Liquidity</Trans>:{' '}
-          {
-            formatCurrency(
-              convertFromUnits(totalPODs || '0', tokenDecimal),
-              locale,
-              tokenSymbol,
-              true
-            ).short
-          }
+          <TokenAmountSpan
+            amountInUnits={totalPODs}
+            decimals={0}
+            symbol={tokenSymbol}
+          />
+
         </span>
+        <BalanceMismatchInfo />
       </div>
     </OutlinedCard>
+  )
+}
+
+const BalanceMismatchInfo = () => {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger className='p-0.5'>
+        <span className='sr-only'>Info</span>
+        <InfoCircleIcon width={15} height={15} className='fill-9B9B9B' />
+      </Tooltip.Trigger>
+
+      <Tooltip.Content side='right'>
+        <div className='w-full p-2 text-xs tracking-normal bg-black rounded-lg max-w-70 text-EEEEEE'>
+          <p>
+            <Trans>
+              The POD token amount may not match your current balance if you've transferred the POD tokens to other wallets or staked them in our Liquidity Gauge Pools
+            </Trans>
+          </p>
+        </div>
+        <Tooltip.Arrow offset={16} className='fill-black' />
+      </Tooltip.Content>
+    </Tooltip.Root>
   )
 }

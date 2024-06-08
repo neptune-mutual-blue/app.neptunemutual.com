@@ -4,8 +4,12 @@ import {
 } from 'react'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { useNetwork } from '@/src/context/Network'
-import { sumOf } from '@/utils/bn'
+import {
+  convertToUnits,
+  sumOf
+} from '@/utils/bn'
 import {
   config,
   multicall
@@ -16,6 +20,7 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
   const [myTotalLiquidity, setMyTotalLiquidity] = useState('0')
   const { library, account } = useWeb3React()
   const { networkId } = useNetwork()
+  const decimals = ChainConfig[networkId]?.vaultTokenDecimals
 
   useEffect(() => {
     if (!account || !networkId || liquidityList.length === 0) { return }
@@ -35,7 +40,7 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
       liquidityList.forEach(({ podAmount, podAddress }) => {
         const instance = new Contract(podAddress, config.abis.IVault)
 
-        calls.push(instance.calculateLiquidity(podAmount))
+        calls.push(instance.calculateLiquidity(convertToUnits(podAmount, decimals).toString()))
       })
 
       const amountsInStablecoin = await multiCallProvider.all(calls)
@@ -53,7 +58,7 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
     return () => {
       ignore = true
     }
-  }, [account, library, liquidityList, networkId])
+  }, [account, decimals, library, liquidityList, networkId])
 
   return myTotalLiquidity
 }

@@ -9,7 +9,8 @@ export const TokenAmountSpan = ({
   amountInUnits,
   symbol = undefined,
   className = null,
-  decimals
+  decimals,
+  ...rest
 }) => {
   const { locale } = useLanguageContext()
 
@@ -25,6 +26,7 @@ export const TokenAmountSpan = ({
         ).long
       }`}
       data-testid='token-amount-span'
+      {...rest}
     >
       {
         formatCurrency(

@@ -1,38 +1,10 @@
-import { useNetwork } from '@/src/context/Network'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
-import { useState, useEffect } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
 
-const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
-  return `
-  {
-    _meta {
-      block {
-        number
-      }
-    }
-    votes(
-      skip: ${limit * (page - 1)}
-      first: ${limit} 
-      orderBy: createdAtTimestamp
-      orderDirection: desc
-      where: {
-        coverKey:"${coverKey}"
-        productKey:"${productKey}"
-        incidentDate: "${incidentDate}"
-    }) {
-      id
-      createdAtTimestamp
-      voteType
-      witness
-      stake
-      transaction {
-        id
-        timestamp
-      }
-    }
-  }        
-  `
-}
+import { useNetwork } from '@/src/context/Network'
+import { getRecentVotes } from '@/src/services/api/consensus/recent-votes'
 
 export const useRecentVotes = ({
   coverKey,
@@ -46,37 +18,39 @@ export const useRecentVotes = ({
     blockNumber: null
   })
   const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
+  // const [hasMore, setHasMore] = useState(true) // Pagination not supported by the API
   const { networkId } = useNetwork()
-  const fetchRecentVotes = useSubgraphFetch('useRecentVotes')
 
   useEffect(() => {
-    if (!coverKey || !incidentDate) {
+    if (!coverKey || !productKey || !incidentDate) {
       return
     }
 
     setLoading(true)
 
-    fetchRecentVotes(
-      networkId,
-      getQuery(limit, page, coverKey, productKey, incidentDate)
-    )
+    getRecentVotes({ networkId, coverKey, productKey, incidentDate })
       .then((_data) => {
         if (!_data) { return }
 
-        const isLastPage =
-          _data.votes.length === 0 || _data.votes.length < limit
-
-        if (isLastPage) {
-          setHasMore(false)
-        }
-
-        setData((prev) => {
-          return {
-            blockNumber: _data._meta.block.number,
-            votes: [...prev.votes, ..._data.votes]
-          }
+        setData({
+          blockNumber: null,
+          votes: _data
         })
+
+        // const isLastPage =
+        //   _data.votes.length === 0 ||
+        //   _data.votes.length < limit
+
+        // if (isLastPage) {
+        //   setHasMore(false)
+        // }
+
+        // setData((prev) => {
+        //   return {
+        //     blockNumber: _data._meta.block.number,
+        //     votes: [...prev.votes, ..._data.votes]
+        //   }
+        // })
       })
       .catch((err) => {
         console.error(err)
@@ -86,7 +60,6 @@ export const useRecentVotes = ({
       })
   }, [
     coverKey,
-    fetchRecentVotes,
     incidentDate,
     limit,
     networkId,
@@ -99,7 +72,7 @@ export const useRecentVotes = ({
       blockNumber: data.blockNumber,
       transactions: data?.votes || []
     },
-    loading,
-    hasMore
+    loading
+    // hasMore
   }
 }

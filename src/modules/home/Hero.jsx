@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -12,8 +13,6 @@ import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import IncreaseIcon from '@/icons/IncreaseIcon'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
-import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
-import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   convertFromUnits,
   toBN
@@ -26,6 +25,9 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useLiquiditySummary } from '@/src/hooks/useLiquiditySummary'
+import DateLib from '@/lib/date/DateLib'
+import { useLanguageContext } from '@/src/i18n/i18n'
 
 export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const { data: heroData } = useFetchHeroStats()
@@ -33,7 +35,17 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const { locale } = useLanguageContext()
 
   const [changeData, setChangeData] = useState(null)
-  const { data: { totalCapacity } } = useProtocolDayData()
+  const { data: liquiditySummary, loading: liquiditySummaryLoading, fetchLiquiditySummary } = useLiquiditySummary()
+
+  useEffect(() => {
+    fetchLiquiditySummary()
+  }, [fetchLiquiditySummary])
+
+  const totalCapacity = useMemo(() => {
+    return liquiditySummary.map((item) => {
+      return { date: DateLib.toUnix(new Date(item.date)), value: toBN(item.totalCapacity) }
+    })
+  }, [liquiditySummary])
 
   const currentCapacity = (totalCapacity && totalCapacity.length > 0) ? totalCapacity[totalCapacity.length - 1].value : '0'
 
@@ -187,7 +199,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
             className='flex-1 min-h-360'
             data-testid='capacity-chart-wrapper'
           >
-            <TotalCapacityChart data={totalCapacity} />
+            <TotalCapacityChart data={totalCapacity} loading={liquiditySummaryLoading} />
           </div>
         </div>
       </Container>
