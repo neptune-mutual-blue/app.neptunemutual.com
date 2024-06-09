@@ -1,8 +1,16 @@
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { useAllCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
-export const HomeMainCard = ({ heroData, className = '' }) => {
+export const HomeMainCard = ({ className = '' }) => {
+  const { getAllProducts, getDedicatedCovers } = useAllCoversAndProducts()
+  const dedicatedCovers = getDedicatedCovers()
+  const availableProducts = getAllProducts()
+  const productsOfDiversifiedCoversCount = availableProducts.length - dedicatedCovers.length
+
+  const activeReportingProducts = availableProducts.filter(x => { return x.productStatus !== 0 })
+
   return (
     <div
       className={classNames(
@@ -11,29 +19,29 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
       )}
     >
       <div className='flex flex-col items-center justify-between w-full lg:py-4 border-r-0.5 border-E8E8ED'>
-        <h4 className='mb-2 leading-5 lg:mb-0 text-xs lg:text-md text-9B9B9B'>
+        <h4 className='mb-2 text-xs leading-5 lg:mb-0 lg:text-md text-9B9B9B'>
           <Trans>Available</Trans>
         </h4>
         <InfoTooltip
           infoComponent={
             <div>
-              <p>{heroData?.currentNetwork?.dedicatedCoverCount} <Trans>Dedicated covers</Trans></p>
-              <p>{heroData?.currentNetwork?.productCount} <Trans>Products</Trans></p>
+              <p>{dedicatedCovers.length} <Trans>Dedicated covers</Trans></p>
+              <p>{productsOfDiversifiedCoversCount} <Trans>Products</Trans></p>
             </div>
           }
         >
           <h4 className='font-bold leading-5 text-md lg:text-display-xs text-4E7DD9'>
-            {heroData.availableCovers}
+            {availableProducts.length}
           </h4>
         </InfoTooltip>
       </div>
 
       <div className='flex flex-col items-center justify-between w-full'>
-        <h4 className='mb-2 lg:mb-0 text-xs lg:text-md text-9B9B9B'>
+        <h4 className='mb-2 text-xs lg:mb-0 lg:text-md text-9B9B9B'>
           <Trans>Reporting</Trans>
         </h4>
         <h4 className='font-bold leading-5 text-md lg:text-display-xs text-4E7DD9'>
-          {heroData.reportingCovers}
+          {activeReportingProducts.length}
         </h4>
       </div>
     </div>

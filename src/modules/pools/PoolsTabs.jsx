@@ -12,36 +12,44 @@ import { convertFromUnits, sumOf } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
 import { useLiquidityGaugePools } from '@/src/context/LiquidityGaugePools'
+import { useNetwork } from '@/src/context/Network'
+import { useMemo } from 'react'
+import { ChainConfig } from '@/src/config/hardcoded'
 
-const headers = [
-  isFeatureEnabled('liquidity-gauge-pools') && {
-    name: 'liquidity-gauge-pools',
-    href: Routes.LiquidityGaugePools,
-    displayAs: <Trans>Liquidity Gauge Pools</Trans>
-  },
-  isFeatureEnabled('bond') && {
-    name: 'bond',
-    href: Routes.BondPool,
-    displayAs: <Trans>Bond</Trans>
-  },
-  isFeatureEnabled('staking-pool') && {
-    name: 'staking',
-    href: Routes.StakingPools,
-    displayAs: <Trans>Staking</Trans>
-  },
-  isFeatureEnabled('pod-staking-pool') && {
-    name: 'pod-staking',
-    href: Routes.PodStakingPools,
-    displayAs: <Trans>POD Staking</Trans>
-  }
-].filter(Boolean)
+const getHeaders = (networkId) => {
+  return [
+    isFeatureEnabled('liquidity-gauge-pools') && ChainConfig?.[networkId]?.gaugeControllerRegistry && {
+      name: 'liquidity-gauge-pools',
+      href: Routes.LiquidityGaugePools,
+      displayAs: <Trans>Liquidity Gauge Pools</Trans>
+    },
+    isFeatureEnabled('bond') && {
+      name: 'bond',
+      href: Routes.BondPool,
+      displayAs: <Trans>Bond</Trans>
+    },
+    isFeatureEnabled('staking-pool') && {
+      name: 'staking',
+      href: Routes.StakingPools,
+      displayAs: <Trans>Staking</Trans>
+    },
+    isFeatureEnabled('pod-staking-pool') && {
+      name: 'pod-staking',
+      href: Routes.PodStakingPools,
+      displayAs: <Trans>POD Staking</Trans>
+    }
+  ].filter(Boolean)
+}
 
 export const PoolsTabs = ({ active, children }) => {
   const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
   const { tvl: liquidityGaugePoolsTvl } = useLiquidityGaugePools()
   const router = useRouter()
+  const { networkId } = useNetwork()
 
   const tvl = sumOf(poolsTvl, liquidityGaugePoolsTvl).toString()
+
+  const headers = useMemo(() => { return getHeaders(networkId) }, [networkId])
 
   return (
     <>

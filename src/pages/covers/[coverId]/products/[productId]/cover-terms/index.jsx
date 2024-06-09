@@ -4,13 +4,13 @@ import { Seo } from '@/common/Seo'
 import {
   SingleCoverTermsPage
 } from '@/modules/cover/cover-terms/SingleCoverTermsPage'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 export default function CoverPage () {
   const router = useRouter()
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   const { coverId, productId } = router.query
   const coverKey = safeFormatBytes32String(coverId)

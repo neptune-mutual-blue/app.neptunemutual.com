@@ -1,9 +1,9 @@
 import { CoverAvatar } from '@/common/CoverAvatar'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 
 export const LiquidityGaugeCardHeading = ({ poolKey, title, stakingTokenSymbol }) => {
-  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
 
   const coverData = getCoverByCoverKey(poolKey)
   const isDiversified = coverData?.supportsProducts

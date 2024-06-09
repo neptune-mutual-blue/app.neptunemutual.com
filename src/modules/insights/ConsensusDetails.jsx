@@ -12,7 +12,7 @@ import PreviousNext from '@/common/PreviousNext'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import {
   getCoverImgSrc,
   isValidProduct
@@ -32,7 +32,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const router = useRouter()
   const { NPMTokenSymbol, liquidityTokenDecimals } = useAppConstants()
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   if (dataLoading) {
     return <Loading />

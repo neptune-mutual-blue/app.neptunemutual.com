@@ -6,7 +6,7 @@ import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
 import { HomeHeroSkeleton } from '@/modules/home/HomeHeroSkeleton'
 import { ProductsGridSkeleton } from '@/modules/home/ProductsGridSkeleton'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
@@ -21,7 +21,7 @@ export default function CoverPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { loading, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey } = useCoversAndProducts()
   const coverData = getCoverByCoverKey(coverKey)
 
   return (

@@ -108,10 +108,10 @@ export const TokenBalance = ({
             disabled && 'pointer-events-none cursor-not-allowed'
           )}
           rel='noreferrer nofollow'
-          title='Open In Explorer'
+          title='Open in explorer'
           data-testid='explorer-link'
         >
-          <span className='sr-only'>Open In Explorer</span>
+          <span className='sr-only'>Open in explorer</span>
           <OpenInNewIcon width={20} fill='currentColor' />
         </a>
         <button
@@ -121,10 +121,10 @@ export const TokenBalance = ({
             disabled && 'pointer-events-none cursor-not-allowed'
           )}
           onClick={() => { return register(tokenAddress, unit, tokenDecimals) }}
-          title='Add to Metamask'
+          title='Add to wallet'
           data-testid='add-button'
         >
-          <span className='sr-only'>Add to Metamask</span>
+          <span className='sr-only'>Add to wallet</span>
           <AddCircleIcon width={20} fill='currentColor' />
         </button>
       </div>

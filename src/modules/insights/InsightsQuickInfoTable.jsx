@@ -14,14 +14,13 @@ import {
 import PreviousNext from '@/src/common/PreviousNext'
 import { renderHeader } from '@/src/common/Table/renderHeader'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
 import {
-  convertFromUnits,
-  toBN
+  convertFromUnits
 } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
@@ -142,10 +141,10 @@ export const InsightsQuickInfoTable = () => {
     setPage(page + 1)
   }
 
-  const { loading, getAllProducts } = useCoversAndProducts2()
+  const { loading, getAllProducts } = useCoversAndProducts()
   const topCovers = useMemo(() => {
     const products = getAllProducts()
-      .filter(x => { return toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7) })
+    // .filter(x => { return toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7) })
 
     const result = sorter({
       datatype: SORT_DATA_TYPES.BIGNUMBER,

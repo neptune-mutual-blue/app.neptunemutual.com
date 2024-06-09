@@ -9,7 +9,7 @@ import { NoDataFound } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
 import { NewReportSkeleton } from '@/modules/reporting/new/NewReportSkeleton'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
 import {
   useFetchCoverProductActiveReportings
@@ -27,7 +27,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
   const router = useRouter()
 
   const isDiversified = isValidProduct(productKey)
-  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
   const { data: activeReportings } = useFetchCoverProductActiveReportings({

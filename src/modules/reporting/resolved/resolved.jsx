@@ -31,7 +31,7 @@ import {
 import { ResolvedTBodyRow } from '@/modules/reporting/resolved/ResolvedTBodyRow'
 import { ReportStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useResolvedReportings } from '@/src/hooks/useResolvedReportings'
@@ -250,7 +250,7 @@ export const ReportingResolvedPage = () => {
   const [sortType, setSortType] = useState(defaultSelectedOption)
   const { getStatsByKey } = useSortableStats()
 
-  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: incidentReports.map((report) => {

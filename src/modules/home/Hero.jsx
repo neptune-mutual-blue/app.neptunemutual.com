@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useMemo,
   useState
 } from 'react'
 
@@ -13,8 +14,7 @@ import { HomeMainCard } from '@/common/HomeCard/HomeMainCard'
 import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import IncreaseIcon from '@/icons/IncreaseIcon'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
-import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
+
 import {
   convertFromUnits,
   toBN
@@ -27,16 +27,50 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useLiquiditySummary } from '@/src/hooks/useLiquiditySummary'
+import DateLib from '@/lib/date/DateLib'
+import { useTvlDistribution } from '@/src/hooks/useTvlDistribution'
 
 export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
-  const { data: heroData } = useFetchHeroStats()
   const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
   const router = useRouter()
+  const locale = router.locale
 
   const [changeData, setChangeData] = useState(null)
-  const { data: { totalCapacity } } = useProtocolDayData()
+  const { data: tvlDistribution, fetchTvlDistribution } = useTvlDistribution()
+  const { data: liquiditySummary, loading: liquiditySummaryLoading, fetchLiquiditySummary } = useLiquiditySummary()
 
-  const currentCapacity = (totalCapacity && totalCapacity.length > 0) ? totalCapacity[totalCapacity.length - 1].value : '0'
+  useEffect(() => {
+    fetchLiquiditySummary()
+  }, [fetchLiquiditySummary])
+
+  useEffect(() => {
+    fetchTvlDistribution()
+  }, [fetchTvlDistribution])
+
+  const totalCapacity = useMemo(() => {
+    return liquiditySummary.map((item) => {
+      return { date: DateLib.toUnix(new Date(item.date)), value: toBN(item.totalCapacity) }
+    })
+  }, [liquiditySummary])
+
+  const aggregated = useMemo(() => {
+    return tvlDistribution.reduce((acc, item) => {
+      acc.totalCapacity = acc.totalCapacity.plus(item.capacity || 0)
+      acc.totalCoveredAmount = acc.totalCoveredAmount.plus(item.covered || 0)
+      acc.activeCoveredAmount = acc.activeCoveredAmount.plus(item.commitment || 0)
+      acc.totalCoverFee = acc.totalCoverFee.plus(item.coverFeeEarned || 0)
+
+      return acc
+    }, {
+      totalCapacity: toBN(0),
+      totalCoveredAmount: toBN(0),
+      activeCoveredAmount: toBN(0),
+      totalCoverFee: toBN(0)
+    })
+  }, [tvlDistribution])
+
+  const currentCapacity = aggregated.totalCapacity.toString()
 
   useEffect(() => {
     if (totalCapacity && totalCapacity.length >= 2) {
@@ -93,7 +127,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                     name: t(i18n)`Capacity`,
                     amount: formatCurrency(
                       currentCapacity,
-                      router.locale
+                      locale
                     ).short
                   },
                   {
@@ -103,7 +137,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                         poolsTvl,
                         liquidityTokenDecimals
                       ).toString(),
-                      router.locale
+                      locale
                     ).short
                   }
                 ]}
@@ -120,15 +154,15 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                     // Active Protection (or) Commitment
                     name: t(i18n)`Coverage`,
                     amount: formatCurrency(
-                      heroData.covered,
-                      router.locale
+                      aggregated.totalCoveredAmount,
+                      locale
                     ).short
                   },
                   {
                     name: t(i18n)`Cover Fee`,
                     amount: formatCurrency(
-                      heroData.coverFee,
-                      router.locale
+                      aggregated.totalCoverFee,
+                      locale
                     ).short
                   }
                 ]}
@@ -140,7 +174,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
             className='flex flex-1 md:justify-center lg:justify-start'
             data-testid='homemaincard'
           >
-            <HomeMainCard heroData={heroData} />
+            <HomeMainCard />
           </div>
         </div>
 
@@ -157,7 +191,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                 {
                   formatCurrency(
                     (changeData?.last || '0'),
-                    router.locale
+                    locale
                   ).short
                 }
               </h2>
@@ -179,7 +213,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                       className={changeData.rise ? '' : 'transform-flip'}
                     />
                   </span>
-                  <span>{formatPercent(changeData.diff, router.locale)}</span>
+                  <span>{formatPercent(changeData.diff, locale)}</span>
                 </p>
               )}
             </div>
@@ -188,7 +222,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
             className='flex-1 min-h-360'
             data-testid='capacity-chart-wrapper'
           >
-            <TotalCapacityChart data={totalCapacity} />
+            <TotalCapacityChart data={totalCapacity} loading={liquiditySummaryLoading} />
           </div>
         </div>
       </Container>

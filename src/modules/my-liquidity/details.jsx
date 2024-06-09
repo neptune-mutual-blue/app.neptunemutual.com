@@ -29,7 +29,7 @@ import {
 import { CoverStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -39,7 +39,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
   const { accrueInterest, isWithdrawalWindowOpen, info, isWithdrawalWindowOutdated, updateWithdrawalWindow } = useLiquidityFormsContext()
   const coverData = getCoverByCoverKey(coverKey)
 

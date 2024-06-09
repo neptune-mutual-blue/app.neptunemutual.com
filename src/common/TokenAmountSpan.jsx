@@ -1,4 +1,4 @@
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
 
@@ -6,7 +6,8 @@ export const TokenAmountSpan = ({
   amountInUnits,
   symbol = undefined,
   className = null,
-  decimals
+  decimals,
+  ...rest
 }) => {
   const router = useRouter()
 
@@ -15,17 +16,18 @@ export const TokenAmountSpan = ({
       className={className}
       title={`${
         formatCurrency(
-          convertFromUnits(amountInUnits, decimals).toString(),
+          decimals === 0 ? toBN(amountInUnits).toString() : convertFromUnits(amountInUnits, decimals).toString(),
           router.locale,
           symbol,
           typeof symbol !== 'undefined'
         ).long
       }`}
       data-testid='token-amount-span'
+      {...rest}
     >
       {
         formatCurrency(
-          convertFromUnits(amountInUnits, decimals).toString(),
+          decimals === 0 ? toBN(amountInUnits).toString() : convertFromUnits(amountInUnits, decimals).toString(),
           router.locale,
           symbol,
           typeof symbol !== 'undefined'

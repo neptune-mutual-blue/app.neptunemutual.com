@@ -1,86 +1,54 @@
+import {
+  useEffect,
+  useState
+} from 'react'
 import { useNetwork } from '@/src/context/Network'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { useWeb3React } from '@web3-react/core'
-import { useState, useEffect } from 'react'
-
-const getQuery = (account, limit, skip) => {
-  return `
-  {
-    _meta {
-      block {
-        number
-      }
-    }
-    liquidityTransactions(
-      skip: ${skip}
-      first: ${limit}, 
-      orderBy: createdAtTimestamp
-      orderDirection: desc
-      where: {account: "${account}"}
-    ) {
-      type
-      key
-      account
-      liquidityAmount
-      podAmount
-      vault{
-        id
-        tokenSymbol
-        tokenDecimals
-      }
-      cover {
-        id
-      }
-      transaction {
-        id
-        timestamp
-      }
-    }
-  }
-  `
-}
+import { getLiquidityTransactions } from '@/src/services/api/liquidity/transactions'
 
 export const useLiquidityTxs = ({ limit, page }) => {
   const [data, setData] = useState({
-    blockNumber: null,
-    liquidityTransactions: []
+    liquidityTransactions: [],
+    blockNumber: null
   })
   const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
+  // const [hasMore, setHasMore] = useState(true)
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
-  const fetchLiquidityTxs = useSubgraphFetch('useLiquidityTxs')
 
   useEffect(() => {
     if (!account) {
       return
     }
-    const query = getQuery(account, limit, limit * (page - 1))
 
     setLoading(true)
 
-    fetchLiquidityTxs(networkId, query)
+    getLiquidityTransactions(networkId, account)
       .then((_data) => {
         if (!_data) { return }
 
-        const isLastPage =
-          _data.liquidityTransactions.length === 0 ||
-          _data.liquidityTransactions.length < limit
-
-        if (isLastPage) {
-          setHasMore(false)
-        }
-
-        // setData(_data);
-        setData((prev) => {
-          return {
-            blockNumber: _data._meta.block.number,
-            liquidityTransactions: [
-              ...prev.liquidityTransactions,
-              ..._data.liquidityTransactions
-            ]
-          }
+        setData({
+          blockNumber: null,
+          liquidityTransactions: _data
         })
+
+        // const isLastPage =
+        //   _data.liquidityTransactions.length === 0 ||
+        //   _data.liquidityTransactions.length < limit
+
+        // if (isLastPage) {
+        //   setHasMore(false)
+        // }
+
+        // setData((prev) => {
+        //   return {
+        //     blockNumber: _data._meta.block.number,
+        //     liquidityTransactions: [
+        //       ...prev.liquidityTransactions,
+        //       ..._data.liquidityTransactions
+        //     ]
+        //   }
+        // })
       })
       .catch((err) => {
         console.error(err)
@@ -88,15 +56,15 @@ export const useLiquidityTxs = ({ limit, page }) => {
       .finally(() => {
         setLoading(false)
       })
-  }, [account, fetchLiquidityTxs, limit, networkId, page])
+  }, [account, limit, networkId, page])
 
   return {
-    hasMore,
     data: {
       blockNumber: data.blockNumber,
       transactions: data.liquidityTransactions,
       totalCount: data.liquidityTransactions.length
     },
     loading
+    // hasMore
   }
 }

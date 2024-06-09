@@ -1,10 +1,10 @@
 import { getReplacedString } from '@/utils/string'
 
-import * as api from '../config'
+import * as api from '../../config'
 
-export const getPolicyTransactions = async (networkId, account) => {
+export const getLiquiditySummary = async (networkId) => {
   try {
-    const url = getReplacedString(api.USER_POLICY_TXS, { networkId, account: account.toLowerCase() })
+    const url = getReplacedString(api.LIQUIDITY_SUMMARY, { networkId })
 
     const response = await fetch(url, {
       method: 'GET',
@@ -20,15 +20,15 @@ export const getPolicyTransactions = async (networkId, account) => {
 
     const data = await response.json()
 
-    const txs = data.data
+    const items = data.data
 
-    if (!txs || !Array.isArray(txs)) {
+    if (!items || !Array.isArray(items)) {
       return null
     }
 
-    return txs
+    return items
   } catch (error) {
-    console.error('Could not get policy transactions', error)
+    console.error('Could not get liquidity summary', error)
   }
 
   return null

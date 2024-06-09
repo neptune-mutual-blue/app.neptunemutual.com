@@ -2,9 +2,9 @@ import { getReplacedString } from '@/utils/string'
 
 import * as api from '../config'
 
-export const getPolicyTransactions = async (networkId, account) => {
+export const getLiquidityTransactions = async (networkId, account) => {
   try {
-    const url = getReplacedString(api.USER_POLICY_TXS, { networkId, account: account.toLowerCase() })
+    const url = getReplacedString(api.USER_LIQUIDITY_TXS, { networkId, account: account.toLowerCase() })
 
     const response = await fetch(url, {
       method: 'GET',
@@ -28,7 +28,7 @@ export const getPolicyTransactions = async (networkId, account) => {
 
     return txs
   } catch (error) {
-    console.error('Could not get policy transactions', error)
+    console.error('Could not get liquidity transactions', error)
   }
 
   return null

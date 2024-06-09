@@ -7,12 +7,12 @@ import {
 import {
   SingleCoverTermsPage
 } from '@/modules/cover/cover-terms/SingleCoverTermsPage'
-import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 export default function CoverTermsPage () {
   const router = useRouter()
-  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts2()
+  const { loading, getCoverByCoverKey, getProductsByCoverKey } = useCoversAndProducts()
 
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)

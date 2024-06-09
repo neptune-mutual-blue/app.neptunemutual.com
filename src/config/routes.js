@@ -1,4 +1,5 @@
 import { isFeatureEnabled } from '@/src/config/environment'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 
 const Home = '/'
@@ -26,16 +27,21 @@ const Bridge = '/bridge'
 
 const GovernanceProposalPage = (proposalId) => { return `/governance/${proposalId}` }
 
-const Pools = () => {
+const Pools = (networkId) => {
   let url = null
   // ORDER is important
-  if (isFeatureEnabled('liquidity-gauge-pools')) {
+  const isLiquidityGaugePoolsEnabled = isFeatureEnabled('liquidity-gauge-pools') && ChainConfig?.[networkId]?.gaugeControllerRegistry
+  const isBondEnabled = isFeatureEnabled('bond')
+  const isStakingPoolEnabled = isFeatureEnabled('staking-pool')
+  const isPodStakingPoolEnabled = isFeatureEnabled('pod-staking-pool')
+
+  if (isLiquidityGaugePoolsEnabled) {
     url = LiquidityGaugePools
-  } else if (isFeatureEnabled('bond')) {
+  } else if (isBondEnabled) {
     url = BondPool
-  } else if (isFeatureEnabled('staking-pool')) {
+  } else if (isStakingPoolEnabled) {
     url = StakingPools
-  } else if (isFeatureEnabled('pod-staking-pool')) {
+  } else if (isPodStakingPoolEnabled) {
     url = PodStakingPools
   }
 
