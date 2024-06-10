@@ -21,6 +21,10 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   const [loading, setLoading] = useState(false)
 
   const getData = useCallback(async () => {
+    if (!coverKey || !productKey || !incidentDate) {
+      return
+    }
+
     try {
       const response = await fetch(
         getReplacedString(REPORT_DETAILS_URL, {
@@ -36,8 +40,8 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
 
       const data = await response.json()
 
-      if (data && Array.isArray(data)) {
-        setData(data[0])
+      if (data?.data && Array.isArray(data.data)) {
+        setData(data.data[0])
       }
     } catch (e) {
       console.error(e)

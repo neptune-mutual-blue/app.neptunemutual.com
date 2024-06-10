@@ -79,8 +79,8 @@ export const ActiveReportSummary = ({
 
   if (incidentReport.resolutionDecision === null) {
     isAttestedWon = isGreater(
-      incidentReport.totalAttestation,
-      incidentReport.totalRefutation
+      incidentReport.totalAttestation || '0',
+      incidentReport.totalRefutation || '0'
     )
   }
 
@@ -164,13 +164,13 @@ export const ActiveReportSummary = ({
               {
                 title: t(i18n)`Stake:`,
                 value: formatCurrency(
-                  convertFromUnits(incidentReport.totalAttestation),
+                  convertFromUnits(incidentReport.totalAttestation || '0'),
                   router.locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
-                  convertFromUnits(incidentReport.totalAttestation),
+                  convertFromUnits(incidentReport.totalAttestation || '0'),
                   router.locale,
                   NPMTokenSymbol,
                   true
@@ -210,7 +210,7 @@ export const ActiveReportSummary = ({
                 title: t(i18n)`Stake:`,
                 value: `${
                   formatCurrency(
-                    convertFromUnits(incidentReport.totalRefutation),
+                    convertFromUnits(incidentReport.totalRefutation || '0'),
                     router.locale,
                     NPMTokenSymbol,
                     true
@@ -218,7 +218,7 @@ export const ActiveReportSummary = ({
                 }`,
                 htmlTooltip: `${
                   formatCurrency(
-                    convertFromUnits(incidentReport.totalRefutation),
+                    convertFromUnits(incidentReport.totalRefutation || '0'),
                     router.locale,
                     NPMTokenSymbol,
                     true
