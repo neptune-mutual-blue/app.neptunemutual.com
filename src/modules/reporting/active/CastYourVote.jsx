@@ -109,7 +109,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
 
   const isFirstDispute =
     votingType === 'false-reporting' &&
-    incidentReport.totalRefutedCount === '0'
+    incidentReport.refutationCount === 0
 
   const handleReport = (onTxSuccess) => {
     if (votingType === 'false-reporting') {

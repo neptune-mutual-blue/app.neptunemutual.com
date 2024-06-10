@@ -38,14 +38,12 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
   const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
-    incidentDate: incidentReport.incidentDate,
-    incidentStatus: incidentReport.status,
-    willReceive
+    incidentDate: incidentReport.incidentDate
   })
 
   const isClaimExpired = useRetryUntilPassed(() => {
     // If false reporting, we don't care about the claim period
-    if (!incidentReport.decision) { return true }
+    if (!incidentReport.resolutionDecision) { return true }
 
     const _now = DateLib.unix()
 
@@ -54,7 +52,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
 
   const isClaimStarted = useRetryUntilPassed(() => {
     // If false reporting, we don't care about the claim period
-    if (!incidentReport.decision) { return true }
+    if (!incidentReport.resolutionDecision) { return true }
 
     const _now = DateLib.unix()
 
@@ -71,7 +69,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
 
   const now = DateLib.unix()
 
-  const isIncidentOccurred = incidentReport.decision
+  const isIncidentOccurred = incidentReport.resolutionDecision
   const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now)
   const isClaimableNow =
     isIncidentOccurred && !isClaimExpired && isClaimStarted
@@ -96,7 +94,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchAll, pro
     <div className='flex flex-col items-center pt-4'>
       <span className={classNames('font-semibold', !isClaimableNow && 'mb-4')}>
         <Trans>Result:</Trans>{' '}
-        {incidentReport.decision ? <Trans>Incident Occurred</Trans> : <Trans>False Reporting</Trans>}{' '}
+        {incidentReport.resolutionDecision ? <Trans>Incident Occurred</Trans> : <Trans>False Reporting</Trans>}{' '}
         {incidentReport.emergencyResolved && <Trans>Emergency Resolved</Trans>}
       </span>
 

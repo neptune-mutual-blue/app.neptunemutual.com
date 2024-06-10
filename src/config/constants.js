@@ -68,6 +68,8 @@ export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{c
 
 export const EPOCH_DETAILS_URL = `${API_BASE_URL}snapshot/gce/proposals/{networkType}/{epochId}`
 
+export const REPORT_DETAILS_URL = `${API_BASE_URL}consensus/report/insight/{networkId}/{coverKey}/{productKey}/{incidentDate}`
+
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   42161: 'https://app.uniswap.org/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',

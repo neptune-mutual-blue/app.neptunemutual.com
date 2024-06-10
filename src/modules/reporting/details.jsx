@@ -119,10 +119,10 @@ export const ReportingDetailsPage = ({
         }
 
         <ReportComments
-          reportIpfsHash={incidentReport.reportIpfsHash}
-          reportIpfsDataTimeStamp={incidentReport.reportTransaction.timestamp}
-          disputeIpfsHash={incidentReport.disputeIpfsHash}
-          disputeIpfsDataTimeStamp={incidentReport.disputeTransaction?.timestamp}
+          reportIpfsHash={incidentReport.reportInfo}
+          reportIpfsDataTimeStamp={incidentReport.reportTimestamp}
+          disputeIpfsHash={incidentReport.disputeInfo}
+          disputeIpfsDataTimeStamp={incidentReport.disputeTimestamp}
         />
 
         <RecentVotesTable

@@ -86,7 +86,7 @@ function DisputeForm ({ coverKey, productKey, timestamp, minReportingStake }) {
     ? isGreater(now, incidentReportData.resolutionTimestamp || '0')
     : false
 
-  const canDispute = !reportingEnded && incidentReportData?.totalRefutedCount === '0'
+  const canDispute = !reportingEnded && incidentReportData?.refutationCount === '0'
 
   return (
     canDispute
