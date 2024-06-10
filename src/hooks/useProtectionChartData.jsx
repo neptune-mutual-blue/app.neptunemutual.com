@@ -1,9 +1,13 @@
 import {
   useCallback,
+  useMemo,
   useRef,
   useState
 } from 'react'
 
+import { useRouter } from 'next/router'
+
+import { formatUTCDateByLocale } from '@/lib/dates'
 import { useNetwork } from '@/src/context/Network'
 import {
   getProtectionByMonth
@@ -79,9 +83,43 @@ export const useProtectionChartData = () => {
   const fetched = useRef(false)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState(null)
-  const [labels, setLabels] = useState([])
+  const [, setLabels] = useState([])
+
+  const { locale = 'en' } = useRouter()
 
   const { networkId } = useNetwork()
+
+  const { updatedData, updatedLabels } = useMemo(() => {
+    if (!data) {
+      return {
+        updatedData: null,
+        updatedLabels: []
+      }
+    }
+
+    const _data = { ...data }
+    Object.keys(data).forEach(chain => {
+      const arr = data[chain]
+
+      // localize utc dates
+      const localizedArr = arr.map(i => {
+        return {
+          ...i,
+          label: formatUTCDateByLocale(locale, i.expiresOn)
+        }
+      })
+
+      _data[chain] = localizedArr
+    })
+
+    const key = Object.keys(_data)[0]
+    const _labels = _data[key].map(i => { return i.label })
+
+    return {
+      updatedData: _data,
+      updatedLabels: _labels
+    }
+  }, [locale, data])
 
   const fetchMonthlyProtectionData = useCallback(async () => {
     if (fetched.current) { return }
@@ -106,7 +144,7 @@ export const useProtectionChartData = () => {
   return {
     fetchMonthlyProtectionData,
     loading,
-    data,
-    labels
+    data: updatedData,
+    labels: updatedLabels
   }
 }
