@@ -1,3 +1,5 @@
+import { ChainConfig } from '@/src/config/hardcoded'
+import { useNetwork } from '@/src/context/Network'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import React from 'react'
 
@@ -11,9 +13,10 @@ const CxTokenRowContext = React.createContext({
 })
 
 export const CxTokenRowProvider = ({ row, _extraData, ...props }) => {
-  const tokenAddress = row.cxToken.id
-  const tokenSymbol = row.cxToken.tokenSymbol
-  const tokenDecimals = row.cxToken.tokenDecimals
+  const tokenAddress = row.cxToken
+  const { networkId } = useNetwork()
+  const tokenSymbol = 'cxUSD'
+  const tokenDecimals = ChainConfig[networkId].cxTokenDecimals
   const {
     balance,
     loading: loadingBalance,

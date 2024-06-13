@@ -60,7 +60,7 @@ export const ReportingDetailsPage = ({
 
   const now = DateLib.unix()
   const showResolvedSummary = incidentReport.resolved && isPassedResolutionDeadline
-  const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp)
+  const reportingEnded = isGreater(now, incidentReport.reportResolutionTimestamp)
 
   return (
     <div data-testid='reporting-details-page'>
@@ -119,10 +119,10 @@ export const ReportingDetailsPage = ({
         }
 
         <ReportComments
-          reportIpfsHash={incidentReport.reportIpfsHash}
-          reportIpfsDataTimeStamp={incidentReport.reportTransaction.timestamp}
-          disputeIpfsHash={incidentReport.disputeIpfsHash}
-          disputeIpfsDataTimeStamp={incidentReport.disputeTransaction?.timestamp}
+          reportIpfsHash={incidentReport.reportInfo}
+          reportIpfsDataTimeStamp={incidentReport.reportTimestamp}
+          disputeIpfsHash={incidentReport.disputeInfo}
+          disputeIpfsDataTimeStamp={incidentReport.disputeTimestamp}
         />
 
         <RecentVotesTable

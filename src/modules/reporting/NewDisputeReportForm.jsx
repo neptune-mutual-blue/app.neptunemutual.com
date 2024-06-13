@@ -25,7 +25,12 @@ import {
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
-export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
+export const NewDisputeReportForm = ({
+  coverKey,
+  productKey,
+  incidentDate
+  , minReportingStake
+}) => {
   const form = useRef(null)
 
   const [value, setValue] = useState('')
@@ -42,9 +47,9 @@ export const NewDisputeReportForm = ({ incidentReport, minReportingStake }) => {
     canDispute
   } = useDisputeIncident({
     value,
-    coverKey: incidentReport.coverKey,
-    productKey: incidentReport.productKey,
-    incidentDate: incidentReport.incidentDate,
+    coverKey,
+    productKey,
+    incidentDate,
     minStake: minReportingStake
   })
 

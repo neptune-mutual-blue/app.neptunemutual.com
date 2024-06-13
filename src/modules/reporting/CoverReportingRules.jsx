@@ -15,11 +15,10 @@ import { ReportingInfo } from './ReportingInfo'
 export const CoverReportingRules = ({
   coverOrProductData,
   handleAcceptRules,
-  activeReportings
+  activeIncidentIpfsHashes
 }) => {
   const reporterCommission = coverOrProductData?.reporterCommission
   const reportingPeriod = coverOrProductData?.reportingPeriod
-  const hasActiveReportings = activeReportings && activeReportings.length > 0
   const isDiversified = isValidProduct(coverOrProductData.productKey)
 
   const parameters = isDiversified ? coverOrProductData.productInfoDetails?.parameters : coverOrProductData.coverInfoDetails?.parameters
@@ -42,7 +41,7 @@ export const CoverReportingRules = ({
                     <Trans>Active Reporting</Trans>
                   </h2>
 
-                  {!hasActiveReportings && (
+                  {!(activeIncidentIpfsHashes.length > 0) && (
                     <p className='mb-10 text-lg text-8F949C'>
                       <Trans>
                         There are no known incidents of {projectOrProductName}.
@@ -50,11 +49,11 @@ export const CoverReportingRules = ({
                     </p>
                   )}
 
-                  {hasActiveReportings && (
+                  {(activeIncidentIpfsHashes.length > 0) && (
                     <div className='mb-10'>
-                      {activeReportings.map((x) => {
+                      {activeIncidentIpfsHashes.map((x) => {
                         return (
-                          <ReportingInfo key={x.id} ipfsHash={x.reporterInfo} />
+                          <ReportingInfo key={x.id} ipfsHash={activeIncidentIpfsHashes} />
                         )
                       })}
                     </div>

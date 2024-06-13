@@ -154,7 +154,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                     // Active Protection (or) Commitment
                     name: t(i18n)`Coverage`,
                     amount: formatCurrency(
-                      aggregated.totalCoveredAmount,
+                      aggregated.activeCoveredAmount,
                       locale
                     ).short
                   },

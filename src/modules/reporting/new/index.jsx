@@ -11,9 +11,7 @@ import { NewReportSkeleton } from '@/modules/reporting/new/NewReportSkeleton'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { isValidProduct } from '@/src/helpers/cover'
-import {
-  useFetchCoverProductActiveReportings
-} from '@/src/hooks/useFetchCoverProductActiveReportings'
+
 import {
   CoverReportingRules
 } from '@/src/modules/reporting/CoverReportingRules'
@@ -21,6 +19,7 @@ import {
   NewIncidentReportForm
 } from '@/src/modules/reporting/NewIncidentReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
+import { useActiveReportings } from '@/src/hooks/useActiveReportings'
 
 export function NewIncidentReportPage ({ coverKey, productKey }) {
   const [accepted, setAccepted] = useState(false)
@@ -30,10 +29,8 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
-  const { data: activeReportings } = useFetchCoverProductActiveReportings({
-    coverKey,
-    productKey
-  })
+  const { data: { incidentReports: allIncidentReports } } = useActiveReportings()
+  const reports = allIncidentReports.filter(x => { return x.coverKey === coverKey && x.productKey === productKey })
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -41,14 +38,14 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
 
   // Redirect to active reporting if exists
   useEffect(() => {
-    const hasActiveReportings = activeReportings && activeReportings.length > 0
+    const hasActiveReportings = reports.length > 0
 
     if (!hasActiveReportings) { return }
 
     router.replace(
-      Routes.ViewReport(coverKey, productKey, activeReportings[0].incidentDate)
+      Routes.ViewReport(coverKey, productKey, reports[0].incidentDate)
     )
-  }, [activeReportings, coverKey, productKey, router])
+  }, [reports, coverKey, productKey, router])
 
   if (loading) {
     return (
@@ -96,7 +93,7 @@ export function NewIncidentReportPage ({ coverKey, productKey }) {
           <CoverReportingRules
             coverOrProductData={coverOrProductData}
             handleAcceptRules={handleAcceptRules}
-            activeReportings={activeReportings}
+            activeIncidentIpfsHashes={reports.map(x => { return x.reportInfo })}
           />
           )}
     </main>

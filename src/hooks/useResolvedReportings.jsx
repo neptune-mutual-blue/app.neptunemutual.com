@@ -1,69 +1,36 @@
-import {
-  useCallback,
-  useEffect,
-  useState
-} from 'react'
-
-import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { useState, useEffect, useCallback } from 'react'
 import { useNetwork } from '@/src/context/Network'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
-
-const getQuery = (itemsToSkip) => {
-  return `
-  {
-    incidentReports(
-      skip: ${itemsToSkip}
-      first: ${CARDS_PER_PAGE}
-      orderBy: incidentDate
-      orderDirection: desc
-      where:{
-        resolved: true
-      }
-    ) {
-      id
-      coverKey
-      productKey
-      incidentDate
-      resolutionDeadline
-      resolved
-      emergencyResolved
-      emergencyResolveTransaction{
-        timestamp
-      }
-      resolveTransaction{
-        timestamp
-      }
-      finalized
-      status
-      resolutionTimestamp
-      totalAttestedStake
-      totalRefutedStake
-    }
-  }
-  `
-}
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { getResolvedIncidents } from '@/src/services/api/consensus/resolved'
 
 export const useResolvedReportings = () => {
-  const [data, setData] = useState({
-    incidentReports: []
-  })
-  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState({ incidentReports: [] })
+  const [loading, setLoading] = useState(true)
   const [itemsToSkip, setItemsToSkip] = useState(0)
   const [hasMore, setHasMore] = useState(true)
 
   const { networkId } = useNetwork()
-  const fetchResolvedReportings = useSubgraphFetch('useResolvedReportings')
 
   useEffect(() => {
+    setData({ incidentReports: [] })
+    setItemsToSkip(0)
+    setHasMore(true)
+    setLoading(true)
+  }, [networkId])
+
+  useEffect(() => {
+    let ignore = false
+
     setLoading(true)
 
-    fetchResolvedReportings(networkId, getQuery(itemsToSkip))
+    // @ts-ignore
+    getResolvedIncidents(networkId, itemsToSkip)
       .then((_data) => {
-        if (!_data) { return }
+        if (ignore || !_data) { return }
 
         const isLastPage =
-          _data.incidentReports.length === 0 ||
-          _data.incidentReports.length < CARDS_PER_PAGE
+          _data.length === 0 ||
+          _data.length < CARDS_PER_PAGE
 
         if (isLastPage) {
           setHasMore(false)
@@ -71,7 +38,7 @@ export const useResolvedReportings = () => {
 
         setData((prev) => {
           return {
-            incidentReports: [...prev.incidentReports, ..._data.incidentReports]
+            incidentReports: [...prev.incidentReports, ..._data]
           }
         })
       })
@@ -81,7 +48,11 @@ export const useResolvedReportings = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [fetchResolvedReportings, itemsToSkip, networkId])
+
+    return () => {
+      ignore = true
+    }
+  }, [itemsToSkip, networkId])
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => { return prev + CARDS_PER_PAGE })
