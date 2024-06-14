@@ -87,7 +87,7 @@ export const MyLiquidityCoverCard = ({
       {/* Stats */}
       <div className='flex justify-between px-1 text-sm'>
         <span className='uppercase'>
-          <Trans>Reassurance Ratio</Trans>
+          <Trans>Utilization Ratio</Trans>
         </span>
         <span className='font-semibold text-right' data-testid='assurance'>
           {formatPercent(reassurancePercent, router.locale)}
