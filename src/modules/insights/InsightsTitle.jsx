@@ -15,13 +15,13 @@ export const InsightsTitle = ({ title = 'Insights', options, selected, setSelect
 
   return (
     <>
-      <div className='items-center justify-between flex-wrap gap-y-3 hidden pb-10 lg:flex flex-start'>
+      <div className='flex-wrap items-center justify-between hidden pb-10 gap-y-3 lg:flex flex-start'>
         <div className='flex items-center'>
           {leading}
           <div className='mr-6 font-bold leading-9 text-display-sm text-000000'>
             {title}
           </div>
-          {!leading && (analyticsDropdown)}
+          {!leading && analyticsDropdown}
         </div>
         {trailing}
       </div>
@@ -41,7 +41,7 @@ export const InsightsTitle = ({ title = 'Insights', options, selected, setSelect
           </div>
         </div>
         <div className='flex flex-wrap justify-end'>
-          {analyticsDropdown}
+          {!leading && analyticsDropdown}
           {trailAfterDropdownInMobile && trailing}
         </div>
       </div>
