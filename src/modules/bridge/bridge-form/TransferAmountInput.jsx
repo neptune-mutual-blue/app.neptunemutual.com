@@ -1,6 +1,5 @@
 import {
-  useMemo,
-  useState
+  useMemo
 } from 'react'
 
 import CurrencyInput from '@/lib/react-currency-input-field'
@@ -13,7 +12,6 @@ import {
 } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { getPlainNumber } from '@/utils/formatter/input'
 
 export const TransferAmountInput = ({
   balance,
@@ -31,8 +29,6 @@ export const TransferAmountInput = ({
     true
   )
 
-  const [inputValue, setInputValue] = useState(value ?? '')
-
   const error = useMemo(() => {
     if (toBNSafe(convertToUnits(value, tokenDecimals)).isGreaterThan(balance)) {
       return { message: 'Exceeds Balance' }
@@ -41,12 +37,8 @@ export const TransferAmountInput = ({
     return { message: '' }
   }, [value, balance, tokenDecimals])
 
-  const onValueChange = (val) => {
-    const plainNumber = getPlainNumber(val ?? '', locale)
-    if (!plainNumber.match(/^\d+\.$/)) {
-      onChange(plainNumber)
-    }
-    setInputValue(val)
+  const onValueChange = (value, name, values) => {
+    onChange(values.value)
   }
 
   const inputFieldProps = {
@@ -57,7 +49,7 @@ export const TransferAmountInput = ({
     autoComplete: 'off',
     decimalsLimit: 25,
     onChange: null,
-    value: inputValue,
+    value: value ?? '',
     onValueChange
   }
 
@@ -82,6 +74,7 @@ export const TransferAmountInput = ({
 
       <div className='flex gap-1 mt-2.5'>
         <CurrencyInput
+          disableAbbreviations
           className='flex-grow text-xl bg-transparent outline-none min-w-120'
           {...inputFieldProps}
         />

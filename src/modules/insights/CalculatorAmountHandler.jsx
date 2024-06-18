@@ -7,7 +7,6 @@ import {
 import CurrencyInput from '@/lib/react-currency-input-field'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import { classNames } from '@/utils/classnames'
-import { getPlainNumber } from '@/utils/formatter/input'
 
 /**
  *
@@ -31,7 +30,6 @@ export const CalculatorAmountHandler = ({
   const ref = useRef(null)
   const [width, setWidth] = useState()
   const [focus, setFocus] = useState(false)
-  const [inputValue, setInputValue] = useState(inputProps.value ?? '')
   const { locale } = useLanguageContext()
 
   const getSize = () => {
@@ -50,10 +48,6 @@ export const CalculatorAmountHandler = ({
     return () => { return window.removeEventListener('resize', getSize) }
   }, [])
 
-  useEffect(() => {
-    if (!inputProps.value || inputProps.value.toString().match(/^\d+(\.\d+)?$/)) { setInputValue(inputProps.value) }
-  }, [inputProps.value])
-
   const inputFieldProps = {
     id: inputProps.id,
     placeholder: inputProps.placeholder,
@@ -65,13 +59,9 @@ export const CalculatorAmountHandler = ({
     decimalsLimit: typeof decimalLimit === 'number' ? decimalLimit : 25,
     ...inputProps,
     onChange: null,
-    value: inputValue,
-    onValueChange: (val) => {
-      const plainNumber = getPlainNumber(val ?? '', locale)
-      if (!plainNumber.match(/^\d+\.$/)) {
-        inputProps.onChange(plainNumber)
-      }
-      setInputValue(val)
+    value: inputProps.value ?? '',
+    onValueChange: (value, name, values) => {
+      inputProps.onChange(values.value)
     }
   }
 
@@ -79,6 +69,7 @@ export const CalculatorAmountHandler = ({
     <div className='relative w-full text-lg text-black'>
       <div className='relative w-full'>
         <CurrencyInput
+          disableAbbreviations
           {...inputFieldProps}
           className={classNames(
             'bg-white block w-full py-5 pl-4 rounded-lg overflow-hidden border text-9B9B9B font-normal text-sm',
@@ -87,7 +78,7 @@ export const CalculatorAmountHandler = ({
               : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4E7DD9 border-0.5',
             inputFieldProps.className,
             inputFieldProps.disabled && 'cursor-not-allowed',
-            focus || inputValue ? 'text-01052D' : '9B9B9B'
+            focus || inputProps.value ? 'text-01052D' : '9B9B9B'
           )}
           style={{ paddingRight: `${width || 64}px` }}
           onFocus={() => { return setFocus(true) }}
