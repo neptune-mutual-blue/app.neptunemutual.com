@@ -1,3 +1,5 @@
+import * as Tooltip from '@radix-ui/react-tooltip'
+
 import {
   Badge,
   E_CARD_STATUS
@@ -7,18 +9,15 @@ import { CoverAvatar } from '@/common/CoverAvatar'
 import { Divider } from '@/common/Divider/Divider'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import { useMyLiquidityInfo } from '@/src/hooks/useMyLiquidityInfo'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import {
-  sumOf,
   toBN
 } from '@/utils/bn'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
-import * as Tooltip from '@radix-ui/react-tooltip'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
+import InfoCircleIcon from '@/icons/InfoCircleIcon'
 
 export const MyLiquidityCoverCard = ({
   coverKey,
@@ -28,13 +27,11 @@ export const MyLiquidityCoverCard = ({
   coverData
 }) => {
   const { locale } = useLanguageContext()
-  const { info } = useMyLiquidityInfo({ coverKey })
 
   const isDiversified = coverData?.supportsProducts
   const projectName = coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
 
-  const reassurancePercent = toBN(info.totalReassurance)
-    .dividedBy(sumOf(info.totalLiquidity, info.totalReassurance))
+  const utilizationPercent = toBN(coverData?.utilizationRatio)
     .decimalPlaces(2)
 
   return (
@@ -85,14 +82,14 @@ export const MyLiquidityCoverCard = ({
       {/* Stats */}
       <div className='flex justify-between px-1 text-sm'>
         <span className='uppercase'>
-          <Trans>Reassurance Ratio</Trans>
+          <Trans>Utilization Ratio</Trans>
         </span>
         <span className='font-semibold text-right' data-testid='assurance'>
-          {formatPercent(reassurancePercent, locale)}
+          {formatPercent(utilizationPercent, locale)}
         </span>
       </div>
       <div className='mt-2 mb-4'>
-        <ProgressBar value={reassurancePercent?.toNumber()} />
+        <ProgressBar value={utilizationPercent?.toNumber()} />
       </div>
 
       <div className='flex items-center gap-2'>
