@@ -6,9 +6,9 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { Trans } from '@lingui/macro'
 import * as Tooltip from '@radix-ui/react-tooltip'
 
-export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
+export const ReportingPeriodStatus = ({ reportingEndsAt }) => {
   const router = useRouter()
-  const endDate = DateLib.fromUnix(resolutionTimestamp)
+  const endDate = DateLib.fromUnix(reportingEndsAt)
 
   const isPast = DateLib.toUnix(new Date()) > DateLib.toUnix(endDate)
   const longDate = (

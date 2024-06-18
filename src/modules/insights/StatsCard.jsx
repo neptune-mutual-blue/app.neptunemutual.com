@@ -1,4 +1,4 @@
-export const StatsCard = ({ title, titleTooltip, value, className = '', titleClass = '', valueClass = '', tooltip }) => {
+export const StatsCard = ({ title, titleTooltip = undefined, value, className = '', titleClass = '', valueClass = '', tooltip = undefined }) => {
   return (
     <div className={className}>
       <div title={titleTooltip} className={'lg:min-w-analytics-stat text-xs font-normal leading-5 pb-2 ' + titleClass}> {title}</div>

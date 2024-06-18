@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 import { HighchartsReactComponent } from '@/common/HighChartsReactComponent'
 import { Loading } from '@/common/Loading'
 import {
-  ChainAnalyticsColors,
-  ShortNetworkNames
+  ShortNetworkNames,
+  getHexColorByChain
 } from '@/lib/connect-wallet/config/chains'
 import { formatDateByLocale } from '@/lib/dates'
 import { hexToRgba } from '@/utils/hex-to-rgba'
@@ -77,7 +77,7 @@ export const HistoricalRoi = ({ loading, data }) => {
           })
           .sort((a, b) => { return a.x - b.x }),
         lineWidth: 3,
-        lineColor: '#' + (ChainAnalyticsColors[chain.value] || ChainAnalyticsColors.DEFAULT),
+        lineColor: getHexColorByChain(chain.value),
         fillColor: {
           linearGradient: {
             x1: 0,
@@ -86,15 +86,15 @@ export const HistoricalRoi = ({ loading, data }) => {
             y2: 1
           },
           stops: [
-            [0, hexToRgba(ChainAnalyticsColors[chain.value] || ChainAnalyticsColors.DEFAULT, 0.2)],
-            [1, hexToRgba(ChainAnalyticsColors[chain.value] || ChainAnalyticsColors.DEFAULT, 0)]
+            [0, hexToRgba(getHexColorByChain(chain.value), 0.2)],
+            [1, hexToRgba(getHexColorByChain(chain.value), 0)]
           ]
         },
         marker: {
           fillColor: 'white',
           lineWidth: 2,
           radius: 3,
-          lineColor: '#' + (ChainAnalyticsColors[chain.value] || ChainAnalyticsColors.DEFAULT)
+          lineColor: getHexColorByChain(chain.value)
         },
         animation: {
           duration: 500
@@ -177,7 +177,10 @@ export const HistoricalRoi = ({ loading, data }) => {
         {chains.map(chain => {
           return (
             <div className='flex items-center gap-1' key={chain.value}>
-              <div className={'rounded-full h-3.5 w-3.5 bg-' + (ChainAnalyticsColors[chain.value] || ChainAnalyticsColors.DEFAULT)} />
+              <div
+                className='rounded-full h-3.5 w-3.5'
+                style={{ backgroundColor: getHexColorByChain(chain.value) }}
+              />
               <span className='text-sm font-semibold'>{chain.label}</span>
             </div>
           )

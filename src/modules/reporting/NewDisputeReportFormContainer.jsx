@@ -83,15 +83,20 @@ function DisputeForm ({ coverKey, productKey, timestamp, minReportingStake }) {
 
   const now = DateLib.unix()
   const reportingEnded = incidentReportData
-    ? isGreater(now, incidentReportData.resolutionTimestamp || '0')
+    ? isGreater(now, incidentReportData.reportResolutionTimestamp || '0')
     : false
 
-  const canDispute = !reportingEnded && incidentReportData?.totalRefutedCount === '0'
+  const canDispute = !reportingEnded && incidentReportData?.refutationCount?.toString() === '0'
 
   return (
     canDispute
       ? (
-        <NewDisputeReportForm incidentReport={incidentReportData} minReportingStake={minReportingStake} />
+        <NewDisputeReportForm
+          coverKey={coverKey}
+          productKey={productKey}
+          incidentDate={timestamp}
+          minReportingStake={minReportingStake}
+        />
         )
       : (
         <Container className='py-16'>

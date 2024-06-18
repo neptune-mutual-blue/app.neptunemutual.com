@@ -51,7 +51,16 @@ export const LIQUIDITY_SUMMARY = `${API_BASE_URL}home/charts/liquidity-summary/{
 
 export const TVL_DISTRIBUTION = `${API_BASE_URL}home/charts/tvl-distribution/{networkId}`
 
+export const COVER_EARNINGS = `${API_BASE_URL}home/charts/cover-earnings/{networkId}`
+
+// GET: consensus
 export const RECENT_VOTES = `${API_BASE_URL}consensus/report/votes/{networkId}/{coverKey}/{productKey}/{incidentDate}`
+
+export const INCIDENT_DETAIL = `${API_BASE_URL}consensus/report/insight/{networkId}/{coverKey}/{productKey}/{incidentDate}`
+
+export const ACTIVE_INCIDENTS = `${API_BASE_URL}consensus/report/active/{networkId}`
+
+export const RESOLVED_INCIDENTS = `${API_BASE_URL}consensus/report/resolved/{networkId}`
 
 // GET: bridge
 export const BRIDGE_ETH_PRICING_URL = `${API_BASE_URL}bridge/pricing/eth`

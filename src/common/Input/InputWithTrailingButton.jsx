@@ -9,7 +9,6 @@ import { useRouter } from 'next/router'
 
 import CurrencyInput from '@/lib/react-currency-input-field'
 import { classNames } from '@/utils/classnames'
-import { getPlainNumber } from '@/utils/formatter/input'
 
 /**
  *
@@ -34,8 +33,7 @@ export const InputWithTrailingButton = ({
 }) => {
   const ref = useRef(null)
   const [width, setWidth] = useState()
-  // state for storing the value of `CurrencyInput` since only plain number is stored in `inputProps.value`
-  const [inputValue, setInputValue] = useState(inputProps.value ?? '')
+
   const { locale } = useRouter()
 
   // callback function to get width of the unit & max button, and update `width` state
@@ -55,19 +53,6 @@ export const InputWithTrailingButton = ({
     return () => { return window.removeEventListener('resize', getSize) }
   }, [getSize])
 
-  useEffect(() => {
-    if (inputProps.value === '') {
-      setInputValue('')
-
-      return
-    }
-
-    // only update `inputValue` if `inputProps.value` prop is a valid numeric string i.e `43` or `546.43`
-    if (typeof inputProps.value === 'string' && inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/)) {
-      setInputValue(inputProps.value)
-    }
-  }, [inputProps.value])
-
   const inputFieldProps = {
     id: inputProps.id,
     placeholder: inputProps.placeholder,
@@ -79,22 +64,16 @@ export const InputWithTrailingButton = ({
     ...inputProps,
     disabled: inputProps.disabled || disabled,
     onChange: null,
-    value: inputValue,
-    onValueChange: (val) => {
-      // get plain number from formatted numbers i.e 5,200.43 --> 5200.43
-      const plainNumber = getPlainNumber(val ?? '', locale)
-
-      // pass plain number to `inputProps`'s `onChange` handler if it doesn't end in a dot(`.`)
-      if (!plainNumber.match(/^\d+\.$/)) {
-        inputProps.onChange(plainNumber)
-      }
-      setInputValue(val)
+    value: inputProps.value,
+    onValueChange: (value, name, values) => {
+      inputProps.onChange(values.value)
     }
   }
 
   return (
     <div className={classNames('relative w-full text-lg text-black', disabled && 'opacity-40 cursor-not-allowed')}>
       <CurrencyInput
+        disableAbbreviations
         {...inputFieldProps}
         className={classNames(
           'bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border',

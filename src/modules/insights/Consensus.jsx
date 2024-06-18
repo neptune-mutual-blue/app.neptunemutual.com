@@ -20,7 +20,6 @@ import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
-import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
@@ -49,7 +48,7 @@ const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
           Yes
         </Badge>
         <StakeText
-          amount={row.totalAttestedStake}
+          amount={row.totalAttestationStake}
           locale={locale}
           NPMTokenSymbol={NPMTokenSymbol}
         />
@@ -66,7 +65,7 @@ const renderRefutedStake = (row, { locale, NPMTokenSymbol }) => {
           No
         </Badge>
         <StakeText
-          amount={row.totalRefutedStake}
+          amount={row.totalRefutationStake}
           locale={locale}
           NPMTokenSymbol={NPMTokenSymbol}
         />
@@ -78,10 +77,9 @@ const renderRefutedStake = (row, { locale, NPMTokenSymbol }) => {
 
 const StakeText = ({ amount, locale, NPMTokenSymbol }) => {
   const textForm = formatCurrency(
-    convertFromUnits(amount),
+    amount,
     locale,
     NPMTokenSymbol,
-    true,
     true
   )
 
@@ -115,9 +113,9 @@ const renderCover = (row, _extraData) => {
   )
 }
 
-const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
+const renderProtection = (row, { locale }) => {
   const protection = formatCurrency(
-    convertFromUnits(row.coverOrProductData.commitment, liquidityTokenDecimals).toString(),
+    row.coverOrProductData.commitment.toString(),
     locale
   )
 

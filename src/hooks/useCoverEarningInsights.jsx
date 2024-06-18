@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useEffect,
   useMemo,
   useState
@@ -9,9 +10,10 @@ import {
   getMonthsBetweenDates
 } from '@/lib/dates'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useProtocolMonthData } from '@/src/hooks/useProtocolMonthData'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import { toBN } from '@/utils/bn'
+import { getCoverEarnings } from '@/src/services/api/home/charts/cover-earnings'
+import { useNetwork } from '@/src/context/Network'
 
 const getInitialDateRange = (from) => {
   const currentDate = from
@@ -30,7 +32,10 @@ const getInitialDateRange = (from) => {
 function useCoverEarningInsights () {
   const [dateRange, setDateRange] = useState(getInitialDateRange(new Date()))
 
-  const { data, loading, fetchData } = useProtocolMonthData()
+  const { networkId } = useNetwork()
+
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState([])
 
   const { liquidityTokenDecimals } = useAppConstants()
 
@@ -54,6 +59,21 @@ function useCoverEarningInsights () {
     setDateRange(getInitialDateRange(newInitialDate))
   }
 
+  const fetchData = useCallback(() => {
+    getCoverEarnings(networkId)
+      .then((_data) => {
+        if (_data) {
+          setData(_data)
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [networkId])
+
   useEffect(() => {
     if (data) {
       const newLabels = getMonthsBetweenDates(locale, dateRange[0], dateRange[1])
@@ -61,14 +81,14 @@ function useCoverEarningInsights () {
       setLabels(newLabels)
 
       const monthDataInRange = data.filter((monthData) => {
-        const monthDate = new Date(monthData.id)
+        const monthDate = new Date(monthData.startDate)
         const id = new Date(monthDate.getTime() + monthDate.getTimezoneOffset() * 60 * 1000)
 
         return id >= dateRange[0] && id <= dateRange[1]
       }).map(monthData => {
         return {
           ...monthData,
-          id: formatDateByLocale(locale, new Date(monthData.id), { timeZone: 'UTC' })
+          id: formatDateByLocale(locale, monthData.endDate, { timeZone: 'UTC' })
         }
       })
 
@@ -76,7 +96,7 @@ function useCoverEarningInsights () {
         const foundMonth = monthDataInRange.find(monthData => { return monthData.id === lbl })
 
         if (foundMonth) {
-          return foundMonth.nonCumulativeCoverFee
+          return foundMonth.totalCoverFeeEarned
         }
 
         return '0'

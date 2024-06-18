@@ -220,6 +220,8 @@ module.exports = {
         EEF4FF: '#EEF4FF',
         E31B54: '#E31B54',
         E5F4F5: '#E5F4F5',
+        E84142: '#E84142',
+        F3BA2F: '#F3BA2F',
         E6EAEF: '#E6EAEF',
         EAAA08: '#EAAA08',
         EAF7F8: '#EAF7F8',

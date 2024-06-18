@@ -1,4 +1,4 @@
-import { getMonthNames } from '@/lib/dates'
+
 import { toBNSafe } from '@/utils/bn'
 import { toStringSafe } from '@/utils/string'
 import { t } from '@lingui/macro'
@@ -65,25 +65,6 @@ const sortByBigNumber = (dataList, selector, asc = false) => {
     }
 
     return 0
-  })
-}
-
-/* sort array of dates formatted as "MMM-YY" (eg. JAN-23) */
-export function sortDates (dates, selector = (x) => { return x }, asc = true) {
-  return dates.sort((a, b) => {
-    const aData = selector(a)
-    const bData = selector(b)
-
-    const [aMonth, aYear] = aData.split('-')
-    const [bMonth, bYear] = bData.split('-')
-    const months = getMonthNames(undefined, true)
-    const aMonthIndex = months.indexOf(aMonth)
-    const bMonthIndex = months.indexOf(bMonth)
-    if (aYear === bYear) {
-      return asc ? (aMonthIndex - bMonthIndex) : (bMonthIndex - aMonthIndex)
-    } else {
-      return asc ? (aYear - bYear) : (bYear - aYear)
-    }
   })
 }
 

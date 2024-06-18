@@ -5,33 +5,7 @@ import {
 } from 'react'
 
 import { useNetwork } from '@/src/context/Network'
-import { getSubgraphData } from '@/src/services/subgraph'
-
-const getQuery = () => {
-  return `
-  {
-    incidentReports(
-      orderBy: incidentDate
-      orderDirection: desc
-      where:{
-        finalized: false
-      }
-    ) {
-      id
-      coverKey
-      productKey
-      incidentDate
-      resolutionDeadline
-      resolved
-      finalized
-      status
-      resolutionTimestamp
-      totalRefutedStake
-      totalAttestedStake
-    }
-  }
-`
-}
+import { getActiveIncidents } from '@/src/services/api/consensus/active'
 
 export const useConsensusInsights = () => {
   const [data, setData] = useState({
@@ -49,13 +23,13 @@ export const useConsensusInsights = () => {
 
     setLoading(true)
 
-    getSubgraphData(networkId, getQuery())
+    getActiveIncidents(networkId)
       .then((_data) => {
         if (!_data) { return }
 
         setData(() => {
           return {
-            incidentReports: _data.incidentReports
+            incidentReports: _data
           }
         })
 

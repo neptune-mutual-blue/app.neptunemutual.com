@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
-  TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -23,7 +22,7 @@ import { fromNow } from '@/utils/formatter/relative-time'
 const renderAddress = (row) => {
   return (
     <td className='max-w-sm px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'>
-      {row.cxToken.id}
+      {row.cxToken}
     </td>
   )
 }
@@ -63,7 +62,7 @@ export const columns = [
   }
 ]
 
-const ClaimTableContext = React.createContext({ report: null })
+const ClaimTableContext = React.createContext({ claimExpiresAt: null })
 
 export function useClaimTableContext () {
   const context = React.useContext(ClaimTableContext)
@@ -79,36 +78,28 @@ export function useClaimTableContext () {
 export const ClaimCxTokensTable = ({
   activePolicies,
   coverKey,
+  productKey,
   incidentDate,
-  report,
-  setPage,
-  hasMore = false,
+  claimExpiresAt,
   loading = false,
   claimPlatformFee
 }) => {
   return (
     <>
-      <ClaimTableContext.Provider value={{ report }}>
+      <ClaimTableContext.Provider value={{ claimExpiresAt }}>
         <TableWrapper data-testid='table-wrapper'>
           <Table>
             <THead columns={columns} data-testid='table-header' />
             <TBody
               columns={columns}
               data={activePolicies}
-              extraData={{ coverKey, incidentDate, claimPlatformFee }}
+              extraData={{ coverKey, productKey, incidentDate, claimPlatformFee }}
               RowWrapper={CxTokenRowProvider}
               isLoading={loading}
             />
           </Table>
         </TableWrapper>
 
-        <TableShowMore
-          show={hasMore}
-          onShowMore={() => {
-            setPage((prev) => { return prev + 1 })
-          }}
-          loading={loading}
-        />
       </ClaimTableContext.Provider>
     </>
   )
@@ -147,8 +138,8 @@ const CxTokenAmountRenderer = () => {
 }
 
 export const ClaimBeforeColumnRenderer = () => {
-  const { report } = useClaimTableContext()
-  const claimExpiryDate = report?.claimExpiresAt || 0
+  const { claimExpiresAt } = useClaimTableContext()
+  const claimExpiryDate = claimExpiresAt
   const router = useRouter()
 
   return (
@@ -187,9 +178,9 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
 
       <ClaimCoverModal
         claimPlatformFee={extraData.claimPlatformFee}
-        coverKey={row.coverKey}
-        productKey={row.productKey}
-        cxTokenAddress={row.cxToken.id}
+        coverKey={extraData.coverKey}
+        productKey={extraData.productKey}
+        cxTokenAddress={row.cxToken}
         isOpen={isOpen}
         onClose={onClose}
         modalTitle='Claim Cover'
