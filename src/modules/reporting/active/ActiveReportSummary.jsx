@@ -51,7 +51,7 @@ export const ActiveReportSummary = ({
 }) => {
   const { locale } = useLanguageContext()
   const startDate = DateLib.fromUnix(incidentReport.incidentDate)
-  const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp)
+  const endDate = DateLib.fromUnix(incidentReport.reportResolutionTimestamp)
   const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   const { i18n } = useLingui()
@@ -59,7 +59,7 @@ export const ActiveReportSummary = ({
   const isAfterResolution = useRetryUntilPassed(() => {
     const _now = DateLib.unix()
 
-    return isGreater(_now, incidentReport.resolutionTimestamp)
+    return isGreater(_now, incidentReport.reportResolutionTimestamp)
   })
 
   const votes = {
@@ -74,19 +74,19 @@ export const ActiveReportSummary = ({
     .decimalPlaces(2)
     .toNumber()
 
-  let isAttestedWon = incidentReport.decision
+  let isAttestedWon = incidentReport.resolutionDecision
 
-  if (incidentReport.decision === null) {
+  if (incidentReport.resolutionDecision === null) {
     isAttestedWon = isGreater(
-      incidentReport.totalAttestedStake,
-      incidentReport.totalRefutedStake
+      incidentReport.totalAttestationStake,
+      incidentReport.totalRefutationStake
     )
   }
 
   const majority = {
     voteCount: isAttestedWon
-      ? incidentReport.totalAttestedCount
-      : incidentReport.totalRefutedCount,
+      ? incidentReport.attestationCount
+      : incidentReport.refutationCount,
     stake: isAttestedWon ? yes : no,
     percent: isAttestedWon ? yesPercent : noPercent,
     variant: isAttestedWon ? 'success' : 'failure'
@@ -158,18 +158,18 @@ export const ActiveReportSummary = ({
               },
               {
                 title: t(i18n)`User Votes:`,
-                value: incidentReport.totalAttestedCount
+                value: incidentReport.attestationCount
               },
               {
                 title: t(i18n)`Stake:`,
                 value: formatCurrency(
-                  convertFromUnits(incidentReport.totalAttestedStake),
+                  incidentReport.totalAttestationStake,
                   locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
-                  convertFromUnits(incidentReport.totalAttestedStake),
+                  incidentReport.totalAttestationStake,
                   locale,
                   NPMTokenSymbol,
                   true
@@ -203,13 +203,13 @@ export const ActiveReportSummary = ({
               },
               {
                 title: t(i18n)`User Votes:`,
-                value: incidentReport.totalRefutedCount
+                value: incidentReport.refutationCount
               },
               {
                 title: t(i18n)`Stake:`,
                 value: `${
                   formatCurrency(
-                    convertFromUnits(incidentReport.totalRefutedStake),
+                    incidentReport.totalRefutationStake,
                     locale,
                     NPMTokenSymbol,
                     true
@@ -217,7 +217,7 @@ export const ActiveReportSummary = ({
                 }`,
                 htmlTooltip: `${
                   formatCurrency(
-                    convertFromUnits(incidentReport.totalRefutedStake),
+                    incidentReport.totalRefutationStake,
                     locale,
                     NPMTokenSymbol,
                     true
@@ -249,13 +249,13 @@ export const ActiveReportSummary = ({
           <IncidentReporter
             variant='success'
             account={truncateAddressParam(incidentReport.reporter, 8, -6)}
-            txHash={incidentReport.reportTransaction.id}
+            txHash={incidentReport.reportTransaction}
           />
           {incidentReport.disputer && (
             <IncidentReporter
               variant='error'
               account={truncateAddressParam(incidentReport.disputer, 8, -6)}
-              txHash={incidentReport.disputeTransaction.id}
+              txHash={incidentReport.disputeTransaction}
             />
           )}
 
@@ -264,7 +264,7 @@ export const ActiveReportSummary = ({
             <Trans>Reporting Period</Trans>
           </h3>
           <ReportingPeriodStatus
-            resolutionTimestamp={incidentReport.resolutionTimestamp}
+            reportingEndsAt={incidentReport.reportResolutionTimestamp}
           />
           <p className='text-sm opacity-50 mr-1.5'>
             <span
@@ -283,12 +283,12 @@ export const ActiveReportSummary = ({
             {' - '}
             <span
               title={DateLib.toLongDateFormat(
-                incidentReport.resolutionTimestamp,
+                incidentReport.reportResolutionTimestamp,
                 locale
               )}
             >
               {DateLib.toDateFormat(
-                incidentReport.resolutionTimestamp,
+                incidentReport.reportResolutionTimestamp,
                 locale,
                 { month: 'short', day: 'numeric' },
                 'UTC'

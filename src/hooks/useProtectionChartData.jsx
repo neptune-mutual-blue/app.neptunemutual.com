@@ -1,25 +1,30 @@
 import {
   useCallback,
+  useMemo,
   useRef,
   useState
 } from 'react'
 
+import { formatDateByLocale } from '@/lib/dates'
 import { useNetwork } from '@/src/context/Network'
+import { useLanguageContext } from '@/src/i18n/i18n'
 import {
   getProtectionByMonth
 } from '@/src/services/api/home/charts/protection-by-month'
-import { sortDates } from '@/utils/sorting'
 
-const getAggregatedDataWithLabels = (data = []) => {
+const getAggregatedDataWithLabels = (data = [], locale) => {
   const aggregatedData = {}
   let labels = []
 
   data.forEach(item => {
+    const label = formatDateByLocale(locale, new Date(item.expiresOn || item.endDate), { timeZone: 'UTC' })
+
     const chain = item.chainId
     if (!aggregatedData[chain]) { aggregatedData[chain] = [] }
 
     aggregatedData[chain].push({
-      label: item.expiry,
+      label,
+      date: item.expiresOn || item.endDate,
       protection: item.protection,
       income: item.income,
       expired: item.expired,
@@ -28,7 +33,6 @@ const getAggregatedDataWithLabels = (data = []) => {
       incomePercent: item.feeRate
     })
 
-    const label = item.expiry
     if (!labels.includes(label)) { labels.push(label) }
   })
 
@@ -54,19 +58,18 @@ const getAggregatedDataWithLabels = (data = []) => {
 
   Object.keys(aggregatedData).forEach(chain => {
     const arr = aggregatedData[chain]
-    const sortedArr = sortDates(
-      arr,
-      x => { return x.label }
-    )
+
+    // @ts-ignore
+    const sortedArr = arr.sort((a, b) => { return new Date(b.date) - new Date(a.date) })
     aggregatedData[chain] = sortedArr
   })
 
-  // @todo: Remove this once the backend API is updated
-  Object.keys(aggregatedData).forEach(chain => {
-    aggregatedData[chain].reverse()
-  })
+  const keys = Object.keys(aggregatedData)
 
-  const key = Object.keys(aggregatedData)[0]
+  if (keys.length === 0) { return { data: {}, labels: [] } }
+
+  const key = keys[0]
+
   labels = aggregatedData[key].map(i => { return i.label })
 
   return {
@@ -78,9 +81,9 @@ const getAggregatedDataWithLabels = (data = []) => {
 export const useProtectionChartData = () => {
   const fetched = useRef(false)
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState(null)
-  const [labels, setLabels] = useState([])
+  const [_data, _setData] = useState(undefined)
 
+  const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
 
   const fetchMonthlyProtectionData = useCallback(async () => {
@@ -91,17 +94,19 @@ export const useProtectionChartData = () => {
     try {
       const _data = await getProtectionByMonth(networkId)
 
-      const { labels, data } = getAggregatedDataWithLabels(_data)
+      _setData(_data)
 
-      setData(data)
       fetched.current = true
-      setLabels(labels)
     } catch (err) {
       console.error(err)
     }
 
     setLoading(false)
   }, [networkId])
+
+  const { data, labels } = useMemo(() => {
+    return getAggregatedDataWithLabels(_data, locale)
+  }, [locale, _data])
 
   return {
     fetchMonthlyProtectionData,

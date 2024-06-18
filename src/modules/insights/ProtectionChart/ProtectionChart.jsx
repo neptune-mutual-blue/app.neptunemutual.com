@@ -13,7 +13,7 @@ import { Bar } from 'react-chartjs-2'
 
 import { Loading } from '@/common/Loading'
 import {
-  ChainAnalyticsColors,
+  getHexColorByChain,
   ShortNetworkNames
 } from '@/lib/connect-wallet/config/chains'
 import {
@@ -70,7 +70,7 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
         return {
           label: data[chain].length ? data[chain][0].networkName : '',
           data: data[chain].map(item => { return parseFloat(item[dataKey]) }),
-          backgroundColor: ['1', '84531'].includes(chain) ? '#4E7DD9' : '#21AD8C',
+          backgroundColor: getHexColorByChain(chain),
           barPercentage: 1,
           borderWidth: 0,
           maxBarThickness: 17,
@@ -248,7 +248,7 @@ export const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' 
             {chains.map(chain => {
               return (
                 <div className='flex items-center gap-1' key={chain.value}>
-                  <div className={'rounded-full h-3.5 w-3.5 bg-' + (ChainAnalyticsColors[chain.value] || ChainAnalyticsColors.DEFAULT)} />
+                  <div className='rounded-full h-3.5 w-3.5' style={{ backgroundColor: getHexColorByChain(chain.value) }} />
                   <span className='text-sm font-semibold'>{chain.label}</span>
                 </div>
               )

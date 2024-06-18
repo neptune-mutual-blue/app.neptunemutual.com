@@ -1,53 +1,41 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useNetwork } from '@/src/context/Network'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import {
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 
-const getQuery = (itemsToSkip) => {
-  return `
-  {
-    incidentReports(
-      skip: ${itemsToSkip}
-      first: ${CARDS_PER_PAGE}
-      orderBy: incidentDate
-      orderDirection: desc
-      where:{
-        finalized: false
-      }
-    ) {
-      id
-      coverKey
-      productKey
-      incidentDate
-      resolutionDeadline
-      resolved
-      finalized
-      status
-      resolutionTimestamp
-    }
-  }
-  `
-}
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { useNetwork } from '@/src/context/Network'
+import { getActiveIncidents } from '@/src/services/api/consensus/active'
 
 export const useActiveReportings = () => {
   const [data, setData] = useState({ incidentReports: [] })
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [itemsToSkip, setItemsToSkip] = useState(0)
   const [hasMore, setHasMore] = useState(true)
 
   const { networkId } = useNetwork()
-  const fetchActiveReportings = useSubgraphFetch('useActiveReportings')
 
   useEffect(() => {
+    setData({ incidentReports: [] })
+    setItemsToSkip(0)
+    setHasMore(true)
+    setLoading(true)
+  }, [networkId])
+
+  useEffect(() => {
+    let ignore = false
+
     setLoading(true)
 
-    fetchActiveReportings(networkId, getQuery(itemsToSkip))
+    // @ts-ignore
+    getActiveIncidents(networkId, itemsToSkip)
       .then((_data) => {
-        if (!_data) { return }
+        if (ignore || !_data) { return }
 
         const isLastPage =
-          _data.incidentReports.length === 0 ||
-          _data.incidentReports.length < CARDS_PER_PAGE
+          _data.length === 0 ||
+          _data.length < CARDS_PER_PAGE
 
         if (isLastPage) {
           setHasMore(false)
@@ -55,7 +43,7 @@ export const useActiveReportings = () => {
 
         setData((prev) => {
           return {
-            incidentReports: [...prev.incidentReports, ..._data.incidentReports]
+            incidentReports: [...prev.incidentReports, ..._data]
           }
         })
       })
@@ -65,7 +53,11 @@ export const useActiveReportings = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [fetchActiveReportings, itemsToSkip, networkId])
+
+    return () => {
+      ignore = true
+    }
+  }, [itemsToSkip, networkId])
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => { return prev + CARDS_PER_PAGE })

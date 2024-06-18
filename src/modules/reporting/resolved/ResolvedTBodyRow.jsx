@@ -27,8 +27,8 @@ export const ResolvedTBodyRow = ({
     id,
     coverKey,
     productKey = safeFormatBytes32String(''),
-    totalAttestedStake,
-    totalRefutedStake
+    totalAttestationStake,
+    totalRefutationStake
   } = report
 
   const isDiversified = isValidProduct(productKey)
@@ -57,8 +57,8 @@ export const ResolvedTBodyRow = ({
                   locale: locale,
                   status,
                   resolvedOn,
-                  totalAttestedStake,
-                  totalRefutedStake,
+                  totalAttestationStake,
+                  totalRefutationStake,
                   NPMTokenSymbol
                 })
               }

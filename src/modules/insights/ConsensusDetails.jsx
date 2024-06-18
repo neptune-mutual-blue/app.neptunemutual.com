@@ -49,8 +49,8 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const coverName = coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverName
 
-  const totalAttested = report.totalAttestedStake
-  const totalRefuted = report.totalRefutedStake
+  const totalAttested = report.totalAttestationStake
+  const totalRefuted = report.totalRefutationStake
   const isResolved = report.resolved
   const status = identifyStatus(report.status)
 
@@ -75,7 +75,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const formattedProtection = formatCurrency(
     convertFromUnits(protection, liquidityTokenDecimals).toString(),
-    locale, 'USD', false, true
+    locale, 'USD', false
   )
 
   const efficiency = formatPercent(
@@ -96,26 +96,23 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   }
 
   const refuted = formatCurrency(
-    convertFromUnits(totalRefuted),
+    totalRefuted,
     locale,
     NPMTokenSymbol,
-    true,
     true
   )
 
   const attested = formatCurrency(
-    convertFromUnits(totalAttested),
+    totalAttested,
     locale,
     NPMTokenSymbol,
-    true,
     true
   )
 
   const totalStakeText = formatCurrency(
-    convertFromUnits(totalStake),
+    totalStake,
     locale,
     NPMTokenSymbol,
-    true,
     true
   )
 
@@ -123,8 +120,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
     convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
     locale,
     'USD',
-    false,
-    true
+    false
   )
 
   return (

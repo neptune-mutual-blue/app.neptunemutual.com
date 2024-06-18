@@ -1,64 +1,11 @@
 import {
   useCallback,
   useEffect,
-  useMemo,
   useState
 } from 'react'
 
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { useNetwork } from '@/src/context/Network'
-
-const getQuery = (reportId) => {
-  return `
-  {
-    incidentReport(
-        id: "${reportId}"
-    ) {
-      id
-      coverKey
-      productKey
-      incidentDate
-      resolutionDeadline
-      resolved
-      resolveTransaction{
-        timestamp
-      }
-      emergencyResolved
-      emergencyResolveTransaction{
-        timestamp
-      }
-      finalized
-      status
-      decision
-      resolutionTimestamp
-      claimBeginsFrom
-      claimExpiresAt
-      reporter
-      reporterInfo
-      reporterStake
-      disputer
-      disputerInfo
-      disputerStake
-      totalAttestedStake
-      totalAttestedCount
-      totalRefutedStake
-      totalRefutedCount
-      reportTransaction {
-        id
-        timestamp
-      }
-      disputeTransaction {
-        id
-        timestamp
-      }
-      reportIpfsHash
-      disputeIpfsHash
-      reportIpfsData
-      disputeIpfsData
-    }
-  }
-  `
-}
+import { getIncidentDetail } from '@/src/services/api/consensus/detail'
 
 /**
  *
@@ -70,32 +17,25 @@ const getQuery = (reportId) => {
  */
 export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const fetchReport = useSubgraphFetch('useFetchReport')
+  const [loading, setLoading] = useState(true)
+
   const { networkId } = useNetwork()
 
-  const reportId = useMemo(() => {
+  const getData = useCallback(() => {
     if (!coverKey || !productKey || !incidentDate) {
-      return null
-    }
-
-    return `${coverKey}-${productKey}-${incidentDate}`
-  }, [coverKey, incidentDate, productKey])
-
-  const getData = useCallback(async () => {
-    if (!reportId) {
       return
     }
 
-    try {
-      const data = await fetchReport(networkId, getQuery(reportId))
-      if (data && data.incidentReport) {
-        setData(data.incidentReport)
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  }, [fetchReport, networkId, reportId])
+    return getIncidentDetail(networkId, coverKey, productKey, incidentDate)
+      .then(data => {
+        if (data) {
+          setData(data)
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }, [coverKey, productKey, incidentDate, networkId])
 
   useEffect(() => {
     async function updateData () {

@@ -28,7 +28,6 @@ import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { truncateAddress } from '@/utils/address'
-import { convertFromUnits } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
@@ -141,7 +140,7 @@ const ReportListing = (props) => {
   const [reports, setReports] = useState([])
   const fetchReports = useSubgraphFetch('ReportListing')
 
-  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
+  const { NPMTokenSymbol } = useAppConstants()
 
   const isDiversified = isValidProduct(productKey)
   const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
@@ -208,13 +207,13 @@ const ReportListing = (props) => {
             <tbody className='divide-y divide-DAE2EB'>
               {reports.map((report, i) => {
                 const formattedTotalAttestedStake = formatCurrency(
-                  convertFromUnits(report.totalAttestedStake, NPMTokenDecimals),
+                  report.totalAttestationStake,
                   locale,
                   NPMTokenSymbol,
                   true
                 )
                 const formattedTotalRefutedStake = formatCurrency(
-                  convertFromUnits(report.totalRefutedStake, NPMTokenDecimals),
+                  report.totalRefutationStake,
                   locale,
                   NPMTokenSymbol,
                   true

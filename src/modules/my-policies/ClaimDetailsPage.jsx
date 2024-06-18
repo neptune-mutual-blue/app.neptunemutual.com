@@ -1,3 +1,5 @@
+import { useLanguageContext } from '@/src/i18n/i18n'
+
 import { Alert } from '@/common/Alert/Alert'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { ComingSoon } from '@/common/ComingSoon'
@@ -11,22 +13,19 @@ import {
 } from '@/common/Loading'
 import { Seo } from '@/common/Seo'
 import { Routes } from '@/src/config/routes'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
-import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
-import { useActivePoliciesByCover } from '@/src/hooks/useActivePoliciesByCover'
-import {
-  useFetchReportsByKeyAndDate
-} from '@/src/hooks/useFetchReportsByKeyAndDate'
-import { usePagination } from '@/src/hooks/usePagination'
-import { useLanguageContext } from '@/src/i18n/i18n'
+
 import {
   ClaimCxTokensTable
 } from '@/src/modules/my-policies/ClaimCxTokensTable'
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, sumOf } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
+import { useActiveReportings } from '@/src/hooks/useActiveReportings'
+import { useActivePolicies } from '@/src/hooks/useActivePolicies'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
 
 export const ClaimDetailsPage = ({
   disabled,
@@ -37,27 +36,21 @@ export const ClaimDetailsPage = ({
 }) => {
   const { locale } = useLanguageContext()
   const { networkId } = useNetwork()
-  const { page, limit, setPage } = usePagination()
+  const { liquidityTokenDecimals } = useAppConstants()
 
   const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts()
   const isDiversified = isValidProduct(productKey)
   const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
   const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
 
-  const { data, hasMore } = useActivePoliciesByCover({
-    coverKey,
-    productKey,
-    page,
-    limit
-  })
-  const { data: reports, loading: loadingReports } =
-    useFetchReportsByKeyAndDate({
-      coverKey,
-      incidentDate: timestamp
-    })
-  const { liquidityTokenDecimals } = useAppConstants()
+  const { data: allActivePolicies, loading } = useActivePolicies()
+  const policies = allActivePolicies.activePolicies.filter(x => { return x.coverKey === coverKey && x.productKey === productKey })
+  const totalActiveProtection = sumOf(...policies.map(policy => { return policy.amount })).toString()
 
-  if (dataLoading) {
+  const { data: { incidentReports: allIncidentReports }, loading: loadingReports } = useActiveReportings()
+  const reports = allIncidentReports.filter(x => { return x.incidentDate.toString() === timestamp.toString() && x.coverKey === coverKey && x.productKey === productKey })
+
+  if (dataLoading || loading) {
     return (
       <Loading />
     )
@@ -96,7 +89,7 @@ export const ClaimDetailsPage = ({
             ]}
           />
 
-          <div className='flex items-start'>
+          <div className='flex flex-wrap items-start'>
             <HeroTitle>
               <Trans>My Policies</Trans>
             </HeroTitle>
@@ -107,7 +100,7 @@ export const ClaimDetailsPage = ({
                 {
                     formatCurrency(
                       convertFromUnits(
-                        data.totalActiveProtection,
+                        totalActiveProtection,
                         liquidityTokenDecimals
                       ),
                       locale,
@@ -144,13 +137,12 @@ export const ClaimDetailsPage = ({
 
         <ClaimCxTokensTable
           claimPlatformFee={coverOrProductData.claimPlatformFee}
-          activePolicies={data.activePolicies}
+          activePolicies={policies}
           coverKey={coverKey}
+          productKey={productKey}
           incidentDate={timestamp}
-          report={reports[0]}
-          hasMore={hasMore}
-          setPage={setPage}
-          loading={hasMore}
+          claimExpiresAt={reports[0]?.claimExpiresAt || 0}
+          loading={loading}
         />
       </Container>
     </main>

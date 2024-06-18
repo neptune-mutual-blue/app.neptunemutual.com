@@ -74,19 +74,19 @@ export const ResolvedReportSummary = ({
     .decimalPlaces(2)
     .toNumber()
 
-  let isAttestedWon = incidentReport.decision
+  let isAttestedWon = incidentReport.resolutionDecision
 
-  if (incidentReport.decision === null) {
+  if (incidentReport.resolutionDecision === null) {
     isAttestedWon = isGreater(
-      incidentReport.totalAttestedStake,
-      incidentReport.totalRefutedStake
+      incidentReport.totalAttestationStake,
+      incidentReport.totalRefutationStake
     )
   }
 
   const majority = {
     voteCount: isAttestedWon
-      ? incidentReport.totalAttestedCount
-      : incidentReport.totalRefutedCount,
+      ? incidentReport.attestationCount
+      : incidentReport.refutationCount,
     stake: isAttestedWon ? yes : no,
     percent: isAttestedWon ? yesPercent : noPercent,
     variant: isAttestedWon ? 'success' : 'failure'
@@ -133,18 +133,18 @@ export const ResolvedReportSummary = ({
               },
               {
                 title: t(i18n)`User Votes:`,
-                value: incidentReport.totalAttestedCount
+                value: incidentReport.attestationCount
               },
               {
                 title: t(i18n)`Stake:`,
                 value: formatCurrency(
-                  convertFromUnits(incidentReport.totalAttestedStake),
+                  incidentReport.totalAttestationStake,
                   locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
-                  convertFromUnits(incidentReport.totalAttestedStake),
+                  incidentReport.totalAttestationStake,
                   locale,
                   NPMTokenSymbol,
                   true
@@ -178,18 +178,18 @@ export const ResolvedReportSummary = ({
               },
               {
                 title: t(i18n)`User Votes:`,
-                value: incidentReport.totalRefutedCount
+                value: incidentReport.refutationCount
               },
               {
                 title: t(i18n)`Stake:`,
                 value: formatCurrency(
-                  convertFromUnits(incidentReport.totalRefutedStake),
+                  incidentReport.totalRefutationStake,
                   locale,
                   NPMTokenSymbol,
                   true
                 ).short,
                 htmlTooltip: formatCurrency(
-                  convertFromUnits(incidentReport.totalRefutedStake),
+                  incidentReport.totalRefutationStake,
                   locale,
                   NPMTokenSymbol,
                   true
@@ -220,13 +220,13 @@ export const ResolvedReportSummary = ({
           <IncidentReporter
             variant='success'
             account={truncateAddressParam(incidentReport.reporter, 8, -6)}
-            txHash={incidentReport.reportTransaction.id}
+            txHash={incidentReport.reportTransaction}
           />
           {incidentReport.disputer && (
             <IncidentReporter
               variant='error'
               account={truncateAddressParam(incidentReport.disputer, 8, -6)}
-              txHash={incidentReport.disputeTransaction.id}
+              txHash={incidentReport.disputeTransaction}
             />
           )}
 
@@ -234,9 +234,7 @@ export const ResolvedReportSummary = ({
           <h3 className='mb-4 text-lg font-bold'>
             <Trans>Reporting Period</Trans>
           </h3>
-          <ReportingPeriodStatus
-            resolutionTimestamp={incidentReport.resolutionTimestamp}
-          />
+          <ReportingPeriodStatus reportingEndsAt={incidentReport.reportResolutionTimestamp} />
           <p className='mb-4 text-sm opacity-50'>
             <span
               title={DateLib.toLongDateFormat(
@@ -254,12 +252,12 @@ export const ResolvedReportSummary = ({
             {' - '}
             <span
               title={DateLib.toLongDateFormat(
-                incidentReport.resolutionTimestamp,
+                incidentReport.reportResolutionTimestamp,
                 locale
               )}
             >
               {DateLib.toDateFormat(
-                incidentReport.resolutionTimestamp,
+                incidentReport.reportResolutionTimestamp,
                 locale,
                 { month: 'short', day: 'numeric' },
                 'UTC'

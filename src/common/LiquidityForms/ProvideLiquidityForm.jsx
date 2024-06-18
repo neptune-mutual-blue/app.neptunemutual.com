@@ -28,7 +28,6 @@ import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useCalculatePods } from '@/src/hooks/useCalculatePods'
-import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
 import { useProvideLiquidity } from '@/src/hooks/useProvideLiquidity'
 import { useLanguageContext } from '@/src/i18n/i18n'
 import {
@@ -45,6 +44,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useActiveReportings } from '@/src/hooks/useActiveReportings'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -110,7 +110,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     podAddress: vaultTokenAddress
   })
 
-  const { data: activeReportings } = useCoverActiveReportings({ coverKey })
+  const { data: activeReportings } = useActiveReportings()
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString()
 
@@ -187,10 +187,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance
 
-  if (activeReportings.length > 0) {
-    const status = activeReportings[0].status
-    const incidentDate = activeReportings[0].incidentDate
-    const productKey = activeReportings[0].productKey
+  // @todo: Instead we could expose `isCoverNormalInternal` from smart contracts
+  const currentCoverActiveIncidents = activeReportings.incidentReports.filter(x => { return x.coverKey === coverKey })
+  if (currentCoverActiveIncidents.length > 0) {
+    const status = 'Reporting' // @todo: Update status to be dynamic from API or smart contracts
+    const incidentDate = currentCoverActiveIncidents[0].incidentDate
+    const productKey = currentCoverActiveIncidents[0].productKey
 
     const statusLink = (
       <Link

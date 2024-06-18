@@ -110,6 +110,8 @@ const getFilterString = item => {
   return item.value !== 'all' ? item.value : ''
 }
 
+const filterKey = 'type'
+
 export const ProposalsTable = () => {
   const { locale } = useLanguageContext()
   const { query, replace } = useRouter()
@@ -134,7 +136,7 @@ export const ProposalsTable = () => {
   }, [fetchProposals, page, rowsPerPage, titleFilter])
 
   useEffect(() => {
-    const queryFilter = query.filter
+    const queryFilter = query[filterKey]
     const selectedFilter = filterOptions.find((item) => { return item.query === queryFilter }) || filterOptions[0]
 
     if (selectedFilter) {
@@ -150,9 +152,9 @@ export const ProposalsTable = () => {
     const newUrl = { query: { ...query } }
 
     if (val.value === filter.value || val.query === '') {
-      delete newUrl.query.filter
+      delete newUrl.query[filterKey]
     } else {
-      newUrl.query.filter = val.query
+      newUrl.query[filterKey] = val.query
     }
 
     replace(newUrl, undefined, { shallow: true })

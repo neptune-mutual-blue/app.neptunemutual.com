@@ -32,12 +32,10 @@ import { ResolvedTBodyRow } from '@/modules/reporting/resolved/ResolvedTBodyRow'
 import { ReportStatus } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
-import { useNetwork } from '@/src/context/Network'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { isValidProduct } from '@/src/helpers/cover'
 import { useResolvedReportings } from '@/src/hooks/useResolvedReportings'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
-import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { getUtcFormatString } from '@/utils/formatter/relative-time'
 import {
@@ -48,6 +46,7 @@ import {
 import { toStringSafe } from '@/utils/string'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -117,7 +116,7 @@ const renderStatus = (row) => {
 }
 
 const renderTotalAttestedStake = (row) => {
-  if (!row.totalAttestedStake) {
+  if (!row.totalAttestationStake) {
     return null
   }
 
@@ -126,7 +125,7 @@ const renderTotalAttestedStake = (row) => {
       className='px-6 py-6 text-sm leading-5 text-01052D w-52'
       title={
         formatCurrency(
-          convertFromUnits(row?.totalAttestedStake),
+          row?.totalAttestationStake,
           row.locale,
           row.NPMTokenSymbol,
           true
@@ -135,7 +134,7 @@ const renderTotalAttestedStake = (row) => {
     >
       {
           formatCurrency(
-            convertFromUnits(row?.totalAttestedStake),
+            (row?.totalAttestationStake),
             row.locale,
             row.NPMTokenSymbol,
             true
@@ -146,7 +145,7 @@ const renderTotalAttestedStake = (row) => {
 }
 
 const renderTotalRefutedStake = (row) => {
-  if (!row.totalAttestedStake) {
+  if (!row.totalRefutationStake) {
     return null
   }
 
@@ -155,7 +154,7 @@ const renderTotalRefutedStake = (row) => {
       className='px-6 py-2 text-sm leading-5 text-01052D w-52'
       title={
         formatCurrency(
-          convertFromUnits(row.totalRefutedStake),
+          row.totalRefutationStake,
           row.locale,
           row.NPMTokenSymbol,
           true
@@ -164,7 +163,7 @@ const renderTotalRefutedStake = (row) => {
     >
       {
         formatCurrency(
-          convertFromUnits(row.totalRefutedStake),
+          row.totalRefutationStake,
           row.locale,
           row.NPMTokenSymbol,
           true
@@ -219,15 +218,6 @@ const getColumns = (i18n) => {
       renderData: renderStatus
     }
   ]
-}
-
-const getUrl = (reportId, networkId) => {
-  const keysArray = reportId.split('-')
-  const coverKey = keysArray[0]
-  const productKey = keysArray[1]
-  const timestamp = keysArray[2]
-
-  return Routes.ViewReport(coverKey, productKey, timestamp, networkId)
 }
 
 export const ReportingResolvedPage = () => {
@@ -337,22 +327,20 @@ export const ReportingResolvedPage = () => {
                       </tr>
                     )}
                     {resolvedReportsWithData.map(({ report, coverOrProductData }) => {
-                      const resolvedOn = report.emergencyResolved
-                        ? report.emergencyResolveTransaction?.timestamp
-                        : report.resolveTransaction?.timestamp
+                      const resolvedOn = report.resolutionTimestamp
 
                       return (
                         <Fragment key={report.id}>
                           <tr
                             className='cursor-pointer hover:bg-F4F8FC'
-                            onClick={() => { return router.push(getUrl(report.id, networkId)) }}
+                            onClick={() => { return router.push(Routes.ViewReport(report.coverKey, report.productKey, report.incidentDate, networkId)) }}
                           >
                             <ResolvedTBodyRow
                               columns={columns}
                               report={report}
                               coverOrProductData={coverOrProductData}
                               resolvedOn={resolvedOn}
-                              status={ReportStatus[report.status]}
+                              status={report.resolutionDecision ? ReportStatus.Claimable : ReportStatus.FalseReporting}
                             />
                           </tr>
                         </Fragment>
