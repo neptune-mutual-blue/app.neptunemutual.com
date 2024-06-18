@@ -55,7 +55,7 @@ export function BarChart ({ labels, yAxisData, loading, formatTooltipLabel = und
         },
         ticks: {
           callback: function (val) {
-            return val === 0 ? 0 : formatCurrency(this.getLabelForValue(val).replace(/,/g, ''), locale, '', true, true).short
+            return val === 0 ? 0 : formatCurrency(this.getLabelForValue(val).replace(/,/g, ''), locale, '', true).short
           }
         }
       }
