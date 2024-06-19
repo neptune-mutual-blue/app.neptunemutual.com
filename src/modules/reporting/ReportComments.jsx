@@ -186,43 +186,43 @@ export default function ReportComments ({
 
   const { i18n } = useLingui()
 
+  if (!reportData) { return null }
+
   return (
     <OutlinedCard className='p-6 mt-8 bg-white'>
-      {reportData && (
-        <Report
-          header={{
-            type: t(i18n)`Reported by`,
-            createdBy: reportData?.createdBy,
-            reportedAt: reportIpfsDataTimeStamp
-          }}
-          report={{
-            type: INCIDENT
-          }}
-          content={{
-            title: reportData?.title,
-            description: reportData?.description
-          }}
-          ipfsHash={reportIpfsHash}
-        >
-          {disputeData && (
-            <Report
-              header={{
-                type: t(i18n)`Disputed by`,
-                createdBy: disputeData?.createdBy,
-                reportedAt: disputeIpfsDataTimeStamp
-              }}
-              report={{
-                type: DISPUTE
-              }}
-              content={{
-                title: disputeData?.title,
-                description: disputeData?.description
-              }}
-              ipfsHash={disputeIpfsHash}
-            />
-          )}
-        </Report>
-      )}
+      <Report
+        header={{
+          type: t(i18n)`Reported by`,
+          createdBy: reportData?.createdBy,
+          reportedAt: reportIpfsDataTimeStamp
+        }}
+        report={{
+          type: INCIDENT
+        }}
+        content={{
+          title: reportData?.title,
+          description: reportData?.description
+        }}
+        ipfsHash={reportIpfsHash}
+      >
+        {disputeData && (
+          <Report
+            header={{
+              type: t(i18n)`Disputed by`,
+              createdBy: disputeData?.createdBy,
+              reportedAt: disputeIpfsDataTimeStamp
+            }}
+            report={{
+              type: DISPUTE
+            }}
+            content={{
+              title: disputeData?.title,
+              description: disputeData?.description
+            }}
+            ipfsHash={disputeIpfsHash}
+          />
+        )}
+      </Report>
     </OutlinedCard>
   )
 }
