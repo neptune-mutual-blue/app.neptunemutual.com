@@ -150,7 +150,7 @@ export function NewIncidentReportForm ({ coverKey, productKey, minReportingStake
         data-testid='incident-report-form'
         ref={form}
         onSubmit={onSubmit}
-        className='px-2 mx-auto bg-white border rounded-lg max-w-7xl md:py-16 md:px-24 border-B0C4DB'
+        className='px-2 mx-auto bg-white rounded-lg md:border max-w-7xl md:py-16 md:px-24 border-B0C4DB'
       >
         <h2 className='mb-4 font-bold text-display-sm'>
           {/* @note: Intentional Capitalization of the word "Incident" below */}
