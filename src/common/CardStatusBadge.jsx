@@ -1,9 +1,9 @@
-import { classNames } from '@/utils/classnames'
 import StatusClaimableIcon from '@/icons/StatusClaimableIcon'
 import StatusFalseReportingIcon from '@/icons/StatusFalseReportingIcon'
 import StatusIncidentOccurredIcon from '@/icons/StatusIncidentOccurredIcon'
 import StatusNormalIcon from '@/icons/StatusNormalIcon'
 import StatusStoppedIcon from '@/icons/StatusStoppedIcon'
+import { classNames } from '@/utils/classnames'
 
 /**
  *
@@ -17,6 +17,7 @@ export function identifyStatus (status, defaultValue = E_CARD_STATUS.NORMAL) {
 
   switch (status.toLowerCase()) {
     case 'reporting':
+    case 'incidenthappened':
     case 'incident happened':
     case 'incident occurred':
       return E_CARD_STATUS.INCIDENT

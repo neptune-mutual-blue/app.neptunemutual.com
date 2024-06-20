@@ -20,12 +20,13 @@ import {
   getCoverImgSrc,
   isValidProduct
 } from '@/src/helpers/cover'
+import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
 
 const renderStatus = (row) => {
-  const status = identifyStatus(row.status)
+  const status = identifyStatus(row.coverOrProductData.productStatusEnum)
 
   return (
     <td className='max-w-xs p-4 text-sm leading-5 whitespace-nowrap text-01052D'>
@@ -113,9 +114,9 @@ const renderCover = (row, _extraData) => {
   )
 }
 
-const renderProtection = (row, { locale }) => {
+const renderProtection = (row, { locale, liquidityTokenDecimals }) => {
   const protection = formatCurrency(
-    row.coverOrProductData.commitment.toString(),
+    convertFromUnits(row.coverOrProductData.commitment.toString(), liquidityTokenDecimals),
     locale
   )
 
