@@ -4,7 +4,6 @@ import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import {
   Table,
-  // TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -17,6 +16,7 @@ import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import DateLib from '@/lib/date/DateLib'
+import { ChainConfig } from '@/src/config/hardcoded'
 import { Routes } from '@/src/config/routes'
 import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
 import { useNetwork } from '@/src/context/Network'
@@ -36,7 +36,6 @@ import {
 import { useLingui } from '@lingui/react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { useWeb3React } from '@web3-react/core'
-import { ChainConfig } from '@/src/config/hardcoded'
 
 const ROW_TYPES = {
   CLAIMED: 'Claimed',
@@ -177,13 +176,14 @@ const DetailsRenderer = ({ row }) => {
     return null
   }
 
-  const tokenAmountWithSymbol = row.txType === ROW_TYPES.COVER_PURCHASED
-    ? <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} />
-    : <TokenAmountSpan amountInUnits={row.stablecoinAmount} decimals={0} />
+  const cxTokenWithSymbol = <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} />
+  const stablecoinWithSymbol = <TokenAmountSpan amountInUnits={row.stablecoinAmount} decimals={0} />
 
-  const detailsText = row.txType === ROW_TYPES.COVER_PURCHASED
-    ? <Trans>Purchased {tokenAmountWithSymbol} {projectOrProductName} policy</Trans>
-    : <Trans>Claimed {tokenAmountWithSymbol} {projectOrProductName} policy</Trans>
+  const isCoverPurchased = row.txType === ROW_TYPES.COVER_PURCHASED
+
+  const detailsText = isCoverPurchased
+    ? <Trans>Purchased {cxTokenWithSymbol} {projectOrProductName} policy</Trans>
+    : <Trans>Claimed {stablecoinWithSymbol} {projectOrProductName} policy</Trans>
 
   return (
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
@@ -209,9 +209,11 @@ const CxTokenAmountRenderer = ({ row }) => {
 
   const cxTokenDecimals = ChainConfig[networkId]?.cxTokenDecimals
 
-  const tokenAmountWithSymbol = row.txType === ROW_TYPES.COVER_PURCHASED
-    ? <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} symbol={row.tokenSymbol} />
-    : <TokenAmountSpan className='text-FA5C2F' amountInUnits={row.stablecoinAmount} decimals={0} symbol={row.tokenSymbol} />
+  const isCoverPurchased = row.txType === ROW_TYPES.COVER_PURCHASED
+
+  const cxTokenWithSymbol = <TokenAmountSpan className={isCoverPurchased ? '' : 'text-FA5C2F'} amountInUnits={row.cxtokenAmount} decimals={0} symbol={row.tokenSymbol} />
+
+  const tokenAmountWithSymbol = cxTokenWithSymbol
 
   return (
     <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>
