@@ -28,6 +28,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useLingui } from '@lingui/react'
+import { useNetwork } from '@/src/context/Network'
 
 export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, minReportingStake }) => {
   const options = useMemo(() => {
@@ -42,6 +43,7 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
   const [error, setError] = useState('')
 
   const { i18n } = useLingui()
+  const { networkId } = useNetwork()
 
   const {
     balance,
@@ -251,7 +253,8 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
             href={Routes.DisputeReport(
               incidentReport.coverKey,
               incidentReport.productKey,
-              incidentReport.incidentDate
+              incidentReport.incidentDate,
+              networkId
             )}
             passHref
             legacyBehavior
