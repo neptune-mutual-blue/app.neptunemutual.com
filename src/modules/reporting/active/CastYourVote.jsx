@@ -14,6 +14,7 @@ import { RadioReport } from '@/common/RadioReport/RadioReport'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useVote } from '@/src/hooks/useVote'
 import {
@@ -41,6 +42,8 @@ export const CastYourVote = ({ incidentReport, idPrefix, reporterCommission, min
   const [votingType, setVotingType] = useState(options[0].value)
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
+
+  const { networkId } = useNetwork()
 
   const { i18n } = useLingui()
   const { networkId } = useNetwork()
