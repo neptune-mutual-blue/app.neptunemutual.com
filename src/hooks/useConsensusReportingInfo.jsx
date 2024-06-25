@@ -36,7 +36,7 @@ export const useConsensusReportingInfo = ({
   productKey,
   incidentDate
 }) => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [info, setInfo] = useState(defaultInfo)
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
