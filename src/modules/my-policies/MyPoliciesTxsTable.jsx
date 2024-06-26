@@ -211,7 +211,7 @@ const CxTokenAmountRenderer = ({ row }) => {
 
   const tokenAmountWithSymbol = row.txType === ROW_TYPES.COVER_PURCHASED
     ? <TokenAmountSpan amountInUnits={row.cxtokenAmount} decimals={0} symbol={row.tokenSymbol} />
-    : <TokenAmountSpan className='text-FA5C2F' amountInUnits={row.stablecoinAmount} decimals={0} symbol={row.tokenSymbol} />
+    : <TokenAmountSpan className='text-FA5C2F' amountInUnits={row.cxtokenAmount} decimals={0} symbol={row.tokenSymbol} />
 
   return (
     <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>

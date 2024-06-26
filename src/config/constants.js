@@ -160,8 +160,8 @@ export const POLICY_POINTS_PER_DOLLAR = 0.00625
 export const EMISSION_ROUNDING_MODE = BigNumber.ROUND_FLOOR
 
 export const latestSnapshotIpfsData = {
-  hash: 'QmaNVByqbYqP4aYXJrmUyprHzX9MVbk69yZTgcL3kSCDLB',
-  epochId: 2,
+  hash: 'QmNnwpnHzKbkZJ6gCR5zfrvdE2T2CYuYc7vDFoLbCaeR2T',
+  epochId: 3,
   networkType: 'mainnet',
   pools: [
     {
@@ -176,8 +176,6 @@ export const latestSnapshotIpfsData = {
     }
   ],
   emission: '375000000000000000000000',
-  votingStartsAt: '2024-05-16T18:30:00.000Z',
-  votingEndsAt: '2024-05-23T18:30:00.000Z',
-  epochStartsAfter: '2024-05-28T00:00:00.000Z',
-  epochEndsAt: '2024-06-27T23:59:59.000Z'
+  epochStartsAfter: '2024-06-28T00:00:00.000Z',
+  epochEndsAt: '2024-07-27T23:59:59.999Z'
 }
